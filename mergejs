@@ -1,0 +1,58 @@
+#!/bin/bash
+
+MergeFiles() {
+    listFile=$1
+    relDir="$(dirname $listFile)"
+    toFile=$2
+    if [ -f $toFile ]; then
+        rm $toFile
+    fi
+
+    files=()
+    while read LINE
+    do
+        if [ "${LINE:0:1}" != "#" ] && [ ! -z "${LINE// }" ]
+        then
+            files+=("$relDir/$LINE");
+        fi
+    done < $listFile
+
+    echo "Merging js from $listFile begins"
+    echo -e "/* Last merge : $(date) */\n"
+    #echo -e "/* Merging order :\n"
+    #for file in ${files[@]}
+    #do
+    #    echo -e "\a- $file"
+    #done
+    #echo -e "\n*/"
+
+    for file in ${files[@]}
+    do
+        if [ "$file" != "$toFile" ] && [ -f $file ]
+        then
+            #echo "Merging js: $file begins"
+            cat $file >> $toFile
+        else
+            echo -e "File missing: $file"
+        fi
+    done
+
+    echo "[SUCCESS] Files listed in $listFile have been successfully merged into $toFile"
+}
+
+#START
+if [ $# -lt 2 ]; then
+    echo '';
+    echo '[HELP]';
+    echo 'Merges several javascript files listed in an input text file into an output file.';
+    echo '     - Correct syntax is' $0 'input_list_file merge_file';
+    echo '';
+    exit 1
+fi
+
+if [ ! -f $1 ]; then
+    echo '[ERROR]' $1 'is not a regular file. It must be a text file.'
+    exit 1
+fi
+
+MergeFiles $1 $2

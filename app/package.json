@@ -1,0 +1,20 @@
+{
+  "name": "gcabin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "G.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "moduleDirectories": [
+      "."
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^26.6.3"
+  }
+}
