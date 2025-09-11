@@ -11,7 +11,6 @@
 | app/                         | Main javascript source code folder                                                         |
 | sw/                          | Service worker source code folder                                                          |
 | html/                        | Entry files                                                                                |
-| dest/                        | Destination folder. Where the code push to remote.                                         |
 | package.sh                   | Packaging script to compile code and prepare package                                       |
 
 ## Design
