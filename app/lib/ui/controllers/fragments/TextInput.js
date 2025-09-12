@@ -1,7 +1,7 @@
 (function(ui) {
 ui.CF_TEXT_INPUT = {
-  ONCHANGE : "CF_TEXT_INPUT_1",
-}
+  ONCHANGE : Symbol(),
+};
 
 const _CFT_TEXT_INPUT = {
   FULL : `<div>
