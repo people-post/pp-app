@@ -104,9 +104,7 @@ class FvcWeb3Login extends auth.FvcLoginBase {
   }
 
   async #asInitAccount(userId) {
-    for (let a of glb.web3Publisher.getAgents()) {
-      await a.asInitForUser(userId);
-    }
+    await glb.web3Publisher.asInitForUser(userId);
     return await glb.web3Resolver.asyncResolve(userId);
   }
 

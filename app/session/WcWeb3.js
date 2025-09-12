@@ -53,6 +53,7 @@ class WcWeb3 extends main.WcSession {
     await glb.web3Resolver.asInit(c ? c.resolvers : null);
     glb.web3Publisher = new pdb.Web3Publisher();
     await glb.web3Publisher.asInit(c ? c.publishers : null);
+    await glb.web3Publisher.asInitForUser(dba.Account.getId());
     glb.web3Ledger = new pdb.Web3Ledger();
     await glb.web3Ledger.asInit(c ? c.blockchains : null);
     glb.web3Storage = new pdb.Web3Storage();

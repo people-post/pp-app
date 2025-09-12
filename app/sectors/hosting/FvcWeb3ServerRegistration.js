@@ -58,7 +58,21 @@ class FvcWeb3ServerRegistration extends ui.FScrollViewContent {
     this.#btnCancel.render();
   }
 
-  #testName(name) { console.log("Testing", name); }
+  #testName(name) {
+    this.#agent.asIsNameRegistrable(name)
+        .then(b => this.#onNameResult(b))
+        .catch(e => this.#onNameResult(false));
+  }
+
+  #onNameResult(b) {
+    if (b) {
+      this.#btnSubmit.setEnabled(true);
+    } else {
+      this.#btnSubmit.setEnabled(false);
+      this.onLocalErrorInFragment(this,
+                                  "Name is unavailable, please try new one");
+    }
+  }
 };
 
 hstn.FvcWeb3ServerRegistration = FvcWeb3ServerRegistration;

@@ -58,7 +58,12 @@ class AbWeb3New extends ui.Fragment {
 
   #onAgentsChoosen(agents) {
     for (let a of agents) {
-      if (!a.isUserRegistered(dba.Account.getId())) {
+      if (a.getInitUserId() != dba.Account.getId()) {
+        // Should not happen, but need to be handled
+        console.error("Account id not match record in publisher agent");
+        return;
+      }
+      if (!a.isInitUserRegistered()) {
         this.#showPublisherRegistration(a);
         return;
       }

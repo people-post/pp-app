@@ -2,10 +2,17 @@
 class Web3PublisherAgent extends pdb.Web3ServerAgent {
   #hostInfo;
   #mUsers;
+  #initUserId;
 
-  isUserRegistered(userId) { return this.#mUsers.has(userId); }
+  isInitUserRegistered() { return this.#mUsers.has(this.#initUserId); }
   isRegisterEnabled() { return this.#hostInfo.is_register_enabled; }
+  async asIsNameRegistrable(name) { return true; }
+  async asIsUserRegistered(userId) {
+    // TODO
+    return this.#mUsers.has(userId);
+  }
 
+  getInitUserId() { return this.#initUserId; }
   getHostPeerId() { return this.#hostInfo.peer_id; }
 
   async asInit(typeName, multiAddr) {
@@ -15,6 +22,7 @@ class Web3PublisherAgent extends pdb.Web3ServerAgent {
   }
 
   async asInitForUser(userId) {
+    this.#initUserId = userId;
     const c = await this.#asGetUserInfo();
     if (c) {
       this.#mUsers.set(userId, c);
@@ -58,6 +66,10 @@ class Web3PublisherAgent extends pdb.Web3ServerAgent {
   }
 
   async #asGetUserInfo(userId) {
+    if (!userId) {
+      return null;
+    }
+
     const url = this.getApiUrl("/api/user/get?id=" + userId);
     let req = new Request(
         url, {method : "GET", headers : {"Content-Type" : "application/json"}});

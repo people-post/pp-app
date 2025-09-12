@@ -16,6 +16,12 @@ class Web3Publisher {
     }
   }
 
+  async asInitForUser(userId) {
+    for (let a of this.#agents) {
+      await a.asInitForUser(userId);
+    }
+  }
+
   getAgents() { return this.#agents; }
 
   #parseAddress(sAddr) {
