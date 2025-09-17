@@ -91,7 +91,8 @@ class AbWeb3New extends ui.Fragment {
 
   #showPublisherSetup() {
     // TODO: Dialog for publisher setup
-    this._displayMessage("Publisher is not set.");
+    this._displayMessage(
+        "In order to start posting, at least one publisher is required in settings. Before we are able to provide you a setup wizzard, manually edit config.json is needed.");
   }
 };
 

@@ -29,8 +29,24 @@ class Web3PublisherAgent extends pdb.Web3ServerAgent {
     }
   }
 
+  async asRegister(name) {
+    let url = this.getApiUrl("/api/user/register");
+    let req = new Request(url, {
+      method : "POST",
+      headers : {"Content-Type" : "application/json"},
+      body : JSON.stringify(
+          {id : this.#initUserId, name : name, public_key : "", signature : ""})
+    });
+    let res = await plt.Api.p2pFetch(req);
+    let d = await res.json();
+    if (d.error) {
+      throw d.error;
+    }
+    return true;
+  }
+
   async asyncPublish(cid, bearerId, sig) {
-    let url = this.#getNamePublishUrl();
+    let url = this.getApiUrl("/api/pin/publish");
     let req = new Request(url, {
       method : "POST",
       headers : {
@@ -46,8 +62,6 @@ class Web3PublisherAgent extends pdb.Web3ServerAgent {
     }
     return d.data;
   }
-
-  #getNamePublishUrl() { return this.getApiUrl("/api/pin/publish"); }
 
   async #asFetchHostInfo() {
     const url = this.getApiUrl("/api/host/info");
