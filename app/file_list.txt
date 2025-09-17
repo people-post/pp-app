@@ -113,6 +113,7 @@ lib/ui/controllers/layers/Layer.js
 lib/ui/controllers/layers/ViewLayer.js
 lib/ui/controllers/layers/LvDialog.js
 lib/ui/controllers/layers/LContext.js
+lib/ui/controllers/layers/LMultiChoice.js
 lib/ui/controllers/ViewStack.js
 lib/ui/controllers/Page.js
 lib/ui/controllers/PageViewController.js

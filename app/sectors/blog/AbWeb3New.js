@@ -1,13 +1,14 @@
 (function(blog) {
 // ActionButton needs some redesign
 class AbWeb3New extends ui.Fragment {
-  #lc;
+  #lmc;
   #fBtn;
 
   constructor() {
     super();
-    this.#lc = new ui.LContext();
-    this.#lc.setDelegate(this);
+    this.#lmc = new ui.LMultiChoice();
+    this.#lmc.setTargetName("publishers");
+    this.#lmc.setDelegate(this);
 
     this.#fBtn = new gui.ActionButton();
     this.#fBtn.setIcon(gui.ActionButton.T_ICON.NEW);
@@ -22,6 +23,15 @@ class AbWeb3New extends ui.Fragment {
       fvcServerRegistration) {
     fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
   }
+  onItemsChosenInMultiChoiceLayer(lmc, agents) {
+    if (agents && agents.length) {
+      this.#onAgentsChoosen(agents);
+    }
+  }
+
+  onAlternativeChoosenInMultiChoiceLayer(lmc, value) {
+    this.#showPublisherSetup();
+  }
 
   _renderOnRender(render) {
     this.#fBtn.attachRender(render);
@@ -31,29 +41,21 @@ class AbWeb3New extends ui.Fragment {
   #onClick() {
     const agents = glb.web3Publisher.getAgents();
     if (agents.length > 0) {
-      if (agents.length > 1) {
-        this.#onChooseAgents(agents);
-      } else {
-        this.#onAgentsChoosen(agents);
-      }
+      this.#onChooseAgents(agents);
     } else {
       this.#showPublisherSetup();
     }
   }
 
   #onChooseAgents(agents) {
-    this.#lc.clearOptions();
-    this.#lc.setTargetName("publishers");
+    this.#lmc.clearItems();
     for (let a of agents) {
-      this.#lc.addOption(a.getHostname(), [ a ]);
+      this.#lmc.addChoice(a.getHostname(), a, null, null, a.isInitUserUsable());
     }
-    if (agents.length > 2) {
-      this.#lc.addOption("All of above", agents);
-    } else {
-      this.#lc.addOption("Both", agents);
-    }
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lc,
-                                "Context");
+
+    this.#lmc.addAlternative("Add new agent...", null);
+    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lmc,
+                                "Choices");
   }
 
   #onAgentsChoosen(agents) {

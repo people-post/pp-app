@@ -10,14 +10,16 @@ class Web3PublisherAgent extends pdb.Web3ServerAgent {
   #initUserId;
 
   isInitUserRegistered() { return this.#mUsers.has(this.#initUserId); }
-  isRegisterEnabled() { return this.#hostInfo.is_register_enabled; }
-  async asIsNameRegistrable(name) {
-    // TODO:
-    return true;
+  isRegisterEnabled() { return !!this.#hostInfo.is_register_enabled; }
+  isInitUserUsable() {
+    return this.isInitUserRegistered() || this.isRegisterEnabled();
   }
+  async asIsNameRegistrable(name) {
+    return !await this.#asFetchUserByName(name);
+  }
+
   async asIsUserRegistered(userId) {
-    // TODO:
-    return this.#mUsers.has(userId);
+    return !!await this.#asFetchUserById(userId);
   }
 
   getInitUserId() { return this.#initUserId; }
@@ -31,7 +33,7 @@ class Web3PublisherAgent extends pdb.Web3ServerAgent {
 
   async asInitForUser(userId) {
     this.#initUserId = userId;
-    const c = await this.#asGetUserInfo();
+    const c = await this.#asFetchUserById(userId);
     if (c) {
       this.#mUsers.set(userId, c);
     }
@@ -88,12 +90,25 @@ class Web3PublisherAgent extends pdb.Web3ServerAgent {
     return d.data.config;
   }
 
-  async #asGetUserInfo(userId) {
+  async #asFetchUserByName(name) {
+    if (!name) {
+      return null;
+    }
+
+    const url = this.getApiUrl("/api/user/get?name=" + name);
+    return await this.#asFetchUserInfo(url);
+  }
+
+  async #asFetchUserById(userId) {
     if (!userId) {
       return null;
     }
 
     const url = this.getApiUrl("/api/user/get?id=" + userId);
+    return await this.#asFetchUserInfo(url);
+  }
+
+  async #asFetchUserInfo(url) {
     let req = new Request(
         url, {method : "GET", headers : {"Content-Type" : "application/json"}});
     let res;

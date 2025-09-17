@@ -1,13 +1,16 @@
 (function(ui) {
-ui.CL_CONTEXT = {
+ui.CL_MULTI_CHOICE = {
   CLOSE : Symbol(),
 };
 
-const _CLT_CONTEXT = {
+const _CLT_MULTI_CHOICE = {
   MAIN : `<div id="__ID_TITLE__" class="s-font3"></div>
   <div id="__ID_DESCRIPTION__" class="s-font4"></div>
   <br>
-  <div id="__ID_CONTENT__" class="hmax300px y-scroll no-scrollbar"></div>
+  <div class="hmax300px y-scroll no-scrollbar">
+    <div id="__ID_CHOICES__"></div>
+    <div id="__ID_ALTERNATIVES__"></div>
+  </div>
   <br>
   <div id="__ID_BTN_CANCEL__"></div>`,
 };
@@ -15,35 +18,40 @@ const _CLT_CONTEXT = {
 class PContextLayer extends ui.Panel {
   #pTitle;
   #pDescription;
-  #pContent;
+  #pChoices;
+  #pAlternatives;
   #btnCancel;
 
   constructor() {
     super();
     this.#pTitle = new ui.Panel();
     this.#pDescription = new ui.Panel();
-    this.#pContent = new ui.ListPanel();
+    this.#pChoices = new ui.ListPanel();
+    this.#pAlternatives = new ui.ListPanel();
     this.#btnCancel = new ui.PanelWrapper();
   }
 
   getTitlePanel() { return this.#pTitle; }
   getDescriptionPanel() { return this.#pDescription; }
-  getContentPanel() { return this.#pContent; }
+  getChoicesPanel() { return this.#pChoices; }
+  getAlternativesPanel() { return this.#pAlternatives; }
   getBtnCancelPanel() { return this.#btnCancel; }
 
   _onFrameworkDidAppear() {
     super._onFrameworkDidAppear();
     this.#pTitle.attach(this._getSubElementId("T"));
     this.#pDescription.attach(this._getSubElementId("D"));
-    this.#pContent.attach(this._getSubElementId("C"));
+    this.#pChoices.attach(this._getSubElementId("C"));
+    this.#pAlternatives.attach(this._getSubElementId("A"));
     this.#btnCancel.attach(this._getSubElementId("B"));
   }
 
   _renderFramework() {
-    let s = _CLT_CONTEXT.MAIN;
+    let s = _CLT_MULTI_CHOICE.MAIN;
     s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
     s = s.replace("__ID_DESCRIPTION__", this._getSubElementId("D"));
-    s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
+    s = s.replace("__ID_CHOICES__", this._getSubElementId("C"));
+    s = s.replace("__ID_ALTERNATIVES__", this._getSubElementId("A"));
     s = s.replace("__ID_BTN_CANCEL__", this._getSubElementId("B"));
     return s;
   }
@@ -53,16 +61,20 @@ const _CL_CONTEXT = {
   TITLE : `__TITLE__:`,
 };
 
-class LContext extends ui.Layer {
+class LMultiChoice extends ui.Layer {
   #title = null;
   #description = null;
-  #fOptions;
+  #fChoices;
+  #fAlternatives;
   #btnCancel;
 
   constructor() {
     super();
-    this.#fOptions = new ui.FFragmentList();
-    this.setChild("options", this.#fOptions);
+    this.#fChoices = new ui.FFragmentList();
+    this.setChild("choices", this.#fChoices);
+
+    this.#fAlternatives = new ui.FFragmentList();
+    this.setChild("alternatives", this.#fAlternatives);
 
     this.#btnCancel = new ui.Button();
     this.#btnCancel.setThemeType(ui.Button.T_THEME.PALE);
@@ -73,14 +85,14 @@ class LContext extends ui.Layer {
 
   setTargetName(name) {
     if (name && name.length) {
-      this.#title = "Options for " + name;
+      this.#title = "Choose " + name;
     } else {
       this.#title = null;
     }
   }
   setDescription(d) { this.#description = d; }
 
-  addOption(name, value, icon = null, themeType = null, isEnabled = true) {
+  addChoice(name, value, icon = null, themeType = null, isEnabled = true) {
     let f = new ui.Button();
     f.setName(name);
     f.setIcon(icon);
@@ -88,25 +100,37 @@ class LContext extends ui.Layer {
     f.setValue(value);
     f.setThemeType(themeType);
     f.setDelegate(this);
-    this.#fOptions.append(f);
+    this.#fChoices.append(f);
   }
 
-  addOptionFragment(f) { this.#fOptions.append(f); }
+  addAlternative(name, value, icon = null, themeType = null, isEnabled = true) {
+    let f = new ui.Button();
+    f.setName(name);
+    f.setIcon(icon);
+    f.setEnabled(isEnabled);
+    f.setValue(value);
+    f.setThemeType(themeType);
+    f.setDelegate(this);
+    this.#fAlternatives.append(f);
+  }
 
   // These are hacks, should have more generic structure for fragment protocols
   onRemoteErrorInFragment(f, e) {
-    console.log("onRemoteErrorInFragment not implemented in LContext");
+    console.log("onRemoteErrorInFragment not implemented in LMultiChoice");
     console.log(e);
   }
   onLocalErrorInFragment(f, msg) {
-    console.log("onLocalErrorInFragment not implemented in LContext");
+    console.log("onLocalErrorInFragment not implemented in LMultiChoice");
     console.log(msg);
   }
   onFragmentRequestShowView(f, view, title) {
-    console.log("onFragmentRequestShowView not implemented in LContext");
+    console.log("onFragmentRequestShowView not implemented in LMultiChoice");
   }
 
-  clearOptions() { this.#fOptions.clear(); }
+  clearItems() {
+    this.#fChoices.clear();
+    this.#fAlternatives.clear();
+  }
 
   dismiss() {
     if (this._owner) {
@@ -117,7 +141,14 @@ class LContext extends ui.Layer {
   onSimpleButtonClicked(fBtn) {
     this.#onClose();
     if (fBtn != this.#btnCancel) {
-      this._delegate.onOptionClickedInContextLayer(this, fBtn.getValue());
+      if (fBtn.isOwnedBy(this.#fAlternatives)) {
+        this._delegate.onAlternativeChoosenInMultiChoiceLayer(this,
+                                                              fBtn.getValue());
+      } else {
+        // TODO: Use boxes before choices
+        this._delegate.onItemsChoosenInMultiChoiceLayer(this,
+                                                        [ fBtn.getValue() ]);
+      }
     }
   }
 
@@ -127,7 +158,8 @@ class LContext extends ui.Layer {
 
     let panel = new ui.PanelWrapper();
     panel.setClassName("w100 h100 context-layer flex flex-column flex-end");
-    panel.setAttribute("onclick", "javascript:G.action(ui.CL_CONTEXT.CLOSE)");
+    panel.setAttribute("onclick",
+                       "javascript:G.action(ui.CL_MULTI_CHOICE.CLOSE)");
     render.wrapPanel(panel);
 
     let p = new ui.PanelWrapper();
@@ -148,11 +180,23 @@ class LContext extends ui.Layer {
       p.replaceContent(this.#description);
     }
 
-    // Hack to allow events being recognized in this.#fOptions
-    p = panel.getContentPanel();
-    this.#fOptions.attachRender(p);
+    p = panel.getChoicesPanel();
+    // Hack to allow events being recognized in this.#fChoices
+    this.#fChoices.attachRender(p);
 
-    for (let f of this.#fOptions.getChildren()) {
+    for (let f of this.#fChoices.getChildren()) {
+      let pp = new ui.PanelWrapper();
+      p.pushPanel(pp);
+      f.attachRender(pp);
+      f.render();
+      p.pushSpace(1);
+    }
+
+    p = panel.getAlternativesPanel();
+    // Hack to allow events being recognized in this.#fAlternatives
+    this.#fAlternatives.attachRender(p);
+
+    for (let f of this.#fAlternatives.getChildren()) {
       let pp = new ui.PanelWrapper();
       p.pushPanel(pp);
       f.attachRender(pp);
@@ -172,7 +216,7 @@ class LContext extends ui.Layer {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CL_CONTEXT.CLOSE:
+    case ui.CL_MULTI_CHOICE.CLOSE:
       this.#onClose();
       break;
     default:
@@ -188,12 +232,12 @@ class LContext extends ui.Layer {
     if (title && title.length) {
       s = s.replace("__TITLE__", title);
     } else {
-      s = s.replace("__TITLE__", "Options");
+      s = s.replace("__TITLE__", "Choices");
     }
     return s;
   }
   #onClose() { this.dismiss(); }
 }
 
-ui.LContext = LContext;
+ui.LMultiChoice = LMultiChoice;
 }(window.ui = window.ui || {}));
