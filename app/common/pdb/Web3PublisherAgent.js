@@ -1,14 +1,22 @@
 (function(pdb) {
 class Web3PublisherAgent extends pdb.Web3ServerAgent {
+  static T_TYPE = {
+    PUBLIC : "PUBLIC", // Aligned with config.json
+    PRIVATE: "PRIVATE" // Aligned with config.json
+  };
+
   #hostInfo;
   #mUsers;
   #initUserId;
 
   isInitUserRegistered() { return this.#mUsers.has(this.#initUserId); }
   isRegisterEnabled() { return this.#hostInfo.is_register_enabled; }
-  async asIsNameRegistrable(name) { return true; }
+  async asIsNameRegistrable(name) {
+    // TODO:
+    return true;
+  }
   async asIsUserRegistered(userId) {
-    // TODO
+    // TODO:
     return this.#mUsers.has(userId);
   }
 
@@ -30,6 +38,7 @@ class Web3PublisherAgent extends pdb.Web3ServerAgent {
   }
 
   async asRegister(name) {
+    // TODO: Fill in key, sig, and optional peer key
     let url = this.getApiUrl("/api/user/register");
     let req = new Request(url, {
       method : "POST",

@@ -8,8 +8,8 @@ class Web3Publisher {
       for (let c of configs) {
         let addr = this.#parseAddress(c.address);
         if (addr) {
-          let a = new pdb.Web3PublisherAgent();
-          await a.asInit(c.type, addr);
+          let a = this.#createAgent(c.type);
+          await a.asInit(addr);
           this.#agents.push(a);
         }
       }
@@ -23,6 +23,15 @@ class Web3Publisher {
   }
 
   getAgents() { return this.#agents; }
+
+  #createAgent(type) {
+    switch (type) {
+    case pdb.Web3PublisherAgent.T_TYPE.PRIVATE:
+      return new pdb.Web3PrivatePublisherAgent();
+    default:
+      return new pdb.Web3PublicPublisherAgent();
+    }
+  }
 
   #parseAddress(sAddr) {
     return sAddr ? MultiformatsMultiaddr.multiaddr(sAddr) : null;
