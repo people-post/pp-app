@@ -53,7 +53,7 @@ class AbWeb3New extends ui.Fragment {
       this.#lmc.addChoice(a.getHostname(), a, null, null, a.isInitUserUsable());
     }
 
-    this.#lmc.addAlternative("Add new agent...", null, null, null, false);
+    this.#lmc.addAlternative("Add new...", null, null, null, false);
     fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lmc,
                                 "Choices");
   }
