@@ -107,6 +107,7 @@ lib/ui/controllers/fragments/FScrollableHook.js
 lib/ui/controllers/views/View.js
 lib/ui/controllers/views/VBlank.js
 lib/ui/controllers/views/FvcNotice.js
+lib/ui/controllers/views/FvcProgress.js
 lib/ui/controllers/views/FvcConfirmAction.js
 lib/ui/controllers/layers/Layer.js
 lib/ui/controllers/layers/ViewLayer.js

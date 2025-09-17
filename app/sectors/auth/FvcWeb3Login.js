@@ -45,6 +45,10 @@ class FvcWeb3Login extends auth.FvcLoginBase {
     }
   }
 
+  onRequestCancelInProgressViewContentFragment(fvcProgress) {
+    this.#skipAccountSearch();
+  }
+
   _renderContentOnRender(render) {
     let pList = new ui.ListPanel();
     pList.setClassName("h100");
@@ -83,22 +87,31 @@ class FvcWeb3Login extends auth.FvcLoginBase {
     }
 
     this.#btnSubmit.setEnabled(false);
+    let v = new ui.View();
+    let f = new ui.FvcProgress();
+    f.setDelegate(this);
+    v.setContentFragment(f);
+
+    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Progress");
+
+    f.addProgress("Initializing account...");
     dba.Keys.setMnemonic(w);
     dba.Keys.asyncGetAccount()
-        .then(k => this.#onAccountKeyReady(k, w == this.#newMnemonic))
+        .then(k => this.#onAccountKeyReady(f, k, w == this.#newMnemonic))
         .catch(e => this.#btnSubmit.setEnabled(true));
   }
 
-  #onAccountKeyReady(key, isNew) {
+  #onAccountKeyReady(fvcProgress, key, isNew) {
     let peerId = Libp2PPeerId.peerIdFromPublicKey(key);
     let userId = peerId.toString();
     if (isNew) {
       // TODO: Default profile should share the same code as the one inside
       // NameServer
-      this.#onAccountProfileReady({uuid : userId});
+      this.#onAccountProfileReady(fvcProgress, {uuid : userId});
     } else {
+      fvcProgress.addProgress("Searching account data...");
       this.#asInitAccount(userId)
-          .then(d => this.#onAccountProfileReady(d))
+          .then(d => this.#onAccountProfileReady(fvcProgress, d))
           .catch(e => this.#onAccountInitError(e));
     }
   }
@@ -108,7 +121,14 @@ class FvcWeb3Login extends auth.FvcLoginBase {
     return await glb.web3Resolver.asyncResolve(userId);
   }
 
-  #onAccountProfileReady(profile) {
+  #skipAccountSearch() {
+    // TODO:
+    fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
+  }
+
+  #onAccountProfileReady(fvcProgress, profile) {
+    fvcProgress.addProgress("Account ready");
+    fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
     fwk.Events.triggerTopAction(plt.T_ACTION.LOGIN_SUCCESS, profile);
   }
 
