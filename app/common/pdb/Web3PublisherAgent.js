@@ -87,7 +87,7 @@ class Web3PublisherAgent extends pdb.Web3ServerAgent {
     if (d.error) {
       throw d.error;
     }
-    return d.data.config;
+    return d.data.info;
   }
 
   async #asFetchUserByName(name) {

@@ -25,11 +25,11 @@ class AbWeb3New extends ui.Fragment {
   }
   onItemsChosenInMultiChoiceLayer(lmc, agents) {
     if (agents && agents.length) {
-      this.#onAgentsChoosen(agents);
+      this.#onAgentsChosen(agents);
     }
   }
 
-  onAlternativeChoosenInMultiChoiceLayer(lmc, value) {
+  onAlternativeChosenInMultiChoiceLayer(lmc, value) {
     this.#showPublisherSetup();
   }
 
@@ -58,7 +58,7 @@ class AbWeb3New extends ui.Fragment {
                                 "Choices");
   }
 
-  #onAgentsChoosen(agents) {
+  #onAgentsChosen(agents) {
     for (let a of agents) {
       if (a.getInitUserId() != dba.Account.getId()) {
         // Should not happen, but need to be handled

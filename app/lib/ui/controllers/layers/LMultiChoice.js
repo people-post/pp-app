@@ -142,12 +142,12 @@ class LMultiChoice extends ui.Layer {
     this.#onClose();
     if (fBtn != this.#btnCancel) {
       if (fBtn.isOwnedBy(this.#fAlternatives)) {
-        this._delegate.onAlternativeChoosenInMultiChoiceLayer(this,
-                                                              fBtn.getValue());
+        this._delegate.onAlternativeChosenInMultiChoiceLayer(this,
+                                                             fBtn.getValue());
       } else {
         // TODO: Use boxes before choices
-        this._delegate.onItemsChoosenInMultiChoiceLayer(this,
-                                                        [ fBtn.getValue() ]);
+        this._delegate.onItemsChosenInMultiChoiceLayer(this,
+                                                       [ fBtn.getValue() ]);
       }
     }
   }
