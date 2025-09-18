@@ -6,6 +6,9 @@ class Web3Owner extends pdb.Web3User {
   #pinServerSigPath =
       [ dat.Wallet.T_PURPOSE.NFSC001, dat.Wallet.T_COIN.NFSC001, 0, 0, 0 ];
 
+  #aPublishers = [];
+  #aStorage = null;
+
   // TODO: Clearly define isValid and isAuthenticated
   isValid() { return !!this._getData('version'); }
   isAuthenticated() { return this._hasData(); }
@@ -22,6 +25,9 @@ class Web3Owner extends pdb.Web3User {
     return ext.Utilities.uint8ArrayToHex(
         dba.Keys.getMlDsa44(this.#pinServerSigPath));
   }
+
+  setStorage(agent) { this.#aStorage = agent; }
+  setPublishers(agents) { this.#aPublishers = agents; }
 
   asyncFollow(userId) {
     this.#asyncFollow(userId).then(
@@ -58,17 +64,15 @@ class Web3Owner extends pdb.Web3User {
   }
 
   async asyncUploadFile(file) {
-    const a = glb.web3Storage.getAgent(this.getId());
     const msg = new Uint8Array(await file.arrayBuffer());
     const sig = await dba.Keys.signUint8Array(this.#pinServerSigPath, msg);
-    return await a.asUploadFile(file, this.getId(), sig);
+    return await this.#aStorage.asUploadFile(file, this.getId(), sig);
   }
 
   async asyncUploadJson(data) {
-    const a = glb.web3Storage.getAgent(this.getId());
     const msg = JSON.stringify(data);
     const sig = await dba.Keys.ed25519Sign(this.#pinServerSigPath, msg);
-    return await a.asUploadJson(msg, this.getId(), sig);
+    return await this.#aStorage.asUploadJson(msg, this.getId(), sig);
   }
 
   async asyncLike(key) {
@@ -109,7 +113,7 @@ class Web3Owner extends pdb.Web3User {
 
   async asyncUpdateProfile(d, newCids) {
     this._setData("profile", d);
-    await this.#asyncPublish(newCids);
+    await this.#asPublish(newCids);
   }
 
   async #asyncFollow(userId) {
@@ -117,13 +121,13 @@ class Web3Owner extends pdb.Web3User {
         {timestamp : Date.now(), type : "USER", id : userId, nickname : null};
     let dIdx = await this._asyncGetOrInitIdolRoot();
     dIdx.idols.unshift(idolInfo);
-    await this.#asyncUpdateIdols(dIdx);
+    await this.#asUpdateIdols(dIdx);
   }
 
   async #asyncUnfollow(userId) {
     let dIdx = await this._asyncGetOrInitIdolRoot();
     dIdx.idols = dIdx.idols.filter(i => i.id != userId);
-    await this.#asyncUpdateIdols(dIdx);
+    await this.#asUpdateIdols(dIdx);
   }
 
   async #asyncMark(key, markInfo, refCids) {
@@ -139,7 +143,7 @@ class Web3Owner extends pdb.Web3User {
     this._setData("marks", cid);
     newCids.push(cid);
 
-    await this.#asyncPublish(newCids);
+    await this.#asPublish(newCids);
   }
 
   async asyncPost(postInfo, refCids) {
@@ -172,7 +176,7 @@ class Web3Owner extends pdb.Web3User {
     this._setData("posts", cid);
     newCids.push(cid);
 
-    await this.#asyncPublish(newCids);
+    await this.#asPublish(newCids);
   }
 
   #toLtsJsonData() {
@@ -187,17 +191,17 @@ class Web3Owner extends pdb.Web3User {
     return d;
   }
 
-  async #asyncUpdateIdols(dIdx) {
+  async #asUpdateIdols(dIdx) {
     let newCids = [];
     let cid = this._getData("idols");
     cid = await this.asyncUploadJson(dIdx);
     this._setData("idols", cid);
     newCids.push(cid);
 
-    await this.#asyncPublish(newCids);
+    await this.#asPublish(newCids);
   }
 
-  async #asyncPublish(addCids) {
+  async #asPublish(addCids) {
     let pinCids = [...addCids ];
     // _cid is an internal value created in glb.web3Resolver.asyncResolve()
     let cid = this._getData("_cid");
@@ -206,13 +210,14 @@ class Web3Owner extends pdb.Web3User {
     pinCids.push(cid);
 
     let sig = await dba.Keys.ed25519Sign(this.#pinServerSigPath, cid);
-    await glb.web3Publisher.asyncPublish(cid, this.getId(), sig);
+    for (let a of this.#aPublishers) {
+      await a.asPublish(cid, this.getId(), sig);
+    }
 
     const msg = JSON.stringify({cids : pinCids});
     sig = await dba.Keys.ed25519Sign(this.#pinServerSigPath, msg);
-    const a = glb.web3Storage.getAgent(this.getId());
     // TODO: Separate other pin update urls
-    await a.asPinJson(msg, this.getId(), sig);
+    await this.#aStorage.asPinJson(msg, this.getId(), sig);
 
     this.saveToStorage();
   }

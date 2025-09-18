@@ -1,5 +1,8 @@
 (function(pdb) {
 class Web3StorageAgent {
+  #initUserId = null;
+  #initUserData = null;
+  #hostInfo = null;
   #typeName = null;
   #aDefault = null;
   #aJson = null;
@@ -9,6 +12,11 @@ class Web3StorageAgent {
   #aVideo = null;
 
   isValid() { return !!this.#aDefault; }
+  isInitUserRegistered() { return !!this.#initUserData; }
+  isRegisterEnabled() { return !!this.#hostInfo.is_register_enabled; }
+  isInitUserUsable() {
+    return this.isInitUserRegistered() || this.isRegisterEnabled();
+  }
 
   getTypeName() { return this.#typeName; }
   getSubAgents() {
@@ -27,6 +35,13 @@ class Web3StorageAgent {
     this.#aImage = await this.#initAgent("image", config ? config.image : null);
     this.#aAudio = await this.#initAgent("audio", config ? config.audio : null);
     this.#aVideo = await this.#initAgent("video", config ? config.video : null);
+
+    this.#hostInfo = await this.#asFetchHostInfo();
+  }
+
+  async asInitForUser(userId) {
+    this.#initUserId = userId;
+    this.#initUserData = await this.#asFetchUserById(userId);
   }
 
   async asUploadJson(data, userId, sig) {
@@ -98,6 +113,49 @@ class Web3StorageAgent {
 
   #parseAddress(sAddr) {
     return sAddr ? MultiformatsMultiaddr.multiaddr(sAddr) : null;
+  }
+
+  async #asFetchHostInfo() {
+    // TODO: Handle different servers
+    const url = this.#aDefault.getApiUrl("/api/host/info");
+    let req = new Request(url, {method : "GET"});
+    let res;
+    try {
+      res = await plt.Api.p2pFetch(req);
+    } catch (e) {
+      return {};
+    }
+    let d = await res.json();
+    if (d.error) {
+      throw d.error;
+    }
+    return d.data.info;
+  }
+
+  async #asFetchUserById(userId) {
+    if (!userId) {
+      return null;
+    }
+
+    // TODO: Handle different servers
+    const url = this.#aDefault.getApiUrl("/api/user/get?id=" + userId);
+    return await this.#asFetchUserInfo(url);
+  }
+
+  async #asFetchUserInfo(url) {
+    let req = new Request(
+        url, {method : "GET", headers : {"Content-Type" : "application/json"}});
+    let res;
+    try {
+      res = await plt.Api.p2pFetch(req);
+    } catch (e) {
+      return null;
+    }
+    let d = await res.json();
+    if (d.error) {
+      throw d.error;
+    }
+    return d.data.user;
   }
 };
 

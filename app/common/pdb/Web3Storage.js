@@ -15,13 +15,15 @@ class Web3Storage {
     }
   }
 
-  getAgents() { return this.#agents; }
-  getAgent(userId) {
-    // Hack
-    if (this.#agents && this.#agents.length) {
-      return this.#agents[0];
+  async asInitForUser(userId) {
+    for (let a of this.#agents) {
+      await a.asInitForUser(userId);
     }
-    return null;
+  }
+
+  getAgents(userId) {
+    // TODO: Support per user setup
+    return this.#agents;
   }
 };
 

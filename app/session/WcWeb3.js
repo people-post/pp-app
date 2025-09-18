@@ -60,6 +60,7 @@ class WcWeb3 extends main.WcSession {
     await glb.web3Ledger.asInit(c ? c.blockchains : null);
     glb.web3Storage = new pdb.Web3Storage();
     await glb.web3Storage.asInit(c ? c.storages : null);
+    await glb.web3Storage.asInitForUser(dba.Account.getId());
 
     this.init(null, dConfig.default_theme.primary_color,
               dConfig.default_theme.secondary_color);

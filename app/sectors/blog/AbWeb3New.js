@@ -1,14 +1,19 @@
 (function(blog) {
 // ActionButton needs some redesign
 class AbWeb3New extends ui.Fragment {
-  #lmc;
+  #lmcPublisher;
+  #lcStorage;
   #fBtn;
 
   constructor() {
     super();
-    this.#lmc = new ui.LMultiChoice();
-    this.#lmc.setTargetName("publishers");
-    this.#lmc.setDelegate(this);
+    this.#lmcPublisher = new ui.LMultiChoice();
+    this.#lmcPublisher.setTargetName("publishers");
+    this.#lmcPublisher.setDelegate(this);
+
+    this.#lcStorage = new ui.LContext();
+    this.#lcStorage.setTargetName("storage");
+    this.#lcStorage.setDelegate(this);
 
     this.#fBtn = new gui.ActionButton();
     this.#fBtn.setIcon(gui.ActionButton.T_ICON.NEW);
@@ -18,21 +23,40 @@ class AbWeb3New extends ui.Fragment {
 
   isAvailable() { return dba.Account.isAuthenticated(); }
 
-  onGuiActionButtonClick(fButton) { this.#onClick(); }
+  onGuiActionButtonClick(fButton) { this.#onActionClick(); }
   onRegistrationCanceledInServerRegistrationContentFragment(fvc) {
     fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
   }
   onRegistrationSuccessInServerRegistrationContentFragment(fvc) {
     fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
   }
+  onOptionClickedInContextLayer(lc, value) {
+    if (value) {
+      this.#onStorageAgentChosen(value);
+    } else {
+      this.#showStorageSetup();
+    }
+  }
   onItemsChosenInMultiChoiceLayer(lmc, agents) {
-    if (agents && agents.length) {
-      this.#onAgentsChosen(agents);
+    switch (lmc) {
+    case this.#lmcPublisher:
+      if (agents && agents.length) {
+        this.#onPublisherAgentsChosen(agents);
+      }
+      break;
+    default:
+      break;
     }
   }
 
   onAlternativeChosenInMultiChoiceLayer(lmc, value) {
-    this.#showPublisherSetup();
+    switch (lmc) {
+    case this.#lmcPublisher:
+      this.#showPublisherSetup();
+      break;
+    default:
+      break;
+    }
   }
 
   _renderOnRender(render) {
@@ -40,27 +64,28 @@ class AbWeb3New extends ui.Fragment {
     this.#fBtn.render();
   }
 
-  #onClick() {
+  #onActionClick() {
     const agents = glb.web3Publisher.getAgents();
     if (agents.length > 0) {
-      this.#onChooseAgents(agents);
+      this.#onChoosePublisherAgents(agents);
     } else {
       this.#showPublisherSetup();
     }
   }
 
-  #onChooseAgents(agents) {
-    this.#lmc.clearItems();
+  #onChoosePublisherAgents(agents) {
+    this.#lmcPublisher.clearItems();
     for (let a of agents) {
-      this.#lmc.addChoice(a.getHostname(), a, null, null, a.isInitUserUsable());
+      this.#lmcPublisher.addChoice(a.getHostname(), a, null, null,
+                                   a.isInitUserUsable());
     }
 
-    this.#lmc.addAlternative("Add new...", null, null, null, false);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lmc,
-                                "Choices");
+    this.#lmcPublisher.addAlternative("Add new...", null, null, null, false);
+    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this,
+                                this.#lmcPublisher, "Choices");
   }
 
-  #onAgentsChosen(agents) {
+  #onPublisherAgentsChosen(agents) {
     for (let a of agents) {
       if (a.getInitUserId() != dba.Account.getId()) {
         // Should not happen, but need to be handled
@@ -72,10 +97,37 @@ class AbWeb3New extends ui.Fragment {
         return;
       }
     }
-    this.#showDraftEditor(agents);
+    dba.Account.setPublishers(agents);
+    this.#evaluateStorageAgents();
   }
 
-  #showDraftEditor(agents) {
+  #evaluateStorageAgents() {
+    const agents = glb.web3Storage.getAgents(dba.Account.getId());
+    if (agents.length > 0) {
+      this.#onChooseStorageAgent(agents);
+    } else {
+      this.#showStorageSetup();
+    }
+  }
+
+  #onChooseStorageAgent(agents) {
+    this.#lcStorage.clearOptions();
+    for (let a of agents) {
+      this.#lcStorage.addOption(a.getTypeName(), a, null, null,
+                                a.isInitUserUsable());
+    }
+
+    this.#lcStorage.addOption("Add new...", null, null, null, false);
+    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lcStorage,
+                                "Choices");
+  }
+
+  #onStorageAgentChosen(agent) {
+    dba.Account.setStorage(agent);
+    this.#showDraftEditor();
+  }
+
+  #showDraftEditor() {
     let v = new ui.View();
     let f = new blog.FvcWeb3PostEditor();
     f.setPost(new dat.DraftArticle({}));
@@ -97,6 +149,12 @@ class AbWeb3New extends ui.Fragment {
     // TODO: Dialog for publisher setup
     this._displayMessage(
         "In order to start posting, at least one publisher is required in settings. Before we are able to provide you a setup wizzard, manually edit config.json is needed.");
+  }
+
+  #showStorageSetup() {
+    // TODO: Dialog for storage setup
+    this._displayMessage(
+        "In order to start posting, at least one storage server is required in settings. Before we are able to provide you a setup wizzard, manually edit config.json is needed.");
   }
 };
 
