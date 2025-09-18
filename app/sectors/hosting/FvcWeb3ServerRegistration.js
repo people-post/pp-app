@@ -26,8 +26,15 @@ class FvcWeb3ServerRegistration extends ui.FScrollViewContent {
   setAgent(agent) { this.#agent = agent; }
 
   onSimpleButtonClicked(fBtn) {
-    this._delegate.onRegistrationCanceledInServerRegistrationContentFragment(
-        this);
+    switch (fBtn) {
+    case this.#btnSubmit:
+      this.#onSubmit();
+      break;
+    default:
+      this._delegate.onRegistrationCanceledInServerRegistrationContentFragment(
+          this);
+      break;
+    }
   }
   onInputChangeInTextInputFragment(fInput, value) { this.#testName(value); }
 
@@ -72,6 +79,24 @@ class FvcWeb3ServerRegistration extends ui.FScrollViewContent {
       this.onLocalErrorInFragment(this,
                                   "Name is unavailable, please try new one");
     }
+  }
+
+  #onSubmit() {
+    if (this.#fNameInput.validate()) {
+      dba.Account.asRegister(this.#agent, this.#fNameInput.getValue())
+          .then(() => this.#onRegisterSuccess())
+          .catch(e => this.#onRegisterError(e));
+    }
+  }
+
+  #onRegisterSuccess() {
+    this._delegate.onRegistrationSuccessInServerRegistrationContentFragment(
+        this);
+  }
+
+  #onRegisterError(e) {
+    console.log(e);
+    this.onLocalErrorInFragment(this, "Registration failed");
   }
 };
 

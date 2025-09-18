@@ -40,6 +40,8 @@ class WcWeb3 extends main.WcSession {
   }
 
   async #asMain(dConfig) {
+    await plt.Helia.init();
+
     let sData = sessionStorage.getItem(C.STORAGE.KEY.KEYS);
     if (sData) {
       dba.Keys.fromEncodedStr(sData);
@@ -61,8 +63,6 @@ class WcWeb3 extends main.WcSession {
 
     this.init(null, dConfig.default_theme.primary_color,
               dConfig.default_theme.secondary_color);
-
-    await plt.Helia.init();
 
     this._main({"web_config" : dConfig});
   }

@@ -1,13 +1,14 @@
 (function(blog) {
 // ActionButton needs some redesign
 class AbWeb3New extends ui.Fragment {
-  #lc;
+  #lmc;
   #fBtn;
 
   constructor() {
     super();
-    this.#lc = new ui.LContext();
-    this.#lc.setDelegate(this);
+    this.#lmc = new ui.LMultiChoice();
+    this.#lmc.setTargetName("publishers");
+    this.#lmc.setDelegate(this);
 
     this.#fBtn = new gui.ActionButton();
     this.#fBtn.setIcon(gui.ActionButton.T_ICON.NEW);
@@ -18,9 +19,20 @@ class AbWeb3New extends ui.Fragment {
   isAvailable() { return dba.Account.isAuthenticated(); }
 
   onGuiActionButtonClick(fButton) { this.#onClick(); }
-  onRegistrationCanceledInServerRegistrationContentFragment(
-      fvcServerRegistration) {
+  onRegistrationCanceledInServerRegistrationContentFragment(fvc) {
     fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
+  }
+  onRegistrationSuccessInServerRegistrationContentFragment(fvc) {
+    fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
+  }
+  onItemsChosenInMultiChoiceLayer(lmc, agents) {
+    if (agents && agents.length) {
+      this.#onAgentsChosen(agents);
+    }
+  }
+
+  onAlternativeChosenInMultiChoiceLayer(lmc, value) {
+    this.#showPublisherSetup();
   }
 
   _renderOnRender(render) {
@@ -31,32 +43,24 @@ class AbWeb3New extends ui.Fragment {
   #onClick() {
     const agents = glb.web3Publisher.getAgents();
     if (agents.length > 0) {
-      if (agents.length > 1) {
-        this.#onChooseAgents(agents);
-      } else {
-        this.#onAgentsChoosen(agents);
-      }
+      this.#onChooseAgents(agents);
     } else {
       this.#showPublisherSetup();
     }
   }
 
   #onChooseAgents(agents) {
-    this.#lc.clearOptions();
-    this.#lc.setTargetName("publishers");
+    this.#lmc.clearItems();
     for (let a of agents) {
-      this.#lc.addOption(a.getHostname(), [ a ]);
+      this.#lmc.addChoice(a.getHostname(), a, null, null, a.isInitUserUsable());
     }
-    if (agents.length > 2) {
-      this.#lc.addOption("All of above", agents);
-    } else {
-      this.#lc.addOption("Both", agents);
-    }
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lc,
-                                "Context");
+
+    this.#lmc.addAlternative("Add new...", null, null, null, false);
+    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lmc,
+                                "Choices");
   }
 
-  #onAgentsChoosen(agents) {
+  #onAgentsChosen(agents) {
     for (let a of agents) {
       if (a.getInitUserId() != dba.Account.getId()) {
         // Should not happen, but need to be handled
@@ -91,7 +95,8 @@ class AbWeb3New extends ui.Fragment {
 
   #showPublisherSetup() {
     // TODO: Dialog for publisher setup
-    this._displayMessage("Publisher is not set.");
+    this._displayMessage(
+        "In order to start posting, at least one publisher is required in settings. Before we are able to provide you a setup wizzard, manually edit config.json is needed.");
   }
 };
 

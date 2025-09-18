@@ -16,6 +16,13 @@ class Web3Storage {
   }
 
   getAgents() { return this.#agents; }
+  getAgent(userId) {
+    // Hack
+    if (this.#agents && this.#agents.length) {
+      return this.#agents[0];
+    }
+    return null;
+  }
 };
 
 pdb.Web3Storage = Web3Storage;
