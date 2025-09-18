@@ -39,21 +39,20 @@ class Web3PublisherAgent extends pdb.Web3ServerAgent {
     }
   }
 
-  async asRegister(name) {
-    // TODO: Fill in key, sig, and optional peer key
+  async asRegister(msg, pubKey, sig) {
     let url = this.getApiUrl("/api/user/register");
     let req = new Request(url, {
       method : "POST",
       headers : {"Content-Type" : "application/json"},
-      body : JSON.stringify(
-          {id : this.#initUserId, name : name, public_key : "", signature : ""})
+      body : JSON.stringify({data : msg, public_key : pubKey, signature : sig})
     });
     let res = await plt.Api.p2pFetch(req);
     let d = await res.json();
     if (d.error) {
       throw d.error;
     }
-    return true;
+    let u = d.data.user;
+    this.#mUsers.set(u.id, u);
   }
 
   async asyncPublish(cid, bearerId, sig) {

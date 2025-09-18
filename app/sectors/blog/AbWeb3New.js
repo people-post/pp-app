@@ -19,8 +19,10 @@ class AbWeb3New extends ui.Fragment {
   isAvailable() { return dba.Account.isAuthenticated(); }
 
   onGuiActionButtonClick(fButton) { this.#onClick(); }
-  onRegistrationCanceledInServerRegistrationContentFragment(
-      fvcServerRegistration) {
+  onRegistrationCanceledInServerRegistrationContentFragment(fvc) {
+    fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
+  }
+  onRegistrationSuccessInServerRegistrationContentFragment(fvc) {
     fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
   }
   onItemsChosenInMultiChoiceLayer(lmc, agents) {

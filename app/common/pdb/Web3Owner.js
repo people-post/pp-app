@@ -50,6 +50,13 @@ class Web3Owner extends pdb.Web3User {
                            JSON.stringify(this.#toLtsJsonData()));
   }
 
+  async asRegister(agent, name) {
+    // TODO: Support optional peer key
+    const msg = JSON.stringify({id : this.getId(), name : name});
+    const sig = await dba.Keys.ed25519Sign(this.#pinServerSigPath, msg);
+    await agent.asRegister(msg, this.getId(), sig);
+  }
+
   async asyncUploadFile(file) {
     const a = glb.web3Storage.getAgent(this.getId());
     const msg = new Uint8Array(await file.arrayBuffer());

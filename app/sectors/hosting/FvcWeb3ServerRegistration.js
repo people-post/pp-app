@@ -83,7 +83,7 @@ class FvcWeb3ServerRegistration extends ui.FScrollViewContent {
 
   #onSubmit() {
     if (this.#fNameInput.validate()) {
-      this.#agent.asRegister(this.#fNameInput.getValue())
+      dba.Account.asRegister(this.#agent, this.#fNameInput.getValue())
           .then(() => this.#onRegisterSuccess())
           .catch(e => this.#onRegisterError(e));
     }
