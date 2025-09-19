@@ -36,7 +36,13 @@ class RemoteFile extends dat.ServerDataObject {
     return this.getImageUrl() + "?size=" + s;
   }
   getVideoManifestType() { return "application/x-mpegURL"; }
-  getVideoManifestUrl() { return this._data.url + "/manifest.m3u8"; }
+  getVideoManifestUrl() {
+    // TODO: This is a quick fix, needs to review design
+    if (this._data.url.endsWith("m3u8")) {
+      return this._data.url;
+    }
+    return this._data.url + "/manifest.m3u8";
+  }
   getBackgroundColor() { return this._data.bg ? this._data.bg : ""; }
   getProgress() { return this._data.progress; }
 

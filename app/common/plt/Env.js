@@ -1,39 +1,43 @@
 (function(plt) {
 class Env {
-  static SCRIPT = {
-    EDITOR : {
-      id : "ID_JS_EDITOR",
-      src: C.PATH.STATIC + "/ckeditor/ckeditor.js",
-    },
-    PLAYER: {
-      id: "ID_JS_PLAYER",
-      src: C.PATH.STATIC + "/js/hls.min.js",
-    },
-    SIGNAL: {
-      id: "ID_JS_SIGNAL",
-      src: C.PATH.STATIC + "/js/paho-mqtt-min.js",
-    },
-    QR_CODE: {
-      id: "ID_QR_CODE",
-      src: C.PATH.STATIC + "/js/qrcode.min.js",
-    },
-    PAYMENT: {
-      id: "ID_JS_PAYMENT",
-      src: "https://sandbox.web.squarecdn.com/v1/square.js",
-    },
-  };
   #windowType = null;
   #defaultLang = null;
   #preferredLang = null;
   #mScripts = new Map();
   #tDiffThSec = 604800; // 7 days, 7 * 24 * 3600
 
+  constructor() {
+    // Hack fix
+    this.SCRIPT = {
+      EDITOR : {
+        id : "ID_JS_EDITOR",
+        src : C.PATH.STATIC + "/ckeditor/ckeditor.js",
+      },
+      PLAYER : {
+        id : "ID_JS_PLAYER",
+        src : C.PATH.STATIC + "/js/hls.min.js",
+      },
+      SIGNAL : {
+        id : "ID_JS_SIGNAL",
+        src : C.PATH.STATIC + "/js/paho-mqtt-min.js",
+      },
+      QR_CODE : {
+        id : "ID_QR_CODE",
+        src : C.PATH.STATIC + "/js/qrcode.min.js",
+      },
+      PAYMENT : {
+        id : "ID_JS_PAYMENT",
+        src : "https://sandbox.web.squarecdn.com/v1/square.js",
+      },
+    };
+  }
+
   hasHost() { return window.location.hostname.length > 0; }
 
   isScriptLoaded(id) { return this.#mScripts.get(id); }
   isTrustedSite() { return window.location.hostname.endsWith("gcabin.com"); }
   isWeb3() { return this.getWindowType() == C.TYPE.WINDOW.WEB3; }
-  function _isMpegDashSupported() {
+  #isMpegDashSupported() {
     return !(navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform));
   }
 
