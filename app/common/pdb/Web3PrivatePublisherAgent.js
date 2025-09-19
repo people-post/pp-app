@@ -1,10 +1,10 @@
 (function(pdb) {
-class Web3PrivatePublisherAgent extends pdb.Web3PrivateServerAgent
+class Web3PrivatePublisherAgent extends pdb.Web3PrivateServerMixin
 (pdb.Web3PublisherAgent) {
   async asInit(multiAddr) {
     await pdb.Web3PublisherAgent.prototype.asInit.call(this, "Private",
                                                        multiAddr);
-    await this.asInitPrivate();
+    await this.asInitPrivateMixin();
   }
 };
 

@@ -1,5 +1,5 @@
 (function(pdb) {
-const Web3PrivateServerAgent = (Base) => class extends Base {
+const Web3PrivateServerMixin = (Base) => class extends Base {
   #hostInfo;
   #mUsers;
   #initUserId;
@@ -21,7 +21,7 @@ const Web3PrivateServerAgent = (Base) => class extends Base {
   getInitUserId() { return this.#initUserId; }
   getHostPeerId() { return this.#hostInfo.peer_id; }
 
-  async asInitPrivate() {
+  async asInitPrivateMixin() {
     this.#mUsers = new Map();
     this.#hostInfo = await this.#asFetchHostInfo();
   }
@@ -101,5 +101,5 @@ const Web3PrivateServerAgent = (Base) => class extends Base {
   }
 };
 
-pdb.Web3PrivateServerAgent = Web3PrivateServerAgent;
+pdb.Web3PrivateServerMixin = Web3PrivateServerMixin;
 }(window.pdb = window.pdb || {}));
