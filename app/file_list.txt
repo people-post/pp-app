@@ -254,6 +254,7 @@ common/plt/ConstListIdLoader.js
 common/plt/SectorGateway.js
 
 common/pdb/Web3ServerAgent.js
+common/pdb/Web3PrivateServerAgent.js
 common/pdb/Web3PublisherAgent.js
 common/pdb/Web3PublicPublisherAgent.js
 common/pdb/Web3PrivatePublisherAgent.js
