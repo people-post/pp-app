@@ -16,9 +16,9 @@ class Web3StorageAgent {
   getTypeName() { return this.#typeName; }
   getSubAgents() {
     return [
-      this.#aDefault, this.#getJsonServer(), this.#getFileServer(),
-      this.#getImageServer(), this.#getAudioServer(), this.#getVideoServer()
-    ];
+      this.#aDefault, this.#aJson, this.#aFile, this.#aImage, this.#aAudio,
+      this.#aVideo
+    ].filter(a => !!a);
   }
 
   async asInit(config) {
