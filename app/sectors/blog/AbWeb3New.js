@@ -76,7 +76,7 @@ class AbWeb3New extends ui.Fragment {
   #onChoosePublisherAgents(agents) {
     this.#lmcPublisher.clearItems();
     for (let a of agents) {
-      this.#lmcPublisher.addChoice(a.getHostname(), a, null, null,
+      this.#lmcPublisher.addChoice(a.getHostName(), a, null, null,
                                    a.isInitUserUsable());
     }
 
@@ -115,7 +115,7 @@ class AbWeb3New extends ui.Fragment {
   #onChooseStorageAgent(agents) {
     this.#lcStorage.clearOptions();
     for (let a of agents) {
-      this.#lcStorage.addOption(a.getTypeName(), a, null, null,
+      this.#lcStorage.addOption(a.getHostName(), a, null, null,
                                 a.isInitUserUsable());
     }
 

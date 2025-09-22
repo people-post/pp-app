@@ -1,109 +1,54 @@
 (function(pdb) {
-class Web3StorageAgent {
-  #typeName = null;
-  #aDefault = null;
-  #aJson = null;
-  #aFile = null;
-  #aImage = null;
-  #aAudio = null;
-  #aVideo = null;
-
-  isValid() { return !!this.#aDefault; }
-  isInitUserUsable() {
-    return this.getSubAgents().some(a => a.isInitUserUsable());
-  }
-
-  getTypeName() { return this.#typeName; }
-  getSubAgents() {
-    return [
-      this.#aDefault, this.#aJson, this.#aFile, this.#aImage, this.#aAudio,
-      this.#aVideo
-    ].filter(a => !!a);
-  }
-
-  async asInit(config) {
-    this.#typeName = config.type;
-    this.#aDefault =
-        await this.#initAgent("default", config ? config.default : null);
-    this.#aJson = await this.#initAgent("json", config ? config.json : null);
-    this.#aFile = await this.#initAgent("file", config ? config.file : null);
-    this.#aImage = await this.#initAgent("image", config ? config.image : null);
-    this.#aAudio = await this.#initAgent("audio", config ? config.audio : null);
-    this.#aVideo = await this.#initAgent("video", config ? config.video : null);
-  }
-
-  async asInitForUser(userId) {
-    this.getSubAgents().map(a => a.asInitForUser(userId));
-  }
-
+class Web3StorageAgent extends pdb.Web3ServerAgent {
   async asUploadJson(data, userId, sig) {
-    const url = this.#getJsonServer().getApiUrl("/api/upload/json");
+    const url = this.getServer().getApiUrl("/api/upload/json");
     let d = await plt.Api.asyncPostIpfsData(url, data, userId, sig);
     return d.cid;
   }
 
   async asUploadFile(file, userId, sig) {
-    const url = this.#getFileServer().getApiUrl("/api/upload/file");
+    const url = this.getServer().getApiUrl("/api/upload/file");
     return await plt.Api.asyncPostIpfsFile(url, file, userId, sig);
   }
 
   async asUploadImage(file, userId, sig) {
-    const url = this.#getImageServer().getApiUrl("/api/upload/image");
+    const url = this.getServer().getApiUrl("/api/upload/image");
     return await plt.Api.asyncPostIpfsFile(url, file, userId, sig);
   }
 
   async asUploadAudio(file, userId, sig) {
-    const url = this.#getAudioServer().getApiUrl("/api/upload/audio");
+    const url = this.getServer().getApiUrl("/api/upload/audio");
     return await plt.Api.asyncPostIpfsFile(url, file, userId, sig);
   }
 
   async asUploadVideo(file, userId, sig) {
-    const url = this.#getVideoServer().getApiUrl("/api/upload/video");
+    const url = this.getServer().getApiUrl("/api/upload/video");
     return await plt.Api.asyncPostIpfsFile(url, file, userId, sig);
   }
 
   async asPinJson(data, userId, sig) {
-    let url = this.#getJsonServer().getApiUrl("/api/pin/add");
+    let url = this.getServer().getApiUrl("/api/pin/add");
     await plt.Api.asyncPostIpfsData(url, data, userId, sig);
   }
 
   async asPinFile(data, userId, sig) {
-    let url = this.#getFileServer().getApiUrl("/api/pin/add");
+    let url = this.getServer().getApiUrl("/api/pin/add");
     await plt.Api.asyncPostIpfsData(url, data, userId, sig);
   }
 
   async asPinImage(data, userId, sig) {
-    let url = this.#getImageServer().getApiUrl("/api/pin/add");
+    let url = this.getServer().getApiUrl("/api/pin/add");
     await plt.Api.asyncPostIpfsData(url, data, userId, sig);
   }
 
   async asPinAudio(data, userId, sig) {
-    let url = this.#getAudioServer().getApiUrl("/api/pin/add");
+    let url = this.getServer().getApiUrl("/api/pin/add");
     await plt.Api.asyncPostIpfsData(url, data, userId, sig);
   }
 
   async asPinVideo(data, userId, sig) {
-    let url = this.#getVideoServer().getApiUrl("/api/pin/add");
+    let url = this.getServer().getApiUrl("/api/pin/add");
     await plt.Api.asyncPostIpfsData(url, data, userId, sig);
-  }
-
-  #getJsonServer() { return this.#aJson ? this.#aJson : this.#aDefault; }
-  #getFileServer() { return this.#aFile ? this.#aFile : this.#aDefault; }
-  #getImageServer() { return this.#aImage ? this.#aImage : this.#aDefault; }
-  #getAudioServer() { return this.#aAudio ? this.#aAudio : this.#aDefault; }
-  #getVideoServer() { return this.#aVideo ? this.#aVideo : this.#aDefault; }
-
-  async #initAgent(typeName, sAddr) {
-    let multiAddr = this.#parseAddress(sAddr);
-    if (!multiAddr) {
-      return null;
-    }
-    let s = new pdb.Web3Server(multiAddr);
-    return new pdb.Web3PrivateStorageServerAgent({}, s);
-  }
-
-  #parseAddress(sAddr) {
-    return sAddr ? MultiformatsMultiaddr.multiaddr(sAddr) : null;
   }
 };
 

@@ -260,9 +260,9 @@ common/pdb/Web3PublisherAgent.js
 common/pdb/Web3PublicPublisherAgent.js
 common/pdb/Web3PrivatePublisherAgent.js
 common/pdb/Web3BlockchainAgent.js
-common/pdb/Web3StorageServerAgent.js
-common/pdb/Web3PrivateStorageServerAgent.js
 common/pdb/Web3StorageAgent.js
+common/pdb/Web3PublicStorageAgent.js
+common/pdb/Web3PrivateStorageAgent.js
 common/pdb/Web3Resolver.js
 common/pdb/Web3Publisher.js
 common/pdb/Web3Ledger.js

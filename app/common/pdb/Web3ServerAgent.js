@@ -1,18 +1,14 @@
 (function(pdb) {
 class Web3ServerAgent {
-  #hostInfo;
   #server;
 
-  constructor(hostInfo, server) {
-    this.#hostInfo = hostInfo;
-    this.#server = server;
-  }
+  constructor(server) { this.#server = server; }
 
-  getTypeName() { return "N/A"; }
-  getHostname() { return this.#server.getName(); }
+  getHostType() { return this.#server.getApiType(); }
+  getHostName() { return this.#server.getName(); }
   getHostAddress() { return this.#server.getAddress(); }
   getServer() { return this.#server; }
-  getHostInfo(key) { return this.#hostInfo[key]; }
+  getHostInfo(key) { return this.#server.getInfo(key); }
 };
 
 pdb.Web3ServerAgent = Web3ServerAgent;

@@ -2,15 +2,18 @@
 class Web3Storage {
   #agents = [];
 
-  async asInit(configs) {
+  async asInit(addrs) {
+    // addrs: list of Multiaddr strings
     this.#agents = [];
-    if (configs) {
-      for (let c of configs) {
-        if (c.default) {
-          let a = new pdb.Web3StorageAgent();
-          await a.asInit(c);
-          this.#agents.push(a);
+    if (addrs) {
+      for (let s of addrs) {
+        let agent = await this.#asCreateAgent(s);
+        if (agent) {
+          this.#agents.push(agent);
         }
+      }
+    } else {
+      if (glb.env.hasHost()) {
       }
     }
   }
@@ -24,6 +27,20 @@ class Web3Storage {
   getAgents(userId) {
     // TODO: Support per user setup
     return this.#agents;
+  }
+
+  async #asCreateAgent(sAddr) {
+    let server = new pdb.Web3Server();
+    if (await server.asInit(sAddr)) {
+      switch (server.getApiType()) {
+      case pdb.Web3PublisherAgent.T_TYPE.PUBLIC:
+        return new pdb.Web3PublicStorageAgent(server);
+      default:
+        return new pdb.Web3PrivateStorageAgent(server);
+      }
+    } else {
+      return null;
+    }
   }
 };
 
