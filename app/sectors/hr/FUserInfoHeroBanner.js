@@ -311,7 +311,7 @@ class FUserInfoHeroBanner extends ui.Fragment {
   #onShowFollowers(userId) {
     let v = new ui.View();
     let f;
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       f = new hr.FvcFollowerList();
     } else {
       // TODO: Merge into above version
@@ -325,7 +325,7 @@ class FUserInfoHeroBanner extends ui.Fragment {
   #onShowIdols(userId) {
     let v = new ui.View();
     let f;
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       f = new hr.FvcIdolList();
     } else {
       // TODO: Merge into above version

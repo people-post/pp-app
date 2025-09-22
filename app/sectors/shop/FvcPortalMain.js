@@ -18,7 +18,7 @@ class FvcPortalMain extends ui.FScrollViewContent {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case plt.T_DATA.ADDON_SCRIPT:
-      if (data == plt.Env.SCRIPT.QR_CODE.id) {
+      if (data == glb.env.SCRIPT.QR_CODE.id) {
         this.render();
       }
       break;
@@ -29,7 +29,7 @@ class FvcPortalMain extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    if (!plt.Env.isScriptLoaded(plt.Env.SCRIPT.QR_CODE.id)) {
+    if (!glb.env.isScriptLoaded(glb.env.SCRIPT.QR_CODE.id)) {
       render.replaceContent("Loading...");
       return;
     }

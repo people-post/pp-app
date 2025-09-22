@@ -59,7 +59,7 @@ const Utilities = function() {
   function _renderSmartTime(t) {
     let dt = Math.abs(t - Date.now()) / 1000;
     // Unit is seconds
-    if (dt > plt.Env.getSmartTimeDiffThreshold()) {
+    if (dt > glb.env.getSmartTimeDiffThreshold()) {
       return t.toLocaleString(
           [], {month : "numeric", day : "numeric", year : "2-digit"})
     } else {

@@ -114,7 +114,7 @@ class FCommentInput extends ui.Fragment {
   }
 
   #asyncPostUserComment(message, asPost = false) {
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       this.#asyncWeb3PostUserComment(this.#tmpMessage, asPost)
           .then(() => this.#onPostDone())
           .catch(e => this.#onPostError(e, this.#tmpMessage));

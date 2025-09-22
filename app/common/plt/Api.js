@@ -131,7 +131,7 @@ plt.Api = function() {
   }
 
   function __wrapUrl(url) {
-    if (plt.Env.isTrustedSite() || dba.WebConfig.isDevSite()) {
+    if (glb.env.isTrustedSite() || dba.WebConfig.isDevSite()) {
       if (url.indexOf('?') > 0) {
         return url + "&" + C.URL_PARAM.USER + "=" + dba.WebConfig.getOwnerId();
       } else {

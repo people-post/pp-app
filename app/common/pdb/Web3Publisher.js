@@ -13,6 +13,7 @@ class Web3Publisher {
           this.#agents.push(a);
         }
       }
+    } else {
     }
   }
 

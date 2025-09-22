@@ -22,7 +22,7 @@ class Gateway extends plt.SectorGateway {
       break;
     case dat.FrontPageConfig.T_TEMPLATE.BRIEF:
       // Hack
-      plt.Env.setSmartTimeDiffThreshold(24 * 3600);
+      glb.env.setSmartTimeDiffThreshold(24 * 3600);
 
       f = new ftpg.FvcBrief();
       f.setOwnerId(dba.WebConfig.getOwnerId());

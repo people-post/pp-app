@@ -38,7 +38,7 @@ class RichContentEditor extends ui.FInput {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case plt.T_DATA.ADDON_SCRIPT:
-      if (data == plt.Env.SCRIPT.EDITOR.id) {
+      if (data == glb.env.SCRIPT.EDITOR.id) {
         this.#loadJsEditor();
       }
       break;
@@ -67,7 +67,7 @@ class RichContentEditor extends ui.FInput {
   }
 
   #loadJsEditor() {
-    if (plt.Env.isScriptLoaded(plt.Env.SCRIPT.EDITOR.id)) {
+    if (glb.env.isScriptLoaded(glb.env.SCRIPT.EDITOR.id)) {
       let config = {toolbar : _CF_RICH_CONTENT_EDITOR.TOOLBAR};
       this._editor = CKEDITOR.replace(this._getInputElementId(), config);
     }

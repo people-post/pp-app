@@ -82,7 +82,7 @@ class FvcPost extends ui.FScrollViewContent {
     this.#btnPrev.setDelegate(this);
     this.setChild("btnPrev", this.#btnPrev);
 
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       this.#cIdLoader = new socl.Web3CommentIdLoader();
     } else {
       this.#cIdLoader = new socl.CommentIdLoader();
@@ -205,7 +205,7 @@ class FvcPost extends ui.FScrollViewContent {
       return false;
     }
 
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       return false;
     }
 

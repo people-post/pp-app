@@ -55,7 +55,7 @@ class WcSession extends ui.WindowController {
     fwk.Factory.registerClass(fwk.T_CATEGORY.UI,
                               fwk.T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT,
                               srch.FvcSearchResult);
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       fwk.Factory.registerClass(fwk.T_CATEGORY.UI, fwk.T_OBJ.FILE_UPLOADER,
                                 plt.Web3FileUploader);
     } else {
@@ -195,11 +195,11 @@ class WcSession extends ui.WindowController {
   _initLanguage() {
     let urlParam = new URLSearchParams(window.location.search);
     if (urlParam.has(C.URL_PARAM.LANGUAGE)) {
-      plt.Env.setPreferredLanguage(urlParam.get(C.URL_PARAM.LANGUAGE));
+      glb.env.setPreferredLanguage(urlParam.get(C.URL_PARAM.LANGUAGE));
     }
     let lang = dba.Account.getPreferredLanguage();
     if (!lang) {
-      lang = plt.Env.getLanguage();
+      lang = glb.env.getLanguage();
     }
     R.setLanguage(lang);
   }
@@ -244,8 +244,8 @@ class WcSession extends ui.WindowController {
       items.push(s);
     }
     items.push(C.URL_PARAM.USER + "=" + dba.WebConfig.getOwnerId());
-    if (plt.Env.getPreferredLanguage()) {
-      items.push("lang=" + plt.Env.getPreferredLanguage());
+    if (glb.env.getPreferredLanguage()) {
+      items.push("lang=" + glb.env.getPreferredLanguage());
     }
     let url = "?" + items.join("&");
     return {

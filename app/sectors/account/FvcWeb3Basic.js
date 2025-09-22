@@ -38,7 +38,7 @@ class FvcWeb3Basic extends ui.FScrollViewContent {
     this.#fName.attachRender(p);
     this.#fName.render();
 
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       p = new ui.Panel();
       pList.pushPanel(p);
       p.setClassName("ellipsis");

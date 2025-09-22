@@ -22,7 +22,7 @@ class Gateway extends plt.SectorGateway {
   }
 
   createMainViewContentFragment() {
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       if (dba.Account.isAuthenticated()) {
         return this.#createMainViewContentFragmentForWeb3Owner();
       } else {

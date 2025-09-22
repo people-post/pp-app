@@ -76,5 +76,5 @@ class Env {
   }
 };
 
-plt.Env = new Env();
+glb.env = Env;
 }(window.plt = window.plt || {}));

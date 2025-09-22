@@ -183,7 +183,7 @@ class FPost extends ui.Fragment {
     }
 
     // TODO: Support pin in web3
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       return;
     }
 

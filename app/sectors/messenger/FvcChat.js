@@ -88,7 +88,7 @@ class FvcChat extends ui.FViewContentBase {
       this.#msgHandler.onUserInboxSignal(data);
       break;
     case plt.T_DATA.ADDON_SCRIPT:
-      if (data == plt.Env.SCRIPT.SIGNAL.id) {
+      if (data == glb.env.SCRIPT.SIGNAL.id) {
         this.#msgHandler.activate();
       }
       break;

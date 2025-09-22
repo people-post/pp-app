@@ -45,10 +45,10 @@ class WcMain extends main.WcSession {
 
   _main(dConfig) {
     super._main(dConfig);
-    plt.Env.checkLoadAddonScript(plt.Env.SCRIPT.PLAYER);
-    plt.Env.checkLoadAddonScript(plt.Env.SCRIPT.SIGNAL);
-    plt.Env.checkLoadAddonScript(plt.Env.SCRIPT.EDITOR);
-    plt.Env.checkLoadAddonScript(plt.Env.SCRIPT.PAYMENT);
+    glb.env.checkLoadAddonScript(glb.env.SCRIPT.PLAYER);
+    glb.env.checkLoadAddonScript(glb.env.SCRIPT.SIGNAL);
+    glb.env.checkLoadAddonScript(glb.env.SCRIPT.EDITOR);
+    glb.env.checkLoadAddonScript(glb.env.SCRIPT.PAYMENT);
   }
 
   #showUpgradeView(quotaError) {

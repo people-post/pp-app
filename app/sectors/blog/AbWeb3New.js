@@ -80,7 +80,7 @@ class AbWeb3New extends ui.Fragment {
                                    a.isInitUserUsable());
     }
 
-    if (!plt.Env.hasHost()) {
+    if (!glb.env.hasHost()) {
       this.#lmcPublisher.addAlternative("Add new...", null, null, null, false);
     }
     fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this,
@@ -119,7 +119,7 @@ class AbWeb3New extends ui.Fragment {
                                 a.isInitUserUsable());
     }
 
-    if (!plt.Env.hasHost()) {
+    if (!glb.env.hasHost()) {
       this.#lcStorage.addOption("Add new...", null, null, null, false);
     }
     fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lcStorage,

@@ -75,7 +75,7 @@ class FSocialBar extends ui.Fragment {
     this.#lc.setDelegate(this);
 
     // Default actions
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       this.#actions = [
         this.constructor.T_ACTION.COMMENT, this.constructor.T_ACTION.LIKE,
         this.constructor.T_ACTION.LINK, this.constructor.T_ACTION.CONTEXT
@@ -424,7 +424,7 @@ class FSocialBar extends ui.Fragment {
   #handleShareError(err) { console.log("Share error", err); }
 
   #asyncLike(itemId, itemType) {
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       this.#asyncWeb3Like(itemId).then(() => this.#onSocialRRR());
     } else {
       this.#asyncWeb2Like(itemId, itemType);
@@ -444,7 +444,7 @@ class FSocialBar extends ui.Fragment {
   }
 
   #asyncUnlike(itemId) {
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       this.#asyncWeb3Unlike(itemId).then(() => this.#onSocialRRR());
     } else {
       this.#asyncWeb2Unlike(itemId);

@@ -1,4 +1,7 @@
 (function(glb) {}(window.glb = window.glb || {}));
+// System level services
+glb.env = new glb.env();
+
 const G = function() {
   let _session = null;
 
@@ -8,35 +11,35 @@ const G = function() {
   }
 
   function _initWeb3(dConfig) {
-    plt.Env.setWindowType(C.TYPE.WINDOW.WEB3);
+    glb.env.setWindowType(C.TYPE.WINDOW.WEB3);
     _session = new main.WcWeb3();
     fwk.Events.setOnLoadHandler("init", () => _session.main(dConfig));
   }
 
   function _initMain(userId, primaryColor, secondaryColor, lang) {
-    plt.Env.setWindowType(C.TYPE.WINDOW.MAIN);
-    plt.Env.setDefaultLanguage(lang);
+    glb.env.setWindowType(C.TYPE.WINDOW.MAIN);
+    glb.env.setDefaultLanguage(lang);
     _session = new main.WcMain();
     _initLoader(userId, primaryColor, secondaryColor);
   }
 
   function _initGadget(userId, primaryColor, secondaryColor, lang) {
-    plt.Env.setWindowType(C.TYPE.WINDOW.GADGET);
-    plt.Env.setDefaultLanguage(lang);
+    glb.env.setWindowType(C.TYPE.WINDOW.GADGET);
+    glb.env.setDefaultLanguage(lang);
     _session = new main.WcGadget();
     _initLoader(userId, primaryColor, secondaryColor);
   }
 
   function _initSub(userId, primaryColor, secondaryColor, lang) {
-    plt.Env.setWindowType(C.TYPE.WINDOW.SUB);
-    plt.Env.setDefaultLanguage(lang);
+    glb.env.setWindowType(C.TYPE.WINDOW.SUB);
+    glb.env.setDefaultLanguage(lang);
     _session = new main.WcSub();
     _initLoader(userId, primaryColor, secondaryColor);
   }
 
   function _initPortal(userId, primaryColor, secondaryColor, lang) {
-    plt.Env.setWindowType(C.TYPE.WINDOW.PORTAL);
-    plt.Env.setDefaultLanguage(lang);
+    glb.env.setWindowType(C.TYPE.WINDOW.PORTAL);
+    glb.env.setDefaultLanguage(lang);
     _session = new main.WcPortal();
     _initLoader(userId, primaryColor, secondaryColor);
   }
