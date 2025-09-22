@@ -6,7 +6,7 @@ class Web3PublisherAgent extends pdb.Web3ServerAgent {
   };
 
   async asPublish(cid, bearerId, sig) {
-    let url = this.getApiUrl("/api/pin/publish");
+    let url = this.getServer().getApiUrl("/api/pin/publish");
     let req = new Request(url, {
       method : "POST",
       headers : {

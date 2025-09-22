@@ -32,7 +32,7 @@ class Env {
     };
   }
 
-  hasHost() { return window.location.hostname.length > 0; }
+  hasHost() { return window.location.host.length > 0; }
 
   isScriptLoaded(id) { return this.#mScripts.get(id); }
   isTrustedSite() { return window.location.hostname.endsWith("gcabin.com"); }
@@ -76,5 +76,5 @@ class Env {
   }
 };
 
-glb.env = Env;
+plt.Env = Env;
 }(window.plt = window.plt || {}));

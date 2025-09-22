@@ -1,6 +1,5 @@
 (function(pdb) {
-class Web3PrivateStorageServerAgent extends pdb.Web3PrivateServerMixin
-(pdb.Web3ServerAgent) {};
+class Web3StorageServerAgent extends pdb.Web3ServerAgent {};
 
-pdb.Web3PrivateStorageServerAgent = Web3PrivateStorageServerAgent;
+pdb.Web3StorageServerAgent = Web3StorageServerAgent;
 }(window.pdb = window.pdb || {}));

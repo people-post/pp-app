@@ -93,14 +93,13 @@ class Web3StorageAgent {
   #getAudioServer() { return this.#aAudio ? this.#aAudio : this.#aDefault; }
   #getVideoServer() { return this.#aVideo ? this.#aVideo : this.#aDefault; }
 
-  async #initAgent(typeName, multiAddr) {
-    let addr = this.#parseAddress(multiAddr);
-    let a;
-    if (addr) {
-      a = new pdb.Web3PrivateStorageServerAgent();
-      await a.asInit(addr);
+  async #initAgent(typeName, sAddr) {
+    let multiAddr = this.#parseAddress(sAddr);
+    if (!multiAddr) {
+      return null;
     }
-    return a;
+    let s = new pdb.Web3Server(multiAddr);
+    return new pdb.Web3PrivateStorageServerAgent({}, s);
   }
 
   #parseAddress(sAddr) {

@@ -1,11 +1,10 @@
 (function(pdb) {
 const Web3PrivateServerMixin = (Base) => class extends Base {
-  #hostInfo;
-  #mUsers;
+  #mUsers = new Map();
   #initUserId;
 
   isInitUserRegistered() { return this.#mUsers.has(this.#initUserId); }
-  isRegisterEnabled() { return !!this.#hostInfo.is_register_enabled; }
+  isRegisterEnabled() { return !!this.getHostInfo("is_register_enabled"); }
   isInitUserUsable() {
     return this.isInitUserRegistered() || this.isRegisterEnabled();
   }
@@ -19,12 +18,7 @@ const Web3PrivateServerMixin = (Base) => class extends Base {
   }
 
   getInitUserId() { return this.#initUserId; }
-  getHostPeerId() { return this.#hostInfo.peer_id; }
-
-  async asInitPrivateMixin() {
-    this.#mUsers = new Map();
-    this.#hostInfo = await this.#asFetchHostInfo();
-  }
+  getHostPeerId() { return this.getHostInfo("peer_id"); }
 
   async asInitForUser(userId) {
     this.#initUserId = userId;
@@ -35,7 +29,7 @@ const Web3PrivateServerMixin = (Base) => class extends Base {
   }
 
   async asRegister(msg, pubKey, sig) {
-    let url = this.getApiUrl("/api/user/register");
+    let url = this.getServer().getApiUrl("/api/user/register");
     let req = new Request(url, {
       method : "POST",
       headers : {"Content-Type" : "application/json"},
@@ -50,28 +44,12 @@ const Web3PrivateServerMixin = (Base) => class extends Base {
     this.#mUsers.set(u.id, u);
   }
 
-  async #asFetchHostInfo() {
-    const url = this.getApiUrl("/api/host/info");
-    let req = new Request(url, {method : "GET"});
-    let res;
-    try {
-      res = await plt.Api.p2pFetch(req);
-    } catch (e) {
-      return {};
-    }
-    let d = await res.json();
-    if (d.error) {
-      throw d.error;
-    }
-    return d.data.info;
-  }
-
   async #asFetchUserByName(name) {
     if (!name) {
       return null;
     }
 
-    const url = this.getApiUrl("/api/user/get?name=" + name);
+    const url = this.getServer().getApiUrl("/api/user/get?name=" + name);
     return await this.#asFetchUserInfo(url);
   }
 
@@ -80,7 +58,7 @@ const Web3PrivateServerMixin = (Base) => class extends Base {
       return null;
     }
 
-    const url = this.getApiUrl("/api/user/get?id=" + userId);
+    const url = this.getServer().getApiUrl("/api/user/get?id=" + userId);
     return await this.#asFetchUserInfo(url);
   }
 

@@ -1,6 +1,7 @@
-(function(glb) {}(window.glb = window.glb || {}));
+(function(glb) {
 // System level services
-glb.env = new glb.env();
+glb.env = new plt.Env();
+}(window.glb = window.glb || {}));
 
 const G = function() {
   let _session = null;
