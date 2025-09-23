@@ -32,11 +32,18 @@ class Web3Server {
 
   #getHostAddr(ma) {
     let na = ma.nodeAddress();
-    if (na.family == 6) {
-      return "https://[" + na.address + "]:" + na.port;
-    } else {
-      return "https://" + na.address + ":" + na.port;
+    let protocol = "http";
+    for (let c of ma.getComponents()) {
+      if (c.code == 443) {
+        protocol = "https";
+        break;
+      }
     }
+    let hostname = na.address;
+    if (na.family == 6) {
+      hostname = "[" + na.address + "]";
+    }
+    return protocol + "://" + hostname + ":" + na.port;
   }
 
   #parseAddressOrUseHost(sAddr) {
