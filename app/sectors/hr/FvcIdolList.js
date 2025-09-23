@@ -6,7 +6,7 @@ class FvcIdolList extends ui.FScrollViewContent {
 
   constructor() {
     super();
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       this.#idLoader = new hr.Web3UserIdolIdListLoader();
       this.#idLoader.setDelegate(this);
     } else {

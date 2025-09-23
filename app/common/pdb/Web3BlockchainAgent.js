@@ -1,6 +1,10 @@
 (function(pdb) {
-class Web3BlockchainAgent extends pdb.Web3ServerAgent {
-  getTxQueryUrl() { return this.getApiUrl("/api/tx/query"); }
+class Web3BlockchainAgent {
+  #server;
+
+  constructor(server) { this.#server = server; }
+
+  getTxQueryUrl() { return this.#server.getApiUrl("/api/tx/query"); }
 };
 
 pdb.Web3BlockchainAgent = Web3BlockchainAgent;

@@ -5,7 +5,7 @@ class FvcAddIdol extends ui.FScrollViewContent {
   constructor() {
     super();
     let c = new dat.SearchConfig();
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       this.#fSearch = new srch.FWeb3Search();
       c.setCategories([ dat.SocialItem.TYPE.USER ]);
     } else {
@@ -34,7 +34,7 @@ class FvcAddIdol extends ui.FScrollViewContent {
     render.wrapPanel(p)
     let pp = new ui.Panel();
     p.pushPanel(pp);
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       pp.replaceContent(R.get("ADD_WEB3_IDOL_HINT"));
     } else {
       pp.replaceContent(R.get("ADD_IDOL_HINT"));

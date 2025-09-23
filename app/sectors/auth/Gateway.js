@@ -17,7 +17,7 @@ class Gateway extends plt.SectorGateway {
 
   #createLoginViewContentFragment() {
     let f;
-    if (plt.Env.isTrustedSite() || dba.WebConfig.isDevSite()) {
+    if (glb.env.isTrustedSite() || dba.WebConfig.isDevSite()) {
       f = new auth.FvcLogin();
     } else {
       f = new auth.FvcLoginProxy();

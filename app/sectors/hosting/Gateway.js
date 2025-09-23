@@ -14,7 +14,7 @@ class Gateway extends plt.SectorGateway {
   }
 
   createMemberMainViewContentFragment() {
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       return this.#createWeb3MemberMainViewContentFragment();
     } else {
       return this.#createWeb2MemberMainViewContentFragment();

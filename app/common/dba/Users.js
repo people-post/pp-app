@@ -32,7 +32,7 @@ dba.Users = function() {
   }
 
   function _load(ids) {
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       _web3Load(ids);
     } else {
       _web2Load(ids);
@@ -67,7 +67,7 @@ dba.Users = function() {
   }
 
   async function _asyncGet(id) {
-    if (plt.Env.isWeb3() && dba.Account.isAuthenticated() &&
+    if (glb.env.isWeb3() && dba.Account.isAuthenticated() &&
         dba.Account.getId() == id) {
       return dba.Account;
     }
@@ -84,7 +84,7 @@ dba.Users = function() {
       return null;
     }
 
-    if (plt.Env.isWeb3() && dba.Account.isAuthenticated() &&
+    if (glb.env.isWeb3() && dba.Account.isAuthenticated() &&
         dba.Account.getId() == id) {
       return dba.Account;
     }

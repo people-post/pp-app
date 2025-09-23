@@ -23,7 +23,7 @@ class FSquareOnline extends ui.Fragment {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case plt.T_DATA.ADDON_SCRIPT:
-      if (data == plt.Env.SCRIPT.PAYMENT.id) {
+      if (data == glb.env.SCRIPT.PAYMENT.id) {
         this.#loadJsPayment();
       }
       break;
@@ -58,7 +58,7 @@ class FSquareOnline extends ui.Fragment {
   #getPaymentElementId() { return "ID_" + this._id + "_PAY"; }
 
   #loadJsPayment() {
-    if (plt.Env.isScriptLoaded(plt.Env.SCRIPT.PAYMENT.id)) {
+    if (glb.env.isScriptLoaded(glb.env.SCRIPT.PAYMENT.id)) {
       this._payments = window.Square.payments(
           "sandbox-sq0idb-DXWW7Opo8N9NkM1ru0XgDw", this._locationId);
       this.#initCard();

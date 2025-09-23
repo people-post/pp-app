@@ -71,7 +71,7 @@ class FExchangeItemInfo extends ui.Fragment {
     s = s.replace("__NAME__", item.name);
     s = s.replace("__DETAIL__", this._renderDetail(item));
     if (dba.Account.isAuthenticated()) {
-      if (dba.Account.isWebOwner() || plt.Env.isTrustedSite() ||
+      if (dba.Account.isWebOwner() || glb.env.isTrustedSite() ||
           dba.WebConfig.isDevSite()) {
         s = s.replace("__ACTIONS__", this._renderActions(item));
       } else {

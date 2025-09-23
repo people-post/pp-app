@@ -34,7 +34,7 @@ dba.Social = function() {
     }
     _pendingResponses.push(itemId);
 
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       __asyncWeb3Load(itemId).then(d => __onWeb3LoadRRR(d, itemId));
     } else {
       __asyncWeb2Load(itemId);

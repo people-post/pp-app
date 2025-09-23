@@ -1,29 +1,14 @@
 (function(pdb) {
 class Web3ServerAgent {
-  #typeName = null;
-  #multiAddr = null;
+  #server;
 
-  getTypeName() { return this.#typeName; }
-  getHostname() { return this.#getHostAddr(this.#multiAddr); }
-  getHostAddress() { return this.#getHostAddr(this.#multiAddr); }
+  constructor(server) { this.#server = server; }
 
-  getApiUrl(path) {
-    return this.#multiAddr ? this.#getHostAddr(this.#multiAddr) + path : null;
-  }
-
-  async asInit(typeName, multiAddr) {
-    this.#typeName = typeName;
-    this.#multiAddr = multiAddr;
-  }
-
-  #getHostAddr(ma) {
-    let na = ma.nodeAddress();
-    if (na.family == 6) {
-      return "http://[" + na.address + "]:" + na.port;
-    } else {
-      return "http://" + na.address + ":" + na.port;
-    }
-  }
+  getHostType() { return this.#server.getApiType(); }
+  getHostName() { return this.#server.getName(); }
+  getHostAddress() { return this.#server.getAddress(); }
+  getServer() { return this.#server; }
+  getHostInfo(key) { return this.#server.getInfo(key); }
 };
 
 pdb.Web3ServerAgent = Web3ServerAgent;

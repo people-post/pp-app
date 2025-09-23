@@ -110,7 +110,7 @@ class FRealTimeComments extends ui.Fragment {
       this.render();
       break;
     case plt.T_DATA.ADDON_SCRIPT:
-      if (data == plt.Env.SCRIPT.SIGNAL.id) {
+      if (data == glb.env.SCRIPT.SIGNAL.id) {
         this.#hComments.activate();
       }
       break;

@@ -39,21 +39,21 @@ dba.WebConfig = function() {
   }
   function _getHomePageTitle() { return _data ? _data.home_page_title : null; }
   function _getOwnerId() {
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       return dba.Account.getId();
     }
 
     return _data ? _data.owner.uuid : null;
   }
   function _getOwner() {
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       return dba.Account;
     } else {
       return _data ? new dat.User(_data.owner) : null;
     }
   }
   function _getHomeUrl() {
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       return "?";
     } else {
       return "/?" + C.URL_PARAM.USER + "=" + _getOwnerId();

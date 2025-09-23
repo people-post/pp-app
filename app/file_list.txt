@@ -253,12 +253,16 @@ common/plt/LongListIdLoader.js
 common/plt/ConstListIdLoader.js
 common/plt/SectorGateway.js
 
+common/pdb/Web3Server.js
 common/pdb/Web3ServerAgent.js
+common/pdb/Web3PrivateServerMixin.js
 common/pdb/Web3PublisherAgent.js
 common/pdb/Web3PublicPublisherAgent.js
 common/pdb/Web3PrivatePublisherAgent.js
 common/pdb/Web3BlockchainAgent.js
 common/pdb/Web3StorageAgent.js
+common/pdb/Web3PublicStorageAgent.js
+common/pdb/Web3PrivateStorageAgent.js
 common/pdb/Web3Resolver.js
 common/pdb/Web3Publisher.js
 common/pdb/Web3Ledger.js

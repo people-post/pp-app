@@ -44,7 +44,7 @@ class FvcWeb3ServerRegistration extends ui.FScrollViewContent {
 
     let p = new ui.PanelWrapper();
     pList.pushPanel(p);
-    p.replaceContent("Registration page for " + this.#agent.getHostname());
+    p.replaceContent("Registration page for " + this.#agent.getHostName());
 
     p = new ui.PanelWrapper();
     pList.pushPanel(p);

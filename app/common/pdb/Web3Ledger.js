@@ -6,15 +6,14 @@ class Web3Ledger {
 
   getAgents() { return this.#agents; }
 
-  async asInit(configs) {
+  async asInit(addrs) {
+    // addrs: list of Multiaddr strings
     this.#agents = [];
-    if (configs) {
-      for (let c of configs) {
-        let addr = this.#parseAddress(c.address);
-        if (addr) {
-          let a = new pdb.Web3BlockchainAgent();
-          await this.#agents.asInit(c.type, addr);
-          this.#agents.push(a);
+    if (addrs) {
+      for (let s of addrs) {
+        let agent = this.#asCreateAgent(multiAddr);
+        if (agent) {
+          this.#agents.push(agent);
         }
       }
     }
@@ -22,6 +21,16 @@ class Web3Ledger {
 
   #parseAddress(sAddr) {
     return sAddr ? MultiformatsMultiaddr.multiaddr(sAddr) : null;
+  }
+
+  async #asCreateAgent(sAddr) {
+    let multiAddr = this.#parseAddress(sAddr);
+    if (!multiAddr) {
+      return null;
+    }
+
+    let server = new pdb.Web3Server(multiAddr);
+    return new pdb.Web3BlockchainAgent(server);
   }
 };
 

@@ -73,7 +73,7 @@ class FGallery extends ui.Fragment {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case plt.T_DATA.ADDON_SCRIPT:
-      if (data == plt.Env.SCRIPT.PLAYER.id) {
+      if (data == glb.env.SCRIPT.PLAYER.id) {
         this.#assignVideoPlayers();
       }
       break;
@@ -185,7 +185,7 @@ class FGallery extends ui.Fragment {
       return;
     }
     if (this.#files && this.#hasVideo(this.#files) &&
-        plt.Env.isScriptLoaded(plt.Env.SCRIPT.PLAYER.id)) {
+        glb.env.isScriptLoaded(glb.env.SCRIPT.PLAYER.id)) {
       let e = this.getRender().getDomElement();
       this.#initVideos(e.getElementsByTagName("video"));
     }

@@ -88,7 +88,7 @@ C.TYPE = {
     SUB : "SUB",
     PORTAL : "PORTAL",
   },
-  TOKEN = {
+  TOKEN : {
     LOGIN : "login",
   },
 };

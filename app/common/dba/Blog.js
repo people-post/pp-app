@@ -8,7 +8,7 @@ dba.Blog = function() {
   let _pendingDraftIds = [];
 
   function _isSocialEnabled() {
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       return dba.Account.isAuthenticated();
     } else {
       let c = _config;
@@ -239,7 +239,7 @@ dba.Blog = function() {
     }
     _pendingPostIds.push(id);
 
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       plt.Api.asyncFetchCidJson(id)
           .then(d => __onCidArticleRRR(id, d))
           .catch(e => __onCidArticleError(id, e));

@@ -152,7 +152,7 @@ class Gateway extends ext.Controller {
   }
 
   #getPageConfigs() {
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       return this.#getWeb3PageConfigs();
     } else {
       return this.#getWeb2PageConfigs();
@@ -199,7 +199,7 @@ class Gateway extends ext.Controller {
   }
 
   #getExtrasPageConfigs() {
-    if (plt.Env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       if (dba.Account.isAuthenticated()) {
         return this.#getWeb3OwnerPageConfigs();
       } else {
@@ -209,7 +209,7 @@ class Gateway extends ext.Controller {
       if (dba.Account.isAuthenticated()) {
         if (dba.Account.isWebOwner()) {
           return this.#getOwnerPageConfigs();
-        } else if (plt.Env.isTrustedSite()) {
+        } else if (glb.env.isTrustedSite()) {
           return this.#getMemberPageConfigs();
         } else {
           return this.#getVisitorPageConfigs();

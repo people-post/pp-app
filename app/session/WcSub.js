@@ -20,7 +20,7 @@ class WcSub extends main.WcSession {
 
   _main(dConfig) {
     super._main(dConfig);
-    plt.Env.checkLoadAddonScript(plt.Env.SCRIPT.SIGNAL);
+    glb.env.checkLoadAddonScript(glb.env.SCRIPT.SIGNAL);
   }
 
   #onLoginSuccess(profile, nextView) {

@@ -9,8 +9,8 @@ class WcPortal extends main.WcSession {
 
   _main(dConfig) {
     super._main(dConfig);
-    plt.Env.checkLoadAddonScript(plt.Env.SCRIPT.SIGNAL);
-    plt.Env.checkLoadAddonScript(plt.Env.SCRIPT.QR_CODE);
+    glb.env.checkLoadAddonScript(glb.env.SCRIPT.SIGNAL);
+    glb.env.checkLoadAddonScript(glb.env.SCRIPT.QR_CODE);
   }
 };
 

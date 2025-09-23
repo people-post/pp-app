@@ -5,15 +5,16 @@ class Web3Resolver {
 
   getAgents() { return this.#agents; }
 
-  async asInit(configs) {
+  async asInit(addrs) {
+    // addrs: list of Multiaddr strings
     this.#agents = [];
-    if (configs) {
-      for (let c of configs) {
-        let addr = this.#parseAddress(c.address);
-        if (addr) {
-          let a = new pdb.Web3ServerAgent();
-          await a.asInit("default", addr);
-          this.#agents.push(a);
+    if (addrs) {
+      for (let s of addrs) {
+        let multiAddr = this.#parseAddress(s);
+        if (multiAddr) {
+          let server = new pdb.Web3Server(multiAddr);
+          let agent = new pdb.Web3ServerAgent({}, server);
+          this.#agents.push(agent);
         }
       }
     }
@@ -125,7 +126,7 @@ class Web3Resolver {
     let path =
         "/api/name/resolve?" + new URLSearchParams({id : userId}).toString();
     let a = this.#agents[0];
-    return a.getApiUrl(path);
+    return a.getServer().getApiUrl(path);
   }
 
   #parseAddress(sAddr) {
