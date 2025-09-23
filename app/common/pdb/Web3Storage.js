@@ -14,6 +14,10 @@ class Web3Storage {
       }
     } else {
       if (glb.env.hasHost()) {
+        let agent = await this.#asCreateAgent();
+        if (agent) {
+          this.#agents.push(agent);
+        }
       }
     }
   }

@@ -12,22 +12,39 @@ class Web3Server {
   }
 
   async asInit(sAddr) {
-    this.#multiAddr = this.#parseAddress(sAddr);
+    this.#multiAddr = this.#parseAddressOrUseHost(sAddr);
     this.#hostInfo = await this.#asFetchHostInfo();
     return !!this.#hostInfo;
+  }
+
+  #getLocationMultiAddr() {
+    const name = window.location.hostname;
+    let port = window.location.port;
+    if (port.length < 1) {
+      if (window.location.protocol == 'https') {
+        port = '443';
+      } else {
+        port = '80';
+      }
+    }
+    return '/dns4/' + name + '/tcp/' + port;
   }
 
   #getHostAddr(ma) {
     let na = ma.nodeAddress();
     if (na.family == 6) {
-      return "http://[" + na.address + "]:" + na.port;
+      return "https://[" + na.address + "]:" + na.port;
     } else {
-      return "http://" + na.address + ":" + na.port;
+      return "https://" + na.address + ":" + na.port;
     }
   }
 
-  #parseAddress(sAddr) {
-    return sAddr ? MultiformatsMultiaddr.multiaddr(sAddr) : null;
+  #parseAddressOrUseHost(sAddr) {
+    let s = sAddr;
+    if (!s && glb.env.hasHost()) {
+      s = this.#getLocationMultiAddr();
+    }
+    return s ? MultiformatsMultiaddr.multiaddr(s) : null;
   }
 
   async #asFetchHostInfo() {
