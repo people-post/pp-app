@@ -1,4 +1,8 @@
 (function(pdb) {
+class Web3PeerStorageAgent extends pdb.Web3PeerServerMixin
+(pdb.Web3StorageAgent) {};
+class Web3GroupStorageAgent extends pdb.Web3StorageAgent {};
+
 class Web3Storage {
   #agents = [];
 
@@ -36,15 +40,16 @@ class Web3Storage {
   async #asCreateAgent(sAddr) {
     let server = new pdb.Web3Server();
     if (await server.asInit(sAddr)) {
-      switch (server.getApiType()) {
-      case pdb.Web3PublisherAgent.T_TYPE.PUBLIC:
-        return new pdb.Web3PublicStorageAgent(server);
+      switch (server.getRegisterType()) {
+      case pdb.Web3Server.T_REGISTER.PEER:
+        return new Web3PeerStorageAgent(server);
+      case pdb.Web3Server.T_REGISTER.GROUP:
+        return new Web3GroupStorageAgent(server);
       default:
-        return new pdb.Web3PrivateStorageAgent(server);
+        break;
       }
-    } else {
-      return null;
     }
+    return null;
   }
 };
 

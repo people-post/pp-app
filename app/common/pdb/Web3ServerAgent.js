@@ -8,7 +8,6 @@ class Web3ServerAgent {
   getHostName() { return this.#server.getName(); }
   getHostAddress() { return this.#server.getAddress(); }
   getServer() { return this.#server; }
-  getHostInfo(key) { return this.#server.getInfo(key); }
 };
 
 pdb.Web3ServerAgent = Web3ServerAgent;

@@ -1,4 +1,8 @@
 (function(pdb) {
+class Web3PeerPublisherAgent extends pdb.Web3PeerServerMixin
+(pdb.Web3PublisherAgent) {};
+class Web3GroupPublisherAgent extends pdb.Web3PublisherAgent {};
+
 class Web3Publisher {
   #agents = [];
 
@@ -34,15 +38,20 @@ class Web3Publisher {
   async #asCreateAgent(sAddr) {
     let server = new pdb.Web3Server();
     if (await server.asInit(sAddr)) {
-      switch (server.getApiType()) {
-      case pdb.Web3PublisherAgent.T_TYPE.PUBLIC:
-        return new pdb.Web3PublicPublisherAgent(server);
+      switch (server.getRegisterType()) {
+      case pdb.Web3Server.T_REGISTER.PEER:
+        console.log("peer");
+        return new Web3PeerPublisherAgent(server);
+      case pdb.Web3Server.T_REGISTER.GROUP:
+        console.log("Gruop");
+        return new Web3GroupPublisherAgent(server);
       default:
-        return new pdb.Web3PrivatePublisherAgent(server);
+        console.log("Type error");
+        break;
       }
-    } else {
-      return null;
     }
+    console.log("Init failed");
+    return null;
   }
 };
 

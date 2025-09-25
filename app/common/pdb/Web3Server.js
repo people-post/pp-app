@@ -1,12 +1,23 @@
 (function(pdb) {
 class Web3Server {
+  static T_REGISTER = {
+    PEER : "PEER", // Synced with backend
+    GROUP: "GROUP" // Synced with backend
+  };
+
   #hostInfo = null;
   #multiAddr = null;
 
+  isRegisterEnabled() {
+    return this.#hostInfo.register && this.#hostInfo.register.is_enabled;
+  }
+
   getName() { return this.#getHostAddr(this.#multiAddr); }
   getAddress() { return this.#getHostAddr(this.#multiAddr); }
-  getApiType() { return this.#hostInfo.type; }
-  getInfo(key) { return this.#hostInfo[key]; }
+  getPeerId() { return this.#hostInfo.peer_id; }
+  getRegisterType() {
+    return this.#hostInfo.register ? this.#hostInfo.register.type : null;
+  }
   getApiUrl(path) {
     return this.#multiAddr ? this.#getHostAddr(this.#multiAddr) + path : null;
   }

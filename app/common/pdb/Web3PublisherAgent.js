@@ -1,10 +1,5 @@
 (function(pdb) {
 class Web3PublisherAgent extends pdb.Web3ServerAgent {
-  static T_TYPE = {
-    PUBLIC : "PUBLIC", // Aligned with config.json
-    PRIVATE: "PRIVATE" // Aligned with config.json
-  };
-
   async asPublish(cid, bearerId, sig) {
     let url = this.getServer().getApiUrl("/api/pin/publish");
     let req = new Request(url, {

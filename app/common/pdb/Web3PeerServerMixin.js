@@ -1,10 +1,10 @@
 (function(pdb) {
-const Web3PrivateServerMixin = (Base) => class extends Base {
+const Web3PeerServerMixin = (Base) => class extends Base {
   #mUsers = new Map();
   #initUserId;
 
   isInitUserRegistered() { return this.#mUsers.has(this.#initUserId); }
-  isRegisterEnabled() { return !!this.getHostInfo("is_register_enabled"); }
+  isRegisterEnabled() { return this.getServer().isRegisterEnabled(); }
   isInitUserUsable() {
     return this.isInitUserRegistered() || this.isRegisterEnabled();
   }
@@ -18,7 +18,7 @@ const Web3PrivateServerMixin = (Base) => class extends Base {
   }
 
   getInitUserId() { return this.#initUserId; }
-  getHostPeerId() { return this.getHostInfo("peer_id"); }
+  getHostPeerId() { return this.getServer().getPeerId(); }
 
   async asInitForUser(userId) {
     this.#initUserId = userId;
@@ -79,5 +79,5 @@ const Web3PrivateServerMixin = (Base) => class extends Base {
   }
 };
 
-pdb.Web3PrivateServerMixin = Web3PrivateServerMixin;
+pdb.Web3PeerServerMixin = Web3PeerServerMixin;
 }(window.pdb = window.pdb || {}));
