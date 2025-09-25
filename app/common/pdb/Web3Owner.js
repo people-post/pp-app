@@ -59,8 +59,8 @@ class Web3Owner extends pdb.Web3User {
   async asRegister(agent, name) {
     // TODO: Support optional peer key
     const msg = JSON.stringify({id : this.getId(), name : name});
-    const sig = await dba.Keys.ed25519Sign(this.#pinServerSigPath, msg);
-    await agent.asRegister(msg, this.getId(), sig);
+    const sig = await dba.Keys.sign(this.#pinServerSigPath, msg);
+    await agent.asRegister(msg, this.getPublicKey(), sig);
   }
 
   async asyncUploadFile(file) {
@@ -71,7 +71,7 @@ class Web3Owner extends pdb.Web3User {
 
   async asyncUploadJson(data) {
     const msg = JSON.stringify(data);
-    const sig = await dba.Keys.ed25519Sign(this.#pinServerSigPath, msg);
+    const sig = await dba.Keys.sign(this.#pinServerSigPath, msg);
     return await this.#aStorage.asUploadJson(msg, this.getId(), sig);
   }
 
@@ -209,13 +209,13 @@ class Web3Owner extends pdb.Web3User {
     this._setData("_cid", cid);
     pinCids.push(cid);
 
-    let sig = await dba.Keys.ed25519Sign(this.#pinServerSigPath, cid);
+    let sig = await dba.Keys.sign(this.#pinServerSigPath, cid);
     for (let a of this.#aPublishers) {
       await a.asPublish(cid, this.getId(), sig);
     }
 
     const msg = JSON.stringify({cids : pinCids});
-    sig = await dba.Keys.ed25519Sign(this.#pinServerSigPath, msg);
+    sig = await dba.Keys.sign(this.#pinServerSigPath, msg);
     // TODO: Separate other pin update urls
     await this.#aStorage.asPinJson(msg, this.getId(), sig);
 

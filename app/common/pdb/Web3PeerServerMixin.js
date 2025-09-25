@@ -29,6 +29,7 @@ const Web3PeerServerMixin = (Base) => class extends Base {
   }
 
   async asRegister(msg, pubKey, sig) {
+    console.log("Pubkey size", pubKey.length);
     let url = this.getServer().getApiUrl("/api/user/register");
     let req = new Request(url, {
       method : "POST",

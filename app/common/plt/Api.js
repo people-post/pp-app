@@ -96,7 +96,7 @@ plt.Api = function() {
         "Content-Type" : "application/json",
         "Authorization" : "Bearer " + bearerId
       },
-      body : JSON.stringify({data : data, sig : sig})
+      body : JSON.stringify({data : data, signature : sig})
     });
     let res = await _p2pFetch(req);
     let d = await res.json();

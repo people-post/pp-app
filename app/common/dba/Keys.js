@@ -139,7 +139,7 @@ dba.Keys = function() {
     getMlDsa44 : _getMlDsa44,
     setMnemonic : _setMnemonic,
     cip1852Witness : _cip1852Witness,
-    ed25519Sign : _sign,
+    sign : _sign,
     ed25519Verify : _verify,
     signUint8Array : _signUint8Array,
     reset : _reset,
