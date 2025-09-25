@@ -11,7 +11,7 @@ class Web3Ledger {
     this.#agents = [];
     if (addrs) {
       for (let s of addrs) {
-        let agent = this.#asCreateAgent(multiAddr);
+        let agent = this.#asCreateAgent(s);
         if (agent) {
           this.#agents.push(agent);
         }

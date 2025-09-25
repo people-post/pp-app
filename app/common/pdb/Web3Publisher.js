@@ -20,6 +20,7 @@ class Web3Publisher {
         }
       }
     }
+    console.log("Total publisher agents:", this.#agents.length);
   }
 
   async asInitForUser(userId) {

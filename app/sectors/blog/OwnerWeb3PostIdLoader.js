@@ -40,7 +40,7 @@ class OwnerWeb3PostIdLoader extends plt.LongListIdLoader {
 
   #onInfosRRR(infos) {
     this.#isBusy = false;
-    if (!infos) {
+    if (!infos || infos.length < 1) {
       this.#markComplete();
       return;
     }
@@ -54,9 +54,7 @@ class OwnerWeb3PostIdLoader extends plt.LongListIdLoader {
     let segId = this.#idRecord.getNextSegmentId() + 1;
     this.#idRecord.setNextSegmentId(segId);
 
-    if (infos.length) {
-      this._delegate.onIdUpdatedInLongListIdLoader(this);
-    }
+    this._delegate.onIdUpdatedInLongListIdLoader(this);
   }
 };
 
