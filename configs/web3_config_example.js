@@ -8,14 +8,8 @@ C.WEB3 = {
       "/dns4/g-ipfs.local/tcp/80"
     ],
     "storages" : [
-      {
-        "type" : "PUBLIC",
-        "default" : "/ip6/2600:1f18:4544:9400:bafc:ab1c:7e8:929f/tcp/9097",
-      },
-      {
-        "type" : "PRIVATE",
-        "default" : "/dns4/g-ipfs.local/tcp/80",
-      }
+      "/ip6/2600:1f18:4544:9400:bafc:ab1c:7e8:929f/tcp/9097",
+      "/dns4/g-ipfs.local/tcp/80"
     ],
     "blockchains" :
         [ "/ip4/3.145.68.8/tcp/9097", "/dns4/g-ipfs.local/tcp/9097" ]

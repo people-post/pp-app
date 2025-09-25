@@ -63,9 +63,9 @@ class Web3Server {
     let req = new Request(url, {method : "GET"});
     let res;
     try {
-      res = await plt.Api.p2pFetch(req);
+      res = await plt.Api.p2pFetch(req, {signal : AbortSignal.timeout(5000)});
     } catch (e) {
-      console.error("Failed to contact server", e);
+      console.error("Failed to contact server", e.message);
       return null;
     }
     let d = await res.json();

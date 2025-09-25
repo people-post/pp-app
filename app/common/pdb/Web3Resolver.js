@@ -13,7 +13,7 @@ class Web3Resolver {
         let multiAddr = this.#parseAddress(s);
         if (multiAddr) {
           let server = new pdb.Web3Server(multiAddr);
-          let agent = new pdb.Web3ServerAgent({}, server);
+          let agent = new pdb.Web3ServerAgent(server);
           this.#agents.push(agent);
         }
       }
