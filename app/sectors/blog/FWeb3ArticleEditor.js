@@ -82,12 +82,21 @@ class FWeb3ArticleEditor extends ui.Fragment {
     if (this.#isUploadBusy()) {
       this._owner.onLocalErrorInFragment(this, R.get("EL_FILE_UPLOAD_BUSY"));
     } else if (this.#validate()) {
-      this.#lockActionBtns();
-      let data = this.#collectData();
-      this.#asSubmit(data)
-          .catch(e => this.#onError(e))
-          .finally(() => this.#unlockActionBtns());
+      if (dba.Account.hasPublished()) {
+        this.#doSubmit();
+      } else {
+        this._confirmDangerousOperation(R.get("CONFIRM_FIRST_WEB3_POST"),
+                                        () => this.#doSubmit());
+      }
     }
+  }
+
+  #doSubmit() {
+    this.#lockActionBtns();
+    let data = this.#collectData();
+    this.#asSubmit(data)
+        .catch(e => this.#onError(e))
+        .finally(() => this.#unlockActionBtns());
   }
 
   #collectData() {

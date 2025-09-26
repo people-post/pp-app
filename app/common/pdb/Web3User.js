@@ -56,12 +56,7 @@ class Web3User {
   getNFollowers() { return 0; }
   getBriefBio() { return ""; }
 
-  reset(data) {
-    this.#data = data;
-    this.#dPosts = null;
-    this.#dMarks = null;
-    this.#iconUrl = null;
-  }
+  reset(data) { this._reset(data); }
 
   async asyncGetIdolIds() {
     let d = await this._asGetOrInitIdolRoot();
@@ -95,6 +90,13 @@ class Web3User {
   _getDataOrDefault(name, vDefault) {
     let d = this._getData(name);
     return d ? d : vDefault;
+  }
+
+  _reset(data) {
+    this.#data = data;
+    this.#dPosts = null;
+    this.#dMarks = null;
+    this.#iconUrl = null;
   }
 
   async _asGetOrInitIdolRoot() {

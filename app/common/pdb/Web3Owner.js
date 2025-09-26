@@ -9,12 +9,13 @@ class Web3Owner extends pdb.Web3User {
   #aPublishers = [];
   #aStorage = null;
 
-  // TODO: Clearly define isValid and isAuthenticated
-  isValid() { return !!this._getData('version'); }
+  hasPublished() { return this._getDataOrDefault("edition", 0) > 0; }
+
+  // TODO: Clearly define isAuthenticated
   isAuthenticated() { return this._hasData(); }
   isWebOwner() { return this.isAuthenticated(); }
   isFollowing(userId) { return this.hasIdol(userId); }
-  isIdolOf(user) { return this.isValid() && user.hasIdol(this.getId()); }
+  isIdolOf(user) { return user.hasIdol(this.getId()); }
 
   getId() { return this._getData("uuid"); }
   getNickname() { return this._getDataOrDefault("profile", {}).nickname; }
@@ -46,9 +47,9 @@ class Web3Owner extends pdb.Web3User {
     fwk.Events.trigger(plt.T_DATA.USER_PROFILE);
   }
 
-  static loadFromStorage() {
+  loadFromStorage() {
     let s = sessionStorage.getItem(C.STORAGE.KEY.PROFILE);
-    return new Web3Owner(s ? JSON.parse(s) : null);
+    this._reset(s ? JSON.parse(s) : null);
   }
 
   saveToStorage() {
@@ -117,11 +118,6 @@ class Web3Owner extends pdb.Web3User {
   }
 
   async asPublishPost(postInfo, refCids) {
-    if (!this.isValid()) {
-      // TODO: Handle new user case
-      throw "Root record not found";
-    }
-
     // TODO: Better way to modify attribute
     postInfo.timestamp = Date.now();
 
@@ -203,10 +199,23 @@ class Web3Owner extends pdb.Web3User {
   }
 
   async #asPublish(addCids) {
+    try {
+      await this.#asDoPublish(addCids);
+    } catch (e) {
+      this.loadFromStorage();
+      throw e;
+    }
+  }
+
+  async #asDoPublish(addCids) {
+    // Increase edition number
+    this._setData("edition", this._getDataOrDefault("edition", 0) + 1);
+
     let pinCids = [...addCids ];
+
+    let cid = await this.asUploadJson(this.#toLtsJsonData());
+
     // _cid is an internal value created in glb.web3Resolver.asyncResolve()
-    let cid = this._getData("_cid");
-    cid = await this.asUploadJson(this.#toLtsJsonData());
     this._setData("_cid", cid);
     pinCids.push(cid);
 
