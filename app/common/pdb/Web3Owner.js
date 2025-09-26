@@ -65,9 +65,9 @@ class Web3Owner extends pdb.Web3User {
   }
 
   async asUploadFile(file) {
-    const msg = new Uint8Array(await file.arrayBuffer());
-    const sig = await dba.Keys.signUint8Array(this.#postingKeyPath, msg);
-    return await this.#aStorage.asUploadFile(file, this.getId(), sig);
+    const token = await this.#aStorage.asGetUploadToken(this.getId());
+    const sig = await dba.Keys.sign(this.#postingKeyPath, token);
+    return await this.#aStorage.asUploadFile(file, this.getId(), token, sig);
   }
 
   async asUploadJson(data) {
@@ -114,7 +114,7 @@ class Web3Owner extends pdb.Web3User {
 
   async asUpdateProfile(d, newCids) {
     this._setData("profile", d);
-    await this.#asPublish(newCids);
+    await this.#asPublish({texts : newCids});
   }
 
   async asPublishPost(postInfo, refCids) {
@@ -142,7 +142,7 @@ class Web3Owner extends pdb.Web3User {
     this._setData("posts", cid);
     newCids.push(cid);
 
-    await this.#asPublish(newCids);
+    await this.#asPublish({texts : newCids});
   }
 
   #toLtsJsonData() {
@@ -185,7 +185,7 @@ class Web3Owner extends pdb.Web3User {
     this._setData("marks", cid);
     newCids.push(cid);
 
-    await this.#asPublish(newCids);
+    await this.#asPublish({texts : newCids});
   }
 
   async #asUpdateIdols(dIdx) {
@@ -195,39 +195,37 @@ class Web3Owner extends pdb.Web3User {
     this._setData("idols", cid);
     newCids.push(cid);
 
-    await this.#asPublish(newCids);
+    await this.#asPublish({texts : newCids});
   }
 
-  async #asPublish(addCids) {
+  async #asPublish(newCidInfo) {
     try {
-      await this.#asDoPublish(addCids);
+      await this.#asDoPublish(newCidInfo);
     } catch (e) {
       this.loadFromStorage();
       throw e;
     }
   }
 
-  async #asDoPublish(addCids) {
+  async #asDoPublish(newCidInfo) {
     // Increase edition number
     this._setData("edition", this._getDataOrDefault("edition", 0) + 1);
-
-    let pinCids = [...addCids ];
 
     let cid = await this.asUploadJson(this.#toLtsJsonData());
 
     // _cid is an internal value created in glb.web3Resolver.asyncResolve()
     this._setData("_cid", cid);
-    pinCids.push(cid);
+    newCidInfo.texts.push(cid);
 
     let sig = await dba.Keys.sign(this.#postingKeyPath, cid);
     for (let a of this.#aPublishers) {
       await a.asPublish(cid, this.getId(), sig);
     }
 
-    const msg = JSON.stringify({cids : pinCids});
+    // TODO: Find all storage servers
+    const msg = JSON.stringify({cids : newCidInfo.texts});
     sig = await dba.Keys.sign(this.#postingKeyPath, msg);
-    // TODO: Separate other pin update urls
-    await this.#aStorage.asPinJson(msg, this.getId(), sig);
+    await this.#aStorage.asPin(msg, this.getId(), sig);
 
     this.saveToStorage();
   }
