@@ -69,44 +69,6 @@ plt.Api = function() {
     return await helia.libp2p.services.http.fetch(resource, options);
   }
 
-  async function _asyncPostIpfsFile(url, file, bearerId, sig) {
-    let fd = new FormData();
-    fd.append("sig", sig);
-    // Add file last to take advantage of streaming
-    fd.append("file", file);
-    let req = new Request(url, {
-      method : "POST",
-      headers : {Authorization : "Bearer " + bearerId},
-      body : fd
-    });
-
-    let res = await _p2pFetch(req);
-    let d = await res.json();
-    if (d.error) {
-      throw d.error;
-    }
-
-    return d.data.cid;
-  }
-
-  async function _asyncPostIpfsData(url, data, bearerId, sig) {
-    let req = new Request(url, {
-      method : "POST",
-      headers : {
-        "Content-Type" : "application/json",
-        "Authorization" : "Bearer " + bearerId
-      },
-      body : JSON.stringify({data : data, signature : sig})
-    });
-    let res = await _p2pFetch(req);
-    let d = await res.json();
-    if (d.error) {
-      throw d.error;
-    }
-
-    return d.data;
-  }
-
   function __dummyFunc(dummy) {}
 
   function __onConnErr(txt, onErr) {
@@ -152,8 +114,6 @@ plt.Api = function() {
     asyncRawPost : _asyncRawPost,
     asyncFetchCidJson : _asyncFetchCidJson,
     asyncFetchCidImage : _asyncFetchCidImage,
-    asyncPostIpfsFile : _asyncPostIpfsFile,
-    asyncPostIpfsData : _asyncPostIpfsData,
     p2pFetch : _p2pFetch,
   };
 }();

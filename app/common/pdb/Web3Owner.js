@@ -3,7 +3,7 @@ class Web3Owner extends pdb.Web3User {
   // Note: This file is version sensitive, shall be backward compatible
   static #VERSION = '1.0';
 
-  #pinServerSigPath =
+  #postingKeyPath =
       [ dat.Wallet.T_PURPOSE.NFSC001, dat.Wallet.T_COIN.NFSC001, 0, 0, 0 ];
 
   #aPublishers = [];
@@ -23,19 +23,19 @@ class Web3Owner extends pdb.Web3User {
 
   getPublicKey() {
     return ext.Utilities.uint8ArrayToHex(
-        dba.Keys.getMlDsa44(this.#pinServerSigPath));
+        dba.Keys.getMlDsa44(this.#postingKeyPath));
   }
 
   setStorage(agent) { this.#aStorage = agent; }
   setPublishers(agents) { this.#aPublishers = agents; }
 
   asyncFollow(userId) {
-    this.#asyncFollow(userId).then(
+    this.#asFollow(userId).then(
         () => fwk.Events.trigger(plt.T_DATA.USER_PROFILE));
   }
 
   asyncUnfollow(userId) {
-    this.#asyncUnfollow(userId).then(
+    this.#asUnfollow(userId).then(
         () => fwk.Events.trigger(plt.T_DATA.USER_PROFILE));
   }
 
@@ -59,23 +59,23 @@ class Web3Owner extends pdb.Web3User {
   async asRegister(agent, name) {
     // TODO: Support optional peer key
     const msg = JSON.stringify({id : this.getId(), name : name});
-    const sig = await dba.Keys.sign(this.#pinServerSigPath, msg);
+    const sig = await dba.Keys.sign(this.#postingKeyPath, msg);
     await agent.asRegister(msg, this.getPublicKey(), sig);
   }
 
-  async asyncUploadFile(file) {
+  async asUploadFile(file) {
     const msg = new Uint8Array(await file.arrayBuffer());
-    const sig = await dba.Keys.signUint8Array(this.#pinServerSigPath, msg);
+    const sig = await dba.Keys.signUint8Array(this.#postingKeyPath, msg);
     return await this.#aStorage.asUploadFile(file, this.getId(), sig);
   }
 
-  async asyncUploadJson(data) {
+  async asUploadJson(data) {
     const msg = JSON.stringify(data);
-    const sig = await dba.Keys.sign(this.#pinServerSigPath, msg);
+    const sig = await dba.Keys.sign(this.#postingKeyPath, msg);
     return await this.#aStorage.asUploadJson(msg, this.getId(), sig);
   }
 
-  async asyncLike(key) {
+  async asLike(key) {
     let d = await this.asyncFindMark(key);
     if (!d) {
       d = {comments : []};
@@ -85,10 +85,10 @@ class Web3Owner extends pdb.Web3User {
       return;
     }
     d.like = true;
-    await this.#asyncMark(key, d, []);
+    await this.#asMark(key, d, []);
   }
 
-  async asyncUnlike(key) {
+  async asUnlike(key) {
     let d = await this.asyncFindMark(key);
     if (!d) {
       // Already unliked
@@ -99,54 +99,24 @@ class Web3Owner extends pdb.Web3User {
       return;
     }
     d.like = false;
-    await this.#asyncMark(key, d, []);
+    await this.#asMark(key, d, []);
   }
 
-  async asyncComment(key, postInfo, refCids) {
+  async asComment(key, postInfo, refCids) {
     let d = await this.asyncFindMark(key);
     if (!d) {
       d = {comments : []};
     }
     d.comments.unshift(postInfo);
-    await this.#asyncMark(key, d, refCids);
+    await this.#asMark(key, d, refCids);
   }
 
-  async asyncUpdateProfile(d, newCids) {
+  async asUpdateProfile(d, newCids) {
     this._setData("profile", d);
     await this.#asPublish(newCids);
   }
 
-  async #asyncFollow(userId) {
-    let idolInfo =
-        {timestamp : Date.now(), type : "USER", id : userId, nickname : null};
-    let dIdx = await this._asyncGetOrInitIdolRoot();
-    dIdx.idols.unshift(idolInfo);
-    await this.#asUpdateIdols(dIdx);
-  }
-
-  async #asyncUnfollow(userId) {
-    let dIdx = await this._asyncGetOrInitIdolRoot();
-    dIdx.idols = dIdx.idols.filter(i => i.id != userId);
-    await this.#asUpdateIdols(dIdx);
-  }
-
-  async #asyncMark(key, markInfo, refCids) {
-    let dRoot = await this._asyncGetOrInitMarkRoot();
-
-    // TODO: Consider "folding" cases
-    dRoot.marks[key] = markInfo;
-
-    let newCids = [...refCids ];
-    let cid = this._getData("marks");
-
-    cid = await this.asyncUploadJson(dRoot);
-    this._setData("marks", cid);
-    newCids.push(cid);
-
-    await this.#asPublish(newCids);
-  }
-
-  async asyncPost(postInfo, refCids) {
+  async asPublishPost(postInfo, refCids) {
     if (!this.isValid()) {
       // TODO: Handle new user case
       throw "Root record not found";
@@ -157,7 +127,7 @@ class Web3Owner extends pdb.Web3User {
 
     let newCids = [...refCids ];
 
-    let dIdx = await this._asyncGetOrInitPostRoot();
+    let dIdx = await this._asGetOrInitPostRoot();
     dIdx.posts.unshift(postInfo);
 
     let cid = this._getData("posts");
@@ -168,11 +138,11 @@ class Web3Owner extends pdb.Web3User {
 
     // let dInfo = {};
     // dInfo.timestamp = Date.now();
-    // dInfo.cid = await this.asyncUploadJson(dIdx);
+    // dInfo.cid = await this.asUploadJson(dIdx);
     // newCids.push(dInfo.cid);
 
     // Upload master list file
-    cid = await this.asyncUploadJson(dIdx);
+    cid = await this.asUploadJson(dIdx);
     this._setData("posts", cid);
     newCids.push(cid);
 
@@ -188,13 +158,44 @@ class Web3Owner extends pdb.Web3User {
       marks : this._getDataOrDefault("marks", null)
     };
     d.version = this.constructor.#VERSION;
+    d.edition = this._getDataOrDefault("edition", 0);
     return d;
+  }
+
+  async #asFollow(userId) {
+    let idolInfo =
+        {timestamp : Date.now(), type : "USER", id : userId, nickname : null};
+    let dIdx = await this._asGetOrInitIdolRoot();
+    dIdx.idols.unshift(idolInfo);
+    await this.#asUpdateIdols(dIdx);
+  }
+
+  async #asUnfollow(userId) {
+    let dIdx = await this._asGetOrInitIdolRoot();
+    dIdx.idols = dIdx.idols.filter(i => i.id != userId);
+    await this.#asUpdateIdols(dIdx);
+  }
+
+  async #asMark(key, markInfo, refCids) {
+    let dRoot = await this._asGetOrInitMarkRoot();
+
+    // TODO: Consider "folding" cases
+    dRoot.marks[key] = markInfo;
+
+    let newCids = [...refCids ];
+    let cid = this._getData("marks");
+
+    cid = await this.asUploadJson(dRoot);
+    this._setData("marks", cid);
+    newCids.push(cid);
+
+    await this.#asPublish(newCids);
   }
 
   async #asUpdateIdols(dIdx) {
     let newCids = [];
     let cid = this._getData("idols");
-    cid = await this.asyncUploadJson(dIdx);
+    cid = await this.asUploadJson(dIdx);
     this._setData("idols", cid);
     newCids.push(cid);
 
@@ -205,17 +206,17 @@ class Web3Owner extends pdb.Web3User {
     let pinCids = [...addCids ];
     // _cid is an internal value created in glb.web3Resolver.asyncResolve()
     let cid = this._getData("_cid");
-    cid = await this.asyncUploadJson(this.#toLtsJsonData());
+    cid = await this.asUploadJson(this.#toLtsJsonData());
     this._setData("_cid", cid);
     pinCids.push(cid);
 
-    let sig = await dba.Keys.sign(this.#pinServerSigPath, cid);
+    let sig = await dba.Keys.sign(this.#postingKeyPath, cid);
     for (let a of this.#aPublishers) {
       await a.asPublish(cid, this.getId(), sig);
     }
 
     const msg = JSON.stringify({cids : pinCids});
-    sig = await dba.Keys.sign(this.#pinServerSigPath, msg);
+    sig = await dba.Keys.sign(this.#postingKeyPath, msg);
     // TODO: Separate other pin update urls
     await this.#aStorage.asPinJson(msg, this.getId(), sig);
 

@@ -13,7 +13,7 @@ class Web3User {
     if (this.#dIdols) {
       return this.#dIdols.idols.some(i => i.id == userId);
     } else {
-      this._asyncGetOrInitIdolRoot().then(
+      this._asGetOrInitIdolRoot().then(
           d => fwk.Events.trigger(plt.T_DATA.WEB3_USER_IDOLS, this.getId()));
       return false;
     }
@@ -29,7 +29,7 @@ class Web3User {
     } else {
       let cid = this._getDataOrDefault("profile", {}).icon_cid;
       if (cid) {
-        this.#asyncFetchIconImage(cid).then(
+        this.#asFetchIconImage(cid).then(
             () =>
                 fwk.Events.trigger(plt.T_DATA.WEB3_USER_PROFILE, this.getId()));
         return null;
@@ -48,7 +48,7 @@ class Web3User {
     if (this.#dIdols) {
       return this.#dIdols.idols.length;
     } else {
-      this._asyncGetOrInitIdolRoot().then(
+      this._asGetOrInitIdolRoot().then(
           d => fwk.Events.trigger(plt.T_DATA.WEB3_USER_IDOLS, this.getId()));
       return 0;
     }
@@ -64,7 +64,7 @@ class Web3User {
   }
 
   async asyncGetIdolIds() {
-    let d = await this._asyncGetOrInitIdolRoot();
+    let d = await this._asGetOrInitIdolRoot();
     return d.idols.map(i => i.id);
   }
 
@@ -73,12 +73,12 @@ class Web3User {
       return null;
     }
 
-    let d = await this._asyncGetOrInitMarkRoot();
-    return await this.#asyncFindMark("", key, d.marks);
+    let d = await this._asGetOrInitMarkRoot();
+    return await this.#asFindMark("", key, d.marks);
   }
 
   async asyncLoadMorePostInfos(idRecord) {
-    let dPosts = await this._asyncGetOrInitPostRoot();
+    let dPosts = await this._asGetOrInitPostRoot();
 
     let segId = idRecord.getNextSegmentId();
     // TODO: Handle folded files
@@ -97,7 +97,7 @@ class Web3User {
     return d ? d : vDefault;
   }
 
-  async _asyncGetOrInitIdolRoot() {
+  async _asGetOrInitIdolRoot() {
     if (!this.#dIdols) {
       let cid = this._getData("idols");
       if (Utilities.isCid(cid)) {
@@ -109,7 +109,7 @@ class Web3User {
     return this.#dIdols;
   }
 
-  async _asyncGetOrInitPostRoot() {
+  async _asGetOrInitPostRoot() {
     if (!this.#dPosts) {
       let cid = this._getData("posts");
       if (Utilities.isCid(cid)) {
@@ -121,7 +121,7 @@ class Web3User {
     return this.#dPosts;
   }
 
-  async _asyncGetOrInitMarkRoot() {
+  async _asGetOrInitMarkRoot() {
     if (!this.#dMarks) {
       let cid = this._getData("marks");
       if (Utilities.isCid(cid)) {
@@ -135,7 +135,7 @@ class Web3User {
 
   _setData(name, value) { this.#data[name] = value; }
 
-  async #asyncFindMark(prefix, suffix, dMarks) {
+  async #asFindMark(prefix, suffix, dMarks) {
     if (!dMarks) {
       return null;
     }
@@ -153,14 +153,13 @@ class Web3User {
       if (key in dMarks) {
         let cid = dMarks[key];
         let d = await plt.Api.asyncFetchCidJson(cid);
-        return await this.#asyncFindMark(prefix + key, suffix.slice(2),
-                                         d.marks);
+        return await this.#asFindMark(prefix + key, suffix.slice(2), d.marks);
       }
     }
     return null;
   }
 
-  async #asyncFetchIconImage(cid) {
+  async #asFetchIconImage(cid) {
     this.#iconUrl = await plt.Api.asyncFetchCidImage(cid);
   }
 };

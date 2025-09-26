@@ -84,7 +84,7 @@ class FWeb3ArticleEditor extends ui.Fragment {
     } else if (this.#validate()) {
       this.#lockActionBtns();
       let data = this.#collectData();
-      this.#asyncSubmit(data)
+      this.#asSubmit(data)
           .catch(e => this.#onError(e))
           .finally(() => this.#unlockActionBtns());
     }
@@ -112,9 +112,9 @@ class FWeb3ArticleEditor extends ui.Fragment {
 
   #validate() { return this.#fAttachment.validate(); }
 
-  async #asyncSubmit(data) {
+  async #asSubmit(data) {
     // 1. Upload data
-    data.id = await dba.Account.asyncUploadJson(data);
+    data.id = await dba.Account.asUploadJson(data);
 
     // 2. Post info
     let a = new dat.Article(data);
@@ -128,7 +128,7 @@ class FWeb3ArticleEditor extends ui.Fragment {
       pinCids.push(atCid);
     }
 
-    await dba.Account.asyncPost(postInfo, pinCids);
+    await dba.Account.asPublishPost(postInfo, pinCids);
     this._delegate.onNewArticlePostedInArticleEditorFragment(this);
   }
 

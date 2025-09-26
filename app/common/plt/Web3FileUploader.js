@@ -96,7 +96,7 @@ class Web3FileUploader extends ext.Controller {
     this._isFileUploading = true;
 
     // TODO: plt should not depend on dba
-    dba.Account.asyncUploadFile(file)
+    dba.Account.asUploadFile(file)
         .then(cid => this.#onUploadFileDone(cid))
         .finally(() => this._isFileUploading = false);
   }
