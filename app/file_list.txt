@@ -248,7 +248,7 @@ common/plt/Env.js
 common/plt/Helia.js
 common/plt/Api.js
 common/plt/FileUploader.js
-common/plt/Web3FileUploader.js
+common/plt/Web2FileUploader.js
 common/plt/LongListIdLoader.js
 common/plt/ConstListIdLoader.js
 common/plt/SectorGateway.js
@@ -293,6 +293,7 @@ common/dba/Ogp.js
 common/dba/Social.js
 common/dba/Counter.js
 common/dba/Web3Config.js
+common/dba/Web3FileUploader.js
 
 # G-Cabin UI objects
 common/gui/FTag.js

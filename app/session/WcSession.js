@@ -57,10 +57,10 @@ class WcSession extends ui.WindowController {
                               srch.FvcSearchResult);
     if (glb.env.isWeb3()) {
       fwk.Factory.registerClass(fwk.T_CATEGORY.UI, fwk.T_OBJ.FILE_UPLOADER,
-                                plt.Web3FileUploader);
+                                dba.Web3FileUploader);
     } else {
       fwk.Factory.registerClass(fwk.T_CATEGORY.UI, fwk.T_OBJ.FILE_UPLOADER,
-                                plt.FileUploader);
+                                plt.Web2FileUploader);
     }
 
     dba.WebConfig.setBootTheme(
