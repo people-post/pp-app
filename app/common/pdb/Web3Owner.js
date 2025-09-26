@@ -65,12 +65,14 @@ class Web3Owner extends pdb.Web3User {
   }
 
   async asUploadFile(file) {
+    // TODO: Find file storage server
     const token = await this.#aStorage.asGetUploadToken(this.getId());
     const sig = await dba.Keys.sign(this.#postingKeyPath, token);
     return await this.#aStorage.asUploadFile(file, this.getId(), token, sig);
   }
 
   async asUploadJson(data) {
+    // TODO: Find text storage server
     const msg = JSON.stringify(data);
     const sig = await dba.Keys.sign(this.#postingKeyPath, msg);
     return await this.#aStorage.asUploadJson(msg, this.getId(), sig);
@@ -104,6 +106,7 @@ class Web3Owner extends pdb.Web3User {
   }
 
   async asComment(key, postInfo, refCids) {
+    // TODO: refCids -> per type cidInfos
     let d = await this.asyncFindMark(key);
     if (!d) {
       d = {comments : []};
@@ -113,11 +116,14 @@ class Web3Owner extends pdb.Web3User {
   }
 
   async asUpdateProfile(d, newCids) {
+    // TODO: newCids -> per type cidInfos
     this._setData("profile", d);
     await this.#asPublish({texts : newCids});
   }
 
   async asPublishPost(postInfo, refCids) {
+    // TODO: refCids -> per type cidInfos
+
     // TODO: Better way to modify attribute
     postInfo.timestamp = Date.now();
 
@@ -173,6 +179,8 @@ class Web3Owner extends pdb.Web3User {
   }
 
   async #asMark(key, markInfo, refCids) {
+    // TODO: refCids -> per type cidInfos
+
     let dRoot = await this._asGetOrInitMarkRoot();
 
     // TODO: Consider "folding" cases
