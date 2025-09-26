@@ -2,6 +2,7 @@
 class FWeb3ArticleEditor extends ui.Fragment {
   #fTitle;
   #fContent;
+  #fFiles;
   #fAttachment;
   #fSubmit;
   #baseArticle = null;
@@ -18,6 +19,12 @@ class FWeb3ArticleEditor extends ui.Fragment {
     this.#fContent.setDelegate(this);
     this.setChild("content", this.#fContent);
 
+    this.#fFiles = new ui.FMultiMediaFileUploader();
+    this.#fFiles.setCacheIds([ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]);
+    this.#fFiles.setDataSource(this);
+    this.#fFiles.setDelegate(this);
+    this.setChild("files", this.#fFiles);
+
     this.#fAttachment = new ui.FAttachmentFileUploader();
     this.#fAttachment.setDelegate(this);
     this.setChild("attachment", this.#fAttachment);
@@ -29,6 +36,12 @@ class FWeb3ArticleEditor extends ui.Fragment {
     this.setChild("btnSubmit", this.#fSubmit);
   }
 
+  onMultiMediaFileUploadWillBegin(fMultiMedia) { this.#lockActionBtns(); }
+  onMultiMediaFileUploadFinished(fMultiMedia) {
+    if (!this.#isUploadBusy()) {
+      this.#unlockActionBtns();
+    }
+  }
   onAttachmentFileUploadWillBegin(fAttachment) { this.#lockActionBtns(); }
   onAttachmentFileUploadFinished(fAttachment) {
     // if (!this.#isFileUploadBusy()) {
@@ -58,6 +71,11 @@ class FWeb3ArticleEditor extends ui.Fragment {
     this.#fTitle.attachRender(p);
     this.#fTitle.render();
 
+    p = panel.getFilesPanel();
+    this.#fFiles.setToHrefFiles(this.#baseArticle.getFiles());
+    this.#fFiles.attachRender(p);
+    this.#fFiles.render();
+
     p = panel.getAttachmentPanel();
     this.#fAttachment.resetToUrlFile(this.#baseArticle.getAttachment());
     this.#fAttachment.attachRender(p);
@@ -76,7 +94,9 @@ class FWeb3ArticleEditor extends ui.Fragment {
     this.#fSubmit.render();
   }
 
-  #isUploadBusy() { return this.#fAttachment.isBusy(); }
+  #isUploadBusy() {
+    return this.#fFiles.isBusy() || this.#fAttachment.isBusy();
+  }
 
   #onSubmit() {
     if (this.#isUploadBusy()) {
