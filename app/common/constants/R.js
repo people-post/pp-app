@@ -123,6 +123,12 @@ const R = function() {
               {"en" : `Are you sure you want to delete stage?`}
             ],
             [
+              "CONFIRM_FIRST_WEB3_POST", {
+                "en" :
+                    `Looks like this is your first post, are you ready to post?`
+              }
+            ],
+            [
               "CONFIRM_UNREGISTER", {
                 "en" :
                     "Are you sure you want to unregister domain? You can only set it back through GCabain account page.",

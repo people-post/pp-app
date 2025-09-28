@@ -139,20 +139,19 @@ class FCommentInput extends ui.Fragment {
 
     // 2. Upload article file and get cid
     console.log("Upload article");
-    data.id = await dba.Account.asyncUploadJson(data);
+    data.id = await dba.Account.asUploadJson(data);
 
     // 3. Make comment info
     console.log("Make comment info");
     let dInfo = {type : "ARTICLE", cid : data.id};
 
     // 4. Post comment
-    await dba.Account.asyncComment(this.#threadId.getValue(), dInfo,
-                                   [ data.id ]);
+    await dba.Account.asComment(this.#threadId.getValue(), dInfo, [ data.id ]);
 
     if (asPost) {
       // Make article info
       dInfo = {type : "ARTICLE", cid : data.id};
-      await dba.Account.asyncPost(dInfo, [ data.id ]);
+      await dba.Account.asPublishPost(dInfo, [ data.id ]);
     }
   }
 

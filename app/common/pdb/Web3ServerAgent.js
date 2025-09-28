@@ -4,7 +4,6 @@ class Web3ServerAgent {
 
   constructor(server) { this.#server = server; }
 
-  getHostType() { return this.#server.getApiType(); }
   getHostName() { return this.#server.getName(); }
   getHostAddress() { return this.#server.getAddress(); }
   getServer() { return this.#server; }

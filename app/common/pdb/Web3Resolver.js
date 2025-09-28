@@ -10,9 +10,8 @@ class Web3Resolver {
     this.#agents = [];
     if (addrs) {
       for (let s of addrs) {
-        let multiAddr = this.#parseAddress(s);
-        if (multiAddr) {
-          let server = new pdb.Web3Server(multiAddr);
+        let server = new pdb.Web3Server();
+        if (await server.asInit(s)) {
           let agent = new pdb.Web3ServerAgent(server);
           this.#agents.push(agent);
         }

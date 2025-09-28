@@ -48,7 +48,8 @@ class WcWeb3 extends main.WcSession {
     if (sData) {
       dba.Keys.fromEncodedStr(sData);
     }
-    dba.Account = pdb.Web3Owner.loadFromStorage();
+    dba.Account = new pdb.Web3Owner();
+    dba.Account.loadFromStorage();
 
     console.info("Load config...");
     dba.Web3Config.load(C.WEB3);

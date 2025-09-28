@@ -1,54 +1,87 @@
 (function(pdb) {
 class Web3StorageAgent extends pdb.Web3ServerAgent {
+  async asGetUploadToken(userId) {
+    let url = this.getServer().getApiUrl("/api/upload/token");
+    let req = new Request(
+        url,
+        {method : "GET", headers : {"Authorization" : "Bearer " + userId}});
+    let res = await plt.Api.p2pFetch(req);
+    let d = await res.json();
+    if (d.error) {
+      throw d.error;
+    }
+    return d.data.token;
+  }
+
   async asUploadJson(data, userId, sig) {
     const url = this.getServer().getApiUrl("/api/upload/json");
-    let d = await plt.Api.asyncPostIpfsData(url, data, userId, sig);
+    let d = await this.#asPostData(url, data, userId, sig);
     return d.cid;
   }
 
-  async asUploadFile(file, userId, sig) {
+  async asUploadFile(file, userId, token, sig) {
     const url = this.getServer().getApiUrl("/api/upload/file");
-    return await plt.Api.asyncPostIpfsFile(url, file, userId, sig);
+    return await this.#asPostFile(url, file, userId, token, sig);
   }
 
-  async asUploadImage(file, userId, sig) {
+  async asUploadImage(file, userId, token, sig) {
     const url = this.getServer().getApiUrl("/api/upload/image");
-    return await plt.Api.asyncPostIpfsFile(url, file, userId, sig);
+    return await this.#asPostFile(url, file, userId, token, sig);
   }
 
-  async asUploadAudio(file, userId, sig) {
+  async asUploadAudio(file, userId, token, sig) {
     const url = this.getServer().getApiUrl("/api/upload/audio");
-    return await plt.Api.asyncPostIpfsFile(url, file, userId, sig);
+    return await this.#asPostFile(url, file, userId, token, sig);
   }
 
-  async asUploadVideo(file, userId, sig) {
+  async asUploadVideo(file, userId, token, sig) {
     const url = this.getServer().getApiUrl("/api/upload/video");
-    return await plt.Api.asyncPostIpfsFile(url, file, userId, sig);
+    return await this.#asPostFile(url, file, userId, token, sig);
   }
 
-  async asPinJson(data, userId, sig) {
+  async asPin(data, userId, sig) {
     let url = this.getServer().getApiUrl("/api/pin/add");
-    await plt.Api.asyncPostIpfsData(url, data, userId, sig);
+    await this.#asPostData(url, data, userId, sig);
   }
 
-  async asPinFile(data, userId, sig) {
-    let url = this.getServer().getApiUrl("/api/pin/add");
-    await plt.Api.asyncPostIpfsData(url, data, userId, sig);
+  async #asPostData(url, data, bearerId, sig) {
+    let req = new Request(url, {
+      method : "POST",
+      headers : {
+        "Content-Type" : "application/json",
+        "Authorization" : "Bearer " + bearerId
+      },
+      body : JSON.stringify({data : data, signature : sig})
+    });
+
+    let res = await plt.Api.p2pFetch(req);
+    let d = await res.json();
+    if (d.error) {
+      throw d.error;
+    }
+
+    return d.data;
   }
 
-  async asPinImage(data, userId, sig) {
-    let url = this.getServer().getApiUrl("/api/pin/add");
-    await plt.Api.asyncPostIpfsData(url, data, userId, sig);
-  }
+  async #asPostFile(url, file, bearerId, token, sig) {
+    let fd = new FormData();
+    fd.append("signature", sig);
+    fd.append("token", token);
+    // Add file last to take advantage of streaming
+    fd.append("file", file);
+    let req = new Request(url, {
+      method : "POST",
+      headers : {Authorization : "Bearer " + bearerId},
+      body : fd
+    });
 
-  async asPinAudio(data, userId, sig) {
-    let url = this.getServer().getApiUrl("/api/pin/add");
-    await plt.Api.asyncPostIpfsData(url, data, userId, sig);
-  }
+    let res = await plt.Api.p2pFetch(req);
+    let d = await res.json();
+    if (d.error) {
+      throw d.error;
+    }
 
-  async asPinVideo(data, userId, sig) {
-    let url = this.getServer().getApiUrl("/api/pin/add");
-    await plt.Api.asyncPostIpfsData(url, data, userId, sig);
+    return d.data.cid;
   }
 };
 

@@ -431,9 +431,7 @@ class FSocialBar extends ui.Fragment {
     }
   }
 
-  async #asyncWeb3Like(itemId, itemType) {
-    await dba.Account.asyncLike(itemId);
-  }
+  async #asyncWeb3Like(itemId, itemType) { await dba.Account.asLike(itemId); }
 
   #asyncWeb2Like(itemId, itemType) {
     let url = "api/social/like";
@@ -451,7 +449,7 @@ class FSocialBar extends ui.Fragment {
     }
   }
 
-  async #asyncWeb3Unlike(itemId) { await dba.Account.asyncUnlike(itemId); }
+  async #asyncWeb3Unlike(itemId) { await dba.Account.asUnlike(itemId); }
 
   #asyncWeb2Unlike(itemId) {
     let url = "api/social/unlike";

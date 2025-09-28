@@ -67,7 +67,7 @@ class FvcWeb3Network extends ui.FScrollViewContent {
     for (let a of agents) {
       let p = new ui.PanelWrapper();
       pList.pushPanel(p);
-      this.#renderServer(a.getHostType(), p, a.getHostAddress());
+      this.#renderServer("", p, a.getHostAddress());
     }
 
     agents = glb.web3Publisher.getAgents();
@@ -75,7 +75,7 @@ class FvcWeb3Network extends ui.FScrollViewContent {
     for (let a of agents) {
       let p = new ui.PanelWrapper();
       pList.pushPanel(p);
-      this.#renderServer(a.getHostType(), p, a.getHostAddress());
+      this.#renderServer("", p, a.getHostAddress());
     }
 
     agents = glb.web3Ledger.getAgents();
@@ -83,7 +83,7 @@ class FvcWeb3Network extends ui.FScrollViewContent {
     for (let a of agents) {
       let p = new ui.PanelWrapper();
       pList.pushPanel(p);
-      this.#renderServer(a.getHostType(), p, a.getHostAddress());
+      this.#renderServer("", p, a.getHostAddress());
     }
 
     agents = glb.web3Storage.getAgents();
@@ -91,7 +91,7 @@ class FvcWeb3Network extends ui.FScrollViewContent {
     for (let a of agents) {
       let p = new ui.PanelWrapper();
       pList.pushPanel(p);
-      this.#renderServer(a.getHostType(), p, a.getHostAddress());
+      this.#renderServer("", p, a.getHostAddress());
     }
   }
 

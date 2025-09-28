@@ -3,18 +3,19 @@ class Web3Owner extends pdb.Web3User {
   // Note: This file is version sensitive, shall be backward compatible
   static #VERSION = '1.0';
 
-  #pinServerSigPath =
+  #postingKeyPath =
       [ dat.Wallet.T_PURPOSE.NFSC001, dat.Wallet.T_COIN.NFSC001, 0, 0, 0 ];
 
   #aPublishers = [];
   #aStorage = null;
 
-  // TODO: Clearly define isValid and isAuthenticated
-  isValid() { return !!this._getData('version'); }
+  hasPublished() { return this._getDataOrDefault("edition", 0) > 0; }
+
+  // TODO: Clearly define isAuthenticated
   isAuthenticated() { return this._hasData(); }
   isWebOwner() { return this.isAuthenticated(); }
   isFollowing(userId) { return this.hasIdol(userId); }
-  isIdolOf(user) { return this.isValid() && user.hasIdol(this.getId()); }
+  isIdolOf(user) { return user.hasIdol(this.getId()); }
 
   getId() { return this._getData("uuid"); }
   getNickname() { return this._getDataOrDefault("profile", {}).nickname; }
@@ -23,19 +24,19 @@ class Web3Owner extends pdb.Web3User {
 
   getPublicKey() {
     return ext.Utilities.uint8ArrayToHex(
-        dba.Keys.getMlDsa44(this.#pinServerSigPath));
+        dba.Keys.getMlDsa44(this.#postingKeyPath));
   }
 
   setStorage(agent) { this.#aStorage = agent; }
   setPublishers(agents) { this.#aPublishers = agents; }
 
   asyncFollow(userId) {
-    this.#asyncFollow(userId).then(
+    this.#asFollow(userId).then(
         () => fwk.Events.trigger(plt.T_DATA.USER_PROFILE));
   }
 
   asyncUnfollow(userId) {
-    this.#asyncUnfollow(userId).then(
+    this.#asUnfollow(userId).then(
         () => fwk.Events.trigger(plt.T_DATA.USER_PROFILE));
   }
 
@@ -46,9 +47,9 @@ class Web3Owner extends pdb.Web3User {
     fwk.Events.trigger(plt.T_DATA.USER_PROFILE);
   }
 
-  static loadFromStorage() {
+  loadFromStorage() {
     let s = sessionStorage.getItem(C.STORAGE.KEY.PROFILE);
-    return new Web3Owner(s ? JSON.parse(s) : null);
+    this._reset(s ? JSON.parse(s) : null);
   }
 
   saveToStorage() {
@@ -59,23 +60,25 @@ class Web3Owner extends pdb.Web3User {
   async asRegister(agent, name) {
     // TODO: Support optional peer key
     const msg = JSON.stringify({id : this.getId(), name : name});
-    const sig = await dba.Keys.ed25519Sign(this.#pinServerSigPath, msg);
-    await agent.asRegister(msg, this.getId(), sig);
+    const sig = await dba.Keys.sign(this.#postingKeyPath, msg);
+    await agent.asRegister(msg, this.getPublicKey(), sig);
   }
 
-  async asyncUploadFile(file) {
-    const msg = new Uint8Array(await file.arrayBuffer());
-    const sig = await dba.Keys.signUint8Array(this.#pinServerSigPath, msg);
-    return await this.#aStorage.asUploadFile(file, this.getId(), sig);
+  async asUploadFile(file) {
+    // TODO: Find file storage server
+    const token = await this.#aStorage.asGetUploadToken(this.getId());
+    const sig = await dba.Keys.sign(this.#postingKeyPath, token);
+    return await this.#aStorage.asUploadFile(file, this.getId(), token, sig);
   }
 
-  async asyncUploadJson(data) {
+  async asUploadJson(data) {
+    // TODO: Find text storage server
     const msg = JSON.stringify(data);
-    const sig = await dba.Keys.ed25519Sign(this.#pinServerSigPath, msg);
+    const sig = await dba.Keys.sign(this.#postingKeyPath, msg);
     return await this.#aStorage.asUploadJson(msg, this.getId(), sig);
   }
 
-  async asyncLike(key) {
+  async asLike(key) {
     let d = await this.asyncFindMark(key);
     if (!d) {
       d = {comments : []};
@@ -85,10 +88,10 @@ class Web3Owner extends pdb.Web3User {
       return;
     }
     d.like = true;
-    await this.#asyncMark(key, d, []);
+    await this.#asMark(key, d, []);
   }
 
-  async asyncUnlike(key) {
+  async asUnlike(key) {
     let d = await this.asyncFindMark(key);
     if (!d) {
       // Already unliked
@@ -99,65 +102,34 @@ class Web3Owner extends pdb.Web3User {
       return;
     }
     d.like = false;
-    await this.#asyncMark(key, d, []);
+    await this.#asMark(key, d, []);
   }
 
-  async asyncComment(key, postInfo, refCids) {
+  async asComment(key, postInfo, refCids) {
+    // TODO: refCids -> per type cidInfos
     let d = await this.asyncFindMark(key);
     if (!d) {
       d = {comments : []};
     }
     d.comments.unshift(postInfo);
-    await this.#asyncMark(key, d, refCids);
+    await this.#asMark(key, d, refCids);
   }
 
-  async asyncUpdateProfile(d, newCids) {
+  async asUpdateProfile(d, newCids) {
+    // TODO: newCids -> per type cidInfos
     this._setData("profile", d);
-    await this.#asPublish(newCids);
+    await this.#asPublish({texts : newCids});
   }
 
-  async #asyncFollow(userId) {
-    let idolInfo =
-        {timestamp : Date.now(), type : "USER", id : userId, nickname : null};
-    let dIdx = await this._asyncGetOrInitIdolRoot();
-    dIdx.idols.unshift(idolInfo);
-    await this.#asUpdateIdols(dIdx);
-  }
-
-  async #asyncUnfollow(userId) {
-    let dIdx = await this._asyncGetOrInitIdolRoot();
-    dIdx.idols = dIdx.idols.filter(i => i.id != userId);
-    await this.#asUpdateIdols(dIdx);
-  }
-
-  async #asyncMark(key, markInfo, refCids) {
-    let dRoot = await this._asyncGetOrInitMarkRoot();
-
-    // TODO: Consider "folding" cases
-    dRoot.marks[key] = markInfo;
-
-    let newCids = [...refCids ];
-    let cid = this._getData("marks");
-
-    cid = await this.asyncUploadJson(dRoot);
-    this._setData("marks", cid);
-    newCids.push(cid);
-
-    await this.#asPublish(newCids);
-  }
-
-  async asyncPost(postInfo, refCids) {
-    if (!this.isValid()) {
-      // TODO: Handle new user case
-      throw "Root record not found";
-    }
+  async asPublishPost(postInfo, refCids) {
+    // TODO: refCids -> per type cidInfos
 
     // TODO: Better way to modify attribute
     postInfo.timestamp = Date.now();
 
     let newCids = [...refCids ];
 
-    let dIdx = await this._asyncGetOrInitPostRoot();
+    let dIdx = await this._asGetOrInitPostRoot();
     dIdx.posts.unshift(postInfo);
 
     let cid = this._getData("posts");
@@ -168,15 +140,15 @@ class Web3Owner extends pdb.Web3User {
 
     // let dInfo = {};
     // dInfo.timestamp = Date.now();
-    // dInfo.cid = await this.asyncUploadJson(dIdx);
+    // dInfo.cid = await this.asUploadJson(dIdx);
     // newCids.push(dInfo.cid);
 
     // Upload master list file
-    cid = await this.asyncUploadJson(dIdx);
+    cid = await this.asUploadJson(dIdx);
     this._setData("posts", cid);
     newCids.push(cid);
 
-    await this.#asPublish(newCids);
+    await this.#asPublish({texts : newCids});
   }
 
   #toLtsJsonData() {
@@ -188,36 +160,80 @@ class Web3Owner extends pdb.Web3User {
       marks : this._getDataOrDefault("marks", null)
     };
     d.version = this.constructor.#VERSION;
+    d.edition = this._getDataOrDefault("edition", 0);
     return d;
+  }
+
+  async #asFollow(userId) {
+    let idolInfo =
+        {timestamp : Date.now(), type : "USER", id : userId, nickname : null};
+    let dIdx = await this._asGetOrInitIdolRoot();
+    dIdx.idols.unshift(idolInfo);
+    await this.#asUpdateIdols(dIdx);
+  }
+
+  async #asUnfollow(userId) {
+    let dIdx = await this._asGetOrInitIdolRoot();
+    dIdx.idols = dIdx.idols.filter(i => i.id != userId);
+    await this.#asUpdateIdols(dIdx);
+  }
+
+  async #asMark(key, markInfo, refCids) {
+    // TODO: refCids -> per type cidInfos
+
+    let dRoot = await this._asGetOrInitMarkRoot();
+
+    // TODO: Consider "folding" cases
+    dRoot.marks[key] = markInfo;
+
+    let newCids = [...refCids ];
+    let cid = this._getData("marks");
+
+    cid = await this.asUploadJson(dRoot);
+    this._setData("marks", cid);
+    newCids.push(cid);
+
+    await this.#asPublish({texts : newCids});
   }
 
   async #asUpdateIdols(dIdx) {
     let newCids = [];
     let cid = this._getData("idols");
-    cid = await this.asyncUploadJson(dIdx);
+    cid = await this.asUploadJson(dIdx);
     this._setData("idols", cid);
     newCids.push(cid);
 
-    await this.#asPublish(newCids);
+    await this.#asPublish({texts : newCids});
   }
 
-  async #asPublish(addCids) {
-    let pinCids = [...addCids ];
-    // _cid is an internal value created in glb.web3Resolver.asyncResolve()
-    let cid = this._getData("_cid");
-    cid = await this.asyncUploadJson(this.#toLtsJsonData());
-    this._setData("_cid", cid);
-    pinCids.push(cid);
+  async #asPublish(newCidInfo) {
+    try {
+      await this.#asDoPublish(newCidInfo);
+    } catch (e) {
+      this.loadFromStorage();
+      throw e;
+    }
+  }
 
-    let sig = await dba.Keys.ed25519Sign(this.#pinServerSigPath, cid);
+  async #asDoPublish(newCidInfo) {
+    // Increase edition number
+    this._setData("edition", this._getDataOrDefault("edition", 0) + 1);
+
+    let cid = await this.asUploadJson(this.#toLtsJsonData());
+
+    // _cid is an internal value created in glb.web3Resolver.asyncResolve()
+    this._setData("_cid", cid);
+    newCidInfo.texts.push(cid);
+
+    let sig = await dba.Keys.sign(this.#postingKeyPath, cid);
     for (let a of this.#aPublishers) {
       await a.asPublish(cid, this.getId(), sig);
     }
 
-    const msg = JSON.stringify({cids : pinCids});
-    sig = await dba.Keys.ed25519Sign(this.#pinServerSigPath, msg);
-    // TODO: Separate other pin update urls
-    await this.#aStorage.asPinJson(msg, this.getId(), sig);
+    // TODO: Find all storage servers
+    const msg = JSON.stringify({cids : newCidInfo.texts});
+    sig = await dba.Keys.sign(this.#postingKeyPath, msg);
+    await this.#aStorage.asPin(msg, this.getId(), sig);
 
     this.saveToStorage();
   }

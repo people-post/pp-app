@@ -61,14 +61,14 @@ class FvcWeb3Basic extends ui.FScrollViewContent {
   async #asyncUpdateNickname(value) {
     let d = dba.Account.getProfile();
     d.nickname = value;
-    await dba.Account.asyncUpdateProfile(d, []);
+    await dba.Account.asUpdateProfile(d, []);
   }
 
   async #asyncUpdateIconFile(file) {
-    let cid = await dba.Account.asyncUploadFile(file);
+    let cid = await dba.Account.asUploadFile(file);
     let d = dba.Account.getProfile();
     d.icon_cid = cid;
-    await dba.Account.asyncUpdateProfile(d, [ cid ]);
+    await dba.Account.asUpdateProfile(d, [ cid ]);
   }
 };
 
