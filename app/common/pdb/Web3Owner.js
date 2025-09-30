@@ -65,10 +65,17 @@ class Web3Owner extends pdb.Web3User {
   }
 
   async asUploadFile(file) {
-    // TODO: Find file storage server
     const token = await this.#aStorage.asGetUploadToken(this.getId());
     const sig = await dba.Keys.sign(this.#postingKeyPath, token);
-    return await this.#aStorage.asUploadFile(file, this.getId(), token, sig);
+
+    // TODO: Find file storage server
+    let d;
+    if (file.type.startsWith("image")) {
+      d = await this.#aStorage.asUploadImage(file, this.getId(), token, sig);
+    } else {
+      d = await this.#aStorage.asUploadFile(file, this.getId(), token, sig);
+    }
+    return d.cid;
   }
 
   async asUploadJson(data) {
