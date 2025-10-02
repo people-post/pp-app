@@ -6,6 +6,28 @@ class Web3GroupPublisherAgent extends pdb.Web3PublisherAgent {};
 class Web3Publisher {
   #agents = [];
 
+  getInitUserPeerId() {
+    let id = null;
+    for (let a of this.#agents) {
+      id = a.getInitUserPeerId();
+      if (id) {
+        break;
+      }
+    }
+    return id;
+  }
+
+  getInitUserRootCid() {
+    let cid = null;
+    for (let a of this.#agents) {
+      cid = a.getInitUserRootCid();
+      if (cid) {
+        break;
+      }
+    }
+    return cid;
+  }
+
   async asInit(addrs) {
     // addrs: list of Multiaddr strings
     this.#agents = [];

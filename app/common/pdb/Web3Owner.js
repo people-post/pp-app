@@ -228,7 +228,7 @@ class Web3Owner extends pdb.Web3User {
 
     let cid = await this.asUploadJson(this.#toLtsJsonData());
 
-    // _cid is an internal value created in glb.web3Resolver.asyncResolve()
+    // _cid is an internal value created in glb.web3Resolver.asResolve()
     this._setData("_cid", cid);
     newCidInfo.texts.push(cid);
 

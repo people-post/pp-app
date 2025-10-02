@@ -9,6 +9,16 @@ const Web3PeerServerMixin = (Base) => class extends Base {
     return this.isInitUserRegistered() || this.isRegisterEnabled();
   }
 
+  getInitUserPeerId() {
+    const u = this.#mUsers.get(this.#initUserId);
+    return u ? u.peer_id : null;
+  }
+
+  getInitUserRootCid() {
+    const u = this.#mUsers.get(this.#initUserId);
+    return u ? u.root_cid : null;
+  }
+
   async asIsNameRegistrable(name) {
     return !await this.#asFetchUserByName(name);
   }
