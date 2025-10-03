@@ -315,6 +315,7 @@ common/gui/PAddress.js
 common/gui/Address.js
 common/gui/AddressEditor.js
 common/gui/PaymentEditor.js
+common/gui/FMediaFile.js
 common/gui/FGallery.js
 common/gui/TagsEditorFragment.js
 common/gui/SimpleLongListFragment.js

@@ -10,30 +10,77 @@ const _CFT_GALLERY = {
   PREPROC :
       `<div class="info-message">Preprocessing files, please wait...__PROGRESS__</div>`,
   SLIDE_SHOW : `<div class="center-align h100">
-      <div class="h100 relative x-scroll x-scroll-snap no-wrap flex flex-start" onscroll="javascript:G.action(gui.CF_GALLERY.ON_SCROLL, this)">
-        __SLIDES__
+      <div id="__ID_SLIDES__" class="h100 relative x-scroll x-scroll-snap no-wrap flex flex-start" onscroll="javascript:G.action(gui.CF_GALLERY.ON_SCROLL, this)">
       </div>
       <div class="slide-show-nav slide-show-prev" onclick="javascript:G.action(gui.CF_GALLERY.PREV_IMAGE_SLIDE)">&#10094;</div>
       <div class="slide-show-nav slide-show-next" onclick="javascript:G.action(gui.CF_GALLERY.NEXT_IMAGE_SLIDE)">&#10095;</div>
-      <div class="absolute w100 bottom0px center-align">__DOTS__</div>
+      <div id="__ID_DOTS__" class="absolute w100 bottom0px center-align"></div>
     </div>`,
-  SLIDE_SHOW_SLIDE : `<div class="slide-show-label">__LABEL__</div>
-    <div class="s-photo bgblack h100">__CONTENT__</div>`,
-  SINGLE_CONENT : `<div class="media-frame">__CONTENT__</div>`,
-  MEDIA_CONTENT : {
-    IMAGE :
-        `<img class="hmax100 wmax100 clickable" src="__URL__" onclick="window.open('__DOWNLOAD_URL__', '_blank')"/>`,
-    VIDEO :
-        `<video class="hls" playsinline controls manifest-url="__URL__"></video>`,
-  },
+  SLIDE_SHOW_SLIDE : `<div id="__ID_LABEL__" class="slide-show-label"></div>
+    <div id="__ID_IMAGE__" class="s-photo bgblack h100"></div>`
+};
+
+class PSlide extends ui.Panel {
+  #pLabel;
+  #pImage;
+
+  constructor() {
+    super();
+    this.#pLabel = new ui.Panel();
+    this.#pImage = new ui.PanelWrapper();
+  }
+
+  getLabelPanel() { return this.#pLabel; }
+  getImagePanel() { return this.#pImage; }
+
+  _renderFramework() {
+    let s = _CFT_GALLERY.SLIDE_SHOW_SLIDE;
+    s = s.replace("__ID_LABEL__", this._getSubElementId("L"));
+    s = s.replace("__ID_IMAGE__", this._getSubElementId("I"));
+    return s;
+  }
+
+  _onFrameworkDidAppear() {
+    super._onFrameworkDidAppear();
+    this.#pLabel.attach(this._getSubElementId("L"));
+    this.#pImage.attach(this._getSubElementId("I"));
+  }
+};
+
+class PGallery extends ui.Panel {
+  #pSlides;
+  #pDots;
+
+  constructor() {
+    super();
+    this.#pSlides = new ui.ListPanel();
+    this.#pDots = new ui.ListPanel();
+  }
+
+  getSlidesPanel() { return this.#pSlides; }
+  getDotsPanel() { return this.#pDots; }
+
+  _renderFramework() {
+    let s = _CFT_GALLERY.SLIDE_SHOW;
+    s = s.replace("__ID_SLIDES__", this._getSubElementId("S"));
+    s = s.replace("__ID_DOTS__", this._getSubElementId("D"));
+    return s;
+  }
+
+  _onFrameworkDidAppear() {
+    super._onFrameworkDidAppear();
+    this.#pSlides.attach(this._getSubElementId("S"));
+    this.#pDots.attach(this._getSubElementId("D"));
+  }
 };
 
 class FGallery extends ui.Fragment {
   #slideIndex = 0;
   #scrollTimeoutAction = null;
-  #files = [];
+  #fFiles = [];
   #pendingFiles = [];
   #statusChecker;
+  #pGallery;
 
   constructor() {
     super();
@@ -41,11 +88,23 @@ class FGallery extends ui.Fragment {
   }
 
   isLivestreaming() {
-    return this.#files.some(f => {f.isVideo() && f.isLivestreaming()});
+    return this.#fFiles.some(
+        f => {f.getFile().isVideo() && f.getFile().isLivestreaming()});
   }
-  setFiles(files) { this.#files = files; }
+
+  setFiles(files) {
+    this.#fFiles = [];
+    if (files) {
+      for (let file of files) {
+        let f = new gui.FMediaFile();
+        f.setFile(file);
+        this.#fFiles.push(f);
+      }
+    }
+  }
+
   setSelection(idx) {
-    if (this.#files && this.#files.length > idx) {
+    if (this.#fFiles.length > idx) {
       this.#slideIndex = idx;
     }
   }
@@ -84,30 +143,33 @@ class FGallery extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    if (!this.#files || this.#files.length < 1) {
+    if (this.#fFiles.length < 1) {
       return;
     }
 
-    this.#pendingFiles = this.#getPendingFiles(this.#files);
+    this.#pendingFiles =
+        this.#getPendingFiles(this.#fFiles.map(f => f.getFile()));
     if (this.#pendingFiles.length > 0) {
       this.#initStatusChecker();
       this.#renderPreprocProgress(render);
       return;
     }
 
-    if (this.#files.length > 1) {
-      render.replaceContent(this.#renderSlideShow(this.#files));
+    if (this.#fFiles.length > 1) {
+      let p = new PGallery();
+      render.wrapPanel(p);
+      this.#pGallery = p;
+      this.#renderSlideShow(p, this.#fFiles);
       this.#switchToSlide(this.#slideIndex);
     } else {
-      render.replaceContent(this.#renderSingleFile(this.#files[0]));
+      let p = new ui.PanelWrapper();
+      p.setClassName("media-frame");
+      render.wrapPanel(p);
+      let f = this.#fFiles[0];
+      f.attachRender(p);
+      f.render();
     }
     this.#assignVideoPlayers();
-  }
-
-  #renderSingleFile(file) {
-    let s = _CFT_GALLERY.SINGLE_CONENT;
-    s = s.replace("__CONTENT__", this.#renderFile(file));
-    return s;
   }
 
   _onBeforeRenderDetach() {
@@ -116,7 +178,7 @@ class FGallery extends ui.Fragment {
   }
 
   #getPendingFiles(files) { return files.filter(f => f.isPending()); }
-  #hasVideo(files) { return files.some(f => f.isVideo()); }
+  #hasVideo(fFiles) { return fFiles.some(f => f.getFile().isVideo()); }
 
   #initStatusChecker() {
     if (!this.#statusChecker.isSet()) {
@@ -127,12 +189,13 @@ class FGallery extends ui.Fragment {
   #switchToNextSlide() { this.#switchToSlide(this.#slideIndex + 1); }
   #switchToPrevSlide() { this.#switchToSlide(this.#slideIndex - 1); }
   #switchToSlide(index) {
-    let e = this.#getContainerElement();
-    if (!e) {
+    let eSlides = this.#getSlideShowContainerElement();
+    if (!eSlides) {
       return;
     }
+
     // Normalize index
-    let elements = e.getElementsByClassName("slide-show-slide");
+    let elements = eSlides.getElementsByClassName("slide-show-slide");
     if (index < 0) {
       this.#slideIndex = elements.length - 1;
     } else if (index >= elements.length) {
@@ -142,14 +205,15 @@ class FGallery extends ui.Fragment {
     }
 
     // Scroll
-    let xNew = e.offsetWidth * this.#slideIndex;
-    e.firstElementChild.scrollTo({left : xNew, behavior : "smooth"});
+    let xNew = eSlides.offsetWidth * this.#slideIndex;
+    eSlides.firstElementChild.scrollTo({left : xNew, behavior : "smooth"});
 
     this.#updateDots();
   }
 
-  #getContainerElement() {
-    return this.getRender().getDomElement().firstElementChild;
+  #getSlideShowContainerElement() {
+    return this.#pGallery ? this.#pGallery.getDomElement().firstElementChild
+                          : null;
   }
 
   #renderPreprocProgress(panel) {
@@ -166,16 +230,16 @@ class FGallery extends ui.Fragment {
   }
 
   #updateDots() {
-    let eSlides = this.getRender().getDomElement().firstElementChild;
+    let eSlides = this.#getSlideShowContainerElement();
     if (!eSlides) {
       return;
     }
     let elements = Array.from(eSlides.getElementsByClassName("slide-show-dot"));
     for (let [i, e] of elements.entries()) {
       if (i == this.#slideIndex) {
-        e.style.backgroundColor = "CornflowerBlue";
+        e.className = e.className.replace("s-csecondarybg", "s-cfuncbg");
       } else {
-        e.style.backgroundColor = "lightgrey";
+        e.className = e.className.replace("s-cfuncbg", "s-csecondarybg");
       }
     }
   }
@@ -184,7 +248,7 @@ class FGallery extends ui.Fragment {
     if (this.#statusChecker.isSet()) {
       return;
     }
-    if (this.#files && this.#hasVideo(this.#files) &&
+    if (this.#hasVideo(this.#fFiles) &&
         glb.env.isScriptLoaded(glb.env.SCRIPT.PLAYER.id)) {
       let e = this.getRender().getDomElement();
       this.#initVideos(e.getElementsByTagName("video"));
@@ -226,49 +290,36 @@ class FGallery extends ui.Fragment {
     }
   }
 
-  #renderSlideShow(files) {
-    let items = [];
-    let dotItems = [];
-    let tShow = _CFT_GALLERY.SLIDE_SHOW;
-    let tSlide = _CFT_GALLERY.SLIDE_SHOW_SLIDE;
-    let s;
-    for (let [i, file] of files.entries()) {
-      let e = document.createElement("div");
-      e.className = "slide-show-slide scroll-snap-start w100 flex-noshrink";
-      s = tSlide.replace("__CONTENT__", this.#renderFile(file));
-      s = s.replace("__LABEL__", (i + 1).toString() + " / " + files.length);
-      e.innerHTML = s;
-      items.push(e.outerHTML);
+  #renderSlideShow(pGallery, fFiles) {
+    let pSlides = pGallery.getSlidesPanel();
+    let pDots = pGallery.getDotsPanel();
 
-      e = document.createElement("span");
-      e.className = "slide-show-dot";
-      e.setAttribute("onclick",
+    let tSlide = _CFT_GALLERY.SLIDE_SHOW_SLIDE;
+    let s, p, pp;
+    let className;
+    for (let [i, fFile] of fFiles.entries()) {
+      p = new PSlide();
+      p.setClassName("slide-show-slide scroll-snap-start w100 flex-noshrink");
+      pSlides.pushPanel(p);
+      pp = p.getLabelPanel();
+      pp.replaceContent((i + 1).toString() + " / " + fFiles.length);
+      pp = p.getImagePanel();
+      fFile.attachRender(pp);
+      fFile.render();
+
+      p = new ui.Panel();
+      p.setAttribute("onclick",
                      "javascript:G.action(gui.CF_GALLERY.SHOW_IMAGE_SLIDE, " +
                          i + ")");
+      className = "slide-show-dot";
       if (i == 0) {
-        e.style.backgroundColor = "CornflowerBlue";
+        className += " s-cfuncbg";
       } else {
-        e.style.backgroundColor = "lightgrey";
+        className += " s-csecondarybg";
       }
-      dotItems.push(e.outerHTML);
+      p.setClassName(className);
+      pDots.pushPanel(p);
     }
-    s = tShow.replace("__SLIDES__", items.join(""));
-    s = s.replace("__DOTS__", dotItems.join(""));
-    return s;
-  }
-
-  #renderFile(file) {
-    let s = "";
-    if (file.isImage()) {
-      s = _CFT_GALLERY.MEDIA_CONTENT.IMAGE;
-      s = s.replace("__URL__", file.getImageUrl());
-      s = s.replace("__DOWNLOAD_URL__", file.getDownloadUrl());
-    } else if (file.isVideo()) {
-      s = _CFT_GALLERY.MEDIA_CONTENT.VIDEO;
-      s = s.replace("__TYPE__", file.getVideoManifestType());
-      s = s.replace("__URL__", file.getVideoManifestUrl());
-    }
-    return s;
   }
 
   #asyncCheckStatus() {
