@@ -56,7 +56,7 @@ dba.Users = function() {
 
   function _web3Load(ids) {
     for (let id of ids) {
-      glb.web3Resolver.asyncResolve(id).then(d => __onWeb3LoadRRR(id, d));
+      glb.web3Resolver.asResolve(id).then(d => __onWeb3LoadRRR(id, d));
     }
   }
 
@@ -73,7 +73,7 @@ dba.Users = function() {
     }
 
     if (!_map.has(id)) {
-      let d = await glb.web3Resolver.asyncResolve(id);
+      let d = await glb.web3Resolver.asResolve(id);
       _map.set(id, new pdb.Web3User(d));
     }
     return _map.get(id);

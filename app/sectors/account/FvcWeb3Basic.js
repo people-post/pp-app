@@ -43,6 +43,18 @@ class FvcWeb3Basic extends ui.FScrollViewContent {
       pList.pushPanel(p);
       p.setClassName("ellipsis");
       p.replaceContent("Public key:" + dba.Account.getPublicKey());
+
+      pList.pushSpace(1);
+
+      p = new ui.Panel();
+      pList.pushPanel(p);
+      p.setClassName("ellipsis");
+      let peerId = glb.web3Publisher.getInitUserPeerId();
+      if (peerId) {
+        p.replaceContent("Peer id:" + peerId);
+      } else {
+        p.replaceContent("Peer id: N/A");
+      }
     }
 
     p = new ui.PanelWrapper();

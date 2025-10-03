@@ -81,7 +81,7 @@ class Web3StorageAgent extends pdb.Web3ServerAgent {
       throw d.error;
     }
 
-    return d.data.cid;
+    return d.data;
   }
 };
 

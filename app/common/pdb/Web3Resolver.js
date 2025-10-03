@@ -19,7 +19,19 @@ class Web3Resolver {
     }
   }
 
-  async asyncResolve(userId) {
+  async asResolveFromCid(cid) {
+    let d = await plt.Api.asyncFetchCidJson(cid);
+    if (typeof d === 'object' && d !== null) {
+      // Internal use
+      d._cid = cid;
+    } else {
+      // Something is wrong in expected format
+      d = null;
+    }
+    return d;
+  }
+
+  async asResolve(userId) {
     if (!this.#lib.has(userId)) {
       this.#lib.set(userId, new ext.PerishableObject(600000)); // TTL 10 min
     }
@@ -28,17 +40,17 @@ class Web3Resolver {
     let obj = this.#lib.get(userId);
     let d = obj.getData();
     if (!this.#isValidProfileData(d)) {
-      d = await this.#resolveUserData(userId);
+      d = await this.#asResolveUserData(userId);
       d.uuid = userId;
       obj.setData(d);
     }
     return d;
   }
 
-  async #resolveUserData(userId) {
+  async #asResolveUserData(userId) {
     console.log("Resolving", userId);
     // 1. Try name server
-    let cid = await this.#resolveFromNameServer(userId);
+    let cid = await this.#asResolveFromNameServer(userId);
     if (!cid) {
       // 2. Try direct IPNS
       let ipns = plt.Helia.getIpns();
@@ -54,28 +66,26 @@ class Web3Resolver {
     }
     if (!cid) {
       // 3. Try blockchain
-      cid = await this.#resolveFromBlockchain(userId);
+      cid = await this.#asResolveFromBlockchain(userId);
     }
 
     let d;
     if (cid) {
-      d = await plt.Api.asyncFetchCidJson(cid);
-      if (typeof d === 'object' && d !== null) {
-        // Internal use
-        d._cid = cid;
-      } else {
-        // Something is wrong in expected format
-        d = {};
-      }
-    } else {
-      // Name resolve failed, either userId not exist or network failure
+      d = this.asResolveFromCid(cid);
+    }
+
+    if (!d) {
+      // Name resolve failed, reasons:
+      // 1. userId not exist
+      // 2. network failure
+      // 3. cid resolved to unexpected data
       d = {};
     }
     console.log("Resolved");
     return d;
   }
 
-  async #resolveFromNameServer(userId) {
+  async #asResolveFromNameServer(userId) {
     // 1. Try centrialized name server
     let url = this.#getUserIdResolveUrl(userId);
     let req = new Request(url, {method : "GET"});
@@ -98,7 +108,7 @@ class Web3Resolver {
     return cid;
   }
 
-  async #resolveFromBlockchain(userId) {
+  async #asResolveFromBlockchain(userId) {
     // TODO:
     return null;
   }
