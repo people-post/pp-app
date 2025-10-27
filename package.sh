@@ -34,7 +34,7 @@ CompileJs app/file_list.txt $WORK_DIR/app.js $BUNDLE_JS_PATH
 CompileJs sw/file_list.txt $WORK_DIR/sw.js $WORK_DIR/sw-min.js
 
 #  a.2 bundle into single js file
-esbuild $ENTRY_JS_PATH --bundle --platform=node --outfile=$BUNDLE_JS_PATH
+#esbuild $ENTRY_JS_PATH --bundle --platform=node --outfile=$BUNDLE_JS_PATH
 
 #  b. Prepare css
 uglifycss css/hst.css > $WORK_DIR/hst-min.css

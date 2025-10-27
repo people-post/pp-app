@@ -104,7 +104,7 @@ class Web3User {
     if (!this.#dIdols) {
       let cid = this._getData("idols");
       if (Utilities.isCid(cid)) {
-        this.#dIdols = await plt.Api.asyncFetchCidJson(cid);
+        this.#dIdols = await this.#asFetchCidJson(cid);
       } else {
         this.#dIdols = {idols : []};
       }
@@ -116,7 +116,12 @@ class Web3User {
     if (!this.#dPosts) {
       let cid = this._getData("posts");
       if (Utilities.isCid(cid)) {
-        this.#dPosts = await this.#asFetchCidJson(cid);
+        try {
+          this.#dPosts = await this.#asFetchCidJson(cid);
+        } catch (e) {
+          // TODO: Data not found, need let user know
+          this.#dPosts = {posts : []};
+        }
       } else {
         this.#dPosts = {posts : []};
       }
@@ -150,8 +155,13 @@ class Web3User {
     }
   }
 
-  async #asFetchCidJson(cid) { return await plt.Api.asyncFetchCidJson(cid); }
-  async #asFetchCidImage(cid) { return await plt.Api.asyncFetchCidImage(cid); }
+  async #asFetchCidJson(cid) {
+    return await this._dataSource.asOnWeb3UserRequestFetchCidJson(this, cid);
+  }
+
+  async #asFetchCidImage(cid) {
+    return await this._dataSource.asOnWeb3UserRequestFetchCidImage(this, cid);
+  }
 
   async #asFindMark(prefix, suffix, dMarks) {
     if (!dMarks) {

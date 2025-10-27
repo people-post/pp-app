@@ -825,3 +825,6 @@ session/WcGadget.js
 session/WcSub.js
 session/WcPortal.js
 session/WcWeb3.js
+
+
+G.js

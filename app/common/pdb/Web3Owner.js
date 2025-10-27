@@ -3,9 +3,6 @@ class Web3Owner extends pdb.Web3User {
   // Note: This file is version sensitive, shall be backward compatible
   static #VERSION = '1.0';
 
-  #postingKeyPath =
-      [ dat.Wallet.T_PURPOSE.NFSC001, dat.Wallet.T_COIN.NFSC001, 0, 0, 0 ];
-
   #aPublishers = [];
   #aStorage = null;
 
@@ -23,50 +20,47 @@ class Web3Owner extends pdb.Web3User {
   getPreferredLanguage() { return null; }
 
   getPublicKey() {
-    return ext.Utilities.uint8ArrayToHex(
-        dba.Keys.getMlDsa44(this.#postingKeyPath));
+    return this._dataSource.onWeb3OwnerRequestGetPublicKey(this);
   }
 
   setStorage(agent) { this.#aStorage = agent; }
   setPublishers(agents) { this.#aPublishers = agents; }
 
   asyncFollow(userId) {
-    this.#asFollow(userId).then(
-        () => fwk.Events.trigger(plt.T_DATA.USER_PROFILE));
+    this.#asFollow(userId).then(() => this.#onProfileUpdated());
   }
 
   asyncUnfollow(userId) {
-    this.#asUnfollow(userId).then(
-        () => fwk.Events.trigger(plt.T_DATA.USER_PROFILE));
+    this.#asUnfollow(userId).then(() => this.#onProfileUpdated());
   }
 
   asyncReload() {}
 
   reset(data) {
     super.reset(data);
-    fwk.Events.trigger(plt.T_DATA.USER_PROFILE);
+    this.#onProfileUpdated();
   }
 
-  loadFromStorage() {
-    let s = sessionStorage.getItem(C.STORAGE.KEY.PROFILE);
+  loadCheckPoint() {
+    let s = this._dataSource.onWeb3OwnerRequestLoadCheckPoint(this);
     this._reset(s ? JSON.parse(s) : null);
   }
 
-  saveToStorage() {
-    sessionStorage.setItem(C.STORAGE.KEY.PROFILE,
-                           JSON.stringify(this.#toLtsJsonData()));
+  saveCheckPoint() {
+    this._delegate.onWeb3OwnerRequestSaveCheckPoint(
+        this, JSON.stringify(this.#toLtsJsonData()));
   }
 
   async asRegister(agent, name) {
     // TODO: Support optional peer key
     const msg = JSON.stringify({id : this.getId(), name : name});
-    const sig = await dba.Keys.sign(this.#postingKeyPath, msg);
+    const sig = await this.#asSign(msg);
     await agent.asRegister(msg, this.getPublicKey(), sig);
   }
 
   async asUploadFile(file) {
     const token = await this.#aStorage.asGetUploadToken(this.getId());
-    const sig = await dba.Keys.sign(this.#postingKeyPath, token);
+    const sig = await this.#asSign(token);
 
     // TODO: Find file storage server
     let d;
@@ -81,7 +75,7 @@ class Web3Owner extends pdb.Web3User {
   async asUploadJson(data) {
     // TODO: Find text storage server
     const msg = JSON.stringify(data);
-    const sig = await dba.Keys.sign(this.#postingKeyPath, msg);
+    const sig = await this.#asSign(msg);
     return await this.#aStorage.asUploadJson(msg, this.getId(), sig);
   }
 
@@ -129,6 +123,7 @@ class Web3Owner extends pdb.Web3User {
   }
 
   async asPublishPost(postInfo, refCids) {
+    console.debug("Publishing post...");
     // TODO: refCids -> per type cidInfos
 
     // TODO: Better way to modify attribute
@@ -151,11 +146,22 @@ class Web3Owner extends pdb.Web3User {
     // newCids.push(dInfo.cid);
 
     // Upload master list file
+    console.debug("Uploading post list...");
     cid = await this.asUploadJson(dIdx);
     this._setData("posts", cid);
     newCids.push(cid);
 
     await this.#asPublish({texts : newCids});
+  }
+
+  #onProfileUpdated() {
+    if (this._delegate) {
+      this._delegate.onWeb3OwnerProfileUpdated(this);
+    }
+  }
+
+  async #asSign(msg) {
+    return this._delegate.asOnWeb3OwnerRequestSign(this, msg);
   }
 
   #toLtsJsonData() {
@@ -217,32 +223,36 @@ class Web3Owner extends pdb.Web3User {
     try {
       await this.#asDoPublish(newCidInfo);
     } catch (e) {
-      this.loadFromStorage();
+      this.loadCheckPoint();
       throw e;
     }
   }
 
   async #asDoPublish(newCidInfo) {
+    console.debug("Publishing content...");
     // Increase edition number
     this._setData("edition", this._getDataOrDefault("edition", 0) + 1);
 
+    console.debug("Uploading content...");
     let cid = await this.asUploadJson(this.#toLtsJsonData());
 
     // _cid is an internal value created in glb.web3Resolver.asResolve()
     this._setData("_cid", cid);
     newCidInfo.texts.push(cid);
 
-    let sig = await dba.Keys.sign(this.#postingKeyPath, cid);
+    let sig = await this.#asSign(cid);
+    console.debug("Publishing...");
     for (let a of this.#aPublishers) {
       await a.asPublish(cid, this.getId(), sig);
     }
 
     // TODO: Find all storage servers
+    console.debug("Pinning content...");
     const msg = JSON.stringify({cids : newCidInfo.texts});
-    sig = await dba.Keys.sign(this.#postingKeyPath, msg);
+    sig = await this.#asSign(msg);
     await this.#aStorage.asPin(msg, this.getId(), sig);
 
-    this.saveToStorage();
+    this.saveCheckPoint();
   }
 };
 

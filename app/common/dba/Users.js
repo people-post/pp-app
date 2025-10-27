@@ -7,6 +7,14 @@ class UserLib {
 
   constructor() { this.#initMap(); }
 
+  async asOnWeb3UserRequestFetchCidJson(user, cid) {
+    return await plt.Api.asyncFetchCidJson(cid);
+  }
+
+  async asOnWeb3UserRequestFetchCidImage(user, cid) {
+    return await plt.Api.asyncFetchCidImage(cid);
+  }
+
   onWeb3UserIdolsLoaded(user) {
     fwk.Events.trigger(plt.T_DATA.USER_IDOLS, user.getId())
   }
@@ -42,6 +50,7 @@ class UserLib {
     if (!this.#mUsers.has(id)) {
       let d = await glb.web3Resolver.asResolve(id);
       let u = new pdb.Web3User(d);
+      u.setDataSource(this);
       u.setDelegate(this);
       this.#mUsers.set(id, u);
     }
@@ -111,6 +120,7 @@ class UserLib {
 
   #onWeb3LoadRRR(userId, data) {
     let u = new pdb.Web3User(data);
+    u.setDataSource(this);
     u.setDelegate(this);
     this.#mUsers.set(userId, u);
     fwk.Events.trigger(plt.T_DATA.USER_PUBLIC_PROFILES, [ u ]);
