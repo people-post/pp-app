@@ -264,8 +264,6 @@ common/pdb/Web3Resolver.js
 common/pdb/Web3Publisher.js
 common/pdb/Web3Ledger.js
 common/pdb/Web3Storage.js
-common/pdb/Web3User.js
-common/pdb/Web3Owner.js
 
 common/dba/Badge.js
 common/dba/Signal.js
