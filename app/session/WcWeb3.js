@@ -87,7 +87,7 @@ class WcWeb3 extends main.WcSession {
     if (sData) {
       dba.Keys.fromEncodedStr(sData);
     }
-    dba.Account = new pdb.Web3Owner();
+    dba.Account = new pp.Owner();
     dba.Account.setDataSource(this);
     dba.Account.setDelegate(this);
     dba.Account.loadCheckPoint();

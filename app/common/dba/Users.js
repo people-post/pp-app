@@ -49,7 +49,7 @@ class UserLib {
 
     if (!this.#mUsers.has(id)) {
       let d = await glb.web3Resolver.asResolve(id);
-      let u = new pdb.Web3User(d);
+      let u = new pp.User(d);
       u.setDataSource(this);
       u.setDelegate(this);
       this.#mUsers.set(id, u);
@@ -119,7 +119,7 @@ class UserLib {
   }
 
   #onWeb3LoadRRR(userId, data) {
-    let u = new pdb.Web3User(data);
+    let u = new pp.User(data);
     u.setDataSource(this);
     u.setDelegate(this);
     this.#mUsers.set(userId, u);

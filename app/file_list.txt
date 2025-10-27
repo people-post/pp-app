@@ -7,6 +7,7 @@ lib/3rd/bip44.js
 lib/3rd/ed25519.js
 lib/3rd/bip32-ed25519.js
 lib/3rd/noble-post-quantum.min.js
+lib/3rd/pp.min.js
 
 lib/ext/PerishableObject.js
 lib/ext/CronJob.js
