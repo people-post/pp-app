@@ -40,7 +40,7 @@ class FUserIcon extends ui.Fragment {
     case plt.T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
-    case plt.T_DATA.WEB3_USER_PROFILE:
+    case plt.T_DATA.USER_PUBLIC_PROFILE:
       if (this.#userId == data) {
         this.render();
       }

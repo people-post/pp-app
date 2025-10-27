@@ -5,6 +5,8 @@ class Web3User {
   #dIdols;
   #dMarks;
   #iconUrl;
+  _dataSource;
+  _delegate;
 
   constructor(data) { this.#data = data; }
 
@@ -13,8 +15,7 @@ class Web3User {
     if (this.#dIdols) {
       return this.#dIdols.idols.some(i => i.id == userId);
     } else {
-      this._asGetOrInitIdolRoot().then(
-          d => fwk.Events.trigger(plt.T_DATA.WEB3_USER_IDOLS, this.getId()));
+      this._asGetOrInitIdolRoot().then(d => this.#onIdolsLoaded());
       return false;
     }
   }
@@ -29,9 +30,7 @@ class Web3User {
     } else {
       let cid = this._getDataOrDefault("profile", {}).icon_cid;
       if (cid) {
-        this.#asFetchIconImage(cid).then(
-            () =>
-                fwk.Events.trigger(plt.T_DATA.WEB3_USER_PROFILE, this.getId()));
+        this.#asFetchIconImage(cid).then(() => this.#onProfileLoaded());
         return null;
       } else {
         this.#iconUrl = "";
@@ -48,13 +47,15 @@ class Web3User {
     if (this.#dIdols) {
       return this.#dIdols.idols.length;
     } else {
-      this._asGetOrInitIdolRoot().then(
-          d => fwk.Events.trigger(plt.T_DATA.WEB3_USER_IDOLS, this.getId()));
+      this._asGetOrInitIdolRoot().then(d => this.#onIdolsLoaded());
       return 0;
     }
   }
   getNFollowers() { return 0; }
   getBriefBio() { return ""; }
+
+  setDataSource(dataSource) { this._dataSource = dataSource; }
+  setDelegate(delegate) { this._delegate = delegate; }
 
   reset(data) { this._reset(data); }
 
@@ -115,7 +116,7 @@ class Web3User {
     if (!this.#dPosts) {
       let cid = this._getData("posts");
       if (Utilities.isCid(cid)) {
-        this.#dPosts = await plt.Api.asyncFetchCidJson(cid);
+        this.#dPosts = await this.#asFetchCidJson(cid);
       } else {
         this.#dPosts = {posts : []};
       }
@@ -127,7 +128,7 @@ class Web3User {
     if (!this.#dMarks) {
       let cid = this._getData("marks");
       if (Utilities.isCid(cid)) {
-        this.#dMarks = await plt.Api.asyncFetchCidJson(cid);
+        this.#dMarks = await this.#asFetchCidJson(cid);
       } else {
         this.#dMarks = {marks : {}};
       }
@@ -136,6 +137,21 @@ class Web3User {
   }
 
   _setData(name, value) { this.#data[name] = value; }
+
+  #onIdolsLoaded() {
+    if (this._delegate) {
+      this._delegate.onWeb3UserIdolsLoaded(this);
+    }
+  }
+
+  #onProfileLoaded() {
+    if (this._delegate) {
+      this._delegate.onWeb3UserProfileLoaded(this);
+    }
+  }
+
+  async #asFetchCidJson(cid) { return await plt.Api.asyncFetchCidJson(cid); }
+  async #asFetchCidImage(cid) { return await plt.Api.asyncFetchCidImage(cid); }
 
   async #asFindMark(prefix, suffix, dMarks) {
     if (!dMarks) {
@@ -154,7 +170,7 @@ class Web3User {
       key = suffix.slice(0, 2);
       if (key in dMarks) {
         let cid = dMarks[key];
-        let d = await plt.Api.asyncFetchCidJson(cid);
+        let d = await this.#asFetchCidJson(cid);
         return await this.#asFindMark(prefix + key, suffix.slice(2), d.marks);
       }
     }
@@ -162,7 +178,7 @@ class Web3User {
   }
 
   async #asFetchIconImage(cid) {
-    this.#iconUrl = await plt.Api.asyncFetchCidImage(cid);
+    this.#iconUrl = await this.#asFetchCidImage(cid);
   }
 };
 

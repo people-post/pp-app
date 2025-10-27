@@ -1,85 +1,21 @@
 (function(dba) {
 
-dba.Users = function() {
-  // Public users' information
-  let _map = __initMap();
-  let _isLoading = false;
+// Public users' information
+class UserLib {
+  #isLoading = false;
+  #mUsers = new Map();
 
-  function __initMap() {
-    let m = new Map();
-    m.set(
-        dat.User.C_ID.SYSTEM,
-        new dat.User({nickname : "G-Cabin", icon_url : "file/gcabin_favicon"}));
-    m.set(dat.User.C_ID.L_ADD_USER, new dat.User({
-      nickname : "Add",
-      icon_url : C.PATH.STATIC + "/img/circle_add.svg"
-    }));
-    return m;
+  constructor() { this.#initMap(); }
+
+  onWeb3UserIdolsLoaded(user) {
+    fwk.Events.trigger(plt.T_DATA.USER_IDOLS, user.getId())
   }
 
-  function _clear() { _map = __initMap(); }
-
-  function _loadMissing(ids) {
-    let missingIds = [];
-    for (let id of ids) {
-      if (!_map.has(id)) {
-        missingIds.push(id);
-      }
-    }
-    if (missingIds.length) {
-      _load(missingIds);
-    }
+  onWeb3UserProfileLoaded(user) {
+    fwk.Events.trigger(plt.T_DATA.USER_PUBLIC_PROFILE, user.getId());
   }
 
-  function _load(ids) {
-    if (glb.env.isWeb3()) {
-      _web3Load(ids);
-    } else {
-      _web2Load(ids);
-    }
-  }
-
-  function _web2Load(ids) {
-    if (_isLoading) {
-      return;
-    }
-    _isLoading = true;
-    let url = "api/user/profiles";
-    let fd = new FormData();
-    for (let id of ids) {
-      fd.append("ids", id);
-      // Set to default
-      _map.set(id, null);
-    }
-    plt.Api.asyncRawPost(url, fd, r => __onLoadRRR(ids, r));
-  }
-
-  function _web3Load(ids) {
-    for (let id of ids) {
-      glb.web3Resolver.asResolve(id).then(d => __onWeb3LoadRRR(id, d));
-    }
-  }
-
-  function __onWeb3LoadRRR(userId, data) {
-    let u = new pdb.Web3User(data);
-    _map.set(userId, u);
-    fwk.Events.trigger(plt.T_DATA.USER_PUBLIC_PROFILES, [ u ]);
-  }
-
-  async function _asyncGet(id) {
-    if (glb.env.isWeb3() && dba.Account.isAuthenticated() &&
-        dba.Account.getId() == id) {
-      return dba.Account;
-    }
-
-    if (!_map.has(id)) {
-      let d = await glb.web3Resolver.asResolve(id);
-      _map.set(id, new pdb.Web3User(d));
-    }
-    return _map.get(id);
-  }
-
-  function _get(id) {
+  get(id) {
     if (!id) {
       return null;
     }
@@ -89,22 +25,99 @@ dba.Users = function() {
       return dba.Account;
     }
 
-    if (_map.has(id)) {
-      return _map.get(id);
+    if (this.#mUsers.has(id)) {
+      return this.#mUsers.get(id);
     } else {
-      _load([ id ]);
+      this.#load([ id ]);
       return null;
     }
   }
 
-  function _update(user) { _map.set(user.getId(), user); }
-  function _reload(userId) {
-    _map.delete(userId);
-    _load([ userId ]);
+  async asyncGet(id) {
+    if (glb.env.isWeb3() && dba.Account.isAuthenticated() &&
+        dba.Account.getId() == id) {
+      return dba.Account;
+    }
+
+    if (!this.#mUsers.has(id)) {
+      let d = await glb.web3Resolver.asResolve(id);
+      let u = new pdb.Web3User(d);
+      u.setDelegate(this);
+      this.#mUsers.set(id, u);
+    }
+    return this.#mUsers.get(id);
   }
 
-  function __onLoadRRR(ids, responseText) {
-    _isLoading = false;
+  update(user) { this.#mUsers.set(user.getId(), user); }
+
+  reload(userId) {
+    this.#mUsers.delete(userId);
+    this.#load([ userId ]);
+  }
+
+  loadMissing(ids) {
+    let missingIds = [];
+    for (let id of ids) {
+      if (!this.#mUsers.has(id)) {
+        missingIds.push(id);
+      }
+    }
+    if (missingIds.length) {
+      this.#load(missingIds);
+    }
+  }
+
+  clear() { this.#initMap(); }
+
+  #initMap() {
+    this.#mUsers.clear();
+    this.#mUsers.set(
+        dat.User.C_ID.SYSTEM,
+        new dat.User({nickname : "G-Cabin", icon_url : "file/gcabin_favicon"}));
+    this.#mUsers.set(dat.User.C_ID.L_ADD_USER, new dat.User({
+      nickname : "Add",
+      icon_url : C.PATH.STATIC + "/img/circle_add.svg"
+    }));
+  }
+
+  #load(ids) {
+    if (glb.env.isWeb3()) {
+      this.#web3Load(ids);
+    } else {
+      this.#web2Load(ids);
+    }
+  }
+
+  #web2Load(ids) {
+    if (this.#isLoading) {
+      return;
+    }
+    this.#isLoading = true;
+    let url = "api/user/profiles";
+    let fd = new FormData();
+    for (let id of ids) {
+      fd.append("ids", id);
+      // Set to default
+      this.#mUsers.set(id, null);
+    }
+    plt.Api.asyncRawPost(url, fd, r => this.#onLoadRRR(ids, r));
+  }
+
+  #web3Load(ids) {
+    for (let id of ids) {
+      glb.web3Resolver.asResolve(id).then(d => this.#onWeb3LoadRRR(id, d));
+    }
+  }
+
+  #onWeb3LoadRRR(userId, data) {
+    let u = new pdb.Web3User(data);
+    u.setDelegate(this);
+    this.#mUsers.set(userId, u);
+    fwk.Events.trigger(plt.T_DATA.USER_PUBLIC_PROFILES, [ u ]);
+  }
+
+  #onLoadRRR(ids, responseText) {
+    this.#isLoading = false;
     let response = JSON.parse(responseText);
     if (response.error) {
       fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
@@ -114,19 +127,12 @@ dba.Users = function() {
         us.push(new dat.User(p));
       }
       for (let u of us) {
-        _update(u);
+        this.update(u);
       }
       fwk.Events.trigger(plt.T_DATA.USER_PUBLIC_PROFILES, us);
     }
   }
+};
 
-  return {
-    get : _get,
-    asyncGet : _asyncGet,
-    loadMissing : _loadMissing,
-    update : _update,
-    reload : _reload,
-    clear : _clear,
-  };
-}();
+dba.Users = new UserLib();
 }(window.dba = window.dba || {}));

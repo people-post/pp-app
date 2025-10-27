@@ -25,9 +25,18 @@ then
 fi
 mkdir $WORK_DIR
 
-# 2. Compile app js
-CompileJs app/file_list.txt $WORK_DIR/app.js $WORK_DIR/app-min.js
+# 2. Prepare js
+ENTRY_JS_PATH=src/index.js
+BUNDLE_JS_PATH=$WORK_DIR/app-min.js
+
+#  a.1 Compile legacy app js
+CompileJs app/file_list.txt $WORK_DIR/app.js $BUNDLE_JS_PATH
 CompileJs sw/file_list.txt $WORK_DIR/sw.js $WORK_DIR/sw-min.js
+
+#  a.2 bundle into single js file
+esbuild $ENTRY_JS_PATH --bundle --platform=node --outfile=$BUNDLE_JS_PATH
+
+#  b. Prepare css
 uglifycss css/hst.css > $WORK_DIR/hst-min.css
 
 # 3. Packaging
@@ -39,7 +48,7 @@ mkdir $WEB2_DIR
 mkdir $WEB2_DIR/static
 mkdir $WEB2_DIR/static/js
 mkdir $WEB2_DIR/static/css
-cp $WORK_DIR/app-min.js $WEB2_DIR/static/js/hst-min.js
+cp $BUNDLE_JS_PATH $WEB2_DIR/static/js/hst-min.js
 cp $WORK_DIR/sw-min.js $WEB2_DIR/static/js/sw-min.js
 cp $WORK_DIR/hst-min.css $WEB2_DIR/static/css/hst-min.css
 
@@ -50,7 +59,7 @@ mkdir $WEB3_DIR/user
 mkdir $WEB3_DIR/static
 cp html/web3.html $WEB3_DIR/index.html
 cp $WORK_DIR/hst-min.css $WEB3_DIR/static/hst-min.css
-cp $WORK_DIR/app-min.js $WEB3_DIR/static/hst-min.js
+cp $BUNDLE_JS_PATH $WEB3_DIR/static/hst-min.js
 cp configs/web3_config.js $WEB3_DIR/user/config.js
 cp configs/web3_config_example.js $WEB3_DIR/user/config.js.bak
 cp ext/keyproducer.min.js $WEB3_DIR/static/keyproducer-min.js
