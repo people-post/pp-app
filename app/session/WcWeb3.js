@@ -91,6 +91,7 @@ class WcWeb3 extends main.WcSession {
 
     console.info("Init global...");
     glb.ipfs = new pp.Ipfs();
+    await glb.ipfs.asSetHelia(plt.Helia.get());
 
     console.info("Init resolver...");
     glb.web3Resolver = new pdb.Web3Resolver();
