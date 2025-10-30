@@ -20,7 +20,7 @@ class Web3Resolver {
   }
 
   async asResolveFromCid(cid) {
-    let d = await plt.Api.asyncFetchCidJson(cid);
+    let d = await glb.ipfs.asFetchCidJson(cid);
     if (typeof d === 'object' && d !== null) {
       // Internal use
       d._cid = cid;

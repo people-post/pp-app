@@ -3,13 +3,6 @@ class WcWeb3 extends main.WcSession {
   #postingKeyPath =
       [ dat.Wallet.T_PURPOSE.NFSC001, dat.Wallet.T_COIN.NFSC001, 0, 0, 0 ];
 
-  async asOnWeb3UserRequestFetchCidJson(user, cid) {
-    return await plt.Api.asyncFetchCidJson(cid);
-  }
-
-  async asOnWeb3UserRequestFetchCidImage(user, cid) {
-    return await plt.Api.asyncFetchCidImage(cid);
-  }
   onWeb3UserIdolsLoaded(user) {
     fwk.Events.trigger(plt.T_DATA.USER_IDOLS, user.getId())
   }
@@ -95,6 +88,9 @@ class WcWeb3 extends main.WcSession {
     console.info("Load config...");
     dba.Web3Config.load(C.WEB3);
     const c = dba.Web3Config.getNetworkConfig();
+
+    console.info("Init global...");
+    glb.ipfs = new pp.Ipfs();
 
     console.info("Init resolver...");
     glb.web3Resolver = new pdb.Web3Resolver();

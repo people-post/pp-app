@@ -7,14 +7,6 @@ class UserLib {
 
   constructor() { this.#initMap(); }
 
-  async asOnWeb3UserRequestFetchCidJson(user, cid) {
-    return await plt.Api.asyncFetchCidJson(cid);
-  }
-
-  async asOnWeb3UserRequestFetchCidImage(user, cid) {
-    return await plt.Api.asyncFetchCidImage(cid);
-  }
-
   onWeb3UserIdolsLoaded(user) {
     fwk.Events.trigger(plt.T_DATA.USER_IDOLS, user.getId())
   }
