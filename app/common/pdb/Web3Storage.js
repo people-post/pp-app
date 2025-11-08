@@ -1,7 +1,7 @@
 (function(pdb) {
 class Web3PeerStorageAgent extends pdb.Web3PeerServerMixin
-(pdb.Web3StorageAgent) {};
-class Web3GroupStorageAgent extends pdb.Web3StorageAgent {};
+(pp.StorageAgent) {};
+class Web3GroupStorageAgent extends pp.StorageAgent {};
 
 class Web3Storage {
   #agents = [];
@@ -38,12 +38,12 @@ class Web3Storage {
   }
 
   async #asCreateAgent(sAddr) {
-    let server = new pdb.Web3Server();
+    let server = new pp.RemoteServer();
     if (await server.asInit(sAddr)) {
       switch (server.getRegisterType()) {
-      case pdb.Web3Server.T_REGISTER.PEER:
+      case pp.RemoteServer.T_REGISTER.PEER:
         return new Web3PeerStorageAgent(server);
-      case pdb.Web3Server.T_REGISTER.GROUP:
+      case pp.RemoteServer.T_REGISTER.GROUP:
         return new Web3GroupStorageAgent(server);
       default:
         break;

@@ -240,7 +240,7 @@ dba.Blog = function() {
     _pendingPostIds.push(id);
 
     if (glb.env.isWeb3()) {
-      glb.ipfs.asFetchCidJson(id)
+      pp.sys.ipfs.asFetchCidJson(id)
           .then(d => __onCidArticleRRR(id, d))
           .catch(e => __onCidArticleError(id, e));
     } else {

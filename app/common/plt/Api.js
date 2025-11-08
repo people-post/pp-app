@@ -46,11 +46,6 @@ class Api {
                           onErr ? onErr : this.#dummyFunc, onProg);
   }
 
-  async p2pFetch(resource, options) {
-    let helia = plt.Helia.get();
-    return await helia.libp2p.services.http.fetch(resource, options);
-  }
-
   #dummyFunc(dummy) {}
 
   #onConnErr(txt, onErr) { onErr({type : dat.RemoteError.T_TYPE.CONN}); }

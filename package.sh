@@ -13,7 +13,10 @@ CompileJs() {
     temp=$2
     target=$3
     ./mergejs $fileList $temp
-    terser -c defaults -m --mangle-props regex=/^_/ $temp --source-map -o $target
+    #esbuild $temp --bundle --platform=browser --outfile=$target
+    terser -c defaults $temp --source-map -o $target
+    # mangle not work in helia settings
+    #terser -c defaults -m --mangle-props regex=/^_/ $temp --source-map -o $target
     ExitOnError $? !!
 }
 
@@ -64,15 +67,10 @@ cp configs/web3_config.js $WEB3_DIR/user/config.js
 cp configs/web3_config_example.js $WEB3_DIR/user/config.js.bak
 cp ext/keyproducer.min.js $WEB3_DIR/static/keyproducer-min.js
 cp ext/multiformats.min.js $WEB3_DIR/static/multiformats-min.js
-cp ext/multiaddr.min.js $WEB3_DIR/static/multiaddr-min.js
 cp ext/libp2ppeerid.min.js $WEB3_DIR/static/libp2ppeerid-min.js
 cp ext/libp2pcrypto.min.js $WEB3_DIR/static/libp2pcrypto-min.js
-cp ext/libp2phttpfetch.min.js $WEB3_DIR/static/libp2phttpfetch-min.js
 cp ext/cardano.min.js $WEB3_DIR/static/cardano-min.js
-cp ext/helia.min.js $WEB3_DIR/static/helia-min.js
-cp ext/heliaipns.min.js $WEB3_DIR/static/heliaipns-min.js
 cp ext/heliaunixfs.min.js $WEB3_DIR/static/heliaunixfs-min.js
-cp ext/heliafetch.min.js $WEB3_DIR/static/heliafetch-min.js
 
 # 3.2 Create tarball
 tar -C $WORK_DIR -cf $WEB3_PACKAGE web3

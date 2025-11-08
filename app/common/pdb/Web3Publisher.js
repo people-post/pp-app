@@ -58,13 +58,13 @@ class Web3Publisher {
   getAgents() { return this.#agents; }
 
   async #asCreateAgent(sAddr) {
-    let server = new pdb.Web3Server();
+    let server = new pp.RemoteServer();
     if (await server.asInit(sAddr)) {
       switch (server.getRegisterType()) {
-      case pdb.Web3Server.T_REGISTER.PEER:
+      case pp.RemoteServer.T_REGISTER.PEER:
         console.log("peer");
         return new Web3PeerPublisherAgent(server);
-      case pdb.Web3Server.T_REGISTER.GROUP:
+      case pp.RemoteServer.T_REGISTER.GROUP:
         console.log("Gruop");
         return new Web3GroupPublisherAgent(server);
       default:

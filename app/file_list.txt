@@ -246,7 +246,6 @@ common/Utilities.js
 
 common/plt/Events.js
 common/plt/Env.js
-common/plt/Helia.js
 common/plt/Api.js
 common/plt/FileUploader.js
 common/plt/Web2FileUploader.js
@@ -254,12 +253,10 @@ common/plt/LongListIdLoader.js
 common/plt/ConstListIdLoader.js
 common/plt/SectorGateway.js
 
-common/pdb/Web3Server.js
 common/pdb/Web3ServerAgent.js
 common/pdb/Web3PeerServerMixin.js
 common/pdb/Web3PublisherAgent.js
 common/pdb/Web3BlockchainAgent.js
-common/pdb/Web3StorageAgent.js
 common/pdb/Web3Resolver.js
 common/pdb/Web3Publisher.js
 common/pdb/Web3Ledger.js

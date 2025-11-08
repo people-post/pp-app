@@ -72,8 +72,8 @@ class WcWeb3 extends main.WcSession {
   }
 
   async #asMain(dConfig) {
-    console.info("Starting helia...");
-    await plt.Helia.init();
+    console.info("Init global...");
+    await pp.asInit();
 
     console.info("Load local data...");
     let sData = sessionStorage.getItem(C.STORAGE.KEY.KEYS);
@@ -88,10 +88,6 @@ class WcWeb3 extends main.WcSession {
     console.info("Load config...");
     dba.Web3Config.load(C.WEB3);
     const c = dba.Web3Config.getNetworkConfig();
-
-    console.info("Init global...");
-    glb.ipfs = new pp.Ipfs();
-    await glb.ipfs.asSetHelia(plt.Helia.get());
 
     console.info("Init resolver...");
     glb.web3Resolver = new pdb.Web3Resolver();

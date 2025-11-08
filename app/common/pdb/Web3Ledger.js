@@ -19,18 +19,12 @@ class Web3Ledger {
     }
   }
 
-  #parseAddress(sAddr) {
-    return sAddr ? MultiformatsMultiaddr.multiaddr(sAddr) : null;
-  }
-
   async #asCreateAgent(sAddr) {
-    let multiAddr = this.#parseAddress(sAddr);
-    if (!multiAddr) {
-      return null;
+    let server = new pp.RemoteServer();
+    if (await server.asInit(sAddr)) {
+      return new pdb.Web3BlockchainAgent(server);
     }
-
-    let server = new pdb.Web3Server(multiAddr);
-    return new pdb.Web3BlockchainAgent(server);
+    return null;
   }
 };
 

@@ -106,7 +106,9 @@ class UserLib {
 
   #web3Load(ids) {
     for (let id of ids) {
-      glb.web3Resolver.asResolve(id).then(d => this.#onWeb3LoadRRR(id, d));
+      glb.web3Resolver.asResolve(id)
+          .then(d => this.#onWeb3LoadRRR(id, d))
+          .catch(e => console.error(e));
     }
   }
 

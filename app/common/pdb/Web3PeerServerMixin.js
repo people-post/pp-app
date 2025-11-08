@@ -41,12 +41,12 @@ const Web3PeerServerMixin = (Base) => class extends Base {
   async asRegister(msg, pubKey, sig) {
     console.log("Pubkey size", pubKey.length);
     let url = this.getServer().getApiUrl("/api/user/register");
-    let req = new Request(url, {
+    let options = {
       method : "POST",
       headers : {"Content-Type" : "application/json"},
       body : JSON.stringify({data : msg, public_key : pubKey, signature : sig})
-    });
-    let res = await plt.Api.p2pFetch(req);
+    };
+    let res = await pp.sys.ipfs.asFetch(url, options);
     let d = await res.json();
     if (d.error) {
       throw d.error;
@@ -74,11 +74,13 @@ const Web3PeerServerMixin = (Base) => class extends Base {
   }
 
   async #asFetchUserInfo(url) {
-    let req = new Request(
-        url, {method : "GET", headers : {"Content-Type" : "application/json"}});
+    let options = {
+      method : "GET",
+      headers : {"Content-Type" : "application/json"}
+    };
     let res;
     try {
-      res = await plt.Api.p2pFetch(req);
+      res = await pp.sys.ipfs.asFetch(url, options);
     } catch (e) {
       return null;
     }
