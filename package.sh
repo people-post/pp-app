@@ -65,7 +65,6 @@ cp $WORK_DIR/hst-min.css $WEB3_DIR/static/hst-min.css
 cp $BUNDLE_JS_PATH $WEB3_DIR/static/hst-min.js
 cp configs/web3_config.js $WEB3_DIR/user/config.js
 cp configs/web3_config_example.js $WEB3_DIR/user/config.js.bak
-cp ext/keyproducer.min.js $WEB3_DIR/static/keyproducer-min.js
 cp ext/cardano.min.js $WEB3_DIR/static/cardano-min.js
 
 # 3.2 Create tarball
