@@ -128,7 +128,7 @@ class Web3Resolver {
 
   #getIpnsName(userId) {
     // TODO: Maybe we should use customized id system
-    let peerId = Libp2PPeerId.peerIdFromString(userId)
+    let peerId = pp.sys.utl.peerIdFromString(userId);
     return peerId.toMultihash();
   }
 
@@ -141,10 +141,6 @@ class Web3Resolver {
         "/api/name/resolve?" + new URLSearchParams({id : userId}).toString();
     let a = this.#agents[0];
     return a.getServer().getApiUrl(path);
-  }
-
-  #parseAddress(sAddr) {
-    return sAddr ? MultiformatsMultiaddr.multiaddr(sAddr) : null;
   }
 };
 

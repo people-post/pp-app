@@ -21,7 +21,7 @@ class FWeb3Search extends srch.FSearch {
 
   #isUserId(s) {
     try {
-      Libp2PPeerId.peerIdFromString(s);
+      pp.sys.utl.peerIdFromString(s);
       return true;
     } catch (e) {
       return false;

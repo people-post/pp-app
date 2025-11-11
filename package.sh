@@ -66,11 +66,7 @@ cp $BUNDLE_JS_PATH $WEB3_DIR/static/hst-min.js
 cp configs/web3_config.js $WEB3_DIR/user/config.js
 cp configs/web3_config_example.js $WEB3_DIR/user/config.js.bak
 cp ext/keyproducer.min.js $WEB3_DIR/static/keyproducer-min.js
-cp ext/multiformats.min.js $WEB3_DIR/static/multiformats-min.js
-cp ext/libp2ppeerid.min.js $WEB3_DIR/static/libp2ppeerid-min.js
-cp ext/libp2pcrypto.min.js $WEB3_DIR/static/libp2pcrypto-min.js
 cp ext/cardano.min.js $WEB3_DIR/static/cardano-min.js
-cp ext/heliaunixfs.min.js $WEB3_DIR/static/heliaunixfs-min.js
 
 # 3.2 Create tarball
 tar -C $WORK_DIR -cf $WEB3_PACKAGE web3

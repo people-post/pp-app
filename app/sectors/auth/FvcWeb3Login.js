@@ -98,11 +98,16 @@ class FvcWeb3Login extends auth.FvcLoginBase {
     dba.Keys.setMnemonic(w);
     dba.Keys.asyncGetAccount()
         .then(k => this.#onAccountKeyReady(f, k, w == this.#newMnemonic))
-        .catch(e => this.#btnSubmit.setEnabled(true));
+        .catch(e => this.#onGetAccountError(e));
+  }
+
+  #onGetAccountError(e) {
+    console.error(e);
+    this.#btnSubmit.setEnabled(true)
   }
 
   #onAccountKeyReady(fvcProgress, key, isNew) {
-    let peerId = Libp2PPeerId.peerIdFromPublicKey(key);
+    let peerId = pp.sys.utl.peerIdFromPublicKey(key);
     let userId = peerId.toString();
     if (isNew) {
       // TODO: Default profile should share the same code as the one inside
