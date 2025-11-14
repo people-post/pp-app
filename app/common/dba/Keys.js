@@ -16,7 +16,7 @@ dba.Keys = function() {
     let k = __getBip32Ed25519Impl(dPath);
 
     let seed = k.deriveSeed();
-    let kp = await Libp2PCrypto.keys.generateKeyPairFromSeed("Ed25519", seed);
+    let kp = await pp.sys.utl.asGenerateKeyPairFromSeed("Ed25519", seed);
     return kp.publicKey;
   }
 

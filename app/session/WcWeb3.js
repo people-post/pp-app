@@ -1,5 +1,37 @@
 (function(main) {
 class WcWeb3 extends main.WcSession {
+  #postingKeyPath =
+      [ dat.Wallet.T_PURPOSE.NFSC001, dat.Wallet.T_COIN.NFSC001, 0, 0, 0 ];
+
+  onWeb3UserIdolsLoaded(user) {
+    fwk.Events.trigger(plt.T_DATA.USER_IDOLS, user.getId())
+  }
+
+  onWeb3UserProfileLoaded(user) {
+    fwk.Events.trigger(plt.T_DATA.USER_PUBLIC_PROFILE, user.getId());
+  }
+
+  onWeb3OwnerRequestGetPublicKey(owner) {
+    return ext.Utilities.uint8ArrayToHex(
+        dba.Keys.getMlDsa44(this.#postingKeyPath));
+  }
+
+  onWeb3OwnerRequestLoadCheckPoint(owner) {
+    return sessionStorage.getItem(C.STORAGE.KEY.PROFILE);
+  }
+
+  onWeb3OwnerRequestSaveCheckPoint(owner, data) {
+    sessionStorage.setItem(C.STORAGE.KEY.PROFILE, data);
+  }
+
+  async asOnWeb3OwnerRequestSign(owner, msg) {
+    return await dba.Keys.sign(this.#postingKeyPath, msg);
+  }
+
+  onWeb3OwnerProfileUpdated(owner) {
+    fwk.Events.trigger(plt.T_DATA.USER_PROFILE);
+  }
+
   onLoginClickInAccountActionButtonFragment(fAbAccount) {
     let gw = new auth.Gateway();
     let v = gw.createWeb3LoginView();
@@ -40,16 +72,18 @@ class WcWeb3 extends main.WcSession {
   }
 
   async #asMain(dConfig) {
-    console.info("Starting helia...");
-    await plt.Helia.init();
+    console.info("Init global...");
+    await pp.asInit();
 
     console.info("Load local data...");
     let sData = sessionStorage.getItem(C.STORAGE.KEY.KEYS);
     if (sData) {
       dba.Keys.fromEncodedStr(sData);
     }
-    dba.Account = new pdb.Web3Owner();
-    dba.Account.loadFromStorage();
+    dba.Account = new pp.Owner();
+    dba.Account.setDataSource(this);
+    dba.Account.setDelegate(this);
+    dba.Account.loadCheckPoint();
 
     console.info("Load config...");
     dba.Web3Config.load(C.WEB3);
@@ -84,7 +118,7 @@ class WcWeb3 extends main.WcSession {
   #onLoginSuccess(profile) {
     let urlParam = new URLSearchParams(window.location.search);
     dba.Account.reset(profile);
-    dba.Account.saveToStorage();
+    dba.Account.saveCheckPoint();
     sessionStorage.setItem(C.STORAGE.KEY.KEYS, dba.Keys.toEncodedStr());
 
     this._clearDbAgents();

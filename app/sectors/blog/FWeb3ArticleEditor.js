@@ -166,7 +166,7 @@ class FWeb3ArticleEditor extends ui.Fragment {
   #unlockActionBtns() { this.#fSubmit.enable(); }
 
   #onError(e) {
-    console.log(e);
+    console.error(e);
     this.onLocalErrorInFragment(this, R.get("EL_API_POST"));
   }
 };

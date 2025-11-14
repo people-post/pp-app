@@ -20,12 +20,12 @@ plt.T_DATA = {
   CURRENCIES : Symbol(),
   ASSET : Symbol(),
   SOCIAL_INFO : Symbol(),
-  USER_PROFILE : Symbol(),
-  USER_PUBLIC_PROFILES : Symbol(),
+  USER_PROFILE : Symbol(),         // For currently logged in user
+  USER_PUBLIC_PROFILES : Symbol(), // For all users, in web2
+  USER_PUBLIC_PROFILE : Symbol(),  // For all users, in web3
+  USER_IDOLS : Symbol(),           // Currently only web3
   USER_INBOX_SIGNAL : Symbol(),
   USER_ADDRESS_IDS : Symbol(),
-  WEB3_USER_PROFILE : Symbol(),
-  WEB3_USER_IDOLS : Symbol(),
   DRAFT_ORDERS : Symbol(),
   ADDRESS : Symbol(),
   JOURNAL : Symbol(),

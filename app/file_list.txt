@@ -7,6 +7,7 @@ lib/3rd/bip44.js
 lib/3rd/ed25519.js
 lib/3rd/bip32-ed25519.js
 lib/3rd/noble-post-quantum.min.js
+lib/3rd/pp.min.js
 
 lib/ext/PerishableObject.js
 lib/ext/CronJob.js
@@ -245,7 +246,6 @@ common/Utilities.js
 
 common/plt/Events.js
 common/plt/Env.js
-common/plt/Helia.js
 common/plt/Api.js
 common/plt/FileUploader.js
 common/plt/Web2FileUploader.js
@@ -253,18 +253,14 @@ common/plt/LongListIdLoader.js
 common/plt/ConstListIdLoader.js
 common/plt/SectorGateway.js
 
-common/pdb/Web3Server.js
 common/pdb/Web3ServerAgent.js
 common/pdb/Web3PeerServerMixin.js
 common/pdb/Web3PublisherAgent.js
 common/pdb/Web3BlockchainAgent.js
-common/pdb/Web3StorageAgent.js
 common/pdb/Web3Resolver.js
 common/pdb/Web3Publisher.js
 common/pdb/Web3Ledger.js
 common/pdb/Web3Storage.js
-common/pdb/Web3User.js
-common/pdb/Web3Owner.js
 
 common/dba/Badge.js
 common/dba/Signal.js
@@ -315,6 +311,7 @@ common/gui/PAddress.js
 common/gui/Address.js
 common/gui/AddressEditor.js
 common/gui/PaymentEditor.js
+common/gui/FMediaFile.js
 common/gui/FGallery.js
 common/gui/TagsEditorFragment.js
 common/gui/SimpleLongListFragment.js
@@ -824,5 +821,6 @@ session/WcGadget.js
 session/WcSub.js
 session/WcPortal.js
 session/WcWeb3.js
+
 
 G.js

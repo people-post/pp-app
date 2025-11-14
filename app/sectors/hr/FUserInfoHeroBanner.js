@@ -96,8 +96,8 @@ class FUserInfoHeroBanner extends ui.Fragment {
     case plt.T_DATA.USER_PROFILE:
       this.render();
       break;
-    case plt.T_DATA.WEB3_USER_IDOLS:
-    case plt.T_DATA.WEB3_USER_PROFILE:
+    case plt.T_DATA.USER_IDOLS:
+    case plt.T_DATA.USER_PUBLIC_PROFILE:
       if (data == dba.Account.getId() || data == this._dataSource.getUserId()) {
         this.render();
       }

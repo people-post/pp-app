@@ -10,7 +10,7 @@ class Web3Resolver {
     this.#agents = [];
     if (addrs) {
       for (let s of addrs) {
-        let server = new pdb.Web3Server();
+        let server = new pp.RemoteServer();
         if (await server.asInit(s)) {
           let agent = new pdb.Web3ServerAgent(server);
           this.#agents.push(agent);
@@ -20,7 +20,13 @@ class Web3Resolver {
   }
 
   async asResolveFromCid(cid) {
-    let d = await plt.Api.asyncFetchCidJson(cid);
+    // TODO: Multi thread calls cause data mess up when AbortSignal
+    let d = null;
+    try {
+      d = await pp.sys.ipfs.asFetchCidJson(cid);
+    } catch (e) {
+      console.debug(e);
+    }
     if (typeof d === 'object' && d !== null) {
       // Internal use
       d._cid = cid;
@@ -53,15 +59,11 @@ class Web3Resolver {
     let cid = await this.#asResolveFromNameServer(userId);
     if (!cid) {
       // 2. Try direct IPNS
-      let ipns = plt.Helia.getIpns();
-      if (ipns) {
-        try {
-          let r = await ipns.resolve(this.#getIpnsName(userId),
-                                     {signal : AbortSignal.timeout(5000)});
-          cid = r.cid.toString();
-        } catch (e) {
-          // It's OK to fail
-        }
+      try {
+        cid = await pp.sys.ipfs.asResolve(this.#getIpnsName(userId),
+                                          {signal : AbortSignal.timeout(5000)});
+      } catch (e) {
+        // It's OK to fail
       }
     }
     if (!cid) {
@@ -71,27 +73,30 @@ class Web3Resolver {
 
     let d;
     if (cid) {
-      d = this.asResolveFromCid(cid);
+      console.debug("Resolved:", cid);
+      d = await this.asResolveFromCid(cid);
     }
 
-    if (!d) {
+    if (d) {
+      console.debug("Data found:", d);
+    } else {
+      console.debug("Data not found");
       // Name resolve failed, reasons:
       // 1. userId not exist
       // 2. network failure
       // 3. cid resolved to unexpected data
       d = {};
     }
-    console.log("Resolved");
     return d;
   }
 
   async #asResolveFromNameServer(userId) {
     // 1. Try centrialized name server
     let url = this.#getUserIdResolveUrl(userId);
-    let req = new Request(url, {method : "GET"});
+    let options = {method : "GET"};
     let cid;
     try {
-      let res = await plt.Api.p2pFetch(req);
+      let res = await pp.sys.ipfs.asFetch(url, options);
       let d = await res.json();
       if (d.error) {
         throw d.error;
@@ -123,7 +128,7 @@ class Web3Resolver {
 
   #getIpnsName(userId) {
     // TODO: Maybe we should use customized id system
-    let peerId = Libp2PPeerId.peerIdFromString(userId)
+    let peerId = pp.sys.utl.peerIdFromString(userId);
     return peerId.toMultihash();
   }
 
@@ -136,10 +141,6 @@ class Web3Resolver {
         "/api/name/resolve?" + new URLSearchParams({id : userId}).toString();
     let a = this.#agents[0];
     return a.getServer().getApiUrl(path);
-  }
-
-  #parseAddress(sAddr) {
-    return sAddr ? MultiformatsMultiaddr.multiaddr(sAddr) : null;
   }
 };
 

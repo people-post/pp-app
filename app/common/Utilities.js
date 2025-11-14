@@ -1,13 +1,4 @@
 const Utilities = function() {
-  function _isCid(s) {
-    try {
-      Multiformats.CID.parse(s);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
   function _isOrderReferenceId(key) {
     return key.length == 27 && key.indexOf('ORD') == 0;
   }
@@ -249,7 +240,6 @@ const Utilities = function() {
   }
 
   return {
-    isCid : _isCid,
     isOrderReferenceId : _isOrderReferenceId,
     getVisibilityClassName : _getVisibilityClassName,
     getStateClassName : _getStateClassName,

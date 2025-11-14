@@ -1,0 +1,23 @@
+{
+  "name": "pp-app",
+  "version": "1.0.0",
+  "description": "people-post frontend",
+  "homepage": "https://github.com/people-post/pp-app#readme",
+  "bugs": {
+    "url": "https://github.com/people-post/pp-app/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/people-post/pp-app.git"
+  },
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "src/index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

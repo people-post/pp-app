@@ -21,7 +21,7 @@ class FHomeBtn extends ui.FHeaderMenu {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.WEB3_USER_PROFILE:
+    case plt.T_DATA.USER_PUBLIC_PROFILE:
       if (data == dba.WebConfig.getOwnerId() || data == dba.Account.getId()) {
         this.render();
       }

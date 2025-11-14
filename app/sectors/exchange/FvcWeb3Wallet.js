@@ -335,7 +335,7 @@ class FvcWeb3Wallet extends ui.FScrollViewContent {
     return this.#parseBalance(res);
   }
   async #relayReQuest(url) {
-    const r = await plt.Api.p2pFetch(this.#node + url, this.#options);
+    const r = await pp.sys.ipfs.asFetch(this.#node + url, this.#options);
     const t = await r.text();
     console.log("async");
     console.log(t);
