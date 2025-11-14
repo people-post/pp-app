@@ -1,7 +1,7 @@
 (function(pdb) {
 class Web3PeerPublisherAgent extends pdb.Web3PeerServerMixin
-(pdb.Web3PublisherAgent) {};
-class Web3GroupPublisherAgent extends pdb.Web3PublisherAgent {};
+(pp.PublisherAgent) {};
+class Web3GroupPublisherAgent extends pp.PublisherAgent {};
 
 class Web3Publisher {
   #agents = [];
