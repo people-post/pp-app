@@ -13,7 +13,7 @@ class MlDsa44Key {
   }
 
   signUint8Array(msg) {
-    return noblePostQuantum.ml_dsa44.sign(this.#buffer.secretKey, msg);
+    return pp.sys.utl.mlDsa44Sign(msg, this.#buffer.secretKey);
   }
 };
 
