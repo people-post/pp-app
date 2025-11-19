@@ -6,7 +6,6 @@ lib/3rd/cbor.js
 lib/3rd/bip44.js
 lib/3rd/ed25519.js
 lib/3rd/bip32-ed25519.js
-lib/3rd/noble-post-quantum.min.js
 lib/3rd/pp.min.js
 
 lib/ext/PerishableObject.js
@@ -253,10 +252,9 @@ common/plt/LongListIdLoader.js
 common/plt/ConstListIdLoader.js
 common/plt/SectorGateway.js
 
-common/pdb/Web3ServerAgent.js
 common/pdb/Web3PeerServerMixin.js
-common/pdb/Web3PublisherAgent.js
 common/pdb/Web3BlockchainAgent.js
+common/pdb/Web3ResolverAgent.js
 common/pdb/Web3Resolver.js
 common/pdb/Web3Publisher.js
 common/pdb/Web3Ledger.js

@@ -12,7 +12,7 @@ class Web3Resolver {
       for (let s of addrs) {
         let server = new pp.RemoteServer();
         if (await server.asInit(s)) {
-          let agent = new pdb.Web3ServerAgent(server);
+          let agent = new pdb.Web3ResolverAgent(server);
           this.#agents.push(agent);
         }
       }

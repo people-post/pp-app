@@ -16,7 +16,7 @@ dba.Keys = function() {
     let k = __getBip32Ed25519Impl(dPath);
 
     let seed = k.deriveSeed();
-    let kp = await pp.sys.utl.asGenerateKeyPairFromSeed("Ed25519", seed);
+    let kp = await pp.sys.utl.asEd25519KeyGen(seed);
     return kp.publicKey;
   }
 
@@ -109,7 +109,7 @@ dba.Keys = function() {
   function __getMlDsa44Impl(path) {
     let k = __getBip32Ed25519Impl(path);
     let seed = k.deriveSeed();
-    return new dat.MlDsa44Key(noblePostQuantum.ml_dsa44.keygen(seed));
+    return new dat.MlDsa44Key(pp.sys.utl.mlDsa44KeyGen(seed));
   }
 
   async function __asyncDeriveBip44Ed25519RootKey(entropy) {
