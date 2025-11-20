@@ -144,10 +144,12 @@ class FWeb3ArticleEditor extends ui.Fragment {
   async #asSubmit(data) {
     // 1. Upload data
     data.id = await dba.Account.asUploadJson(data);
+    let a = new dat.Article(data);
 
     // 2. Post info
-    let a = new dat.Article(data);
-    let postInfo = {type : "ARTICLE", cid : a.getId()};
+    let item = new pp.dat.OPostListItem();
+    item.setType(pp.dat.OPostListItem.T_TYPE.ARTICLE);
+    item.setCid(a.getId());
 
     // 3. Pin cids
     let pinCids = [ a.getId() ];
@@ -157,7 +159,7 @@ class FWeb3ArticleEditor extends ui.Fragment {
       pinCids.push(atCid);
     }
 
-    await dba.Account.asPublishPost(postInfo, pinCids);
+    await dba.Account.asPublishPost(item, pinCids);
     this._delegate.onNewArticlePostedInArticleEditorFragment(this);
   }
 
