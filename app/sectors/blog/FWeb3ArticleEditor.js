@@ -140,25 +140,7 @@ class FWeb3ArticleEditor extends ui.Fragment {
   #validate() { return this.#fAttachment.validate(); }
 
   async #asSubmit(oArticle) {
-    // 1. Upload data
-    let data = oArticle.ltsToJsonData();
-    data.id = await dba.Account.asUploadJson(data);
-    let a = new dat.Article(data);
-
-    // 2. Post info
-    let item = new pp.dat.OPostListItem();
-    item.setType(pp.dat.OPostListItem.T_TYPE.ARTICLE);
-    item.setCid(a.getId());
-
-    // 3. Pin cids
-    let pinCids = [ a.getId() ];
-    let at = a.getAttachment();
-    let atCid = at ? at.getCid() : null;
-    if (atCid) {
-      pinCids.push(atCid);
-    }
-
-    await dba.Account.asPublishPost(item, pinCids);
+    await dba.Account.asPublishArticle(oArticle);
     this._delegate.onNewArticlePostedInArticleEditorFragment(this);
   }
 
