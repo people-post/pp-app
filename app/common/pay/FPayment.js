@@ -83,10 +83,12 @@ class FPayment extends ui.Fragment {
     this.#fSquare.attachRender(pp);
     this.#fSquare.render();
 
-    pp = new ui.PanelWrapper();
-    p.pushPanel(pp);
-    this.#fBraintree.attachRender(pp);
-    this.#fBraintree.render();
+    /*
+  pp = new ui.PanelWrapper();
+  p.pushPanel(pp);
+  this.#fBraintree.attachRender(pp);
+  this.#fBraintree.render();
+  */
 
     pp = new ui.PanelWrapper();
     p.pushPanel(pp);
