@@ -301,6 +301,7 @@ common/gui/PriceFragment.js
 common/gui/PriceEditorFragment.js
 common/gui/FTributeInput.js
 common/gui/ActionButton.js
+common/gui/ActionButtonGroup.js
 common/gui/FSimpleList.js
 common/gui/FoldableItemFragment.js
 common/gui/PAddressBase.js
@@ -340,6 +341,7 @@ common/gui/FvcQuotaLimit.js
 common/gui/FvcExtras.js
 
 common/pay/FSquareOnline.js
+common/pay/FBraintree.js
 common/pay/PSquareTerminal.js
 common/pay/FSquareTerminal.js
 common/pay/PPaymentTerminalBase.js

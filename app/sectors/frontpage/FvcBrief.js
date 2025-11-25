@@ -212,6 +212,7 @@ class FvcBrief extends ui.FViewContentBase {
   #tWidth = null;
   #selectedDate = "";
   #fBtnDonate = null;
+  #fAbg;
 
   constructor() {
     super();
@@ -269,20 +270,29 @@ class FvcBrief extends ui.FViewContentBase {
     this.setPreferredWidth({"min" : 320, "best" : 2048, "max" : 0});
     this.#resizeObserver = new ResizeObserver(() => this.#onResize());
 
-    if (false) {
-      this.#fBtnDonate = new gui.ActionButton();
-      this.#fBtnDonate.setIcon(gui.ActionButton.T_ICON.MORE);
-      this.#fBtnDonate.setDelegate(this);
-    }
+    this.#fBtnDonate = new gui.ActionButton();
+    this.#fBtnDonate.setIcon(gui.ActionButton.T_ICON.DONATE);
+    this.#fBtnDonate.setDelegate(this);
+
+    this.#fAbg = new gui.ActionButtonGroup();
+    this.#fAbg.append(this.#fBtnDonate);
   }
 
   getHeaderDefaultNavFragment() { return this.#fHome; }
   getMenuFragments() { return [ this.#fmMain, this.#fmSearch ]; }
   // getHeaderLayoutType() { return ui.FViewHeader.T_LAYOUT.THICK; }
 
-  getActionButton() { return this.#fBtnDonate; }
+  getActionButton() { return this.#fAbg; }
 
-  onGuiActionButtonClick(fActionButton) { this.#onShowDonation(); }
+  onGuiActionButtonClick(fActionButton) {
+    switch (fActionButton) {
+    case this.#fBtnDonate:
+      this.#onShowDonation();
+      break;
+    default:
+      break;
+    }
+  }
 
   setOwnerId(id) {
     this.#loader.setOwnerId(id);

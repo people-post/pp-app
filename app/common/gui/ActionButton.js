@@ -22,6 +22,7 @@ class ActionButton extends ui.Fragment {
     CLOSE: `Close`,
     CHECKOUT: `Checkout`,
     LOGIN: C.ICON.ACCOUNT,
+    DONATE: C.ICON.DONATION,
   };
 
   constructor() {
