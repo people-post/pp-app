@@ -54,7 +54,7 @@ ext.Api = function() {
       }
     };
     xhr.onerror = () => onErr(xhr.responseText);
-    xhr.send(data);
+    xhr.send(JSON.stringify(data));
   }
 
   function _asyncCall(url, onOk, onErr) {
