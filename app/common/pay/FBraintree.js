@@ -4,22 +4,41 @@ const _CFT_BRAINTREE = {
 };
 
 class FBraintree extends ui.Fragment {
+  #fBtnOk;
   #fBtnPay;
   #braintree;
   #nonce;
 
   constructor() {
     super();
+    this.#fBtnOk = new ui.Button();
+    this.#fBtnOk.setName("Ok");
+    this.#fBtnOk.setValue("OK");
+    this.#fBtnOk.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
+    this.#fBtnOk.setDelegate(this);
+    this.setChild("btnok", this.#fBtnOk);
+
     this.#fBtnPay = new ui.Button();
-    this.#fBtnPay.setName("Next");
-    this.#fBtnPay.setValue("NEXT");
+    this.#fBtnPay.setName("Submit");
+    this.#fBtnPay.setValue("SUBMIT");
     this.#fBtnPay.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
     this.#fBtnPay.setDelegate(this);
 
-    this.setChild("pay", this.#fBtnPay);
+    this.setChild("btnpay", this.#fBtnPay);
   }
 
-  onSimpleButtonClicked(fBar) { this.#onPayClicked(); }
+  onSimpleButtonClicked(fBar) {
+    switch (fBar.getValue()) {
+    case "OK":
+      this.#onOkClicked();
+      break;
+    case "SUBMIT":
+      this.#onPayClicked();
+      break;
+    default:
+      break;
+    }
+  }
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
@@ -46,12 +65,20 @@ class FBraintree extends ui.Fragment {
 
     pp = new ui.PanelWrapper();
     pMain.pushPanel(pp);
+    this.#fBtnOk.attachRender(pp);
+    this.#fBtnOk.disable();
+    this.#fBtnOk.render();
+
+    pMain.pushSpace(1);
+
+    pp = new ui.PanelWrapper();
+    pMain.pushPanel(pp);
     this.#fBtnPay.attachRender(pp);
     this.#fBtnPay.disable();
     this.#fBtnPay.render();
 
     if (this.#braintree) {
-      this.#fBtnPay.enable();
+      this.#fBtnOk.enable();
     } else {
       this.#loadJsPayment();
     }
@@ -77,32 +104,27 @@ class FBraintree extends ui.Fragment {
 
   #onCreateSuccess(obj) {
     this.#braintree = obj;
-    this.#fBtnPay.enable();
+    this.#fBtnOk.enable();
   }
 
   #onCreateError(e) { console.error("Failed to create braintree", e); }
 
+  #onOkClicked() {
+    this.#asNext()
+        .then(() => this.#onOkSuccess())
+        .catch(e => this.#onOkError(e));
+  }
+
   #onPayClicked() {
-    this.#fBtnPay.disable();
-    if (this.#fBtnPay.getValue() == "NEXT") {
-      this.#asNext()
-          .then(() => this.#onNextSuccess())
-          .catch(e => this.#onNextError(e));
-    } else {
-      this.#asSubmit()
-          .then(() => this.#onPaySuccess())
-          .catch(e => this.#onPayError(e));
-    }
+    this.#asSubmit()
+        .then(() => this.#onPaySuccess())
+        .catch(e => this.#onPayError(e));
   }
 
   async #asNext() {
     let r = await this.#braintree.requestPaymentMethod();
     console.log(r);
     this.#nonce = r.nonce;
-    this.#fBtnPay.setName("Submit");
-    this.#fBtnPay.setValue("SUBMIT");
-    this.#fBtnPay.render();
-    this.#fBtnPay.enable();
   }
 
   async #asSubmit() {
@@ -110,19 +132,16 @@ class FBraintree extends ui.Fragment {
         this, "api/braintree/deposit", {nonce : this.#nonce, device_data : ""});
   }
 
-  #onNextSuccess() { console.log("Next success"); }
-
-  #onNextError() {
-    console.error("Failed to pay through braintree", e);
+  #onOkSuccess() {
+    console.log("Ok success");
     this.#fBtnPay.enable();
   }
+
+  #onOkError() { console.error("Failed to request payment method", e); }
 
   #onPaySuccess() { console.log("Payment success"); }
 
-  #onPayError(e) {
-    console.error("Failed to pay through braintree", e);
-    this.#fBtnPay.enable();
-  }
+  #onPayError(e) { console.error("Failed to pay through braintree", e); }
 };
 
 pay.FBraintree = FBraintree;
