@@ -5,7 +5,16 @@ class FvcBriefDonation extends ui.FViewContentBase {
   constructor() {
     super();
     this.#fPayment = new pay.FBraintree();
+    this.#fPayment.setDelegate(this);
     this.setChild("pay", this.#fPayment);
+  }
+
+  onBraintreePaymentSuccess(fBraintree) {
+    let v = new ui.View();
+    let f = new ftpg.FvcBriefDonationResult();
+    f.setType(ftpg.FvcBriefDonationResult.T_TYPE.SUCCESS);
+    v.setContentFragment(f);
+    this._owner.onContentFragmentRequestReplaceView(this, v, "Donation Result");
   }
 
   _renderOnRender(render) {

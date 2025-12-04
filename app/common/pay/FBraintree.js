@@ -4,20 +4,12 @@ const _CFT_BRAINTREE = {
 };
 
 class FBraintree extends ui.Fragment {
-  #fBtnOk;
   #fBtnPay;
   #braintree;
-  #nonce;
+  #payload;
 
   constructor() {
     super();
-    this.#fBtnOk = new ui.Button();
-    this.#fBtnOk.setName("Ok");
-    this.#fBtnOk.setValue("OK");
-    this.#fBtnOk.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
-    this.#fBtnOk.setDelegate(this);
-    this.setChild("btnok", this.#fBtnOk);
-
     this.#fBtnPay = new ui.Button();
     this.#fBtnPay.setName("Submit");
     this.#fBtnPay.setValue("SUBMIT");
@@ -27,18 +19,7 @@ class FBraintree extends ui.Fragment {
     this.setChild("btnpay", this.#fBtnPay);
   }
 
-  onSimpleButtonClicked(fBar) {
-    switch (fBar.getValue()) {
-    case "OK":
-      this.#onOkClicked();
-      break;
-    case "SUBMIT":
-      this.#onPayClicked();
-      break;
-    default:
-      break;
-    }
-  }
+  onSimpleButtonClicked(fBar) { this.#onPayClicked(); }
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
@@ -63,12 +44,6 @@ class FBraintree extends ui.Fragment {
     s = s.replace("__ID__", this.#getPaymentElementId());
     pp.replaceContent(s);
 
-    pp = new ui.PanelWrapper();
-    pMain.pushPanel(pp);
-    this.#fBtnOk.attachRender(pp);
-    this.#fBtnOk.disable();
-    this.#fBtnOk.render();
-
     pMain.pushSpace(1);
 
     pp = new ui.PanelWrapper();
@@ -78,7 +53,7 @@ class FBraintree extends ui.Fragment {
     this.#fBtnPay.render();
 
     if (this.#braintree) {
-      this.#fBtnOk.enable();
+      this.#fBtnPay.enable();
     } else {
       this.#loadJsPayment();
     }
@@ -104,16 +79,10 @@ class FBraintree extends ui.Fragment {
 
   #onCreateSuccess(obj) {
     this.#braintree = obj;
-    this.#fBtnOk.enable();
+    this.#fBtnPay.enable();
   }
 
   #onCreateError(e) { console.error("Failed to create braintree", e); }
-
-  #onOkClicked() {
-    this.#asNext()
-        .then(() => this.#onOkSuccess())
-        .catch(e => this.#onOkError(e));
-  }
 
   #onPayClicked() {
     this.#asSubmit()
@@ -121,27 +90,28 @@ class FBraintree extends ui.Fragment {
         .catch(e => this.#onPayError(e));
   }
 
-  async #asNext() {
-    let r = await this.#braintree.requestPaymentMethod();
-    console.log(r);
-    this.#nonce = r.nonce;
-  }
-
   async #asSubmit() {
-    let r = await plt.Api.asyncFragmentJsonPost(
-        this, "api/braintree/deposit", {nonce : this.#nonce, device_data : ""});
+    this.#payload = await this.#braintree.requestPaymentMethod();
+    console.log("Payload:", this.#payload);
+
+    let r = await plt.Api.asyncFragmentJsonPost(this, "api/braintree/deposit", {
+      amount : 10,
+      nonce : this.#payload.nonce,
+      device_data : this.#payload.deviceData
+    });
+    console.log(r);
   }
 
-  #onOkSuccess() {
-    console.log("Ok success");
-    this.#fBtnPay.enable();
+  #onPaySuccess() {
+    console.log("Payment success");
+    this.#braintree.teardown();
+    this._delegate.onBraintreePaymentSuccess(this);
   }
 
-  #onOkError() { console.error("Failed to request payment method", e); }
-
-  #onPaySuccess() { console.log("Payment success"); }
-
-  #onPayError(e) { console.error("Failed to pay through braintree", e); }
+  #onPayError(e) {
+    console.error("Failed to pay through braintree", e);
+    this.#braintree.clearSelectedPaymentMethod();
+  }
 };
 
 pay.FBraintree = FBraintree;

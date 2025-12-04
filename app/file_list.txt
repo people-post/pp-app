@@ -454,6 +454,7 @@ sectors/hr/Gateway.js
 sectors/frontpage/FJournalMenu.js
 sectors/frontpage/FvcInsights.js
 sectors/frontpage/FvcBriefDonation.js
+sectors/frontpage/FvcBriefDonationResult.js
 sectors/frontpage/FvcBrief.js
 sectors/frontpage/FvcJournal.js
 sectors/frontpage/FvcBlockchain.js
