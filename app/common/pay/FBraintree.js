@@ -7,6 +7,9 @@ class FBraintree extends ui.Fragment {
   #fBtnPay;
   #braintree;
   #payload;
+  #amount = 0;
+  #userId;
+  #userPublicKey;
 
   constructor() {
     super();
@@ -18,6 +21,10 @@ class FBraintree extends ui.Fragment {
 
     this.setChild("btnpay", this.#fBtnPay);
   }
+
+  setAmount(amount) { this.#amount = amount; }
+  setUserId(userId) { this.#userId = userId; }
+  setUserPublicKey(key) { this.#userPublicKey = key; }
 
   onSimpleButtonClicked(fBar) { this.#onPayClicked(); }
 
@@ -91,13 +98,20 @@ class FBraintree extends ui.Fragment {
   }
 
   async #asSubmit() {
+    // Validate values;
+    if (!(this.#amount > 0 && this.#userId && this.#userPublicKey)) {
+      return;
+    }
+
     this.#payload = await this.#braintree.requestPaymentMethod();
     console.log("Payload:", this.#payload);
 
     let r = await plt.Api.asyncFragmentJsonPost(this, "api/braintree/deposit", {
-      amount : 10,
+      amount : this.#amount,
       nonce : this.#payload.nonce,
-      device_data : this.#payload.deviceData
+      device_data : this.#payload.deviceData,
+      user_id : this.#userId,
+      user_public_key : this.#userPublicKey
     });
     console.log(r);
   }

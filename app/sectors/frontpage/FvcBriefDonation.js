@@ -18,7 +18,21 @@ class FvcBriefDonation extends ui.FViewContentBase {
   }
 
   _renderOnRender(render) {
-    this.#fPayment.attachRender(render);
+    let pList = new ui.ListPanel();
+    render.wrapPanel(pList);
+
+    let p = new ui.PanelWrapper();
+    pList.pushPanel(p);
+    p.replaceContent("TODO: Donate choices");
+
+    p = new ui.PanelWrapper();
+    pList.pushPanel(p);
+    // TODO:
+    this.#fPayment.setAmount(10);
+    this.#fPayment.setUserId("test_user_id");
+    this.#fPayment.setUserPublicKey("test_public_key");
+
+    this.#fPayment.attachRender(p);
     this.#fPayment.render();
   }
 };
