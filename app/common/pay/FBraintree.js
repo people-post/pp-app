@@ -77,7 +77,7 @@ class FBraintree extends ui.Fragment {
   }
 
   async #asInit() {
-    let r = await plt.Api.asyncFragmentCall(this, "api/braintree/client_token");
+    let r = await plt.Api.asyncFragmentCall(this, "api/token/braintree_client");
     return await window.braintree.dropin.create({
       authorization : r.token,
       container : "#" + this.#getPaymentElementId()
@@ -106,13 +106,14 @@ class FBraintree extends ui.Fragment {
     this.#payload = await this.#braintree.requestPaymentMethod();
     console.log("Payload:", this.#payload);
 
-    let r = await plt.Api.asyncFragmentJsonPost(this, "api/braintree/deposit", {
-      amount : this.#amount,
-      nonce : this.#payload.nonce,
-      device_data : this.#payload.deviceData,
-      user_id : this.#userId,
-      user_public_key : this.#userPublicKey
-    });
+    let r = await plt.Api.asyncFragmentJsonPost(
+        this, "api/charity/braintree_donate", {
+          amount : this.#amount,
+          nonce : this.#payload.nonce,
+          device_data : this.#payload.deviceData,
+          user_id : this.#userId,
+          user_public_key : this.#userPublicKey
+        });
     console.log(r);
   }
 

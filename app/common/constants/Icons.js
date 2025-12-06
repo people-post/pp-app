@@ -26,6 +26,14 @@ C.ICON = {
     <line class="next __C_STROKE__" x1="25" y1="5" x2="50" y2="33"/>
     <line class="next __C_STROKE__" x1="25" y1="60" x2="50" y2="33"/>
   </svg>`,
+  COFFEE_MUG : `<svg viewBox="0 0 24 24">
+    <path class="coffee-mug __C_STROKE__" d="M7 11v1a5 5 0 0 0 5 5h0a5 5 0 0 0 5 -5v-1"/>
+    <path class="coffee-mug __C_STROKE__" d="M18 11a2 2 0 0 1 2 1.5v1a2 2 0 0 1 -3 1"/>
+    <path class="coffee-mug __C_STROKE__" d="M8 11h8"/>
+    <path class="coffee-mug __C_STROKE__" d="M8 8.5v-2"/>
+    <path class="coffee-mug __C_STROKE__" d="M12 8.5v-2"/>
+    <path class="coffee-mug __C_STROKE__" d="M16 8.5v-2"/>
+  </svg>`,
   DONATION : `<svg viewBox="0 0 64 64">
   <circle class="donation __C_STROKE__" cx="32" r="12" cy="20"></circle>
   <text class="__C_FILL__" x="32" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" stroke="none" stroke-width="0" y="26">$</text>
