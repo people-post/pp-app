@@ -29,6 +29,11 @@ class Env {
         id : "ID_JS_PAYMENT",
         src : "https://sandbox.web.squarecdn.com/v1/square.js",
       },
+      BRAINTREE : {
+        id : "ID_JS_BRAINTREE",
+        src :
+            "https://js.braintreegateway.com/web/dropin/1.44.0/js/dropin.min.js",
+      },
     };
   }
 

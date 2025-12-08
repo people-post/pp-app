@@ -3558,6 +3558,20 @@ svg .mic {
     stroke-miterlimit: 10;
 }
 
+svg .donation {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+svg .coffee-mug {
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 div.video-thumbnail-mask {
     position: absolute;
     height: 8%;

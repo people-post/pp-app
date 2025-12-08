@@ -4,6 +4,9 @@ const _CFT_PAYMENT = {
 }
 
 class FPayment extends ui.Fragment {
+  #fSquare;
+  #fBraintree;
+
   constructor() {
     super();
     this._fAsset = new gui.FoldableItemFragment();
@@ -11,13 +14,16 @@ class FPayment extends ui.Fragment {
     this._fAsset.setDelegate(this);
     this.setChild("asset", this._fAsset);
 
-    this._fSquare = new gui.FoldableItemFragment();
-    this._fSquare.setHeaderFragment(this.#createTitleFragment("Pay by card"));
+    this.#fSquare = new gui.FoldableItemFragment();
+    this.#fSquare.setHeaderFragment(this.#createTitleFragment("Pay by card"));
     let f = new pay.FSquareOnline();
     f.setDelegate(this);
-    this._fSquare.setContentFragment(f);
-    this._fSquare.setDelegate(this);
-    this.setChild("square", this._fSquare);
+    this.#fSquare.setContentFragment(f);
+    this.#fSquare.setDelegate(this);
+    this.setChild("square", this.#fSquare);
+
+    this.#fBraintree = new pay.FBraintree();
+    this.setChild("braintree", this.#fBraintree);
 
     // For offline checkout
     this._fTerminals = new pay.FPaymentTerminalList();
@@ -73,9 +79,16 @@ class FPayment extends ui.Fragment {
     let pp = new ui.PanelWrapper();
     p.pushPanel(pp);
 
-    this._fSquare.setIsOpen(this._fSelected == this._fSquare);
-    this._fSquare.attachRender(pp);
-    this._fSquare.render();
+    this.#fSquare.setIsOpen(this._fSelected == this.#fSquare);
+    this.#fSquare.attachRender(pp);
+    this.#fSquare.render();
+
+    /*
+  pp = new ui.PanelWrapper();
+  p.pushPanel(pp);
+  this.#fBraintree.attachRender(pp);
+  this.#fBraintree.render();
+  */
 
     pp = new ui.PanelWrapper();
     p.pushPanel(pp);

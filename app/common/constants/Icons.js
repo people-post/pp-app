@@ -26,6 +26,20 @@ C.ICON = {
     <line class="next __C_STROKE__" x1="25" y1="5" x2="50" y2="33"/>
     <line class="next __C_STROKE__" x1="25" y1="60" x2="50" y2="33"/>
   </svg>`,
+  COFFEE_MUG : `<svg viewBox="0 0 24 24">
+    <path class="coffee-mug __C_STROKE__" d="M7 11v1a5 5 0 0 0 5 5h0a5 5 0 0 0 5 -5v-1"/>
+    <path class="coffee-mug __C_STROKE__" d="M18 11a2 2 0 0 1 2 1.5v1a2 2 0 0 1 -3 1"/>
+    <path class="coffee-mug __C_STROKE__" d="M8 11h8"/>
+    <path class="coffee-mug __C_STROKE__" d="M8 8.5v-2"/>
+    <path class="coffee-mug __C_STROKE__" d="M12 8.5v-2"/>
+    <path class="coffee-mug __C_STROKE__" d="M16 8.5v-2"/>
+  </svg>`,
+  DONATION : `<svg viewBox="0 0 64 64">
+  <circle class="donation __C_STROKE__" cx="32" r="12" cy="20"></circle>
+  <text class="__C_FILL__" x="32" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" stroke="none" stroke-width="0" y="26">$</text>
+  <rect class="donation __C_STROKE__" x="14" y="34" width="36" height="24" rx="4"></rect>
+  <path class="donation __C_STROKE__" d="M32 42C28.5 37 24 40 24 44C24 48 28 52 32 54C36 52 40 48 40 44C40 40 35.5 37 32 42Z"></path>
+</svg>`,
   MIC : `<svg viewBox="0 0 68 68">
     <path class="mic __C_STROKE__" d="M47.5892754,24.7277813h5.4140549v9.1362171c0,10.5032654-8.5000648,19.0033302-19.0033302,19.0033302   c-10.4897308,0-19.0033302-8.5000648-19.0033302-19.0033302v-9.1362171h5.4140549"/>
 <path class="mic __C_STROKE__" d="M34.004528,1.9999899c-7.504446,0-13.5880146,6.0836339-13.5880146,13.5880156v18.2796402   c0,7.5043793,6.0835686,13.5878868,13.5880146,13.5878868s13.5879517-6.0835075,13.5879517-13.5878868V15.5880051   C47.5924797,8.0836239,41.508976,1.9999899,34.004528,1.9999899z"/>

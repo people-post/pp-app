@@ -129,30 +129,13 @@ class FCommentInput extends ui.Fragment {
       return;
     }
 
-    // 1. Make article out of comment text.
-    let data = {};
-    data.title = "";
-    data.content = message;
-    data.owner_id = dba.Account.getId();
-    data.verion = "1.0";
-    data.created_at = Date.now() / 1000;
+    // Make article out of comment text.
+    let oArticle = new pp.dat.OArticle();
+    oArticle.setContent(message);
+    oArticle.setOwnerId(dba.Account.getId());
+    oArticle.markCreation();
 
-    // 2. Upload article file and get cid
-    console.log("Upload article");
-    data.id = await dba.Account.asUploadJson(data);
-
-    // 3. Make comment info
-    console.log("Make comment info");
-    let dInfo = {type : "ARTICLE", cid : data.id};
-
-    // 4. Post comment
-    await dba.Account.asComment(this.#threadId.getValue(), dInfo, [ data.id ]);
-
-    if (asPost) {
-      // Make article info
-      dInfo = {type : "ARTICLE", cid : data.id};
-      await dba.Account.asPublishPost(dInfo, [ data.id ]);
-    }
+    await dba.Account.asComment(this.#threadId.getValue(), oArticle, asPost);
   }
 
   #asyncWeb2PostUserComment(message, asPost) {

@@ -113,51 +113,34 @@ class FWeb3ArticleEditor extends ui.Fragment {
 
   #doSubmit() {
     this.#lockActionBtns();
-    let data = this.#collectData();
-    this.#asSubmit(data)
+    let oArticle = this.#collectData();
+    this.#asSubmit(oArticle)
         .catch(e => this.#onError(e))
         .finally(() => this.#unlockActionBtns());
   }
 
   #collectData() {
-    // TODO: Embeded into Article class.
-    // Work needed:
-    // 1. Make a clone of original article in setArticle()
-    // 2. Add setters in Article class
-    // 3. Add toLtsJsonData() function in Article class
-    let data = {};
-    data.id = this.#baseArticle.getId();
-    data.title = this.#fTitle.getValue();
-    data.content = this.#fContent.getValue();
-    data.owner_id = dba.Account.getId();
-    data.verion = "1.0";
-    data.created_at = Date.now() / 1000;
+    let oArticle = new pp.dat.OArticle();
+    oArticle.setId(this.#baseArticle.getId());
+    oArticle.setTitle(this.#fTitle.getValue());
+    oArticle.setContent(this.#fContent.getValue());
+    oArticle.setOwnerId(dba.Account.getId());
     let jd = this.#fAttachment.getJsonData();
     if (jd) {
-      data.attachments = [ {cid : jd.id, name : jd.name, type : jd.type} ];
+      let oMeta = new pp.dat.OAttachmentMeta();
+      oMeta.setCid(jd.id);
+      oMeta.setName(jd.name);
+      oMeta.setType(jd.type);
+      oArticle.setAttachments([ oMeta ]);
     }
-    return data;
+    oArticle.markCreation();
+    return oArticle;
   }
 
   #validate() { return this.#fAttachment.validate(); }
 
-  async #asSubmit(data) {
-    // 1. Upload data
-    data.id = await dba.Account.asUploadJson(data);
-
-    // 2. Post info
-    let a = new dat.Article(data);
-    let postInfo = {type : "ARTICLE", cid : a.getId()};
-
-    // 3. Pin cids
-    let pinCids = [ a.getId() ];
-    let at = a.getAttachment();
-    let atCid = at ? at.getCid() : null;
-    if (atCid) {
-      pinCids.push(atCid);
-    }
-
-    await dba.Account.asPublishPost(postInfo, pinCids);
+  async #asSubmit(oArticle) {
+    await dba.Account.asPublishArticle(oArticle);
     this._delegate.onNewArticlePostedInArticleEditorFragment(this);
   }
 

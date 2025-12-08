@@ -49,6 +49,7 @@ class WcMain extends main.WcSession {
     glb.env.checkLoadAddonScript(glb.env.SCRIPT.SIGNAL);
     glb.env.checkLoadAddonScript(glb.env.SCRIPT.EDITOR);
     glb.env.checkLoadAddonScript(glb.env.SCRIPT.PAYMENT);
+    glb.env.checkLoadAddonScript(glb.env.SCRIPT.BRAINTREE);
   }
 
   #showUpgradeView(quotaError) {

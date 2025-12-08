@@ -94,6 +94,11 @@ class ViewStack extends ui.RenderController {
       view.detachRender();
       let i = this.#childStack.indexOf(view);
       this.#childStack[i] = newView;
+      if (this.getStackSize() > 0 && !this.#isOptionalView(newView)) {
+        let ff = new ui.FNavBack();
+        ff.setDelegate(this);
+        newView.setNavMenuFragment(ff);
+      }
       newView.attachRender(r);
       newView.render();
       fwk.Events.triggerTopAction(fwk.T_ACTION.REPLACE_STATE, {}, title);
