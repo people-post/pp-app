@@ -11,7 +11,50 @@
 | app/                         | Main javascript source code folder                                                         |
 | sw/                          | Service worker source code folder                                                          |
 | html/                        | Entry files                                                                                |
-| package.sh                   | Packaging script to compile code and prepare package                                       |
+| build.js                     | Node.js build script to compile code and prepare package                                    |
+| package.json                 | npm package configuration with build scripts                                               |
+
+## Building
+
+This project uses Node.js and npm for building. The build process replaces the previous bash-based `package.sh` script.
+
+### Prerequisites
+
+- Node.js >= 18.0.0
+- npm
+
+### Build Commands
+
+```bash
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+
+# Clean build artifacts
+npm run clean
+
+# Package (same as build)
+npm run package
+```
+
+### Build Process
+
+The build script (`build.js`) performs the following steps:
+
+1. **Merge JavaScript files**: Concatenates files listed in `app/file_list.txt` and `sw/file_list.txt`
+2. **Minify JavaScript**: Uses `terser` to minify the merged JavaScript files
+3. **Minify CSS**: Uses `uglifycss` to minify `css/hst.css`
+4. **Package outputs**: Creates web2 and web3 deployment packages in the `obj/` directory
+5. **Create tarball**: Generates `obj/web3.tar.gz` for web3 deployment
+
+### Migration Notes
+
+- The old `package.sh` bash script has been replaced with `build.js` (Node.js)
+- The old `mergejs` bash script functionality is now integrated into `build.js`
+- Build dependencies (`terser`, `uglifycss`) are managed via npm
+- Build output structure remains the same for compatibility
 
 ## Design
 ## Web3 file structures

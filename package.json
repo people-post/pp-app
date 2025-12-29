@@ -18,6 +18,17 @@
     "doc": "doc"
   },
   "scripts": {
+    "build": "node build.js",
+    "clean": "rm -rf obj",
+    "package": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "terser": "^5.26.0",
+    "uglifycss": "^0.0.29"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
