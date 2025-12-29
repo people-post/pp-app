@@ -1,7 +1,6 @@
 import Utilities from '../../ext/Utilities.js';
 
-(function(ui) {
-class Render {
+export default class Render {
   constructor() { this._elementId = null; }
 
   isInViewPort() {
@@ -120,5 +119,8 @@ class Render {
   }
 }
 
-ui.Render = Render;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.Render = Render;
+}

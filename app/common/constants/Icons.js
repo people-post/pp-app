@@ -1,5 +1,4 @@
-(function(C) {
-C.ICON = {
+export const ICON = {
   M_CHAIN : `&#x1f517;`,
   M_CHECK : `&#9989;`,
   M_BOX : `&#9744;`,
@@ -645,4 +644,9 @@ C.ICON = {
     </g>
   </svg>`,
 };
-}(window.C = window.C || {}));
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.C = window.C || {};
+  window.C.ICON = ICON;
+}

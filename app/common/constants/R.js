@@ -1,4 +1,4 @@
-const R = function() {
+export const R = function() {
   _lang = null;
   _lib = new Map([
     [ "About", {"zh" : "关于"} ],
