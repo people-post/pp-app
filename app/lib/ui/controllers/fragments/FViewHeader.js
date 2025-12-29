@@ -1,3 +1,5 @@
+import { Logger } from '../../../ext/Logger.js';
+
 (function(ui) {
 class FViewHeader extends ui.Fragment {
   static T_LAYOUT = {
@@ -18,7 +20,7 @@ class FViewHeader extends ui.Fragment {
   constructor() {
     super();
     this.#resizeObserver = new ResizeObserver(() => this.#onResize());
-    this.#logger = new ext.Logger("FViewHeader");
+    this.#logger = new Logger("FViewHeader");
   }
 
   onMenuFragmentRequestShowContent(fMenu, fContent) {

@@ -1,3 +1,5 @@
+import Utilities from '../../../ext/Utilities.js';
+
 (function(ui) {
 // Note. following constants are used elsewhere, please be careful
 ui.CR_VIEW_FRAME = {
@@ -13,7 +15,7 @@ class View extends ui.RenderController {
 
   constructor() {
     super();
-    this._id = ext.Utilities.uuid();
+    this._id = Utilities.uuid();
 
     this.#fHeader = new ui.FViewHeader();
     this.#fHeader.setDataSource(this);

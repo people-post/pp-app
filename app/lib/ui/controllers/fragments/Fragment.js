@@ -1,8 +1,10 @@
+import Utilities from '../../../ext/Utilities.js';
+
 (function(ui) {
 class Fragment extends ui.RenderController {
   constructor() {
     super();
-    this._id = ext.Utilities.uuid();
+    this._id = Utilities.uuid();
   }
 
   onFragmentRequestShowView(f, view, title) {

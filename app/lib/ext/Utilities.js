@@ -1,5 +1,4 @@
-(function(ext) {
-ext.Utilities = function() {
+const Utilities = function() {
   let _urlPattern = new RegExp(
       '^(https?:\\/\\/)?' +                                    // protocol
           '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
@@ -477,4 +476,11 @@ ext.Utilities = function() {
     optCall : _optCall,
   };
 }();
-}(window.ext = window.ext || {}));
+
+export default Utilities;
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ext = window.ext || {};
+  window.ext.Utilities = Utilities;
+}

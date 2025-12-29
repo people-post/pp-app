@@ -1,3 +1,5 @@
+import { Logger } from '../../ext/Logger.js';
+
 (function(ui) {
 const _CRC_NAVIGATION = {
   BIT : {NARROW : 1 << 1, WIDE_EXTRA : 1 << 0},
@@ -12,7 +14,7 @@ class ViewStack extends ui.RenderController {
 
   constructor() {
     super();
-    this.#logger = new ext.Logger("ViewStack");
+    this.#logger = new Logger("ViewStack");
   }
 
   getStackSize() { return this.#childStack.length; }
