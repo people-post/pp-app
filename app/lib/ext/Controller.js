@@ -1,5 +1,4 @@
-(function(ext) {
-class Controller {
+export class Controller {
   constructor() {
     this._owner = null;
     this._dataSource = null;
@@ -15,7 +14,10 @@ class Controller {
       this._owner.onRemoteErrorInController(this, e);
     }
   }
-};
+}
 
-ext.Controller = Controller;
-}(window.ext = window.ext || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ext = window.ext || {};
+  window.ext.Controller = Controller;
+}

@@ -1,3 +1,5 @@
+import { Controller } from '../../ext/Controller.js';
+
 (function(ui) {
 const _CRC_RENDER_CONTROLLER = {
   TIP_LINK :
@@ -6,7 +8,7 @@ const _CRC_RENDER_CONTROLLER = {
       `We are sorry, there is an unexpected error when __FUNC__: __TEXT__.`,
 };
 
-class RenderController extends ext.Controller {
+class RenderController extends Controller {
   #isPrimeBg = false;
   #isActive;
   #render;

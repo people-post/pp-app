@@ -1,15 +1,14 @@
-(function(fwk) {
-fwk.T_CATEGORY = {
+export const T_CATEGORY = {
   UI : Symbol(),
 };
 
-fwk.T_OBJ = {
+export const T_OBJ = {
   BANNER_FRAGMENT : Symbol(),
   SEARCH_RESULT_VIEW_CONTENT_FRAGMENT : Symbol(),
   FILE_UPLOADER : Symbol(),
 };
 
-fwk.Factory = function() {
+export const Factory = function() {
   let _lib = new Map();
 
   function _getClass(category, id) {
@@ -29,4 +28,11 @@ fwk.Factory = function() {
     registerClass : _registerClass,
   };
 }();
-}(window.fwk = window.fwk || {}));
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.fwk = window.fwk || {};
+  window.fwk.T_CATEGORY = T_CATEGORY;
+  window.fwk.T_OBJ = T_OBJ;
+  window.fwk.Factory = Factory;
+}

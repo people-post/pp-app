@@ -1,4 +1,5 @@
 import { Logger } from '../../ext/Logger.js';
+import { URL_PARAM } from '../Constants.js';
 
 (function(ui) {
 const _CRC_NAVIGATION = {
@@ -44,7 +45,7 @@ class ViewStack extends ui.RenderController {
   initFromUrl(urlParam) {
     this.#logger.debug("Init from url: " + urlParam);
     let vs = this._getActiveViews();
-    urlParam.set(ui.C.URL_PARAM.N_NAV_FRAME, vs.length);
+    urlParam.set(URL_PARAM.N_NAV_FRAME, vs.length);
     for (let v of vs) {
       v.initFromUrl(urlParam);
     }

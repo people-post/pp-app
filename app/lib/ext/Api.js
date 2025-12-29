@@ -1,5 +1,4 @@
-(function(ext) {
-ext.Api = function() {
+const Api = function() {
   function _createRequestObject() {
     if (window.XMLHttpRequest) {
       // code for IE7+, Firefox, Chrome, Opera, Safari
@@ -78,4 +77,11 @@ ext.Api = function() {
     asyncJsonPost : _asyncJsonPost,
   };
 }();
-}(window.ext = window.ext || {}));
+
+export default Api;
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ext = window.ext || {};
+  window.ext.Api = Api;
+}

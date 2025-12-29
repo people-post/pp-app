@@ -1,4 +1,5 @@
 import Utilities from '../../../ext/Utilities.js';
+import { Factory, T_CATEGORY, T_OBJ } from '../../../framework/Factory.js';
 
 (function(ui) {
 // Note. following constants are used elsewhere, please be careful
@@ -23,7 +24,7 @@ class View extends ui.RenderController {
     this.setChild("__header", this.#fHeader);
 
     let cls =
-        fwk.Factory.getClass(fwk.T_CATEGORY.UI, fwk.T_OBJ.BANNER_FRAGMENT);
+        Factory.getClass(T_CATEGORY.UI, T_OBJ.BANNER_FRAGMENT);
     this.#fBanner = new cls();
     this.setChild("__banner", this.#fBanner);
   }
@@ -161,8 +162,8 @@ class View extends ui.RenderController {
   }
 
   #search(key) {
-    let cls = fwk.Factory.getClass(
-        fwk.T_CATEGORY.UI, fwk.T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
+    let cls = Factory.getClass(
+        T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
     let f = new cls();
     f.setKey(key);
     let v = new ui.View();
