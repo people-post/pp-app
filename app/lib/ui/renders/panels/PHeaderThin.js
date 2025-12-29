@@ -1,4 +1,7 @@
-(function(ui) {
+import { PHeader } from './PHeader.js';
+import { PanelWrapper } from './PanelWrapper.js';
+import { Panel } from './Panel.js';
+
 const _CPT_HEADER_THIN = {
   MAIN : `<div class="flex h-header">
     <div id="__ID_NAV__" class="flex flex-column flex-center"></div>
@@ -11,16 +14,16 @@ const _CPT_HEADER_THIN = {
   <div id="__ID_MENU_CONTENT__" class="header-menu-content"></div>`,
 };
 
-class PHeaderThin extends ui.PHeader {
+export class PHeaderThin extends PHeader {
   #isNavEnabled = false;
 
   constructor() {
     super();
-    this._pNav = new ui.PanelWrapper();
+    this._pNav = new PanelWrapper();
     this._pMenus =
-        [ new ui.PanelWrapper(), new ui.PanelWrapper(), new ui.PanelWrapper() ];
-    this._pAction = new ui.PanelWrapper();
-    this._pSpace = new ui.Panel();
+        [ new PanelWrapper(), new PanelWrapper(), new PanelWrapper() ];
+    this._pAction = new PanelWrapper();
+    this._pSpace = new Panel();
   }
 
   getNavPanel() { return this.#isNavEnabled ? this._pNav : null; }
@@ -61,5 +64,8 @@ class PHeaderThin extends ui.PHeader {
   }
 };
 
-ui.PHeaderThin = PHeaderThin;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.PHeaderThin = PHeaderThin;
+}

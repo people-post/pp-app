@@ -1,4 +1,5 @@
-(function(ui) {
+import { PanelWrapper } from './PanelWrapper.js';
+
 const _CPW_THUMBNAIL = {
   MAIN : `<div class="aspect-content">
     <div class="thumbnail-wrapper">
@@ -7,7 +8,7 @@ const _CPW_THUMBNAIL = {
   </div>`,
 }
 
-class ThumbnailPanelWrapper extends ui.PanelWrapper {
+export class ThumbnailPanelWrapper extends PanelWrapper {
   constructor() {
     super();
     this._className = "aspect-16-9-frame";
@@ -20,5 +21,8 @@ class ThumbnailPanelWrapper extends ui.PanelWrapper {
   }
 }
 
-ui.ThumbnailPanelWrapper = ThumbnailPanelWrapper;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.ThumbnailPanelWrapper = ThumbnailPanelWrapper;
+}

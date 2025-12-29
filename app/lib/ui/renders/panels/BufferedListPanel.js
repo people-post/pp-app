@@ -1,20 +1,23 @@
-(function(ui) {
+import { Panel } from './Panel.js';
+import { PanelWrapper } from './PanelWrapper.js';
+import { ListPanel } from './ListPanel.js';
+
 const _CPT_BUFFERED_LIST = {
   MAIN : `<div id="__ID_HEAD__"></div>
     <div id="__ID_MAIN__"></div>
     <div id="__ID_TAIL__"></div>`,
 }
 
-class BufferedListPanel extends ui.Panel {
+export class BufferedListPanel extends Panel {
   #pHead;
   #pMain;
   #pTail;
 
   constructor() {
     super();
-    this.#pHead = new ui.PanelWrapper();
-    this.#pMain = new ui.ListPanel();
-    this.#pTail = new ui.PanelWrapper();
+    this.#pHead = new PanelWrapper();
+    this.#pMain = new ListPanel();
+    this.#pTail = new PanelWrapper();
   }
 
   getHeadPanel() { return this.#pHead; }
@@ -37,5 +40,8 @@ class BufferedListPanel extends ui.Panel {
   }
 }
 
-ui.BufferedListPanel = BufferedListPanel;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.BufferedListPanel = BufferedListPanel;
+}

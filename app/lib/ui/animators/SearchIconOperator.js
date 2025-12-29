@@ -1,4 +1,4 @@
-class SearchIconOperator {
+export class SearchIconOperator {
   press(iconElement) {
     let ee = iconElement.firstElementChild;
     let c = ee.firstElementChild; // search-icon-circle

@@ -1,8 +1,11 @@
-(function(ui) {
-class FWaiting extends ui.Fragment {
+import { Fragment } from './Fragment.js';
+import { CronJob } from '../../../ext/CronJob.js';
+import { Panel } from '../../renders/panels/Panel.js';
+
+export class FWaiting extends Fragment {
   constructor(interval = 1000) {
     super();
-    this._timer = new ext.CronJob();
+    this._timer = new CronJob();
     this._interval = interval;
   }
 
@@ -17,7 +20,7 @@ class FWaiting extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.Panel();
+    let p = new Panel();
     p.setClassName("info-message");
     render.wrapPanel(p);
     p.replaceContent(this._dataSource.getContentForWaitingFragment(this));
@@ -26,5 +29,8 @@ class FWaiting extends ui.Fragment {
   #refresh() { this._delegate.onWaitingFragmentRequestUpdate(this); }
 }
 
-ui.FWaiting = FWaiting;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FWaiting = FWaiting;
+}

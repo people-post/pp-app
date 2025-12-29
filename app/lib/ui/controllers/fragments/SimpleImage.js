@@ -1,9 +1,10 @@
-(function(ui) {
+import { Fragment } from './Fragment.js';
+
 const _CFT_SIMPLE_IMAGE = {
   MAIN : `<img class="preview-icon s-icon0" src="__URL__">`,
 }
 
-class SimpleImage extends ui.Fragment {
+export class SimpleImage extends Fragment {
   constructor() {
     super();
     this._src = null;
@@ -19,5 +20,8 @@ class SimpleImage extends ui.Fragment {
 };
 
 
-ui.SimpleImage = SimpleImage;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.SimpleImage = SimpleImage;
+}

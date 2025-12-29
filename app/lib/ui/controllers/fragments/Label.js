@@ -1,5 +1,7 @@
-(function(ui) {
-class Label extends ui.Fragment {
+import { Fragment } from './Fragment.js';
+import { Panel } from '../../renders/panels/Panel.js';
+
+export class Label extends Fragment {
   constructor(text = "") {
     super();
     this._text = text;
@@ -10,12 +12,15 @@ class Label extends ui.Fragment {
   setClassName(name) { this._className = name; }
 
   _renderOnRender(render) {
-    let p = new ui.Panel();
+    let p = new Panel();
     p.setClassName(this._className);
     render.wrapPanel(p);
     p.replaceContent(this._text);
   }
 };
 
-ui.Label = Label;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.Label = Label;
+}

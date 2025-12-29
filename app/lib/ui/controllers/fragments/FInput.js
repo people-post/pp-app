@@ -1,5 +1,6 @@
-(function(ui) {
-class FInput extends ui.Fragment {
+import { Fragment } from './Fragment.js';
+
+export class FInput extends Fragment {
   constructor() {
     super();
     this._config = null;
@@ -14,5 +15,8 @@ class FInput extends ui.Fragment {
   }
 }
 
-ui.FInput = FInput;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FInput = FInput;
+}

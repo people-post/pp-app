@@ -1,4 +1,6 @@
-(function(ui) {
+import { PHeader } from './PHeader.js';
+import { PanelWrapper } from './PanelWrapper.js';
+
 const _CPT_HEADER_THICK = {
   MAIN : `<div class="flex h-header">
     <div id="__ID_NAV__" class="flex flex-column flex-center"></div>
@@ -9,14 +11,14 @@ const _CPT_HEADER_THICK = {
   <div id="__ID_MENU_CONTENT__" class="header-menu-content"></div>`,
 };
 
-class PHeaderThick extends ui.PHeader {
+export class PHeaderThick extends PHeader {
   #isNavEnabled = false;
 
   constructor() {
     super();
-    this._pNav = new ui.PanelWrapper();
-    this._pMenus = [ new ui.PanelWrapper(), new ui.PanelWrapper() ];
-    this._pAction = new ui.PanelWrapper();
+    this._pNav = new PanelWrapper();
+    this._pMenus = [ new PanelWrapper(), new PanelWrapper() ];
+    this._pAction = new PanelWrapper();
   }
 
   getNavPanel() { return this.#isNavEnabled ? this._pNav : null; }
@@ -45,5 +47,8 @@ class PHeaderThick extends ui.PHeader {
   }
 };
 
-ui.PHeaderThick = PHeaderThick;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.PHeaderThick = PHeaderThick;
+}

@@ -1,5 +1,6 @@
-(function(ui) {
-class PHeader extends ui.Panel {
+import { Panel } from './Panel.js';
+
+export class PHeader extends Panel {
   #animationEndHandler;
 
   getNavPanel() { return null; }
@@ -27,5 +28,8 @@ class PHeader extends ui.Panel {
   }
 };
 
-ui.PHeader = PHeader;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.PHeader = PHeader;
+}

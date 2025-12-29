@@ -1,8 +1,9 @@
-(function(ui) {
-class ConsolePanel extends ui.Panel {
+import { Panel } from './Panel.js';
+
+export class ConsolePanel extends Panel {
   constructor() {
     super();
-    this._pHomeBtn = new ui.Panel();
+    this._pHomeBtn = new Panel();
   }
 
 
@@ -13,5 +14,8 @@ class ConsolePanel extends ui.Panel {
   clearNavPanels() {}
 };
 
-ui.ConsolePanel = ConsolePanel;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.ConsolePanel = ConsolePanel;
+}

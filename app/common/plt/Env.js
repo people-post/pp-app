@@ -1,5 +1,7 @@
-(function(plt) {
-class Env {
+import { PATH, TYPE } from '../constants/Constants.js';
+import { Events, T_DATA } from '../../lib/framework/Events.js';
+
+export class Env {
   #windowType = null;
   #defaultLang = null;
   #preferredLang = null;
@@ -11,19 +13,19 @@ class Env {
     this.SCRIPT = {
       EDITOR : {
         id : "ID_JS_EDITOR",
-        src : C.PATH.STATIC + "/ckeditor/ckeditor.js",
+        src : PATH.STATIC + "/ckeditor/ckeditor.js",
       },
       PLAYER : {
         id : "ID_JS_PLAYER",
-        src : C.PATH.STATIC + "/js/hls.min.js",
+        src : PATH.STATIC + "/js/hls.min.js",
       },
       SIGNAL : {
         id : "ID_JS_SIGNAL",
-        src : C.PATH.STATIC + "/js/paho-mqtt-min.js",
+        src : PATH.STATIC + "/js/paho-mqtt-min.js",
       },
       QR_CODE : {
         id : "ID_QR_CODE",
-        src : C.PATH.STATIC + "/js/qrcode.min.js",
+        src : PATH.STATIC + "/js/qrcode.min.js",
       },
       PAYMENT : {
         id : "ID_JS_PAYMENT",
@@ -41,7 +43,7 @@ class Env {
 
   isScriptLoaded(id) { return this.#mScripts.get(id); }
   isTrustedSite() { return window.location.hostname.endsWith("gcabin.com"); }
-  isWeb3() { return this.getWindowType() == C.TYPE.WINDOW.WEB3; }
+  isWeb3() { return this.getWindowType() == TYPE.WINDOW.WEB3; }
   #isMpegDashSupported() {
     return !(navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform));
   }
@@ -77,9 +79,12 @@ class Env {
 
   #onScriptLoaded(scriptId) {
     this.#mScripts.set(scriptId, 1);
-    fwk.Events.trigger(plt.T_DATA.ADDON_SCRIPT, scriptId);
+    Events.trigger(T_DATA.ADDON_SCRIPT, scriptId);
   }
-};
+}
 
-plt.Env = Env;
-}(window.plt = window.plt || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.plt = window.plt || {};
+  window.plt.Env = Env;
+}

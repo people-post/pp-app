@@ -1,5 +1,8 @@
-(function(ui) {
-class FSimpleFragmentList extends ui.FFragmentList {
+import { FFragmentList } from './FFragmentList.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+
+export class FSimpleFragmentList extends FFragmentList {
   constructor() {
     super();
     this._mode = null;
@@ -16,11 +19,11 @@ class FSimpleFragmentList extends ui.FFragmentList {
 
   _renderOnRender(render) {
     let pList;
-    if (render instanceof ui.ListPanel) {
+    if (render instanceof ListPanel) {
       pList = render;
       pList.clear();
     } else {
-      pList = new ui.ListPanel();
+      pList = new ListPanel();
       this.#initPanel(pList);
       render.wrapPanel(pList);
     }
@@ -43,7 +46,7 @@ class FSimpleFragmentList extends ui.FFragmentList {
   }
 
   #createItemPanel() {
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     switch (this._mode) {
     case "G":
       this.#initGridItemPanel(p, this._config);
@@ -70,5 +73,8 @@ class FSimpleFragmentList extends ui.FFragmentList {
   }
 };
 
-ui.FSimpleFragmentList = FSimpleFragmentList;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FSimpleFragmentList = FSimpleFragmentList;
+}

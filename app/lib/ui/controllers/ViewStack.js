@@ -1,12 +1,12 @@
 import { Logger } from '../../ext/Logger.js';
 import { URL_PARAM } from '../Constants.js';
+import { RenderController } from './RenderController.js';
 
-(function(ui) {
 const _CRC_NAVIGATION = {
   BIT : {NARROW : 1 << 1, WIDE_EXTRA : 1 << 0},
 };
 
-class ViewStack extends ui.RenderController {
+export class ViewStack extends RenderController {
   #logger;
   #childStack = []; // First element as the top most view
   #shouldLockLastView = true;
@@ -448,5 +448,8 @@ class ViewStack extends ui.RenderController {
   }
 }
 
-ui.ViewStack = ViewStack;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.ViewStack = ViewStack;
+}

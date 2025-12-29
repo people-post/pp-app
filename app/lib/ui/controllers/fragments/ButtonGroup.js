@@ -1,5 +1,10 @@
-(function(ui) {
-ui.CF_BUTTON_GROUP = {
+import { Fragment } from './Fragment.js';
+import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { Panel } from '../../renders/panels/Panel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+
+export const CF_BUTTON_GROUP = {
   ON_CLICK : Symbol(),
 };
 
@@ -9,7 +14,7 @@ const _CFT_BUTTON_GROUP = {
       `<span class="inline-block s-icon5 v-middle-align">__ICON__</span>`,
 };
 
-class ButtonGroup extends ui.Fragment {
+export class ButtonGroup extends Fragment {
   constructor() {
     super();
     this._choices = [];
@@ -44,7 +49,7 @@ class ButtonGroup extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_BUTTON_GROUP.ON_CLICK:
+    case CF_BUTTON_GROUP.ON_CLICK:
       this.#onClick(args[0]);
       break;
     default:
@@ -63,16 +68,16 @@ class ButtonGroup extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderButtons());
 
     let fDetail = this.#getDetail();
     this.setChild("detail", fDetail);
     if (fDetail) {
-      pp = new ui.PanelWrapper();
+      pp = new PanelWrapper();
       p.pushPanel(pp);
       fDetail.attachRender(pp);
       fDetail.render();
@@ -94,7 +99,7 @@ class ButtonGroup extends ui.Fragment {
   #renderButtonName(config) {
     if (config.icon) {
       let ss = _CFT_BUTTON_GROUP.ICON_WRAPPER;
-      ss = ss.replace("__ICON__", Utilities.renderSvgFuncIcon(config.icon));
+      ss = ss.replace("__ICON__", CommonUtilities.renderSvgFuncIcon(config.icon));
       return ss + config.name;
     } else {
       return config.name;
@@ -116,5 +121,9 @@ class ButtonGroup extends ui.Fragment {
   }
 };
 
-ui.ButtonGroup = ButtonGroup;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_BUTTON_GROUP = CF_BUTTON_GROUP;
+  window.ui.ButtonGroup = ButtonGroup;
+}
