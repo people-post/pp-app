@@ -9,90 +9,53 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { minify } from 'terser';
 import { execSync } from 'child_process';
+import * as esbuild from 'esbuild';
 import uglifycss from 'uglifycss';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const WORK_DIR = 'obj';
-const ENTRY_JS_PATH = 'src/index.js';
+const ENTRY_APP_JS = 'src/index.js';
+const ENTRY_SW_JS = 'src/sw.js';
 const BUNDLE_JS_PATH = path.join(WORK_DIR, 'app-min.js');
+const BUNDLE_SW_PATH = path.join(WORK_DIR, 'sw-min.js');
 
 /**
- * Merge JavaScript files listed in a file list
- * @param {string} listFile - Path to file containing list of JS files
- * @param {string} outputFile - Path to output merged file
+ * Generate entry point files from file lists
  */
-function mergeFiles(listFile, outputFile) {
-  const relDir = path.dirname(listFile);
-  const fileList = fs.readFileSync(listFile, 'utf-8')
-    .split('\n')
-    .map(line => line.trim())
-    .filter(line => line && !line.startsWith('#'));
-
-  // Ensure output directory exists
-  const outputDir = path.dirname(outputFile);
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
-
-  // Remove existing output file
-  if (fs.existsSync(outputFile)) {
-    fs.unlinkSync(outputFile);
-  }
-
-  console.log(`Merging js from ${listFile} begins`);
-  const header = `/* Last merge : ${new Date().toISOString()} */\n\n`;
-  fs.writeFileSync(outputFile, header);
-
-  for (const file of fileList) {
-    const filePath = path.join(relDir, file);
-    if (fs.existsSync(filePath) && filePath !== outputFile) {
-      const content = fs.readFileSync(filePath, 'utf-8');
-      fs.appendFileSync(outputFile, content + '\n');
-    } else if (!fs.existsSync(filePath)) {
-      console.error(`File missing: ${filePath}`);
-    }
-  }
-
-  console.log(`[SUCCESS] Files listed in ${listFile} have been successfully merged into ${outputFile}`);
+function generateEntryPoints() {
+  console.log('Generating entry points...');
+  execSync('node scripts/generate-entry.js', { stdio: 'inherit' });
 }
 
 /**
- * Compile and minify JavaScript
- * @param {string} listFile - Path to file list
- * @param {string} tempFile - Temporary merged file path
- * @param {string} targetFile - Final minified output file
+ * Bundle JavaScript using esbuild
+ * @param {string} entryPoint - Entry point file
+ * @param {string} outputFile - Output bundled file
+ * @param {object} options - Additional esbuild options
  */
-async function compileJs(listFile, tempFile, targetFile) {
-  // Merge files
-  mergeFiles(listFile, tempFile);
-
-  // Read merged file
-  const code = fs.readFileSync(tempFile, 'utf-8');
-
-  // Minify with terser
-  const result = await minify(code, {
-    compress: {
-      defaults: true
-    },
-    sourceMap: {
-      filename: path.basename(tempFile),
-      url: path.basename(targetFile) + '.map'
-    }
+async function bundleJs(entryPoint, outputFile, options = {}) {
+  console.log(`Bundling ${entryPoint}...`);
+  
+  const result = await esbuild.build({
+    entryPoints: [entryPoint],
+    bundle: true,
+    minify: true,
+    sourcemap: true,
+    platform: 'browser',
+    format: 'iife',
+    globalName: 'window',
+    outfile: outputFile,
+    ...options
   });
 
-  if (result.error) {
-    throw new Error(`Terser error: ${result.error}`);
+  if (result.errors.length > 0) {
+    throw new Error(`esbuild errors: ${result.errors.map(e => e.text).join(', ')}`);
   }
 
-  // Write minified code
-  fs.writeFileSync(targetFile, result.code);
-  if (result.map) {
-    fs.writeFileSync(targetFile + '.map', result.map);
-  }
+  console.log(`[SUCCESS] Bundled ${entryPoint} -> ${outputFile}`);
 }
 
 /**
@@ -117,26 +80,24 @@ function minifyCss(inputFile, outputFile) {
 async function build() {
   console.log('Starting build process...');
 
+  // 0. Generate entry points from file lists
+  generateEntryPoints();
+
   // 1. Reset workdir
   if (fs.existsSync(WORK_DIR)) {
     fs.rmSync(WORK_DIR, { recursive: true, force: true });
   }
   fs.mkdirSync(WORK_DIR, { recursive: true });
 
-  // 2. Prepare js
-  const appListFile = 'app/file_list.txt';
-  const swListFile = 'sw/file_list.txt';
-  const appTempFile = path.join(WORK_DIR, 'app.js');
-  const swTempFile = path.join(WORK_DIR, 'sw.js');
-  const swMinFile = path.join(WORK_DIR, 'sw-min.js');
+  // 2. Bundle JavaScript using esbuild
+  // Bundle app js
+  await bundleJs(ENTRY_APP_JS, BUNDLE_JS_PATH);
 
-  // Compile app js
-  console.log('Compiling app JavaScript...');
-  await compileJs(appListFile, appTempFile, BUNDLE_JS_PATH);
-
-  // Compile service worker js
-  console.log('Compiling service worker JavaScript...');
-  await compileJs(swListFile, swTempFile, swMinFile);
+  // Bundle service worker js
+  await bundleJs(ENTRY_SW_JS, BUNDLE_SW_PATH, {
+    platform: 'browser',
+    format: 'esm' // Service workers typically use ES modules
+  });
 
   // 3. Prepare css
   console.log('Minifying CSS...');
@@ -152,7 +113,7 @@ async function build() {
   fs.mkdirSync(path.join(WEB2_DIR, 'static', 'js'), { recursive: true });
   fs.mkdirSync(path.join(WEB2_DIR, 'static', 'css'), { recursive: true });
   fs.copyFileSync(BUNDLE_JS_PATH, path.join(WEB2_DIR, 'static', 'js', 'hst-min.js'));
-  fs.copyFileSync(swMinFile, path.join(WEB2_DIR, 'static', 'js', 'sw-min.js'));
+  fs.copyFileSync(BUNDLE_SW_PATH, path.join(WEB2_DIR, 'static', 'js', 'sw-min.js'));
   fs.copyFileSync(cssOutputFile, path.join(WEB2_DIR, 'static', 'css', 'hst-min.css'));
 
   // 4.2 Prepare web3 files
