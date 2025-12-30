@@ -1,5 +1,6 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class POrderBase extends ui.Panel {
+export class POrderBase extends Panel {
   getShopNamePanel() { return null; }
   getSellerInfoPanel() { return null; }
   getOrderIdPanel() { return null; }

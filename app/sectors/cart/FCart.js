@@ -3,7 +3,11 @@ const _CFT_CART = {
   TITLE : `[__NAME__]`,
 };
 
-export class FCart extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+
+export class FCart extends Fragment {
   static T_LAYOUT = {
     ACTIVE : Symbol(),
     RESERVE: Symbol(),
@@ -11,10 +15,10 @@ export class FCart extends ui.Fragment {
 
   constructor() {
     super();
-    this._fItems = new ui.FSimpleFragmentList();
+    this._fItems = new FSimpleFragmentList();
     this.setChild("list", this._fItems);
 
-    this._fBtnCheckout = new ui.Button();
+    this._fBtnCheckout = new Button();
     this._fBtnCheckout.setName("Checkout...");
     this._fBtnCheckout.setDelegate(this);
     this.setChild("btnCheckout", this._fBtnCheckout);

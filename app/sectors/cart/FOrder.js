@@ -11,7 +11,9 @@ const _CFT_CUSTOMER_ORDER = {
   ACT_ONCLICK : `javascript:G.action(cart.CF_CUSTOMER_ORDER.ON_CLICK)`,
 };
 
-export class FOrder extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export class FOrder extends Fragment {
   static T_LAYOUT = {
     FULL : Symbol(),
     INFO: Symbol(),

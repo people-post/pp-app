@@ -1,11 +1,13 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class PCartItemInfo extends ui.Panel {
+export class PCartItemInfo extends Panel {
   constructor() {
     super();
-    this._pTitle = new ui.Panel();
-    this._pThumbnail = new ui.PanelWrapper();
-    this._pPrice = new ui.Panel();
-    this._pBtnDelete = new ui.PanelWrapper();
+    this._pTitle = new Panel();
+    this._pThumbnail = new PanelWrapper();
+    this._pPrice = new Panel();
+    this._pBtnDelete = new PanelWrapper();
   }
 
   getTitlePanel() { return this._pTitle; }

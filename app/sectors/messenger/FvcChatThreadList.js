@@ -1,20 +1,25 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcCreateChatTarget } from './FvcCreateChatTarget.js';
 
-export class FvcChatThreadList extends ui.FScrollViewContent {
+export class FvcChatThreadList extends FScrollViewContent {
   constructor() {
     super();
-    this._fThreads = new ui.FSimpleFragmentList();
+    this._fThreads = new FSimpleFragmentList();
     this.setChild("threads", this._fThreads);
 
-    this._fBtnNew = new gui.ActionButton();
-    this._fBtnNew.setIcon(gui.ActionButton.T_ICON.NEW);
+    this._fBtnNew = new ActionButton();
+    this._fBtnNew.setIcon(ActionButton.T_ICON.NEW);
     this._fBtnNew.setDelegate(this);
   }
 
   getActionButton() { return this._fBtnNew; }
 
   onGuiActionButtonClick(fActionBtn) {
-    let v = new ui.View();
-    let f = new msgr.FvcCreateChatTarget();
+    let v = new View();
+    let f = new FvcCreateChatTarget();
     f.setDelegate(this);
     v.setContentFragment(f);
     fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,

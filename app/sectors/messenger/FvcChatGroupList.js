@@ -1,8 +1,10 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 
-export class FvcChatGroupList extends ui.FScrollViewContent {
+export class FvcChatGroupList extends FScrollViewContent {
   constructor() {
     super();
-    this._fList = new ui.FSimpleFragmentList();
+    this._fList = new FSimpleFragmentList();
     this.setChild("list", this._fList);
   }
 

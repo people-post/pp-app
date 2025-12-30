@@ -1,5 +1,14 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 
-export class FvcWeb3Wallet extends ui.FScrollViewContent {
+export class FvcWeb3Wallet extends FScrollViewContent {
   #fToAddr;
   #fAmt;
   #btnSubmit;
@@ -25,14 +34,14 @@ export class FvcWeb3Wallet extends ui.FScrollViewContent {
 
   constructor() {
     super();
-    this.#fToAddr = new ui.TextInput();
+    this.#fToAddr = new TextInput();
     this.#fToAddr.setConfig({
       title : "To address",
       hint : "To address",
       value : "",
       isRequired : true
     });
-    this.#fAmt = new ui.TextInput();
+    this.#fAmt = new TextInput();
     this.#fAmt.setConfig({
       title : "Amount",
       hint : "transfer amount",
@@ -44,12 +53,12 @@ export class FvcWeb3Wallet extends ui.FScrollViewContent {
     this.#fToAddr.setDelegate(this);
     this.setChild("fToAddr", this.#fToAddr);
 
-    this.#btnSubmit = new ui.Button();
+    this.#btnSubmit = new Button();
     this.#btnSubmit.setName("Send");
     this.#btnSubmit.setValue("Send");
     this.#btnSubmit.setDelegate(this);
     this.setChild("btnSubmit", this.#btnSubmit);
-    this.#btnTopup = new ui.Button();
+    this.#btnTopup = new Button();
     this.#btnTopup.setName("Top Up");
     this.#btnTopup.setValue("Top Up1");
     this.#btnTopup.setDelegate(this);
@@ -84,7 +93,7 @@ export class FvcWeb3Wallet extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     render.wrapPanel(pList);
     console.log("render");
     let kPayment = dba.Keys.getCip1852(this.#paymentKeyPath);
@@ -95,7 +104,7 @@ export class FvcWeb3Wallet extends ui.FScrollViewContent {
     }
     let c = new dat.CardanoAccount(kPayment, kStaking);
     this.#input_addr = c.getAddress().to_bech32();
-    let p = new ui.Panel();
+    let p = new Panel();
     pList.pushPanel(p);
     p.replaceContent("Address: " + this.#input_addr);
 
@@ -104,23 +113,23 @@ export class FvcWeb3Wallet extends ui.FScrollViewContent {
     this.#pBalance = p;
     p.replaceContent("Balance: " + 0);
     this.#onBalance(this.#input_addr);
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this.#fToAddr.attachRender(p);
     this.#fToAddr.render();
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this.#fAmt.attachRender(p);
     this.#fAmt.render();
 
     pList.pushSpace(1);
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this.#btnSubmit.attachRender(p);
     this.#btnSubmit.render();
 
     pList.pushSpace(1);
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this.#btnTopup.attachRender(p);
     this.#btnTopup.render();

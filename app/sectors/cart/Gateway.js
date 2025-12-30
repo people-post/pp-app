@@ -1,13 +1,16 @@
+import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
+import { FvcCurrent } from './FvcCurrent.js';
+import { FvcHistory } from './FvcHistory.js';
 
 export class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() {
-    let f = new ui.FViewContentMux();
+    let f = new FViewContentMux();
 
-    let ff = new cart.FvcCurrent();
+    let ff = new FvcCurrent();
     f.addTab({name : R.t("Current"), value : "CURRENT", icon : C.ICON.CART},
              ff);
 
-    ff = new cart.FvcHistory();
+    ff = new FvcHistory();
     f.addTab({name : R.t("History"), value : "HISTORY", icon : C.ICON.ARTICLE},
              ff);
 

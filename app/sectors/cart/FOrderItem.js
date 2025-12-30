@@ -1,8 +1,10 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 
-export class FOrderItem extends ui.Fragment {
+export class FOrderItem extends Fragment {
   constructor() {
     super();
-    this._fSubItems = new ui.FSimpleFragmentList();
+    this._fSubItems = new FSimpleFragmentList();
     this.setChild("items", this._fSubItems);
     this._item = null;
   }

@@ -1,5 +1,7 @@
+import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/FViewContentWithHeroBanner.js';
+import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 
-export class FvcWeb3UserInfo extends ui.FViewContentWithHeroBanner {
+export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
   #fBanner;
   #fBlog;
   #fMain;
@@ -17,7 +19,7 @@ export class FvcWeb3UserInfo extends ui.FViewContentWithHeroBanner {
     this.#fBlog.setDataSource(this);
     this.#fBlog.setDelegate(this);
 
-    this.#fMain = new ui.FViewContentMux();
+    this.#fMain = new FViewContentMux();
     this.wrapContentFragment(this.#fMain);
   }
 

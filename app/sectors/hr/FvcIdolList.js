@@ -1,5 +1,6 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 
-export class FvcIdolList extends ui.FScrollViewContent {
+export class FvcIdolList extends FScrollViewContent {
   #fUsers;
   #idLoader;
   #fBtnAdd;

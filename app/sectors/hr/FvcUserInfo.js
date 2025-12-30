@@ -1,4 +1,6 @@
-export class FvcUserInfo extends ui.FViewContentWithHeroBanner {
+import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/FViewContentWithHeroBanner.js';
+
+export class FvcUserInfo extends FViewContentWithHeroBanner {
   #fBanner;
   #fBlog;
   #fWorkshop;

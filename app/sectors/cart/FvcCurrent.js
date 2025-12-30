@@ -2,14 +2,17 @@
 const _CFT_CART_CONTENT = {
   EMPTY : `<div class="info-message">Cart is empty.</div>`,
 };
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { FCart } from './FCart.js';
 
-export class FvcCurrent extends ui.FScrollViewContent {
+export class FvcCurrent extends FScrollViewContent {
   constructor() {
     super();
-    this._fPayables = new ui.FSimpleFragmentList();
+    this._fPayables = new FSimpleFragmentList();
     this.setChild("payables", this._fPayables);
 
-    this._fReserved = new cart.FCart();
+    this._fReserved = new FCart();
     this._fReserved.setName("Saved for later");
     this._fReserved.setCartId(dat.Cart.T_ID.RESERVE);
     this._fReserved.setLayoutType(cart.FCart.T_LAYOUT.RESERVE);

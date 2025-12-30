@@ -1,7 +1,9 @@
+import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
+import { C } from '../../lib/framework/Constants.js';
 
-export class FEmailList extends ui.FLongListLegacy {
+export class FEmailList extends FLongListLegacy {
   initFromUrl(urlParam) {
-    let id = urlParam.get(ui.C.URL_PARAM.ID);
+    let id = urlParam.get(C.URL_PARAM.ID);
     if (id) {
       this.switchToItem(id);
     }
@@ -9,7 +11,7 @@ export class FEmailList extends ui.FLongListLegacy {
 
   getUrlParamString() {
     if (this._currentId) {
-      return ui.C.URL_PARAM.ID + "=" + this._currentId;
+      return C.URL_PARAM.ID + "=" + this._currentId;
     }
     return "";
   }
@@ -59,9 +61,12 @@ export class FEmailList extends ui.FLongListLegacy {
     }
   }
 
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcEmail } from './FvcEmail.js';
+
   _createItemView(id) {
-    let v = new ui.View();
-    let f = new emal.FvcEmail();
+    let v = new View();
+    let f = new FvcEmail();
     f.setEmailId(id);
     v.setContentFragment(f);
     return v;

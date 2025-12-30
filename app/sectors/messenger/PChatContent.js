@@ -1,4 +1,7 @@
 
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
 const _CPT_CHAT_VIEW_CONTENT = {
   MAIN : `<div id="__ID_HEADER__"></div>
   <div class="chat-view-content flex flex-column flex-end">
@@ -7,12 +10,12 @@ const _CPT_CHAT_VIEW_CONTENT = {
   </div>`,
 }
 
-export class PChatContent extends ui.Panel {
+export class PChatContent extends Panel {
   constructor() {
     super();
-    this._pStickyHeader = new ui.PanelWrapper();
-    this._pContent = new ui.PanelWrapper();
-    this._pConsole = new ui.PanelWrapper();
+    this._pStickyHeader = new PanelWrapper();
+    this._pContent = new PanelWrapper();
+    this._pConsole = new PanelWrapper();
   }
 
   getStickyHeaderPanel() { return this._pStickyHeader; }

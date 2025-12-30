@@ -1,9 +1,10 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 window.CF_CHAT_THREAD_INFO = {
   ON_CLICK : "CF_CHAT_THREAD_INFO_1",
 }
 
-export class FChatThreadInfo extends ui.Fragment {
+export class FChatThreadInfo extends Fragment {
   constructor() {
     super();
     this._fThumbnail = new gui.FilesThumbnailFragment();

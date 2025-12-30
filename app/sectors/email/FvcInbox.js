@@ -1,8 +1,10 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FAllEmailList } from './FAllEmailList.js';
 
-export class FvcInbox extends ui.FScrollViewContent {
+export class FvcInbox extends FScrollViewContent {
   constructor() {
     super();
-    this._fEmails = new emal.FAllEmailList();
+    this._fEmails = new FAllEmailList();
     this._fEmails.setDelegate(this);
     this.setChild("emails", this._fEmails);
   }

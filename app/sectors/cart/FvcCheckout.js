@@ -1,11 +1,14 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { AddressEditor } from '../../common/gui/AddressEditor.js';
+import { FPreviewOrder } from './FPreviewOrder.js';
 
-export class FvcCheckout extends ui.FScrollViewContent {
+export class FvcCheckout extends FScrollViewContent {
   constructor() {
     super();
-    this._fShipping = new gui.AddressEditor();
+    this._fShipping = new AddressEditor();
     this.setChild("shipping", this._fShipping);
 
-    this._fOrder = new cart.FPreviewOrder();
+    this._fOrder = new FPreviewOrder();
     this._fOrder.setDataSource(this);
     this.setChild("order", this._fOrder);
 

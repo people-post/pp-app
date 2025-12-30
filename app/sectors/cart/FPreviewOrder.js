@@ -1,8 +1,11 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 
-export class FPreviewOrder extends ui.Fragment {
+export class FPreviewOrder extends Fragment {
   constructor() {
     super();
-    this._fItems = new ui.FSimpleFragmentList();
+    this._fItems = new FSimpleFragmentList();
     this._fItems.setDelegate(this);
   }
 
@@ -17,7 +20,7 @@ export class FPreviewOrder extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
     this._fItems.clear();
     let order = this._dataSource.getOrderForPreviewOrderFragment(this);

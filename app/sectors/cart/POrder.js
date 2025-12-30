@@ -17,20 +17,25 @@ const _CPT_CUSTOMER_ORDER = {
   <div id="__ID_SHIPPING_ADDRESS__"></div>`,
 }
 
-export class POrder extends cart.POrderBase {
+import { POrderBase } from './POrderBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class POrder extends POrderBase {
   constructor() {
     super();
-    this._pShopName = new ui.Panel();
-    this._pOrderId = new ui.Panel();
-    this._pCreationTime = new ui.Panel();
-    this._pStatus = new ui.Panel();
-    this._pItems = new ui.SectionPanel("Items");
-    this._pSubtotal = new ui.Panel();
-    this._pShippingHandling = new ui.Panel();
-    this._pDiscount = new ui.Panel();
-    this._pRefund = new ui.Panel();
-    this._pTotal = new ui.Panel();
-    this._pShippingAddress = new ui.PanelWrapper();
+    this._pShopName = new Panel();
+    this._pOrderId = new Panel();
+    this._pCreationTime = new Panel();
+    this._pStatus = new Panel();
+    this._pItems = new SectionPanel("Items");
+    this._pSubtotal = new Panel();
+    this._pShippingHandling = new Panel();
+    this._pDiscount = new Panel();
+    this._pRefund = new Panel();
+    this._pTotal = new Panel();
+    this._pShippingAddress = new PanelWrapper();
   }
 
   getShopNamePanel() { return this._pShopName; }

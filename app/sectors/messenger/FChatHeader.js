@@ -1,5 +1,8 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class FChatHeader extends ui.Fragment {
+export class FChatHeader extends Fragment {
   constructor() {
     super();
     this._target = null;
@@ -8,18 +11,18 @@ export class FChatHeader extends ui.Fragment {
   setTarget(target) { this._target = target; }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     p.setClassName("flex space-between chat-view-header");
     render.wrapPanel(p);
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent("");
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderTitle());
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent("");
   }

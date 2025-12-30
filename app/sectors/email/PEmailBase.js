@@ -1,11 +1,12 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class PEmailBase extends ui.Panel {
+export class PEmailBase extends Panel {
   constructor() {
     super();
-    this._pTitle = new ui.Panel();
-    this._pContent = new ui.Panel();
-    this._pTime = new ui.Panel();
-    this._pSender = new ui.Panel();
+    this._pTitle = new Panel();
+    this._pContent = new Panel();
+    this._pTime = new Panel();
+    this._pSender = new Panel();
   }
 
   isColorInvertible() { return false; }

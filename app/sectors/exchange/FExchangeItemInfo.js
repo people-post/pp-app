@@ -30,7 +30,11 @@ const _CVF_EXCHANGE_ITEM = {
       `<span class="u-font5 bgwhite">Go to <a target="_blank" href="https://gcabin.com/?sector=extras&page=exchange">G-Cabin&#x1f517;</a> for more options</span>`,
 }
 
-export class FExchangeItemInfo extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class FExchangeItemInfo extends Fragment {
   constructor() {
     super();
     this._item = null;
@@ -53,9 +57,9 @@ export class FExchangeItemInfo extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.Panel();
+    let pp = new Panel();
     pp.setClassName("exchange-item-info");
     p.pushPanel(pp);
     if (this._item) {

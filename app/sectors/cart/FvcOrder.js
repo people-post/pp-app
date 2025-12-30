@@ -2,7 +2,7 @@ export class FvcOrder extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fOrder = new cart.FOrder();
-    this._fOrder.setLayoutType(cart.FOrder.T_LAYOUT.FULL);
+    this._fOrder.setLayoutType(FOrder.T_LAYOUT.FULL);
     this.setChild("order", this._fOrder);
   }
 

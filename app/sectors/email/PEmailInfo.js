@@ -1,4 +1,7 @@
 
+import { PEmailBase } from './PEmailBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
 const _CPT_EMAIL_INFO = {
   MAIN : `<div class="aspect-5-1-frame">
     <div class="aspect-content border-box top-pad5px right-pad5px">
@@ -18,10 +21,10 @@ const _CPT_EMAIL_INFO = {
   </div>`,
 }
 
-export class PEmailInfo extends emal.PEmailBase {
+export class PEmailInfo extends PEmailBase {
   constructor() {
     super();
-    this._pIcon = new ui.Panel();
+    this._pIcon = new Panel();
   }
 
   isColorInvertible() { return true; }

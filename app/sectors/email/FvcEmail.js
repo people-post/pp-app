@@ -1,20 +1,24 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
+import { FEmail } from './FEmail.js';
 
-export class FvcEmail extends ui.FScrollViewContent {
+export class FvcEmail extends FScrollViewContent {
   constructor() {
     super();
     this._timer = new ext.Timer();
 
-    this._lc = new ui.LContext();
+    this._lc = new LContext();
     this._lc.setDelegate(this);
 
-    this._fEmail = new emal.FEmail();
-    this._fEmail.setLayoutType(emal.FEmail.T_LAYOUT.FULL);
+    this._fEmail = new FEmail();
+    this._fEmail.setLayoutType(FEmail.T_LAYOUT.FULL);
     this._fEmail.setDataSource(this);
     this._fEmail.setDelegate(this);
     this.setChild("email", this._fEmail);
 
-    this._fBtnOptions = new gui.ActionButton();
-    this._fBtnOptions.setIcon(gui.ActionButton.T_ICON.MORE);
+    this._fBtnOptions = new ActionButton();
+    this._fBtnOptions.setIcon(ActionButton.T_ICON.MORE);
     this._fBtnOptions.setDelegate(this);
   }
 

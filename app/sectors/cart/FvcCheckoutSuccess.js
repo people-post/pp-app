@@ -12,7 +12,9 @@ const _CFT_CHECKOUT_SUCCESS = {
     <br>`,
 }
 
-export class FvcCheckoutSuccess extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+
+export class FvcCheckoutSuccess extends FScrollViewContent {
   constructor() {
     super();
     this._orderId = null;

@@ -14,7 +14,9 @@ const _CFT_CART_ITEM = {
   </span>`,
 };
 
-export class FCartItem extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export class FCartItem extends Fragment {
   static T_LAYOUT = {
     ACTIVE : Symbol(),
     RESERVE: Symbol(),

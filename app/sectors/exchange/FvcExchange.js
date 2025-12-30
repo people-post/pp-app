@@ -1,5 +1,6 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 
-export class FvcExchange extends ui.FScrollViewContent {
+export class FvcExchange extends FScrollViewContent {
   constructor() {
     super();
     this._fCoin = new xchg.FExchangeItemInfo();

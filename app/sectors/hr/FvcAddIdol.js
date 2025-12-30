@@ -1,5 +1,6 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 
-export class FvcAddIdol extends ui.FScrollViewContent {
+export class FvcAddIdol extends FScrollViewContent {
   #fSearch;
 
   constructor() {

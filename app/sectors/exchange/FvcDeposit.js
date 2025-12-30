@@ -1,9 +1,12 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
+import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
 
-export class FvcDeposit extends ui.FScrollViewContent {
+export class FvcDeposit extends FScrollViewContent {
   constructor() {
     super();
-    this._fCurrencies = new ui.Selection();
-    this._fInput = new ui.NumberInput();
+    this._fCurrencies = new Selection();
+    this._fInput = new NumberInput();
     this._fInput.setConfig({
       min : 0,
       max : 1000000,

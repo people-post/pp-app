@@ -1,14 +1,17 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { SimpleLongListFragment } from '../../common/gui/SimpleLongListFragment.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
 
-export class FvcLegacyIdolList extends ui.FScrollViewContent {
+export class FvcLegacyIdolList extends FScrollViewContent {
   constructor() {
     super();
-    this._fList = new gui.SimpleLongListFragment();
+    this._fList = new SimpleLongListFragment();
     this._fList.setDataSource(this);
 
     this.setChild("list", this._fList);
 
-    this._fBtnAdd = new gui.ActionButton();
-    this._fBtnAdd.setIcon(gui.ActionButton.T_ICON.NEW);
+    this._fBtnAdd = new ActionButton();
+    this._fBtnAdd.setIcon(ActionButton.T_ICON.NEW);
     this._fBtnAdd.setDelegate(this);
 
     this._userId = null;
