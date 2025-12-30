@@ -1,7 +1,7 @@
 
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
-import { FTributetInput } from '../../common/gui/FTributeInput.js';
+import { FTributeInput } from '../../common/gui/FTributeInput.js';
 import { ButtonList } from '../../lib/ui/controllers/fragments/ButtonList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
@@ -16,7 +16,7 @@ export class FvcConfigEditor extends FScrollViewContent {
     this._fNJoinApprovals = new NumberInput();
     this._fVotingThreshold = new NumberInput();
     this._fDaysToExpire = new NumberInput();
-    this._fTribute = new FTributetInput();
+    this._fTribute = new FTributeInput();
 
     this._fActions = new ButtonList();
     this._fActions.setDelegate(this);

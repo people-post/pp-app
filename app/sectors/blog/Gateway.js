@@ -1,13 +1,12 @@
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
-import { C } from '../../lib/framework/Constants.js';
-
+import { ICON } from '../../common/constants/Icons.js';
 const _CG_BLOG = {
-  NEWS : {ID : "NEWS", NAME : "News", ICON : C.ICON.EXPLORER},
-  OWNER_PUBLIC : {ID : "BLOG", NAME : "Blog", ICON : C.ICON.EXPLORER},
-  OWNER : {ID : "ME", NAME : "Me", ICON : C.ICON.SMILEY},
-  DRAFTS : {ID : "DRAFTS", NAME : "Drafts", ICON : C.ICON.MANUSCRIPT},
-  CONFIG : {ID : "CONFIG", NAME : "Config", ICON : C.ICON.CONFIG},
-  REPORT : {ID : "REPORT", NAME : "Report", ICON : C.ICON.REPORT},
+  NEWS : {ID : "NEWS", NAME : "News", ICON : ICON.EXPLORER},
+  OWNER_PUBLIC : {ID : "BLOG", NAME : "Blog", ICON : ICON.EXPLORER},
+  OWNER : {ID : "ME", NAME : "Me", ICON : ICON.SMILEY},
+  DRAFTS : {ID : "DRAFTS", NAME : "Drafts", ICON : ICON.MANUSCRIPT},
+  CONFIG : {ID : "CONFIG", NAME : "Config", ICON : ICON.CONFIG},
+  REPORT : {ID : "REPORT", NAME : "Report", ICON : ICON.REPORT},
 };
 
 export class Gateway extends plt.SectorGateway {

@@ -1,8 +1,7 @@
 import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/FViewContentWithHeroBanner.js';
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { C } from '../../lib/framework/Constants.js';
-
+import { ICON } from '../../common/constants/Icons.js';
 export class FvcUserInfo extends FViewContentWithHeroBanner {
   #fBanner;
   #fBlog;
@@ -95,25 +94,25 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
   #resetTabs() {
     this.#fMain.clearContents();
 
-    this.#fMain.addTab({name : "Blog", value : "BLOG", icon : C.ICON.BLOG},
+    this.#fMain.addTab({name : "Blog", value : "BLOG", icon : ICON.BLOG},
                        this.#fBlog);
     let user = dba.Users.get(this.#userId);
     if (user && user.isWorkshopOpen()) {
       this.#fMain.addTab(
-          {name : "Workshop", value : "WORKSHOP", icon : C.ICON.WORKSHOP},
+          {name : "Workshop", value : "WORKSHOP", icon : ICON.WORKSHOP},
           this.#fWorkshop);
     }
 
     if (dba.WebConfig.isDevSite()) {
       if (user && user.isShopOpen()) {
-        this.#fMain.addTab({name : "Shop", value : "SHOP", icon : C.ICON.SHOP},
+        this.#fMain.addTab({name : "Shop", value : "SHOP", icon : ICON.SHOP},
                            this.#fShop);
       }
     }
 
     if (user && user.getCommunityId()) {
       this.#fMain.addTab(
-          {name : "Community", value : "COMMUNITY", icon : C.ICON.COMMUNITY},
+          {name : "Community", value : "COMMUNITY", icon : ICON.COMMUNITY},
           this.#fCommunity);
     }
     this.#fMain.switchTo("BLOG");

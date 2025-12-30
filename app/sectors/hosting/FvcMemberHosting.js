@@ -14,7 +14,7 @@ const _CFT_MEMBER_HOSTING_CONTENT = {
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FWaiting } from '../../lib/ui/controllers/fragments/FWaiting.js';
-import { FvcConfirmAction } from '../../lib/ui/controllers/fragments/FvcConfirmAction.js';
+import { FvcConfirmAction } from '../../lib/ui/controllers/views/FvcConfirmAction.js';
 import { RemoteError } from '../../common/datatypes/RemoteError.js';
 
 export class FvcMemberHosting extends FScrollViewContent {

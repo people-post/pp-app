@@ -1,9 +1,10 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { C } from '../../lib/framework/Constants.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { URL_PARAM } from '../../common/constants/Constants.js';
+import { ICON } from '../../common/constants/Icons.js';
 
 export class FvcExplorer extends FScrollViewContent {
   #fmSearch;
@@ -13,7 +14,7 @@ export class FvcExplorer extends FScrollViewContent {
   constructor() {
     super();
     this.#fmSearch = new FHeaderMenu();
-    this.#fmSearch.setIcon(C.ICON.M_SEARCH, new SearchIconOperator());
+    this.#fmSearch.setIcon(ICON.M_SEARCH, new SearchIconOperator());
     let f = new srch.FSearchMenu();
     f.setDelegate(this);
     this.#fmSearch.setContentFragment(f);
@@ -27,7 +28,7 @@ export class FvcExplorer extends FScrollViewContent {
   }
 
   initFromUrl(urlParam) {
-    let id = urlParam.get(C.URL_PARAM.ID);
+    let id = urlParam.get(URL_PARAM.ID);
     if (id) {
       let sid = SocialItemId.fromEncodedStr(id);
       if (sid) {
@@ -40,7 +41,7 @@ export class FvcExplorer extends FScrollViewContent {
     let id = this.#fList.getCurrentId();
     if (id) {
       let sid = new SocialItemId(id, SocialItem.TYPE.PRODUCT);
-      return C.URL_PARAM.ID + "=" + sid.toEncodedStr();
+      return URL_PARAM.ID + "=" + sid.toEncodedStr();
     }
     return "";
   }

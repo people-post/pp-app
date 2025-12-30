@@ -17,8 +17,8 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { C } from '../../lib/framework/Constants.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { ID, MAX } from '../../common/constants/Constants.js';
 
 export class FvcConfig extends FScrollViewContent {
   #fTeams;
@@ -43,7 +43,7 @@ export class FvcConfig extends FScrollViewContent {
     this.#fMenuConfig = new gui.MenuConfig();
     this.#fMenuConfig.setDataSource(this);
     this.#fMenuConfig.setDelegate(this);
-    this.#fMenuConfig.setSectorId(C.ID.SECTOR.SHOP);
+    this.#fMenuConfig.setSectorId(ID.SECTOR.SHOP);
     this.setChild("mainMenu", this.#fMenuConfig);
 
     this.#fBranches = new shop.FBranchList();
@@ -88,7 +88,7 @@ export class FvcConfig extends FScrollViewContent {
   }
   getTeamForTeamFragment(fTeam, teamId) { return dba.Shop.getTeam(teamId); }
   getMenuForGuiMenuConfig(fMenuConfig) {
-    let menus = dba.Menus.get(C.ID.SECTOR.SHOP, dba.Account.getId());
+    let menus = dba.Menus.get(ID.SECTOR.SHOP, dba.Account.getId());
     return menus.length ? menus[0] : null;
   }
 
@@ -132,8 +132,8 @@ export class FvcConfig extends FScrollViewContent {
 
   onOptionChangeInOptionsFragment(fOptions, value, isChecked) {
     if (value == "HOME") {
-      dba.WebConfig.asyncSetHomeSector(isChecked ? C.ID.SECTOR.SHOP
-                                                 : C.ID.SECTOR.BLOG);
+      dba.WebConfig.asyncSetHomeSector(isChecked ? ID.SECTOR.SHOP
+                                                 : ID.SECTOR.BLOG);
     }
   }
 
@@ -170,7 +170,7 @@ export class FvcConfig extends FScrollViewContent {
     let pp = new SectionPanel("Options");
     p.pushPanel(pp);
     this.#fOptions.setOption("HOME",
-                             dba.WebConfig.getHomeSector() == C.ID.SECTOR.SHOP);
+                             dba.WebConfig.getHomeSector() == ID.SECTOR.SHOP);
     this.#fOptions.attachRender(pp.getContentPanel());
     this.#fOptions.render();
 
@@ -209,7 +209,7 @@ export class FvcConfig extends FScrollViewContent {
     this.#fTeams.render();
     p.pushSpace(1);
 
-    if (dba.Shop.getTeamIds().length < C.MAX.N_TEAMS) {
+    if (dba.Shop.getTeamIds().length < MAX.N_TEAMS) {
       pp = new PanelWrapper();
       p.pushPanel(pp);
       this.#btnAddTeam.attachRender(pp);

@@ -7,7 +7,8 @@ import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { C } from '../../lib/framework/Constants.js';
+import { VIS } from '../../common/constants/Constants.js';
+import { ICON } from '../../common/constants/Icons.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Tag } from '../../common/datatypes/Tag.js';
 import { Article } from '../../common/datatypes/Article.js';
@@ -56,13 +57,13 @@ export class FArticleEditor extends Fragment {
     this.#fFileChoices.addChoice({
       name : "Files",
       value : "FILES",
-      icon : C.ICON.UPLOAD,
+      icon : ICON.UPLOAD,
       fDetail : this.#fFiles
     });
     this.#fFileChoices.addChoice({
       name : "Live stream",
       value : "LIVE",
-      icon : C.ICON.LIVESTREAM,
+      icon : ICON.LIVESTREAM,
       fDetail : this.#fLiveStream
     });
     this.#fFileChoices.setSelectedValue("FILES");
@@ -239,7 +240,7 @@ export class FArticleEditor extends Fragment {
 
     p = panel.getOptionsPanel();
     this.#fOptions.setOption("O_VIS",
-                             this.#baseArticle.getVisibility() == C.VIS.PUBLIC);
+                             this.#baseArticle.getVisibility() == VIS.PUBLIC);
     this.#fOptions.attachRender(p.getContentPanel());
     this.#fOptions.render();
 
@@ -328,9 +329,9 @@ export class FArticleEditor extends Fragment {
     }
 
     if (data.classificationLevel) {
-      fd.append("visibility", C.VIS.PRIVATE);
+      fd.append("visibility", VIS.PRIVATE);
     } else {
-      fd.append("visibility", C.VIS.PUBLIC);
+      fd.append("visibility", VIS.PUBLIC);
     }
 
     for (let id of data.tagIds) {

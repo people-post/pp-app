@@ -6,7 +6,8 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { C } from '../../lib/framework/Constants.js';
+import { ID, MAX } from '../../common/constants/Constants.js';
+import { ICON } from '../../common/constants/Icons.js';
 
 window.CF_BLOG_CONFIG = {
   ADD_ROLE : "CF_BLOG_CONFIG_1",
@@ -30,12 +31,12 @@ export class FvcConfig extends FScrollViewContent {
     this._fPartnerships.setDelegate(this);
     this._fRoles = new FTabbedPane();
     this._fRoles.addPane(
-        {name : "Insiders", value : "INSIDER", icon : C.ICON.EMPLOYEE},
+        {name : "Insiders", value : "INSIDER", icon : ICON.EMPLOYEE},
         this._fInsiders);
     this._fRoles.addPane({
       name : "Coalitionists",
       value : "PARTNERSHIP",
-      icon : C.ICON.PARTNERSHIP
+      icon : ICON.PARTNERSHIP
     },
                          this._fPartnerships);
     this._fRoles.setDefaultPane("INSIDER");
@@ -44,7 +45,7 @@ export class FvcConfig extends FScrollViewContent {
     this._fMenuConfig = new gui.MenuConfig();
     this._fMenuConfig.setDataSource(this);
     this._fMenuConfig.setDelegate(this);
-    this._fMenuConfig.setSectorId(C.ID.SECTOR.BLOG);
+    this._fMenuConfig.setSectorId(ID.SECTOR.BLOG);
     this.setChild("mainMenu", this._fMenuConfig);
 
     this._fOptions = new OptionSwitch();
@@ -106,7 +107,7 @@ export class FvcConfig extends FScrollViewContent {
   }
 
   getMenuForGuiMenuConfig(fMenuConfig) {
-    let menus = dba.Menus.get(C.ID.SECTOR.BLOG, dba.Account.getId());
+    let menus = dba.Menus.get(ID.SECTOR.BLOG, dba.Account.getId());
     return menus.length ? menus[0] : null;
   }
 
@@ -179,7 +180,7 @@ export class FvcConfig extends FScrollViewContent {
     p.pushPanel(pp);
     this._fRoles.attachRender(pp.getContentPanel());
     this._fRoles.render();
-    if (dba.Blog.getRoleIds().length < C.MAX.N_ROLES) {
+    if (dba.Blog.getRoleIds().length < MAX.N_ROLES) {
       pp = new Panel();
       p.pushPanel(pp);
       pp.replaceContent(_CFT_BLOG_CONFIG_CONTENT.BTN_NEW_ROLE);

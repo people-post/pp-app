@@ -3,7 +3,7 @@ import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { C } from '../../lib/framework/Constants.js';
+import { ICON } from '../../common/constants/Icons.js';
 import { BlogRole } from '../../common/datatypes/BlogRole.js';
 import { DraftArticle } from '../../common/datatypes/DraftArticle.js';
 import { DraftJournalIssue } from '../../common/datatypes/DraftJournalIssue.js';
@@ -121,7 +121,7 @@ export class AbNew extends Fragment {
       } else {
         // Single owner
         this.#lc.clearOptions();
-        this.#lc.addOption("Article", ownerIds[0], C.ICON.ARTICLE);
+        this.#lc.addOption("Article", ownerIds[0], ICON.ARTICLE);
         this.#lc.addOptionFragment(this.#createJournalChoiceList(journalIds));
         fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lc,
                                     "Context");

@@ -1,7 +1,7 @@
 import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
-import { C } from '../../lib/framework/Constants.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { WalkinQueueItem } from '../../common/datatypes/WalkinQueueItem.js';
+import { URL_PARAM } from '../../common/constants/Constants.js';
 
 export class FWalkinQueue extends FLongListLegacy {
   constructor() {
@@ -13,7 +13,7 @@ export class FWalkinQueue extends FLongListLegacy {
   }
 
   initFromUrl(urlParam) {
-    let id = urlParam.get(C.URL_PARAM.ID);
+    let id = urlParam.get(URL_PARAM.ID);
     if (id) {
       this.switchToItem(id);
     }
@@ -21,7 +21,7 @@ export class FWalkinQueue extends FLongListLegacy {
 
   getUrlParamString() {
     if (this._currentId) {
-      return C.URL_PARAM.ID + "=" + this._currentId;
+      return URL_PARAM.ID + "=" + this._currentId;
     }
     return "";
   }

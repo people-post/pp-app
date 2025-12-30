@@ -1,7 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { C } from '../../lib/framework/Constants.js';
-
+import { URL_PARAM } from '../../common/constants/Constants.js';
 export class FvcCounterMain extends FScrollViewContent {
   constructor() {
     super();
@@ -12,8 +11,8 @@ export class FvcCounterMain extends FScrollViewContent {
 
   initFromUrl(urlParam) {
     super.initFromUrl(urlParam);
-    this.#setBranchId(urlParam.get(C.URL_PARAM.BRANCH));
-    dba.Counter.setRegisterId(urlParam.get(C.URL_PARAM.REGISTER));
+    this.#setBranchId(urlParam.get(URL_PARAM.BRANCH));
+    dba.Counter.setRegisterId(urlParam.get(URL_PARAM.REGISTER));
     this.render();
   }
 
@@ -21,10 +20,10 @@ export class FvcCounterMain extends FScrollViewContent {
     let ss = [];
     let branchId = this._fQueue.getBranchId();
     if (branchId) {
-      ss.push(C.URL_PARAM.BRANCH + "=" + branchId);
+      ss.push(URL_PARAM.BRANCH + "=" + branchId);
       let registerId = dba.Counter.getRegisterId();
       if (registerId) {
-        ss.push(C.URL_PARAM.REGISTER + "=" + registerId);
+        ss.push(URL_PARAM.REGISTER + "=" + registerId);
       }
     }
     return ss.join("&");

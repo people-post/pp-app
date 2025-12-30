@@ -16,9 +16,9 @@ import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { C } from '../../lib/framework/Constants.js';
 import { BlogRole } from '../../common/datatypes/BlogRole.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
+import { ICON } from '../../common/constants/Icons.js';
 
 export class FvcRoleEditor extends FScrollViewContent {
   constructor() {
@@ -29,13 +29,13 @@ export class FvcRoleEditor extends FScrollViewContent {
     this._fTypeChoices.addChoice({
       name : "Insider",
       value : BlogRole.T_ROLE.EXCLUSIVE,
-      icon : C.ICON.EMPLOYEE,
+      icon : ICON.EMPLOYEE,
       fDetail : new HintText(R.get("BLOG_ROLE_EXCLUSIVE"))
     });
     this._fTypeChoices.addChoice({
       name : "Coalitionist",
       value : BlogRole.T_ROLE.PARTNERSHIP,
-      icon : C.ICON.PARTNERSHIP,
+      icon : ICON.PARTNERSHIP,
       fDetail : new HintText(R.get("BLOG_ROLE_PARTNERSHIP"))
     });
     this._fTypeChoices.setSelectedValue(BlogRole.T_ROLE.PARTNERSHIP);

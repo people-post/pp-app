@@ -1,7 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
-import { C } from '../../lib/framework/Constants.js';
-
+import { ID, URL_PARAM } from '../../common/constants/Constants.js';
+import { ICON } from '../../common/constants/Icons.js';
 export class FvcOwnerPosts extends FScrollViewContent {
   #currentMenuItem = null;
   #mMain;
@@ -15,11 +15,11 @@ export class FvcOwnerPosts extends FScrollViewContent {
   constructor() {
     super();
     this.#mMain = new gui.MainMenu();
-    this.#mMain.setSector(C.ID.SECTOR.BLOG);
+    this.#mMain.setSector(ID.SECTOR.BLOG);
     this.#mMain.setDelegate(this);
 
     this.#fmMain = new FHeaderMenu();
-    this.#fmMain.setIcon(C.ICON.M_MENU, new MainIconOperator());
+    this.#fmMain.setIcon(ICON.M_MENU, new MainIconOperator());
     this.#fmMain.setContentFragment(this.#mMain);
     this.#fmMain.setExpansionPriority(0);
 
@@ -28,7 +28,7 @@ export class FvcOwnerPosts extends FScrollViewContent {
     this.#mTime.setDelegate(this);
 
     this.#fmTimeFilter = new FHeaderMenu();
-    this.#fmTimeFilter.setIcon(C.ICON.M_SEARCH, new SearchIconOperator());
+    this.#fmTimeFilter.setIcon(ICON.M_SEARCH, new SearchIconOperator());
     this.#fmTimeFilter.setContentFragment(this.#mTime);
     this.#fmTimeFilter.setExpansionPriority(1);
 
@@ -46,8 +46,8 @@ export class FvcOwnerPosts extends FScrollViewContent {
   }
 
   initFromUrl(urlParam) {
-    let id = urlParam.get(C.URL_PARAM.ID);
-    if (!id && urlParam.get(C.URL_PARAM.N_NAV_FRAME) > 1) {
+    let id = urlParam.get(URL_PARAM.ID);
+    if (!id && urlParam.get(URL_PARAM.N_NAV_FRAME) > 1) {
       // For multiple frames only
       let sid = dba.Blog.getDefaultPostId();
       if (sid) {
@@ -61,7 +61,7 @@ export class FvcOwnerPosts extends FScrollViewContent {
 
   getUrlParamString() {
     let id = this.#fPosts.getCurrentId();
-    return id ? C.URL_PARAM.ID + "=" + id : "";
+    return id ? URL_PARAM.ID + "=" + id : "";
   }
 
   isReloadable() { return true; }

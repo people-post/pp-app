@@ -1,8 +1,7 @@
 import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/FViewContentWithHeroBanner.js';
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { C } from '../../lib/framework/Constants.js';
-
+import { ICON } from '../../common/constants/Icons.js';
 export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
   #fBanner;
   #fBlog;
@@ -71,7 +70,7 @@ export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
   #resetTabs() {
     this.#fMain.clearContents();
 
-    this.#fMain.addTab({name : "Blog", value : "BLOG", icon : C.ICON.BLOG},
+    this.#fMain.addTab({name : "Blog", value : "BLOG", icon : ICON.BLOG},
                        this.#fBlog);
 
     this.#fMain.switchTo("BLOG");

@@ -1,7 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { C } from '../../lib/framework/Constants.js';
-
+import { URL_PARAM } from '../../common/constants/Constants.js';
 export class FvcQueueMain extends FScrollViewContent {
   constructor() {
     super();
@@ -12,13 +11,13 @@ export class FvcQueueMain extends FScrollViewContent {
 
   initFromUrl(urlParam) {
     super.initFromUrl(urlParam);
-    let branchId = urlParam.get(C.URL_PARAM.BRANCH);
+    let branchId = urlParam.get(URL_PARAM.BRANCH);
     this._fQueue.setBranchId(branchId);
     this.render();
   }
 
   getUrlParamString() {
-    return C.URL_PARAM.BRANCH + "=" + this._fQueue.getBranchId();
+    return URL_PARAM.BRANCH + "=" + this._fQueue.getBranchId();
   }
 
   onBranchSelectedInBranchSelectionContentFragment(fvcBranchSelection, branchId) {

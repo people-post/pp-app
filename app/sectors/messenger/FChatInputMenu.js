@@ -16,8 +16,7 @@ window._CFT_CHAT_INPUT_MENU = {
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { C } from '../../lib/framework/Constants.js';
-
+import { ICON } from '../../common/constants/Icons.js';
 export class FChatInputMenu extends Fragment {
   _renderOnRender(render) {
     let p = new ListPanel();
@@ -31,12 +30,12 @@ export class FChatInputMenu extends Fragment {
     // pp = new ui.Panel();
     // p.pushPanel(pp);
     // pp.replaceContent(
-    //    this.#renderActionIcon("CF_CHAT_INPUT_MENU.CALL", C.ICON.CALL));
+    //    this.#renderActionIcon("CF_CHAT_INPUT_MENU.CALL", ICON.CALL));
 
     // pp = new ui.Panel();
     // p.pushPanel(pp);
     // pp.replaceContent(this.#renderActionIcon("CF_CHAT_INPUT_MENU.VIDEO_CALL",
-    //                                  C.ICON.CALL_VIDEO));
+    //                                  ICON.CALL_VIDEO));
   }
 
   #renderActionIcon(action, icon) {
@@ -48,7 +47,7 @@ export class FChatInputMenu extends Fragment {
 
   #renderSendFileButton() {
     let s = _CFT_CHAT_INPUT_MENU.BTN_FILE;
-    return s.replace("__ICON__", Utilities.renderSvgFuncIcon(C.ICON.SEND_FILE));
+    return s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.SEND_FILE));
   }
 
   action(type, ...args) {

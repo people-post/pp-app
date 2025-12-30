@@ -76,9 +76,10 @@ import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { FScrollableHook } from '../../lib/ui/controllers/fragments/FScrollableHook.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
 import { FDateSelector } from '../../lib/ui/controllers/fragments/FDateSelector.js';
-import { LContext } from '../../lib/ui/controllers/fragments/LContext.js';
+import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { C } from '../../lib/framework/Constants.js';
+import { ID, URL_PARAM } from '../../common/constants/Constants.js';
+import { ICON } from '../../common/constants/Icons.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { ActionButtonGroup } from '../../common/gui/ActionButtonGroup.js';
 import { MenuItem } from '../../common/datatypes/MenuItem.js';
@@ -236,14 +237,14 @@ class FvcBrief extends FViewContentBase {
     this.#fHome.setUrl(dba.WebConfig.getHomeUrl());
 
     this.#fmMain = new FHeaderMenu();
-    this.#fmMain.setIcon(C.ICON.M_MENU, new MainIconOperator());
+    this.#fmMain.setIcon(ICON.M_MENU, new MainIconOperator());
     this.#fmMain.setExpansionPriority(0);
 
     this.#mMain = new gui.MainMenu();
     // right-pad120px is a hack because of the icon is too wide, needs better
     // fix
     this.#mMain.setMaxWidthClass("wmax800px right-pad120px");
-    this.#mMain.setSector(C.ID.SECTOR.BLOG);
+    this.#mMain.setSector(ID.SECTOR.BLOG);
     this.#mMain.setExtraItems(
         [ new MenuItem({"id" : "ZHUANTI", "name" : "专题"}) ]);
     this.#mMain.setSearchResultLayoutType(
@@ -252,7 +253,7 @@ class FvcBrief extends FViewContentBase {
     this.#fmMain.setContentFragment(this.#mMain);
 
     this.#fmSearch = new FHeaderMenu();
-    this.#fmSearch.setIcon(C.ICON.M_SEARCH, new SearchIconOperator());
+    this.#fmSearch.setIcon(ICON.M_SEARCH, new SearchIconOperator());
     let f = new srch.FSearchMenu();
     f.setResultLayoutType(srch.FSearchResultInfo.T_LAYOUT.BRIEF);
     f.setDelegate(this);
@@ -260,7 +261,7 @@ class FvcBrief extends FViewContentBase {
     this.#fmSearch.setExpansionPriority(1);
 
     this.#fmLanguage = new FHeaderMenu();
-    this.#fmLanguage.setIcon(Utilities.renderSvgMenuIcon(C.ICON.LANGUAGE));
+    this.#fmLanguage.setIcon(Utilities.renderSvgMenuIcon(ICON.LANGUAGE));
     this.#fmLanguage.setDelegate(this);
 
     this.#lc = new LContext();
@@ -317,7 +318,7 @@ class FvcBrief extends FViewContentBase {
   setConfig(c) { this.#config = c; }
 
   initFromUrl(urlParam) {
-    let id = urlParam.get(C.URL_PARAM.ID);
+    let id = urlParam.get(URL_PARAM.ID);
     if (id) {
       this.#showBriefArticle(SocialItemId.fromEncodedStr(id));
     }
@@ -541,7 +542,7 @@ class FvcBrief extends FViewContentBase {
     if (this.#selectedDate != "")
       title = this.#selectedDate;
     let s = _CPT_BRIEF.TITLE;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(C.ICON.CALENDAR));
+    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.CALENDAR));
     s = s.replace("__TEXT__", title);
     panel.replaceContent(s);
   }
@@ -551,7 +552,7 @@ class FvcBrief extends FViewContentBase {
       return;
     }
     let s = _CPT_BRIEF.TITLE;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(C.ICON.CALENDAR));
+    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.CALENDAR));
     s = s.replace("__TEXT__", "选择日期查看简讯");
     panel.replaceContent(s);
   }
@@ -569,7 +570,7 @@ class FvcBrief extends FViewContentBase {
       return;
     }
     let s = _CPT_BRIEF.TITLE;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(C.ICON.FIRE));
+    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.FIRE));
     s = s.replace("__TEXT__", "热门简讯");
     panel.replaceContent(s);
   }

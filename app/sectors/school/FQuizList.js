@@ -1,6 +1,6 @@
 import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { C } from '../../lib/framework/Constants.js';
+import { URL_PARAM } from '../../common/constants/Constants.js';
 import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
 
 export class FQuizList extends FLongListLegacy {
@@ -10,7 +10,7 @@ export class FQuizList extends FLongListLegacy {
   }
 
   initFromUrl(urlParam) {
-    let id = urlParam.get(C.URL_PARAM.ID);
+    let id = urlParam.get(URL_PARAM.ID);
     if (id) {
       this.switchToItem(id);
     }
@@ -18,7 +18,7 @@ export class FQuizList extends FLongListLegacy {
 
   getUrlParamString() {
     if (this._currentId) {
-      return C.URL_PARAM.ID + "=" + this._currentId;
+      return URL_PARAM.ID + "=" + this._currentId;
     }
     return "";
   }

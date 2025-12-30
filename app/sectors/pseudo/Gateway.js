@@ -1,10 +1,10 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { C } from '../../lib/framework/Constants.js';
-
+import { ID } from '../../common/constants/Constants.js';
+import { ICON } from '../../common/constants/Icons.js';
 export class Gateway extends plt.SectorGateway {
   static T_CONFIG = {
-    QUEUE : {ID : C.ID.SECTOR.QUEUE, NAME: "Queue", ICON: C.ICON.QUEUE},
-    COUNTER: {ID: C.ID.SECTOR.COUNTER, NAME: "Counter", ICON: C.ICON.INFO},
+    QUEUE : {ID : ID.SECTOR.QUEUE, NAME: "Queue", ICON: ICON.QUEUE},
+    COUNTER: {ID: ID.SECTOR.COUNTER, NAME: "Counter", ICON: ICON.INFO},
   };
 
   constructor(sectorId) {

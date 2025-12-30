@@ -17,7 +17,7 @@ const _CFT_PROPOSAL = {
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { FvcConfirmAction } from '../../lib/ui/controllers/fragments/FvcConfirmAction.js';
+import { FvcConfirmAction } from '../../lib/ui/controllers/views/FvcConfirmAction.js';
 import { FProposalTitle } from './FProposalTitle.js';
 import { VotingSummaryFragment } from '../../common/gui/VotingSummaryFragment.js';
 import { Communities } from '../../common/dba/Communities.js';

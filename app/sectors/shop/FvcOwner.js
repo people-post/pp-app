@@ -1,12 +1,13 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
-import { C } from '../../lib/framework/Constants.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Product } from '../../common/datatypes/Product.js';
 import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
+import { ID, URL_PARAM } from '../../common/constants/Constants.js';
+import { ICON } from '../../common/constants/Icons.js';
 
 export class FvcOwner extends FScrollViewContent {
   #fmMain;
@@ -19,16 +20,16 @@ export class FvcOwner extends FScrollViewContent {
   constructor() {
     super();
     this.#fmMain = new FHeaderMenu();
-    this.#fmMain.setIcon(C.ICON.M_MENU, new MainIconOperator());
+    this.#fmMain.setIcon(ICON.M_MENU, new MainIconOperator());
 
     let f = new gui.MainMenu();
-    f.setSector(C.ID.SECTOR.SHOP);
+    f.setSector(ID.SECTOR.SHOP);
     f.setDelegate(this);
     this.#fmMain.setContentFragment(f);
     this.#fmMain.setExpansionPriority(0);
 
     this.#fmSearch = new FHeaderMenu();
-    this.#fmSearch.setIcon(C.ICON.M_SEARCH, new SearchIconOperator());
+    this.#fmSearch.setIcon(ICON.M_SEARCH, new SearchIconOperator());
     f = new srch.FSearchMenu();
     f.setDelegate(this);
     this.#fmSearch.setContentFragment(f);
@@ -48,7 +49,7 @@ export class FvcOwner extends FScrollViewContent {
   }
 
   initFromUrl(urlParam) {
-    let id = urlParam.get(C.URL_PARAM.ID);
+    let id = urlParam.get(URL_PARAM.ID);
     if (id) {
       let sid = SocialItemId.fromEncodedStr(id);
       if (sid) {
@@ -61,7 +62,7 @@ export class FvcOwner extends FScrollViewContent {
     let id = this.#fList.getCurrentId();
     if (id) {
       let sid = new SocialItemId(id, SocialItem.TYPE.PRODUCT);
-      return C.URL_PARAM.ID + "=" + sid.toEncodedStr();
+      return URL_PARAM.ID + "=" + sid.toEncodedStr();
     }
     return "";
   }

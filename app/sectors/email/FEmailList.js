@@ -1,6 +1,8 @@
 import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcEmail } from './FvcEmail.js';
 
 export class FEmailList extends FLongListLegacy {
   initFromUrl(urlParam) {
@@ -61,9 +63,6 @@ export class FEmailList extends FLongListLegacy {
       return null;
     }
   }
-
-import { View } from '../../lib/ui/controllers/views/View.js';
-import { FvcEmail } from './FvcEmail.js';
 
   _createItemView(id) {
     let v = new View();

@@ -18,6 +18,7 @@ const _CPT_WEB3_ARTICLE_EDITOR = {
 import { PArticleBase } from './PArticleBase.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 
 export class PWeb3ArticleEditor extends PArticleBase {
   #pTitle;
@@ -32,8 +33,6 @@ export class PWeb3ArticleEditor extends PArticleBase {
     this.#pFiles = new PanelWrapper();
     this.#pAttachment = new PanelWrapper();
     this.#pContent = new PanelWrapper();
-import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
-
     this.#pBtnList = new ListPanel();
   }
 

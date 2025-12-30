@@ -11,6 +11,11 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
 import { ID, MAX } from '../../common/constants/Constants.js';
 import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { FTeam } from './FTeam.js';
 
 export class FvcConfig extends FScrollViewContent {
   constructor() {
@@ -90,12 +95,6 @@ export class FvcConfig extends FScrollViewContent {
     }
     super.handleSessionDataUpdate.apply(this, arguments);
   }
-
-import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
-import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { FTeam } from './FTeam.js';
 
   _renderContentOnRender(render) {
     let p = new ListPanel();

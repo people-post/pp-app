@@ -17,8 +17,7 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { C } from '../../lib/framework/Constants.js';
-
+import { STATE } from '../../common/constants/Constants.js';
 export class FSupplierOrder extends Fragment {
   static T_LAYOUT = {
     FULL : Symbol(),
@@ -257,7 +256,7 @@ export class FSupplierOrder extends Fragment {
 
   #renderTimeInfo(order, panel) {
     let s = "Updated ";
-    if (order.getState() == C.STATE.FINISHED) {
+    if (order.getState() == STATE.FINISHED) {
       s = "Closed ";
     }
     s += Utilities.renderTimeDiff(order.getUpdateTime());

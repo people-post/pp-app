@@ -2,9 +2,10 @@ import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/F
 import { FvcOwner } from './FvcOwner.js';
 import { FvcExplorer } from './FvcExplorer.js';
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
-import { C } from '../../lib/framework/Constants.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
+import { URL_PARAM, URL_PARAM_ADDON_VALUE } from '../../common/constants/Constants.js';
+import { ICON } from '../../common/constants/Icons.js';
 
 export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {
@@ -35,8 +36,8 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   initFromUrl(urlParam) {
     super.initFromUrl(urlParam);
-    let addon = urlParam.get(C.URL_PARAM.ADDON);
-    if (addon == C.URL_PARAM_ADDON_VALUE.CART) {
+    let addon = urlParam.get(URL_PARAM.ADDON);
+    if (addon == URL_PARAM_ADDON_VALUE.CART) {
       this.#showCart();
     }
   }
@@ -130,28 +131,28 @@ export class FvcMain extends FViewContentWithHeroBanner {
     this.setHeroBannerFragment(null);
 
     this.#fMain.addTab(
-        {name : R.t("Market"), value : "NEWS", icon : C.ICON.EXPLORER},
+        {name : R.t("Market"), value : "NEWS", icon : ICON.EXPLORER},
         this.#fvcExplorer);
 
     this.#fvcOwner.setOwnerId(dba.WebConfig.getOwnerId());
     this.#fMain.addTab(
-        {name : R.t("Mine"), value : "OWNER", icon : C.ICON.SMILEY},
+        {name : R.t("Mine"), value : "OWNER", icon : ICON.SMILEY},
         this.#fvcOwner);
 
     let ff = new shop.FvcOrderHistory();
     ff.setDelegate(this);
     this.#fMain.addTab(
-        {name : R.t("Orders"), value : "ORDERS", icon : C.ICON.RECEIPT}, ff);
+        {name : R.t("Orders"), value : "ORDERS", icon : ICON.RECEIPT}, ff);
 
     ff = new shop.FvcConfig();
     ff.setDelegate(this);
     this.#fMain.addTab(
-        {name : R.t("Config"), value : "CONFIG", icon : C.ICON.CONFIG}, ff);
+        {name : R.t("Config"), value : "CONFIG", icon : ICON.CONFIG}, ff);
 
     ff = new shop.FvcReport();
     ff.setDelegate(this);
     this.#fMain.addTab(
-        {name : R.t("Report"), value : "REPORT", icon : C.ICON.REPORT}, ff);
+        {name : R.t("Report"), value : "REPORT", icon : ICON.REPORT}, ff);
 
     this.#fMain.switchTo("NEWS");
   }
@@ -166,7 +167,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
     this.setHeroBannerFragment(ff);
 
     this.#fMain.addTab(
-        {name : R.t("Market"), value : "NEWS", icon : C.ICON.EXPLORER},
+        {name : R.t("Market"), value : "NEWS", icon : ICON.EXPLORER},
         this.#fvcExplorer);
     this.#fMain.switchTo("NEWS");
   }
@@ -177,7 +178,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
     this.#fvcOwner.setOwnerId(dba.WebConfig.getOwnerId());
     this.#fMain.addTab(
-        {name : R.t("Products"), value : "OWNER", icon : C.ICON.PRODUCT},
+        {name : R.t("Products"), value : "OWNER", icon : ICON.PRODUCT},
         this.#fvcOwner);
     this.#fMain.switchTo("OWNER");
   }

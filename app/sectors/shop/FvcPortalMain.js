@@ -1,8 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { C } from '../../lib/framework/Constants.js';
-
+import { URL_PARAM } from '../../common/constants/Constants.js';
 export class FvcPortalMain extends FScrollViewContent {
   #branchId = null;
 
@@ -13,11 +12,11 @@ export class FvcPortalMain extends FScrollViewContent {
 
   initFromUrl(urlParam) {
     super.initFromUrl(urlParam);
-    this.#branchId = urlParam.get(C.URL_PARAM.BRANCH);
+    this.#branchId = urlParam.get(URL_PARAM.BRANCH);
     this.render();
   }
 
-  getUrlParamString() { return C.URL_PARAM.BRANCH + "=" + this.#branchId; }
+  getUrlParamString() { return URL_PARAM.BRANCH + "=" + this.#branchId; }
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {

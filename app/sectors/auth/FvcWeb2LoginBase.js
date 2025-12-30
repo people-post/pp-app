@@ -1,7 +1,6 @@
 import { FvcLoginBase } from './FvcLoginBase.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { C } from '../../lib/framework/Constants.js';
-
+import { URL_PARAM } from '../../common/constants/Constants.js';
 export class FvcWeb2LoginBase extends FvcLoginBase {
   constructor() {
     super();
@@ -11,8 +10,8 @@ export class FvcWeb2LoginBase extends FvcLoginBase {
   initFromUrl(urlParam) {
     // Only called in Gadget
     let target = {
-      toDomain : urlParam.get(C.URL_PARAM.FROM_DOMAIN),
-      token : urlParam.get(C.URL_PARAM.TOKEN)
+      toDomain : urlParam.get(URL_PARAM.FROM_DOMAIN),
+      token : urlParam.get(URL_PARAM.TOKEN)
     };
     console.log(urlParam);
     console.log(target);
