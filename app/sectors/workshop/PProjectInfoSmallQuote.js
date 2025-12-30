@@ -1,4 +1,4 @@
-(function(wksp) {
+
 /*
  * +-------+--------------+
  * |       |              |
@@ -24,7 +24,7 @@ const _CPT_PROJECT_INFO_SMALL_QUOTE = {
   </div>`,
 }
 
-class PProjectInfoSmallQuote extends wksp.PProjectInfoBase {
+export class PProjectInfoSmallQuote extends wksp.PProjectInfoBase {
   constructor() {
     super();
     this._pUserName = new ui.PanelWrapper();
@@ -63,5 +63,10 @@ class PProjectInfoSmallQuote extends wksp.PProjectInfoBase {
   }
 };
 
-wksp.PProjectInfoSmallQuote = PProjectInfoSmallQuote;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProjectInfoSmallQuote = PProjectInfoSmallQuote;
+}

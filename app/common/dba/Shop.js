@@ -360,7 +360,6 @@ export const Shop = function() {
     asyncUpdateConfig : _asyncUpdateConfig,
   };
 }();
-}();
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

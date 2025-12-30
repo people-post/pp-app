@@ -95,7 +95,6 @@ export const Workshop = function() {
     reloadProject : _reloadProject,
   };
 }();
-}();
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

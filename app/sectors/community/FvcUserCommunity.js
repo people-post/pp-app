@@ -1,4 +1,4 @@
-(function(cmut) {
+
 window.CF_USER_COMMUNITY_CONTENT = {
   CREATE : "CF_USER_COMMUNITY_CONTENT_1",
 }
@@ -8,7 +8,7 @@ const _CFT_USER_COMMUNITY_CONTENT = {
       `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_USER_COMMUNITY_CONTENT.CREATE)">Create community...</a>`
 }
 
-class FvcUserCommunity extends ui.FScrollViewContent {
+export class FvcUserCommunity extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fOverview = new cmut.FOverview();
@@ -80,5 +80,10 @@ class FvcUserCommunity extends ui.FScrollViewContent {
   }
 };
 
-cmut.FvcUserCommunity = FvcUserCommunity;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.FvcUserCommunity = FvcUserCommunity;
+}

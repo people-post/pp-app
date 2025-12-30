@@ -1,5 +1,5 @@
-(function(shop) {
-class FAppointmentDelivery extends shop.FServiceDelivery {
+
+export class FAppointmentDelivery extends shop.FServiceDelivery {
   #btnAdd;
 
   constructor() {
@@ -46,5 +46,10 @@ class FAppointmentDelivery extends shop.FServiceDelivery {
   }
 };
 
-shop.FAppointmentDelivery = FAppointmentDelivery;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FAppointmentDelivery = FAppointmentDelivery;
+}

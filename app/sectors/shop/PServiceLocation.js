@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_SERVICE_LOCATION = {
   MAIN : `<div id="__ID_MAIN__">
   <div class="bd1px bdsolid bdlightgray bdradius5px pad5px clickable">
@@ -11,7 +11,7 @@ const _CPT_SERVICE_LOCATION = {
   </div>`,
 }
 
-class PServiceLocation extends ui.Panel {
+export class PServiceLocation extends ui.Panel {
   constructor() {
     super();
     this._pTimeOverhead = new ui.PanelWrapper();
@@ -55,5 +55,10 @@ class PServiceLocation extends ui.Panel {
   }
 };
 
-shop.PServiceLocation = PServiceLocation;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PServiceLocation = PServiceLocation;
+}

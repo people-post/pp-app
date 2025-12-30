@@ -1,5 +1,4 @@
-(function(cmut) {
-class FvcMain extends ui.FViewContentMux {
+export class FvcMain extends ui.FViewContentMux {
   #fProposals;
   #fMemberList;
   #fGlobal;
@@ -57,7 +56,10 @@ class FvcMain extends ui.FViewContentMux {
 
     this.switchTo("OVERVIEW");
   }
-};
+}
 
-cmut.FvcMain = FvcMain;
-}(window.cmut = window.cmut || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.FvcMain = FvcMain;
+}

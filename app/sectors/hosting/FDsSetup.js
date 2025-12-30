@@ -1,4 +1,4 @@
-(function(hstn) {
+
 window.CFM_DS_SETUP = {
   SUBMIT : "CFM_DS_SETUP_1",
   DS_HOW_TO : "CFM_DS_SETUP_2",
@@ -37,7 +37,7 @@ const _CFMT_DS_SETUP = {
     </table>`,
 }
 
-class FDsSetup extends ui.Fragment {
+export class FDsSetup extends ui.Fragment {
   static T_DNSSEC = {
     ALGORITHM : {
       5 : "RSA/SHA-1",
@@ -118,5 +118,10 @@ class FDsSetup extends ui.Fragment {
   }
 };
 
-hstn.FDsSetup = FDsSetup;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.FDsSetup = FDsSetup;
+}

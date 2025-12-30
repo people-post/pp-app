@@ -155,7 +155,6 @@ export const Keys = function() {
     fromEncodedStr : _fromEncodedStr
   };
 }();
-}();
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

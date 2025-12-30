@@ -1,5 +1,5 @@
-(function(blog) {
-class POgp extends ui.Panel {
+
+export class POgp extends ui.Panel {
   constructor() {
     super();
     this._pAuthor = new ui.PanelWrapper();
@@ -36,5 +36,10 @@ class POgp extends ui.Panel {
   _getTemplate() { return ""; }
 };
 
-blog.POgp = POgp;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.POgp = POgp;
+}

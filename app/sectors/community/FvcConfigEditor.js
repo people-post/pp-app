@@ -1,5 +1,5 @@
-(function(cmut) {
-class FvcConfigEditor extends ui.FScrollViewContent {
+
+export class FvcConfigEditor extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fCaptain = new S.hr.FUserIdInput();
@@ -171,5 +171,10 @@ class FvcConfigEditor extends ui.FScrollViewContent {
   }
 };
 
-cmut.FvcConfigEditor = FvcConfigEditor;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.FvcConfigEditor = FvcConfigEditor;
+}

@@ -1,5 +1,5 @@
-(function(ftpg) {
-class FvcBlockchain extends ui.FViewContentBase {
+
+export class FvcBlockchain extends ui.FViewContentBase {
   #blockHead;
 
   constructor() {
@@ -27,5 +27,10 @@ class FvcBlockchain extends ui.FViewContentBase {
   }
 };
 
-ftpg.FvcBlockchain = FvcBlockchain;
-}(window.ftpg = window.ftpg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.ftpg = window.ftpg || {};
+  window.ftpg.FvcBlockchain = FvcBlockchain;
+}

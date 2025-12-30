@@ -1,5 +1,4 @@
-(function(blog) {
-class FvcOwnerPostScroller extends ui.FScrollViewContent {
+export class FvcOwnerPostScroller extends ui.FScrollViewContent {
   // Note: For brief display only
   #fPosts;
   #loader;
@@ -36,7 +35,10 @@ class FvcOwnerPostScroller extends ui.FScrollViewContent {
     this.#fPosts.attachRender(render);
     this.#fPosts.render();
   }
-};
+}
 
-blog.FvcOwnerPostScroller = FvcOwnerPostScroller;
-}(window.blog = window.blog || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FvcOwnerPostScroller = FvcOwnerPostScroller;
+}

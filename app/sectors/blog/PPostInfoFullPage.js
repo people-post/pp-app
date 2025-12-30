@@ -1,4 +1,4 @@
-(function(blog) {
+
 // This is maily for JournalIssue
 const _CPT_POST_INFO_FULL_PAGE = {
   MAIN : `<div class="h100 h-pad5 v-pad5px y-scroll no-scrollbar">
@@ -7,7 +7,7 @@ const _CPT_POST_INFO_FULL_PAGE = {
   </div>`,
 }
 
-class PPostInfoFullPage extends gui.PPostInfoBase {
+export class PPostInfoFullPage extends gui.PPostInfoBase {
   #pTitle;
   #pContent;
 
@@ -34,5 +34,10 @@ class PPostInfoFullPage extends gui.PPostInfoBase {
   }
 };
 
-blog.PPostInfoFullPage = PPostInfoFullPage;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPostInfoFullPage = PPostInfoFullPage;
+}

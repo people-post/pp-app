@@ -1,5 +1,5 @@
-(function(scol) {
-class FvcQuizFilter extends ui.FScrollViewContent {
+
+export class FvcQuizFilter extends ui.FScrollViewContent {
   static T_PRESENTATION = {
     QUIZ : Symbol(),
     FLASHCARD: Symbol(),
@@ -108,5 +108,10 @@ class FvcQuizFilter extends ui.FScrollViewContent {
   }
 };
 
-scol.FvcQuizFilter = FvcQuizFilter;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.FvcQuizFilter = FvcQuizFilter;
+}

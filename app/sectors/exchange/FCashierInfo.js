@@ -1,4 +1,4 @@
-(function(xchg) {
+
 window.CF_CASHIER_INFO = {
   DEPOSIT : "CF_CASHIER_INFO_1",
   WITHDRAW : "CF_CASHIER_INFO_2",
@@ -11,7 +11,7 @@ const _CVF_CASHIER_INFO = {
       `<span class="button-like small danger" onclick="javascript:G.action(CF_CASHIER_INFO.WITHDRAW)">Withdraw...</span>`,
 }
 
-class FCashierInfo extends xchg.FExchangeItemInfo {
+export class FCashierInfo extends xchg.FExchangeItemInfo {
   action(type, ...args) {
     switch (type) {
     case CF_CASHIER_INFO.DEPOSIT:
@@ -50,5 +50,10 @@ class FCashierInfo extends xchg.FExchangeItemInfo {
   #onWithdrawClicked() { console.log("Withdraw"); }
 };
 
-xchg.FCashierInfo = FCashierInfo;
-}(window.xchg = window.xchg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.xchg = window.xchg || {};
+  window.xchg.FCashierInfo = FCashierInfo;
+}

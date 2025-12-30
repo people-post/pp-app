@@ -1,5 +1,5 @@
-(function(blog) {
-class FvcCareerList extends ui.FScrollViewContent {
+
+export class FvcCareerList extends ui.FScrollViewContent {
   #fList;
 
   constructor() {
@@ -14,5 +14,10 @@ class FvcCareerList extends ui.FScrollViewContent {
   }
 };
 
-blog.FvcCareerList = FvcCareerList;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FvcCareerList = FvcCareerList;
+}

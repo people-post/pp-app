@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_WALKIN_QUEUE_ITEM_INFO = {
   MAIN : `<div class="pad5px clickable">
     <div id="__ID_MAIN__" class="flex space-between bd-b-1px bd-b-solid bdlightgray">
@@ -9,7 +9,7 @@ const _CPT_WALKIN_QUEUE_ITEM_INFO = {
   </div>`,
 }
 
-class PWalkinQueueItemInfo extends shop.PWalkinQueueItemBase {
+export class PWalkinQueueItemInfo extends shop.PWalkinQueueItemBase {
   constructor() {
     super();
     this._pStatus = new ui.PanelWrapper();
@@ -43,5 +43,10 @@ class PWalkinQueueItemInfo extends shop.PWalkinQueueItemBase {
   }
 };
 
-shop.PWalkinQueueItemInfo = PWalkinQueueItemInfo;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PWalkinQueueItemInfo = PWalkinQueueItemInfo;
+}

@@ -1,5 +1,4 @@
-(function(msgr) {
-msgr.Utilities = function() {
+export const Utilities = function() {
   function _getGroupName(groupId) {
     let g = dba.Groups.get(groupId);
     if (!g) {
@@ -39,4 +38,8 @@ msgr.Utilities = function() {
   };
 }();
 
-}(window.msgr = window.msgr || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.Utilities = Utilities;
+}

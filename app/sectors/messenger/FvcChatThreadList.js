@@ -1,5 +1,5 @@
-(function(msgr) {
-class FvcChatThreadList extends ui.FScrollViewContent {
+
+export class FvcChatThreadList extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fThreads = new ui.FSimpleFragmentList();
@@ -84,5 +84,10 @@ class FvcChatThreadList extends ui.FScrollViewContent {
   }
 };
 
-msgr.FvcChatThreadList = FvcChatThreadList;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.FvcChatThreadList = FvcChatThreadList;
+}

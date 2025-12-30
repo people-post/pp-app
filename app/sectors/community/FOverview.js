@@ -1,9 +1,9 @@
-(function(cmut) {
+
 const _CFT_COMMUNITY_OVERVIEW = {
   N_COINS : `__N_ACTIVE_COINS__ active/__N_TOTAL_COINS__ total`,
 };
 
-class FOverview extends ui.Fragment {
+export class FOverview extends ui.Fragment {
   #fHeaderEditor;
   #fCreator;
   #fCaptain;
@@ -410,5 +410,10 @@ class FOverview extends ui.Fragment {
   }
 };
 
-cmut.FOverview = FOverview;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.FOverview = FOverview;
+}

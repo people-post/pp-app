@@ -1,6 +1,7 @@
 import { T_DATA } from '../plt/Events.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { api } from '../plt/Api.js';
+import { Hashtag } from '../datatypes/Hashtag.js';
 
 function createHashtags() {
   let _map = new Map();
@@ -48,8 +49,6 @@ function createHashtags() {
     if (response.error) {
       Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
-import { Hashtag } from '../datatypes/Hashtag.js';
-
       let hts = [];
       for (let d of response.data.hashtags) {
         let ht = new Hashtag(d);

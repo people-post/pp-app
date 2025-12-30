@@ -1,5 +1,5 @@
-(function(msgr) {
-class FvcCreateChatTarget extends ui.FScrollViewContent {
+
+export class FvcCreateChatTarget extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fMembers = new ui.FSimpleFragmentList();
@@ -130,5 +130,10 @@ class FvcCreateChatTarget extends ui.FScrollViewContent {
   }
 };
 
-msgr.FvcCreateChatTarget = FvcCreateChatTarget;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.FvcCreateChatTarget = FvcCreateChatTarget;
+}

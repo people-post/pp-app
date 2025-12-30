@@ -1,4 +1,4 @@
-(function(wksp) {
+
 /*
  * +-+-----------+-------------+
  * |P|           |             |
@@ -34,7 +34,7 @@ const _CPT_PROJECT_INFO_MIDDLE = {
   </div>`,
 }
 
-class PProjectInfoMiddle extends wksp.PProjectInfoBase {
+export class PProjectInfoMiddle extends wksp.PProjectInfoBase {
   isColorInvertible() { return true; }
   getProgressDirection() { return "V"; }
 
@@ -74,5 +74,10 @@ class PProjectInfoMiddle extends wksp.PProjectInfoBase {
   }
 };
 
-wksp.PProjectInfoMiddle = PProjectInfoMiddle;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProjectInfoMiddle = PProjectInfoMiddle;
+}

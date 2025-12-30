@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_WALKIN_QUEUE_ITEM_INFO_PUBLIC = {
   MAIN : `<div class="pad5px">
     <div class="flex space-between bd-b-1px bd-b-solid bdlightgray">
@@ -8,7 +8,7 @@ const _CPT_WALKIN_QUEUE_ITEM_INFO_PUBLIC = {
   </div>`,
 }
 
-class PWalkinQueueItemInfoPublic extends shop.PWalkinQueueItemBase {
+export class PWalkinQueueItemInfoPublic extends shop.PWalkinQueueItemBase {
   constructor() {
     super();
     this._pStatus = new ui.PanelWrapper();
@@ -30,5 +30,10 @@ class PWalkinQueueItemInfoPublic extends shop.PWalkinQueueItemBase {
   }
 };
 
-shop.PWalkinQueueItemInfoPublic = PWalkinQueueItemInfoPublic;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PWalkinQueueItemInfoPublic = PWalkinQueueItemInfoPublic;
+}

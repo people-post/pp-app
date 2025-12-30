@@ -1,5 +1,5 @@
-(function(shop) {
-class FvcRegister extends ui.FScrollViewContent {
+
+export class FvcRegister extends ui.FScrollViewContent {
   #fRegister;
 
   constructor() {
@@ -23,5 +23,10 @@ class FvcRegister extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcRegister = FvcRegister;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcRegister = FvcRegister;
+}

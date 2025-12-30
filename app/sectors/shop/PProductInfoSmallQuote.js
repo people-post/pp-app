@@ -1,4 +1,4 @@
-(function(shop) {
+
 /*
  * +-------+--------------+
  * |       |              |
@@ -20,7 +20,7 @@ const _CPT_PRODUCT_INFO_SMALL_QUOTE = {
   </div>`,
 }
 
-class PProductInfoSmallQuote extends shop.PProductInfoBase {
+export class PProductInfoSmallQuote extends shop.PProductInfoBase {
   constructor() {
     super();
     this._pSellerName = new ui.PanelWrapper();
@@ -51,5 +51,10 @@ class PProductInfoSmallQuote extends shop.PProductInfoBase {
   }
 };
 
-shop.PProductInfoSmallQuote = PProductInfoSmallQuote;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PProductInfoSmallQuote = PProductInfoSmallQuote;
+}

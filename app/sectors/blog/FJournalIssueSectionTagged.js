@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CPT_JOURNAL_ISSUE_SECTION_TAGGED = {
   MAIN : `<div class="flex flex-start">
     <div id="__ID_TAG__" class="flex-noshrink u-font4"></div>
@@ -7,7 +7,7 @@ const _CPT_JOURNAL_ISSUE_SECTION_TAGGED = {
   </div>`,
 };
 
-class PJournalIssueSectionTagged extends ui.Panel {
+export class PJournalIssueSectionTagged extends ui.Panel {
   #pTag;
   #pContent;
 
@@ -88,4 +88,10 @@ class FJournalIssueSectionTagged extends ui.Fragment {
 };
 
 blog.FJournalIssueSectionTagged = FJournalIssueSectionTagged;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PJournalIssueSectionTagged = PJournalIssueSectionTagged;
+}

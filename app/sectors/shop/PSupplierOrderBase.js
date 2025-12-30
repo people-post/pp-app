@@ -1,5 +1,5 @@
-(function(shop) {
-class PSupplierOrderBase extends ui.Panel {
+
+export class PSupplierOrderBase extends ui.Panel {
   getCustomerNamePanel() { return null; }
   getCreationTimePanel() { return null; }
   getTimeInfoPanel() { return null };
@@ -20,5 +20,10 @@ class PSupplierOrderBase extends ui.Panel {
   getShippingAddressPanel() { return null; }
 };
 
-shop.PSupplierOrderBase = PSupplierOrderBase;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PSupplierOrderBase = PSupplierOrderBase;
+}

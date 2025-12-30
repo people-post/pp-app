@@ -1,5 +1,5 @@
-(function(shop) {
-class FProductDeliveryEditorManager extends ui.Fragment {
+
+export class FProductDeliveryEditorManager extends ui.Fragment {
   constructor() {
     super();
     this._mChoices = this.#initChoiceMap();
@@ -96,5 +96,10 @@ class FProductDeliveryEditorManager extends ui.Fragment {
   }
 };
 
-shop.FProductDeliveryEditorManager = FProductDeliveryEditorManager;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FProductDeliveryEditorManager = FProductDeliveryEditorManager;
+}

@@ -1,4 +1,4 @@
-(function(scol) {
+
 const _CPT_FLASHCARD = {
   MAIN : `<div class="pad5">
   <div class="pad5 bd1px bdsolid bdlightgray bdradius5px">
@@ -12,7 +12,7 @@ const _CPT_FLASHCARD = {
   </div>`,
 }
 
-class PFlashcard extends ui.Panel {
+export class PFlashcard extends ui.Panel {
   constructor() {
     super();
     this._pQuestion = new ui.Panel();
@@ -44,5 +44,10 @@ class PFlashcard extends ui.Panel {
   }
 };
 
-scol.PFlashcard = PFlashcard;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.PFlashcard = PFlashcard;
+}

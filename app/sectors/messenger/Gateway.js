@@ -1,5 +1,5 @@
-(function(msgr) {
-class Gateway extends plt.SectorGateway {
+
+export class Gateway extends plt.SectorGateway {
   getNTabNoticesForViewContentMuxFragment(fMux, v) {
     let n = 0;
     switch (v) {
@@ -39,5 +39,10 @@ class Gateway extends plt.SectorGateway {
   }
 };
 
-msgr.Gateway = Gateway;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.Gateway = Gateway;
+}

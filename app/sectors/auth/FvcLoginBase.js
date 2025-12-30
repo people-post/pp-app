@@ -1,10 +1,12 @@
-(function(auth) {
-class FvcLoginBase extends ui.FScrollViewContent {
+export class FvcLoginBase extends ui.FScrollViewContent {
   getActionButton() {
     // Return empty fragment to avoid being assigned with default action button
     return new ui.Fragment();
   }
-};
+}
 
-auth.FvcLoginBase = FvcLoginBase;
-}(window.auth = window.auth || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.auth = window.auth || {};
+  window.auth.FvcLoginBase = FvcLoginBase;
+}

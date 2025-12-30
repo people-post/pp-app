@@ -1,5 +1,5 @@
-(function(msgr) {
-class FvcContactList extends ui.FScrollViewContent {
+
+export class FvcContactList extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fList = new gui.SimpleLongListFragment();
@@ -39,5 +39,10 @@ class FvcContactList extends ui.FScrollViewContent {
   }
 };
 
-msgr.FvcContactList = FvcContactList;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.FvcContactList = FvcContactList;
+}

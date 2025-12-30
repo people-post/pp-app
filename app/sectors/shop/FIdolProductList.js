@@ -1,5 +1,5 @@
-(function(shop) {
-class FIdolProductList extends shop.FProductList {
+
+export class FIdolProductList extends shop.FProductList {
   #isBatchLoading = false;
 
   _createInfoFragment(id) {
@@ -46,5 +46,10 @@ class FIdolProductList extends shop.FProductList {
   }
 };
 
-shop.FIdolProductList = FIdolProductList;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FIdolProductList = FIdolProductList;
+}

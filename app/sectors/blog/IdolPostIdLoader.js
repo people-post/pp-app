@@ -1,5 +1,5 @@
-(function(blog) {
-class IdolPostIdLoader extends plt.LongListIdLoader {
+
+export class IdolPostIdLoader extends plt.LongListIdLoader {
   #isBatchLoading = false;
   #idRecord = new dat.UniLongListIdRecord();
 
@@ -39,5 +39,10 @@ class IdolPostIdLoader extends plt.LongListIdLoader {
   }
 };
 
-blog.IdolPostIdLoader = IdolPostIdLoader;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.IdolPostIdLoader = IdolPostIdLoader;
+}

@@ -1,9 +1,8 @@
-(function(scol) {
-scol.CF_FLASHCARD = {
+export const CF_FLASHCARD = {
   ON_CLICK : Symbol(),
 };
 
-class FFlashcard extends ui.Fragment {
+export class FFlashcard extends ui.Fragment {
   constructor() {
     super();
     this._quizId = null;
@@ -119,5 +118,10 @@ class FFlashcard extends ui.Fragment {
   }
 };
 
-scol.FFlashcard = FFlashcard;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.CF_FLASHCARD = CF_FLASHCARD;
+}

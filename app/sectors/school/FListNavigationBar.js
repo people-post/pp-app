@@ -1,5 +1,5 @@
-(function(scol) {
-class FListNavigationBar extends ui.Fragment {
+
+export class FListNavigationBar extends ui.Fragment {
   constructor() {
     super();
     this._fBtnPrev = new ui.Button();
@@ -92,5 +92,10 @@ class FListNavigationBar extends ui.Fragment {
   }
 };
 
-scol.FListNavigationBar = FListNavigationBar;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.FListNavigationBar = FListNavigationBar;
+}

@@ -1,4 +1,4 @@
-(function(wksp) {
+
 const _CPT_PROJECT_STAGE_MENU_ITEM = {
   MAIN : `<div class="flex space-between baseline-align-items">
       <div>
@@ -9,7 +9,7 @@ const _CPT_PROJECT_STAGE_MENU_ITEM = {
     </div>`,
 }
 
-class PProjectStageMenuItem extends wksp.PProjectStageBase {
+export class PProjectStageMenuItem extends wksp.PProjectStageBase {
   constructor() {
     super();
     this._pChecked = new ui.Panel();
@@ -37,5 +37,10 @@ class PProjectStageMenuItem extends wksp.PProjectStageBase {
   }
 };
 
-wksp.PProjectStageMenuItem = PProjectStageMenuItem;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProjectStageMenuItem = PProjectStageMenuItem;
+}

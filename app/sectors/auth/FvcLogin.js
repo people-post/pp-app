@@ -1,5 +1,4 @@
-(function(auth) {
-auth.CF_LOGIN = {
+export const CF_LOGIN = {
   REGISTER : Symbol(),
   RETRIEVE_PASSWORD : Symbol(),
   ON_USERNAME_KEY_DOWN : Symbol(),
@@ -191,8 +190,12 @@ class FvcLogin extends auth.FvcWeb2LoginBase {
     }
   }
 
-  #isEnterEvt(evt) { return !evt.shiftKey && evt.key === "Enter"; }
-};
+  #isEnterEvt(evt) { return !evt.shiftKey && evt.key === "Enter";   }
+}
 
-auth.FvcLogin = FvcLogin;
-}(window.auth = window.auth || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.auth = window.auth || {};
+  window.auth.CF_LOGIN = CF_LOGIN;
+  window.auth.FvcLogin = FvcLogin;
+}

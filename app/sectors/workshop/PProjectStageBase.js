@@ -1,5 +1,5 @@
-(function(wksp) {
-class PProjectStageBase extends ui.Panel {
+
+export class PProjectStageBase extends ui.Panel {
   constructor() {
     super();
     this._pName = new ui.Panel();
@@ -15,5 +15,10 @@ class PProjectStageBase extends ui.Panel {
   setEnabled(b) {}
 };
 
-wksp.PProjectStageBase = PProjectStageBase;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProjectStageBase = PProjectStageBase;
+}

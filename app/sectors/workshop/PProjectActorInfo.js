@@ -1,4 +1,4 @@
-(function(wksp) {
+
 /*
  * +---------+
  * |  TITLE  |
@@ -19,7 +19,7 @@ const _CPT_PROJECT_ACTOR_INFO = {
   </div>`,
 }
 
-class PProjectActorInfo extends ui.Panel {
+export class PProjectActorInfo extends ui.Panel {
   constructor() {
     super();
     this._pTitle = new ui.Panel();
@@ -59,5 +59,10 @@ class PProjectActorInfo extends ui.Panel {
   }
 };
 
-wksp.PProjectActorInfo = PProjectActorInfo;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProjectActorInfo = PProjectActorInfo;
+}

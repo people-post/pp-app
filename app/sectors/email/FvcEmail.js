@@ -1,5 +1,5 @@
-(function(emal) {
-class FvcEmail extends ui.FScrollViewContent {
+
+export class FvcEmail extends ui.FScrollViewContent {
   constructor() {
     super();
     this._timer = new ext.Timer();
@@ -113,5 +113,10 @@ class FvcEmail extends ui.FScrollViewContent {
   }
 };
 
-emal.FvcEmail = FvcEmail;
-}(window.emal = window.emal || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.emal = window.emal || {};
+  window.emal.FvcEmail = FvcEmail;
+}

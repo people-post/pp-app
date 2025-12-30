@@ -1,7 +1,12 @@
-(function(wksp) {
-class TimelineVerticalPanel extends wksp.TimelinePanel {
+
+export class TimelineVerticalPanel extends wksp.TimelinePanel {
   _createNodePanel() { return new wksp.TimelineVerticalNodePanel(); }
 };
 
-wksp.TimelineVerticalPanel = TimelineVerticalPanel;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.TimelineVerticalPanel = TimelineVerticalPanel;
+}

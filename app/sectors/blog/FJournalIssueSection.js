@@ -1,5 +1,5 @@
-(function(blog) {
-class FJournalIssueSection extends ui.Fragment {
+
+export class FJournalIssueSection extends ui.Fragment {
   #data = null;
   #fPost;
 
@@ -24,5 +24,10 @@ class FJournalIssueSection extends ui.Fragment {
   }
 };
 
-blog.FJournalIssueSection = FJournalIssueSection;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FJournalIssueSection = FJournalIssueSection;
+}

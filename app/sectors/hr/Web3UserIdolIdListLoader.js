@@ -1,5 +1,5 @@
-(function(hr) {
-class Web3UserIdolIdListLoader extends plt.LongListIdLoader {
+
+export class Web3UserIdolIdListLoader extends plt.LongListIdLoader {
   #idRecord = new dat.UniLongListIdRecord();
   #userId;
   #isBusy = false;
@@ -38,5 +38,10 @@ class Web3UserIdolIdListLoader extends plt.LongListIdLoader {
   }
 };
 
-hr.Web3UserIdolIdListLoader = Web3UserIdolIdListLoader;
-}(window.hr = window.hr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hr = window.hr || {};
+  window.hr.Web3UserIdolIdListLoader = Web3UserIdolIdListLoader;
+}

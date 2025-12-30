@@ -1,5 +1,5 @@
-(function(hstn) {
-class FvcTagEditorList extends ui.FScrollViewContent {
+
+export class FvcTagEditorList extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fList = new ui.FSimpleFragmentList();
@@ -89,5 +89,10 @@ class FvcTagEditorList extends ui.FScrollViewContent {
   }
 };
 
-hstn.FvcTagEditorList = FvcTagEditorList;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.FvcTagEditorList = FvcTagEditorList;
+}

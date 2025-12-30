@@ -1,5 +1,5 @@
-(function(blog) {
-class FWeb3NoticeList extends ui.Fragment {
+
+export class FWeb3NoticeList extends ui.Fragment {
   #selectedPostId = null;
   #fNotices;
 
@@ -56,5 +56,10 @@ class FWeb3NoticeList extends ui.Fragment {
   }
 };
 
-blog.FWeb3NoticeList = FWeb3NoticeList;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FWeb3NoticeList = FWeb3NoticeList;
+}

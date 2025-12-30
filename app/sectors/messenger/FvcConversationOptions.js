@@ -1,5 +1,5 @@
-(function(msgr) {
-class FvcConversationOptions extends ui.FScrollViewContent {
+
+export class FvcConversationOptions extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fDelete = new ui.Button();
@@ -44,5 +44,10 @@ class FvcConversationOptions extends ui.FScrollViewContent {
   }
 };
 
-msgr.FvcConversationOptions = FvcConversationOptions;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.FvcConversationOptions = FvcConversationOptions;
+}

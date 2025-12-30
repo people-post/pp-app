@@ -1,5 +1,5 @@
-(function(wksp) {
-class FvcExplorer extends ui.FScrollViewContent {
+
+export class FvcExplorer extends ui.FScrollViewContent {
   #fmSearch;
   #fList;
   #fBtnNew;
@@ -67,5 +67,10 @@ class FvcExplorer extends ui.FScrollViewContent {
   }
 };
 
-wksp.FvcExplorer = FvcExplorer;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FvcExplorer = FvcExplorer;
+}

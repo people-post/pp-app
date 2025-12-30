@@ -1,5 +1,4 @@
-(function(blog) {
-blog.CF_POST = {
+export const CF_POST = {
   TOGGLE_PIN : Symbol(),
 };
 
@@ -8,7 +7,7 @@ const _CFT_POST = {
       `<span class="__CLASS__" onclick="javascript:G.action(blog.CF_POST.TOGGLE_PIN)">__ICON__</span>`,
 };
 
-class FPost extends ui.Fragment {
+export class FPost extends ui.Fragment {
   #fReposter;
   #fAuthor;
   #fItem;
@@ -285,7 +284,11 @@ class FPost extends ui.Fragment {
     dba.Blog.resetConfig(data.blog_config);
     this.render();
   }
-};
+}
 
-blog.FPost = FPost;
-}(window.blog = window.blog || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.CF_POST = CF_POST;
+  window.blog.FPost = FPost;
+}

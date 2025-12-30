@@ -1,5 +1,4 @@
-(function(auth) {
-window.CF_REGISTER_CONTENT = {
+export const CF_REGISTER_CONTENT = {
   VALIDATE_EMAIL : "CF_REGISTER_CONTENT_1",
   SHOW_TERM : "CF_REGISTER_CONTENT_2",
   ON_TOGGLE_AGREE : "CF_REGISTER_CONTENT_3",
@@ -34,7 +33,7 @@ const _CFT_REGISTER_CONTENT = {
       `<input type="checkbox" onchange="javascript:G.action(CF_REGISTER_CONTENT.ON_TOGGLE_AGREE, this.checked)">__R_AGREE__ __TERM__.`,
 }
 
-class FvcRegister extends ui.FScrollViewContent {
+export class FvcRegister extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fSubmit = new ui.Button();
@@ -165,8 +164,12 @@ class FvcRegister extends ui.FScrollViewContent {
     plt.Api.asyncFragmentCall(this, url).then(d => this.#onValidateEmailRRR(d));
   }
 
-  #onValidateEmailRRR(data) {}
-};
+  #onValidateEmailRRR(data) {  }
+}
 
-auth.FvcRegister = FvcRegister;
-}(window.auth = window.auth || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.CF_REGISTER_CONTENT = CF_REGISTER_CONTENT;
+  window.auth = window.auth || {};
+  window.auth.FvcRegister = FvcRegister;
+}

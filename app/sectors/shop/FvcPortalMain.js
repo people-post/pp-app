@@ -1,5 +1,5 @@
-(function(shop) {
-class FvcPortalMain extends ui.FScrollViewContent {
+
+export class FvcPortalMain extends ui.FScrollViewContent {
   #branchId = null;
 
   constructor() {
@@ -50,5 +50,10 @@ class FvcPortalMain extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcPortalMain = FvcPortalMain;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcPortalMain = FvcPortalMain;
+}

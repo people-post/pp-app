@@ -1,11 +1,10 @@
-(function(blog) {
-blog.CF_JOURNAL = {
+export const CF_JOURNAL = {
   ON_CLICK : Symbol(),
 };
 
 const _CPT_JOURNAL = {};
 
-class PJournalBase extends ui.Panel {
+export class PJournalBase extends ui.Panel {
   getTitlePanel() { return null; }
 };
 
@@ -92,4 +91,10 @@ class FJournal extends ui.Fragment {
 };
 
 blog.FJournal = FJournal;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.CF_JOURNAL = CF_JOURNAL;
+}

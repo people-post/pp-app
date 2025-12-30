@@ -1,4 +1,4 @@
-(function(blog) {
+
 /*
  * +------------+----------------------+
  * |            |                      |
@@ -33,7 +33,7 @@ const _CPT_POST_INFO_MIDDLE = {
   </div>`,
 }
 
-class PPostInfoMiddle extends gui.PPostInfoBase {
+export class PPostInfoMiddle extends gui.PPostInfoBase {
   constructor() {
     super();
     this._pImage = new ui.PanelWrapper();
@@ -108,5 +108,10 @@ class PPostInfoMiddle extends gui.PPostInfoBase {
   }
 };
 
-blog.PPostInfoMiddle = PPostInfoMiddle;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPostInfoMiddle = PPostInfoMiddle;
+}

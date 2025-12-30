@@ -1,4 +1,4 @@
-(function(cmut) {
+
 window.CF_PROPOSAL_TITLE = {
   USER_INFO : "CF_PROPOSAL_TITLE_1",
 }
@@ -8,7 +8,7 @@ const _CFT_PROPOSAL_TITLE = {
   ISSUE_COINS : `Issue __TOTAL__M coins`,
 }
 
-class FProposalTitle extends ui.Fragment {
+export class FProposalTitle extends ui.Fragment {
   action(type, ...args) {
     switch (type) {
     case CF_PROPOSAL_TITLE.USER_INFO:
@@ -87,5 +87,10 @@ class FProposalTitle extends ui.Fragment {
   }
 };
 
-cmut.FProposalTitle = FProposalTitle;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.FProposalTitle = FProposalTitle;
+}

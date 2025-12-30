@@ -1,10 +1,9 @@
 import { T_DATA } from '../plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
+import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 
 function createWalkinQueue() {
   let _lib = new Map();
-import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
-
   let _idRecord = new UniLongListIdRecord();
 
   function _getIdRecord() { return _idRecord; }

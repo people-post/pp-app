@@ -1,5 +1,5 @@
-(function(shop) {
-class FOwnerProductList extends shop.FProductList {
+
+export class FOwnerProductList extends shop.FProductList {
   #ownerId = null;
   #isBatchLoading = false;
 
@@ -71,5 +71,10 @@ class FOwnerProductList extends shop.FProductList {
   }
 };
 
-shop.FOwnerProductList = FOwnerProductList;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FOwnerProductList = FOwnerProductList;
+}

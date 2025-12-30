@@ -1,6 +1,7 @@
 import { T_DATA } from '../plt/Events.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { api } from '../plt/Api.js';
+import { Address as AddressDataType } from '../datatypes/Address.js';
 
 function createAddress() {
   let _lib = new Map();
@@ -44,9 +45,7 @@ function createAddress() {
     if (response.error) {
       Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
-import { Address } from '../datatypes/Address.js';
-
-      _update(new Address(response.data.address));
+      _update(new AddressDataType(response.data.address));
     }
   }
 

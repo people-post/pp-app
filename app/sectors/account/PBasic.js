@@ -1,4 +1,3 @@
-(function(acnt) {
 const _CPT_BASIC = {
   MAIN : `<div id="__ID_NICKNAME__"></div>
     <br>
@@ -7,7 +6,7 @@ const _CPT_BASIC = {
     <div id="__ID_BTNS__"></div>`,
 }
 
-class PBasic extends ui.Panel {
+export class PBasic extends ui.Panel {
   constructor() {
     super();
     this._pNickname = new ui.Panel();
@@ -33,7 +32,10 @@ class PBasic extends ui.Panel {
     this._pOptions.attach(this._getSubElementId("O"));
     this._pBtns.attach(this._getSubElementId("B"));
   }
-};
+}
 
-acnt.PBasic = PBasic;
-}(window.acnt = window.acnt || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.acnt = window.acnt || {};
+  window.acnt.PBasic = PBasic;
+}

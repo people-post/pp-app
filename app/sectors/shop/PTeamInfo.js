@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_TEAM_INFO = {
   MAIN :
       `<div id="__ID_MAIN__" class="pad5px bd-b-solid bdlightgray bd1px clickable">
@@ -9,7 +9,7 @@ const _CPT_TEAM_INFO = {
   </div>`,
 };
 
-class PTeamInfo extends ui.Panel {
+export class PTeamInfo extends ui.Panel {
   constructor() {
     super();
     this._pName = new ui.Panel();
@@ -43,5 +43,10 @@ class PTeamInfo extends ui.Panel {
   }
 };
 
-shop.PTeamInfo = PTeamInfo;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PTeamInfo = PTeamInfo;
+}

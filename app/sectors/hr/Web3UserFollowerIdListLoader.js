@@ -1,5 +1,5 @@
-(function(hr) {
-class Web3UserFollowerIdListLoader extends plt.LongListIdLoader {
+
+export class Web3UserFollowerIdListLoader extends plt.LongListIdLoader {
   #idRecord = new dat.UniLongListIdRecord();
   #userId;
 
@@ -12,5 +12,10 @@ class Web3UserFollowerIdListLoader extends plt.LongListIdLoader {
   asyncLoadBackItems() { this.#idRecord.markComplete(); }
 };
 
-hr.Web3UserFollowerIdListLoader = Web3UserFollowerIdListLoader;
-}(window.hr = window.hr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hr = window.hr || {};
+  window.hr.Web3UserFollowerIdListLoader = Web3UserFollowerIdListLoader;
+}

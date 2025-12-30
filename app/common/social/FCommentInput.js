@@ -1,5 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { LContext } from '../../lib/ui/controllers/fragments/LContext.js';
+import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { InputConsoleFragment } from '../gui/InputConsoleFragment.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';

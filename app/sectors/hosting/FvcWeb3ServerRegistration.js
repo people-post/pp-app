@@ -1,5 +1,5 @@
-(function(hstn) {
-class FvcWeb3ServerRegistration extends ui.FScrollViewContent {
+
+export class FvcWeb3ServerRegistration extends ui.FScrollViewContent {
   #agent;
   #fNameInput;
   #btnSubmit;
@@ -100,5 +100,10 @@ class FvcWeb3ServerRegistration extends ui.FScrollViewContent {
   }
 };
 
-hstn.FvcWeb3ServerRegistration = FvcWeb3ServerRegistration;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.FvcWeb3ServerRegistration = FvcWeb3ServerRegistration;
+}

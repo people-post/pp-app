@@ -1,5 +1,5 @@
-(function(scol) {
-class FQuizList extends ui.FLongListLegacy {
+
+export class FQuizList extends ui.FLongListLegacy {
   constructor() {
     super();
     this._idRecord = new dat.UniLongListIdRecord();
@@ -70,5 +70,10 @@ class FQuizList extends ui.FLongListLegacy {
   }
 };
 
-scol.FQuizList = FQuizList;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.FQuizList = FQuizList;
+}

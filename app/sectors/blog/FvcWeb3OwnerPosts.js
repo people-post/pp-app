@@ -1,5 +1,5 @@
-(function(blog) {
-class FvcWeb3OwnerPosts extends ui.FScrollViewContent {
+
+export class FvcWeb3OwnerPosts extends ui.FScrollViewContent {
   #loader;
   #fPosts;
   #fBtnNew;
@@ -61,5 +61,10 @@ class FvcWeb3OwnerPosts extends ui.FScrollViewContent {
   }
 };
 
-blog.FvcWeb3OwnerPosts = FvcWeb3OwnerPosts;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FvcWeb3OwnerPosts = FvcWeb3OwnerPosts;
+}

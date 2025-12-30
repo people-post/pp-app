@@ -1,5 +1,5 @@
-(function(wksp) {
-class FvcOwner extends ui.FScrollViewContent {
+
+export class FvcOwner extends ui.FScrollViewContent {
   #fmMain;
   #fmSearch;
   #fList;
@@ -110,5 +110,10 @@ class FvcOwner extends ui.FScrollViewContent {
   }
 };
 
-wksp.FvcOwner = FvcOwner;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FvcOwner = FvcOwner;
+}

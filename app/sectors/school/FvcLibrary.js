@@ -1,5 +1,5 @@
-(function(scol) {
-class FvcLibrary extends ui.FScrollViewContent {
+
+export class FvcLibrary extends ui.FScrollViewContent {
   _renderContentOnRender(render) { 
     // Library for students, per course.
     // Library from school management is currently planed to be done in shop sector.
@@ -7,5 +7,10 @@ class FvcLibrary extends ui.FScrollViewContent {
   }
 };
 
-scol.FvcLibrary = FvcLibrary;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.FvcLibrary = FvcLibrary;
+}

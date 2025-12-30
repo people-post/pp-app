@@ -1,5 +1,5 @@
-(function(hstn) {
-class FvcReport extends ui.FScrollViewContent {
+
+export class FvcReport extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fVisit = new stat.FVisit();
@@ -29,5 +29,10 @@ class FvcReport extends ui.FScrollViewContent {
   }
 };
 
-hstn.FvcReport = FvcReport;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.FvcReport = FvcReport;
+}

@@ -1,5 +1,5 @@
-(function(hstn) {
-class Gateway extends plt.SectorGateway {
+
+export class Gateway extends plt.SectorGateway {
   createWebConfigMainViewContentFragment() {
     let f = new ui.FViewContentMux();
 
@@ -43,5 +43,10 @@ class Gateway extends plt.SectorGateway {
   createGuestMainViewContentFragment() { return new hstn.FvcGuestHosting(); }
 };
 
-hstn.Gateway = Gateway;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.Gateway = Gateway;
+}

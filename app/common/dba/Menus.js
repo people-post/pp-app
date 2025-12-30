@@ -126,7 +126,6 @@ export const Menus = function() {
     asyncUpdateEntryMenuItemTheme : _asyncUpdateMenuEntryItemTheme,
   };
 }();
-}();
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

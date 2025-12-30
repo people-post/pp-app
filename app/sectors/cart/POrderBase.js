@@ -1,5 +1,5 @@
-(function(cart) {
-class POrderBase extends ui.Panel {
+
+export class POrderBase extends ui.Panel {
   getShopNamePanel() { return null; }
   getSellerInfoPanel() { return null; }
   getOrderIdPanel() { return null; }
@@ -17,5 +17,10 @@ class POrderBase extends ui.Panel {
   getShippingAddressPanel() { return null; }
 };
 
-cart.POrderBase = POrderBase;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.POrderBase = POrderBase;
+}

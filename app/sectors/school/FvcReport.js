@@ -1,5 +1,5 @@
-(function(scol) {
-class FvcReport extends ui.FScrollViewContent {
+
+export class FvcReport extends ui.FScrollViewContent {
   _renderContentOnRender(render) {
     // Clock hour table. Remaining hours
     // Courses done.
@@ -8,5 +8,10 @@ class FvcReport extends ui.FScrollViewContent {
   }
 };
 
-scol.FvcReport = FvcReport;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.FvcReport = FvcReport;
+}

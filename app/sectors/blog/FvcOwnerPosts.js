@@ -1,5 +1,4 @@
-(function(blog) {
-class FvcOwnerPosts extends ui.FScrollViewContent {
+export class FvcOwnerPosts extends ui.FScrollViewContent {
   #currentMenuItem = null;
   #mMain;
   #fmMain;
@@ -169,7 +168,10 @@ class FvcOwnerPosts extends ui.FScrollViewContent {
           this.#currentMenuItem ? this.#currentMenuItem.getId() : null);
     }
   }
-};
+}
 
-blog.FvcOwnerPosts = FvcOwnerPosts;
-}(window.blog = window.blog || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FvcOwnerPosts = FvcOwnerPosts;
+}

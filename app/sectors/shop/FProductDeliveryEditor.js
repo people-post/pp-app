@@ -1,5 +1,5 @@
-(function(shop) {
-class FProductDeliveryEditor extends ui.Fragment {
+
+export class FProductDeliveryEditor extends ui.Fragment {
   constructor() {
     super();
     this._value = null;
@@ -37,5 +37,10 @@ class FProductDeliveryEditor extends ui.Fragment {
   _renderSpec(panel) {}
 };
 
-shop.FProductDeliveryEditor = FProductDeliveryEditor;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FProductDeliveryEditor = FProductDeliveryEditor;
+}

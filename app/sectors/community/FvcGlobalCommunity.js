@@ -1,4 +1,4 @@
-(function(cmut) {
+
 window.CF_GLOBAL_COMMUNITY_CONTENT = {
   VIEW_USER : "CF_COMMUNITY_CONTENT_1",
 }
@@ -21,7 +21,7 @@ const _CFT_GLOBAL_COMMUNITY_CONTENT = {
   </ol>`,
 }
 
-class FvcGlobalCommunity extends ui.FScrollViewContent {
+export class FvcGlobalCommunity extends ui.FScrollViewContent {
   constructor() {
     super();
     this._userId = null;
@@ -96,5 +96,10 @@ class FvcGlobalCommunity extends ui.FScrollViewContent {
   }
 };
 
-cmut.FvcGlobalCommunity = FvcGlobalCommunity;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.FvcGlobalCommunity = FvcGlobalCommunity;
+}

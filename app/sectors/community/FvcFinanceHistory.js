@@ -1,12 +1,14 @@
-(function(cmut) {
-class FvcFinanceHistory extends ui.FScrollViewContent {
+export class FvcFinanceHistory extends ui.FScrollViewContent {
   constructor() {
     super();
     this._communityId;
   }
 
-  setCommunityId(id) { this._communityId = id; }
-};
+  setCommunityId(id) { this._communityId = id;   }
+}
 
-cmut.FvcFinanceHistory = FvcFinanceHistory;
-}(window.cmut = window.cmut || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.FvcFinanceHistory = FvcFinanceHistory;
+}

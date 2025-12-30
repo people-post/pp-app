@@ -1,4 +1,4 @@
-(function(wksp) {
+
 const _CPT_PROJECT_STAGE_INFO_COMPACT = {
   MAIN : `<div class="flex space-between baseline-align-items">
       <div>
@@ -9,7 +9,7 @@ const _CPT_PROJECT_STAGE_INFO_COMPACT = {
     </div>`,
 }
 
-class PProjectStageInfoCompact extends wksp.PProjectStageInfoBase {
+export class PProjectStageInfoCompact extends wksp.PProjectStageInfoBase {
   setThemeForState(state, status) {
     this._pName.setClassName("small-info-text status-text " +
                              Utilities.getStateClassName(state, status));
@@ -28,5 +28,10 @@ class PProjectStageInfoCompact extends wksp.PProjectStageInfoBase {
   }
 };
 
-wksp.PProjectStageInfoCompact = PProjectStageInfoCompact;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProjectStageInfoCompact = PProjectStageInfoCompact;
+}

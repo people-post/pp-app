@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_REGISTER = {
   MAIN : `<div class="flex flex-start">
     <div id="__ID_NAME_DECOR__"></div>
@@ -7,7 +7,7 @@ const _CPT_REGISTER = {
   <div id="__ID_TERMINALS__"></div>`,
 };
 
-class PRegister extends shop.PRegisterBase {
+export class PRegister extends shop.PRegisterBase {
   constructor() {
     super();
     this._pNameDecor = new ui.Panel();
@@ -35,5 +35,10 @@ class PRegister extends shop.PRegisterBase {
   }
 };
 
-shop.PRegister = PRegister;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PRegister = PRegister;
+}

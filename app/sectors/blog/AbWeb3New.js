@@ -1,6 +1,6 @@
-(function(blog) {
+
 // ActionButton needs some redesign
-class AbWeb3New extends ui.Fragment {
+export class AbWeb3New extends ui.Fragment {
   #lmcPublisher;
   #lcStorage;
   #fBtn;
@@ -162,5 +162,10 @@ class AbWeb3New extends ui.Fragment {
   }
 };
 
-blog.AbWeb3New = AbWeb3New;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.AbWeb3New = AbWeb3New;
+}

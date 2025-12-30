@@ -1,9 +1,8 @@
-(function(shop) {
-shop.CF_SERVICE_LOCATION = {
+export const CF_SERVICE_LOCATION = {
   ON_CLICK : Symbol(),
 };
 
-class FServiceLocation extends ui.Fragment {
+export class FServiceLocation extends ui.Fragment {
   constructor() {
     super();
     this._fTimeslots = new ui.FSimpleFragmentList();
@@ -99,5 +98,10 @@ class FServiceLocation extends ui.Fragment {
   }
 };
 
-shop.FServiceLocation = FServiceLocation;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.CF_SERVICE_LOCATION = CF_SERVICE_LOCATION;
+}

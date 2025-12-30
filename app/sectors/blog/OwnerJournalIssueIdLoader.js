@@ -1,5 +1,5 @@
-(function(blog) {
-class OwnerJournalIssueIdLoader extends plt.LongListIdLoader {
+
+export class OwnerJournalIssueIdLoader extends plt.LongListIdLoader {
   #isBatchLoading = false;
   #idRecord = new dat.UniLongListIdRecord();
 
@@ -39,5 +39,10 @@ class OwnerJournalIssueIdLoader extends plt.LongListIdLoader {
   }
 };
 
-blog.OwnerJournalIssueIdLoader = OwnerJournalIssueIdLoader;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.OwnerJournalIssueIdLoader = OwnerJournalIssueIdLoader;
+}

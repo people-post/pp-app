@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CPT_POST_INFO_LARGE_QUOTE = {
   MAIN : `<div class="quote-element pad5px">
   <div id="__ID_REF__" class="crosslink-note"></div>
@@ -14,7 +14,7 @@ const _CPT_POST_INFO_LARGE_QUOTE = {
   </div>`,
 }
 
-class PPostInfoLargeQuote extends gui.PPostInfoBase {
+export class PPostInfoLargeQuote extends gui.PPostInfoBase {
   constructor() {
     super();
     this._pCrossRef = new S.hr.PUserReference();
@@ -54,5 +54,10 @@ class PPostInfoLargeQuote extends gui.PPostInfoBase {
   }
 };
 
-blog.PPostInfoLargeQuote = PPostInfoLargeQuote;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPostInfoLargeQuote = PPostInfoLargeQuote;
+}

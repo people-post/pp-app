@@ -1,5 +1,4 @@
-(function(blog) {
-blog.CF_JOURNAL_ISSUE_EDITOR = {
+export const CF_JOURNAL_ISSUE_EDITOR = {
   ON_CHOOSE : Symbol(),
 };
 
@@ -28,7 +27,7 @@ const _CPT_JOURNAL_ISSUE_EDITOR = {
 
 };
 
-class PEditor extends ui.Panel {
+export class PEditor extends ui.Panel {
   #pIssueId;
   #pAbstract;
   #pSummary;
@@ -540,4 +539,10 @@ class FJournalIssueEditor extends ui.Fragment {
 };
 
 blog.FJournalIssueEditor = FJournalIssueEditor;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.CF_JOURNAL_ISSUE_EDITOR = CF_JOURNAL_ISSUE_EDITOR;
+}

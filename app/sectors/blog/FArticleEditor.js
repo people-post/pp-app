@@ -1,5 +1,5 @@
-(function(blog) {
-class FArticleEditor extends ui.Fragment {
+
+export class FArticleEditor extends ui.Fragment {
   #fTitle;
   #fContent;
   #fFiles;
@@ -404,5 +404,10 @@ class FArticleEditor extends ui.Fragment {
   }
 };
 
-blog.FArticleEditor = FArticleEditor;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FArticleEditor = FArticleEditor;
+}

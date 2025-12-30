@@ -1,5 +1,5 @@
-(function(wksp) {
-class FProjectProgress extends ui.Fragment {
+
+export class FProjectProgress extends ui.Fragment {
   constructor() {
     super();
     this._fTimeline = new wksp.TimelineFragment();
@@ -97,5 +97,10 @@ class FProjectProgress extends ui.Fragment {
   }
 };
 
-wksp.FProjectProgress = FProjectProgress;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FProjectProgress = FProjectProgress;
+}

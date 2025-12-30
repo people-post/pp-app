@@ -1,4 +1,4 @@
-(function(cmut) {
+
 window.CF_COMMUNITY_HEADER_EDITOR = {
   ON_ICON_CHANGE : "CF_COMMUNITY_HEADER_EDITOR_1",
   ON_INFO_IMAGE_CHANGE : "CF_COMMUNITY_HEADER_EDITOR_2",
@@ -16,7 +16,7 @@ const _CFT_COMMUNITY_HEADER_EDITOR = {
     <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action(CF_COMMUNITY_HEADER_EDITOR.ON_INFO_IMAGE_CHANGE, this.files[0])">`,
 };
 
-class FHeaderEditor extends ui.Fragment {
+export class FHeaderEditor extends ui.Fragment {
   constructor() {
     super();
     this._iconUploader = new plt.FileUploader();
@@ -115,5 +115,10 @@ class FHeaderEditor extends ui.Fragment {
   #onUpdateInfoImage(file) { this._imageUploader.setFile(file); }
 };
 
-cmut.FHeaderEditor = FHeaderEditor;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.FHeaderEditor = FHeaderEditor;
+}

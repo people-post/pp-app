@@ -151,8 +151,6 @@ export const Communities = function() {
   };
 }();
 
-}();
-
 // Backward compatibility
 if (typeof window !== 'undefined') {
   window.dba = window.dba || {};

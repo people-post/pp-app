@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_SERVICE_TIME_SLOT_EDITOR = {
   MAIN : `<div class="service-time-slot">
   <div id="__ID_FROM__"></div>
@@ -11,7 +11,7 @@ const _CPT_SERVICE_TIME_SLOT_EDITOR = {
   </div>`,
 }
 
-class PServiceTimeslotEditor extends ui.Panel {
+export class PServiceTimeslotEditor extends ui.Panel {
   constructor() {
     super();
     this._pFrom = new ui.PanelWrapper();
@@ -47,6 +47,11 @@ class PServiceTimeslotEditor extends ui.Panel {
   }
 };
 
-shop.PServiceTimeslotEditor = PServiceTimeslotEditor;
-}(window.shop = window.shop || {}));
 
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PServiceTimeslotEditor = PServiceTimeslotEditor;
+}

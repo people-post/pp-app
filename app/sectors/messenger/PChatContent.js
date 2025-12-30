@@ -1,4 +1,4 @@
-(function(msgr) {
+
 const _CPT_CHAT_VIEW_CONTENT = {
   MAIN : `<div id="__ID_HEADER__"></div>
   <div class="chat-view-content flex flex-column flex-end">
@@ -7,7 +7,7 @@ const _CPT_CHAT_VIEW_CONTENT = {
   </div>`,
 }
 
-class PChatContent extends ui.Panel {
+export class PChatContent extends ui.Panel {
   constructor() {
     super();
     this._pStickyHeader = new ui.PanelWrapper();
@@ -34,5 +34,10 @@ class PChatContent extends ui.Panel {
   }
 };
 
-msgr.PChatContent = PChatContent;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.PChatContent = PChatContent;
+}

@@ -1,4 +1,4 @@
-(function(scol) {
+
 const _CPT_QUIZ = {
   MAIN : `<div class="pad5">
     <div id="__ID_QUESTION__" class="u-font3 bold"></div>
@@ -7,7 +7,7 @@ const _CPT_QUIZ = {
   </div>`,
 }
 
-class PQuiz extends scol.PQuizBase {
+export class PQuiz extends scol.PQuizBase {
   constructor() {
     super();
     this._pChoices = new ui.Panel();
@@ -29,5 +29,10 @@ class PQuiz extends scol.PQuizBase {
   }
 };
 
-scol.PQuiz = PQuiz;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.PQuiz = PQuiz;
+}

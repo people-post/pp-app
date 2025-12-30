@@ -1,4 +1,4 @@
-(function(cmut) {
+
 const _CPT_OVERVIEW = {
   MAIN : `<div class="community-overview">
   <div id="__ID_HEADER__"></div>
@@ -41,7 +41,7 @@ const _CPT_OVERVIEW = {
   </div>`,
 };
 
-class POverview extends ui.Panel {
+export class POverview extends ui.Panel {
   #pHeader;
   #pName;
   #pDescription;
@@ -144,5 +144,10 @@ class POverview extends ui.Panel {
   }
 };
 
-cmut.POverview = POverview;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.POverview = POverview;
+}

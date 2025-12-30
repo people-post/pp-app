@@ -1,4 +1,4 @@
-(function(wksp) {
+
 window.CF_PROJECT_EDITOR_CONTENT = {
   SUBMIT : "C_PROJECT_EDITOR_1",
   DELETE : "C_PROJECT_EDITOR_2",
@@ -22,7 +22,7 @@ const _CFT_PROJECT_EDITOR_CONTENT = {
       `<a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action(CF_PROJECT_EDITOR_CONTENT.DELETE)">Delete</a>`,
 }
 
-class FvcProjectEditor extends ui.FScrollViewContent {
+export class FvcProjectEditor extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fContent = new gui.RichContentEditor();
@@ -211,5 +211,10 @@ class FvcProjectEditor extends ui.FScrollViewContent {
   #onDeleteRRR(data) { location.replace(dba.WebConfig.getHomeUrl()); }
 };
 
-wksp.FvcProjectEditor = FvcProjectEditor;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FvcProjectEditor = FvcProjectEditor;
+}

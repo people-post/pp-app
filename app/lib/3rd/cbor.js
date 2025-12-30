@@ -22,6 +22,9 @@
  * SOFTWARE.
  */
 
+// Variables for ES module exports
+var cborEncode, cborDecode, cborDefault;
+
 (function(global, undefined) { "use strict";
 var POW_2_24 = Math.pow(2, -24),
     POW_2_32 = Math.pow(2, 32),
@@ -396,6 +399,11 @@ function decode(data, tagger, simpleValue) {
 
 var obj = { encode: encode, decode: decode };
 
+// Assign to outer scope for ES module exports
+cborEncode = encode;
+cborDecode = decode;
+cborDefault = obj;
+
 // Support for other module formats
 if (typeof define === "function" && define.amd)
   define("cbor/cbor", obj);
@@ -404,8 +412,8 @@ else if (typeof module !== 'undefined' && module.exports)
 else if (!global.CBOR)
   global.CBOR = obj;
 
-// ES module exports (inside IIFE, will be hoisted by bundlers)
-export { encode, decode };
-export default obj;
-
 })(this);
+
+// ES module exports (outside IIFE)
+export { cborEncode as encode, cborDecode as decode };
+export default cborDefault;

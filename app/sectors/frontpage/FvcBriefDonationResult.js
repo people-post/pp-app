@@ -1,5 +1,5 @@
-(function(ftpg) {
-class FvcBriefDonationResult extends ui.FViewContentBase {
+
+export class FvcBriefDonationResult extends ui.FViewContentBase {
   static T_TYPE = {SUCCESS : Symbol(), FAILURE: Symbol()};
 
   #type;
@@ -18,5 +18,10 @@ class FvcBriefDonationResult extends ui.FViewContentBase {
   }
 };
 
-ftpg.FvcBriefDonationResult = FvcBriefDonationResult;
-}(window.ftpg = window.ftpg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.ftpg = window.ftpg || {};
+  window.ftpg.FvcBriefDonationResult = FvcBriefDonationResult;
+}

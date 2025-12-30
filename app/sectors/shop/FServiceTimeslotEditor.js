@@ -1,5 +1,5 @@
-(function(shop) {
-class FServiceTimeslotEditor extends ui.Fragment {
+
+export class FServiceTimeslotEditor extends ui.Fragment {
   constructor() {
     super();
     this._fRepetition = new ui.Selection();
@@ -101,6 +101,11 @@ class FServiceTimeslotEditor extends ui.Fragment {
   }
 };
 
-shop.FServiceTimeslotEditor = FServiceTimeslotEditor;
-}(window.shop = window.shop || {}));
 
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FServiceTimeslotEditor = FServiceTimeslotEditor;
+}

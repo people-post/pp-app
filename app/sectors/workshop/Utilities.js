@@ -1,4 +1,7 @@
-(function(wksp) {
-wksp.Utilities = function() { return {}; }();
+export const Utilities = function() { return {}; }();
 
-}(window.wksp = window.wksp || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.Utilities = Utilities;
+}

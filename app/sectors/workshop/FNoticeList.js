@@ -1,5 +1,5 @@
-(function(wksp) {
-class FNoticeList extends ui.Fragment {
+
+export class FNoticeList extends ui.Fragment {
   constructor() {
     super();
     this._fNotices = new ui.FSimpleFragmentList();
@@ -56,5 +56,10 @@ class FNoticeList extends ui.Fragment {
   }
 };
 
-wksp.FNoticeList = FNoticeList;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FNoticeList = FNoticeList;
+}

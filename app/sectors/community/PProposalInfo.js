@@ -1,4 +1,4 @@
-(function(cmut) {
+
 const _CPT_PROPOSAL_INFO = {
   MAIN : `<div id="__ID_MAIN__" class="proposal-info">
   <div class="flex space-between clickable">
@@ -15,7 +15,7 @@ const _CPT_PROPOSAL_INFO = {
   </div>`,
 }
 
-class PProposalInfo extends cmut.PProposalBase {
+export class PProposalInfo extends cmut.PProposalBase {
   constructor() {
     super();
     this._pTitle = new ui.Panel();
@@ -61,5 +61,10 @@ class PProposalInfo extends cmut.PProposalBase {
   }
 };
 
-cmut.PProposalInfo = PProposalInfo;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.PProposalInfo = PProposalInfo;
+}

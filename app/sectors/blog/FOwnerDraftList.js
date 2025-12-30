@@ -1,9 +1,14 @@
-(function(blog) {
-class FOwnerDraftList extends blog.FDraftList {
+
+export class FOwnerDraftList extends blog.FDraftList {
   _renderOnRender(render) {
     this._renderDrafts(render, [ "5ee3a1674d837b2ea335834e" ]);
   }
 };
 
-blog.FOwnerDraftList = FOwnerDraftList;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FOwnerDraftList = FOwnerDraftList;
+}

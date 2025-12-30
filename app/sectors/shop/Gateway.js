@@ -1,7 +1,12 @@
-(function(shop) {
-class Gateway extends plt.SectorGateway {
+
+export class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() { return new shop.FvcMain(); }
 };
 
-shop.Gateway = Gateway;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.Gateway = Gateway;
+}

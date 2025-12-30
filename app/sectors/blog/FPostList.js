@@ -1,5 +1,5 @@
-(function(blog) {
-class FPostList extends gui.FSocialItemList {
+
+export class FPostList extends gui.FSocialItemList {
   #loader;
 
   isPostSelectedInPostInfoFragment(fPostInfo, postId) {
@@ -95,5 +95,10 @@ class FPostList extends gui.FSocialItemList {
   }
 };
 
-blog.FPostList = FPostList;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FPostList = FPostList;
+}

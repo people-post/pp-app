@@ -1,5 +1,5 @@
-(function(shop) {
-class FvcQueueCheckin extends ui.FScrollViewContent {
+
+export class FvcQueueCheckin extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fFilter = new shop.FServiceLocationFilter();
@@ -129,5 +129,10 @@ class FvcQueueCheckin extends ui.FScrollViewContent {
   #onCheckinRRR(data) { this._owner.onContentFragmentRequestPopView(this); }
 };
 
-shop.FvcQueueCheckin = FvcQueueCheckin;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcQueueCheckin = FvcQueueCheckin;
+}

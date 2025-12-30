@@ -1,5 +1,5 @@
-(function(hr) {
-class FvcAddIdol extends ui.FScrollViewContent {
+
+export class FvcAddIdol extends ui.FScrollViewContent {
   #fSearch;
 
   constructor() {
@@ -51,5 +51,10 @@ class FvcAddIdol extends ui.FScrollViewContent {
   }
 };
 
-hr.FvcAddIdol = FvcAddIdol;
-}(window.hr = window.hr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hr = window.hr || {};
+  window.hr.FvcAddIdol = FvcAddIdol;
+}

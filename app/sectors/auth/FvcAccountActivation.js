@@ -1,11 +1,10 @@
-(function(auth) {
 const _CFT_ACCOUNT_ACTIVATION = {
   MAIN : `
     <br>
     <div class="center-align">Activating your account...</div>`,
 };
 
-class FvcAccountActivation extends ui.FScrollViewContent {
+export class FvcAccountActivation extends ui.FScrollViewContent {
   constructor() {
     super();
     this._activationCode = null;
@@ -45,7 +44,10 @@ class FvcAccountActivation extends ui.FScrollViewContent {
     this.#onActivationSuccess();
     this._isActivating = false;
   }
-};
+}
 
-auth.FvcAccountActivation = FvcAccountActivation;
-}(window.auth = window.auth || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.auth = window.auth || {};
+  window.auth.FvcAccountActivation = FvcAccountActivation;
+}

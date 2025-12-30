@@ -224,7 +224,6 @@ export const Notifications = function() {
     getMessageThreadInfo : _getMessageThreadInfo,
   };
 }();
-}();
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

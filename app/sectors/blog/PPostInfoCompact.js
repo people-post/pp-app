@@ -1,4 +1,4 @@
-(function(blog) {
+
 /*
  * +--------------+---------+
  * |              |         |
@@ -24,7 +24,7 @@ const _CPT_POST_INFO_COMPACT = {
   </div>`,
 };
 
-class PPostInfoCompact extends gui.PPostInfoBase {
+export class PPostInfoCompact extends gui.PPostInfoBase {
   constructor() {
     super();
     this._pTitle = new ui.PanelWrapper();
@@ -84,5 +84,10 @@ class PPostInfoCompact extends gui.PPostInfoBase {
   }
 };
 
-blog.PPostInfoCompact = PPostInfoCompact;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPostInfoCompact = PPostInfoCompact;
+}

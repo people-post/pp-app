@@ -1,4 +1,4 @@
-(function(wksp) {
+
 _CPT_PROJECT_STAGE_INFO_ROW = {
   MAIN : `<div class="flex space-between story-event-info pad5px bdlightgray">
     <div id="__ID_NAME__" class="s-font4"></div>
@@ -6,7 +6,7 @@ _CPT_PROJECT_STAGE_INFO_ROW = {
   </div>`,
 }
 
-class PProjectStageInfoRow extends wksp.PProjectStageInfoBase {
+export class PProjectStageInfoRow extends wksp.PProjectStageInfoBase {
   _renderFramework() {
     let s = _CPT_PROJECT_STAGE_INFO_ROW.MAIN;
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
@@ -20,5 +20,10 @@ class PProjectStageInfoRow extends wksp.PProjectStageInfoBase {
   }
 };
 
-wksp.PProjectStageInfoRow = PProjectStageInfoRow;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProjectStageInfoRow = PProjectStageInfoRow;
+}

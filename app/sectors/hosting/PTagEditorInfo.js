@@ -1,4 +1,4 @@
-(function(hstn) {
+
 const _CPT_TAG_EDITOR_INFO = {
   MAIN :
       `<div class="flex space-between pad5px bdlightgray bd1px bd-b-solid clickable">
@@ -7,7 +7,7 @@ const _CPT_TAG_EDITOR_INFO = {
   </div>`,
 }
 
-class PTagEditorInfo extends hstn.PTagEditorBase {
+export class PTagEditorInfo extends hstn.PTagEditorBase {
   constructor() {
     super();
     this._pBtnQuick = new ui.PanelWrapper();
@@ -29,5 +29,10 @@ class PTagEditorInfo extends hstn.PTagEditorBase {
   }
 };
 
-hstn.PTagEditorInfo = PTagEditorInfo;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.PTagEditorInfo = PTagEditorInfo;
+}

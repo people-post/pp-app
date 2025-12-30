@@ -1,5 +1,5 @@
-(function(blog) {
-class FTaggedCommentList extends ui.Fragment {
+
+export class FTaggedCommentList extends ui.Fragment {
   #idLoader;
   #fComments;
   #tagId;
@@ -46,5 +46,10 @@ class FTaggedCommentList extends ui.Fragment {
   }
 };
 
-blog.FTaggedCommentList = FTaggedCommentList;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FTaggedCommentList = FTaggedCommentList;
+}

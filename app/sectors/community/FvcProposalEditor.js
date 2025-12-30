@@ -1,5 +1,5 @@
-(function(cmut) {
-class FvcProposalEditor extends ui.FScrollViewContent {
+
+export class FvcProposalEditor extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fTitle = new ui.TextInput();
@@ -64,5 +64,10 @@ class FvcProposalEditor extends ui.FScrollViewContent {
   #onSubmitRRR(data) { this._owner.onContentFragmentRequestPopView(this); }
 };
 
-cmut.FvcProposalEditor = FvcProposalEditor;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.FvcProposalEditor = FvcProposalEditor;
+}

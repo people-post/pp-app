@@ -1,6 +1,7 @@
 import { T_DATA } from '../plt/Events.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { api } from '../plt/Api.js';
+import { OgpData } from '../datatypes/OgpData.js';
 
 function createOgp() {
   let _lib = new Map();
@@ -39,8 +40,6 @@ function createOgp() {
       Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
       let d = response.data.ogp;
-import { OgpData } from '../datatypes/OgpData.js';
-
       let ogp = new OgpData();
       ogp.setId(id);
       ogp.setTitle(d.title);

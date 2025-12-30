@@ -1,4 +1,4 @@
-(function(cart) {
+
 const _CPT_CUSTOMER_ORDER_INFO = {
   MAIN : `<div class="customer-order-info">
     <div class="flex space-between">
@@ -10,7 +10,7 @@ const _CPT_CUSTOMER_ORDER_INFO = {
   <div>`,
 }
 
-class POrderInfo extends cart.POrderBase {
+export class POrderInfo extends cart.POrderBase {
   constructor() {
     super();
     this._pSellerInfo = new ui.Panel();
@@ -42,5 +42,10 @@ class POrderInfo extends cart.POrderBase {
   }
 };
 
-cart.POrderInfo = POrderInfo;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.POrderInfo = POrderInfo;
+}

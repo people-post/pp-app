@@ -1,7 +1,11 @@
-(function(shop) {
-class FAppointmentDeliveryEditor extends shop.FServiceDeliveryEditor {
+
+export class FAppointmentDeliveryEditor extends shop.FServiceDeliveryEditor {
   _getType() { return dat.ProductDeliveryChoice.TYPE.SCHEDULE; }
 };
 
-shop.FAppointmentDeliveryEditor = FAppointmentDeliveryEditor;
-}(window.shop = window.shop || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FAppointmentDeliveryEditor = FAppointmentDeliveryEditor;
+}

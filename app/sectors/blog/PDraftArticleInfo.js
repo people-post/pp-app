@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CPT_DRAFT_ARTICLE_INFO = {
   MAIN : `<div id="__ID_WRAPPER__" class="info-panel draft">
     <div class="pad5px u-font5">
@@ -13,7 +13,7 @@ const _CPT_DRAFT_ARTICLE_INFO = {
   </div>`,
 };
 
-class PDraftArticleInfo extends blog.PArticleBase {
+export class PDraftArticleInfo extends blog.PArticleBase {
   constructor() {
     super();
     this._pAuthorName = new ui.PanelWrapper();
@@ -60,5 +60,10 @@ class PDraftArticleInfo extends blog.PArticleBase {
   }
 };
 
-blog.PDraftArticleInfo = PDraftArticleInfo;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PDraftArticleInfo = PDraftArticleInfo;
+}

@@ -1,4 +1,4 @@
-(function(cmut) {
+
 const _CPT_COMMUNITY_HEADER_EDITOR = {
   MAIN : `<div class="aspect-5-1-frame bglightgrey">
     <div id="__ID_BG_IMAGE__" class="aspect-content"></div>
@@ -7,7 +7,7 @@ const _CPT_COMMUNITY_HEADER_EDITOR = {
   </div>`,
 };
 
-class PHeaderEditor extends ui.Panel {
+export class PHeaderEditor extends ui.Panel {
   constructor() {
     super();
     this._pBgImage = new ui.PanelWrapper();
@@ -35,5 +35,10 @@ class PHeaderEditor extends ui.Panel {
   }
 };
 
-cmut.PHeaderEditor = PHeaderEditor;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.PHeaderEditor = PHeaderEditor;
+}

@@ -1,5 +1,10 @@
-(function(blog) {
-class PArticleBase extends ui.Panel {};
 
-blog.PArticleBase = PArticleBase;
-}(window.blog = window.blog || {}));
+export class PArticleBase extends ui.Panel {};
+
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PArticleBase = PArticleBase;
+}

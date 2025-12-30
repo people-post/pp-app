@@ -74,8 +74,6 @@ export class SearchBar extends Fragment {
     }
     ppp.replaceContent(s);
 
-import { ICONS } from '../../lib/ui/Icons.js';
-
     ppp = new Panel();
     ppp.setClassName("flex-grow");
     pp.pushPanel(ppp);

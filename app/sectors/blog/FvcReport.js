@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CFT_BLOG_REPORT = {
   TAG_STATISTICS : `<div class="flex space-between baseline-align-items">
     <div class="ellipsis">__TAG_NAME__</div>
@@ -6,7 +6,7 @@ const _CFT_BLOG_REPORT = {
   </div>`,
 };
 
-class FvcReport extends ui.FScrollViewContent {
+export class FvcReport extends ui.FScrollViewContent {
   #selectedPostId = null;
 
   constructor() {
@@ -163,5 +163,10 @@ class FvcReport extends ui.FScrollViewContent {
   }
 };
 
-blog.FvcReport = FvcReport;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FvcReport = FvcReport;
+}

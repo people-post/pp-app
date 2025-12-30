@@ -1,4 +1,4 @@
-(function(msgr) {
+
 window.CF_CHAT_INPUT_MENU = {
   CALL : "CF_CHAT_INPUT_MENU_1",
   VIDEO_CALL : "CF_CHAT_INPUT_MENU_2",
@@ -13,7 +13,7 @@ window._CFT_CHAT_INPUT_MENU = {
     <input type="file" style="display:none" onchange="javascript:G.action(CF_CHAT_INPUT_MENU.SEND_FILE, this)">`,
 };
 
-class FChatInputMenu extends ui.Fragment {
+export class FChatInputMenu extends ui.Fragment {
   _renderOnRender(render) {
     let p = new ui.ListPanel();
     p.setClassName("flex flex-start");
@@ -71,5 +71,10 @@ class FChatInputMenu extends ui.Fragment {
   #onVideoCall() { console.log("Start video call"); }
 };
 
-msgr.FChatInputMenu = FChatInputMenu;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.FChatInputMenu = FChatInputMenu;
+}

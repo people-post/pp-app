@@ -1,5 +1,5 @@
-(function(hr) {
-class FvcIdolList extends ui.FScrollViewContent {
+
+export class FvcIdolList extends ui.FScrollViewContent {
   #fUsers;
   #idLoader;
   #fBtnAdd;
@@ -56,5 +56,10 @@ class FvcIdolList extends ui.FScrollViewContent {
   }
 };
 
-hr.FvcIdolList = FvcIdolList;
-}(window.hr = window.hr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hr = window.hr || {};
+  window.hr.FvcIdolList = FvcIdolList;
+}

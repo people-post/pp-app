@@ -1,5 +1,5 @@
-(function(shop) {
-class FvcMain extends ui.FViewContentWithHeroBanner {
+
+export class FvcMain extends ui.FViewContentWithHeroBanner {
   static #T_PAGE = {
     OWNER_OPEN : Symbol(),
     OWNER_CLOSED: Symbol(),
@@ -197,5 +197,10 @@ class FvcMain extends ui.FViewContentWithHeroBanner {
   #onCloseShopRRR(data) { dba.WebConfig.reset(data.web_config); }
 };
 
-shop.FvcMain = FvcMain;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcMain = FvcMain;
+}

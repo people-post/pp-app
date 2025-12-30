@@ -1,4 +1,4 @@
-import { FScrollViewContent } from '../../lib/ui/controllers/views/FScrollViewContent.js';
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { ButtonList } from '../../lib/ui/controllers/fragments/ButtonList.js';
 import { Label } from '../../lib/ui/controllers/fragments/Label.js';

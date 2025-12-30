@@ -1,5 +1,4 @@
-(function(shop) {
-class FvcProduct extends ui.FScrollViewContent {
+export class FvcProduct extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fBtnEdit = new gui.ActionButton();
@@ -58,7 +57,10 @@ class FvcProduct extends ui.FScrollViewContent {
       this._owner.onFragmentRequestShowView(this, v, "Product editor");
     }
   }
-};
+}
 
-shop.FvcProduct = FvcProduct;
-}(window.shop = window.shop || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcProduct = FvcProduct;
+}

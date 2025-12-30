@@ -16,6 +16,8 @@ export class PerishableObject {
   #isValid() { return this.#tExpire && Date.now() < this.#tExpire; }
 }
 
+export default PerishableObject;
+
 // Maintain backward compatibility with global namespace
 if (typeof window !== 'undefined') {
   window.ext = window.ext || {};

@@ -1,5 +1,7 @@
-(function(acnt) {
-class FvcCloudFiles extends ui.FScrollViewContent {};
+export class FvcCloudFiles extends ui.FScrollViewContent {}
 
-acnt.FvcCloudFiles = FvcCloudFiles;
-}(window.acnt = window.acnt || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.acnt = window.acnt || {};
+  window.acnt.FvcCloudFiles = FvcCloudFiles;
+}

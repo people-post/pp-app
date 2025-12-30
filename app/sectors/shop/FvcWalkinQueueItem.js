@@ -1,5 +1,5 @@
-(function(shop) {
-class FvcWalkinQueueItem extends ui.FScrollViewContent {
+
+export class FvcWalkinQueueItem extends ui.FScrollViewContent {
   #fItem;
   
   constructor() {
@@ -26,5 +26,10 @@ class FvcWalkinQueueItem extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcWalkinQueueItem = FvcWalkinQueueItem;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcWalkinQueueItem = FvcWalkinQueueItem;
+}

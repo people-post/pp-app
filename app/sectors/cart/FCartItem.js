@@ -1,5 +1,4 @@
-(function(cart) {
-cart.CF_CART_ITEM = {
+export const CF_CART_ITEM = {
   SHOW_PRODUCT : Symbol(),
   INCREASE_ITEM : Symbol(),
   DESCREASE_ITEM : Symbol(),
@@ -15,7 +14,7 @@ const _CFT_CART_ITEM = {
   </span>`,
 };
 
-class FCartItem extends ui.Fragment {
+export class FCartItem extends ui.Fragment {
   static T_LAYOUT = {
     ACTIVE : Symbol(),
     RESERVE: Symbol(),
@@ -233,5 +232,10 @@ class FCartItem extends ui.Fragment {
   }
 };
 
-cart.FCartItem = FCartItem;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.CF_CART_ITEM = CF_CART_ITEM;
+}

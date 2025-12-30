@@ -1,5 +1,4 @@
-(function(acnt) {
-class FvcAddressList extends ui.FScrollViewContent {
+export class FvcAddressList extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fItems = new ui.FSimpleFragmentList();
@@ -73,8 +72,11 @@ class FvcAddressList extends ui.FScrollViewContent {
     plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
   }
 
-  #onDeleteRRR(data) { dba.Account.resetAddressIds(response.data.address_ids); }
-};
+  #onDeleteRRR(data) { dba.Account.resetAddressIds(response.data.address_ids);   }
+}
 
-acnt.FvcAddressList = FvcAddressList;
-}(window.acnt = window.acnt || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.acnt = window.acnt || {};
+  window.acnt.FvcAddressList = FvcAddressList;
+}

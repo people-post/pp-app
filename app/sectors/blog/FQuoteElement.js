@@ -1,5 +1,5 @@
-(function(blog) {
-class FQuoteElement extends ui.Fragment {
+
+export class FQuoteElement extends ui.Fragment {
   #fItem = null;
   #item = null;
   #type = null;
@@ -103,5 +103,10 @@ class FQuoteElement extends ui.Fragment {
   }
 };
 
-blog.FQuoteElement = FQuoteElement;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FQuoteElement = FQuoteElement;
+}

@@ -1,5 +1,5 @@
-(function(wksp) {
-class FvcProjectStage extends ui.FScrollViewContent {
+
+export class FvcProjectStage extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fBtnEdit = new gui.ActionButton();
@@ -88,5 +88,10 @@ class FvcProjectStage extends ui.FScrollViewContent {
   }
 };
 
-wksp.FvcProjectStage = FvcProjectStage;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FvcProjectStage = FvcProjectStage;
+}

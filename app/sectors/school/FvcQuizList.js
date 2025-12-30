@@ -1,5 +1,5 @@
-(function(scol) {
-class FvcQuizList extends ui.FScrollViewContent {
+
+export class FvcQuizList extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fQuizzes = new scol.FQuizList();
@@ -22,5 +22,10 @@ class FvcQuizList extends ui.FScrollViewContent {
   }
 };
 
-scol.FvcQuizList = FvcQuizList;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.FvcQuizList = FvcQuizList;
+}

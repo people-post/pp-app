@@ -1,5 +1,5 @@
-(function(emal) {
-class FvcInbox extends ui.FScrollViewContent {
+
+export class FvcInbox extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fEmails = new emal.FAllEmailList();
@@ -29,5 +29,10 @@ class FvcInbox extends ui.FScrollViewContent {
   }
 };
 
-emal.FvcInbox = FvcInbox;
-}(window.emal = window.emal || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.emal = window.emal || {};
+  window.emal.FvcInbox = FvcInbox;
+}

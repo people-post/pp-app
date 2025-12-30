@@ -1,5 +1,4 @@
-(function(hstn) {
-hstn.CF_NS_HOWTO = {
+export const CF_NS_HOWTO = {
   TOGGLE : Symbol(),
 };
 
@@ -36,7 +35,7 @@ const _CFT_NS_HOWTO = {
   NS : `<img class="photo" src="static/img/__IMG_SRC__"></img>`,
 };
 
-class FvcNsHowto extends ui.FScrollViewContent {
+export class FvcNsHowto extends ui.FScrollViewContent {
   action(type, ...args) {
     switch (type) {
     case hstn.CF_NS_HOWTO.TOGGLE:
@@ -93,5 +92,10 @@ class FvcNsHowto extends ui.FScrollViewContent {
   }
 };
 
-hstn.FvcNsHowto = FvcNsHowto;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.CF_NS_HOWTO = CF_NS_HOWTO;
+}

@@ -1,9 +1,9 @@
-(function(blog) {
+
 const _CFT_COMMENT = {
   ICON : `<span class="inline-block s-icon6">__ICON__</span>`,
 };
 
-class FComment extends blog.FPostBase {
+export class FComment extends blog.FPostBase {
   #fAction;
   #fUserIcon;
   #fUserName;
@@ -165,5 +165,10 @@ class FComment extends blog.FPostBase {
   }
 };
 
-blog.FComment = FComment;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FComment = FComment;
+}

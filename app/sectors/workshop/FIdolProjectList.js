@@ -1,5 +1,5 @@
-(function(wksp) {
-class FIdolProjectList extends wksp.FProjectList {
+
+export class FIdolProjectList extends wksp.FProjectList {
   #isBatchLoading = false;
 
   _createInfoFragment(id) {
@@ -46,5 +46,10 @@ class FIdolProjectList extends wksp.FProjectList {
   }
 };
 
-wksp.FIdolProjectList = FIdolProjectList;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FIdolProjectList = FIdolProjectList;
+}

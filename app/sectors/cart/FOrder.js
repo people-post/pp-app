@@ -1,5 +1,4 @@
-(function(cart) {
-cart.CF_CUSTOMER_ORDER = {
+export const CF_CUSTOMER_ORDER = {
   ON_CLICK : Symbol(),
   USER_INFO : Symbol(),
 };
@@ -12,7 +11,7 @@ const _CFT_CUSTOMER_ORDER = {
   ACT_ONCLICK : `javascript:G.action(cart.CF_CUSTOMER_ORDER.ON_CLICK)`,
 };
 
-class FOrder extends ui.Fragment {
+export class FOrder extends ui.Fragment {
   static T_LAYOUT = {
     FULL : Symbol(),
     INFO: Symbol(),
@@ -303,5 +302,10 @@ class FOrder extends ui.Fragment {
   }
 };
 
-cart.FOrder = FOrder;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.CF_CUSTOMER_ORDER = CF_CUSTOMER_ORDER;
+}

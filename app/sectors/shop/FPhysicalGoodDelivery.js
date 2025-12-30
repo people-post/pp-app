@@ -1,5 +1,10 @@
-(function(shop) {
-class FPhysicalGoodDelivery extends shop.FGoodDelivery {};
 
-shop.FPhysicalGoodDelivery = FPhysicalGoodDelivery;
-}(window.shop = window.shop || {}));
+export class FPhysicalGoodDelivery extends shop.FGoodDelivery {};
+
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FPhysicalGoodDelivery = FPhysicalGoodDelivery;
+}

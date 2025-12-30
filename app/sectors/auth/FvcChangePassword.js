@@ -1,5 +1,4 @@
-(function(auth) {
-auth.CF_CHANGE_PASSWORD = {
+export const CF_CHANGE_PASSWORD = {
   SUBMIT : Symbol(),
 };
 
@@ -34,7 +33,7 @@ const _CFT_CHANGE_PASSWORD = {
   <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(auth.CF_CHANGE_PASSWORD.SUBMIT)">Submit</a>`,
 };
 
-class FvcChangePassword extends ui.FScrollViewContent {
+export class FvcChangePassword extends ui.FScrollViewContent {
   action(type, ...args) {
     switch (type) {
     case auth.CF_CHANGE_PASSWORD.SUBMIT:
@@ -89,8 +88,12 @@ class FvcChangePassword extends ui.FScrollViewContent {
                                                     "Change password success");
   }
 
-  #onChangePasswordRRR(data) { this.#onChangeSuccess(); }
-};
+  #onChangePasswordRRR(data) { this.#onChangeSuccess();   }
+}
 
-auth.FvcChangePassword = FvcChangePassword;
-}(window.auth = window.auth || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.auth = window.auth || {};
+  window.auth.CF_CHANGE_PASSWORD = CF_CHANGE_PASSWORD;
+  window.auth.FvcChangePassword = FvcChangePassword;
+}

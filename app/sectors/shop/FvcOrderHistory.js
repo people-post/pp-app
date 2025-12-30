@@ -1,5 +1,5 @@
-(function(shop) {
-class FvcOrderHistory extends ui.FScrollViewContent {
+
+export class FvcOrderHistory extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fList = new shop.FSupplierOrderList();
@@ -23,5 +23,10 @@ class FvcOrderHistory extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcOrderHistory = FvcOrderHistory;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcOrderHistory = FvcOrderHistory;
+}

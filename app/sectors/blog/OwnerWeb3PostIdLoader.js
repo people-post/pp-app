@@ -1,5 +1,5 @@
-(function(blog) {
-class OwnerWeb3PostIdLoader extends plt.LongListIdLoader {
+
+export class OwnerWeb3PostIdLoader extends plt.LongListIdLoader {
   #idRecord = new dat.UniSegmentedLongListIdRecord();
   #ownerId = null;
   #isBusy = false;
@@ -58,5 +58,10 @@ class OwnerWeb3PostIdLoader extends plt.LongListIdLoader {
   }
 };
 
-blog.OwnerWeb3PostIdLoader = OwnerWeb3PostIdLoader;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.OwnerWeb3PostIdLoader = OwnerWeb3PostIdLoader;
+}

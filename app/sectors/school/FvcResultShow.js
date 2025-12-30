@@ -1,5 +1,5 @@
-(function(scol) {
-class FvcResultShow extends ui.FScrollViewContent {
+
+export class FvcResultShow extends ui.FScrollViewContent {
   _renderContentOnRender(render) { 
     // Result show for students, per course.
     // Owner should be school, auther is student, student need to agree on terms.
@@ -7,5 +7,10 @@ class FvcResultShow extends ui.FScrollViewContent {
   }
 };
 
-scol.FvcResultShow = FvcResultShow;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.FvcResultShow = FvcResultShow;
+}

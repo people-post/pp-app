@@ -1,4 +1,4 @@
-(function(wksp) {
+
 window.CF_WORKSHOP_TEAM_EDITOR = {
   SUBMIT : "CF_WORKSHOP_TEAM_EDITOR_1",
 }
@@ -10,7 +10,7 @@ const _CFT_WORKSHOP_TEAM_EDITOR = {
     <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_WORKSHOP_TEAM_EDITOR.SUBMIT)">Submit<a>`,
 }
 
-class FvcTeamEditor extends ui.FScrollViewContent {
+export class FvcTeamEditor extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fOptions = new ui.OptionSwitch();
@@ -172,5 +172,10 @@ class FvcTeamEditor extends ui.FScrollViewContent {
   }
 };
 
-wksp.FvcTeamEditor = FvcTeamEditor;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FvcTeamEditor = FvcTeamEditor;
+}

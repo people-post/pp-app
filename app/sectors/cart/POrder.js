@@ -1,4 +1,4 @@
-(function(cart) {
+
 const _CPT_CUSTOMER_ORDER = {
   MAIN : `<div class="small-info-text">
     <div id="__ID_SHOP_NAME__"></div>
@@ -17,7 +17,7 @@ const _CPT_CUSTOMER_ORDER = {
   <div id="__ID_SHIPPING_ADDRESS__"></div>`,
 }
 
-class POrder extends cart.POrderBase {
+export class POrder extends cart.POrderBase {
   constructor() {
     super();
     this._pShopName = new ui.Panel();
@@ -77,5 +77,10 @@ class POrder extends cart.POrderBase {
   }
 };
 
-cart.POrder = POrder;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.POrder = POrder;
+}

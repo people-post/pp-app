@@ -1,5 +1,5 @@
-(function(shop) {
-class FServiceTimeslot extends ui.Fragment {
+
+export class FServiceTimeslot extends ui.Fragment {
   constructor() {
     super();
     this._data = null;
@@ -57,5 +57,10 @@ class FServiceTimeslot extends ui.Fragment {
   }
 };
 
-shop.FServiceTimeslot = FServiceTimeslot;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FServiceTimeslot = FServiceTimeslot;
+}

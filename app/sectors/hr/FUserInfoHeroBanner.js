@@ -1,5 +1,4 @@
-(function(hr) {
-hr.CF_USER_INFO_HERO_BANNER = {
+export const CF_USER_INFO_HERO_BANNER = {
   FOLLOW : Symbol(),
   UNFOLLOW : Symbol(),
   SEND_MESSAGE : Symbol(),
@@ -49,7 +48,7 @@ const _CFT_USER_INFO_HERO_BANNER = {
   </table>`,
 };
 
-class FUserInfoHeroBanner extends ui.Fragment {
+export class FUserInfoHeroBanner extends ui.Fragment {
   constructor() {
     super();
     this._fBioEditor = new ui.TextArea();
@@ -361,5 +360,10 @@ class FUserInfoHeroBanner extends ui.Fragment {
   }
 };
 
-hr.FUserInfoHeroBanner = FUserInfoHeroBanner;
-}(window.hr = window.hr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hr = window.hr || {};
+  window.hr.CF_USER_INFO_HERO_BANNER = CF_USER_INFO_HERO_BANNER;
+}

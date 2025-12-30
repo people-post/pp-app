@@ -1,5 +1,5 @@
-(function(blog) {
-class FNoticeList extends ui.Fragment {
+
+export class FNoticeList extends ui.Fragment {
   #selectedPostId = null;
 
   constructor() {
@@ -56,5 +56,10 @@ class FNoticeList extends ui.Fragment {
   }
 };
 
-blog.FNoticeList = FNoticeList;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FNoticeList = FNoticeList;
+}

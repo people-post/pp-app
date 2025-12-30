@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_BRANCH = {
   MAIN : `<div class="flex flex-start">
     <div id="__ID_NAME_DECOR__"></div>
@@ -8,7 +8,7 @@ const _CPT_BRANCH = {
   <div id="__ID_REGISTERS__"></div>`,
 };
 
-class PBranch extends shop.PBranchBase {
+export class PBranch extends shop.PBranchBase {
   constructor() {
     super();
     this._pNameEditor = new ui.PanelWrapper();
@@ -40,5 +40,10 @@ class PBranch extends shop.PBranchBase {
   }
 };
 
-shop.PBranch = PBranch;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PBranch = PBranch;
+}

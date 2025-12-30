@@ -1,5 +1,4 @@
-(function(acnt) {
-class FvcBasic extends ui.FScrollViewContent {
+export class FvcBasic extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fNickname = new ui.TextInput();
@@ -99,5 +98,8 @@ class FvcBasic extends ui.FScrollViewContent {
   #onUpdateConfigRRR(data) { dba.Account.asyncReload(); }
 };
 
-acnt.FvcBasic = FvcBasic;
-}(window.acnt = window.acnt || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.acnt = window.acnt || {};
+  window.acnt.FvcBasic = FvcBasic;
+}

@@ -1,5 +1,5 @@
-(function(msgr) {
-class FChatGroupInfo extends msgr.FChatThreadInfo {
+
+export class FChatGroupInfo extends msgr.FChatThreadInfo {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case plt.T_DATA.USER_PROFILE:
@@ -34,5 +34,10 @@ class FChatGroupInfo extends msgr.FChatThreadInfo {
   }
 };
 
-msgr.FChatGroupInfo = FChatGroupInfo;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.FChatGroupInfo = FChatGroupInfo;
+}

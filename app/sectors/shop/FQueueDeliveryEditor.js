@@ -1,8 +1,13 @@
-(function(shop) {
-class FQueueDeliveryEditor extends shop.FServiceDeliveryEditor {
+
+export class FQueueDeliveryEditor extends shop.FServiceDeliveryEditor {
   _getType() { return dat.ProductDeliveryChoice.TYPE.QUEUE; }
 };
 
-shop.FQueueDeliveryEditor = FQueueDeliveryEditor;
-}(window.shop = window.shop || {}));
 
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FQueueDeliveryEditor = FQueueDeliveryEditor;
+}

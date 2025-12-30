@@ -1,5 +1,4 @@
-(function(cart) {
-cart.CF_CHECKOUT_SUCCESS = {
+export const CF_CHECKOUT_SUCCESS = {
   CONTINUE : Symbol(),
   SHOW_ORDER : Symbol(),
 };
@@ -13,7 +12,7 @@ const _CFT_CHECKOUT_SUCCESS = {
     <br>`,
 }
 
-class FvcCheckoutSuccess extends ui.FScrollViewContent {
+export class FvcCheckoutSuccess extends ui.FScrollViewContent {
   constructor() {
     super();
     this._orderId = null;
@@ -50,5 +49,10 @@ class FvcCheckoutSuccess extends ui.FScrollViewContent {
   }
 };
 
-cart.FvcCheckoutSuccess = FvcCheckoutSuccess;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.CF_CHECKOUT_SUCCESS = CF_CHECKOUT_SUCCESS;
+}

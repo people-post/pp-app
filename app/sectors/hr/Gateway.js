@@ -1,5 +1,5 @@
-(function(hr) {
-class Gateway extends plt.SectorGateway {
+
+export class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() {
     let f = new ui.FViewContentMux();
 
@@ -25,5 +25,10 @@ class Gateway extends plt.SectorGateway {
   }
 };
 
-hr.Gateway = Gateway;
-}(window.hr = window.hr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hr = window.hr || {};
+  window.hr.Gateway = Gateway;
+}

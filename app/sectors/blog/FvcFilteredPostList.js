@@ -1,5 +1,5 @@
-(function(blog) {
-class FvcFilteredPostList extends ui.FScrollViewContent {
+
+export class FvcFilteredPostList extends ui.FScrollViewContent {
   #fPosts;
   #loader;
 
@@ -32,5 +32,10 @@ class FvcFilteredPostList extends ui.FScrollViewContent {
   }
 };
 
-blog.FvcFilteredPostList = FvcFilteredPostList;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FvcFilteredPostList = FvcFilteredPostList;
+}

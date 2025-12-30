@@ -1,4 +1,4 @@
-(function(blog) {
+
 /*
  * +--------------+
  * |     TEXT     |
@@ -11,7 +11,7 @@ const _CPT_POST_INFO_EMBED = {
   </div>`,
 }
 
-class PPostInfoEmbed extends gui.PPostInfoBase {
+export class PPostInfoEmbed extends gui.PPostInfoBase {
   #pTitle;
   constructor() {
     super();
@@ -32,5 +32,10 @@ class PPostInfoEmbed extends gui.PPostInfoBase {
   }
 };
 
-blog.PPostInfoEmbed = PPostInfoEmbed;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPostInfoEmbed = PPostInfoEmbed;
+}

@@ -1,5 +1,5 @@
-(function(shop) {
-class FWalkinQueue extends ui.FLongListLegacy {
+
+export class FWalkinQueue extends ui.FLongListLegacy {
   constructor() {
     super();
     this._isReadOnly = false;
@@ -134,5 +134,10 @@ class FWalkinQueue extends ui.FLongListLegacy {
   #getIdRecord() { return dba.WalkinQueue.getIdRecord(); }
 };
 
-shop.FWalkinQueue = FWalkinQueue;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FWalkinQueue = FWalkinQueue;
+}

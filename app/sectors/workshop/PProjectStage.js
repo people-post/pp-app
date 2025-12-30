@@ -1,11 +1,11 @@
-(function(wksp) {
+
 const _CPT_PROJECT_STAGE = {
   MAIN : `<div id="__ID_NAME__" class="u-font3"></div>
     <div id="__ID_DESCRIPTION__" class="stage-description"></div>
     <div id="__ID_COMMENT__" class="stage-comment"></div>`,
 }
 
-class PProjectStage extends wksp.PProjectStageBase {
+export class PProjectStage extends wksp.PProjectStageBase {
   constructor() {
     super();
     this._pDescription = new ui.PanelWrapper();
@@ -30,5 +30,10 @@ class PProjectStage extends wksp.PProjectStageBase {
   }
 };
 
-wksp.PProjectStage = PProjectStage;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProjectStage = PProjectStage;
+}

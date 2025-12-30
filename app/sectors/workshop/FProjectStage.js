@@ -1,9 +1,8 @@
-(function(wksp) {
-wksp.CF_PROJECT_STAGE = {
+export const CF_PROJECT_STAGE = {
   ON_CLICK : Symbol(),
 };
 
-class FProjectStage extends ui.Fragment {
+export class FProjectStage extends ui.Fragment {
   static LTC_MID = "LTC_MID";
   static LTR_COMPACT = "LTR_COMPACT";
   static LTR_MID = "LTR_MID";
@@ -242,5 +241,10 @@ class FProjectStage extends ui.Fragment {
   }
 };
 
-wksp.FProjectStage = FProjectStage;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.CF_PROJECT_STAGE = CF_PROJECT_STAGE;
+}

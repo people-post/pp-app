@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_SERVICE_LOCATION_EDITOR = {
   MAIN : `<div>
   <div id="__ID_TIME_OVERHEAD__"></div>
@@ -10,7 +10,7 @@ const _CPT_SERVICE_LOCATION_EDITOR = {
   </div>`,
 }
 
-class PServiceLocationEditor extends ui.Panel {
+export class PServiceLocationEditor extends ui.Panel {
   constructor() {
     super();
     this._pTimeOverhead = new ui.PanelWrapper();
@@ -46,6 +46,11 @@ class PServiceLocationEditor extends ui.Panel {
   }
 };
 
-shop.PServiceLocationEditor = PServiceLocationEditor;
-}(window.shop = window.shop || {}));
 
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PServiceLocationEditor = PServiceLocationEditor;
+}

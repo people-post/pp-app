@@ -1,5 +1,5 @@
-(function(ftpg) {
-class FJournalMenu extends gui.MenuContent {
+
+export class FJournalMenu extends gui.MenuContent {
   #journalIds;
   #currentJournalId = null;
   #currentIssueId = null;
@@ -37,5 +37,10 @@ class FJournalMenu extends gui.MenuContent {
   }
 };
 
-ftpg.FJournalMenu = FJournalMenu;
-}(window.ftpg = window.ftpg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.ftpg = window.ftpg || {};
+  window.ftpg.FJournalMenu = FJournalMenu;
+}

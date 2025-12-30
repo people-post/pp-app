@@ -1,5 +1,5 @@
-(function(shop) {
-class FQueueDelivery extends shop.FServiceDelivery {
+
+export class FQueueDelivery extends shop.FServiceDelivery {
   constructor() {
     super();
     this._fBtnCheckin = new ui.Button();
@@ -101,5 +101,10 @@ class FQueueDelivery extends shop.FServiceDelivery {
   }
 };
 
-shop.FQueueDelivery = FQueueDelivery;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FQueueDelivery = FQueueDelivery;
+}

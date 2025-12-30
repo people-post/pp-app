@@ -1,5 +1,5 @@
-(function(shop) {
-class FvcBookAppointment extends ui.FScrollViewContent {
+
+export class FvcBookAppointment extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fFilter = new shop.FServiceLocationFilter();
@@ -13,5 +13,10 @@ class FvcBookAppointment extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcBookAppointment = FvcBookAppointment;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcBookAppointment = FvcBookAppointment;
+}

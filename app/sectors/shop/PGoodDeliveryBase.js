@@ -1,5 +1,5 @@
-(function(shop) {
-class PGoodDeliveryBase extends ui.Panel {
+
+export class PGoodDeliveryBase extends ui.Panel {
   constructor() {
     super();
     this._pBtnAdd = new ui.PanelWrapper();
@@ -10,5 +10,10 @@ class PGoodDeliveryBase extends ui.Panel {
   getProductCountPanel() { return this._pProductCount; }
 };
 
-shop.PGoodDeliveryBase = PGoodDeliveryBase;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PGoodDeliveryBase = PGoodDeliveryBase;
+}

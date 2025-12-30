@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_BRANCH_SMALL = {
   MAIN :
       `<div id="__ID_MAIN__" class="bd-b-solid bd-b-1px bdlightgray clickable">
@@ -10,7 +10,7 @@ const _CPT_BRANCH_SMALL = {
   </div>`,
 };
 
-class PBranchSmall extends shop.PBranchBase {
+export class PBranchSmall extends shop.PBranchBase {
   constructor() {
     super();
     this._pName = new ui.Panel();
@@ -48,5 +48,10 @@ class PBranchSmall extends shop.PBranchBase {
   }
 };
 
-shop.PBranchSmall = PBranchSmall;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PBranchSmall = PBranchSmall;
+}

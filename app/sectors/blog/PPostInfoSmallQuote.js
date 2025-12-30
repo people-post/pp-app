@@ -1,4 +1,4 @@
-(function(blog) {
+
 /*
  * +-------+--------------+
  * |       |              |
@@ -24,7 +24,7 @@ const _CPT_POST_INFO_SMALL_QUOTE = {
   </div>`,
 }
 
-class PPostInfoSmallQuote extends gui.PPostInfoBase {
+export class PPostInfoSmallQuote extends gui.PPostInfoBase {
   constructor() {
     super();
     this._pCrossRef = new S.hr.PUserReference();
@@ -69,5 +69,10 @@ class PPostInfoSmallQuote extends gui.PPostInfoBase {
   }
 };
 
-blog.PPostInfoSmallQuote = PPostInfoSmallQuote;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPostInfoSmallQuote = PPostInfoSmallQuote;
+}

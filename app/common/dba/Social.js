@@ -120,7 +120,6 @@ export const Social = function() {
     clear : _clear,
   };
 }();
-}();
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

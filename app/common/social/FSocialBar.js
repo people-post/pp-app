@@ -1,7 +1,7 @@
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { LContext } from '../../lib/ui/controllers/fragments/LContext.js';
+import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_DATA } from '../plt/Events.js';
 import { Social } from '../dba/Social.js';

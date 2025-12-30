@@ -1,5 +1,5 @@
-(function(blog) {
-class FvcQuoteEditor extends ui.FScrollViewContent {
+
+export class FvcQuoteEditor extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fDetail = new ui.TextArea();
@@ -68,5 +68,10 @@ class FvcQuoteEditor extends ui.FScrollViewContent {
   }
 };
 
-blog.FvcQuoteEditor = FvcQuoteEditor;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FvcQuoteEditor = FvcQuoteEditor;
+}

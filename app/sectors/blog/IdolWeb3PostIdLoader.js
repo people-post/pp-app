@@ -1,5 +1,5 @@
-(function(blog) {
-class IdolWeb3PostIdLoader extends plt.LongListIdLoader {
+
+export class IdolWeb3PostIdLoader extends plt.LongListIdLoader {
   #loaders = [];
 
   constructor() {
@@ -24,5 +24,10 @@ class IdolWeb3PostIdLoader extends plt.LongListIdLoader {
   asyncLoadBackItems() { this.#loaders[0].asyncLoadBackItems(); }
 };
 
-blog.IdolWeb3PostIdLoader = IdolWeb3PostIdLoader;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.IdolWeb3PostIdLoader = IdolWeb3PostIdLoader;
+}

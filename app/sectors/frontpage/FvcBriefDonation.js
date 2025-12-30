@@ -1,5 +1,5 @@
-(function(ftpg) {
-class FvcBriefDonation extends ui.FViewContentBase {
+
+export class FvcBriefDonation extends ui.FViewContentBase {
   #fPayment;
 
   constructor() {
@@ -37,5 +37,10 @@ class FvcBriefDonation extends ui.FViewContentBase {
   }
 };
 
-ftpg.FvcBriefDonation = FvcBriefDonation;
-}(window.ftpg = window.ftpg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.ftpg = window.ftpg || {};
+  window.ftpg.FvcBriefDonation = FvcBriefDonation;
+}

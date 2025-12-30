@@ -1,4 +1,4 @@
-(function(cart) {
+
 const _CFT_CUSTOMER_ORDER_SUPPLIER_ITEM = {
   MAIN : `<div class="w40">__DESCRIPTION__</div>
   <div>
@@ -11,7 +11,7 @@ const _CFT_CUSTOMER_ORDER_SUPPLIER_ITEM = {
   <div>__UNIT_PRICE__</div>`,
 }
 
-class FOrderSupplierItem extends ui.Fragment {
+export class FOrderSupplierItem extends ui.Fragment {
   constructor() {
     super();
     this._currencyId = null;
@@ -42,5 +42,10 @@ class FOrderSupplierItem extends ui.Fragment {
   }
 };
 
-cart.FOrderSupplierItem = FOrderSupplierItem;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.FOrderSupplierItem = FOrderSupplierItem;
+}

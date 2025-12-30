@@ -1,5 +1,4 @@
-(function(shop) {
-shop.CF_SHOP_CONFIG = {
+export const CF_SHOP_CONFIG = {
   ON_NAME_CHANGE : Symbol(),
 };
 
@@ -8,7 +7,7 @@ const _CFT_SHOP_CONFIG = {
       `<input type="text" class="tight-label-like border-box" placeholder="Your shop name" value="__VALUE__" onchange="javascript:G.action(shop.CF_SHOP_CONFIG.ON_NAME_CHANGE, this.value)">`,
 };
 
-class FvcConfig extends ui.FScrollViewContent {
+export class FvcConfig extends ui.FScrollViewContent {
   #fTeams;
   #fOptions;
   #fMenuConfig;
@@ -260,5 +259,10 @@ class FvcConfig extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcConfig = FvcConfig;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.CF_SHOP_CONFIG = CF_SHOP_CONFIG;
+}

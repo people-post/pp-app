@@ -1,5 +1,5 @@
-(function(xchg) {
-class FvcExchange extends ui.FScrollViewContent {
+
+export class FvcExchange extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fCoin = new xchg.FExchangeItemInfo();
@@ -75,5 +75,10 @@ class FvcExchange extends ui.FScrollViewContent {
   }
 };
 
-xchg.FvcExchange = FvcExchange;
-}(window.xchg = window.xchg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.xchg = window.xchg || {};
+  window.xchg.FvcExchange = FvcExchange;
+}

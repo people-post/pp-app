@@ -1,4 +1,4 @@
-(function(hstn) {
+
 const _CFT_MEMBER_HOSTING_CONTENT = {
   INIT : `Initializing...`,
   NS_PENDING :
@@ -11,7 +11,7 @@ const _CFT_MEMBER_HOSTING_CONTENT = {
       `__DOMAIN___ is already registered. If your spell is correct, do you want to claim it?`,
 }
 
-class FvcMemberHosting extends ui.FScrollViewContent {
+export class FvcMemberHosting extends ui.FScrollViewContent {
   constructor() {
     super();
     this.setChild("content", this.#initContentFragment());
@@ -189,5 +189,10 @@ class FvcMemberHosting extends ui.FScrollViewContent {
   }
 };
 
-hstn.FvcMemberHosting = FvcMemberHosting;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.FvcMemberHosting = FvcMemberHosting;
+}

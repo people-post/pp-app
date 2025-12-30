@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CPT_POST_INFO_CARD = {
   MAIN : `<div class="info-panel card">
     <div>
@@ -17,7 +17,7 @@ const _CPT_POST_INFO_CARD = {
   </div>`,
 }
 
-class PPostInfoCard extends gui.PPostInfoBase {
+export class PPostInfoCard extends gui.PPostInfoBase {
   #pTags;
   #pTitle;
   #pContent;
@@ -66,5 +66,10 @@ class PPostInfoCard extends gui.PPostInfoBase {
   }
 };
 
-blog.PPostInfoCard = PPostInfoCard;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPostInfoCard = PPostInfoCard;
+}

@@ -1,9 +1,9 @@
-(function(wksp) {
+
 window.CF_PROJECT_INFO = {
   VIEW_PROJECT : "CF_PROJECT_INFO_1",
 }
 
-class FProjectInfo extends gui.MajorSectorItem {
+export class FProjectInfo extends gui.MajorSectorItem {
   constructor() {
     super();
     this._sizeType = null;
@@ -223,5 +223,10 @@ class FProjectInfo extends gui.MajorSectorItem {
   }
 };
 
-wksp.FProjectInfo = FProjectInfo;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FProjectInfo = FProjectInfo;
+}

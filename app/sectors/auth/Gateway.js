@@ -1,5 +1,4 @@
-(function(auth) {
-class Gateway extends plt.SectorGateway {
+export class Gateway extends plt.SectorGateway {
   createLoginView(nextView) {
     let v = new ui.View();
     let f = this.#createLoginViewContentFragment();
@@ -24,7 +23,10 @@ class Gateway extends plt.SectorGateway {
     }
     return f;
   }
-};
+}
 
-auth.Gateway = Gateway;
-}(window.auth = window.auth || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.auth = window.auth || {};
+  window.auth.Gateway = Gateway;
+}

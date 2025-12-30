@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_WALKIN_QUEUE_ITEM = {
   MAIN : `<div class="pad5px">
     <div id="__ID_STATUS__"></div>
@@ -15,7 +15,7 @@ const _CPT_WALKIN_QUEUE_ITEM = {
   </div>`,
 }
 
-class PWalkinQueueItem extends shop.PWalkinQueueItemBase {
+export class PWalkinQueueItem extends shop.PWalkinQueueItemBase {
   constructor() {
     super();
     this._pStatus = new ui.PanelWrapper();
@@ -51,5 +51,10 @@ class PWalkinQueueItem extends shop.PWalkinQueueItemBase {
   }
 };
 
-shop.PWalkinQueueItem = PWalkinQueueItem;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PWalkinQueueItem = PWalkinQueueItem;
+}

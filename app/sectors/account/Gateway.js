@@ -1,5 +1,4 @@
-(function(acnt) {
-class Gateway extends plt.SectorGateway {
+export class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() {
     if (glb.env.isWeb3()) {
       return this.#createWeb3MainViewContentFragment();
@@ -31,7 +30,10 @@ class Gateway extends plt.SectorGateway {
     f.switchTo("REPORT");
     return f;
   }
-};
+}
 
-acnt.Gateway = Gateway;
-}(window.acnt = window.acnt || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.acnt = window.acnt || {};
+  window.acnt.Gateway = Gateway;
+}

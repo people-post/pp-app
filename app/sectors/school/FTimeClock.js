@@ -1,5 +1,5 @@
-(function(scol) {
-class FTimeClock extends ui.Fragment {
+
+export class FTimeClock extends ui.Fragment {
   constructor() {
     super();
     this._fBtn = new ui.Button();
@@ -131,5 +131,10 @@ class FTimeClock extends ui.Fragment {
   }
 };
 
-scol.FTimeClock = FTimeClock;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.FTimeClock = FTimeClock;
+}

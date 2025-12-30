@@ -1,5 +1,5 @@
-(function(shop) {
-class PProductBase extends ui.Panel {
+
+export class PProductBase extends ui.Panel {
   constructor() {
     super();
     this._pName = new ui.PanelWrapper();
@@ -17,5 +17,10 @@ class PProductBase extends ui.Panel {
   getActionPanel() { return null; }
 };
 
-shop.PProductBase = PProductBase;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PProductBase = PProductBase;
+}

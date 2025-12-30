@@ -1,5 +1,9 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import Utilities from '../../lib/ext/Utilities.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcUserInput } from '../hr/FvcUserInput.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export const CF_TAGS_EDITOR = {
   TOGGLE : Symbol(),
@@ -83,11 +87,6 @@ export class TagsEditorFragment extends Fragment {
       break;
     }
   }
-
-import { View } from '../../lib/ui/controllers/views/View.js';
-import { FvcUserInput } from '../hr/FvcUserInput.js';
-import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
-import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
   #onNewTag() {
     let v = new View();

@@ -1,5 +1,4 @@
-(function(cmut) {
-cmut.CF_PROPOSAL = {
+export const CF_PROPOSAL = {
   VIEW_PROPOSAL : Symbol(),
   VOTE : Symbol(),
   USER_INFO : Symbol(),
@@ -16,7 +15,7 @@ const _CFT_PROPOSAL = {
   <div>Status: __STATUS__</div>`,
 };
 
-class FProposal extends ui.Fragment {
+export class FProposal extends ui.Fragment {
   static T_LAYOUT = {
     FULL : Symbol(),
     INFO: Symbol(),
@@ -342,5 +341,10 @@ class FProposal extends ui.Fragment {
   #onVote(value) { dba.Communities.asyncVote(this._proposalId, value); }
 };
 
-cmut.FProposal = FProposal;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.CF_PROPOSAL = CF_PROPOSAL;
+}

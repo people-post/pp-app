@@ -1,5 +1,5 @@
-(function(emal) {
-class PEmailBase extends ui.Panel {
+
+export class PEmailBase extends ui.Panel {
   constructor() {
     super();
     this._pTitle = new ui.Panel();
@@ -21,5 +21,10 @@ class PEmailBase extends ui.Panel {
   invertColor() {}
 };
 
-emal.PEmailBase = PEmailBase;
-}(window.emal = window.emal || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.emal = window.emal || {};
+  window.emal.PEmailBase = PEmailBase;
+}

@@ -1,5 +1,5 @@
-(function(wksp) {
-class TimelinePanel extends ui.PanelListPanel {
+
+export class TimelinePanel extends ui.PanelListPanel {
   constructor() {
     super();
     this._isFlowRunning = true;
@@ -89,5 +89,10 @@ class TimelinePanel extends ui.PanelListPanel {
   }
 };
 
-wksp.TimelinePanel = TimelinePanel;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.TimelinePanel = TimelinePanel;
+}

@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CPT_POST = {
   MAIN : `<div id="__ID_TITLE__" class="view-content-title"></div>
     <div class="flex space-between">
@@ -28,7 +28,7 @@ const _CPT_POST = {
     <div id="__ID_SOCIAL__"></div>`,
 };
 
-class PPost extends gui.PPostBase {
+export class PPost extends gui.PPostBase {
   #pTitle;
   #pAbstract;
   #pSummary;
@@ -130,5 +130,10 @@ class PPost extends gui.PPostBase {
   }
 };
 
-blog.PPost = PPost;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPost = PPost;
+}

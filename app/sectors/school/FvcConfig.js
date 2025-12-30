@@ -1,5 +1,5 @@
-(function(scol) {
-class FvcConfig extends ui.FScrollViewContent {
+
+export class FvcConfig extends ui.FScrollViewContent {
   _renderContentOnRender(render) {
     // Transfer credit.
     // Quit, refund.
@@ -9,5 +9,10 @@ class FvcConfig extends ui.FScrollViewContent {
   }
 };
 
-scol.FvcConfig = FvcConfig;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.FvcConfig = FvcConfig;
+}

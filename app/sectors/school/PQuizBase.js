@@ -1,5 +1,5 @@
-(function(scol) {
-class PQuizBase extends ui.Panel {
+
+export class PQuizBase extends ui.Panel {
   constructor() {
     super();
     this._pQuestion = new ui.Panel();
@@ -13,5 +13,10 @@ class PQuizBase extends ui.Panel {
   invertColor() {}
 };
 
-scol.PQuizBase = PQuizBase;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.PQuizBase = PQuizBase;
+}

@@ -1,5 +1,5 @@
-(function(shop) {
-class FvcBranchSelection extends ui.FScrollViewContent {
+
+export class FvcBranchSelection extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fBranches = new shop.FBranchList();
@@ -22,5 +22,10 @@ class FvcBranchSelection extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcBranchSelection = FvcBranchSelection;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcBranchSelection = FvcBranchSelection;
+}

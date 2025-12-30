@@ -1,5 +1,5 @@
-(function(shop) {
-class FBtnViewQueue extends ui.Fragment {
+
+export class FBtnViewQueue extends ui.Fragment {
   constructor() {
     super();
     this._fBtn = new ui.Button();
@@ -56,5 +56,10 @@ class FBtnViewQueue extends ui.Fragment {
   }
 };
 
-shop.FBtnViewQueue = FBtnViewQueue;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FBtnViewQueue = FBtnViewQueue;
+}

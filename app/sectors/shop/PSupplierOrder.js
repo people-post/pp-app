@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_SUPPLIER_ORDER = {
   MAIN : `<div class="small-info-text">
     <div id="__ID_CUSTOMER_NAME__"></div>
@@ -19,7 +19,7 @@ const _CPT_SUPPLIER_ORDER = {
   <div id="__ID_SHIPPING_ADDRESS__"></div>`,
 }
 
-class PSupplierOrder extends shop.PSupplierOrderBase {
+export class PSupplierOrder extends shop.PSupplierOrderBase {
   constructor() {
     super();
     this._pCustomerName = new ui.Panel();
@@ -87,5 +87,10 @@ class PSupplierOrder extends shop.PSupplierOrderBase {
   }
 };
 
-shop.PSupplierOrder = PSupplierOrder;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PSupplierOrder = PSupplierOrder;
+}

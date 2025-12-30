@@ -1,6 +1,6 @@
-(function(blog) {
+
 // ActionButton needs some redesign
-class AbNew extends ui.Fragment {
+export class AbNew extends ui.Fragment {
   #lc;
   #fBtn;
   #isPendingChoices = false;
@@ -186,5 +186,10 @@ class AbNew extends ui.Fragment {
   }
 };
 
-blog.AbNew = AbNew;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.AbNew = AbNew;
+}

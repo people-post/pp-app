@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_PRODUCT_INFO_LARGE_QUOTE = {
   MAIN : `<div class="quote-element pad5px">
   <div id="__ID_SELLER_NAME__"></div>
@@ -10,7 +10,7 @@ const _CPT_PRODUCT_INFO_LARGE_QUOTE = {
   </div>`,
 }
 
-class PProductInfoLargeQuote extends shop.PProductInfoBase {
+export class PProductInfoLargeQuote extends shop.PProductInfoBase {
   constructor() {
     super();
     this._pSellerName = new ui.PanelWrapper();
@@ -36,5 +36,10 @@ class PProductInfoLargeQuote extends shop.PProductInfoBase {
   }
 };
 
-shop.PProductInfoLargeQuote = PProductInfoLargeQuote;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PProductInfoLargeQuote = PProductInfoLargeQuote;
+}

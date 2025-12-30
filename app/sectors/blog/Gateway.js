@@ -1,4 +1,3 @@
-(function(blog) {
 const _CG_BLOG = {
   NEWS : {ID : "NEWS", NAME : "News", ICON : C.ICON.EXPLORER},
   OWNER_PUBLIC : {ID : "BLOG", NAME : "Blog", ICON : C.ICON.EXPLORER},
@@ -8,7 +7,7 @@ const _CG_BLOG = {
   REPORT : {ID : "REPORT", NAME : "Report", ICON : C.ICON.REPORT},
 };
 
-class Gateway extends plt.SectorGateway {
+export class Gateway extends plt.SectorGateway {
   getNTabNoticesForViewContentMuxFragment(fMux, v) {
     let n = 0;
     switch (v) {
@@ -116,7 +115,10 @@ class Gateway extends plt.SectorGateway {
   #makeTabConfig(c) {
     return {name : R.t(c.NAME), value : c.ID, icon : c.ICON};
   }
-};
+}
 
-blog.Gateway = Gateway;
-}(window.blog = window.blog || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.Gateway = Gateway;
+}

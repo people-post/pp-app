@@ -1,4 +1,4 @@
-(function(blog) {
+
 /*
  * +---+-------------+
  * |   |             |
@@ -35,7 +35,7 @@ const _CPT_POST_INFO_LARGE = {
   </div>`,
 }
 
-class PPostInfoLarge extends gui.PPostInfoBase {
+export class PPostInfoLarge extends gui.PPostInfoBase {
   constructor() {
     super();
     this._pOwnerIcon = new ui.PanelWrapper();
@@ -91,5 +91,10 @@ class PPostInfoLarge extends gui.PPostInfoBase {
   }
 };
 
-blog.PPostInfoLarge = PPostInfoLarge;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPostInfoLarge = PPostInfoLarge;
+}

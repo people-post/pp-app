@@ -1,4 +1,4 @@
-(function(emal) {
+
 const _CPT_EMAIL_INFO = {
   MAIN : `<div class="aspect-5-1-frame">
     <div class="aspect-content border-box top-pad5px right-pad5px">
@@ -18,7 +18,7 @@ const _CPT_EMAIL_INFO = {
   </div>`,
 }
 
-class PEmailInfo extends emal.PEmailBase {
+export class PEmailInfo extends emal.PEmailBase {
   constructor() {
     super();
     this._pIcon = new ui.Panel();
@@ -56,5 +56,10 @@ class PEmailInfo extends emal.PEmailBase {
   }
 };
 
-emal.PEmailInfo = PEmailInfo;
-}(window.emal = window.emal || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.emal = window.emal || {};
+  window.emal.PEmailInfo = PEmailInfo;
+}

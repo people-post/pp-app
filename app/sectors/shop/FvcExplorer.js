@@ -1,5 +1,5 @@
-(function(shop) {
-class FvcExplorer extends ui.FScrollViewContent {
+
+export class FvcExplorer extends ui.FScrollViewContent {
   #fmSearch;
   #fList;
   #fBtnCart;
@@ -76,5 +76,10 @@ class FvcExplorer extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcExplorer = FvcExplorer;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcExplorer = FvcExplorer;
+}

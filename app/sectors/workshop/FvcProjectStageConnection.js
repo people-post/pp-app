@@ -1,5 +1,5 @@
-(function(wksp) {
-class FvcProjectStageConnection extends ui.FScrollViewContent {
+
+export class FvcProjectStageConnection extends ui.FScrollViewContent {
   constructor() {
     super();
     this._stage = null;
@@ -102,5 +102,10 @@ class FvcProjectStageConnection extends ui.FScrollViewContent {
   }
 };
 
-wksp.FvcProjectStageConnection = FvcProjectStageConnection;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FvcProjectStageConnection = FvcProjectStageConnection;
+}

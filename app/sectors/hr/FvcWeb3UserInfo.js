@@ -1,5 +1,5 @@
-(function(hr) {
-class FvcWeb3UserInfo extends ui.FViewContentWithHeroBanner {
+
+export class FvcWeb3UserInfo extends ui.FViewContentWithHeroBanner {
   #fBanner;
   #fBlog;
   #fMain;
@@ -74,5 +74,10 @@ class FvcWeb3UserInfo extends ui.FViewContentWithHeroBanner {
   }
 };
 
-hr.FvcWeb3UserInfo = FvcWeb3UserInfo;
-}(window.hr = window.hr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hr = window.hr || {};
+  window.hr.FvcWeb3UserInfo = FvcWeb3UserInfo;
+}

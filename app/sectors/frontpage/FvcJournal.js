@@ -1,4 +1,4 @@
-(function(ftpg) {
+
 const _CPT_JOURNAL = {
   NARROW_MAIN : `<div class="h100 flex x-scroll x-scroll-snap">
   <div class="w90 pad5px flex-noshrink scroll-snap-start">
@@ -50,7 +50,7 @@ const _CPT_JOURNAL = {
   </div>`,
 };
 
-class PJournal extends ui.Panel {
+export class PJournal extends ui.Panel {
   #pMain;
   #pLeft;
   #pRight;
@@ -329,4 +329,10 @@ class FvcJournal extends ui.FViewContentBase {
 };
 
 ftpg.FvcJournal = FvcJournal;
-}(window.ftpg = window.ftpg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.ftpg = window.ftpg || {};
+  window.ftpg.PJournal = PJournal;
+}

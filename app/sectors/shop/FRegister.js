@@ -1,9 +1,8 @@
-(function(shop) {
-shop.CF_REGISTER = {
+export const CF_REGISTER = {
   ON_CLICK : Symbol(),
 };
 
-class FRegister extends ui.Fragment {
+export class FRegister extends ui.Fragment {
   static T_LAYOUT = {
     SMALL : Symbol(),
     FULL: Symbol(),
@@ -152,5 +151,10 @@ class FRegister extends ui.Fragment {
   }
 };
 
-shop.FRegister = FRegister;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.CF_REGISTER = CF_REGISTER;
+}

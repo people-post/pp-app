@@ -1,5 +1,4 @@
-(function(cmut) {
-class FProposalList extends gui.DefaultLongList {
+export class FProposalList extends gui.DefaultLongList {
   constructor() {
     super();
     this._communityId;
@@ -78,7 +77,10 @@ class FProposalList extends gui.DefaultLongList {
       this._fItems.onScrollFinished();
     }
   }
-};
+}
 
-cmut.FProposalList = FProposalList;
-}(window.cmut = window.cmut || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.FProposalList = FProposalList;
+}

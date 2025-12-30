@@ -1,5 +1,5 @@
-(function(msgr) {
-class FvcChatGroupList extends ui.FScrollViewContent {
+
+export class FvcChatGroupList extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fList = new ui.FSimpleFragmentList();
@@ -34,5 +34,10 @@ class FvcChatGroupList extends ui.FScrollViewContent {
   }
 };
 
-msgr.FvcChatGroupList = FvcChatGroupList;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.FvcChatGroupList = FvcChatGroupList;
+}
