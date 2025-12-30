@@ -1,3 +1,7 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import Utilities from '../Utilities.js';
+
 export const CF_VISIT_SUMMARY_INFO = {
   ONCLICK : "CF_VISIT_SUMMARY_INFO_1",
 }
@@ -7,7 +11,7 @@ const _CFT_VISIT_SUMMARY_INFO = {
     <div>__N_VISITS__</div>`,
 }
 
-export class FVisitInfo extends ui.Fragment {
+export class FVisitInfo extends Fragment {
   constructor() {
     super();
     this._data = null;
@@ -27,7 +31,7 @@ export class FVisitInfo extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.Panel();
+    let p = new Panel();
     let names = [ "pad5", "flex", "space-between", "visit-summary-info" ];
     if (this._data.getSubQueryKey()) {
       names.push("clickable");

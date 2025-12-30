@@ -1,3 +1,6 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
 const _CPT_COMMENT = {
   MAIN : `<div class="flex bd-b-1px bd-b-solid bdlightgray v-pad5px">
   <div id="__ID_AUTHOR_ICON__" class="w50px flex-noshrink"></div>
@@ -11,7 +14,7 @@ const _CPT_COMMENT = {
   </div>`,
 };
 
-export class PComment extends ui.Panel {
+export class PComment extends Panel {
   #pAuthorIcon;
   #pAuthorName;
   #pContent;
@@ -19,10 +22,10 @@ export class PComment extends ui.Panel {
 
   constructor() {
     super();
-    this.#pAuthorIcon = new ui.PanelWrapper();
-    this.#pAuthorName = new ui.PanelWrapper();
-    this.#pContent = new ui.PanelWrapper();
-    this.#pExtra = new ui.PanelWrapper();
+    this.#pAuthorIcon = new PanelWrapper();
+    this.#pAuthorName = new PanelWrapper();
+    this.#pContent = new PanelWrapper();
+    this.#pExtra = new PanelWrapper();
   }
 
   getAuthorIconPanel() { return this.#pAuthorIcon; }

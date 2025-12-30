@@ -2,6 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { VoteProgressFragment } from './VoteProgressFragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Vote } from '../datatypes/Vote.js';
 
 export class VotingSummaryFragment extends Fragment {
   constructor() {
@@ -29,9 +30,9 @@ export class VotingSummaryFragment extends Fragment {
       p.pushPanel(pp);
       config.total = bConfig.total.weight;
       config.threshold = bConfig.threshold.weight;
-      let b = summary.getBallot(dat.Vote.T_VALUE.YEA);
+      let b = summary.getBallot(Vote.T_VALUE.YEA);
       config.value = b ? b.weight : 0;
-      b = summary.getBallot(dat.Vote.T_VALUE.NAY);
+      b = summary.getBallot(Vote.T_VALUE.NAY);
       config.nayValue = b ? b.weight : 0;
       this._fGeneral.setConfig(config);
       this._fGeneral.attachRender(pp);
@@ -44,9 +45,9 @@ export class VotingSummaryFragment extends Fragment {
     p.pushPanel(pp);
     config.total = bConfig.total.count;
     config.threshold = bConfig.threshold.count;
-    let b = summary.getBallot(dat.Vote.T_VALUE.YEA);
+    let b = summary.getBallot(Vote.T_VALUE.YEA);
     config.value = b ? b.count : 0;
-    b = summary.getBallot(dat.Vote.T_VALUE.NAY);
+    b = summary.getBallot(Vote.T_VALUE.NAY);
     config.nayValue = b ? b.count : 0;
     this._fWealth.setConfig(config);
     this._fWealth.attachRender(pp);

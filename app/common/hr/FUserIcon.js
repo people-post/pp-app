@@ -1,6 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { T_DATA } from '../plt/Events.js';
+import { T_DATA, T_ACTION } from '../plt/Events.js';
 import { Users } from '../dba/Users.js';
+import { Events } from '../../lib/framework/Events.js';
 
 export const CF_USER_ICON = {
   USER_INFO : "CF_USER_ICON_1",
@@ -87,7 +88,7 @@ export class FUserIcon extends Fragment {
     if (this._delegate) {
       this._delegate.onIconClickedInUserIconFragment(this, this.#userId);
     } else {
-      fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO, this.#userId);
+      Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, this.#userId);
     }
   }
 }

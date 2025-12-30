@@ -1,3 +1,6 @@
+import { Country } from './datatypes/Country.js';
+import UtilitiesExt from '../lib/ext/Utilities.js';
+
 export const Utilities = function() {
   function _isOrderReferenceId(key) {
     return key.length == 27 && key.indexOf('ORD') == 0;
@@ -200,9 +203,6 @@ export const Utilities = function() {
     }
     return name;
   }
-
-import { Country } from './datatypes/Country.js';
-import UtilitiesExt from '../lib/ext/Utilities.js';
 
   function _getCountryByCode(code) {
     let idx2 = C.COUNTRIES.IDX.A2CODE;

@@ -1,4 +1,6 @@
-export class SectorGateway extends ext.Controller {
+import Controller from '../../lib/ext/Controller.js';
+
+export class SectorGateway extends Controller {
   isLoginRequired() { return false; }
   isPageNavItem(pageId) { return false; }
 

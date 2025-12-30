@@ -1,3 +1,6 @@
+import PerishableObject from '../../lib/ext/PerishableObject.js';
+import { Web3ResolverAgent } from './Web3ResolverAgent.js';
+
 export class Web3Resolver {
   #agents = [];
   #lib = new Map();
@@ -11,7 +14,7 @@ export class Web3Resolver {
       for (let s of addrs) {
         let server = new pp.RemoteServer();
         if (await server.asInit(s)) {
-          let agent = new pdb.Web3ResolverAgent(server);
+          let agent = new Web3ResolverAgent(server);
           this.#agents.push(agent);
         }
       }
@@ -38,7 +41,7 @@ export class Web3Resolver {
 
   async asResolve(userId) {
     if (!this.#lib.has(userId)) {
-      this.#lib.set(userId, new ext.PerishableObject(600000)); // TTL 10 min
+      this.#lib.set(userId, new PerishableObject(600000)); // TTL 10 min
     }
 
     // 1. Try local cache

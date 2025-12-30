@@ -1,8 +1,14 @@
-export class Web3CommentIdLoader extends plt.LongListIdLoader {
+import { LongListIdLoader } from '../plt/LongListIdLoader.js';
+import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
+import { SocialItemId } from '../datatypes/SocialItemId.js';
+import { Account } from '../dba/Account.js';
+import { Users } from '../dba/Users.js';
+
+export class Web3CommentIdLoader extends LongListIdLoader {
   #isBatchLoading = false;
   #threadId = null; // SocialItemId
   #hashtagIds = [];
-  #idRecord = new dat.UniLongListIdRecord();
+  #idRecord = new UniLongListIdRecord();
   #isBusy = false;
 
   getIdRecord() { return this.#idRecord; }
@@ -37,19 +43,19 @@ export class Web3CommentIdLoader extends plt.LongListIdLoader {
   }
 
   async #asyncLoadAllComments() {
-    let uids = await dba.Account.asyncGetIdolIds();
+    let uids = await Account.asyncGetIdolIds();
     // Include owner himself
-    uids.push(dba.Account.getId());
+    uids.push(Account.getId());
 
     let key = this.#threadId.getValue();
     let u, m;
     for (let id of uids) {
-      let u = await dba.Users.asyncGet(id);
+      let u = await Users.asyncGet(id);
       let m = await u.asyncFindMark(key);
       if (m) {
         for (let i of m.comments) {
           this.#idRecord.appendId(
-              new dat.SocialItemId(i.cid, i.type).toEncodedStr());
+              new SocialItemId(i.cid, i.type).toEncodedStr());
         }
       }
     }

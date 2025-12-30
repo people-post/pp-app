@@ -1,4 +1,6 @@
-export class FileUploader extends ext.Controller {
+import Controller from '../../lib/ext/Controller.js';
+
+export class FileUploader extends Controller {
   constructor() {
     super();
     this._file = null;

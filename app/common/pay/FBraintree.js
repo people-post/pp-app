@@ -1,8 +1,16 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { T_DATA } from '../plt/Events.js';
+import { api } from '../plt/Api.js';
+
 const _CFT_BRAINTREE = {
   MAIN : `<div id="__ID__"></div>`,
 };
 
-export class FBraintree extends ui.Fragment {
+export class FBraintree extends Fragment {
   #fBtnPay;
   #braintree;
   #payload;
@@ -12,10 +20,10 @@ export class FBraintree extends ui.Fragment {
 
   constructor() {
     super();
-    this.#fBtnPay = new ui.Button();
+    this.#fBtnPay = new Button();
     this.#fBtnPay.setName("Submit");
     this.#fBtnPay.setValue("SUBMIT");
-    this.#fBtnPay.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
+    this.#fBtnPay.setLayoutType(Button.LAYOUT_TYPE.BAR);
     this.#fBtnPay.setDelegate(this);
 
     this.setChild("btnpay", this.#fBtnPay);
@@ -29,7 +37,7 @@ export class FBraintree extends ui.Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.ADDON_SCRIPT:
+    case T_DATA.ADDON_SCRIPT:
       if (data == glb.env.SCRIPT.BRAINTREE.id) {
         this.render();
       }
@@ -41,10 +49,10 @@ export class FBraintree extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let pMain = new ui.ListPanel();
+    let pMain = new ListPanel();
     render.wrapPanel(pMain);
 
-    let pp = new ui.Panel();
+    let pp = new Panel();
     pMain.pushPanel(pp);
     let s = _CFT_BRAINTREE.MAIN;
     s = s.replace("__ID__", this.#getPaymentElementId());
@@ -52,7 +60,7 @@ export class FBraintree extends ui.Fragment {
 
     pMain.pushSpace(1);
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     pMain.pushPanel(pp);
     this.#fBtnPay.attachRender(pp);
     this.#fBtnPay.disable();
@@ -76,7 +84,7 @@ export class FBraintree extends ui.Fragment {
   }
 
   async #asInit() {
-    let r = await plt.Api.asyncFragmentCall(this, "api/token/braintree_client");
+    let r = await api.asyncFragmentCall(this, "api/token/braintree_client");
     return await window.braintree.dropin.create({
       authorization : r.token,
       container : "#" + this.#getPaymentElementId()

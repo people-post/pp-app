@@ -7,6 +7,12 @@ import { SocialItemId } from '../datatypes/SocialItemId.js';
 import { Blog } from '../dba/Blog.js';
 import { Workshop } from '../dba/Workshop.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { FvcUserInfo } from '../../sectors/hr/FvcUserInfo.js';
+import { FvcOwnerPostScroller } from '../../sectors/blog/FvcOwnerPostScroller.js';
+import { FvcPost } from '../../sectors/blog/FvcPost.js';
+import { FvcProject } from '../../sectors/workshop/FvcProject.js';
+import { FvcProduct } from '../../sectors/shop/FvcProduct.js';
+import { FvcOrder } from '../../sectors/cart/FvcOrder.js';
 
 export class FvcSearchResult extends FScrollViewContent {
   #fSearch;
@@ -64,7 +70,7 @@ export class FvcSearchResult extends FScrollViewContent {
 
   #showUser(userId) {
     let v = new View();
-    let f = new hr.FvcUserInfo();
+    let f = new FvcUserInfo();
     f.setUserId(userId);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "User");
@@ -84,7 +90,7 @@ export class FvcSearchResult extends FScrollViewContent {
 
   #showBriefArticle(sid) {
     let v = new View();
-    let f = new blog.FvcOwnerPostScroller();
+    let f = new FvcOwnerPostScroller();
     let a = Blog.getArticle(sid.getValue());
     if (a) {
       f.setOwnerId(a.getOwnerId());
@@ -96,7 +102,7 @@ export class FvcSearchResult extends FScrollViewContent {
 
   #showNormalArticle(sid) {
     let v = new View();
-    let f = new blog.FvcPost();
+    let f = new FvcPost();
     f.setPostId(sid);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Article");
@@ -104,7 +110,7 @@ export class FvcSearchResult extends FScrollViewContent {
 
   #showProject(projectId) {
     let v = new View();
-    let f = new wksp.FvcProject();
+    let f = new FvcProject();
     f.setProjectId(projectId);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Project");
@@ -112,7 +118,7 @@ export class FvcSearchResult extends FScrollViewContent {
 
   #showProduct(productId) {
     let v = new View();
-    let f = shop.FvcProduct();
+    let f = new FvcProduct();
     f.setProductId(productId);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Product");
@@ -120,7 +126,7 @@ export class FvcSearchResult extends FScrollViewContent {
 
   #showOrder(orderId) {
     let v = new View();
-    let f = new cart.FvcOrder();
+    let f = new FvcOrder();
     f.setOrderId(orderId);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Order");

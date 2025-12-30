@@ -1,7 +1,10 @@
-export class FvcVisit extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/views/FScrollViewContent.js';
+import { FVisit } from './FVisit.js';
+
+export class FvcVisit extends FScrollViewContent {
   constructor() {
     super();
-    this._fVisit = new stat.FVisit();
+    this._fVisit = new FVisit();
     this._fVisit.setDelegate(this);
     this.setChild("summary", this._fVisit);
   }

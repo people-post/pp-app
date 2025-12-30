@@ -1,7 +1,17 @@
-export class FVisit extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
+import { FLoading } from '../../lib/ui/controllers/fragments/FLoading.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { FVisitInfo } from './FVisitInfo.js';
+import { VisitSummary } from '../datatypes/VisitSummary.js';
+import { api } from '../plt/Api.js';
+
+export class FVisit extends Fragment {
   constructor() {
     super();
-    this._fDuration = new ui.ButtonGroup();
+    this._fDuration = new ButtonGroup();
     this._fDuration.setDelegate(this);
     this._fDuration.addChoice({name : R.t("last 30 days"), value : 30});
     this._fDuration.addChoice({name : R.t("last 7 days"), value : 7});
@@ -9,7 +19,7 @@ export class FVisit extends ui.Fragment {
     this._fDuration.setSelectedValue(1);
     this.setChild("duration", this._fDuration);
 
-    this._fLoading = new ui.FLoading();
+    this._fLoading = new FLoading();
     this._fList = null;
 
     this._queryType = null;
@@ -37,15 +47,15 @@ export class FVisit extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fDuration.attachRender(pp);
     this._fDuration.render();
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
 
     if (!this._fList) {
@@ -74,16 +84,16 @@ export class FVisit extends ui.Fragment {
     }
     fd.append("duration", this._fDuration.getSelectedValue());
     fd.append("type", this._queryType);
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onLoadDataRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onLoadDataRRR(d));
   }
 
   #onLoadDataRRR(data) {
-    this._fList = new ui.FSimpleFragmentList();
+    this._fList = new FSimpleFragmentList();
     this.setChild("list", this._fList);
     let f;
     for (let d of data.items) {
-      f = new stat.FVisitInfo();
-      f.setData(new dat.VisitSummary(d));
+      f = new FVisitInfo();
+      f.setData(new VisitSummary(d));
       f.setDelegate(this);
       this._fList.append(f);
     }

@@ -1,7 +1,10 @@
-export class FvcPaymentTerminal extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/views/FScrollViewContent.js';
+import { FPaymentTerminal } from './FPaymentTerminal.js';
+
+export class FvcPaymentTerminal extends FScrollViewContent {
   constructor() {
     super();
-    this._fTerminal = new pay.FPaymentTerminal();
+    this._fTerminal = new FPaymentTerminal();
     this._fTerminal.setDelegate(this);
     this.setChild("terminal", this._fTerminal);
   }

@@ -1,4 +1,7 @@
-export class FSquareTerminal extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { PSquareTerminal } from './PSquareTerminal.js';
+
+export class FSquareTerminal extends Fragment {
   constructor() {
     super();
     this._obj = null;
@@ -7,7 +10,7 @@ export class FSquareTerminal extends ui.Fragment {
   setData(obj) { this._obj = obj; }
 
   _renderOnRender(render) {
-    let panel = new pay.PSquareTerminal();
+    let panel = new PSquareTerminal();
     render.wrapPanel(panel);
 
     let p = panel.getTitlePanel();
