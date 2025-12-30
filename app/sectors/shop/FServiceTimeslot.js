@@ -1,6 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ProductServiceTimeslot } from '../../common/datatypes/ProductServiceTimeslot.js';
-import * as ExtUtilities from '../../lib/ext/Utilities.js';
+import ExtUtilities from '../../lib/ext/Utilities.js';
 
 export class FServiceTimeslot extends Fragment {
   constructor() {

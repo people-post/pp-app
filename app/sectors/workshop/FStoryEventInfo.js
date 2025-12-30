@@ -13,7 +13,7 @@ const _CFT_STORY_EVENT_INFO = {
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { StoryEvent } from '../../common/datatypes/StoryEvent.js';
-import * as ExtUtilities from '../../lib/ext/Utilities.js';
+import ExtUtilities from '../../lib/ext/Utilities.js';
 
 export class FStoryEventInfo extends Fragment {
   constructor() {

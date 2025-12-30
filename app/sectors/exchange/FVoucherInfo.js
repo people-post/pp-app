@@ -30,10 +30,10 @@ export class FVoucherInfo extends FExchangeItemInfo {
     case CF_VOUCHER_INFO.DONATE:
       this.#onDonateClicked(args[0]);
       break;
-    case CF_VOUCHER_INFO.DONATE:
+    case CF_VOUCHER_INFO.CLAIM:
       this.#onClaimClicked(args[0]);
       break;
-    case CF_VOUCHER_INFO.DONATE:
+    case CF_VOUCHER_INFO.REDEEM:
       this.#onRedeemClicked(args[0]);
       break;
     default:
