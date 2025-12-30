@@ -1,5 +1,4 @@
-(function(socl) {
-class RealTimeCommentAgent extends ext.Controller {
+export class RealTimeCommentAgent extends ext.Controller {
   #threadId = null;
   #threadIdType = null;
   #commentBuffer = null;
@@ -149,5 +148,8 @@ class RealTimeCommentAgent extends ext.Controller {
   }
 };
 
-socl.RealTimeCommentAgent = RealTimeCommentAgent;
-}(window.socl = window.socl || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.socl = window.socl || {};
+  window.socl.RealTimeCommentAgent = RealTimeCommentAgent;
+}

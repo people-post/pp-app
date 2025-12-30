@@ -1,10 +1,9 @@
-(function(socl) {
 const _CPT_REPOST_ITEM_NOTICE_INFO = {
   MAIN : `<div id="__ID_MSG__" class="flex flex-begin"></div>
     <div id="__ID_TITLE__" class="bold"></div>`,
 };
 
-class PRepostItemNotice extends ui.Panel {
+export class PRepostItemNotice extends ui.Panel {
   constructor() {
     super();
     this._pMessage = new ui.ListPanel();
@@ -28,5 +27,8 @@ class PRepostItemNotice extends ui.Panel {
   }
 };
 
-socl.PRepostItemNotice = PRepostItemNotice;
-}(window.socl = window.socl || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.socl = window.socl || {};
+  window.socl.PRepostItemNotice = PRepostItemNotice;
+}

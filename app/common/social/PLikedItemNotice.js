@@ -1,10 +1,9 @@
-(function(socl) {
 const _CPT_LIKED_ITEM_NOTICE_INFO = {
   MAIN : `<div id="__ID_MSG__"></div>
     <div id="__ID_TITLE__" class="bold ellipsis"></div>`,
 }
 
-class PLikedItemNotice extends ui.Panel {
+export class PLikedItemNotice extends ui.Panel {
   constructor() {
     super();
     this._pMessage = new ui.ListPanel();
@@ -28,5 +27,8 @@ class PLikedItemNotice extends ui.Panel {
   }
 };
 
-socl.PLikedItemNotice = PLikedItemNotice;
-}(window.socl = window.socl || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.socl = window.socl || {};
+  window.socl.PLikedItemNotice = PLikedItemNotice;
+}

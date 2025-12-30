@@ -1,5 +1,4 @@
-(function(srch) {
-class FvcSearchResult extends ui.FScrollViewContent {
+export class FvcSearchResult extends ui.FScrollViewContent {
   #fSearch;
 
   constructor() {
@@ -123,5 +122,8 @@ class FvcSearchResult extends ui.FScrollViewContent {
   }
 };
 
-srch.FvcSearchResult = FvcSearchResult;
-}(window.srch = window.srch || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.srch = window.srch || {};
+  window.srch.FvcSearchResult = FvcSearchResult;
+}

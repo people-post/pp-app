@@ -1,5 +1,4 @@
-(function(stat) {
-class FVisit extends ui.Fragment {
+export class FVisit extends ui.Fragment {
   constructor() {
     super();
     this._fDuration = new ui.ButtonGroup();
@@ -92,5 +91,8 @@ class FVisit extends ui.Fragment {
   }
 };
 
-stat.FVisit = FVisit;
-}(window.stat = window.stat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.stat = window.stat || {};
+  window.stat.FVisit = FVisit;
+}

@@ -1,4 +1,3 @@
-(function(socl) {
 const _CPT_REAL_TIME_COMMENTS = {
   MAIN : `<div id="__ID_COMMENTS__"></div>
     <div id="__ID_HINT__" class="comment-hint"></div>
@@ -8,7 +7,7 @@ const _CPT_REAL_TIME_COMMENTS = {
   </div>`,
 };
 
-class PRealTimeComments extends ui.Panel {
+export class PRealTimeComments extends ui.Panel {
   #pComments;
   #pHint;
 
@@ -35,11 +34,11 @@ class PRealTimeComments extends ui.Panel {
   }
 };
 
-socl.CF_COMMENTS = {
+export const CF_COMMENTS = {
   TOGGLE_CLICK : Symbol(),
 };
 
-class FRealTimeComments extends ui.Fragment {
+export class FRealTimeComments extends ui.Fragment {
   #fInput;
   #fComments;
   #hComments;
@@ -197,5 +196,10 @@ class FRealTimeComments extends ui.Fragment {
   }
 };
 
-socl.FRealTimeComments = FRealTimeComments;
-}(window.socl = window.socl || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.socl = window.socl || {};
+  window.socl.PRealTimeComments = PRealTimeComments;
+  window.socl.CF_COMMENTS = CF_COMMENTS;
+  window.socl.FRealTimeComments = FRealTimeComments;
+}

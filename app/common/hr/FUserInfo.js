@@ -1,10 +1,8 @@
-(function(S) {
-S.hr = S.hr || {};
-S.hr.CF_USER_INFO = {
+export const CF_USER_INFO = {
   ON_CLICK : Symbol(),
 };
 
-class FUserInfo extends ui.Fragment {
+export class FUserInfo extends ui.Fragment {
   static T_LAYOUT = {
     SMALL_ROW : Symbol(),
     COMPACT: Symbol(),
@@ -37,7 +35,7 @@ class FUserInfo extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case S.hr.CF_USER_INFO.ON_CLICK:
+    case CF_USER_INFO.ON_CLICK:
       this.#onClick();
       break;
     default:
@@ -127,5 +125,10 @@ class FUserInfo extends ui.Fragment {
   }
 };
 
-S.hr.FUserInfo = FUserInfo;
-}(window.S = window.S || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.S = window.S || {};
+  window.S.hr = window.S.hr || {};
+  window.S.hr.CF_USER_INFO = CF_USER_INFO;
+  window.S.hr.FUserInfo = FUserInfo;
+}

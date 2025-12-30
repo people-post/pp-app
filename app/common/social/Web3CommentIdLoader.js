@@ -1,5 +1,4 @@
-(function(socl) {
-class Web3CommentIdLoader extends plt.LongListIdLoader {
+export class Web3CommentIdLoader extends plt.LongListIdLoader {
   #isBatchLoading = false;
   #threadId = null; // SocialItemId
   #hashtagIds = [];
@@ -57,5 +56,8 @@ class Web3CommentIdLoader extends plt.LongListIdLoader {
   }
 };
 
-socl.Web3CommentIdLoader = Web3CommentIdLoader;
-}(window.socl = window.socl || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.socl = window.socl || {};
+  window.socl.Web3CommentIdLoader = Web3CommentIdLoader;
+}

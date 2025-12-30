@@ -1,9 +1,8 @@
-(function(socl) {
 const _CFT_REAL_TIME_COMMENT = {
   ICON : `<span class="inline-block s-icon6">__ICON__</span>`,
 };
 
-class FRealTimeComment extends ui.Fragment {
+export class FRealTimeComment extends ui.Fragment {
   #fAction;
   #fUserIcon;
   #fUserName;
@@ -113,5 +112,8 @@ class FRealTimeComment extends ui.Fragment {
   }
 };
 
-socl.FRealTimeComment = FRealTimeComment;
-}(window.socl = window.socl || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.socl = window.socl || {};
+  window.socl.FRealTimeComment = FRealTimeComment;
+}

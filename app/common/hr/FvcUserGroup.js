@@ -1,5 +1,3 @@
-(function(S) {
-S.hr = S.hr || {};
 const _CF_USER_GROUP_CONTENT = {
   HEAD : `<div>
     <br>
@@ -13,7 +11,7 @@ const _CF_USER_GROUP_CONTENT = {
   </div>`,
 }
 
-class FvcUserGroup extends ui.FScrollViewContent {
+export class FvcUserGroup extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fMembers = new ui.FSimpleFragmentList();
@@ -123,5 +121,9 @@ class FvcUserGroup extends ui.FScrollViewContent {
   }
 };
 
-S.hr.FvcUserGroup = FvcUserGroup;
-}(window.S = window.S || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.S = window.S || {};
+  window.S.hr = window.S.hr || {};
+  window.S.hr.FvcUserGroup = FvcUserGroup;
+}

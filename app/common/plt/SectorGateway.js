@@ -1,5 +1,4 @@
-(function(plt) {
-class SectorGateway extends ext.Controller {
+export class SectorGateway extends ext.Controller {
   isLoginRequired() { return false; }
   isPageNavItem(pageId) { return false; }
 
@@ -15,5 +14,8 @@ class SectorGateway extends ext.Controller {
   createPageOptionalViews(pageId) { return []; }
 };
 
-plt.SectorGateway = SectorGateway;
-}(window.plt = window.plt || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.plt = window.plt || {};
+  window.plt.SectorGateway = SectorGateway;
+}

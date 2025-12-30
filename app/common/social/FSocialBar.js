@@ -1,5 +1,4 @@
-(function(socl) {
-socl.CF_SOCIAL_BAR = {
+export const CF_SOCIAL_BAR = {
   ON_COMMENT_CLICK : Symbol(),
   LIKE : Symbol(),
   UNLIKE : Symbol(),
@@ -15,7 +14,7 @@ const _CPT_SOCIAL_BAR = {
     <div id="__ID_LABEL__" class="s-font7"></div>`,
 };
 
-class PSocialBarItem extends ui.Panel {
+export class PSocialBarItem extends ui.Panel {
   #pIcon = new ui.Panel();
   #pLabel = new ui.Panel();
 
@@ -36,7 +35,7 @@ class PSocialBarItem extends ui.Panel {
   }
 };
 
-class PSocialBar extends ui.Panel {
+export class PSocialBar extends ui.Panel {
   #pItems = new ui.ListPanel();
 
   getItemsPanel() { return this.#pItems; }
@@ -53,7 +52,7 @@ class PSocialBar extends ui.Panel {
   }
 };
 
-class FSocialBar extends ui.Fragment {
+export class FSocialBar extends ui.Fragment {
   static T_ACTION = {
     COMMENT : Symbol(),
     LIKE: Symbol(),
@@ -477,5 +476,11 @@ class FSocialBar extends ui.Fragment {
   #onSocialRRR(data) { dba.Social.reload(this.#itemId); }
 };
 
-socl.FSocialBar = FSocialBar;
-}(window.socl = window.socl || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.socl = window.socl || {};
+  window.socl.CF_SOCIAL_BAR = CF_SOCIAL_BAR;
+  window.socl.PSocialBarItem = PSocialBarItem;
+  window.socl.PSocialBar = PSocialBar;
+  window.socl.FSocialBar = FSocialBar;
+}

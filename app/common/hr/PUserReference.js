@@ -1,12 +1,10 @@
-(function(S) {
-S.hr = S.hr || {};
 const _CPT_USER_REFERENCE = {
   MAIN : `<span class="inline-block s-icon5 v-middle-align">__REF_ICON__</span>
     <span id="__ID_TEXT__"></span>
     <span id="__ID_USER__"></span>`,
 }
 
-class PUserReference extends ui.Panel {
+export class PUserReference extends ui.Panel {
   constructor() {
     super();
     this._pText = new ui.Panel();
@@ -31,5 +29,9 @@ class PUserReference extends ui.Panel {
   }
 };
 
-S.hr.PUserReference = PUserReference;
-}(window.S = window.S || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.S = window.S || {};
+  window.S.hr = window.S.hr || {};
+  window.S.hr.PUserReference = PUserReference;
+}

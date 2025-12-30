@@ -1,5 +1,4 @@
-(function(srch) {
-class FLocalUserSearch extends srch.FSearch {
+export class FLocalUserSearch extends srch.FSearch {
   constructor() {
     super();
     this._userIds = null;
@@ -75,5 +74,8 @@ class FLocalUserSearch extends srch.FSearch {
   }
 };
 
-srch.FLocalUserSearch = FLocalUserSearch;
-}(window.srch = window.srch || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.srch = window.srch || {};
+  window.srch.FLocalUserSearch = FLocalUserSearch;
+}

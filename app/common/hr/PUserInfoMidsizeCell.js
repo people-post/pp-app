@@ -1,5 +1,3 @@
-(function(S) {
-S.hr = S.hr || {};
 /*
  * +--------+
  * |        |
@@ -17,7 +15,7 @@ const _CPT_USER_INFO_MIDSIZE_CELL = {
   </div>`,
 }
 
-class PUserInfoMidsizeCell extends S.hr.PUserInfoBase {
+export class PUserInfoMidsizeCell extends S.hr.PUserInfoBase {
   constructor() {
     super();
     this._pIcon = new ui.Panel();
@@ -41,5 +39,9 @@ class PUserInfoMidsizeCell extends S.hr.PUserInfoBase {
   }
 };
 
-S.hr.PUserInfoMidsizeCell = PUserInfoMidsizeCell;
-}(window.S = window.S || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.S = window.S || {};
+  window.S.hr = window.S.hr || {};
+  window.S.hr.PUserInfoMidsizeCell = PUserInfoMidsizeCell;
+}

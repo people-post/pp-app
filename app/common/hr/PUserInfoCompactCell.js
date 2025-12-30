@@ -1,5 +1,3 @@
-(function(S) {
-S.hr = S.hr || {};
 /*
  * +----------+---------+
  * | TYPEICON | NAME@ID |
@@ -14,7 +12,7 @@ const _CPT_USER_INFO_COMPACT_CELL = {
   </span>`,
 }
 
-class PUserInfoCompactCell extends S.hr.PUserInfoBase {
+export class PUserInfoCompactCell extends S.hr.PUserInfoBase {
   constructor() {
     super();
     this._pTypeIcon = new ui.Panel();
@@ -40,5 +38,9 @@ class PUserInfoCompactCell extends S.hr.PUserInfoBase {
   }
 };
 
-S.hr.PUserInfoCompactCell = PUserInfoCompactCell;
-}(window.S = window.S || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.S = window.S || {};
+  window.S.hr = window.S.hr || {};
+  window.S.hr.PUserInfoCompactCell = PUserInfoCompactCell;
+}

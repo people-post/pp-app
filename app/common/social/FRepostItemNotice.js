@@ -1,5 +1,4 @@
-(function(socl) {
-class FRepostItemNotice extends ui.Fragment {
+export class FRepostItemNotice extends ui.Fragment {
   constructor() {
     super();
     this._notice = null;
@@ -92,5 +91,8 @@ class FRepostItemNotice extends ui.Fragment {
   #onMarkReadershipRRR(responseText) {}
 };
 
-socl.FRepostItemNotice = FRepostItemNotice;
-}(window.socl = window.socl || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.socl = window.socl || {};
+  window.socl.FRepostItemNotice = FRepostItemNotice;
+}

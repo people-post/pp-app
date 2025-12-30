@@ -1,4 +1,3 @@
-(function(socl) {
 const _CPT_COMMENT = {
   MAIN : `<div class="flex bd-b-1px bd-b-solid bdlightgray v-pad5px">
   <div id="__ID_AUTHOR_ICON__" class="w50px flex-noshrink"></div>
@@ -12,7 +11,7 @@ const _CPT_COMMENT = {
   </div>`,
 };
 
-class PComment extends ui.Panel {
+export class PComment extends ui.Panel {
   #pAuthorIcon;
   #pAuthorName;
   #pContent;
@@ -49,5 +48,8 @@ class PComment extends ui.Panel {
   }
 };
 
-socl.PComment = PComment;
-}(window.socl = window.socl || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.socl = window.socl || {};
+  window.socl.PComment = PComment;
+}

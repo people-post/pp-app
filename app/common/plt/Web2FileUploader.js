@@ -1,5 +1,4 @@
-(function(plt) {
-class Web2FileUploader extends plt.FileUploader {
+export class Web2FileUploader extends plt.FileUploader {
   _asyncUploadThumbnail(file) {
     this._isThumbnailUploading = true;
     let url = "/api/user/upload";
@@ -68,5 +67,8 @@ class Web2FileUploader extends plt.FileUploader {
   }
 };
 
-plt.Web2FileUploader = Web2FileUploader;
-}(window.plt = window.plt || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.plt = window.plt || {};
+  window.plt.Web2FileUploader = Web2FileUploader;
+}
