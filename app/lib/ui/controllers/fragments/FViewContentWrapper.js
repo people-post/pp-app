@@ -1,5 +1,6 @@
-(function(ui) {
-class FViewContentWrapper extends ui.FViewContentContainer {
+import { FViewContentContainer } from './FViewContentContainer.js';
+
+export class FViewContentWrapper extends FViewContentContainer {
   #fContent;
 
   getPreferredWidth() {
@@ -32,5 +33,8 @@ class FViewContentWrapper extends ui.FViewContentContainer {
   _getContentFragment() { return this.#fContent; }
 };
 
-ui.FViewContentWrapper = FViewContentWrapper;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FViewContentWrapper = FViewContentWrapper;
+}

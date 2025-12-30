@@ -1,7 +1,7 @@
 import Utilities from '../../../ext/Utilities.js';
+import { RenderController } from '../RenderController.js';
 
-(function(ui) {
-class Fragment extends ui.RenderController {
+export class Fragment extends RenderController {
   constructor() {
     super();
     this._id = Utilities.uuid();
@@ -27,5 +27,8 @@ class Fragment extends ui.RenderController {
   }
 };
 
-ui.Fragment = Fragment;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.Fragment = Fragment;
+}

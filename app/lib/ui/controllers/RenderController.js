@@ -1,6 +1,5 @@
 import { Controller } from '../../ext/Controller.js';
 
-(function(ui) {
 const _CRC_RENDER_CONTROLLER = {
   TIP_LINK :
       `<a class="knowledge-tip" href="javascript:void(0)" onclick="javascript:G.action(__ACTION_ID__, '__TIP_MSG_ID__')">__TEXT__</a>`,
@@ -8,7 +7,7 @@ const _CRC_RENDER_CONTROLLER = {
       `We are sorry, there is an unexpected error when __FUNC__: __TEXT__.`,
 };
 
-class RenderController extends Controller {
+export class RenderController extends Controller {
   #isPrimeBg = false;
   #isActive;
   #render;
@@ -246,5 +245,8 @@ class RenderController extends Controller {
   }
 }
 
-ui.RenderController = RenderController;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.RenderController = RenderController;
+}

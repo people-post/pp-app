@@ -1,5 +1,6 @@
-(function(ui) {
-ui.CFT_OPTION_SWITCH = {
+import { Fragment } from './Fragment.js';
+
+export const CFT_OPTION_SWITCH = {
   ON_CHANGE : "CFT_OPTION_SWITCH_1",
 }
 
@@ -19,7 +20,7 @@ const _CFT_OPTION_SWITCH = {
   </table>`,
 }
 
-class OptionSwitch extends ui.Fragment {
+export class OptionSwitch extends Fragment {
   constructor() {
     super();
     this._optionMap = new Map();
@@ -41,7 +42,7 @@ class OptionSwitch extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CFT_OPTION_SWITCH.ON_CHANGE:
+    case CFT_OPTION_SWITCH.ON_CHANGE:
       this.#onChange(args[0], args[1]);
       break;
     default:
@@ -72,5 +73,9 @@ class OptionSwitch extends ui.Fragment {
   }
 }
 
-ui.OptionSwitch = OptionSwitch;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CFT_OPTION_SWITCH = CFT_OPTION_SWITCH;
+  window.ui.OptionSwitch = OptionSwitch;
+}

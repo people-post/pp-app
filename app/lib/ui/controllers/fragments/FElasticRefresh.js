@@ -1,16 +1,20 @@
-(function(ui) {
+import { Panel } from '../../renders/panels/Panel.js';
+import { Fragment } from './Fragment.js';
+import { ICONS } from '../../Icons.js';
+import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+
 const _CPT_ELASTIC_REFRESH = {
   MAIN : `<div class="flex space-around">
     <span id="__ID_ICON__" class="inline-block s-icon6"></span>
   </div>`,
 };
 
-class PElasticRefresh extends ui.Panel {
+class PElasticRefresh extends Panel {
   #pIcon;
 
   constructor() {
     super();
-    this.#pIcon = new ui.Panel();
+    this.#pIcon = new Panel();
   }
 
   getIconPanel() { return this.#pIcon; }
@@ -27,7 +31,7 @@ class PElasticRefresh extends ui.Panel {
   }
 };
 
-class FElasticRefresh extends ui.Fragment {
+export class FElasticRefresh extends Fragment {
   #mActiveTouch = new Map();
   #value = 0;
   #vTh = 36; // Threshold to start attenuation
@@ -53,9 +57,9 @@ class FElasticRefresh extends ui.Fragment {
 
     let p = panel.getIconPanel();
     if (percent >= 1) {
-      p.replaceContent(Utilities.renderSvgFuncIcon(ui.ICONS.SOLID_DOWN));
+      p.replaceContent(CommonUtilities.renderSvgFuncIcon(ICONS.SOLID_DOWN));
     } else {
-      p.replaceContent(Utilities.renderSvgFuncIcon(ui.ICONS.DOWN));
+      p.replaceContent(CommonUtilities.renderSvgFuncIcon(ICONS.DOWN));
     }
 
     if (percent > 0 && percent < 1) {
@@ -196,5 +200,8 @@ class FElasticRefresh extends ui.Fragment {
   }
 };
 
-ui.FElasticRefresh = FElasticRefresh;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FElasticRefresh = FElasticRefresh;
+}
