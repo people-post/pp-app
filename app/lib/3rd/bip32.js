@@ -2975,6 +2975,12 @@ var scureBip32 = (() => {
   };
   return __toCommonJS(input_exports);
 })();
+
+// ES module exports
+const bip32Module = scureBip32;
+export const HDKey = bip32Module.HDKey;
+export default bip32Module;
+
 /*! scure-bip32 - MIT License (c) 2022 Patricio Palladino, Paul Miller (paulmillr.com) */
 /*! Bundled license information:
 
