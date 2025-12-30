@@ -3,7 +3,7 @@ window.CF_PROJECT_ACTOR_INFO = {
   ON_CLICK : "CF_PROJECT_ACTOR_INFO_1",
 };
 
-class FProjectActorInfo extends ui.Fragment {
+export class FProjectActorInfo extends ui.Fragment {
   static T_LAYOUT = {
     CARD : Symbol("CARD"),
   };
@@ -127,5 +127,10 @@ class FProjectActorInfo extends ui.Fragment {
   }
 };
 
-wksp.FProjectActorInfo = FProjectActorInfo;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FProjectActorInfo = FProjectActorInfo;
+}

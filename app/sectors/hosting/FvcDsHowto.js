@@ -35,7 +35,7 @@ const _CFT_DS_HOWTO = {
   DS : `<img class="photo" src="static/img/__IMG_SRC__"></img>`,
 }
 
-class FvcDsHowto extends ui.FScrollViewContent {
+export class FvcDsHowto extends ui.FScrollViewContent {
   action(type, ...args) {
     switch (type) {
     case hstn.CF_DS_HOWTO.TOGGLE:
@@ -92,8 +92,7 @@ class FvcDsHowto extends ui.FScrollViewContent {
   }
 };
 
-hstn.FvcDsHowto = FvcDsHowto;
-}(window.hstn = window.hstn || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

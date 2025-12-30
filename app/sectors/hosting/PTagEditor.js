@@ -4,7 +4,7 @@ const _CPT_TAG_EDITOR = {
     <div id="__ID_THEME__"></div>`,
 }
 
-class PTagEditor extends hstn.PTagEditorBase {
+export class PTagEditor extends hstn.PTagEditorBase {
   constructor() {
     super();
     this._pTheme = new ui.PanelWrapper();
@@ -26,5 +26,10 @@ class PTagEditor extends hstn.PTagEditorBase {
   }
 };
 
-hstn.PTagEditor = PTagEditor;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.PTagEditor = PTagEditor;
+}

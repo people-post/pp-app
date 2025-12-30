@@ -1,5 +1,5 @@
 
-class FvcWeb3Report extends ui.FScrollViewContent {
+export class FvcWeb3Report extends ui.FScrollViewContent {
   #fNoticeList;
 
   constructor() {
@@ -23,5 +23,10 @@ class FvcWeb3Report extends ui.FScrollViewContent {
   }
 };
 
-blog.FvcWeb3Report = FvcWeb3Report;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FvcWeb3Report = FvcWeb3Report;
+}

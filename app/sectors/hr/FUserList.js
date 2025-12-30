@@ -1,5 +1,5 @@
 
-class FUserList extends gui.FSocialItemList {
+export class FUserList extends gui.FSocialItemList {
   #loader;
 
   setIdLoader(loader) { this.#loader = loader; }
@@ -23,5 +23,10 @@ class FUserList extends gui.FSocialItemList {
   _createItemView(id) { return null; }
 };
 
-hr.FUserList = FUserList;
-}(window.hr = window.hr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hr = window.hr || {};
+  window.hr.FUserList = FUserList;
+}

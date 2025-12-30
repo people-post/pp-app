@@ -1,5 +1,5 @@
 
-class FRegisterList extends ui.Fragment {
+export class FRegisterList extends ui.Fragment {
   constructor() {
     super();
     this._fItems = new ui.FSimpleFragmentList();
@@ -97,5 +97,10 @@ class FRegisterList extends ui.Fragment {
   }
 };
 
-shop.FRegisterList = FRegisterList;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FRegisterList = FRegisterList;
+}

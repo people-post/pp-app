@@ -7,7 +7,7 @@ const _CFT_LOGIN_PROXY = {
       `left=__LEFT__,top=__TOP__,directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=320,height=480`,
 };
 
-class FvcLoginProxy extends auth.FvcWeb2LoginBase {
+export class FvcLoginProxy extends auth.FvcWeb2LoginBase {
   constructor() {
     super();
     this._fBtn = new ui.Button();
@@ -177,13 +177,11 @@ class FvcLoginProxy extends auth.FvcWeb2LoginBase {
       }
     }
   }
-};
-
-auth.FvcLoginProxy = FvcLoginProxy;
-}(window.auth = window.auth || {}));
+}
 
 // Backward compatibility
 if (typeof window !== 'undefined') {
   window.auth = window.auth || {};
   window.auth.CF_LOGIN_PROXY = CF_LOGIN_PROXY;
+  window.auth.FvcLoginProxy = FvcLoginProxy;
 }

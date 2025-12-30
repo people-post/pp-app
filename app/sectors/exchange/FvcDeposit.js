@@ -1,5 +1,5 @@
 
-class FvcDeposit extends ui.FScrollViewContent {
+export class FvcDeposit extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fCurrencies = new ui.Selection();
@@ -65,5 +65,10 @@ class FvcDeposit extends ui.FScrollViewContent {
   }
 };
 
-xchg.FvcDeposit = FvcDeposit;
-}(window.xchg = window.xchg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.xchg = window.xchg || {};
+  window.xchg.FvcDeposit = FvcDeposit;
+}

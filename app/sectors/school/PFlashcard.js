@@ -12,7 +12,7 @@ const _CPT_FLASHCARD = {
   </div>`,
 }
 
-class PFlashcard extends ui.Panel {
+export class PFlashcard extends ui.Panel {
   constructor() {
     super();
     this._pQuestion = new ui.Panel();
@@ -44,5 +44,10 @@ class PFlashcard extends ui.Panel {
   }
 };
 
-scol.PFlashcard = PFlashcard;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.PFlashcard = PFlashcard;
+}

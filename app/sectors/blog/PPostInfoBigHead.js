@@ -25,7 +25,7 @@ const _CPT_POST_INFO_BIG_HEAD = {
   </div>`,
 }
 
-class PPostInfoBigHead extends gui.PPostInfoBase {
+export class PPostInfoBigHead extends gui.PPostInfoBase {
   constructor() {
     super();
     this._pTitle = new ui.Panel();
@@ -64,5 +64,10 @@ class PPostInfoBigHead extends gui.PPostInfoBase {
   }
 };
 
-blog.PPostInfoBigHead = PPostInfoBigHead;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPostInfoBigHead = PPostInfoBigHead;
+}

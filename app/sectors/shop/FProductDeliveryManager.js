@@ -1,5 +1,5 @@
 
-class FProductDeliveryManager extends ui.Fragment {
+export class FProductDeliveryManager extends ui.Fragment {
   constructor() {
     super();
     this._fChoices = new ui.ButtonGroup();
@@ -131,5 +131,10 @@ class FProductDeliveryManager extends ui.Fragment {
   }
 };
 
-shop.FProductDeliveryManager = FProductDeliveryManager;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FProductDeliveryManager = FProductDeliveryManager;
+}

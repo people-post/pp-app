@@ -27,7 +27,7 @@ const _CFT_RESET_PASSWORD = {
   <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(auth.CF_RESET_PASSWORD.SUBMIT)">Submit</a>`,
 }
 
-class FvcResetPassword extends ui.FScrollViewContent {
+export class FvcResetPassword extends ui.FScrollViewContent {
   constructor() {
     super();
     this._resetCode = null;
@@ -83,14 +83,12 @@ class FvcResetPassword extends ui.FScrollViewContent {
                                                     "Reset password success");
   }
 
-  #onResetPasswordRRR(data) { this.#onResetSuccess(); }
-};
-
-auth.FvcResetPassword = FvcResetPassword;
-}(window.auth = window.auth || {}));
+  #onResetPasswordRRR(data) { this.#onResetSuccess();   }
+}
 
 // Backward compatibility
 if (typeof window !== 'undefined') {
   window.auth = window.auth || {};
   window.auth.CF_RESET_PASSWORD = CF_RESET_PASSWORD;
+  window.auth.FvcResetPassword = FvcResetPassword;
 }

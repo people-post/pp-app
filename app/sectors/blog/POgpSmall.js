@@ -15,9 +15,14 @@ const _CPT_OGP_SMALL = {
   </div>`,
 }
 
-class POgpSmall extends blog.POgp {
+export class POgpSmall extends blog.POgp {
   _getTemplate() { return _CPT_OGP_SMALL.MAIN; }
 };
 
-blog.POgpSmall = POgpSmall;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.POgpSmall = POgpSmall;
+}

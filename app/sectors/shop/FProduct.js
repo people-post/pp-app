@@ -9,7 +9,7 @@ const _CFT_PRODUCT = {
   </div>`,
 };
 
-class FProduct extends gui.MajorSectorItem {
+export class FProduct extends gui.MajorSectorItem {
   static T_LAYOUT = {
     INFO : Symbol(),
     FULL: Symbol(),
@@ -248,8 +248,7 @@ class FProduct extends gui.MajorSectorItem {
   }
 };
 
-shop.FProduct = FProduct;
-}(window.shop = window.shop || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

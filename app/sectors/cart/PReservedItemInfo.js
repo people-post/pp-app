@@ -16,7 +16,7 @@ const _CPT_RESERVED_ITEM_INFO = {
   </div>`,
 }
 
-class PReservedItemInfo extends cart.PCartItemInfo {
+export class PReservedItemInfo extends cart.PCartItemInfo {
   constructor() {
     super();
     this._pBtnMoveToCart = new ui.PanelWrapper();
@@ -44,5 +44,10 @@ class PReservedItemInfo extends cart.PCartItemInfo {
   }
 };
 
-cart.PReservedItemInfo = PReservedItemInfo;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.PReservedItemInfo = PReservedItemInfo;
+}

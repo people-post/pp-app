@@ -20,7 +20,7 @@ const _CPT_PROJECT = {
     `,
 }
 
-class PProject extends ui.Panel {
+export class PProject extends ui.Panel {
   constructor() {
     super();
     this._pTitle = new ui.Panel();
@@ -72,5 +72,10 @@ class PProject extends ui.Panel {
   }
 };
 
-wksp.PProject = PProject;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProject = PProject;
+}

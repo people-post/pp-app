@@ -1,5 +1,5 @@
 
-class FCareerList extends ui.Fragment {
+export class FCareerList extends ui.Fragment {
   #fList;
   #selectedId = null;
 
@@ -57,5 +57,10 @@ class FCareerList extends ui.Fragment {
   }
 };
 
-blog.FCareerList = FCareerList;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FCareerList = FCareerList;
+}

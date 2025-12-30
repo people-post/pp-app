@@ -17,7 +17,7 @@ const _CFT_BASIC_WEB_CONFIG = {
       `<input type="text" class="tight-label-like" placeholder="Color" value-bak="__VALUE__" value="__VALUE__" style="color: __COLOR__" onchange="javascript:G.action(CF_BASIC_WEB_CONFIG.ON_DEFAULT_COLOR_CHANGE, '__KEY__', this)">`,
 }
 
-class FvcBasicWebConfig extends ui.FScrollViewContent {
+export class FvcBasicWebConfig extends ui.FScrollViewContent {
   action(type, ...args) {
     switch (type) {
     case CF_BASIC_WEB_CONFIG.ON_DEFAULT_COLOR_CHANGE:
@@ -170,5 +170,10 @@ class FvcBasicWebConfig extends ui.FScrollViewContent {
   #onWebConfigDataReceived(data) { dba.WebConfig.reset(data.web_config); }
 };
 
-hstn.FvcBasicWebConfig = FvcBasicWebConfig;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.FvcBasicWebConfig = FvcBasicWebConfig;
+}

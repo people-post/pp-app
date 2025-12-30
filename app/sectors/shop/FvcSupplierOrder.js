@@ -1,5 +1,5 @@
 
-class FvcSupplierOrder extends ui.FScrollViewContent {
+export class FvcSupplierOrder extends ui.FScrollViewContent {
   #fOrder;
   
   constructor() {
@@ -17,5 +17,10 @@ class FvcSupplierOrder extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcSupplierOrder = FvcSupplierOrder;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcSupplierOrder = FvcSupplierOrder;
+}

@@ -10,7 +10,7 @@ const _CFT_STORY_EVENT_INFO = {
   </div>`,
 };
 
-class FStoryEventInfo extends ui.Fragment {
+export class FStoryEventInfo extends ui.Fragment {
   constructor() {
     super();
     this._event = null;
@@ -89,8 +89,7 @@ class FStoryEventInfo extends ui.Fragment {
   }
 };
 
-wksp.FStoryEventInfo = FStoryEventInfo;
-}(window.wksp = window.wksp || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

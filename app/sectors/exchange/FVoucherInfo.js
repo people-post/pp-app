@@ -22,7 +22,7 @@ const _CVF_VOUCHER_INFO = {
       `<span class="button-like small disabled">Available in __DT__.</span>`
 }
 
-class FVoucherInfo extends xchg.FExchangeItemInfo {
+export class FVoucherInfo extends xchg.FExchangeItemInfo {
   action(type, ...args) {
     switch (type) {
     case CF_VOUCHER_INFO.DONATE:
@@ -79,5 +79,10 @@ class FVoucherInfo extends xchg.FExchangeItemInfo {
   #onRedeemClicked(voucherId) { console.log("Redeem: " + voucherId); }
 };
 
-xchg.FVoucherInfo = FVoucherInfo;
-}(window.xchg = window.xchg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.xchg = window.xchg || {};
+  window.xchg.FVoucherInfo = FVoucherInfo;
+}

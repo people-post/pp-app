@@ -14,7 +14,7 @@ const _CFT_CART_ITEM = {
   </span>`,
 };
 
-class FCartItem extends ui.Fragment {
+export class FCartItem extends ui.Fragment {
   static T_LAYOUT = {
     ACTIVE : Symbol(),
     RESERVE: Symbol(),
@@ -232,8 +232,7 @@ class FCartItem extends ui.Fragment {
   }
 };
 
-cart.FCartItem = FCartItem;
-}(window.cart = window.cart || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

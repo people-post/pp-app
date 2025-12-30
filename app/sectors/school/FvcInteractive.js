@@ -1,5 +1,5 @@
 
-class FvcInteractive extends ui.FScrollViewContent {
+export class FvcInteractive extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fBtnResume = new ui.Button();
@@ -104,5 +104,10 @@ class FvcInteractive extends ui.FScrollViewContent {
   }
 };
 
-scol.FvcInteractive = FvcInteractive;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.FvcInteractive = FvcInteractive;
+}

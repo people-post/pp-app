@@ -1,5 +1,4 @@
-
-class FvcWeb2LoginBase extends auth.FvcLoginBase {
+export class FvcWeb2LoginBase extends auth.FvcLoginBase {
   constructor() {
     super();
     this._nextView = null;
@@ -38,7 +37,10 @@ class FvcWeb2LoginBase extends auth.FvcLoginBase {
     let url = "api/stat/mark_visit";
     plt.Api.asyncFragmentCall(this, url).then(d => {});
   }
-};
+}
 
-auth.FvcWeb2LoginBase = FvcWeb2LoginBase;
-}(window.auth = window.auth || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.auth = window.auth || {};
+  window.auth.FvcWeb2LoginBase = FvcWeb2LoginBase;
+}

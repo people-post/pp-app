@@ -8,7 +8,7 @@ const _CPT_FILTER_ITEM = {
   </div>`,
 }
 
-class PFilterItem extends ui.Panel {
+export class PFilterItem extends ui.Panel {
   constructor() {
     super();
     this._pContent = new ui.PanelWrapper();
@@ -32,5 +32,10 @@ class PFilterItem extends ui.Panel {
   }
 };
 
-scol.PFilterItem = PFilterItem;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.PFilterItem = PFilterItem;
+}

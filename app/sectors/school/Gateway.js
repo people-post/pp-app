@@ -1,5 +1,5 @@
 
-class Gateway extends plt.SectorGateway {
+export class Gateway extends plt.SectorGateway {
   static T_CONFIG = {
     LIBRARY : {ID : "LIBRARY", NAME: "Library", ICON: C.ICON.LIBRARY},
     INTERACTIVE: {ID: "INTERACTIVE", NAME: "Interactive", ICON: C.ICON.TEST},
@@ -60,5 +60,10 @@ class Gateway extends plt.SectorGateway {
   }
 };
 
-scol.Gateway = Gateway;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.Gateway = Gateway;
+}

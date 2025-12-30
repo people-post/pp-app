@@ -1,5 +1,5 @@
 
-class FvcReport extends ui.FScrollViewContent {
+export class FvcReport extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fNoticeList = new wksp.FNoticeList();
@@ -51,5 +51,10 @@ class FvcReport extends ui.FScrollViewContent {
   }
 };
 
-wksp.FvcReport = FvcReport;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FvcReport = FvcReport;
+}

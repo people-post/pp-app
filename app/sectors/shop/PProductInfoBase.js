@@ -1,5 +1,5 @@
 
-class PProductInfoBase extends shop.PProductBase {
+export class PProductInfoBase extends shop.PProductBase {
   constructor() {
     super();
     this._pThumbnail = new ui.PanelWrapper();
@@ -8,5 +8,10 @@ class PProductInfoBase extends shop.PProductBase {
   getThumbnailPanel() { return this._pThumbnail; }
 };
 
-shop.PProductInfoBase = PProductInfoBase;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PProductInfoBase = PProductInfoBase;
+}

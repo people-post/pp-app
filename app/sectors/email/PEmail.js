@@ -15,7 +15,7 @@ const _CPT_EMAIL = {
   </div>`,
 }
 
-class PEmail extends emal.PEmailBase {
+export class PEmail extends emal.PEmailBase {
   constructor() {
     super();
     this._pReceiver = new ui.Panel();
@@ -47,5 +47,10 @@ class PEmail extends emal.PEmailBase {
   }
 };
 
-emal.PEmail = PEmail;
-}(window.emal = window.emal || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.emal = window.emal || {};
+  window.emal.PEmail = PEmail;
+}

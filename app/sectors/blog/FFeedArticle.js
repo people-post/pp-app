@@ -1,5 +1,5 @@
 
-class FFeedArticle extends ui.Fragment {
+export class FFeedArticle extends ui.Fragment {
   #fGallery;
   #fAttachment;
   #articleId = null;
@@ -73,5 +73,10 @@ class FFeedArticle extends ui.Fragment {
   }
 };
 
-blog.FFeedArticle = FFeedArticle;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FFeedArticle = FFeedArticle;
+}

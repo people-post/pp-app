@@ -3,7 +3,7 @@ const _CFT_CART_BUTTON = {
   CART_BADGE : `<span class="cart-badge inline-block bgtransparent s-font6 bold cgold center-align">__COUNT__</span>`,
 };
 
-class FCartButton extends gui.ActionButton {
+export class FCartButton extends gui.ActionButton {
   _getIcon() {
     let c = dba.Cart.getCart(dat.Cart.T_ID.ACTIVE);
     let n = c ? c.countItems() : 0;
@@ -13,5 +13,10 @@ class FCartButton extends gui.ActionButton {
   }
 };
 
-shop.FCartButton = FCartButton;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FCartButton = FCartButton;
+}

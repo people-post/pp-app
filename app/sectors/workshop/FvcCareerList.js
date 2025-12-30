@@ -1,5 +1,5 @@
 
-class FvcCareerList extends ui.FScrollViewContent {
+export class FvcCareerList extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fList = new S.hr.FCareerList();
@@ -49,5 +49,10 @@ class FvcCareerList extends ui.FScrollViewContent {
   }
 };
 
-wksp.FvcCareerList = FvcCareerList;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FvcCareerList = FvcCareerList;
+}

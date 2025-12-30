@@ -1,6 +1,11 @@
 
-class FServiceDelivery extends shop.FProductDelivery {};
+export class FServiceDelivery extends shop.FProductDelivery {};
 
-shop.FServiceDelivery = FServiceDelivery;
-}(window.shop = window.shop || {}));
 
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FServiceDelivery = FServiceDelivery;
+}

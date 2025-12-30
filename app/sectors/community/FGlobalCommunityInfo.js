@@ -1,5 +1,5 @@
 
-class FGlobalCommunityInfo extends ui.Fragment {
+export class FGlobalCommunityInfo extends ui.Fragment {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case plt.T_DATA.GLOBAL_COMMUNITY_PROFILE:
@@ -43,5 +43,10 @@ class FGlobalCommunityInfo extends ui.Fragment {
   }
 };
 
-cmut.FGlobalCommunityInfo = FGlobalCommunityInfo;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.FGlobalCommunityInfo = FGlobalCommunityInfo;
+}

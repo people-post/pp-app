@@ -1,5 +1,5 @@
 
-class FProductList extends gui.FSocialItemList {
+export class FProductList extends gui.FSocialItemList {
   // TODO: Swith id to SocialItemId
   #idRecord;
 
@@ -27,5 +27,10 @@ class FProductList extends gui.FSocialItemList {
   }
 };
 
-shop.FProductList = FProductList;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FProductList = FProductList;
+}

@@ -1,5 +1,5 @@
 
-class FGoodDelivery extends shop.FProductDelivery {
+export class FGoodDelivery extends shop.FProductDelivery {
   constructor() {
     super();
     this._fBtnAdd = new ui.Button();
@@ -56,5 +56,10 @@ class FGoodDelivery extends shop.FProductDelivery {
   }
 };
 
-shop.FGoodDelivery = FGoodDelivery;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FGoodDelivery = FGoodDelivery;
+}

@@ -16,7 +16,7 @@ const _CFT_GUEST_HOSTING_CONTENT = {
     </div>`,
 }
 
-class FvcGuestHosting extends ui.FScrollViewContent {
+export class FvcGuestHosting extends ui.FScrollViewContent {
   action(type, ...args) {
     switch (type) {
     case CF_GUEST_HOSTING_CONTENT.REGISTER:
@@ -70,5 +70,10 @@ class FvcGuestHosting extends ui.FScrollViewContent {
   }
 };
 
-hstn.FvcGuestHosting = FvcGuestHosting;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.FvcGuestHosting = FvcGuestHosting;
+}

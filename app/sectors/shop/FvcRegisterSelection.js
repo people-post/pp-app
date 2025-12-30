@@ -1,5 +1,5 @@
 
-class FvcRegisterSelection extends ui.FScrollViewContent {
+export class FvcRegisterSelection extends ui.FScrollViewContent {
   #fRegisters;
   
   constructor() {
@@ -22,5 +22,10 @@ class FvcRegisterSelection extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcRegisterSelection = FvcRegisterSelection;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcRegisterSelection = FvcRegisterSelection;
+}

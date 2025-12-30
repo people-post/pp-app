@@ -1,5 +1,5 @@
 
-class FEmptyPost extends blog.FPostBase {
+export class FEmptyPost extends blog.FPostBase {
   #post = null;
 
   setPost(post) { this.#post = post; }
@@ -34,5 +34,10 @@ class FEmptyPost extends blog.FPostBase {
   }
 };
 
-blog.FEmptyPost = FEmptyPost;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FEmptyPost = FEmptyPost;
+}

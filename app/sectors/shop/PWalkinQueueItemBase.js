@@ -1,5 +1,5 @@
 
-class PWalkinQueueItemBase extends ui.Panel {
+export class PWalkinQueueItemBase extends ui.Panel {
   constructor() {
     super();
     this._pName = new ui.Panel();
@@ -13,5 +13,10 @@ class PWalkinQueueItemBase extends ui.Panel {
   invertColor() {}
 };
 
-shop.PWalkinQueueItemBase = PWalkinQueueItemBase;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PWalkinQueueItemBase = PWalkinQueueItemBase;
+}

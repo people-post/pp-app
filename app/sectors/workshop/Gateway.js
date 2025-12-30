@@ -1,7 +1,12 @@
 
-class Gateway extends plt.SectorGateway {
+export class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() { return new wksp.FvcMain(); }
 };
 
-wksp.Gateway = Gateway;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.Gateway = Gateway;
+}

@@ -24,7 +24,7 @@ const _CVT_NS_SETUP = {
     </div>`,
 }
 
-class FNsSetup extends ui.Fragment {
+export class FNsSetup extends ui.Fragment {
   action(type, ...args) {
     switch (type) {
     case CFM_NS_SETUP.SUBMIT:
@@ -62,5 +62,10 @@ class FNsSetup extends ui.Fragment {
   }
 };
 
-hstn.FNsSetup = FNsSetup;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.FNsSetup = FNsSetup;
+}

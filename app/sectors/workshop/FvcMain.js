@@ -1,5 +1,5 @@
 
-class FvcMain extends ui.FViewContentWithHeroBanner {
+export class FvcMain extends ui.FViewContentWithHeroBanner {
   static #T_PAGE = {
     OWNER_OPEN : Symbol(),
     OWNER_CLOSED: Symbol(),
@@ -204,5 +204,10 @@ class FvcMain extends ui.FViewContentWithHeroBanner {
   #onCloseWorkshopRRR(data) { dba.WebConfig.reset(data.web_config); }
 };
 
-wksp.FvcMain = FvcMain;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FvcMain = FvcMain;
+}

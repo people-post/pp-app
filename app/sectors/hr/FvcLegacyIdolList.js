@@ -1,5 +1,5 @@
 
-class FvcLegacyIdolList extends ui.FScrollViewContent {
+export class FvcLegacyIdolList extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fList = new gui.SimpleLongListFragment();
@@ -64,5 +64,10 @@ class FvcLegacyIdolList extends ui.FScrollViewContent {
   }
 };
 
-hr.FvcLegacyIdolList = FvcLegacyIdolList;
-}(window.hr = window.hr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hr = window.hr || {};
+  window.hr.FvcLegacyIdolList = FvcLegacyIdolList;
+}

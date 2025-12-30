@@ -1,5 +1,5 @@
 
-class FProjectList extends gui.FSocialItemList {
+export class FProjectList extends gui.FSocialItemList {
   // TODO: Swith id to SocialItemId
   #idRecord;
 
@@ -27,5 +27,10 @@ class FProjectList extends gui.FSocialItemList {
   }
 };
 
-wksp.FProjectList = FProjectList;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FProjectList = FProjectList;
+}

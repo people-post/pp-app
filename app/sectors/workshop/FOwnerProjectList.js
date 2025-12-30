@@ -1,5 +1,5 @@
 
-class FOwnerProjectList extends wksp.FProjectList {
+export class FOwnerProjectList extends wksp.FProjectList {
   #ownerId = null;
   #isBatchLoading = false;
 
@@ -58,5 +58,10 @@ class FOwnerProjectList extends wksp.FProjectList {
   }
 };
 
-wksp.FOwnerProjectList = FOwnerProjectList;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FOwnerProjectList = FOwnerProjectList;
+}

@@ -5,7 +5,7 @@ const _CPT_PROJECT_STAGE = {
     <div id="__ID_COMMENT__" class="stage-comment"></div>`,
 }
 
-class PProjectStage extends wksp.PProjectStageBase {
+export class PProjectStage extends wksp.PProjectStageBase {
   constructor() {
     super();
     this._pDescription = new ui.PanelWrapper();
@@ -30,5 +30,10 @@ class PProjectStage extends wksp.PProjectStageBase {
   }
 };
 
-wksp.PProjectStage = PProjectStage;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProjectStage = PProjectStage;
+}

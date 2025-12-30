@@ -1,5 +1,5 @@
 
-class FvcTagEditor extends ui.FScrollViewContent {
+export class FvcTagEditor extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fTagEditor = new hstn.FTagEditor();
@@ -28,5 +28,10 @@ class FvcTagEditor extends ui.FScrollViewContent {
   }
 };
 
-hstn.FvcTagEditor = FvcTagEditor;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.FvcTagEditor = FvcTagEditor;
+}

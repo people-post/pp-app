@@ -9,7 +9,7 @@ const _CFT_SHOP_TEAM_EDITOR = {
     <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(shop.CF_SHOP_TEAM_EDITOR.SUBMIT)">Submit<a>`,
 }
 
-class FvcTeamEditor extends ui.FScrollViewContent {
+export class FvcTeamEditor extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fOptions = new ui.OptionSwitch();
@@ -158,8 +158,7 @@ class FvcTeamEditor extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcTeamEditor = FvcTeamEditor;
-}(window.shop = window.shop || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

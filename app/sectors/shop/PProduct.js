@@ -18,7 +18,7 @@ const _CPT_PRODUCT = {
   </div>`,
 }
 
-class PProduct extends shop.PProductBase {
+export class PProduct extends shop.PProductBase {
   constructor() {
     super();
     this._pGallery = new ui.PanelWrapper();
@@ -50,5 +50,10 @@ class PProduct extends shop.PProductBase {
   }
 };
 
-shop.PProduct = PProduct;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PProduct = PProduct;
+}

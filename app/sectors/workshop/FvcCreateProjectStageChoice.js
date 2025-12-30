@@ -1,5 +1,5 @@
 
-class FvcCreateProjectStageChoice extends ui.FScrollViewContent {
+export class FvcCreateProjectStageChoice extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fBtnSimple = new ui.Button();
@@ -94,5 +94,10 @@ class FvcCreateProjectStageChoice extends ui.FScrollViewContent {
   }
 };
 
-wksp.FvcCreateProjectStageChoice = FvcCreateProjectStageChoice;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FvcCreateProjectStageChoice = FvcCreateProjectStageChoice;
+}

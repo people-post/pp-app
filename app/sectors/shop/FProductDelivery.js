@@ -1,5 +1,5 @@
 
-class FProductDelivery extends ui.Fragment {
+export class FProductDelivery extends ui.Fragment {
   static T_LAYOUT = {
     COMPACT : "COMPACT",
     FULL: "FULL",
@@ -19,5 +19,10 @@ class FProductDelivery extends ui.Fragment {
   }
 };
 
-shop.FProductDelivery = FProductDelivery;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FProductDelivery = FProductDelivery;
+}

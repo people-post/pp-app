@@ -1,5 +1,5 @@
 
-class PProjectFlowChart extends ui.Panel {
+export class PProjectFlowChart extends ui.Panel {
   constructor() {
     super();
     this._elementType = "svg";
@@ -119,5 +119,10 @@ class PProjectFlowChart extends ui.Panel {
   }
 };
 
-wksp.PProjectFlowChart = PProjectFlowChart;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProjectFlowChart = PProjectFlowChart;
+}

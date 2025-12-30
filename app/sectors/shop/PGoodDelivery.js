@@ -4,7 +4,7 @@ const _CPT_PRODUCT = {
   <div id="__ID_COUNT__" class="small-info-text"></div>`,
 }
 
-class PGoodDelivery extends shop.PGoodDeliveryBase {
+export class PGoodDelivery extends shop.PGoodDeliveryBase {
   _renderFramework() {
     let s = _CPT_PRODUCT.MAIN;
     s = s.replace("__ID_BTN_ADD__", this._getSubElementId("BA"));
@@ -19,5 +19,10 @@ class PGoodDelivery extends shop.PGoodDeliveryBase {
   }
 };
 
-shop.PGoodDelivery = PGoodDelivery;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PGoodDelivery = PGoodDelivery;
+}

@@ -1,5 +1,7 @@
+export class FvcCloudFiles extends ui.FScrollViewContent {}
 
-class FvcCloudFiles extends ui.FScrollViewContent {};
-
-acnt.FvcCloudFiles = FvcCloudFiles;
-}(window.acnt = window.acnt || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.acnt = window.acnt || {};
+  window.acnt.FvcCloudFiles = FvcCloudFiles;
+}

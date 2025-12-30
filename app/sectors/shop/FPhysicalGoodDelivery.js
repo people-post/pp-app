@@ -1,5 +1,10 @@
 
-class FPhysicalGoodDelivery extends shop.FGoodDelivery {};
+export class FPhysicalGoodDelivery extends shop.FGoodDelivery {};
 
-shop.FPhysicalGoodDelivery = FPhysicalGoodDelivery;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FPhysicalGoodDelivery = FPhysicalGoodDelivery;
+}

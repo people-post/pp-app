@@ -1,5 +1,5 @@
 
-class FvcLegacyFollowerList extends ui.FScrollViewContent {
+export class FvcLegacyFollowerList extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fList = new gui.SimpleLongListFragment();
@@ -36,5 +36,10 @@ class FvcLegacyFollowerList extends ui.FScrollViewContent {
   }
 };
 
-hr.FvcLegacyFollowerList = FvcLegacyFollowerList;
-}(window.hr = window.hr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hr = window.hr || {};
+  window.hr.FvcLegacyFollowerList = FvcLegacyFollowerList;
+}

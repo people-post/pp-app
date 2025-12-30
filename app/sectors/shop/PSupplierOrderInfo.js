@@ -11,7 +11,7 @@ const _CPT_SUPPLIER_ORDER_INFO = {
   </div>`,
 }
 
-class PSupplierOrderInfo extends shop.PSupplierOrderBase {
+export class PSupplierOrderInfo extends shop.PSupplierOrderBase {
   constructor() {
     super();
     this._pAddressBtn = new ui.Panel();
@@ -47,5 +47,10 @@ class PSupplierOrderInfo extends shop.PSupplierOrderBase {
   }
 };
 
-shop.PSupplierOrderInfo = PSupplierOrderInfo;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PSupplierOrderInfo = PSupplierOrderInfo;
+}

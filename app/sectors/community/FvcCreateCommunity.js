@@ -64,10 +64,6 @@ export class FvcCreateCommunity extends ui.FScrollViewContent {
   }
 }
 
-export class FvcCreateCommunity extends ui.FViewContentWithHeroBanner {
-  // ... class content needs to be preserved
-}
-
 // Backward compatibility
 if (typeof window !== 'undefined') {
   window.cmut = window.cmut || {};

@@ -1,5 +1,5 @@
 
-class FvcMessengerNoticeList extends ui.FScrollViewContent {
+export class FvcMessengerNoticeList extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fRequestList = new ui.FSimpleFragmentList();
@@ -39,5 +39,10 @@ class FvcMessengerNoticeList extends ui.FScrollViewContent {
   }
 };
 
-msgr.FvcMessengerNoticeList = FvcMessengerNoticeList;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.FvcMessengerNoticeList = FvcMessengerNoticeList;
+}

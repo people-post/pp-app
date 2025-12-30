@@ -1,5 +1,5 @@
 
-class FvcWeb3Wallet extends ui.FScrollViewContent {
+export class FvcWeb3Wallet extends ui.FScrollViewContent {
   #fToAddr;
   #fAmt;
   #btnSubmit;
@@ -343,5 +343,10 @@ class FvcWeb3Wallet extends ui.FScrollViewContent {
   }
 };
 
-xchg.FvcWeb3Wallet = FvcWeb3Wallet;
-}(window.xchg = window.xchg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.xchg = window.xchg || {};
+  window.xchg.FvcWeb3Wallet = FvcWeb3Wallet;
+}

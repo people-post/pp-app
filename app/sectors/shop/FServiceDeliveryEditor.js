@@ -1,5 +1,5 @@
 
-class FServiceDeliveryEditor extends shop.FProductDeliveryEditor {
+export class FServiceDeliveryEditor extends shop.FProductDeliveryEditor {
   constructor() {
     super();
     this._fBtnAdd = new ui.Button();
@@ -114,5 +114,10 @@ class FServiceDeliveryEditor extends shop.FProductDeliveryEditor {
   }
 };
 
-shop.FServiceDeliveryEditor = FServiceDeliveryEditor;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FServiceDeliveryEditor = FServiceDeliveryEditor;
+}

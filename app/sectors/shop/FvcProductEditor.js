@@ -21,7 +21,7 @@ const _CFT_PRODUCT_EDITOR = {
       `<a class="button-bar danger" href="javascript:void(0)">Delete</a>`,
 }
 
-class FvcProductEditor extends ui.FScrollViewContent {
+export class FvcProductEditor extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fContent = new gui.RichContentEditor();
@@ -219,8 +219,7 @@ class FvcProductEditor extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcProductEditor = FvcProductEditor;
-}(window.shop = window.shop || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

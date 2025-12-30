@@ -1,5 +1,5 @@
 
-class FvcMemberList extends ui.FScrollViewContent {
+export class FvcMemberList extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fList = new gui.SimpleLongListFragment();
@@ -37,5 +37,10 @@ class FvcMemberList extends ui.FScrollViewContent {
   }
 };
 
-cmut.FvcMemberList = FvcMemberList;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.FvcMemberList = FvcMemberList;
+}

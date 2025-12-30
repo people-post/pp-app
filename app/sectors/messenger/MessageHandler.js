@@ -1,5 +1,5 @@
 
-class MessageHandler extends ext.Controller {
+export class MessageHandler extends ext.Controller {
   constructor() {
     super();
     this._target = new dat.ChatTarget();
@@ -115,5 +115,10 @@ class MessageHandler extends ext.Controller {
   }
 };
 
-msgr.MessageHandler = MessageHandler;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.MessageHandler = MessageHandler;
+}

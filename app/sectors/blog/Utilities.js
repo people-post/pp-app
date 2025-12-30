@@ -1,5 +1,4 @@
-
-blog.Utilities = function() {
+export const Utilities = function() {
   function _isPostRelated(post, toPost, cascade = true) {
     // Related if:
     // 1. Same
@@ -37,4 +36,9 @@ blog.Utilities = function() {
     stripSimpleTag : _stripSimpleTag,
   };
 }();
-}(window.blog = window.blog || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.Utilities = Utilities;
+}

@@ -1,5 +1,5 @@
 
-class FDigitalGoodDeliveryEditor extends shop.FProductDeliveryEditor {
+export class FDigitalGoodDeliveryEditor extends shop.FProductDeliveryEditor {
   _getType() { return dat.ProductDeliveryChoice.TYPE.DIGITAL; }
   _collectData() { return null; }
   _renderSpec(panel) {
@@ -8,5 +8,10 @@ class FDigitalGoodDeliveryEditor extends shop.FProductDeliveryEditor {
   }
 };
 
-shop.FDigitalGoodDeliveryEditor = FDigitalGoodDeliveryEditor;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FDigitalGoodDeliveryEditor = FDigitalGoodDeliveryEditor;
+}

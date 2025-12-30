@@ -8,7 +8,7 @@ const _CPT_POST_NAVIGATOR = {
   <div id="__ID_COMMENT__" class="post-comment"></div>`,
 };
 
-class PPostNavigator extends ui.Panel {
+export class PPostNavigator extends ui.Panel {
   #pPost;
   #pBtnPrev;
   #pBtnNext;
@@ -175,4 +175,10 @@ class FPostNavigator extends ui.Fragment {
 };
 
 blog.FPostNavigator = FPostNavigator;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPostNavigator = PPostNavigator;
+}

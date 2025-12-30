@@ -7,7 +7,7 @@ const _CFT_POST_INFO = {
       `<span class="pin-icon inline-block s-icon5 v-middle-align">__ICON__</span>`,
 };
 
-class FPostInfo extends gui.MajorSectorItem {
+export class FPostInfo extends gui.MajorSectorItem {
   #fPost;
   #fRefOwnerName;
   #fOwnerName;
@@ -313,8 +313,7 @@ class FPostInfo extends gui.MajorSectorItem {
   }
 };
 
-blog.FPostInfo = FPostInfo;
-}(window.blog = window.blog || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

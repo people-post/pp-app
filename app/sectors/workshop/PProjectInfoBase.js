@@ -1,5 +1,5 @@
 
-class PProjectInfoBase extends ui.Panel {
+export class PProjectInfoBase extends ui.Panel {
   // TODO: Extend from PQuotableBase
   constructor() {
     super();
@@ -27,5 +27,10 @@ class PProjectInfoBase extends ui.Panel {
   invertColor() {}
 };
 
-wksp.PProjectInfoBase = PProjectInfoBase;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProjectInfoBase = PProjectInfoBase;
+}

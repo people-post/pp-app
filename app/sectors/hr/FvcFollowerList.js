@@ -1,5 +1,5 @@
 
-class FvcFollowerList extends ui.FScrollViewContent {
+export class FvcFollowerList extends ui.FScrollViewContent {
   #fUsers;
   #idLoader;
 
@@ -24,5 +24,10 @@ class FvcFollowerList extends ui.FScrollViewContent {
   }
 };
 
-hr.FvcFollowerList = FvcFollowerList;
-}(window.hr = window.hr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hr = window.hr || {};
+  window.hr.FvcFollowerList = FvcFollowerList;
+}

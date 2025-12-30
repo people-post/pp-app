@@ -18,7 +18,7 @@ const _CPT_WEB3_NETWORK = {
   </div>`,
 };
 
-class PWeb3Network extends ui.Panel {
+export class PWeb3Network extends ui.Panel {
   #pResolver;
   #pBlockchain;
   #pPublisher;
@@ -104,4 +104,10 @@ class FvcWeb3Network extends ui.FScrollViewContent {
 };
 
 hstn.FvcWeb3Network = FvcWeb3Network;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.PWeb3Network = PWeb3Network;
+}

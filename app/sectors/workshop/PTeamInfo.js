@@ -9,7 +9,7 @@ const _CPT_TEAM_INFO = {
   </div>`,
 };
 
-class PTeamInfo extends ui.Panel {
+export class PTeamInfo extends ui.Panel {
   constructor() {
     super();
     this._pName = new ui.Panel();
@@ -43,5 +43,10 @@ class PTeamInfo extends ui.Panel {
   }
 };
 
-wksp.PTeamInfo = PTeamInfo;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PTeamInfo = PTeamInfo;
+}

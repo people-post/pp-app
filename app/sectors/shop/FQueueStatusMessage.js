@@ -1,5 +1,5 @@
 
-class FQueueStatusMessage extends ui.Fragment {
+export class FQueueStatusMessage extends ui.Fragment {
   constructor() {
     super();
     this._fText = new ui.Label();
@@ -45,5 +45,10 @@ class FQueueStatusMessage extends ui.Fragment {
   }
 };
 
-shop.FQueueStatusMessage = FQueueStatusMessage;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FQueueStatusMessage = FQueueStatusMessage;
+}

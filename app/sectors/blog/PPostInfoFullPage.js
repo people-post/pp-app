@@ -7,7 +7,7 @@ const _CPT_POST_INFO_FULL_PAGE = {
   </div>`,
 }
 
-class PPostInfoFullPage extends gui.PPostInfoBase {
+export class PPostInfoFullPage extends gui.PPostInfoBase {
   #pTitle;
   #pContent;
 
@@ -34,5 +34,10 @@ class PPostInfoFullPage extends gui.PPostInfoBase {
   }
 };
 
-blog.PPostInfoFullPage = PPostInfoFullPage;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPostInfoFullPage = PPostInfoFullPage;
+}

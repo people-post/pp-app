@@ -3,7 +3,7 @@ window.CF_CHAT_THREAD_INFO = {
   ON_CLICK : "CF_CHAT_THREAD_INFO_1",
 }
 
-class FChatThreadInfo extends ui.Fragment {
+export class FChatThreadInfo extends ui.Fragment {
   constructor() {
     super();
     this._fThumbnail = new gui.FilesThumbnailFragment();
@@ -106,5 +106,10 @@ class FChatThreadInfo extends ui.Fragment {
   }
 };
 
-msgr.FChatThreadInfo = FChatThreadInfo;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.FChatThreadInfo = FChatThreadInfo;
+}

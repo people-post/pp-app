@@ -1,5 +1,5 @@
 
-class FvcInsights extends ui.FViewContentBase {
+export class FvcInsights extends ui.FViewContentBase {
   _renderOnRender(render) {
     let panel = new ui.Panel();
     panel.setClassName("h100");
@@ -8,5 +8,10 @@ class FvcInsights extends ui.FViewContentBase {
   }
 };
 
-ftpg.FvcInsights = FvcInsights;
-}(window.ftpg = window.ftpg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.ftpg = window.ftpg || {};
+  window.ftpg.FvcInsights = FvcInsights;
+}

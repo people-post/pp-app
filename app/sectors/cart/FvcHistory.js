@@ -1,5 +1,5 @@
 
-class FvcHistory extends ui.FScrollViewContent {
+export class FvcHistory extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fList = new cart.FOrderList();
@@ -16,5 +16,10 @@ class FvcHistory extends ui.FScrollViewContent {
   }
 };
 
-cart.FvcHistory = FvcHistory;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.FvcHistory = FvcHistory;
+}

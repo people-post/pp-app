@@ -8,7 +8,7 @@ const _CFT_POST_STATISTICS_INFO = {
     <div class="small-info-text no-wrap">__COUNT__</div>`,
 }
 
-class FPostStatisticsInfo extends ui.Fragment {
+export class FPostStatisticsInfo extends ui.Fragment {
   constructor() {
     super();
     this._data = null;
@@ -56,5 +56,10 @@ class FPostStatisticsInfo extends ui.Fragment {
   }
 };
 
-blog.FPostStatisticsInfo = FPostStatisticsInfo;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FPostStatisticsInfo = FPostStatisticsInfo;
+}

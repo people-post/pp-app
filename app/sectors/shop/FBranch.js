@@ -2,7 +2,7 @@ export const CF_BRANCH = {
   ON_CLICK : Symbol(),
 };
 
-class FBranch extends ui.Fragment {
+export class FBranch extends ui.Fragment {
   static T_LAYOUT = {
     SMALL : Symbol(),
     FULL: Symbol(),
@@ -185,8 +185,7 @@ class FBranch extends ui.Fragment {
   #onUpdateRRR(data) { dba.Shop.updateBranch(new dat.ShopBranch(data.branch)); }
 };
 
-shop.FBranch = FBranch;
-}(window.shop = window.shop || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

@@ -16,7 +16,7 @@ const _CPT_PRODUCT_EDITOR = {
   </div>`,
 }
 
-class PProductEditor extends ui.Panel {
+export class PProductEditor extends ui.Panel {
   constructor() {
     super();
     this._pName = new ui.Panel();
@@ -60,5 +60,10 @@ class PProductEditor extends ui.Panel {
   }
 };
 
-shop.PProductEditor = PProductEditor;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PProductEditor = PProductEditor;
+}

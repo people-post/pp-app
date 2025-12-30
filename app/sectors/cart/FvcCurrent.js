@@ -3,7 +3,7 @@ const _CFT_CART_CONTENT = {
   EMPTY : `<div class="info-message">Cart is empty.</div>`,
 };
 
-class FvcCurrent extends ui.FScrollViewContent {
+export class FvcCurrent extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fPayables = new ui.FSimpleFragmentList();
@@ -123,5 +123,10 @@ class FvcCurrent extends ui.FScrollViewContent {
   }
 };
 
-cart.FvcCurrent = FvcCurrent;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.FvcCurrent = FvcCurrent;
+}

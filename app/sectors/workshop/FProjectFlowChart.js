@@ -3,7 +3,7 @@ export const CF_PROJECT_FLOW_CHART = {
   ONCLICK_AT_END : Symbol(),
 };
 
-class FProjectFlowChart extends ui.Fragment {
+export class FProjectFlowChart extends ui.Fragment {
   constructor() {
     super();
     this._fItems = new ui.FFragmentList();
@@ -260,8 +260,7 @@ class FProjectFlowChart extends ui.Fragment {
   }
 };
 
-wksp.FProjectFlowChart = FProjectFlowChart;
-}(window.wksp = window.wksp || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

@@ -1,5 +1,5 @@
 
-class PProjectStageInfoBase extends wksp.PProjectStageBase {
+export class PProjectStageInfoBase extends wksp.PProjectStageBase {
   constructor() {
     super();
     this._pOptionBtn = new ui.PanelWrapper();
@@ -8,5 +8,10 @@ class PProjectStageInfoBase extends wksp.PProjectStageBase {
   getOptionBtnPanel() { return this._pOptionBtn; }
 };
 
-wksp.PProjectStageInfoBase = PProjectStageInfoBase;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProjectStageInfoBase = PProjectStageInfoBase;
+}

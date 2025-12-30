@@ -1,5 +1,5 @@
 
-class PeerMessageHandler extends msgr.MessageHandler {
+export class PeerMessageHandler extends msgr.MessageHandler {
   constructor() {
     super();
     this._peerConnection = null;
@@ -102,5 +102,10 @@ class PeerMessageHandler extends msgr.MessageHandler {
   }
 };
 
-msgr.PeerMessageHandler = PeerMessageHandler;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.PeerMessageHandler = PeerMessageHandler;
+}

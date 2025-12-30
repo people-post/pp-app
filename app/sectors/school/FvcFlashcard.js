@@ -1,5 +1,5 @@
 
-class FvcFlashcard extends ui.FScrollViewContent {
+export class FvcFlashcard extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fCard = new scol.FFlashcard();
@@ -44,5 +44,10 @@ class FvcFlashcard extends ui.FScrollViewContent {
   }
 };
 
-scol.FvcFlashcard = FvcFlashcard;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.FvcFlashcard = FvcFlashcard;
+}

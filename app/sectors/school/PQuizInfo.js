@@ -11,7 +11,7 @@ const _CPT_QUIZ_INFO = {
   </div>`,
 }
 
-class PQuizInfo extends scol.PQuizBase {
+export class PQuizInfo extends scol.PQuizBase {
   isColorInvertible() { return true; }
 
   invertColor() {
@@ -34,5 +34,10 @@ class PQuizInfo extends scol.PQuizBase {
   }
 };
 
-scol.PQuizInfo = PQuizInfo;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.PQuizInfo = PQuizInfo;
+}

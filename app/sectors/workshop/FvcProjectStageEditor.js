@@ -8,7 +8,7 @@ const _CFT_STAGE_EDITOR = {
       `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_STAGE_EDITOR.SUBMIT)">Submit</a>`,
 }
 
-class FvcProjectStageEditor extends ui.FScrollViewContent {
+export class FvcProjectStageEditor extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fTitle = new ui.TextInput();
@@ -89,5 +89,10 @@ class FvcProjectStageEditor extends ui.FScrollViewContent {
   }
 };
 
-wksp.FvcProjectStageEditor = FvcProjectStageEditor;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FvcProjectStageEditor = FvcProjectStageEditor;
+}

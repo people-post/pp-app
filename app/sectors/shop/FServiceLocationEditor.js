@@ -1,5 +1,5 @@
 
-class FServiceLocationEditor extends ui.Fragment {
+export class FServiceLocationEditor extends ui.Fragment {
   constructor() {
     super();
     this._fBtnAdd = new ui.Button();
@@ -125,5 +125,10 @@ class FServiceLocationEditor extends ui.Fragment {
   }
 };
 
-shop.FServiceLocationEditor = FServiceLocationEditor;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FServiceLocationEditor = FServiceLocationEditor;
+}

@@ -1,5 +1,5 @@
 
-class TimelineFragment extends ui.Fragment {
+export class TimelineFragment extends ui.Fragment {
   constructor() {
     super();
     this._fItems = new ui.FFragmentList();
@@ -52,5 +52,10 @@ class TimelineFragment extends ui.Fragment {
   }
 };
 
-wksp.TimelineFragment = TimelineFragment;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.TimelineFragment = TimelineFragment;
+}

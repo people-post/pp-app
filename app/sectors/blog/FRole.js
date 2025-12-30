@@ -2,7 +2,7 @@ export const CF_ROLE = {
   ON_CLICK : Symbol(),
 };
 
-class FRole extends ui.Fragment {
+export class FRole extends ui.Fragment {
   constructor() {
     super();
     this._roleId;
@@ -61,8 +61,7 @@ class FRole extends ui.Fragment {
   }
 };
 
-blog.FRole = FRole;
-}(window.blog = window.blog || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

@@ -23,7 +23,7 @@ const _CFT_CHAT_MESSAGE = {
   </span>`,
 }
 
-class FChatMessage extends ui.Fragment {
+export class FChatMessage extends ui.Fragment {
   constructor() {
     super();
     this._message = null;
@@ -159,5 +159,10 @@ class FChatMessage extends ui.Fragment {
   }
 };
 
-msgr.FChatMessage = FChatMessage;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.FChatMessage = FChatMessage;
+}

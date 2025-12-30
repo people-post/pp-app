@@ -15,7 +15,7 @@ const _CPT_WEB3_ARTICLE_EDITOR = {
   <br>`,
 };
 
-class PWeb3ArticleEditor extends blog.PArticleBase {
+export class PWeb3ArticleEditor extends blog.PArticleBase {
   #pTitle;
   #pFiles;
   #pAttachment;
@@ -57,5 +57,10 @@ class PWeb3ArticleEditor extends blog.PArticleBase {
   }
 };
 
-blog.PWeb3ArticleEditor = PWeb3ArticleEditor;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PWeb3ArticleEditor = PWeb3ArticleEditor;
+}

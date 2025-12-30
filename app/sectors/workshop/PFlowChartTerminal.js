@@ -5,7 +5,7 @@ const _CPT_FLOW_CHART_TERMINAL = {
   </div>`,
 }
 
-class PFlowChartTerminal extends ui.PanelWrapper {
+export class PFlowChartTerminal extends ui.PanelWrapper {
   constructor() {
     super();
     this._elementType = "foreignObject";
@@ -38,5 +38,10 @@ class PFlowChartTerminal extends ui.PanelWrapper {
   }
 };
 
-wksp.PFlowChartTerminal = PFlowChartTerminal;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PFlowChartTerminal = PFlowChartTerminal;
+}

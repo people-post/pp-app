@@ -1,5 +1,5 @@
 
-class FvcPostEditor extends ui.FScrollViewContent {
+export class FvcPostEditor extends ui.FScrollViewContent {
   #fEditor = null;
 
   setPost(post) {
@@ -43,5 +43,10 @@ class FvcPostEditor extends ui.FScrollViewContent {
   }
 };
 
-blog.FvcPostEditor = FvcPostEditor;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FvcPostEditor = FvcPostEditor;
+}

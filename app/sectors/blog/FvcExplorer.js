@@ -1,5 +1,5 @@
 
-class FvcExplorer extends ui.FScrollViewContent {
+export class FvcExplorer extends ui.FScrollViewContent {
   #fmSearch;
   #fPosts;
   #fBtnNew;
@@ -75,5 +75,10 @@ class FvcExplorer extends ui.FScrollViewContent {
   }
 };
 
-blog.FvcExplorer = FvcExplorer;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FvcExplorer = FvcExplorer;
+}

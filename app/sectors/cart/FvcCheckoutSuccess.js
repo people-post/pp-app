@@ -12,7 +12,7 @@ const _CFT_CHECKOUT_SUCCESS = {
     <br>`,
 }
 
-class FvcCheckoutSuccess extends ui.FScrollViewContent {
+export class FvcCheckoutSuccess extends ui.FScrollViewContent {
   constructor() {
     super();
     this._orderId = null;
@@ -49,8 +49,7 @@ class FvcCheckoutSuccess extends ui.FScrollViewContent {
   }
 };
 
-cart.FvcCheckoutSuccess = FvcCheckoutSuccess;
-}(window.cart = window.cart || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

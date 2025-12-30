@@ -1,5 +1,5 @@
 
-class FvcChat extends ui.FViewContentBase {
+export class FvcChat extends ui.FViewContentBase {
   #fHeader;
   #fMessages;
   #fConsole;
@@ -169,5 +169,10 @@ class FvcChat extends ui.FViewContentBase {
   }
 };
 
-msgr.FvcChat = FvcChat;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.FvcChat = FvcChat;
+}

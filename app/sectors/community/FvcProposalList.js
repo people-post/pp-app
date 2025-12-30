@@ -1,5 +1,5 @@
 
-class FvcProposalList extends ui.FScrollViewContent {
+export class FvcProposalList extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fList = new cmut.FProposalList();
@@ -17,5 +17,10 @@ class FvcProposalList extends ui.FScrollViewContent {
   }
 };
 
-cmut.FvcProposalList = FvcProposalList;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.FvcProposalList = FvcProposalList;
+}

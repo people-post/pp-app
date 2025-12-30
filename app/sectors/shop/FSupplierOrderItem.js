@@ -11,7 +11,7 @@ const _CFT_SUPPLIER_ORDER_ITEM = {
   <div>__UNIT_PRICE__</div>`,
 }
 
-class FSupplierOrderItem extends ui.Fragment {
+export class FSupplierOrderItem extends ui.Fragment {
   constructor() {
     super();
     this._currencyId = null;
@@ -43,5 +43,10 @@ class FSupplierOrderItem extends ui.Fragment {
   }
 };
 
-shop.FSupplierOrderItem = FSupplierOrderItem;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FSupplierOrderItem = FSupplierOrderItem;
+}

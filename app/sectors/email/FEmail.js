@@ -1,5 +1,4 @@
-
-window.CF_EMAIL_INFO = {
+export const CF_EMAIL_INFO = {
   VIEW_EMAIL : "CF_EMAIL_INFO_1",
 }
 
@@ -7,7 +6,7 @@ _CFCT_EMAIL_INFO = {
   READERSHIP_MARK : `<div class="colorable-info-cycle s-cfuncbg"></div>`,
 }
 
-class FEmail extends gui.MajorSectorItem {
+export class FEmail extends gui.MajorSectorItem {
   static T_LAYOUT = {
     FULL : Symbol(),
     INFO: Symbol(),
@@ -204,5 +203,11 @@ class FEmail extends gui.MajorSectorItem {
   }
 };
 
-emal.FEmail = FEmail;
-}(window.emal = window.emal || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.CF_EMAIL_INFO = CF_EMAIL_INFO;
+  window.emal = window.emal || {};
+  window.emal.FEmail = FEmail;
+}

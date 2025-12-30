@@ -17,7 +17,7 @@ const _CFT_HOSTING_STATUS = {
     <p>ns4.gcabin.com</p>`,
 }
 
-class FHostingStatus extends ui.Fragment {
+export class FHostingStatus extends ui.Fragment {
   constructor() {
     super();
     this._domainName = null;
@@ -82,5 +82,10 @@ class FHostingStatus extends ui.Fragment {
   }
 };
 
-hstn.FHostingStatus = FHostingStatus;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.FHostingStatus = FHostingStatus;
+}

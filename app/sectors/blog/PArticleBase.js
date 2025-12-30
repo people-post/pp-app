@@ -1,5 +1,10 @@
 
-class PArticleBase extends ui.Panel {};
+export class PArticleBase extends ui.Panel {};
 
-blog.PArticleBase = PArticleBase;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PArticleBase = PArticleBase;
+}

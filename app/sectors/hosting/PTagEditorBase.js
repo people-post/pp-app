@@ -1,5 +1,5 @@
 
-class PTagEditorBase extends ui.Panel {
+export class PTagEditorBase extends ui.Panel {
   constructor() {
     super();
     this._pName = new ui.PanelWrapper();
@@ -10,5 +10,10 @@ class PTagEditorBase extends ui.Panel {
   getThemePanel() { return null; }
 };
 
-hstn.PTagEditorBase = PTagEditorBase;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.PTagEditorBase = PTagEditorBase;
+}

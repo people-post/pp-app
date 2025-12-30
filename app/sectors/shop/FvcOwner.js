@@ -1,5 +1,5 @@
 
-class FvcOwner extends ui.FScrollViewContent {
+export class FvcOwner extends ui.FScrollViewContent {
   #fmMain;
   #fmSearch;
   #fList;
@@ -174,5 +174,10 @@ class FvcOwner extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcOwner = FvcOwner;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcOwner = FvcOwner;
+}

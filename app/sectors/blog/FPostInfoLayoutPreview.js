@@ -1,5 +1,5 @@
 
-class FPostInfoLayoutPreview extends ui.Fragment {
+export class FPostInfoLayoutPreview extends ui.Fragment {
   constructor() {
     super();
     this._desciption = "";
@@ -61,5 +61,10 @@ class FPostInfoLayoutPreview extends ui.Fragment {
   }
 };
 
-blog.FPostInfoLayoutPreview = FPostInfoLayoutPreview;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FPostInfoLayoutPreview = FPostInfoLayoutPreview;
+}

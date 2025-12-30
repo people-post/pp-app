@@ -1,5 +1,5 @@
 
-class PProposalBase extends ui.Panel {
+export class PProposalBase extends ui.Panel {
   isColorInvertible() { return false; }
 
   getIconPanel() { return null; }
@@ -13,5 +13,10 @@ class PProposalBase extends ui.Panel {
   invertColor() {}
 };
 
-cmut.PProposalBase = PProposalBase;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.PProposalBase = PProposalBase;
+}

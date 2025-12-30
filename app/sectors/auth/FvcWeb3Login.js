@@ -1,5 +1,4 @@
-
-class FvcWeb3Login extends auth.FvcLoginBase {
+export class FvcWeb3Login extends auth.FvcLoginBase {
   #fMnemonic;
   #btnSubmit;
   #btnCreate;
@@ -149,7 +148,10 @@ class FvcWeb3Login extends auth.FvcLoginBase {
     console.log(e);
     this.#btnSubmit.setEnabled(true);
   }
-};
+}
 
-auth.FvcWeb3Login = FvcWeb3Login;
-}(window.auth = window.auth || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.auth = window.auth || {};
+  window.auth.FvcWeb3Login = FvcWeb3Login;
+}

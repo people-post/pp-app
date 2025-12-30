@@ -27,7 +27,7 @@ const _CPT_PRODUCT_INFO_MIDDLE = {
   </div>`,
 }
 
-class PProductInfoMiddle extends shop.PProductInfoBase {
+export class PProductInfoMiddle extends shop.PProductInfoBase {
   constructor() {
     super();
     this._pPrice = new gui.PPriceCompact();
@@ -57,5 +57,10 @@ class PProductInfoMiddle extends shop.PProductInfoBase {
   }
 };
 
-shop.PProductInfoMiddle = PProductInfoMiddle;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PProductInfoMiddle = PProductInfoMiddle;
+}

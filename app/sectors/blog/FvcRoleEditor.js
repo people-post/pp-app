@@ -10,7 +10,7 @@ const _CFT_BLOG_ROLE_EDITOR = {
     <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_BLOG_ROLE_EDITOR.SUBMIT)">Submit<a>`,
 }
 
-class FvcRoleEditor extends ui.FScrollViewContent {
+export class FvcRoleEditor extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fTypeChoices = new ui.ButtonGroup();
@@ -189,5 +189,10 @@ class FvcRoleEditor extends ui.FScrollViewContent {
   }
 };
 
-blog.FvcRoleEditor = FvcRoleEditor;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FvcRoleEditor = FvcRoleEditor;
+}

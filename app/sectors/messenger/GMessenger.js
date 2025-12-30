@@ -1,5 +1,4 @@
-
-msgr.GMessenger = function() {
+export const GMessenger = function() {
   let _mHandlers = new Map();
 
   function _getOrInitHandler(target) {
@@ -21,4 +20,8 @@ msgr.GMessenger = function() {
   };
 }();
 
-}(window.msgr = window.msgr || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.GMessenger = GMessenger;
+}

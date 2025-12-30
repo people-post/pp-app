@@ -2,7 +2,7 @@ export const CF_DRAFT_ARTICLE_INFO = {
   ON_CLICK : Symbol(),
 };
 
-class FDraftArticleInfo extends ui.Fragment {
+export class FDraftArticleInfo extends ui.Fragment {
   #draftId = null;
 
   constructor() {
@@ -206,8 +206,7 @@ class FDraftArticleInfo extends ui.Fragment {
   }
 };
 
-blog.FDraftArticleInfo = FDraftArticleInfo;
-}(window.blog = window.blog || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

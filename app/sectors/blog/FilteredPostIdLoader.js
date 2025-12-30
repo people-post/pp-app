@@ -1,5 +1,5 @@
 
-class FilteredPostIdLoader extends plt.LongListIdLoader {
+export class FilteredPostIdLoader extends plt.LongListIdLoader {
   #isBatchLoading = false;
   #tagId = null;
   #idRecord;
@@ -51,5 +51,10 @@ class FilteredPostIdLoader extends plt.LongListIdLoader {
   }
 };
 
-blog.FilteredPostIdLoader = FilteredPostIdLoader;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FilteredPostIdLoader = FilteredPostIdLoader;
+}

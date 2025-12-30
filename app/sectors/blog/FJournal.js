@@ -4,7 +4,7 @@ export const CF_JOURNAL = {
 
 const _CPT_JOURNAL = {};
 
-class PJournalBase extends ui.Panel {
+export class PJournalBase extends ui.Panel {
   getTitlePanel() { return null; }
 };
 
@@ -91,7 +91,7 @@ class FJournal extends ui.Fragment {
 };
 
 blog.FJournal = FJournal;
-}(window.blog = window.blog || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

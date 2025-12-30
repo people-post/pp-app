@@ -32,7 +32,7 @@ const _CPT_PROJECT_INFO_LARGE = {
   </div>`,
 }
 
-class PProjectInfoLarge extends wksp.PProjectInfoBase {
+export class PProjectInfoLarge extends wksp.PProjectInfoBase {
   constructor() {
     super();
     this._pUserName = new ui.PanelWrapper();
@@ -76,5 +76,10 @@ class PProjectInfoLarge extends wksp.PProjectInfoBase {
   }
 };
 
-wksp.PProjectInfoLarge = PProjectInfoLarge;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProjectInfoLarge = PProjectInfoLarge;
+}

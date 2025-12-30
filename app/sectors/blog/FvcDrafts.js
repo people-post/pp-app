@@ -1,5 +1,5 @@
 
-class FvcDrafts extends ui.FScrollViewContent {
+export class FvcDrafts extends ui.FScrollViewContent {
   #fInsiderAuthored;
   #fInsiderTasks;
   #fTasks;
@@ -39,5 +39,10 @@ class FvcDrafts extends ui.FScrollViewContent {
   }
 };
 
-blog.FvcDrafts = FvcDrafts;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FvcDrafts = FvcDrafts;
+}

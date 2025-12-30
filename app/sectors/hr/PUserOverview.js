@@ -7,7 +7,7 @@ const _CPT_USER_OVERVIEW = {
   </div>`,
 };
 
-class PUserOverview extends ui.Panel {
+export class PUserOverview extends ui.Panel {
   constructor() {
     super();
     this._pBgImage = new ui.PanelWrapper();
@@ -35,5 +35,10 @@ class PUserOverview extends ui.Panel {
   }
 };
 
-hr.PUserOverview = PUserOverview;
-}(window.hr = window.hr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hr = window.hr || {};
+  window.hr.PUserOverview = PUserOverview;
+}

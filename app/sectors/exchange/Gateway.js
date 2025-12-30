@@ -1,5 +1,5 @@
 
-class Gateway extends plt.SectorGateway {
+export class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() {
     if (glb.env.isWeb3()) {
       return this.#createWeb3MainViewContentFragment();
@@ -31,5 +31,10 @@ class Gateway extends plt.SectorGateway {
   }
 };
 
-xchg.Gateway = Gateway;
-}(window.xchg = window.xchg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.xchg = window.xchg || {};
+  window.xchg.Gateway = Gateway;
+}

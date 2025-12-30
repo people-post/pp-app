@@ -18,7 +18,7 @@ const _CFT_RETRIEVE_PASSWORD = {
     <div>__R_THANK_YOU__!</div>`,
 }
 
-class FvcRetrievePassword extends ui.FScrollViewContent {
+export class FvcRetrievePassword extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fSubmit = new ui.Button();
@@ -92,7 +92,10 @@ class FvcRetrievePassword extends ui.FScrollViewContent {
     v.setContentFragment(f);
     this._owner.onContentFragmentRequestReplaceView(this, v, "Message");
   }
-};
+}
 
-auth.FvcRetrievePassword = FvcRetrievePassword;
-}(window.auth = window.auth || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.auth = window.auth || {};
+  window.auth.FvcRetrievePassword = FvcRetrievePassword;
+}

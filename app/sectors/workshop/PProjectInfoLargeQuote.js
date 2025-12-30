@@ -14,7 +14,7 @@ const _CPT_PROJECT_INFO_LARGE_QUOTE = {
   </div>`,
 }
 
-class PProjectInfoLargeQuote extends wksp.PProjectInfoBase {
+export class PProjectInfoLargeQuote extends wksp.PProjectInfoBase {
   constructor() {
     super();
     this._pUserName = new ui.PanelWrapper();
@@ -48,5 +48,10 @@ class PProjectInfoLargeQuote extends wksp.PProjectInfoBase {
   }
 };
 
-wksp.PProjectInfoLargeQuote = PProjectInfoLargeQuote;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PProjectInfoLargeQuote = PProjectInfoLargeQuote;
+}

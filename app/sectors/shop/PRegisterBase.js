@@ -1,5 +1,5 @@
 
-class PRegisterBase extends ui.Panel {
+export class PRegisterBase extends ui.Panel {
   constructor() { super(); }
 
   isColorInvertible() { return false; }
@@ -13,5 +13,10 @@ class PRegisterBase extends ui.Panel {
   invertColor() {}
 };
 
-shop.PRegisterBase = PRegisterBase;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PRegisterBase = PRegisterBase;
+}

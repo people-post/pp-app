@@ -190,14 +190,12 @@ class FvcLogin extends auth.FvcWeb2LoginBase {
     }
   }
 
-  #isEnterEvt(evt) { return !evt.shiftKey && evt.key === "Enter"; }
-};
-
-auth.FvcLogin = FvcLogin;
-}(window.auth = window.auth || {}));
+  #isEnterEvt(evt) { return !evt.shiftKey && evt.key === "Enter";   }
+}
 
 // Backward compatibility
 if (typeof window !== 'undefined') {
   window.auth = window.auth || {};
   window.auth.CF_LOGIN = CF_LOGIN;
+  window.auth.FvcLogin = FvcLogin;
 }

@@ -30,7 +30,7 @@ const _CVF_EXCHANGE_ITEM = {
       `<span class="u-font5 bgwhite">Go to <a target="_blank" href="https://gcabin.com/?sector=extras&page=exchange">G-Cabin&#x1f517;</a> for more options</span>`,
 }
 
-class FExchangeItemInfo extends ui.Fragment {
+export class FExchangeItemInfo extends ui.Fragment {
   constructor() {
     super();
     this._item = null;
@@ -101,5 +101,10 @@ class FExchangeItemInfo extends ui.Fragment {
   #onSellClicked() { console.log("Sell"); }
 };
 
-xchg.FExchangeItemInfo = FExchangeItemInfo;
-}(window.xchg = window.xchg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.xchg = window.xchg || {};
+  window.xchg.FExchangeItemInfo = FExchangeItemInfo;
+}

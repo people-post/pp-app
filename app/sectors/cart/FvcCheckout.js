@@ -1,5 +1,5 @@
 
-class FvcCheckout extends ui.FScrollViewContent {
+export class FvcCheckout extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fShipping = new gui.AddressEditor();
@@ -57,5 +57,10 @@ class FvcCheckout extends ui.FScrollViewContent {
   }
 };
 
-cart.FvcCheckout = FvcCheckout;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.FvcCheckout = FvcCheckout;
+}

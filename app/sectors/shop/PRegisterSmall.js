@@ -9,7 +9,7 @@ const _CPT_REGISTER_SMALL = {
   </div>`,
 };
 
-class PRegisterSmall extends shop.PRegisterBase {
+export class PRegisterSmall extends shop.PRegisterBase {
   constructor() {
     super();
     this._pName = new ui.Panel();
@@ -43,5 +43,10 @@ class PRegisterSmall extends shop.PRegisterBase {
   }
 };
 
-shop.PRegisterSmall = PRegisterSmall;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PRegisterSmall = PRegisterSmall;
+}

@@ -1,5 +1,5 @@
 
-class FvcPreCheckout extends ui.FScrollViewContent {
+export class FvcPreCheckout extends ui.FScrollViewContent {
   // Serves as checkout register
   constructor() {
     super();
@@ -81,5 +81,10 @@ class FvcPreCheckout extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcPreCheckout = FvcPreCheckout;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcPreCheckout = FvcPreCheckout;
+}

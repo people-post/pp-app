@@ -1,5 +1,5 @@
 
-class FInsiderAuthorDraftList extends blog.FDraftList {
+export class FInsiderAuthorDraftList extends blog.FDraftList {
   _renderOnRender(render) {
     let pMain = new ui.SectionPanel("Authored");
     render.wrapPanel(pMain);
@@ -8,5 +8,10 @@ class FInsiderAuthorDraftList extends blog.FDraftList {
   }
 };
 
-blog.FInsiderAuthorDraftList = FInsiderAuthorDraftList;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FInsiderAuthorDraftList = FInsiderAuthorDraftList;
+}

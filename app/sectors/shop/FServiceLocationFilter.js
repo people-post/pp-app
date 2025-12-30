@@ -1,5 +1,5 @@
 
-class FServiceLocationFilter extends ui.Fragment {
+export class FServiceLocationFilter extends ui.Fragment {
   constructor() {
     super();
     this._fAllLocations = [];
@@ -64,5 +64,10 @@ class FServiceLocationFilter extends ui.Fragment {
   }
 };
 
-shop.FServiceLocationFilter = FServiceLocationFilter;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FServiceLocationFilter = FServiceLocationFilter;
+}

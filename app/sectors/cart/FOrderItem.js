@@ -1,5 +1,5 @@
 
-class FOrderItem extends ui.Fragment {
+export class FOrderItem extends ui.Fragment {
   constructor() {
     super();
     this._fSubItems = new ui.FSimpleFragmentList();
@@ -22,5 +22,10 @@ class FOrderItem extends ui.Fragment {
   }
 };
 
-cart.FOrderItem = FOrderItem;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.FOrderItem = FOrderItem;
+}

@@ -11,7 +11,7 @@ const _CFT_CUSTOMER_ORDER = {
   ACT_ONCLICK : `javascript:G.action(cart.CF_CUSTOMER_ORDER.ON_CLICK)`,
 };
 
-class FOrder extends ui.Fragment {
+export class FOrder extends ui.Fragment {
   static T_LAYOUT = {
     FULL : Symbol(),
     INFO: Symbol(),
@@ -302,8 +302,7 @@ class FOrder extends ui.Fragment {
   }
 };
 
-cart.FOrder = FOrder;
-}(window.cart = window.cart || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

@@ -1,5 +1,5 @@
 
-class FAllEmailList extends emal.FEmailList {
+export class FAllEmailList extends emal.FEmailList {
   constructor() {
     super();
     this._isBatchLoading = false;
@@ -51,5 +51,10 @@ class FAllEmailList extends emal.FEmailList {
   }
 };
 
-emal.FAllEmailList = FAllEmailList;
-}(window.emal = window.emal || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.emal = window.emal || {};
+  window.emal.FAllEmailList = FAllEmailList;
+}

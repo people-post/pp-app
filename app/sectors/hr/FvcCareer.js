@@ -4,7 +4,7 @@ const _CFT_CAREER_CONTENT = {
     <div class="user-info-name">__NAME__</div>`,
 }
 
-class FvcCareer extends ui.FScrollViewContent {
+export class FvcCareer extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fMembers = new ui.GridFragment();
@@ -144,5 +144,10 @@ class FvcCareer extends ui.FScrollViewContent {
   }
 };
 
-hr.FvcCareer = FvcCareer;
-}(window.hr = window.hr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hr = window.hr || {};
+  window.hr.FvcCareer = FvcCareer;
+}

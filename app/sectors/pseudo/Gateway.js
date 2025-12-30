@@ -1,5 +1,5 @@
 
-class Gateway extends plt.SectorGateway {
+export class Gateway extends plt.SectorGateway {
   static T_CONFIG = {
     QUEUE : {ID : C.ID.SECTOR.QUEUE, NAME: "Queue", ICON: C.ICON.QUEUE},
     COUNTER: {ID: C.ID.SECTOR.COUNTER, NAME: "Counter", ICON: C.ICON.INFO},
@@ -87,5 +87,10 @@ class Gateway extends plt.SectorGateway {
   }
 };
 
-psud.Gateway = Gateway;
-}(window.psud = window.psud || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.psud = window.psud || {};
+  window.psud.Gateway = Gateway;
+}

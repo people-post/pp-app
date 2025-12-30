@@ -1,5 +1,5 @@
 
-class FInsiderTaskDraftList extends blog.FDraftList {
+export class FInsiderTaskDraftList extends blog.FDraftList {
   _renderOnRender(render) {
     let pMain = new ui.SectionPanel(dba.Account.isWebOwner() ? "External tasks"
                                                              : "Tasks");
@@ -8,5 +8,10 @@ class FInsiderTaskDraftList extends blog.FDraftList {
   }
 };
 
-blog.FInsiderTaskDraftList = FInsiderTaskDraftList;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FInsiderTaskDraftList = FInsiderTaskDraftList;
+}

@@ -1,5 +1,5 @@
 
-class FvcQueueMain extends ui.FScrollViewContent {
+export class FvcQueueMain extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fQueue = new shop.FWalkinQueue();
@@ -52,5 +52,10 @@ class FvcQueueMain extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcQueueMain = FvcQueueMain;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcQueueMain = FvcQueueMain;
+}

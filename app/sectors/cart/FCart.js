@@ -3,7 +3,7 @@ const _CFT_CART = {
   TITLE : `[__NAME__]`,
 };
 
-class FCart extends ui.Fragment {
+export class FCart extends ui.Fragment {
   static T_LAYOUT = {
     ACTIVE : Symbol(),
     RESERVE: Symbol(),
@@ -174,5 +174,10 @@ class FCart extends ui.Fragment {
   }
 };
 
-cart.FCart = FCart;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.FCart = FCart;
+}

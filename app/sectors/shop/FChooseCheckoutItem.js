@@ -1,5 +1,5 @@
 
-class FChooseCheckoutItem extends ui.Fragment {
+export class FChooseCheckoutItem extends ui.Fragment {
   action(type, ...args) {
     switch (type) {
     default:
@@ -25,5 +25,10 @@ class FChooseCheckoutItem extends ui.Fragment {
   }
 };
 
-shop.FChooseCheckoutItem = FChooseCheckoutItem;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FChooseCheckoutItem = FChooseCheckoutItem;
+}

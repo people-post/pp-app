@@ -1,5 +1,5 @@
 
-class FChatHeader extends ui.Fragment {
+export class FChatHeader extends ui.Fragment {
   constructor() {
     super();
     this._target = null;
@@ -33,5 +33,10 @@ class FChatHeader extends ui.Fragment {
   }
 };
 
-msgr.FChatHeader = FChatHeader;
-}(window.msgr = window.msgr || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.FChatHeader = FChatHeader;
+}

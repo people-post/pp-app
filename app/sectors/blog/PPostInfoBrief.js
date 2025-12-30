@@ -27,7 +27,7 @@ const _CPT_POST_INFO_BRIEF = {
   </div>`,
 }
 
-class PPostInfoBrief extends gui.PPostInfoBase {
+export class PPostInfoBrief extends gui.PPostInfoBase {
   #pTags;
   #pTitle;
   #pContent;
@@ -86,5 +86,10 @@ class PPostInfoBrief extends gui.PPostInfoBase {
   }
 };
 
-blog.PPostInfoBrief = PPostInfoBrief;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPostInfoBrief = PPostInfoBrief;
+}

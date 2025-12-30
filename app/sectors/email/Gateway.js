@@ -1,5 +1,5 @@
 
-class Gateway extends plt.SectorGateway {
+export class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() {
     let f = new ui.FViewContentMux();
 
@@ -15,5 +15,10 @@ class Gateway extends plt.SectorGateway {
   }
 };
 
-emal.Gateway = Gateway;
-}(window.emal = window.emal || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.emal = window.emal || {};
+  window.emal.Gateway = Gateway;
+}

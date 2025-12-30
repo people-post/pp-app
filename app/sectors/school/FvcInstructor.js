@@ -1,5 +1,5 @@
 
-class FvcInstructor extends ui.FScrollViewContent {
+export class FvcInstructor extends ui.FScrollViewContent {
   _renderContentOnRender(render) {
     // Approve hours.
     // Certificate of training.
@@ -7,5 +7,10 @@ class FvcInstructor extends ui.FScrollViewContent {
   }
 };
 
-scol.FvcInstructor = FvcInstructor;
-}(window.scol = window.scol || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.FvcInstructor = FvcInstructor;
+}

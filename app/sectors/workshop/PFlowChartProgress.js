@@ -5,7 +5,7 @@ const _CPT_FLOW_CHART_PROGRESS = {
   </div>`,
 }
 
-class PFlowChartProgress extends ui.PanelWrapper {
+export class PFlowChartProgress extends ui.PanelWrapper {
   constructor() {
     super();
     this._elementType = "foreignObject";
@@ -31,5 +31,10 @@ class PFlowChartProgress extends ui.PanelWrapper {
   }
 };
 
-wksp.PFlowChartProgress = PFlowChartProgress;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.PFlowChartProgress = PFlowChartProgress;
+}

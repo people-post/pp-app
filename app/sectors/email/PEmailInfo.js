@@ -18,7 +18,7 @@ const _CPT_EMAIL_INFO = {
   </div>`,
 }
 
-class PEmailInfo extends emal.PEmailBase {
+export class PEmailInfo extends emal.PEmailBase {
   constructor() {
     super();
     this._pIcon = new ui.Panel();
@@ -56,5 +56,10 @@ class PEmailInfo extends emal.PEmailBase {
   }
 };
 
-emal.PEmailInfo = PEmailInfo;
-}(window.emal = window.emal || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.emal = window.emal || {};
+  window.emal.PEmailInfo = PEmailInfo;
+}

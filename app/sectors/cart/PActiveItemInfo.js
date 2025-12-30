@@ -17,7 +17,7 @@ const _CPT_ACTIVE_ITEM_INFO = {
   </div>`,
 }
 
-class PActiveItemInfo extends cart.PCartItemInfo {
+export class PActiveItemInfo extends cart.PCartItemInfo {
   constructor() {
     super();
     this._pQuantity = new ui.Panel();
@@ -49,5 +49,10 @@ class PActiveItemInfo extends cart.PCartItemInfo {
   }
 };
 
-cart.PActiveItemInfo = PActiveItemInfo;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.PActiveItemInfo = PActiveItemInfo;
+}

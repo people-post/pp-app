@@ -27,7 +27,7 @@ const _CPT_JOURNAL_ISSUE_EDITOR = {
 
 };
 
-class PEditor extends ui.Panel {
+export class PEditor extends ui.Panel {
   #pIssueId;
   #pAbstract;
   #pSummary;
@@ -539,7 +539,7 @@ class FJournalIssueEditor extends ui.Fragment {
 };
 
 blog.FJournalIssueEditor = FJournalIssueEditor;
-}(window.blog = window.blog || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

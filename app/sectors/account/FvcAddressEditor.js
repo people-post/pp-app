@@ -1,5 +1,4 @@
-
-class FvcAddressEditor extends ui.FScrollViewContent {
+export class FvcAddressEditor extends ui.FScrollViewContent {
   #fAddress;
   #btnSubmit;
   #addressId = null;
@@ -95,7 +94,10 @@ class FvcAddressEditor extends ui.FScrollViewContent {
     dba.Account.resetAddressIds(data.address_ids);
     this._owner.onContentFragmentRequestPopView(this);
   }
-};
+}
 
-acnt.FvcAddressEditor = FvcAddressEditor;
-}(window.acnt = window.acnt || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.acnt = window.acnt || {};
+  window.acnt.FvcAddressEditor = FvcAddressEditor;
+}

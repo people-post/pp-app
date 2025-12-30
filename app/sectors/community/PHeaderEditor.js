@@ -7,7 +7,7 @@ const _CPT_COMMUNITY_HEADER_EDITOR = {
   </div>`,
 };
 
-class PHeaderEditor extends ui.Panel {
+export class PHeaderEditor extends ui.Panel {
   constructor() {
     super();
     this._pBgImage = new ui.PanelWrapper();
@@ -35,5 +35,10 @@ class PHeaderEditor extends ui.Panel {
   }
 };
 
-cmut.PHeaderEditor = PHeaderEditor;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.PHeaderEditor = PHeaderEditor;
+}

@@ -1,5 +1,5 @@
 
-class FFeedArticleInfo extends blog.FPostBase {
+export class FFeedArticleInfo extends blog.FPostBase {
   #fAttachment;
   #fThumbnail;
   #fOwnerName;
@@ -169,5 +169,10 @@ class FFeedArticleInfo extends blog.FPostBase {
   }
 };
 
-blog.FFeedArticleInfo = FFeedArticleInfo;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FFeedArticleInfo = FFeedArticleInfo;
+}

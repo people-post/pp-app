@@ -1,5 +1,5 @@
 
-class FPreviewOrder extends ui.Fragment {
+export class FPreviewOrder extends ui.Fragment {
   constructor() {
     super();
     this._fItems = new ui.FSimpleFragmentList();
@@ -40,5 +40,10 @@ class FPreviewOrder extends ui.Fragment {
   }
 };
 
-cart.FPreviewOrder = FPreviewOrder;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.FPreviewOrder = FPreviewOrder;
+}

@@ -1,5 +1,5 @@
 
-class Gateway extends plt.SectorGateway {
+export class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() {
     if (dba.Account.isAuthenticated()) {
       if (dba.Account.isWebOwner()) {
@@ -49,5 +49,10 @@ class Gateway extends plt.SectorGateway {
   }
 };
 
-ftpg.Gateway = Gateway;
-}(window.ftpg = window.ftpg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.ftpg = window.ftpg || {};
+  window.ftpg.Gateway = Gateway;
+}

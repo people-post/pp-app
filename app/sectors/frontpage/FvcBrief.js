@@ -68,7 +68,7 @@ const _CPT_BRIEF = {
   </div>`,
 };
 
-class PBriefBase extends ui.Panel {
+export class PBriefBase extends ui.Panel {
   getBannerPanel() { return null; }
   getPostsPanel() { return null; }
   getCalendarBtnPanel() { return null; }
@@ -597,7 +597,7 @@ class FvcBrief extends ui.FViewContentBase {
 };
 
 ftpg.FvcBrief = FvcBrief;
-}(window.ftpg = window.ftpg || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

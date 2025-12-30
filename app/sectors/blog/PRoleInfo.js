@@ -9,7 +9,7 @@ const _CPT_ROLE_INFO = {
   </div>`,
 };
 
-class PRoleInfo extends ui.Panel {
+export class PRoleInfo extends ui.Panel {
   constructor() {
     super();
     this._pName = new ui.Panel();
@@ -43,5 +43,10 @@ class PRoleInfo extends ui.Panel {
   }
 };
 
-blog.PRoleInfo = PRoleInfo;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PRoleInfo = PRoleInfo;
+}

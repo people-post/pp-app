@@ -1,5 +1,4 @@
-
-class FvcWeb3Basic extends ui.FScrollViewContent {
+export class FvcWeb3Basic extends ui.FScrollViewContent {
   #fName;
   #fNickname;
   #fIcon;
@@ -82,7 +81,10 @@ class FvcWeb3Basic extends ui.FScrollViewContent {
     d.icon_cid = cid;
     await dba.Account.asUpdateProfile(d, [ cid ]);
   }
-};
+}
 
-acnt.FvcWeb3Basic = FvcWeb3Basic;
-}(window.acnt = window.acnt || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.acnt = window.acnt || {};
+  window.acnt.FvcWeb3Basic = FvcWeb3Basic;
+}

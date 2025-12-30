@@ -1,5 +1,5 @@
 
-class FJournalIssue extends blog.FPostBase {
+export class FJournalIssue extends blog.FPostBase {
   #issueId = null;
   #fSections;
 
@@ -123,5 +123,10 @@ class FJournalIssue extends blog.FPostBase {
   }
 };
 
-blog.FJournalIssue = FJournalIssue;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FJournalIssue = FJournalIssue;
+}

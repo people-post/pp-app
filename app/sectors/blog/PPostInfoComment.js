@@ -12,7 +12,7 @@ const _CPT_POST_INFO_COMMENT = {
   </div>`,
 };
 
-class PPostInfoComment extends gui.PPostInfoBase {
+export class PPostInfoComment extends gui.PPostInfoBase {
   #pOwnerIcon;
   #pOwnerName;
   #pContent;
@@ -49,5 +49,10 @@ class PPostInfoComment extends gui.PPostInfoBase {
   }
 };
 
-blog.PPostInfoComment = PPostInfoComment;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPostInfoComment = PPostInfoComment;
+}

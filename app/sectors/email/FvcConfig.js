@@ -1,5 +1,10 @@
 
-class FvcConfig extends ui.FScrollViewContent {};
+export class FvcConfig extends ui.FScrollViewContent {};
 
-emal.FvcConfig = FvcConfig;
-}(window.emal = window.emal || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.emal = window.emal || {};
+  window.emal.FvcConfig = FvcConfig;
+}

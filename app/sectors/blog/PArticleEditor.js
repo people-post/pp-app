@@ -24,7 +24,7 @@ const _CPT_ARTICLE_EDITOR = {
   <br>`,
 };
 
-class PArticleEditor extends blog.PArticleBase {
+export class PArticleEditor extends blog.PArticleBase {
   #pTitle;
   #pFiles;
   #pAttachment;
@@ -86,5 +86,10 @@ class PArticleEditor extends blog.PArticleBase {
   }
 };
 
-blog.PArticleEditor = PArticleEditor;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PArticleEditor = PArticleEditor;
+}

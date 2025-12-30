@@ -1,5 +1,5 @@
 
-class FProductInfoLayoutPreview extends ui.Fragment {
+export class FProductInfoLayoutPreview extends ui.Fragment {
   constructor() {
     super();
     this._desciption = "";
@@ -62,5 +62,10 @@ class FProductInfoLayoutPreview extends ui.Fragment {
   }
 };
 
-shop.FProductInfoLayoutPreview = FProductInfoLayoutPreview;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FProductInfoLayoutPreview = FProductInfoLayoutPreview;
+}

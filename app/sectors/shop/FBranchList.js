@@ -1,5 +1,5 @@
 
-class FBranchList extends ui.Fragment {
+export class FBranchList extends ui.Fragment {
   #fItems;
   #btnAdd;
   #ids = null;
@@ -98,5 +98,10 @@ class FBranchList extends ui.Fragment {
   }
 };
 
-shop.FBranchList = FBranchList;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FBranchList = FBranchList;
+}

@@ -1,5 +1,5 @@
 
-class FArticleInfo extends blog.FPostBase {
+export class FArticleInfo extends blog.FPostBase {
   #fAttachment;
   #fThumbnail;
   #fQuote;
@@ -304,5 +304,10 @@ class FArticleInfo extends blog.FPostBase {
   }
 };
 
-blog.FArticleInfo = FArticleInfo;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FArticleInfo = FArticleInfo;
+}

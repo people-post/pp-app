@@ -1,5 +1,5 @@
 
-class FSupplierOrderList extends gui.DefaultLongList {
+export class FSupplierOrderList extends gui.DefaultLongList {
   isOrderSelected(orderId) { return this._currentId == orderId; }
 
   onSupplierOrderFragmentRequestShowOrder(fOrderInfo, orderId) {
@@ -58,5 +58,10 @@ class FSupplierOrderList extends gui.DefaultLongList {
   }
 };
 
-shop.FSupplierOrderList = FSupplierOrderList;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FSupplierOrderList = FSupplierOrderList;
+}

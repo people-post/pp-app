@@ -1,5 +1,5 @@
 
-class FOrderList extends gui.DefaultLongList {
+export class FOrderList extends gui.DefaultLongList {
   isOrderSelected(orderId) { return this._currentId == orderId; }
 
   onCustomerOrderInfoFragmentRequestShowOrder(fOrderInfo, orderId) {
@@ -58,5 +58,10 @@ class FOrderList extends gui.DefaultLongList {
   }
 };
 
-cart.FOrderList = FOrderList;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.FOrderList = FOrderList;
+}

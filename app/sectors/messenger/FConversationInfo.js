@@ -1,5 +1,5 @@
 
-class FConversationInfo extends msgr.FChatThreadInfo {
+export class FConversationInfo extends msgr.FChatThreadInfo {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case plt.T_DATA.USER_PROFILE:
@@ -30,6 +30,11 @@ class FConversationInfo extends msgr.FChatThreadInfo {
   }
 };
 
-msgr.FConversationInfo = FConversationInfo;
-}(window.msgr = window.msgr || {}));
 
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.msgr = window.msgr || {};
+  window.msgr.FConversationInfo = FConversationInfo;
+}

@@ -1,5 +1,5 @@
 
-class FvcReport extends ui.FScrollViewContent {
+export class FvcReport extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fRequestList = new ui.FSimpleFragmentList();
@@ -43,5 +43,10 @@ class FvcReport extends ui.FScrollViewContent {
   }
 };
 
-shop.FvcReport = FvcReport;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcReport = FvcReport;
+}

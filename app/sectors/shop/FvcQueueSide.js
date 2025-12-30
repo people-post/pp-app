@@ -1,7 +1,12 @@
 
-class FvcQueueSide extends ui.FScrollViewContent {
+export class FvcQueueSide extends ui.FScrollViewContent {
   _renderContentOnRender(render) { render.replaceContent("Advertisement"); }
 };
 
-shop.FvcQueueSide = FvcQueueSide;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.FvcQueueSide = FvcQueueSide;
+}

@@ -29,7 +29,7 @@ const _CPT_PRODUCT_INFO_LARGE = {
     </div>`,
 }
 
-class PProductInfoLarge extends shop.PProductInfoBase {
+export class PProductInfoLarge extends shop.PProductInfoBase {
   constructor() {
     super();
     this._pSellerIcon = new ui.PanelWrapper();
@@ -71,5 +71,10 @@ class PProductInfoLarge extends shop.PProductInfoBase {
   }
 };
 
-shop.PProductInfoLarge = PProductInfoLarge;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PProductInfoLarge = PProductInfoLarge;
+}

@@ -1,5 +1,10 @@
 
-class FCashierNoticeList extends ui.Fragment {};
+export class FCashierNoticeList extends ui.Fragment {};
 
-xchg.FCashierNoticeList = FCashierNoticeList;
-}(window.xchg = window.xchg || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.xchg = window.xchg || {};
+  window.xchg.FCashierNoticeList = FCashierNoticeList;
+}

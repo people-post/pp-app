@@ -2,7 +2,7 @@ export const CF_SHOP_WALKIN_QUEUE_ITEM = {
   ON_CLICK : Symbol(),
 };
 
-class FWalkinQueueItem extends ui.Fragment {
+export class FWalkinQueueItem extends ui.Fragment {
   static T_LAYOUT = {INFO : "INFO", FULL: "FULL"};
   constructor() {
     super();
@@ -276,8 +276,7 @@ class FWalkinQueueItem extends ui.Fragment {
   }
 };
 
-shop.FWalkinQueueItem = FWalkinQueueItem;
-}(window.shop = window.shop || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

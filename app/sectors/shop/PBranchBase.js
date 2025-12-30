@@ -1,5 +1,5 @@
 
-class PBranchBase extends ui.Panel {
+export class PBranchBase extends ui.Panel {
   constructor() { super(); }
 
   isColorInvertible() { return false; }
@@ -14,5 +14,10 @@ class PBranchBase extends ui.Panel {
   invertColor() {}
 };
 
-shop.PBranchBase = PBranchBase;
-}(window.shop = window.shop || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.PBranchBase = PBranchBase;
+}

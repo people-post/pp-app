@@ -1,5 +1,5 @@
 
-class FRoleList extends ui.Fragment {
+export class FRoleList extends ui.Fragment {
   constructor() {
     super();
     this._fList = new ui.FSimpleFragmentList();
@@ -37,5 +37,10 @@ class FRoleList extends ui.Fragment {
   }
 };
 
-blog.FRoleList = FRoleList;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FRoleList = FRoleList;
+}

@@ -1,5 +1,5 @@
 
-class PCartItemInfo extends ui.Panel {
+export class PCartItemInfo extends ui.Panel {
   constructor() {
     super();
     this._pTitle = new ui.Panel();
@@ -17,5 +17,10 @@ class PCartItemInfo extends ui.Panel {
   getMoveToCartBtnPanel() { return null; }
 };
 
-cart.PCartItemInfo = PCartItemInfo;
-}(window.cart = window.cart || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.PCartItemInfo = PCartItemInfo;
+}

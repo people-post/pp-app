@@ -2,7 +2,7 @@ export const CF_QUIZ_INFO = {
   VIEW_QUIZ : Symbol(),
 };
 
-class FQuiz extends gui.MajorSectorItem {
+export class FQuiz extends gui.MajorSectorItem {
   static T_LAYOUT = {
     FULL : Symbol(),
     INFO: Symbol(),
@@ -98,8 +98,7 @@ class FQuiz extends gui.MajorSectorItem {
   }
 };
 
-scol.FQuiz = FQuiz;
-}(window.scol = window.scol || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

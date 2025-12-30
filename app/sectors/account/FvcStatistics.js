@@ -1,5 +1,4 @@
-
-class FvcStatistics extends ui.FScrollViewContent {
+export class FvcStatistics extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fVisit = new stat.FVisit();
@@ -28,7 +27,10 @@ class FvcStatistics extends ui.FScrollViewContent {
     this._fVisit.attachRender(pp.getContentPanel());
     this._fVisit.render();
   }
-};
+}
 
-acnt.FvcStatistics = FvcStatistics;
-}(window.acnt = window.acnt || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.acnt = window.acnt || {};
+  window.acnt.FvcStatistics = FvcStatistics;
+}

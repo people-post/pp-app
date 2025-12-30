@@ -3,7 +3,7 @@ const _CFT_CLAIM_DOMAIN = {
   MAIN : `Claim domain`,
 };
 
-class FvcClaimDomain extends ui.FScrollViewContent {
+export class FvcClaimDomain extends ui.FScrollViewContent {
   action(type, ...args) {
     switch (type) {
     default:
@@ -17,5 +17,10 @@ class FvcClaimDomain extends ui.FScrollViewContent {
   }
 };
 
-hstn.FvcClaimDomain = FvcClaimDomain;
-}(window.hstn = window.hstn || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.FvcClaimDomain = FvcClaimDomain;
+}

@@ -8,7 +8,7 @@ const _CPT_PROPOSAL = {
     <div id="__ID_CONTENT__"></div>`,
 }
 
-class PProposal extends cmut.PProposalBase {
+export class PProposal extends cmut.PProposalBase {
   constructor() {
     super();
     this._pTitle = new ui.Panel();
@@ -40,5 +40,10 @@ class PProposal extends cmut.PProposalBase {
   }
 };
 
-cmut.PProposal = PProposal;
-}(window.cmut = window.cmut || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.PProposal = PProposal;
+}

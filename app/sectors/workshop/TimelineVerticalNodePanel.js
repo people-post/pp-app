@@ -18,7 +18,7 @@ const _CPT_TIMELINE_VERTICAL_NODE = {
   </div>`,
 };
 
-class TimelineVerticalNodePanel extends ui.PanelWrapper {
+export class TimelineVerticalNodePanel extends ui.PanelWrapper {
   constructor() {
     super();
     this._pNode = new ui.Panel();
@@ -67,5 +67,10 @@ class TimelineVerticalNodePanel extends ui.PanelWrapper {
   }
 };
 
-wksp.TimelineVerticalNodePanel = TimelineVerticalNodePanel;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.TimelineVerticalNodePanel = TimelineVerticalNodePanel;
+}

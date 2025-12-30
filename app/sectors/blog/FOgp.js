@@ -10,7 +10,7 @@ const _CFT_OGP = {
       `<span class="thumbnail-grid thumbnail-grid-1-1" style="background-image:url('__URL__')" onclick="javascript:G.action(CF_OGP.ON_CLICK)"></span>`,
 }
 
-class FOgp extends ui.Fragment {
+export class FOgp extends ui.Fragment {
   constructor() {
     super();
     this._url = null;
@@ -112,5 +112,10 @@ class FOgp extends ui.Fragment {
   #onClick() { window.open(this._url, "_blank"); }
 };
 
-blog.FOgp = FOgp;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FOgp = FOgp;
+}

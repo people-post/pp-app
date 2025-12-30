@@ -10,7 +10,7 @@ const _CFT_BLOG_CONFIG_CONTENT = {
     <br>`,
 }
 
-class FvcConfig extends ui.FScrollViewContent {
+export class FvcConfig extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fInsiders = new blog.FRoleList();
@@ -224,5 +224,10 @@ class FvcConfig extends ui.FScrollViewContent {
   }
 };
 
-blog.FvcConfig = FvcConfig;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FvcConfig = FvcConfig;
+}

@@ -23,7 +23,7 @@ const _CPT_POST_INFO_HUGE = {
   </div>`,
 }
 
-class PPostInfoHuge extends gui.PPostInfoBase {
+export class PPostInfoHuge extends gui.PPostInfoBase {
   constructor() {
     super();
     this._pTitle = new ui.Panel();
@@ -62,5 +62,10 @@ class PPostInfoHuge extends gui.PPostInfoBase {
   }
 };
 
-blog.PPostInfoHuge = PPostInfoHuge;
-}(window.blog = window.blog || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.PPostInfoHuge = PPostInfoHuge;
+}

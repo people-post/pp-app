@@ -15,7 +15,7 @@ const _CFT_PROPOSAL = {
   <div>Status: __STATUS__</div>`,
 };
 
-class FProposal extends ui.Fragment {
+export class FProposal extends ui.Fragment {
   static T_LAYOUT = {
     FULL : Symbol(),
     INFO: Symbol(),
@@ -341,8 +341,7 @@ class FProposal extends ui.Fragment {
   #onVote(value) { dba.Communities.asyncVote(this._proposalId, value); }
 };
 
-cmut.FProposal = FProposal;
-}(window.cmut = window.cmut || {}));
+
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

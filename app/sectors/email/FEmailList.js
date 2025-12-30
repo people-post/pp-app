@@ -1,5 +1,5 @@
 
-class FEmailList extends ui.FLongListLegacy {
+export class FEmailList extends ui.FLongListLegacy {
   initFromUrl(urlParam) {
     let id = urlParam.get(ui.C.URL_PARAM.ID);
     if (id) {
@@ -70,5 +70,10 @@ class FEmailList extends ui.FLongListLegacy {
   _asyncLoadItems() {}
 };
 
-emal.FEmailList = FEmailList;
-}(window.emal = window.emal || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.emal = window.emal || {};
+  window.emal.FEmailList = FEmailList;
+}

@@ -1,5 +1,5 @@
 
-class FvcConfig extends ui.FScrollViewContent {
+export class FvcConfig extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fTeams = new ui.FSimpleFragmentList();
@@ -133,5 +133,10 @@ class FvcConfig extends ui.FScrollViewContent {
   }
 };
 
-wksp.FvcConfig = FvcConfig;
-}(window.wksp = window.wksp || {}));
+
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FvcConfig = FvcConfig;
+}
