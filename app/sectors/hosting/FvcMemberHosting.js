@@ -15,6 +15,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FWaiting } from '../../lib/ui/controllers/fragments/FWaiting.js';
 import { FvcConfirmAction } from '../../lib/ui/controllers/fragments/FvcConfirmAction.js';
+import { RemoteError } from '../../common/datatypes/RemoteError.js';
 
 export class FvcMemberHosting extends FScrollViewContent {
   constructor() {
@@ -137,7 +138,7 @@ export class FvcMemberHosting extends FScrollViewContent {
   }
 
   #handleRemoteError(err) {
-    if (err.type == dat.RemoteError.T_TYPE.USER &&
+    if (err.type == RemoteError.T_TYPE.USER &&
         err.code == "E_DOMAIN_IN_USE") {
       this.#onDomainAlreayRegistered();
     } else {

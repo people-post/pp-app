@@ -1,6 +1,7 @@
 import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
 import { C } from '../../lib/framework/Constants.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { WalkinQueueItem } from '../../common/datatypes/WalkinQueueItem.js';
 
 export class FWalkinQueue extends FLongListLegacy {
   constructor() {
@@ -116,7 +117,7 @@ export class FWalkinQueue extends FLongListLegacy {
   #onQueueItemsRRR(data) {
     this._isBatchLoading = false;
     if (data.items.length) {
-      let items = data.items.map(i => new dat.WalkinQueueItem(i));
+      let items = data.items.map(i => new WalkinQueueItem(i));
       items.sort((a, b) => {
         if (a.getCreationTime() < b.getCreationTime()) {
           return 1;

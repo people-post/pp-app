@@ -12,6 +12,8 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FvcReport extends FScrollViewContent {
   #selectedPostId = null;
@@ -46,7 +48,7 @@ export class FvcReport extends FScrollViewContent {
     }
     if (idx < profile.most_commented_articles.length) {
       let n = profile.most_commented_articles[idx];
-      return new dat.SocialItemId(n.uuid, dat.SocialItem.TYPE.ARTICLE);
+      return new SocialItemId(n.uuid, SocialItem.TYPE.ARTICLE);
     }
     return null;
   }
@@ -63,7 +65,7 @@ export class FvcReport extends FScrollViewContent {
     }
     if (idx >= 0 && idx + 1 < profile.most_commented_articles.length) {
       let n = profile.most_commented_articles[idx];
-      return new dat.SocialItemId(n.uuid, dat.SocialItem.TYPE.ARTICLE);
+      return new SocialItemId(n.uuid, SocialItem.TYPE.ARTICLE);
     }
     return null;
   }
@@ -131,7 +133,7 @@ export class FvcReport extends FScrollViewContent {
 
   #onViewPost(postId) {
     this.#selectedPostId =
-        new dat.SocialItemId(postId, dat.SocialItem.TYPE.ARTICLE);
+        new SocialItemId(postId, SocialItem.TYPE.ARTICLE);
     let v = new View();
     let f = new blog.FvcPost();
     f.setPostId(this.#selectedPostId);

@@ -1,6 +1,7 @@
+import { ProductDeliveryChoice } from '../../common/datatypes/ProductDeliveryChoice.js';
 
 export class FAppointmentDeliveryEditor extends shop.FServiceDeliveryEditor {
-  _getType() { return dat.ProductDeliveryChoice.TYPE.SCHEDULE; }
+  _getType() { return ProductDeliveryChoice.TYPE.SCHEDULE; }
 };
 
 

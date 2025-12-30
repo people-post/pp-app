@@ -53,6 +53,9 @@ import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { User } from '../../common/datatypes/User.js';
 
 export class FUserInfoHeroBanner extends Fragment {
   constructor() {
@@ -283,9 +286,9 @@ export class FUserInfoHeroBanner extends Fragment {
   }
 
   #onSendMessage(userId) {
-    let target = new dat.ChatTarget();
+    let target = new ChatTarget();
     target.setId(userId);
-    target.setIdType(dat.SocialItem.TYPE.USER);
+    target.setIdType(SocialItem.TYPE.USER);
     this._delegate.onUserInfoHeroBannerFragmentRequestStartChat(this, target);
   }
 
@@ -361,7 +364,7 @@ export class FUserInfoHeroBanner extends Fragment {
   }
 
   #onBriefBioUpdateRRR(data) {
-    dba.Users.update(new dat.User(data.profile));
+    dba.Users.update(new User(data.profile));
     this.render();
   }
 };

@@ -1,4 +1,5 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 
 export class FPostList extends gui.FSocialItemList {
   #loader;
@@ -9,11 +10,11 @@ export class FPostList extends gui.FSocialItemList {
 
   getPreviousPostIdForPostContentFragment(fvcPost) {
     let sid = this._getIdRecord().findIdBefore(this.getCurrentId());
-    return sid ? dat.SocialItemId.fromEncodedStr(sid) : null;
+    return sid ? SocialItemId.fromEncodedStr(sid) : null;
   }
   getNextPostIdForPostContentFragment(fvcPost) {
     let sid = this._getIdRecord().findIdAfter(this.getCurrentId());
-    return sid ? dat.SocialItemId.fromEncodedStr(sid) : null;
+    return sid ? SocialItemId.fromEncodedStr(sid) : null;
   }
   getContextOptionsForPostInfoFragment(fPostInfo, article) {
     return ext.Utilities.optCall(
@@ -64,7 +65,7 @@ export class FPostList extends gui.FSocialItemList {
   _asyncLoadBackItems() { this.#loader.asyncLoadBackItems(); }
 
   _createInfoFragment(id) {
-    let sid = dat.SocialItemId.fromEncodedStr(id);
+    let sid = SocialItemId.fromEncodedStr(id);
     let f = new blog.FPostInfo();
     f.setDataSource(this);
     f.setDelegate(this);
@@ -81,7 +82,7 @@ export class FPostList extends gui.FSocialItemList {
       return null;
     }
 
-    let sid = dat.SocialItemId.fromEncodedStr(id);
+    let sid = SocialItemId.fromEncodedStr(id);
     if (!sid) {
       return null;
     }

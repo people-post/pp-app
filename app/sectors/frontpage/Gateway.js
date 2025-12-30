@@ -16,11 +16,11 @@ export class Gateway extends plt.SectorGateway {
     let f;
     let c = dba.WebConfig.getFrontPageConfig();
     switch (c.getTemplateId()) {
-    case dat.FrontPageConfig.T_TEMPLATE.JOURNAL:
+    case FrontPageConfig.T_TEMPLATE.JOURNAL:
       f = new ftpg.FvcJournal();
       f.setConfig(c.getTemplateConfig(), c.getLayoutConfig());
       break;
-    case dat.FrontPageConfig.T_TEMPLATE.BRIEF:
+    case FrontPageConfig.T_TEMPLATE.BRIEF:
       // Hack
       glb.env.setSmartTimeDiffThreshold(24 * 3600);
 
@@ -28,7 +28,7 @@ export class Gateway extends plt.SectorGateway {
       f.setOwnerId(dba.WebConfig.getOwnerId());
       f.setConfig(c.getTemplateConfig());
       break;
-    case dat.FrontPageConfig.T_TEMPLATE.BLOCKCHAIN:
+    case FrontPageConfig.T_TEMPLATE.BLOCKCHAIN:
       f = new ftpg.FvcBlockchain();
       break;
     default:

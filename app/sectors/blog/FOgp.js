@@ -1,6 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 window.CF_OGP = {
   ON_CLICK : "CF_OGP_1",
@@ -65,7 +66,7 @@ export class FOgp extends Fragment {
     if (this.#hasImage(ogp)) {
       pp = p.getImagePanel();
       let pThumbnail = new ThumbnailPanelWrapper();
-      if (this._sizeType == dat.SocialItem.T_LAYOUT.EXT_QUOTE_SMALL) {
+      if (this._sizeType == SocialItem.T_LAYOUT.EXT_QUOTE_SMALL) {
         pp.setClassName("quote-element-image-thumbnail-wrapper flex-noshrink");
         pThumbnail.setClassName("aspect-1-1-frame");
       }
@@ -90,7 +91,7 @@ export class FOgp extends Fragment {
   #createPanel() {
     let p;
     switch (this._sizeType) {
-    case dat.SocialItem.T_LAYOUT.EXT_QUOTE_SMALL:
+    case SocialItem.T_LAYOUT.EXT_QUOTE_SMALL:
       p = new blog.POgpSmall();
       break;
     default:

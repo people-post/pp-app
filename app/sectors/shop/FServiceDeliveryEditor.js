@@ -4,6 +4,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcSimpleFragmentList } from '../../lib/ui/controllers/fragments/FvcSimpleFragmentList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ProductDeliveryChoice } from '../../common/datatypes/ProductDeliveryChoice.js';
 
 export class FServiceDeliveryEditor extends shop.FProductDeliveryEditor {
   constructor() {
@@ -60,7 +61,7 @@ export class FServiceDeliveryEditor extends shop.FProductDeliveryEditor {
     }
   }
 
-  _getType() { return dat.ProductDeliveryChoice.TYPE.QUEUE; }
+  _getType() { return ProductDeliveryChoice.TYPE.QUEUE; }
 
   _collectData() {
     let ls = [];

@@ -1,3 +1,4 @@
+import { ClientSignal } from '../../common/datatypes/ClientSignal.js';
 
 export class PeerMessageHandler extends msgr.MessageHandler {
   constructor() {
@@ -21,18 +22,18 @@ export class PeerMessageHandler extends msgr.MessageHandler {
 
   onUserInboxSignal(message) {
     switch (message.type) {
-    case dat.ClientSignal.T_TYPE.MSG:
+    case ClientSignal.T_TYPE.MSG:
       if (message.from_id == this._target.getId()) {
         this._asyncPullMessages();
       }
       break;
-    case dat.ClientSignal.T_TYPE.PEER_CONN_OFFER:
+    case ClientSignal.T_TYPE.PEER_CONN_OFFER:
       this.#handlePeerConnectionOffer(message.data);
       break;
-    case dat.ClientSignal.T_TYPE.PEER_CONN_ANSWER:
+    case ClientSignal.T_TYPE.PEER_CONN_ANSWER:
       this.#handlePeerConnectionAnswer(message.data);
       break;
-    case dat.ClientSignal.T_TYPE.ICE_CANDIDATE:
+    case ClientSignal.T_TYPE.ICE_CANDIDATE:
       this.#handleRemoteIceCandidate(message.data);
       break;
     default:

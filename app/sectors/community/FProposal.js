@@ -24,6 +24,7 @@ import { Communities } from '../../common/dba/Communities.js';
 import { Account } from '../../common/dba/Account.js';
 import { Votes } from '../../common/dba/Votes.js';
 import { Proposal } from '../../common/datatypes/Proposal.js';
+import { Vote } from '../../common/datatypes/Vote.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { STATE } from '../../common/constants/Constants.js';
 import { Utilities } from '../../common/Utilities.js';
@@ -345,8 +346,8 @@ export class FProposal extends Fragment {
     let v = new View();
     let f = new FvcConfirmAction();
     f.setMessage(R.get("PROMPT_VOTE"));
-    f.addOption("YEA", () => this.#onVote(dat.Vote.T_VALUE.YEA));
-    f.addOption("NAY", () => this.#onVote(dat.Vote.T_VALUE.NAY));
+    f.addOption("YEA", () => this.#onVote(Vote.T_VALUE.YEA));
+    f.addOption("NAY", () => this.#onVote(Vote.T_VALUE.NAY));
     f.addOption("Cancel", null, true);
     v.setContentFragment(f);
     fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Choices",

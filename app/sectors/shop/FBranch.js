@@ -6,6 +6,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { ShopBranch } from '../../common/datatypes/ShopBranch.js';
 
 export class FBranch extends Fragment {
   static T_LAYOUT = {
@@ -187,7 +188,7 @@ export class FBranch extends Fragment {
     plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
   }
 
-  #onUpdateRRR(data) { dba.Shop.updateBranch(new dat.ShopBranch(data.branch)); }
+  #onUpdateRRR(data) { dba.Shop.updateBranch(new ShopBranch(data.branch)); }
 };
 
 

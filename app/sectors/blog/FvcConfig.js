@@ -23,10 +23,10 @@ export class FvcConfig extends FScrollViewContent {
   constructor() {
     super();
     this._fInsiders = new blog.FRoleList();
-    this._fInsiders.setRoleType(dat.BlogRole.T_ROLE.EXCLUSIVE);
+    this._fInsiders.setRoleType(BlogRole.T_ROLE.EXCLUSIVE);
     this._fInsiders.setDelegate(this);
     this._fPartnerships = new blog.FRoleList();
-    this._fPartnerships.setRoleType(dat.BlogRole.T_ROLE.PARTNERSHIP);
+    this._fPartnerships.setRoleType(BlogRole.T_ROLE.PARTNERSHIP);
     this._fPartnerships.setDelegate(this);
     this._fRoles = new FTabbedPane();
     this._fRoles.addPane(
@@ -58,47 +58,47 @@ export class FvcConfig extends FScrollViewContent {
     f.setDelegate(this);
     f.setDescription(R.get("INTRO_COMPACT_SIZE"));
     let fInfo = new blog.FPostInfo()
-    fInfo.setSizeType(dat.SocialItem.T_LAYOUT.COMPACT);
+    fInfo.setSizeType(SocialItem.T_LAYOUT.COMPACT);
     f.setInfoFragment(fInfo);
     this._fLayout = new ButtonGroup();
     this._fLayout.addChoice({
       name : "Compact",
-      value : dat.SocialItem.T_LAYOUT.COMPACT,
+      value : SocialItem.T_LAYOUT.COMPACT,
       fDetail : f
     });
     f = new blog.FPostInfoLayoutPreview();
     f.setDelegate(this);
     f.setDescription(R.get("INTRO_SMALL_SIZE"));
     fInfo = new blog.FPostInfo()
-    fInfo.setSizeType(dat.SocialItem.T_LAYOUT.SMALL);
+    fInfo.setSizeType(SocialItem.T_LAYOUT.SMALL);
     f.setInfoFragment(fInfo);
     this._fLayout.addChoice(
-        {name : "Small", value : dat.SocialItem.T_LAYOUT.SMALL, fDetail : f});
+        {name : "Small", value : SocialItem.T_LAYOUT.SMALL, fDetail : f});
     f = new blog.FPostInfoLayoutPreview();
     f.setDelegate(this);
     f.setDescription(R.get("INTRO_MEDIUM_SIZE"));
     fInfo = new blog.FPostInfo()
-    fInfo.setSizeType(dat.SocialItem.T_LAYOUT.MEDIUM);
+    fInfo.setSizeType(SocialItem.T_LAYOUT.MEDIUM);
     f.setInfoFragment(fInfo);
     this._fLayout.addChoice(
-        {name : "Medium", value : dat.SocialItem.T_LAYOUT.MEDIUM, fDetail : f});
+        {name : "Medium", value : SocialItem.T_LAYOUT.MEDIUM, fDetail : f});
     f = new blog.FPostInfoLayoutPreview();
     f.setDelegate(this);
     f.setDescription(R.get("INTRO_LARGE_SIZE"));
     fInfo = new blog.FPostInfo()
-    fInfo.setSizeType(dat.SocialItem.T_LAYOUT.LARGE);
+    fInfo.setSizeType(SocialItem.T_LAYOUT.LARGE);
     f.setInfoFragment(fInfo);
     this._fLayout.addChoice(
-        {name : "Large", value : dat.SocialItem.T_LAYOUT.LARGE, fDetail : f});
+        {name : "Large", value : SocialItem.T_LAYOUT.LARGE, fDetail : f});
     f = new blog.FPostInfoLayoutPreview();
     f.setDelegate(this);
     f.setDescription(R.get("INTRO_BIG_HEAD_SIZE"));
     fInfo = new blog.FPostInfo()
-    fInfo.setSizeType(dat.SocialItem.T_LAYOUT.BIG_HEAD);
+    fInfo.setSizeType(SocialItem.T_LAYOUT.BIG_HEAD);
     f.setInfoFragment(fInfo);
     this._fLayout.addChoice({
       name : "Big head",
-      value : dat.SocialItem.T_LAYOUT.BIG_HEAD,
+      value : SocialItem.T_LAYOUT.BIG_HEAD,
       fDetail : f
     });
     this._fLayout.setDelegate(this);
@@ -171,7 +171,7 @@ export class FvcConfig extends FScrollViewContent {
     this._fOptions.setOption("SOCIAL", dba.Blog.isSocialEnabled());
     this._fOptions.setOption("PIN_BIG_HEAD",
                              dba.Blog.getPinnedItemLayoutType() ==
-                                 dat.SocialItem.T_LAYOUT.BIG_HEAD);
+                                 SocialItem.T_LAYOUT.BIG_HEAD);
     this._fOptions.attachRender(pp.getContentPanel());
     this._fOptions.render();
 
@@ -215,7 +215,7 @@ export class FvcConfig extends FScrollViewContent {
       fd.append("enable_social_action", 1);
     }
     if (this._fOptions.isOptionOn("PIN_BIG_HEAD")) {
-      fd.append("pinned_item_layout_type", dat.SocialItem.T_LAYOUT.BIG_HEAD);
+      fd.append("pinned_item_layout_type", SocialItem.T_LAYOUT.BIG_HEAD);
     } else {
       fd.append("pinned_item_layout_type", fd.get("item_layout_type"));
     }

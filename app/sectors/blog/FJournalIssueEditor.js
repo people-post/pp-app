@@ -37,6 +37,12 @@ import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { SearchConfig } from '../../common/datatypes/SearchConfig.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { Journal } from '../../common/datatypes/Journal.js';
+import { Tag } from '../../common/datatypes/Tag.js';
+import { JournalIssue } from '../../common/datatypes/JournalIssue.js';
 
 export class PEditor extends Panel {
   #pIssueId;
@@ -121,8 +127,8 @@ class FPostSelector extends Fragment {
     this.#fSearch.setDelegate(this);
     this.#fSearch.setResultLayoutType(
         srch.FSearchResultInfo.T_LAYOUT.TITLE_ONLY);
-    let c = new dat.SearchConfig();
-    c.setCategories([ dat.SocialItem.TYPE.ARTICLE ]);
+    let c = new SearchConfig();
+    c.setCategories([ SocialItem.TYPE.ARTICLE ]);
     this.#fSearch.setKey(".*");
     this.#fSearch.setConfig(c);
     this.setChild("search", this.#fSearch);
@@ -162,7 +168,7 @@ class FPostSelectorHandle extends Fragment {
     this.#lc.setTargetName("section");
 
     this.#fPost = new blog.FPostInfo();
-    this.#fPost.setSizeType(dat.SocialItem.T_LAYOUT.EXT_EMBED);
+    this.#fPost.setSizeType(SocialItem.T_LAYOUT.EXT_EMBED);
     this.#fPost.setDataSource(this);
     this.#fPost.setDelegate(this);
     this.setChild("post", this.#fPost);
@@ -184,7 +190,7 @@ class FPostSelectorHandle extends Fragment {
   onArticleSelectedInPostSelectorFragment(fSelector, articleId) {
     this.#lc.dismiss();
     this.#fPost.setPostId(
-        new dat.SocialItemId(articleId, dat.SocialItem.TYPE.ARTICLE));
+        new SocialItemId(articleId, SocialItem.TYPE.ARTICLE));
     this.render();
     this._delegate.onArticleSelectedInPostSelectorHandleFragment(this);
   }
@@ -280,7 +286,7 @@ class FSectionTagged extends Fragment {
       pp = new PanelWrapper();
       p.pushPanel(pp);
       f = new FPostSelectorHandle();
-      f.setPostId(new dat.SocialItemId(id, dat.SocialItem.TYPE.ARTICLE));
+      f.setPostId(new SocialItemId(id, SocialItem.TYPE.ARTICLE));
       f.setOwnerId(this.#ownerId);
       f.setTagId(this.#fTag.getTagId());
       f.setDelegate(this);
@@ -430,7 +436,7 @@ class FJournalIssueEditor extends Fragment {
     }
 
     switch (journal.getTemplateId()) {
-    case dat.Journal.T_TEMPLATE_ID.TAGGED:
+    case Journal.T_TEMPLATE_ID.TAGGED:
       this.#renderTaggedSections(pList, journal.getTemplateConfig(),
                                  issue.getSections(), issue.getOwnerId());
       break;
@@ -526,7 +532,7 @@ class FJournalIssueEditor extends Fragment {
   #onTagsRRR(data) {
     this.#tags = [];
     for (let d of data.tags) {
-      this.#tags.push(new dat.Tag(d));
+      this.#tags.push(new Tag(d));
     }
     this.#fTags.render();
   }
@@ -539,7 +545,7 @@ class FJournalIssueEditor extends Fragment {
     } else {
       dba.WebConfig.setGroups(response.data.groups);
       this._delegate.onJournalIssueUpdatedInJournalIssueEditorFragment(
-          this, new dat.JournalIssue(response.data.journal_issue));
+          this, new JournalIssue(response.data.journal_issue));
     }
   }
 

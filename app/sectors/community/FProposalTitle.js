@@ -9,6 +9,7 @@ const _CFT_PROPOSAL_TITLE = {
 }
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Proposal } from '../../common/datatypes/Proposal.js';
 
 export class FProposalTitle extends Fragment {
   action(type, ...args) {
@@ -51,13 +52,13 @@ export class FProposalTitle extends Fragment {
 
   #makeProposalTitleFromData(proposal) {
     switch (proposal.getType()) {
-    case dat.Proposal.T_TYPE.ISSUE_COINS:
+    case Proposal.T_TYPE.ISSUE_COINS:
       return this.#makeIssueCoinTitle(proposal.getData());
       break;
-    case dat.Proposal.T_TYPE.CONFIG_CHANGE:
+    case Proposal.T_TYPE.CONFIG_CHANGE:
       return this.#makeChangeConfigTitle(proposal.getData());
       break;
-    case dat.Proposal.T_TYPE.NEW_MEMBER:
+    case Proposal.T_TYPE.NEW_MEMBER:
       return this.#makeMemberApplicationTitle(proposal);
       break;
     default:

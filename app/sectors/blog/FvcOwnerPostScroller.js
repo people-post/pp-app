@@ -1,4 +1,5 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FvcOwnerPostScroller extends FScrollViewContent {
   // Note: For brief display only
@@ -30,7 +31,7 @@ export class FvcOwnerPostScroller extends FScrollViewContent {
   onIdUpdatedInLongListIdLoader(loader) { this.#fPosts.onScrollFinished(); }
 
   onInfoFragmentCreatedInPostListFragment(fPosts, fInfo) {
-    fInfo.setSizeType(dat.SocialItem.T_LAYOUT.EXT_BRIEF);
+    fInfo.setSizeType(SocialItem.T_LAYOUT.EXT_BRIEF);
   }
 
   _renderContentOnRender(render) {

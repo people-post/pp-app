@@ -1,3 +1,4 @@
+import { EmptyPost } from '../../common/datatypes/EmptyPost.js';
 
 export class FEmptyPost extends blog.FPostBase {
   #post = null;
@@ -19,10 +20,10 @@ export class FEmptyPost extends blog.FPostBase {
     let c = post ? post.getErrorCode() : null;
     let s;
     switch (c) {
-    case dat.EmptyPost.TYPE.DELETED:
+    case EmptyPost.TYPE.DELETED:
       s = "Sorry, this post was deleted.";
       break;
-    case dat.EmptyPost.TYPE.PERMISSION:
+    case EmptyPost.TYPE.PERMISSION:
       s = "Sorry, this post is permission protected.";
       break;
     default:

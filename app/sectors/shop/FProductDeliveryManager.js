@@ -1,5 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
+import { ProductDeliveryChoice } from '../../common/datatypes/ProductDeliveryChoice.js';
 
 export class FProductDeliveryManager extends Fragment {
   constructor() {
@@ -105,7 +106,7 @@ export class FProductDeliveryManager extends Fragment {
 
   #initChoiceMap() {
     let m = new Map();
-    let t = dat.ProductDeliveryChoice.TYPE;
+    let t = ProductDeliveryChoice.TYPE;
     let f = new shop.FPhysicalGoodDelivery();
     f.setDataSource(this);
     f.setDelegate(this);

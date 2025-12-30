@@ -1,5 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FvcWeb3OwnerPosts extends FScrollViewContent {
   #loader;
@@ -32,7 +33,7 @@ export class FvcWeb3OwnerPosts extends FScrollViewContent {
 
   onIdUpdatedInLongListIdLoader(loader) { this.#fPosts.onScrollFinished(); }
   onInfoFragmentCreatedInPostListFragment(fPosts, fInfo) {
-    fInfo.setSizeType(dat.SocialItem.T_LAYOUT.EXT_BRIEF);
+    fInfo.setSizeType(SocialItem.T_LAYOUT.EXT_BRIEF);
   }
 
   reload() { this.#fPosts.reset(); }

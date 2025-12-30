@@ -2,6 +2,8 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { C } from '../../lib/framework/Constants.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FvcExplorer extends FScrollViewContent {
   #fmSearch;
@@ -27,7 +29,7 @@ export class FvcExplorer extends FScrollViewContent {
   initFromUrl(urlParam) {
     let id = urlParam.get(C.URL_PARAM.ID);
     if (id) {
-      let sid = dat.SocialItemId.fromEncodedStr(id);
+      let sid = SocialItemId.fromEncodedStr(id);
       if (sid) {
         this.#fList.switchToItem(sid.getValue());
       }
@@ -37,7 +39,7 @@ export class FvcExplorer extends FScrollViewContent {
   getUrlParamString() {
     let id = this.#fList.getCurrentId();
     if (id) {
-      let sid = new dat.SocialItemId(id, dat.SocialItem.TYPE.PRODUCT);
+      let sid = new SocialItemId(id, SocialItem.TYPE.PRODUCT);
       return C.URL_PARAM.ID + "=" + sid.toEncodedStr();
     }
     return "";

@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { C } from '../../lib/framework/Constants.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FvcExplorer extends FScrollViewContent {
   #fmSearch;
@@ -54,7 +55,7 @@ export class FvcExplorer extends FScrollViewContent {
 
   onIdUpdatedInLongListIdLoader(loader) { this.#fPosts.onScrollFinished(); }
   onInfoFragmentCreatedInPostListFragment(fPosts, fInfo) {
-    fInfo.setSizeType(dat.SocialItem.T_LAYOUT.LARGE);
+    fInfo.setSizeType(SocialItem.T_LAYOUT.LARGE);
   }
 
   handleSessionDataUpdate(dataType, data) {

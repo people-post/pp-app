@@ -1,5 +1,7 @@
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ICONS } from '../../lib/ui/Icons.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export const CF_POST_INFO = {
   ON_CLICK : Symbol(),
@@ -15,7 +17,7 @@ export class FPostInfo extends gui.MajorSectorItem {
   #fRefOwnerName;
   #fOwnerName;
   #fSocial;
-  #postId = new dat.SocialItemId();
+  #postId = new SocialItemId();
   #sizeType = null;
 
   constructor() {
@@ -108,7 +110,7 @@ export class FPostInfo extends gui.MajorSectorItem {
 
     let panel = this.#createPanel();
     // Hack
-    if (this.#sizeType == dat.SocialItem.T_LAYOUT.EXT_BRIEF) {
+    if (this.#sizeType == SocialItem.T_LAYOUT.EXT_BRIEF) {
       this.#fSocial.setActions([ socl.FSocialBar.T_ACTION.SHARE ]);
     }
 
@@ -167,29 +169,29 @@ export class FPostInfo extends gui.MajorSectorItem {
     let f;
     let t = post.getSocialItemType();
     switch (t) {
-    case dat.SocialItem.TYPE.ARTICLE:
+    case SocialItem.TYPE.ARTICLE:
       f = new blog.FArticleInfo();
       f.setArticleId(post.getId());
       f.setSizeType(this.#sizeType);
       f.setDelegate(this);
       f.setDataSource(this);
       break;
-    case dat.SocialItem.TYPE.FEED_ARTICLE:
+    case SocialItem.TYPE.FEED_ARTICLE:
       f = new blog.FFeedArticleInfo();
       f.setArticleId(post.getId());
       f.setSizeType(this.#sizeType);
       break;
-    case dat.SocialItem.TYPE.JOURNAL_ISSUE:
+    case SocialItem.TYPE.JOURNAL_ISSUE:
       f = new blog.FJournalIssue();
       f.setIssueId(post.getId());
       break;
-    case dat.SocialItem.TYPE.COMMENT:
+    case SocialItem.TYPE.COMMENT:
       f = new blog.FComment();
       f.setCommentId(post.getId());
       f.setDataSource(this);
       f.setDelegate(this);
       break;
-    case dat.SocialItem.TYPE.INVALID:
+    case SocialItem.TYPE.INVALID:
       f = new blog.FEmptyPost();
       f.setPost(post);
       break;
@@ -203,40 +205,40 @@ export class FPostInfo extends gui.MajorSectorItem {
   #createPanel() {
     let p;
     switch (this.#sizeType) {
-    case dat.SocialItem.T_LAYOUT.BIG_HEAD:
+    case SocialItem.T_LAYOUT.BIG_HEAD:
       p = new blog.PPostInfoBigHead()
       break;
-    case dat.SocialItem.T_LAYOUT.LARGE:
+    case SocialItem.T_LAYOUT.LARGE:
       p = new blog.PPostInfoLarge();
       break;
-    case dat.SocialItem.T_LAYOUT.MEDIUM:
+    case SocialItem.T_LAYOUT.MEDIUM:
       p = new blog.PPostInfoMiddle();
       break;
-    case dat.SocialItem.T_LAYOUT.SMALL:
+    case SocialItem.T_LAYOUT.SMALL:
       p = new blog.PPostInfoSmall();
       break;
-    case dat.SocialItem.T_LAYOUT.EXT_COMMENT:
+    case SocialItem.T_LAYOUT.EXT_COMMENT:
       p = new blog.PPostInfoComment()
       break;
-    case dat.SocialItem.T_LAYOUT.EXT_QUOTE_SMALL:
+    case SocialItem.T_LAYOUT.EXT_QUOTE_SMALL:
       p = new blog.PPostInfoSmallQuote();
       break;
-    case dat.SocialItem.T_LAYOUT.EXT_QUOTE_LARGE:
+    case SocialItem.T_LAYOUT.EXT_QUOTE_LARGE:
       p = new blog.PPostInfoLargeQuote();
       break;
-    case dat.SocialItem.T_LAYOUT.EXT_BRIEF:
+    case SocialItem.T_LAYOUT.EXT_BRIEF:
       p = new blog.PPostInfoBrief();
       break;
-    case dat.SocialItem.T_LAYOUT.EXT_CARD:
+    case SocialItem.T_LAYOUT.EXT_CARD:
       p = new blog.PPostInfoCard();
       break;
-    case dat.SocialItem.T_LAYOUT.EXT_HUGE:
+    case SocialItem.T_LAYOUT.EXT_HUGE:
       p = new blog.PPostInfoHuge();
       break;
-    case dat.SocialItem.T_LAYOUT.EXT_EMBED:
+    case SocialItem.T_LAYOUT.EXT_EMBED:
       p = new blog.PPostInfoEmbed();
       break;
-    case dat.SocialItem.T_LAYOUT.EXT_FULL_PAGE:
+    case SocialItem.T_LAYOUT.EXT_FULL_PAGE:
       p = new blog.PPostInfoFullPage();
       break;
     default:

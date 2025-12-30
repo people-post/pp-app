@@ -4,6 +4,9 @@ import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { C } from '../../lib/framework/Constants.js';
+import { BlogRole } from '../../common/datatypes/BlogRole.js';
+import { DraftArticle } from '../../common/datatypes/DraftArticle.js';
+import { DraftJournalIssue } from '../../common/datatypes/DraftJournalIssue.js';
 
 // ActionButton needs some redesign
 export class AbNew extends Fragment {
@@ -26,7 +29,7 @@ export class AbNew extends Fragment {
   isAvailable() {
     if (dba.Account.isAuthenticated()) {
       if (dba.Account.isWebOwner() ||
-          dba.Blog.getRoleIdsByType(dat.BlogRole.T_ROLE.EXCLUSIVE)
+          dba.Blog.getRoleIdsByType(BlogRole.T_ROLE.EXCLUSIVE)
               .some(id => dba.Account.isInGroup(id))) {
         return true;
       }
@@ -163,7 +166,7 @@ export class AbNew extends Fragment {
   }
 
   #onDraftArticleRRR(data) {
-    this.#showDraftEditor(new dat.DraftArticle(data.draft));
+    this.#showDraftEditor(new DraftArticle(data.draft));
   }
 
   #showDraftEditor(draftArticle) {
@@ -180,7 +183,7 @@ export class AbNew extends Fragment {
   }
 
   #onDraftIssueRRR(data) {
-    this.#showDraftIssueEditor(new dat.DraftJournalIssue(data.draft));
+    this.#showDraftIssueEditor(new DraftJournalIssue(data.draft));
   }
 
   #showDraftIssueEditor(draftIssue) {

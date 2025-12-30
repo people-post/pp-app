@@ -1,6 +1,8 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { SimpleLongListFragment } from '../../common/gui/SimpleLongListFragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FvcContactList extends FScrollViewContent {
   constructor() {
@@ -26,9 +28,9 @@ export class FvcContactList extends FScrollViewContent {
   }
 
   onClickInUserInfoFragment(fUserInfo, userId) {
-    let target = new dat.ChatTarget();
+    let target = new ChatTarget();
     target.setId(userId);
-    target.setIdType(dat.SocialItem.TYPE.USER);
+    target.setIdType(SocialItem.TYPE.USER);
     let v = new View();
     let f = new msgr.FvcChat();
     f.setTarget(target);

@@ -3,6 +3,10 @@ import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { C } from '../../lib/framework/Constants.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { Product } from '../../common/datatypes/Product.js';
+import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
 
 export class FvcOwner extends FScrollViewContent {
   #fmMain;
@@ -46,7 +50,7 @@ export class FvcOwner extends FScrollViewContent {
   initFromUrl(urlParam) {
     let id = urlParam.get(C.URL_PARAM.ID);
     if (id) {
-      let sid = dat.SocialItemId.fromEncodedStr(id);
+      let sid = SocialItemId.fromEncodedStr(id);
       if (sid) {
         this.#fList.switchToItem(sid.getValue());
       }
@@ -56,7 +60,7 @@ export class FvcOwner extends FScrollViewContent {
   getUrlParamString() {
     let id = this.#fList.getCurrentId();
     if (id) {
-      let sid = new dat.SocialItemId(id, dat.SocialItem.TYPE.PRODUCT);
+      let sid = new SocialItemId(id, SocialItem.TYPE.PRODUCT);
       return C.URL_PARAM.ID + "=" + sid.toEncodedStr();
     }
     return "";
@@ -75,7 +79,7 @@ export class FvcOwner extends FScrollViewContent {
         return this.#fBtnCart;
       }
     } else {
-      let c = dba.Cart.getCart(dat.Cart.T_ID.ACTIVE);
+      let c = dba.Cart.getCart(CartDataType.T_ID.ACTIVE);
       if (c && cart.getItems().length) {
         return this.#fBtnCart;
       }
@@ -146,7 +150,7 @@ export class FvcOwner extends FScrollViewContent {
   }
 
   #onDraftProductRRR(data) {
-    this.#showDraftEditor(new dat.Product(data.product));
+    this.#showDraftEditor(new Product(data.product));
   }
 
   #onShowCart() {

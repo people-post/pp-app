@@ -2,6 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { PreviewOrder } from '../../common/datatypes/PreviewOrder.js';
 
 export class FvcPreCheckout extends FScrollViewContent {
   // Serves as checkout register
@@ -70,7 +71,7 @@ export class FvcPreCheckout extends FScrollViewContent {
   }
 
   #onOrderPreviewRRR(data) {
-    this.#goCheckout(new dat.PreviewOrder(data.order));
+    this.#goCheckout(new PreviewOrder(data.order));
   }
 
   #goCheckout(order) {

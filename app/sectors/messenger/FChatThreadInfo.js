@@ -2,6 +2,8 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { RemoteFile } from '../../common/datatypes/RemoteFile.js';
+import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
 
 window.CF_CHAT_THREAD_INFO = {
   ON_CLICK : "CF_CHAT_THREAD_INFO_1",
@@ -23,7 +25,7 @@ export class FChatThreadInfo extends Fragment {
     let infos = this._getIconInfos();
     let files = [];
     for (let i of infos) {
-      files.push(new dat.RemoteFile({type : "image", url : i.url, bg : i.bg}));
+      files.push(new RemoteFile({type : "image", url : i.url, bg : i.bg}));
     }
     return files;
   }
@@ -95,10 +97,10 @@ export class FChatThreadInfo extends Fragment {
     let latest = info.getLatest();
     if (latest) {
       switch (latest.getType()) {
-      case dat.ChatMessage.T_TYPE.TEXT:
+      case ChatMessage.T_TYPE.TEXT:
         text = latest.getData();
         break;
-      case dat.ChatMessage.T_TYPE.FMT:
+      case ChatMessage.T_TYPE.FMT:
         text = "New system message.";
         break;
       default:

@@ -26,6 +26,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
+import { Product } from '../../common/datatypes/Product.js';
 
 export class FvcProductEditor extends FScrollViewContent {
   constructor() {
@@ -219,7 +220,7 @@ export class FvcProductEditor extends FScrollViewContent {
     if (this._product.isDraft()) {
       this._delegate.onNewProductAddedInProductEditorContentFragment(this);
     } else {
-      dba.Shop.updateProduct(new dat.Product(data.product));
+      dba.Shop.updateProduct(new Product(data.product));
     }
     this._owner.onContentFragmentRequestPopView(this);
   }

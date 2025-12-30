@@ -1,6 +1,7 @@
+import { ProductDeliveryChoice } from '../../common/datatypes/ProductDeliveryChoice.js';
 
 export class FQueueDeliveryEditor extends shop.FServiceDeliveryEditor {
-  _getType() { return dat.ProductDeliveryChoice.TYPE.QUEUE; }
+  _getType() { return ProductDeliveryChoice.TYPE.QUEUE; }
 };
 
 

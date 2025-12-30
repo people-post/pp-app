@@ -2,6 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { LMultiChoice } from '../../lib/ui/controllers/layers/LMultiChoice.js';
 import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { DraftArticle } from '../../common/datatypes/DraftArticle.js';
 
 // ActionButton needs some redesign
 export class AbWeb3New extends Fragment {
@@ -138,7 +139,7 @@ export class AbWeb3New extends Fragment {
   #showDraftEditor() {
     let v = new View();
     let f = new blog.FvcWeb3PostEditor();
-    f.setPost(new dat.DraftArticle({}));
+    f.setPost(new DraftArticle({}));
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Draft post");
   }

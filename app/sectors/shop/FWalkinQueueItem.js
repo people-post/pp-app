@@ -9,6 +9,10 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FvcSimpleFragmentList } from '../../lib/ui/controllers/fragments/FvcSimpleFragmentList.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
+import { CartItem } from '../../common/datatypes/CartItem.js';
+import { WalkinQueueItem } from '../../common/datatypes/WalkinQueueItem.js';
 
 export class FWalkinQueueItem extends Fragment {
   static T_LAYOUT = {INFO : "INFO", FULL: "FULL"};
@@ -60,7 +64,7 @@ export class FWalkinQueueItem extends Fragment {
 
   onSearchResultClickedInSearchFragment(fSearch, itemType, itemId) {
     switch (itemType) {
-    case dat.SocialItem.TYPE.USER:
+    case SocialItem.TYPE.USER:
       if (this._fOnUserSelect) {
         this._fOnUserSelect(itemId);
       }
@@ -235,8 +239,8 @@ export class FWalkinQueueItem extends Fragment {
   }
 
   #onPrepareCartItemRRR(data) {
-    let cart = new dat.Cart();
-    let item = new dat.CartItem(data.item);
+    let cart = new CartDataType();
+    let item = new CartItem(data.item);
     cart.set(item.getId(), item);
     this.#goCheckout(cart);
   }
@@ -264,7 +268,7 @@ export class FWalkinQueueItem extends Fragment {
   }
 
   #onServeRRR(data) {
-    dba.WalkinQueue.update(new dat.WalkinQueueItem(data.item));
+    dba.WalkinQueue.update(new WalkinQueueItem(data.item));
   }
 
   #asyncDismiss() {

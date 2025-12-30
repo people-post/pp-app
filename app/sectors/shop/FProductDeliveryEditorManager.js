@@ -1,6 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
 import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
+import { ProductDeliveryChoice } from '../../common/datatypes/ProductDeliveryChoice.js';
 
 export class FProductDeliveryEditorManager extends Fragment {
   constructor() {
@@ -65,7 +66,7 @@ export class FProductDeliveryEditorManager extends Fragment {
 
   #initChoiceMap() {
     let m = new Map();
-    let t = dat.ProductDeliveryChoice.TYPE;
+    let t = ProductDeliveryChoice.TYPE;
     let f = new shop.FPhysicalGoodDeliveryEditor();
     f.setDelegate(this);
     m.set(t.GOOD, {name : "Goods", fDetail : f});

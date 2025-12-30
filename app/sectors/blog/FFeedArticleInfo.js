@@ -1,5 +1,6 @@
 import { FAttachmentFile } from '../../lib/ui/controllers/fragments/FAttachmentFile.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FFeedArticleInfo extends blog.FPostBase {
   #fAttachment;
@@ -112,8 +113,8 @@ export class FFeedArticleInfo extends blog.FPostBase {
   }
 
   #isSquareImage() {
-    return this.#sizeType == dat.SocialItem.T_LAYOUT.MEDIUM ||
-           this.#sizeType == dat.SocialItem.T_LAYOUT.EXT_QUOTE_SMALL;
+    return this.#sizeType == SocialItem.T_LAYOUT.MEDIUM ||
+           this.#sizeType == SocialItem.T_LAYOUT.EXT_QUOTE_SMALL;
   }
 
   #renderTime(panel, article) {

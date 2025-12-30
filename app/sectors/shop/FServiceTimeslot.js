@@ -1,4 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ProductServiceTimeslot } from '../../common/datatypes/ProductServiceTimeslot.js';
+import * as ExtUtilities from '../../lib/ext/Utilities.js';
 
 export class FServiceTimeslot extends Fragment {
   constructor() {
@@ -24,36 +26,36 @@ export class FServiceTimeslot extends Fragment {
   #renderRepetitionName(r, t) {
     let sRep = "";
     switch (r) {
-    case dat.ProductServiceTimeslot.T_REP.DAY:
+    case ProductServiceTimeslot.T_REP.DAY:
       sRep = "daily";
       break;
-    case dat.ProductServiceTimeslot.T_REP.DAY2:
+    case ProductServiceTimeslot.T_REP.DAY2:
       sRep = "every other day";
       break;
-    case dat.ProductServiceTimeslot.T_REP.WEEK:
-      sRep = ext.Utilities.timestampToWeekdayString(t) + " weekly";
+    case ProductServiceTimeslot.T_REP.WEEK:
+      sRep = ExtUtilities.timestampToWeekdayString(t) + " weekly";
       break;
-    case dat.ProductServiceTimeslot.T_REP.WEEK2:
-      sRep = ext.Utilities.timestampToWeekdayString(t) + " every other week";
+    case ProductServiceTimeslot.T_REP.WEEK2:
+      sRep = ExtUtilities.timestampToWeekdayString(t) + " every other week";
       break;
-    case dat.ProductServiceTimeslot.T_REP.MONTH:
+    case ProductServiceTimeslot.T_REP.MONTH:
       sRep = "monthly";
       break;
     default:
       break;
     }
-    if (r == dat.ProductServiceTimeslot.T_REP.ONCE) {
+    if (r == ProductServiceTimeslot.T_REP.ONCE) {
       return sRep;
     } else {
-      return sRep + " from " + ext.Utilities.timestampToDateString(t);
+      return sRep + " from " + ExtUtilities.timestampToDateString(t);
     }
   }
 
   #renderTime(rep, t) {
-    if (rep == dat.ProductServiceTimeslot.T_REP.ONCE) {
-      return ext.Utilities.timestampToDateTimeString(t);
+    if (rep == ProductServiceTimeslot.T_REP.ONCE) {
+      return ExtUtilities.timestampToDateTimeString(t);
     } else {
-      return ext.Utilities.timestampToTimeString(t);
+      return ExtUtilities.timestampToTimeString(t);
     }
   }
 };

@@ -1,6 +1,7 @@
+import { ProductDeliveryChoice } from '../../common/datatypes/ProductDeliveryChoice.js';
 
 export class FDigitalGoodDeliveryEditor extends shop.FProductDeliveryEditor {
-  _getType() { return dat.ProductDeliveryChoice.TYPE.DIGITAL; }
+  _getType() { return ProductDeliveryChoice.TYPE.DIGITAL; }
   _collectData() { return null; }
   _renderSpec(panel) {
     panel.replaceContent(

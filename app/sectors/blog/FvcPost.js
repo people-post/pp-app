@@ -4,6 +4,9 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { Article } from '../../common/datatypes/Article.js';
 
 const _CPT_POST = {
   MAIN : `<div id="__ID_POST__"></div>
@@ -66,7 +69,7 @@ class FvcPost extends FScrollViewContent {
   #fAllComments;
   #fBtnEdit;
   #fInput;
-  #postId = new dat.SocialItemId();
+  #postId = new SocialItemId();
 
   constructor() {
     super();
@@ -144,7 +147,7 @@ class FvcPost extends FScrollViewContent {
     this.#fAllComments.onScrollFinished();
   }
   onInfoFragmentCreatedInPostListFragment(fPostList, fInfo) {
-    fInfo.setSizeType(dat.SocialItem.T_LAYOUT.EXT_COMMENT);
+    fInfo.setSizeType(SocialItem.T_LAYOUT.EXT_COMMENT);
   }
   onArticleContextOptionClickedInPostListFragment(fPostList, value, articleId) {
     this.#asyncTagCommentArticle(value, articleId);
@@ -340,7 +343,7 @@ class FvcPost extends FScrollViewContent {
     }
     // TODO: Currently tagging for repost is not supported because of following
     // check. Maybe consider provide support
-    if (sid.getType() != dat.SocialItem.TYPE.HASHTAG) {
+    if (sid.getType() != SocialItem.TYPE.HASHTAG) {
       if (sid.getValue() != this.#postId.getValue()) {
         return ops;
       }
@@ -364,7 +367,7 @@ class FvcPost extends FScrollViewContent {
   }
 
   #onTagCommentRRR(data) {
-    dba.Blog.updateArticle(new dat.Article(data.article));
+    dba.Blog.updateArticle(new Article(data.article));
   }
 
   #asyncUntagCommentArticle(tagId, articleId) {
@@ -379,7 +382,7 @@ class FvcPost extends FScrollViewContent {
   }
 
   #onUntagCommentRRR(data) {
-    dba.Blog.updateArticle(new dat.Article(data.article));
+    dba.Blog.updateArticle(new Article(data.article));
   }
 }
 

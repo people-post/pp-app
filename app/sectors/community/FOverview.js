@@ -9,6 +9,7 @@ import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
+import { CommunityProfile } from '../../common/datatypes/CommunityProfile.js';
 
 export class FOverview extends Fragment {
   #fHeaderEditor;
@@ -413,7 +414,7 @@ export class FOverview extends Fragment {
   }
 
   #onUpdateProfileRRR(data) {
-    dba.Communities.updateProfile(new dat.CommunityProfile(data.profile));
+    dba.Communities.updateProfile(new CommunityProfile(data.profile));
   }
 };
 

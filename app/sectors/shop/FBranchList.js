@@ -3,6 +3,7 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ShopBranch } from '../../common/datatypes/ShopBranch.js';
 
 export class FBranchList extends Fragment {
   #fItems;
@@ -96,7 +97,7 @@ export class FBranchList extends Fragment {
 
   #onAddBranchRRR(data) {
     if (this.#ids) {
-      let b = new dat.ShopBranch(data.branch);
+      let b = new ShopBranch(data.branch);
       this.#ids.push(b.getId());
     }
     this.render();

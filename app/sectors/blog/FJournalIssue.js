@@ -1,6 +1,7 @@
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Journal } from '../../common/datatypes/Journal.js';
 
 export class FJournalIssue extends blog.FPostBase {
   #issueId = null;
@@ -84,7 +85,7 @@ export class FJournalIssue extends blog.FPostBase {
     let tId = journal.getTemplateId();
     let tConfig = journal.getTemplateConfig();
     switch (tId) {
-    case dat.Journal.T_TEMPLATE_ID.TAGGED:
+    case Journal.T_TEMPLATE_ID.TAGGED:
       this.#renderTaggedSections(pList, tConfig, sections);
       break;
     default:

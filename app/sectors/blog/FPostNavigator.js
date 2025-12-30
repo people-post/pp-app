@@ -2,6 +2,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 
 const _CPT_POST_NAVIGATOR = {
   MAIN : `<div id="__ID_POST__"></div>
@@ -54,7 +55,7 @@ class FPostNavigator extends Fragment {
   #btnPrev;
   #btnNext;
   #fComments;
-  #postId = new dat.SocialItemId(); // Notice: Id from datasource has
+  #postId = new SocialItemId(); // Notice: Id from datasource has
                                     // priority if datasource is set.
 
   constructor() {

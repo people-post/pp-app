@@ -3,6 +3,7 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ShopRegister } from '../../common/datatypes/ShopRegister.js';
 
 export class FRegisterList extends Fragment {
   constructor() {
@@ -95,7 +96,7 @@ export class FRegisterList extends Fragment {
 
   #onAddRegisterRRR(data) {
     if (this._ids) {
-      let r = new dat.ShopRegister(data.register);
+      let r = new ShopRegister(data.register);
       this._ids.push(r.getId());
     }
     this.render();

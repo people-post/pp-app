@@ -1,4 +1,5 @@
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
+import { Tag } from '../../common/datatypes/Tag.js';
 
 export class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() {
@@ -6,7 +7,7 @@ export class Gateway extends plt.SectorGateway {
 
     let ff = new blog.FvcCareerList();
     f.addTab(
-        {name : R.t("Blog"), value : dat.Tag.T_ID.BLOG, icon : C.ICON.BLOG},
+        {name : R.t("Blog"), value : Tag.T_ID.BLOG, icon : C.ICON.BLOG},
         ff);
 
     if (dba.Workshop.isOpen()) {
@@ -21,7 +22,7 @@ export class Gateway extends plt.SectorGateway {
       f.addTab({name : R.t("Shop"), value : "SHOP", icon : C.ICON.SHOP}, ff);
     }
 
-    f.switchTo(dat.Tag.T_ID.BLOG);
+    f.switchTo(Tag.T_ID.BLOG);
     return f;
   }
 };

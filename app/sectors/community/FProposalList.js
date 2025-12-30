@@ -1,4 +1,5 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { Proposal } from '../../common/datatypes/Proposal.js';
 
 export class FProposalList extends gui.DefaultLongList {
   constructor() {
@@ -66,11 +67,11 @@ export class FProposalList extends gui.DefaultLongList {
     } else {
       let proposals = [];
       for (let p of response.data.proposals) {
-        proposals.push(new dat.Proposal(p));
+        proposals.push(new Proposal(p));
       }
       if (proposals.length) {
         for (let p of proposals) {
-          dba.Communities.updateProposal(new dat.Proposal(p));
+          dba.Communities.updateProposal(new Proposal(p));
           this._ids.push(p.getId());
         }
       } else {

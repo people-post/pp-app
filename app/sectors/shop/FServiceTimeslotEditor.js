@@ -3,6 +3,7 @@ import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
 import { FDateTimeSelector } from '../../lib/ui/controllers/fragments/FDateTimeSelector.js';
 import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ProductServiceTimeslot } from '../../common/datatypes/ProductServiceTimeslot.js';
 
 export class FServiceTimeslotEditor extends Fragment {
   constructor() {
@@ -12,7 +13,7 @@ export class FServiceTimeslotEditor extends Fragment {
     this._fRepetition.setDataSource(this);
     this._fRepetition.setDelegate(this);
     this.setChild("repetitation", this._fRepetition);
-    this._repetition = dat.ProductServiceTimeslot.T_REP.ONCE;
+    this._repetition = ProductServiceTimeslot.T_REP.ONCE;
 
     this._fFrom = new FDateTimeSelector();
     this._fFrom.setHintText("From");
@@ -37,12 +38,12 @@ export class FServiceTimeslotEditor extends Fragment {
 
   getItemsForSelection(fSelection) {
     return [
-      {text : "One time", value : dat.ProductServiceTimeslot.T_REP.ONCE},
-      {text : "Every day", value : dat.ProductServiceTimeslot.T_REP.DAY},
-      {text : "Every other day", value : dat.ProductServiceTimeslot.T_REP.DAY2},
-      {text : "Every week", value : dat.ProductServiceTimeslot.T_REP.WEEK},
-      {text : "Every two weeks", value : dat.ProductServiceTimeslot.T_REP.WEEK2},
-      {text : "Every month", value : dat.ProductServiceTimeslot.T_REP.MONTH}
+      {text : "One time", value : ProductServiceTimeslot.T_REP.ONCE},
+      {text : "Every day", value : ProductServiceTimeslot.T_REP.DAY},
+      {text : "Every other day", value : ProductServiceTimeslot.T_REP.DAY2},
+      {text : "Every week", value : ProductServiceTimeslot.T_REP.WEEK},
+      {text : "Every two weeks", value : ProductServiceTimeslot.T_REP.WEEK2},
+      {text : "Every month", value : ProductServiceTimeslot.T_REP.MONTH}
     ];
   }
   getSelectedValueForSelection(fSelection) { return this._repetition; }
@@ -67,7 +68,7 @@ export class FServiceTimeslotEditor extends Fragment {
   }
 
   collectData() {
-    let d = new dat.ProductServiceTimeslot({});
+    let d = new ProductServiceTimeslot({});
     let t = this._fFrom.getValue();
     if (t) {
       d.setFromTime(t.getTime() / 1000);

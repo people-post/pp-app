@@ -1,4 +1,5 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { SupplierOrderPrivate } from '../../common/datatypes/SupplierOrderPrivate.js';
 
 export class FSupplierOrderList extends gui.DefaultLongList {
   isOrderSelected(orderId) { return this._currentId == orderId; }
@@ -43,7 +44,7 @@ export class FSupplierOrderList extends gui.DefaultLongList {
     } else {
       let orders = [];
       for (let o of response.data.supplier_orders) {
-        orders.push(new dat.SupplierOrderPrivate(o));
+        orders.push(new SupplierOrderPrivate(o));
       }
 
       if (orders.length) {

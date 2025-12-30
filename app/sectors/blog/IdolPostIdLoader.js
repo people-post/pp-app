@@ -1,7 +1,9 @@
+import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 
 export class IdolPostIdLoader extends plt.LongListIdLoader {
   #isBatchLoading = false;
-  #idRecord = new dat.UniLongListIdRecord();
+  #idRecord = new UniLongListIdRecord();
 
   getIdRecord() { return this.#idRecord; }
 
@@ -14,7 +16,7 @@ export class IdolPostIdLoader extends plt.LongListIdLoader {
     let url = "api/blog/idol_articles";
     let fromId = this.getIdRecord().getLastId();
     if (fromId) {
-      url += "?before_id=" + dat.SocialItemId.fromEncodedStr(fromId).getValue();
+      url += "?before_id=" + SocialItemId.fromEncodedStr(fromId).getValue();
     }
     plt.Api.asyncRawCall(url, r => this.#onPostsRRR(r));
   }

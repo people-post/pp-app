@@ -3,6 +3,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
 import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ProductServiceLocation } from '../../common/datatypes/ProductServiceLocation.js';
 
 export class FServiceLocationEditor extends Fragment {
   constructor() {
@@ -67,7 +68,7 @@ export class FServiceLocationEditor extends Fragment {
   }
 
   collectData() {
-    let d = new dat.ProductServiceLocation({});
+    let d = new ProductServiceLocation({});
     for (let f of this._fTimeslots.getChildren()) {
       d.appendTimeslot(f.collectData());
     }

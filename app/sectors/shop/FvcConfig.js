@@ -18,6 +18,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { C } from '../../lib/framework/Constants.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FvcConfig extends FScrollViewContent {
   #fTeams;
@@ -67,18 +68,18 @@ export class FvcConfig extends FScrollViewContent {
     f.setDelegate(this);
     f.setDescription(R.get("INTRO_MEDIUM_SIZE"));
     let fInfo = new shop.FProduct()
-    fInfo.setSizeType(dat.SocialItem.T_LAYOUT.MEDIUM);
+    fInfo.setSizeType(SocialItem.T_LAYOUT.MEDIUM);
     f.setInfoFragment(fInfo);
     this.#fLayout.addChoice(
-        {name : "Medium", value : dat.SocialItem.T_LAYOUT.MEDIUM, fDetail : f});
+        {name : "Medium", value : SocialItem.T_LAYOUT.MEDIUM, fDetail : f});
     f = new shop.FProductInfoLayoutPreview();
     f.setDelegate(this);
     f.setDescription(R.get("INTRO_LARGE_SIZE"));
     fInfo = new shop.FProduct()
-    fInfo.setSizeType(dat.SocialItem.T_LAYOUT.LARGE);
+    fInfo.setSizeType(SocialItem.T_LAYOUT.LARGE);
     f.setInfoFragment(fInfo);
     this.#fLayout.addChoice(
-        {name : "Large", value : dat.SocialItem.T_LAYOUT.LARGE, fDetail : f});
+        {name : "Large", value : SocialItem.T_LAYOUT.LARGE, fDetail : f});
     this.setChild("layout", this.#fLayout);
   }
 

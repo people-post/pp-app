@@ -1,4 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FTaggedCommentList extends Fragment {
   #idLoader;
@@ -33,7 +34,7 @@ export class FTaggedCommentList extends Fragment {
   }
 
   onInfoFragmentCreatedInPostListFragment(fPostList, fInfo) {
-    fInfo.setSizeType(dat.SocialItem.T_LAYOUT.EXT_COMMENT);
+    fInfo.setSizeType(SocialItem.T_LAYOUT.EXT_COMMENT);
   }
 
   onArticleContextOptionClickedInPostListFragment(fPostList, value, articleId) {

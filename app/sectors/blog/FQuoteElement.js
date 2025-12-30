@@ -1,5 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 
 export class FQuoteElement extends Fragment {
   #fItem = null;
@@ -38,8 +40,8 @@ export class FQuoteElement extends Fragment {
 
     if (this.#fItem) {
       this.#fItem.setSizeType(this.#sizeType == "FULL"
-                                  ? dat.SocialItem.T_LAYOUT.EXT_QUOTE_LARGE
-                                  : dat.SocialItem.T_LAYOUT.EXT_QUOTE_SMALL);
+                                  ? SocialItem.T_LAYOUT.EXT_QUOTE_LARGE
+                                  : SocialItem.T_LAYOUT.EXT_QUOTE_SMALL);
       this.#fItem.attachRender(render);
       this.#fItem.render();
     }
@@ -48,26 +50,26 @@ export class FQuoteElement extends Fragment {
   #createItemFragment() {
     let f = null;
     switch (this.#type) {
-    case dat.SocialItem.TYPE.ARTICLE:
-    case dat.SocialItem.TYPE.FEED_ARTICLE:
+    case SocialItem.TYPE.ARTICLE:
+    case SocialItem.TYPE.FEED_ARTICLE:
       f = new blog.FPostInfo();
-      f.setPostId(new dat.SocialItemId(this.#item, this.#type));
+      f.setPostId(new SocialItemId(this.#item, this.#type));
       f.setDataSource(this);
       f.setDelegate(this);
       break;
-    case dat.SocialItem.TYPE.PROJECT:
+    case SocialItem.TYPE.PROJECT:
       f = new wksp.FProjectInfo();
       f.setProjectId(this.#item);
       f.setDataSource(this);
       f.setDelegate(this);
       break;
-    case dat.SocialItem.TYPE.PRODUCT:
+    case SocialItem.TYPE.PRODUCT:
       f = new shop.FProduct();
       f.setProductId(this.#item);
       f.setDataSource(this);
       f.setDelegate(this);
       break;
-    case dat.SocialItem.TYPE.URL:
+    case SocialItem.TYPE.URL:
       f = new blog.FOgp();
       f.setUrl(this.#item);
       f.setDelegate(this);

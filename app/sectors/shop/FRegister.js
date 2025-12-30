@@ -6,6 +6,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { ShopRegister } from '../../common/datatypes/ShopRegister.js';
 
 export class FRegister extends Fragment {
   static T_LAYOUT = {
@@ -152,7 +153,7 @@ export class FRegister extends Fragment {
   }
 
   #onUpdateRRR(data) {
-    dba.Shop.updateRegister(new dat.ShopRegister(data.register));
+    dba.Shop.updateRegister(new ShopRegister(data.register));
   }
 };
 

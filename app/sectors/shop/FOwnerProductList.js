@@ -1,4 +1,5 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { Product } from '../../common/datatypes/Product.js';
 
 export class FOwnerProductList extends shop.FProductList {
   #ownerId = null;
@@ -60,7 +61,7 @@ export class FOwnerProductList extends shop.FProductList {
       let ds = response.data.products;
       if (ds.length) {
         for (let d of ds) {
-          let p = new dat.Product(d);
+          let p = new Product(d);
           dba.Shop.updateProduct(p);
           this._getIdRecord().appendId(p.getId());
         }

@@ -1,9 +1,10 @@
-
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { TimeClock } from '../../common/datatypes/TimeClock.js';
+import { TimeClockRecord } from '../../common/datatypes/TimeClockRecord.js';
 
 export class FTimeClock extends Fragment {
   constructor() {
@@ -114,7 +115,7 @@ export class FTimeClock extends Fragment {
   }
 
   #onClockInRRR(data) {
-    let tc = new dat.TimeClock(data.time_clock);
+    let tc = new TimeClock(data.time_clock);
     // Calibrate time with backend.
     let dt = tc.getDurationMs();
     this._tStart = Date.now() - dt;
@@ -131,7 +132,7 @@ export class FTimeClock extends Fragment {
   }
 
   #onClockOutRRR(data) {
-    let r = new dat.TimeClockRecord(data.record);
+    let r = new TimeClockRecord(data.record);
     this._beeper.stop();
     this.render();
   }

@@ -1,4 +1,5 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
 
 export class FProductList extends gui.FSocialItemList {
   // TODO: Swith id to SocialItemId
@@ -6,7 +7,7 @@ export class FProductList extends gui.FSocialItemList {
 
   constructor() {
     super();
-    this.#idRecord = new dat.UniLongListIdRecord();
+    this.#idRecord = new UniLongListIdRecord();
   }
 
   isProductSelectedInProductInfoFragment(fProductInfo, productId) {

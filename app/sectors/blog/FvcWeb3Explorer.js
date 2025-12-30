@@ -31,7 +31,7 @@ export class FvcWeb3Explorer extends FScrollViewContent {
 
   onIdUpdatedInLongListIdLoader(loader) { this.#fPosts.onScrollFinished(); }
   onInfoFragmentCreatedInPostListFragment(fPosts, fInfo) {
-    fInfo.setSizeType(dat.SocialItem.T_LAYOUT.LARGE);
+    fInfo.setSizeType(SocialItem.T_LAYOUT.LARGE);
   }
 
   handleSessionDataUpdate(dataType, data) {

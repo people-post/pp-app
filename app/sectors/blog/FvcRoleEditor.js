@@ -17,6 +17,8 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { C } from '../../lib/framework/Constants.js';
+import { BlogRole } from '../../common/datatypes/BlogRole.js';
+import { UserGroup } from '../../common/datatypes/UserGroup.js';
 
 export class FvcRoleEditor extends FScrollViewContent {
   constructor() {
@@ -26,17 +28,17 @@ export class FvcRoleEditor extends FScrollViewContent {
     this._fTypeChoices.setDelegate(this);
     this._fTypeChoices.addChoice({
       name : "Insider",
-      value : dat.BlogRole.T_ROLE.EXCLUSIVE,
+      value : BlogRole.T_ROLE.EXCLUSIVE,
       icon : C.ICON.EMPLOYEE,
       fDetail : new HintText(R.get("BLOG_ROLE_EXCLUSIVE"))
     });
     this._fTypeChoices.addChoice({
       name : "Coalitionist",
-      value : dat.BlogRole.T_ROLE.PARTNERSHIP,
+      value : BlogRole.T_ROLE.PARTNERSHIP,
       icon : C.ICON.PARTNERSHIP,
       fDetail : new HintText(R.get("BLOG_ROLE_PARTNERSHIP"))
     });
-    this._fTypeChoices.setSelectedValue(dat.BlogRole.T_ROLE.PARTNERSHIP);
+    this._fTypeChoices.setSelectedValue(BlogRole.T_ROLE.PARTNERSHIP);
     this.setChild("typeChoices", this._fTypeChoices);
 
     this._fOptions = new OptionSwitch();
@@ -191,7 +193,7 @@ export class FvcRoleEditor extends FScrollViewContent {
   #onEditRoleFinished(groups) {
     dba.WebConfig.resetRoles(groups);
     for (let d of groups) {
-      dba.Groups.update(new dat.UserGroup(d));
+      dba.Groups.update(new UserGroup(d));
     }
     this._owner.onContentFragmentRequestPopView(this);
   }

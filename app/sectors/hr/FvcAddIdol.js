@@ -2,20 +2,22 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { SearchConfig } from '../../common/datatypes/SearchConfig.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FvcAddIdol extends FScrollViewContent {
   #fSearch;
 
   constructor() {
     super();
-    let c = new dat.SearchConfig();
+    let c = new SearchConfig();
     if (glb.env.isWeb3()) {
       this.#fSearch = new srch.FWeb3Search();
-      c.setCategories([ dat.SocialItem.TYPE.USER ]);
+      c.setCategories([ SocialItem.TYPE.USER ]);
     } else {
       this.#fSearch = new srch.FGeneralSearch();
       this.#fSearch.enableAddFeed();
-      c.setCategories([ dat.SocialItem.TYPE.USER, dat.SocialItem.TYPE.FEED ]);
+      c.setCategories([ SocialItem.TYPE.USER, SocialItem.TYPE.FEED ]);
     }
     this.#fSearch.setConfig(c);
     this.#fSearch.setDelegate(this);
@@ -24,8 +26,8 @@ export class FvcAddIdol extends FScrollViewContent {
 
   onSearchResultClickedInSearchFragment(fSearch, itemType, itemId) {
     switch (itemType) {
-    case dat.SocialItem.TYPE.USER:
-    case dat.SocialItem.TYPE.FEED:
+    case SocialItem.TYPE.USER:
+    case SocialItem.TYPE.FEED:
       this.#showUser(itemId);
       break;
     default:

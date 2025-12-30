@@ -1,6 +1,8 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FvcChatGroupList extends FScrollViewContent {
   constructor() {
@@ -10,9 +12,9 @@ export class FvcChatGroupList extends FScrollViewContent {
   }
 
   onClickInChatGroupInfoFragment(fInfo, groupId) {
-    let t = new dat.ChatTarget();
+    let t = new ChatTarget();
     t.setId(groupId);
-    t.setIdType(dat.SocialItem.TYPE.GROUP);
+    t.setIdType(SocialItem.TYPE.GROUP);
     this.#startChatWith(t);
   }
 

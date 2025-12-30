@@ -1,5 +1,8 @@
+import { BiLongListIdRecord } from '../../common/datatypes/BiLongListIdRecord.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+
 export class OwnerPostIdLoader extends plt.LongListIdLoader {
-  #idRecord = new dat.BiLongListIdRecord();
+  #idRecord = new BiLongListIdRecord();
   #ownerId = null;
   #isBatchLoadingFront = false;
   #isBatchLoadingBack = false;
@@ -35,7 +38,7 @@ export class OwnerPostIdLoader extends plt.LongListIdLoader {
     let url = "api/blog/articles?";
     let params = [];
     params.push("after_id=" +
-                dat.SocialItemId.fromEncodedStr(fromId).getValue());
+                SocialItemId.fromEncodedStr(fromId).getValue());
     for (let id of this.#tagIds) {
       params.push("tag=" + id);
     }
@@ -68,7 +71,7 @@ export class OwnerPostIdLoader extends plt.LongListIdLoader {
     let fromId = this.#idRecord.getLastId();
     if (fromId) {
       params.push("before_id=" +
-                  dat.SocialItemId.fromEncodedStr(fromId).getValue());
+                  SocialItemId.fromEncodedStr(fromId).getValue());
     }
     if (this.#tFrom) {
       params.push("from=" + Math.round(this.#tFrom.getTime() / 1000));

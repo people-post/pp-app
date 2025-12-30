@@ -2,6 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 
 export class FNoticeList extends Fragment {
   #selectedPostId = null;
@@ -53,7 +54,7 @@ export class FNoticeList extends Fragment {
     this.#selectedPostId = postId;
     let v = new View();
     let f = new blog.FvcPost();
-    f.setPostId(new dat.SocialItemId(postId, idType));
+    f.setPostId(new SocialItemId(postId, idType));
     v.setContentFragment(f);
     this._delegate.onBlogNoticeListFragmentRequestShowView(this, v,
                                                            "Post " + postId);

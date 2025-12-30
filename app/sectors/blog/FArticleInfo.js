@@ -4,6 +4,7 @@ import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionCo
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FArticleInfo extends blog.FPostBase {
   #fAttachment;
@@ -206,12 +207,12 @@ export class FArticleInfo extends blog.FPostBase {
   }
 
   #isSquareImage() {
-    return this.#sizeType == dat.SocialItem.T_LAYOUT.MEDIUM ||
-           this.#sizeType == dat.SocialItem.T_LAYOUT.EXT_QUOTE_SMALL;
+    return this.#sizeType == SocialItem.T_LAYOUT.MEDIUM ||
+           this.#sizeType == SocialItem.T_LAYOUT.EXT_QUOTE_SMALL;
   }
 
   #getQuoteSize() {
-    if (this.#sizeType == dat.SocialItem.T_LAYOUT.LARGE) {
+    if (this.#sizeType == SocialItem.T_LAYOUT.LARGE) {
       return "FULL";
     } else {
       return "SMALL";

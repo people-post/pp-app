@@ -24,6 +24,7 @@ const _CFT_CHAT_MESSAGE = {
 }
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
 
 export class FChatMessage extends Fragment {
   constructor() {
@@ -97,7 +98,7 @@ export class FChatMessage extends Fragment {
   #makeMessageContent(message) {
     let s = "";
     switch (message.getType()) {
-    case dat.ChatMessage.T_TYPE.FMT:
+    case ChatMessage.T_TYPE.FMT:
       s = this.#renderFormattedMsg(message.getData());
       break;
     default:
@@ -109,15 +110,15 @@ export class FChatMessage extends Fragment {
 
   #renderFormattedMsg(msg) {
     let s = "";
-    let t = dat.ChatMessage.T_FMT_TEMPLATES[msg.id];
+    let t = ChatMessage.T_FMT_TEMPLATES[msg.id];
     switch (msg.id) {
-    case dat.ChatMessage.T_FMT.REQUEST_ACCEPT:
+    case ChatMessage.T_FMT.REQUEST_ACCEPT:
       s = t.replace("__NAME__", this.#renderGroupLink(msg.data.GROUP_ID));
       break;
-    case dat.ChatMessage.T_FMT.REQUEST_DECLINE:
+    case ChatMessage.T_FMT.REQUEST_DECLINE:
       s = t.replace("__NAME__", this.#getGroupName(msg.data.GROUP_ID));
       break;
-    case dat.ChatMessage.T_FMT.NEW_GROUP_MEMBER:
+    case ChatMessage.T_FMT.NEW_GROUP_MEMBER:
       s = t.replace("__NAME__", msg.data.MEMBER_ID);
       break;
     default:

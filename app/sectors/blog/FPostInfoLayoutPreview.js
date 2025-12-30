@@ -3,6 +3,8 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FPostInfoLayoutPreview extends Fragment {
   constructor() {
@@ -28,8 +30,8 @@ export class FPostInfoLayoutPreview extends Fragment {
     f.setDataSource(this);
     f.setDelegate(this);
     // Hack
-    f.setPostId(new dat.SocialItemId("630c0f81939ca171b6a702df",
-                                     dat.SocialItem.TYPE.ARTICLE));
+    f.setPostId(new SocialItemId("630c0f81939ca171b6a702df",
+                                     SocialItem.TYPE.ARTICLE));
     this._fInfo = f;
     this.setChild("info", f);
   }

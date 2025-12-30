@@ -1,4 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FJournalIssueSection extends Fragment {
   #data = null;
@@ -7,7 +8,7 @@ export class FJournalIssueSection extends Fragment {
   constructor() {
     super();
     this.#fPost = new blog.FPostInfo();
-    this.#fPost.setSizeType(dat.SocialItem.T_LAYOUT.EXT_EMBED);
+    this.#fPost.setSizeType(SocialItem.T_LAYOUT.EXT_EMBED);
     this.#fPost.setDataSource(this);
     this.#fPost.setDelegate(this);
     this.setChild("post", this.#fPost);

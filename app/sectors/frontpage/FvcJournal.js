@@ -55,6 +55,9 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { FrontPageLayoutConfig } from '../../common/datatypes/FrontPageLayoutConfig.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 
 export class PJournal extends Panel {
   #pMain;
@@ -142,7 +145,7 @@ class FvcJournal extends FViewContentBase {
     this.#idLoader.setDelegate(this);
 
     this.#fIssue = new blog.FPostInfo();
-    this.#fIssue.setSizeType(dat.SocialItem.T_LAYOUT.EXT_FULL_PAGE);
+    this.#fIssue.setSizeType(SocialItem.T_LAYOUT.EXT_FULL_PAGE);
     this.setChild("issue", this.#fIssue);
 
     this.#fLeft = new blog.FTaggedCommentList();
@@ -187,7 +190,7 @@ class FvcJournal extends FViewContentBase {
 
     let t = this.#cLayout.getType();
     switch (t) {
-    case dat.FrontPageLayoutConfig.T_LAYOUT.TRIPLE:
+    case FrontPageLayoutConfig.T_LAYOUT.TRIPLE:
       this.#renderTripleOnRender(render);
       break;
     default:
@@ -212,7 +215,7 @@ class FvcJournal extends FViewContentBase {
 
     let p = panel.getMainPanel();
     this.#fIssue.setPostId(
-        new dat.SocialItemId(this.#issueId, dat.SocialItem.TYPE.JOURNAL_ISSUE));
+        new SocialItemId(this.#issueId, SocialItem.TYPE.JOURNAL_ISSUE));
     this.#fIssue.attachRender(p);
     this.#fIssue.render();
 

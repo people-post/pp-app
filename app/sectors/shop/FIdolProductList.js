@@ -1,3 +1,5 @@
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { Product } from '../../common/datatypes/Product.js';
 
 export class FIdolProductList extends shop.FProductList {
   #isBatchLoading = false;
@@ -7,7 +9,7 @@ export class FIdolProductList extends shop.FProductList {
     f.setDataSource(this);
     f.setDelegate(this);
     f.setProductId(id);
-    f.setSizeType(dat.SocialItem.T_LAYOUT.LARGE);
+    f.setSizeType(SocialItem.T_LAYOUT.LARGE);
     return f;
   }
 
@@ -34,7 +36,7 @@ export class FIdolProductList extends shop.FProductList {
       let ds = response.data.products;
       if (ds.length) {
         for (let d of ds) {
-          let p = new dat.Product(d);
+          let p = new Product(d);
           dba.Shop.updateProduct(p);
           this._getIdRecord().appendId(p.getId());
         }

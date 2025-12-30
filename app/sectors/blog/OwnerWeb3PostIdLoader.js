@@ -1,6 +1,9 @@
+import { UniSegmentedLongListIdRecord } from '../../common/datatypes/UniSegmentedLongListIdRecord.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class OwnerWeb3PostIdLoader extends plt.LongListIdLoader {
-  #idRecord = new dat.UniSegmentedLongListIdRecord();
+  #idRecord = new UniSegmentedLongListIdRecord();
   #ownerId = null;
   #isBusy = false;
 
@@ -47,7 +50,7 @@ export class OwnerWeb3PostIdLoader extends plt.LongListIdLoader {
 
     for (let i of infos) {
       this.getIdRecord().appendId(
-          new dat.SocialItemId(i.cid, dat.SocialItem.TYPE.ARTICLE)
+          new SocialItemId(i.cid, SocialItem.TYPE.ARTICLE)
               .toEncodedStr());
     }
 

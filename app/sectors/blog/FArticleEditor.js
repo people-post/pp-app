@@ -8,6 +8,9 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { C } from '../../lib/framework/Constants.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { Tag } from '../../common/datatypes/Tag.js';
+import { Article } from '../../common/datatypes/Article.js';
 
 export class FArticleEditor extends Fragment {
   #fTitle;
@@ -104,7 +107,7 @@ export class FArticleEditor extends Fragment {
 
   onInputChangeInTextInputFragment(fText, value) {
     if (value && value.length) {
-      this.#fQuotePreview.setItem(value, dat.SocialItem.TYPE.URL);
+      this.#fQuotePreview.setItem(value, SocialItem.TYPE.URL);
       this.#fQuotePreview.attachRender(this.#pQuotePreview);
       this.#fQuotePreview.render();
     }
@@ -288,7 +291,7 @@ export class FArticleEditor extends Fragment {
     let v = this.#fQuote.getValue();
     if (v && v.length) {
       data.linkTo = v;
-      data.linkType = dat.SocialItem.TYPE.URL;
+      data.linkType = SocialItem.TYPE.URL;
     } else {
       data.linkTo = this.#baseArticle.getLinkTo();
       data.linkType = this.#baseArticle.getLinkType();
@@ -380,7 +383,7 @@ export class FArticleEditor extends Fragment {
   #onTagsRRR(data) {
     this.#tags = [];
     for (let d of data.tags) {
-      this.#tags.push(new dat.Tag(d));
+      this.#tags.push(new Tag(d));
     }
     this.#fTags.render();
   }
@@ -396,7 +399,7 @@ export class FArticleEditor extends Fragment {
       } else {
         dba.WebConfig.setGroups(response.data.groups);
         this._delegate.onArticleUpdatedInArticleEditorFragment(
-            this, new dat.Article(response.data.article));
+            this, new Article(response.data.article));
       }
     }
   }

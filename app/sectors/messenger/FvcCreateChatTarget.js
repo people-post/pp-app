@@ -98,9 +98,9 @@ export class FvcCreateChatTarget extends FScrollViewContent {
       return;
     }
     if (n == 1) {
-      let target = new dat.ChatTarget();
+      let target = new ChatTarget();
       target.setId(this._selectedIds[0]);
-      target.setIdType(dat.SocialItem.TYPE.USER);
+      target.setIdType(SocialItem.TYPE.USER);
       this._owner.onContentFragmentRequestPopView(this);
       this._delegate.onTargetCreatedInCreateChatTargetContentFragment(this,
                                                                       target);
@@ -127,11 +127,11 @@ export class FvcCreateChatTarget extends FScrollViewContent {
   }
 
   #onCreateGroupRRR(data) {
-    let g = new dat.UserGroup(data.group);
+    let g = new UserGroup(data.group);
     dba.Groups.update(g);
-    let target = new dat.ChatTarget();
+    let target = new ChatTarget();
     target.setId(g.getId());
-    target.setIdType(dat.SocialItem.TYPE.GROUP);
+    target.setIdType(SocialItem.TYPE.GROUP);
     this._owner.onContentFragmentRequestPopView(this);
     this._delegate.onTargetCreatedInCreateChatTargetContentFragment(this,
                                                                     target);

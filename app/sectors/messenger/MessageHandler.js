@@ -1,9 +1,12 @@
+import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
+import { BufferedList } from '../../common/datatypes/BufferedList.js';
+import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
 
 export class MessageHandler extends ext.Controller {
   constructor() {
     super();
-    this._target = new dat.ChatTarget();
-    this._messageBuffer = new dat.BufferedList();
+    this._target = new ChatTarget();
+    this._messageBuffer = new BufferedList();
   }
 
   getTarget() { return this._target; }
@@ -47,9 +50,9 @@ export class MessageHandler extends ext.Controller {
       m.in_group_id = null;
       m.to_user_id = this._target.getId();
     }
-    m.type = dat.ChatMessage.T_TYPE.TEXT;
+    m.type = ChatMessage.T_TYPE.TEXT;
     m.data = data;
-    return new dat.ChatMessage(m);
+    return new ChatMessage(m);
   }
 
   #asyncPost(data, onSuccess, onFail) {
@@ -103,7 +106,7 @@ export class MessageHandler extends ext.Controller {
     if (!response.error) {
       let messages = [];
       for (let m of response.data.messages) {
-        messages.push(new dat.ChatMessage(m));
+        messages.push(new ChatMessage(m));
       }
       messages = this._messageBuffer.extend(messages);
       if (messages.length > 0) {

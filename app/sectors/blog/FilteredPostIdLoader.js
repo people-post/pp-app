@@ -1,3 +1,5 @@
+import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 
 export class FilteredPostIdLoader extends plt.LongListIdLoader {
   #isBatchLoading = false;
@@ -6,7 +8,7 @@ export class FilteredPostIdLoader extends plt.LongListIdLoader {
 
   constructor() {
     super();
-    this.#idRecord = new dat.UniLongListIdRecord();
+    this.#idRecord = new UniLongListIdRecord();
   }
 
   getIdRecord() { return this.#idRecord; }
@@ -22,7 +24,7 @@ export class FilteredPostIdLoader extends plt.LongListIdLoader {
     let url = "api/blog/articles?&tag=" + this.#tagId;
     let fromId = this.#idRecord.getLastId();
     if (fromId) {
-      url += "&before_id=" + dat.SocialItemId.fromEncodedStr(fromId).getValue();
+      url += "&before_id=" + SocialItemId.fromEncodedStr(fromId).getValue();
     }
     let t = dba.Groups.getTag(this.#tagId);
     if (t) {

@@ -14,6 +14,7 @@ import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { UserGroup } from '../../common/datatypes/UserGroup.js';
 
 export class FvcTeamEditor extends FScrollViewContent {
   constructor() {
@@ -158,7 +159,7 @@ export class FvcTeamEditor extends FScrollViewContent {
   #onEditTeamFinished(groups) {
     dba.WebConfig.resetRoles(groups);
     for (let d of groups) {
-      dba.Groups.update(new dat.UserGroup(d));
+      dba.Groups.update(new UserGroup(d));
     }
     this._owner.onContentFragmentRequestPopView(this);
   }

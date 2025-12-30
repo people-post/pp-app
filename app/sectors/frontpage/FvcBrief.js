@@ -81,6 +81,9 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { C } from '../../lib/framework/Constants.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { ActionButtonGroup } from '../../common/gui/ActionButtonGroup.js';
+import { MenuItem } from '../../common/datatypes/MenuItem.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class PBriefBase extends Panel {
   getBannerPanel() { return null; }
@@ -242,7 +245,7 @@ class FvcBrief extends FViewContentBase {
     this.#mMain.setMaxWidthClass("wmax800px right-pad120px");
     this.#mMain.setSector(C.ID.SECTOR.BLOG);
     this.#mMain.setExtraItems(
-        [ new dat.MenuItem({"id" : "ZHUANTI", "name" : "专题"}) ]);
+        [ new MenuItem({"id" : "ZHUANTI", "name" : "专题"}) ]);
     this.#mMain.setSearchResultLayoutType(
         srch.FSearchResultInfo.T_LAYOUT.BRIEF);
     this.#mMain.setDelegate(this);
@@ -316,12 +319,12 @@ class FvcBrief extends FViewContentBase {
   initFromUrl(urlParam) {
     let id = urlParam.get(C.URL_PARAM.ID);
     if (id) {
-      this.#showBriefArticle(dat.SocialItemId.fromEncodedStr(id));
+      this.#showBriefArticle(SocialItemId.fromEncodedStr(id));
     }
   }
 
   onInfoFragmentCreatedInPostListFragment(fPosts, fInfo) {
-    fInfo.setSizeType(dat.SocialItem.T_LAYOUT.EXT_BRIEF);
+    fInfo.setSizeType(SocialItem.T_LAYOUT.EXT_BRIEF);
   }
   onClickInHeaderMenuFragment(fHeaderMenu) {
     if (fHeaderMenu == this.#fmLanguage) {
@@ -418,7 +421,7 @@ class FvcBrief extends FViewContentBase {
     for (let idx of [0, 1]) {
       let sid = this.#loader.getIdRecord().getId(idx);
       if (sid) {
-        ids.push(dat.SocialItemId.fromEncodedStr(sid));
+        ids.push(SocialItemId.fromEncodedStr(sid));
       }
     }
 
@@ -436,7 +439,7 @@ class FvcBrief extends FViewContentBase {
         p.pushPanel(pp);
         let f = new blog.FPostInfo();
         f.setPostId(id);
-        f.setSizeType(dat.SocialItem.T_LAYOUT.EXT_CARD);
+        f.setSizeType(SocialItem.T_LAYOUT.EXT_CARD);
         this.#fPinnedPosts.append(f);
         f.attachRender(pp);
         f.render();
@@ -452,7 +455,7 @@ class FvcBrief extends FViewContentBase {
         p.pushPanel(pp);
         let f = new blog.FPostInfo();
         f.setPostId(id);
-        f.setSizeType(dat.SocialItem.T_LAYOUT.EXT_BRIEF);
+        f.setSizeType(SocialItem.T_LAYOUT.EXT_BRIEF);
         this.#fPinnedPosts.append(f);
         f.attachRender(pp);
         f.render();

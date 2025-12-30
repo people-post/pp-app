@@ -3,6 +3,8 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcCreateChatTarget } from './FvcCreateChatTarget.js';
+import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FvcChatThreadList extends FScrollViewContent {
   constructor() {
@@ -31,16 +33,16 @@ export class FvcChatThreadList extends FScrollViewContent {
   }
 
   onClickInChatGroupInfoFragment(fInfo, groupId) {
-    let t = new dat.ChatTarget();
+    let t = new ChatTarget();
     t.setId(groupId);
-    t.setIdType(dat.SocialItem.TYPE.GROUP);
+    t.setIdType(SocialItem.TYPE.GROUP);
     this.#startChatWith(t);
   }
 
   onClickInConversationInfoFragment(fInfo, targetId) {
-    let t = new dat.ChatTarget();
+    let t = new ChatTarget();
     t.setId(targetId);
-    t.setIdType(dat.SocialItem.TYPE.USER);
+    t.setIdType(SocialItem.TYPE.USER);
     let u = dba.Users.get(targetId);
     if (!u) {
       return;

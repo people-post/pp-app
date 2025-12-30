@@ -1,4 +1,5 @@
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
 
 export class FGoodDelivery extends shop.FProductDelivery {
   constructor() {
@@ -43,7 +44,7 @@ export class FGoodDelivery extends shop.FProductDelivery {
     let s = "";
     let count = 0;
     if (product) {
-      count = this.#countItemInCart(dat.Cart.T_ID.ACTIVE, product.getId());
+      count = this.#countItemInCart(CartDataType.T_ID.ACTIVE, product.getId());
     }
     if (count) {
       s = count.toString() + " in cart";

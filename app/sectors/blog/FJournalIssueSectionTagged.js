@@ -3,6 +3,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 const _CPT_JOURNAL_ISSUE_SECTION_TAGGED = {
   MAIN : `<div class="flex flex-start">
@@ -77,7 +78,7 @@ class FJournalIssueSectionTagged extends Fragment {
 
         let f = new blog.FPostInfo();
         f.setPostId(id);
-        f.setSizeType(dat.SocialItem.T_LAYOUT.EXT_EMBED);
+        f.setSizeType(SocialItem.T_LAYOUT.EXT_EMBED);
         f.setDataSource(this);
         f.setDelegate(this);
         f.attachRender(pp);

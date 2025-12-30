@@ -1,12 +1,12 @@
-
 import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { C } from '../../lib/framework/Constants.js';
+import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
 
 export class FQuizList extends FLongListLegacy {
   constructor() {
     super();
-    this._idRecord = new dat.UniLongListIdRecord();
+    this._idRecord = new UniLongListIdRecord();
   }
 
   initFromUrl(urlParam) {

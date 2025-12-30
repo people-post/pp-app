@@ -1,5 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { BlogRole } from '../../common/datatypes/BlogRole.js';
 
 export class FCareerList extends Fragment {
   #fList;
@@ -21,7 +22,7 @@ export class FCareerList extends Fragment {
     let m = new Map();
     let items = [];
     for (let id of dba.Blog.getOpenRoleIdsByType(
-             dat.BlogRole.T_ROLE.EXCLUSIVE)) {
+             BlogRole.T_ROLE.EXCLUSIVE)) {
       let f = new S.hr.FCareer();
       f.setRoleId(id);
       f.setDataSource(this);
@@ -32,7 +33,7 @@ export class FCareerList extends Fragment {
 
     items = [];
     for (let id of dba.Blog.getOpenRoleIdsByType(
-             dat.BlogRole.T_ROLE.PARTNERSHIP)) {
+             BlogRole.T_ROLE.PARTNERSHIP)) {
       let f = new S.hr.FCareer();
       f.setRoleId(id);
       f.setDataSource(this);

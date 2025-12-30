@@ -10,6 +10,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { UserRole } from '../../common/datatypes/UserRole.js';
 
 export class FvcCareer extends FScrollViewContent {
   constructor() {
@@ -103,7 +104,7 @@ export class FvcCareer extends FScrollViewContent {
 
   #getRole() {
     let d = dba.WebConfig.getRoleData(this._roleId);
-    return d ? new dat.UserRole(d) : null;
+    return d ? new UserRole(d) : null;
   }
   #onApply() { this.#asyncApplyRole(this._roleId); }
   #onLeave() {
