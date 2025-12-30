@@ -1,3 +1,7 @@
+import { FvcWeb3Login } from './FvcWeb3Login.js';
+import { FvcLogin } from './FvcLogin.js';
+import { FvcLoginProxy } from './FvcLoginProxy.js';
+
 export class Gateway extends plt.SectorGateway {
   createLoginView(nextView) {
     let v = new ui.View();
@@ -9,7 +13,7 @@ export class Gateway extends plt.SectorGateway {
 
   createWeb3LoginView() {
     let v = new ui.View();
-    let f = new auth.FvcWeb3Login();
+    let f = new FvcWeb3Login();
     v.setContentFragment(f);
     return v;
   }
@@ -17,9 +21,9 @@ export class Gateway extends plt.SectorGateway {
   #createLoginViewContentFragment() {
     let f;
     if (glb.env.isTrustedSite() || dba.WebConfig.isDevSite()) {
-      f = new auth.FvcLogin();
+      f = new FvcLogin();
     } else {
-      f = new auth.FvcLoginProxy();
+      f = new FvcLoginProxy();
     }
     return f;
   }

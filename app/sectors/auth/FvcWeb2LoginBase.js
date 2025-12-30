@@ -1,4 +1,6 @@
-export class FvcWeb2LoginBase extends auth.FvcLoginBase {
+import { FvcLoginBase } from './FvcLoginBase.js';
+
+export class FvcWeb2LoginBase extends FvcLoginBase {
   constructor() {
     super();
     this._nextView = null;

@@ -1,3 +1,7 @@
+import { FvcWeb2LoginBase } from './FvcWeb2LoginBase.js';
+import { FvcRegister } from './FvcRegister.js';
+import { FvcRetrievePassword } from './FvcRetrievePassword.js';
+
 export const CF_LOGIN = {
   REGISTER : Symbol(),
   RETRIEVE_PASSWORD : Symbol(),
@@ -22,7 +26,7 @@ const _CFT_LOGIN = {
   SKIP_TEXT : `<div class="center-align">or<div>`,
 };
 
-class FvcLogin extends auth.FvcWeb2LoginBase {
+export class FvcLogin extends FvcWeb2LoginBase {
   #btnLogin;
   #btnSkip;
   constructor() {
@@ -55,16 +59,16 @@ class FvcLogin extends auth.FvcWeb2LoginBase {
 
   action(type, ...args) {
     switch (type) {
-    case auth.CF_LOGIN.REGISTER:
+    case CF_LOGIN.REGISTER:
       this.#onRegister();
       break;
-    case auth.CF_LOGIN.ON_USERNAME_KEY_DOWN:
+    case CF_LOGIN.ON_USERNAME_KEY_DOWN:
       this.#onUsernameKeyDown();
       break;
-    case auth.CF_LOGIN.ON_PASSWD_KEY_DOWN:
+    case CF_LOGIN.ON_PASSWD_KEY_DOWN:
       this.#onPasswordKeyDown();
       break;
-    case auth.CF_LOGIN.RETRIEVE_PASSWORD:
+    case CF_LOGIN.RETRIEVE_PASSWORD:
       this.#onRetrievePassword();
       break;
     default:
@@ -152,13 +156,13 @@ class FvcLogin extends auth.FvcWeb2LoginBase {
 
   #onRegister() {
     let v = new ui.View();
-    v.setContentFragment(new auth.FvcRegister());
+    v.setContentFragment(new FvcRegister());
     this._owner.onFragmentRequestShowView(this, v, "Register");
   }
 
   #onRetrievePassword() {
     let v = new ui.View();
-    v.setContentFragment(new auth.FvcRetrievePassword());
+    v.setContentFragment(new FvcRetrievePassword());
     this._owner.onFragmentRequestShowView(this, v, "Retrieve password");
   }
 

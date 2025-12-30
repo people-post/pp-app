@@ -1,3 +1,5 @@
+import { FvcWeb2LoginBase } from './FvcWeb2LoginBase.js';
+
 export const CF_LOGIN_PROXY = {
   TRIGGER_CHECK : Symbol(),
 };
@@ -7,7 +9,7 @@ const _CFT_LOGIN_PROXY = {
       `left=__LEFT__,top=__TOP__,directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=320,height=480`,
 };
 
-export class FvcLoginProxy extends auth.FvcWeb2LoginBase {
+export class FvcLoginProxy extends FvcWeb2LoginBase {
   constructor() {
     super();
     this._fBtn = new ui.Button();

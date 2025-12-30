@@ -1,4 +1,6 @@
-export class FvcWeb3Login extends auth.FvcLoginBase {
+import { FvcLoginBase } from './FvcLoginBase.js';
+
+export class FvcWeb3Login extends FvcLoginBase {
   #fMnemonic;
   #btnSubmit;
   #btnCreate;
