@@ -1,4 +1,6 @@
-export class RemoteFile extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class RemoteFile extends ServerDataObject {
   // Synced with backend
   static T_STATUS = {
     LIVE : "LIVE",

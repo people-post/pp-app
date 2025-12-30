@@ -1,3 +1,20 @@
+import { Account } from './Account.js';
+import { WebConfig } from './WebConfig.js';
+import { SocialItem } from '../datatypes/SocialItem.js';
+import { BlogRole } from '../datatypes/BlogRole.js';
+import { Tag } from '../datatypes/Tag.js';
+import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import { api } from '../plt/Api.js';
+import { BlogConfig } from '../datatypes/BlogConfig.js';
+import { Article } from '../datatypes/Article.js';
+import { FeedArticle } from '../datatypes/FeedArticle.js';
+import { JournalIssue } from '../datatypes/JournalIssue.js';
+import { Comment } from '../datatypes/Comment.js';
+import { DraftArticle } from '../datatypes/DraftArticle.js';
+import { EmptyPost } from '../datatypes/EmptyPost.js';
+import { Journal } from '../datatypes/Journal.js';
+
 export const Blog = function() {
   let _config = null;
   let _postLib = new Map();
@@ -8,7 +25,7 @@ export const Blog = function() {
 
   function _isSocialEnabled() {
     if (glb.env.isWeb3()) {
-      return dba.Account.isAuthenticated();
+      return Account.isAuthenticated();
     } else {
       let c = _config;
       return c && c.isSocialActionEnabled();
@@ -21,11 +38,11 @@ export const Blog = function() {
   }
   function _getItemLayoutType() {
     let c = _config;
-    return c ? c.getItemLayoutType() : dat.SocialItem.T_LAYOUT.MEDIUM;
+    return c ? c.getItemLayoutType() : SocialItem.T_LAYOUT.MEDIUM;
   }
   function _getPinnedItemLayoutType() {
     let c = _config;
-    return c ? c.getPinnedItemLayoutType() : dat.SocialItem.T_LAYOUT.MEDIUM;
+    return c ? c.getPinnedItemLayoutType() : SocialItem.T_LAYOUT.MEDIUM;
   }
   function _getDefaultPostId() {
     // Id is SocialItemId
@@ -38,8 +55,8 @@ export const Blog = function() {
   }
 
   function _getRole(id) {
-    let d = dba.WebConfig.getRoleData(id);
-    return d ? new dat.BlogRole(d) : null;
+    let d = WebConfig.getRoleData(id);
+    return d ? new BlogRole(d) : null;
   }
   function _getRoleIds() { return __getRoles().map(r => r.id); }
   function _hackGetOpenRoles() { return __getOpenRoles(); }
@@ -86,48 +103,48 @@ export const Blog = function() {
     return _journalLib.get(id);
   }
   function _getComment(id) {
-    return _doGetPost(id, dat.SocialItem.TYPE.COMMENT);
+    return _doGetPost(id, SocialItem.TYPE.COMMENT);
   }
   function _getArticle(id) {
-    return _doGetPost(id, dat.SocialItem.TYPE.ARTICLE);
+    return _doGetPost(id, SocialItem.TYPE.ARTICLE);
   }
   function _getFeedArticle(id) {
-    return _doGetPost(id, dat.SocialItem.TYPE.FEED_ARTICLE);
+    return _doGetPost(id, SocialItem.TYPE.FEED_ARTICLE);
   }
   function _getJournalIssue(id) {
-    return _doGetPost(id, dat.SocialItem.TYPE.JOURNAL_ISSUE);
+    return _doGetPost(id, SocialItem.TYPE.JOURNAL_ISSUE);
   }
 
   function _updateDraft(draft) {
     _draftLib.set(draft.getId(), draft);
-    fwk.Events.trigger(plt.T_DATA.DRAFT_ARTICLE, draft);
+    FwkEvents.trigger(PltT_DATA.DRAFT_ARTICLE, draft);
   }
 
   function _updatePost(post) {
     _postLib.set(post.getId(), post);
-    fwk.Events.trigger(plt.T_DATA.POST, post);
+    FwkEvents.trigger(PltT_DATA.POST, post);
   }
 
   function __updateJournal(id, journal) {
     _journalLib.set(id, journal);
-    fwk.Events.trigger(plt.T_DATA.JOURNAL, journal);
+    FwkEvents.trigger(PltT_DATA.JOURNAL, journal);
   }
 
   function _updatePostData(d) {
     // TODO: Use is system to find source type
     let p = null;
     switch (d.source_type) {
-    case dat.SocialItem.TYPE.ARTICLE:
-      p = new dat.Article(d);
+    case SocialItem.TYPE.ARTICLE:
+      p = new Article(d);
       break;
-    case dat.SocialItem.TYPE.FEED_ARTICLE:
-      p = new dat.FeedArticle(d);
+    case SocialItem.TYPE.FEED_ARTICLE:
+      p = new FeedArticle(d);
       break;
-    case dat.SocialItem.TYPE.JOURNAL_ISSUE:
-      p = new dat.JournalIssue(d);
+    case SocialItem.TYPE.JOURNAL_ISSUE:
+      p = new JournalIssue(d);
       break;
-    case dat.SocialItem.TYPE.COMMENT:
-      p = new dat.Comment(d);
+    case SocialItem.TYPE.COMMENT:
+      p = new Comment(d);
       break;
     default:
       break;
@@ -143,31 +160,31 @@ export const Blog = function() {
     _postLib.clear();
     _draftLib.clear();
     _journalLib.clear();
-    fwk.Events.trigger(plt.T_DATA.DRAFT_ARTICLE_IDS);
-    fwk.Events.trigger(plt.T_DATA.POST_IDS);
+    FwkEvents.trigger(PltT_DATA.DRAFT_ARTICLE_IDS);
+    FwkEvents.trigger(PltT_DATA.POST_IDS);
   }
 
   function _resetConfig(data) {
-    _config = new dat.BlogConfig(data);
-    fwk.Events.trigger(plt.T_DATA.BLOG_CONFIG);
+    _config = new BlogConfig(data);
+    FwkEvents.trigger(PltT_DATA.BLOG_CONFIG);
   }
 
   function __getRoles() {
-    return dba.WebConfig.getRoleDatasByTagId(dat.Tag.T_ID.BLOG);
+    return WebConfig.getRoleDatasByTagId(Tag.T_ID.BLOG);
   }
   function __getOpenRoles() { return __getRoles().filter(r => r.is_open); }
   function __asyncLoadPost(id, type) {
     switch (type) {
-    case dat.SocialItem.TYPE.COMMENT:
+    case SocialItem.TYPE.COMMENT:
       __asyncLoadComment(id);
       break;
-    case dat.SocialItem.TYPE.ARTICLE:
+    case SocialItem.TYPE.ARTICLE:
       __asyncLoadArticle(id);
       break;
-    case dat.SocialItem.TYPE.FEED_ARTICLE:
+    case SocialItem.TYPE.FEED_ARTICLE:
       __asyncLoadFeedArticle(id);
       break;
-    case dat.SocialItem.TYPE.JOURNAL_ISSUE:
+    case SocialItem.TYPE.JOURNAL_ISSUE:
       __asyncLoadJournalIssue(id);
       break;
     default:
@@ -182,7 +199,7 @@ export const Blog = function() {
     _pendingDraftIds.push(id);
 
     let url = "api/blog/draft?id=" + id;
-    plt.Api.asyncRawCall(url, r => __onDraftRRR(r, id));
+    api.asyncRawCall(url, r => __onDraftRRR(r, id));
   }
 
   function __onDraftRRR(responseText, id) {
@@ -193,10 +210,10 @@ export const Blog = function() {
 
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data.draft) {
-        let a = new dat.DraftArticle(response.data.draft);
+        let a = new DraftArticle(response.data.draft);
         _updateDraft(a);
       }
     }
@@ -209,7 +226,7 @@ export const Blog = function() {
     _pendingPostIds.push(id);
 
     let url = "api/social/comment?id=" + id;
-    plt.Api.asyncRawCall(url, r => __onCommentRRR(r, id));
+    api.asyncRawCall(url, r => __onCommentRRR(r, id));
   }
 
   function __onCommentRRR(responseText, id) {
@@ -220,14 +237,14 @@ export const Blog = function() {
 
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       let d = response.data.comment;
       if (d.err_code) {
         d.id = id;
-        _updatePost(new dat.EmptyPost(d));
+        _updatePost(new EmptyPost(d));
       } else {
-        _updatePost(new dat.Comment(d));
+        _updatePost(new Comment(d));
       }
     }
   }
@@ -244,7 +261,7 @@ export const Blog = function() {
           .catch(e => __onCidArticleError(id, e));
     } else {
       let url = "api/blog/article?id=" + id;
-      plt.Api.asyncRawCall(url, r => __onArticleRRR(r, id));
+      api.asyncRawCall(url, r => __onArticleRRR(r, id));
     }
   }
 
@@ -256,14 +273,14 @@ export const Blog = function() {
 
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       let d = response.data.article;
       if (d.err_code) {
         d.id = id;
-        _updatePost(new dat.EmptyPost(d));
+        _updatePost(new EmptyPost(d));
       } else {
-        _updatePost(new dat.Article(d));
+        _updatePost(new Article(d));
       }
     }
   }
@@ -275,7 +292,7 @@ export const Blog = function() {
     _pendingPostIds.push(id);
 
     let url = "api/blog/feed_article?id=" + id;
-    plt.Api.asyncRawCall(url, r => __onFeedArticleRRR(r, id));
+    api.asyncRawCall(url, r => __onFeedArticleRRR(r, id));
   }
 
   function __onFeedArticleRRR(responseText, id) {
@@ -286,31 +303,31 @@ export const Blog = function() {
 
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       let d = response.data.feed_article;
       if (d.err_code) {
         d.id = id;
-        _updatePost(new dat.EmptyPost(d));
+        _updatePost(new EmptyPost(d));
       } else {
-        _updatePost(new dat.FeedArticle(d));
+        _updatePost(new FeedArticle(d));
       }
     }
   }
 
   function __asyncLoadJournal(id) {
     let url = "api/blog/journal?id=" + id;
-    plt.Api.asyncRawCall(url, r => __onJournalRRR(r, id));
+    api.asyncRawCall(url, r => __onJournalRRR(r, id));
   }
 
   function __onJournalRRR(responseText, id) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       let d = response.data.journal;
       if (d) {
-        __updateJournal(id, new dat.Journal(d));
+        __updateJournal(id, new Journal(d));
       } else {
         __updateJournal(id, null);
       }
@@ -324,7 +341,7 @@ export const Blog = function() {
     _pendingPostIds.push(id);
 
     let url = "api/blog/journal_issue?id=" + id;
-    plt.Api.asyncRawCall(url, r => __onJournalIssueRRR(r, id));
+    api.asyncRawCall(url, r => __onJournalIssueRRR(r, id));
   }
 
   function __onJournalIssueRRR(responseText, id) {
@@ -335,14 +352,14 @@ export const Blog = function() {
 
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       let d = response.data.journal_issue;
       if (d.err_code) {
         d.id = id;
-        _updatePost(new dat.EmptyPost(d));
+        _updatePost(new EmptyPost(d));
       } else {
-        _updatePost(new dat.JournalIssue(d));
+        _updatePost(new JournalIssue(d));
       }
     }
   }
@@ -353,7 +370,7 @@ export const Blog = function() {
       _pendingPostIds.splice(idx, 1);
     }
     console.log(e);
-    _updatePost(new dat.EmptyPost({id : id}));
+    _updatePost(new EmptyPost({id : id}));
   }
 
   function __onCidArticleRRR(id, data) {
@@ -362,7 +379,7 @@ export const Blog = function() {
       _pendingPostIds.splice(idx, 1);
     }
     data.id = id;
-    _updatePost(new dat.Article(data));
+    _updatePost(new Article(data));
   }
 
   return {

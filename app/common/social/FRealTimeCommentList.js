@@ -1,10 +1,14 @@
-export class FRealTimeCommentList extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { FRealTimeComment } from './FRealTimeComment.js';
+
+export class FRealTimeCommentList extends Fragment {
   #fList;
   #comments = [];
 
   constructor() {
     super();
-    this.#fList = new ui.FSimpleFragmentList();
+    this.#fList = new FSimpleFragmentList();
   }
 
   setComments(cs) { this.#comments = cs; }
@@ -16,7 +20,7 @@ export class FRealTimeCommentList extends ui.Fragment {
   _renderOnRender(render) {
     this.#fList.clear();
     for (let c of this.#comments) {
-      let f = new socl.FRealTimeComment();
+      let f = new FRealTimeComment();
       f.setComment(c);
       f.setDataSource(this);
       f.setDelegate(this);

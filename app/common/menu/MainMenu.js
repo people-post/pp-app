@@ -1,3 +1,16 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { MenuContent } from './MenuContent.js';
+import { SearchBar } from '../gui/SearchBar.js';
+import { Factory, T_CATEGORY, T_OBJ } from '../../lib/framework/Factory.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import { Menus } from '../dba/Menus.js';
+import { Groups } from '../dba/Groups.js';
+
 const _CPT_MENU_ITEM = {
   V_MAIN : `<div class="flex">
     <div class="w5">
@@ -22,16 +35,16 @@ const _CPT_MENU_ITEM = {
   H_BAR : `<span class="menu-hr"></span>`,
 };
 
-export class PVMenuItem extends ui.Panel {
+export class PVMenuItem extends Panel {
   #pTheme;
   #pContent;
   #pArrow;
 
   constructor() {
     super();
-    this.#pTheme = new ui.Panel();
-    this.#pContent = new ui.PanelWrapper();
-    this.#pArrow = new ui.Panel();
+    this.#pTheme = new Panel();
+    this.#pContent = new PanelWrapper();
+    this.#pArrow = new Panel();
   }
 
   getThemePanel() { return this.#pTheme; }
@@ -54,16 +67,16 @@ export class PVMenuItem extends ui.Panel {
   }
 };
 
-export class PHMenuItem extends ui.Panel {
+export class PHMenuItem extends Panel {
   #pTheme;
   #pContent;
   #pArrow;
 
   constructor() {
     super();
-    this.#pTheme = new ui.Panel();
-    this.#pContent = new ui.PanelWrapper();
-    this.#pArrow = new ui.Panel();
+    this.#pTheme = new Panel();
+    this.#pContent = new PanelWrapper();
+    this.#pArrow = new Panel();
   }
 
   getThemePanel() { return this.#pTheme; }
@@ -86,7 +99,7 @@ export class PHMenuItem extends ui.Panel {
   }
 };
 
-export class MainMenu extends gui.MenuContent {
+export class MainMenu extends MenuContent {
   #fBar;
   #btnAll;
   #fChoices;
@@ -99,31 +112,31 @@ export class MainMenu extends gui.MenuContent {
 
   constructor() {
     super();
-    this.#fBar = new gui.SearchBar();
+    this.#fBar = new SearchBar();
     this.#fBar.setMenuRenderMode(true);
     this.#fBar.setFatMode(true);
     this.#fBar.setDelegate(this);
     this.setChild("searchbar", this.#fBar);
 
-    this.#btnAll = new ui.Button();
-    this.#btnAll.setThemeType(ui.Button.T_THEME.NONE);
+    this.#btnAll = new Button();
+    this.#btnAll.setThemeType(Button.T_THEME.NONE);
     this.#btnAll.setName("[---- ALL ----]");
     this.#btnAll.setValue("ALL");
     this.#btnAll.setDelegate(this);
     this.setChild("all", this.#btnAll);
 
-    this.#fChoices = new ui.FFragmentList();
+    this.#fChoices = new FFragmentList();
     this.setChild("choices", this.#fChoices);
   }
 
   onGuiSearchBarRequestSearch(fSearchBar, value) {
     this._delegate.onMenuFragmentRequestCloseMenu(this);
-    let cls = fwk.Factory.getClass(
-        fwk.T_CATEGORY.UI, fwk.T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
+    let cls = Factory.getClass(
+        T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
     let f = new cls();
     f.setKey(value);
     f.setResultLayoutType(this.#tResultLayout);
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Search result");
   }
@@ -138,10 +151,10 @@ export class MainMenu extends gui.MenuContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.GROUPS:
+    case PltT_DATA.GROUPS:
       this.render();
       break;
-    case plt.T_DATA.MENUS:
+    case PltT_DATA.MENUS:
       this.#currentItem = null;
       this.render();
       break;
@@ -161,15 +174,15 @@ export class MainMenu extends gui.MenuContent {
   }
 
   #renderAsDropdownList(render, items) {
-    let panel = new ui.ListPanel();
+    let panel = new ListPanel();
     render.wrapPanel(panel);
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     panel.pushPanel(p);
     this.#fBar.attachRender(p);
     this.#fBar.render();
 
-    p = new ui.Panel();
+    p = new Panel();
     panel.pushPanel(p);
     p.setClassName("menu-hr-wrapper");
     p.replaceContent(_CPT_MENU_ITEM.H_BAR)
@@ -181,7 +194,7 @@ export class MainMenu extends gui.MenuContent {
       this.#btnAll.render();
     }
 
-    p = new ui.ListPanel();
+    p = new ListPanel();
     panel.pushPanel(p);
 
     this.#fChoices.clear();
@@ -200,13 +213,13 @@ export class MainMenu extends gui.MenuContent {
       panel.getThemePanel().setStyle("backgroundColor", t.getPrimaryColor());
     }
 
-    let f = new ui.Button();
+    let f = new Button();
     f.setName(this.#getItemName(item));
     f.setValue(item.getId());
     if (tLayout) {
       f.setLayoutType(tLayout);
     }
-    f.setThemeType(ui.Button.T_THEME.NONE);
+    f.setThemeType(Button.T_THEME.NONE);
     f.setDelegate(this);
     f.attachRender(panel.getContentPanel());
     f.render();
@@ -218,11 +231,11 @@ export class MainMenu extends gui.MenuContent {
   }
 
   #renderAsQuickLink(render, items) {
-    let pWrapper = new ui.PanelWrapper();
+    let pWrapper = new PanelWrapper();
     pWrapper.setClassName("flex flex-center");
     render.wrapPanel(pWrapper);
 
-    let panel = new ui.ListPanel();
+    let panel = new ListPanel();
     let names = [ "w100", "flex", "x-scroll", "no-scrollbar" ];
     if (this.#cMaxWidth) {
       names.push(this.#cMaxWidth);
@@ -244,7 +257,7 @@ export class MainMenu extends gui.MenuContent {
       let p = new PHMenuItem();
       p.setClassName("flex-grow flex flex-center");
       panel.pushPanel(p);
-      this.#renderChoice(p, item, ui.Button.LAYOUT_TYPE.BARE);
+      this.#renderChoice(p, item, Button.LAYOUT_TYPE.BARE);
     }
   }
 
@@ -284,7 +297,7 @@ export class MainMenu extends gui.MenuContent {
   }
 
   #getMenus() {
-    let items = dba.Menus.get(this.#sectorId, this.#ownerId);
+    let items = Menus.get(this.#sectorId, this.#ownerId);
     if (items.length == 1) {
       // Auto expand to next level
       items = items[0].getSubItems();
@@ -296,7 +309,7 @@ export class MainMenu extends gui.MenuContent {
     let name = item.getName();
     if (!name) {
       // TODO: Should use tag
-      let tag = dba.Groups.getTag(item.getTagId());
+      let tag = Groups.getTag(item.getTagId());
       if (tag) {
         name = tag.getName();
       }

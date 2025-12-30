@@ -4,6 +4,8 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { T_DATA } from '../../lib/framework/Events.js';
+import { WebConfig } from '../dba/WebConfig.js';
+import { RemoteError } from '../datatypes/RemoteError.js';
 
 export const CF_EXTRAS_CONTENT = {
   TEST : Symbol(),
@@ -81,7 +83,7 @@ export class FvcExtras extends FScrollViewContent {
     this._fMenu.attachRender(pp);
     this._fMenu.render();
 
-    if (dba.WebConfig.isDevSite()) {
+    if (WebConfig.isDevSite()) {
       pp = new Panel();
       p.pushPanel(pp);
       pp.replaceContent(this.#renderTest());
@@ -136,8 +138,8 @@ export class FvcExtras extends FScrollViewContent {
 
   #onTest() {
     let e = {};
-    e.type = dat.RemoteError.T_TYPE.DEV;
-    e.type = dat.RemoteError.T_TYPE.QUOTA;
+    e.type = RemoteError.T_TYPE.DEV;
+    e.type = RemoteError.T_TYPE.QUOTA;
     e.code = "Q_LIVE_STREAM";
     e.data = {period : 1000, quota : 3, fallback_period : 1000};
     this._owner.onRemoteErrorInFragment(this, e);

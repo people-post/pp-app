@@ -1,4 +1,6 @@
-export class DirItem extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class DirItem extends ServerDataObject {
   constructor(data, parentItem = null) {
     super(data);
     this._subItems = this.#initSubItems(data.sub_items);

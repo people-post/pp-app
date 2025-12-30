@@ -1,5 +1,10 @@
+import CronJob from '../../lib/ext/CronJob.js';
+import Utilities from '../../lib/ext/Utilities.js';
+import { WebConfig } from './WebConfig.js';
+import { ClientSignal } from '../datatypes/ClientSignal.js';
+
 export const Signal = function() {
-  let _cronJob = new ext.CronJob();
+  let _cronJob = new CronJob();
   let _mqttClient = null;
   let _cacheClient = null;
   let _mFunc = new Map();
@@ -8,23 +13,23 @@ export const Signal = function() {
   function _isChannelSet(channelId) { return _mTopic.has(channelId); }
 
   function _sendPeerConnectionOffer(fromId, toId, offer) {
-    __sendClientSignal(fromId, toId, dat.ClientSignal.T_TYPE.PEER_CONN_OFFER,
+    __sendClientSignal(fromId, toId, ClientSignal.T_TYPE.PEER_CONN_OFFER,
                        offer);
   }
 
   function _sendPeerConnectionAnswer(fromId, toId, answer) {
-    __sendClientSignal(fromId, toId, dat.ClientSignal.T_TYPE.PEER_CONN_ANSWER,
+    __sendClientSignal(fromId, toId, ClientSignal.T_TYPE.PEER_CONN_ANSWER,
                        answer);
   }
 
   function _sendIceCandidate(fromId, toId, candidate) {
-    __sendClientSignal(fromId, toId, dat.ClientSignal.T_TYPE.ICE_CANDIDATE,
+    __sendClientSignal(fromId, toId, ClientSignal.T_TYPE.ICE_CANDIDATE,
                        candidate);
   }
 
   function __sendClientSignal(fromId, toId, type, data) {
     if (_mqttClient) {
-      let s = new dat.ClientSignal();
+      let s = new ClientSignal();
       s.setType(type);
       s.setFromId(fromId);
       s.setData(data);
@@ -74,8 +79,8 @@ export const Signal = function() {
 
     if (typeof Paho == 'object') {
       try {
-        let c = new Paho.Client(dba.WebConfig.getWebSocketUrl(),
-                                ext.Utilities.uuid());
+        let c = new Paho.Client(WebConfig.getWebSocketUrl(),
+                                Utilities.uuid());
         c.onConnectionLost = __onConnectionLost;
         c.onMessageArrived = __handleMessage;
         c.connect({onSuccess : __onConnect});

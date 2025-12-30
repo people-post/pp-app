@@ -1,4 +1,6 @@
-export class SquareTerminal extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class SquareTerminal extends ServerDataObject {
   getDeviceId() { return this._data.device_id; }
   getPairCode() { return this._data.pair_code; }
   getPairBy() { return this._data.pair_by; }

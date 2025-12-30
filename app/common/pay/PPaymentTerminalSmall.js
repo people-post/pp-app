@@ -1,3 +1,6 @@
+import { PPaymentTerminalBase } from './PPaymentTerminalBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
 const _CPT_PAYMENT_TERMINAL_SMALL = {
   MAIN :
       `<div id="__ID_MAIN__" class="bd-b-solid bd-b-1px bdlightgray clickable">
@@ -8,10 +11,10 @@ const _CPT_PAYMENT_TERMINAL_SMALL = {
   </div>`,
 };
 
-export class PPaymentTerminalSmall extends pay.PPaymentTerminalBase {
+export class PPaymentTerminalSmall extends PPaymentTerminalBase {
   constructor() {
     super();
-    this._pName = new ui.Panel();
+    this._pName = new Panel();
   }
 
   isColorInvertible() { return true; }

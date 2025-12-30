@@ -4,6 +4,7 @@ import { PError } from '../../lib/ui/renders/panels/PError.js';
 import ExtUtilities from '../../lib/ext/Utilities.js';
 import { T_ACTION } from '../../lib/framework/Events.js';
 import { Events } from '../../lib/framework/Events.js';
+import { RemoteError } from '../datatypes/RemoteError.js';
 
 export const CF_ERROR = {
   DISMISS_ERROR : Symbol(),
@@ -36,21 +37,20 @@ export class FError extends Fragment {
   }
 
   handleRemoteError(err) {
-    // Use global namespace for RemoteError until DataObject.js is migrated
     switch (err.type) {
-    case dat.RemoteError.T_TYPE.USER:
+    case RemoteError.T_TYPE.USER:
       this.#onUserError(err);
       break;
-    case dat.RemoteError.T_TYPE.LIMIT:
+    case RemoteError.T_TYPE.LIMIT:
       this.#onLimitationError(err);
       break;
-    case dat.RemoteError.T_TYPE.QUOTA:
+    case RemoteError.T_TYPE.QUOTA:
       this.#onQuotaError(err);
       break;
-    case dat.RemoteError.T_TYPE.DEV:
+    case RemoteError.T_TYPE.DEV:
       this.#onDevError(err);
       break;
-    case dat.RemoteError.T_TYPE.CONN:
+    case RemoteError.T_TYPE.CONN:
       this.#onConnectionError(err);
       break;
     default:
@@ -100,7 +100,7 @@ export class FError extends Fragment {
   }
 
   #getUserErrorMsg(code, data) {
-    let t = dat.RemoteError.T_USER[code];
+    let t = RemoteError.T_USER[code];
     switch (code) {
     case "E_TEMP_LOCK":
     case "E_LOGIN_FREEZE":
@@ -129,7 +129,7 @@ export class FError extends Fragment {
     return t;
   }
 
-  #getLimitationErrorMsg(code, data) { return dat.RemoteError.T_LIMIT[code]; }
+  #getLimitationErrorMsg(code, data) { return RemoteError.T_LIMIT[code]; }
 
   #onQuotaError(err) {
     Events.triggerTopAction(T_ACTION.ACCOUNT_UPGRADE, err);
@@ -146,12 +146,12 @@ export class FError extends Fragment {
   }
 
   #onDevError(err) {
-    let msg = dat.RemoteError.T_DEV;
+    let msg = RemoteError.T_DEV;
     this.show(msg);
   }
 
   #onConnectionError(err) {
-    let msg = dat.RemoteError.T_CONN;
+    let msg = RemoteError.T_CONN;
     this.show(msg);
   }
 };

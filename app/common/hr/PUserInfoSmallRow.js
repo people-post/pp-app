@@ -1,3 +1,6 @@
+import { PUserInfoBase } from './PUserInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
 /*
  * +--------+-----------+
  * |  ICON  | NAME      |
@@ -12,10 +15,10 @@ const _CPT_USER_INFO_SMALL_ROW = {
   </div>`,
 }
 
-export class PUserInfoSmallRow extends S.hr.PUserInfoBase {
+export class PUserInfoSmallRow extends PUserInfoBase {
   constructor() {
     super();
-    this._pIcon = new ui.PanelWrapper();
+    this._pIcon = new PanelWrapper();
   }
 
   getIconPanel() { return this._pIcon; }

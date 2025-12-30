@@ -1,4 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { WebConfig } from '../dba/WebConfig.js';
 
 export const CF_SECTOR_CONFIG_BAR = {
   ON_ENABLE_CLICKED : "CF_GUI_SECTOR_CONFIG_BAR_1",
@@ -44,7 +45,7 @@ export class SectorConfigBar extends Fragment {
         "Enable", isChecked, "gui.CF_SECTOR_CONFIG_BAR.ON_ENABLE_CLICKED");
 
     if (isChecked &&
-        dba.WebConfig.getHomeSector() !=
+        WebConfig.getHomeSector() !=
             this._dataSource.getSectorIdForConfigBarFragment(this)) {
       cell = row.insertCell(-1);
       cell.innerHTML = this.#renderCell(

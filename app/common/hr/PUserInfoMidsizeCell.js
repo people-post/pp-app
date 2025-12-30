@@ -1,3 +1,6 @@
+import { PUserInfoBase } from './PUserInfoBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
 /*
  * +--------+
  * |        |
@@ -15,10 +18,10 @@ const _CPT_USER_INFO_MIDSIZE_CELL = {
   </div>`,
 }
 
-export class PUserInfoMidsizeCell extends S.hr.PUserInfoBase {
+export class PUserInfoMidsizeCell extends PUserInfoBase {
   constructor() {
     super();
-    this._pIcon = new ui.Panel();
+    this._pIcon = new Panel();
   }
 
   getIconPanel() { return this._pIcon; }

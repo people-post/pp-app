@@ -44,7 +44,9 @@ function createAddress() {
     if (response.error) {
       Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
-      _update(new dat.Address(response.data.address));
+import { Address } from '../datatypes/Address.js';
+
+      _update(new Address(response.data.address));
     }
   }
 

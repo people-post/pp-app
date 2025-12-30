@@ -1,4 +1,6 @@
-export class SocialItem extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class SocialItem extends ServerDataObject {
   // Synced with backend
   static TYPE = {
     ARTICLE : "ARTICLE",

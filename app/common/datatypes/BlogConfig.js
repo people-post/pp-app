@@ -1,3 +1,6 @@
+import { SocialItemId } from './SocialItemId.js';
+import { SocialItem } from './SocialItem.js';
+
 export class BlogConfig {
   #pinnedIds = [];
 
@@ -5,7 +8,7 @@ export class BlogConfig {
     this._data = data;
     if (data.pinned_items) {
       this.#pinnedIds =
-          data.pinned_items.map(i => new dat.SocialItemId(i.id, i.type));
+          data.pinned_items.map(i => new SocialItemId(i.id, i.type));
     }
   }
 
@@ -28,7 +31,7 @@ export class BlogConfig {
     }
   }
 
-  #getLayoutType(d) { return d ? d.type : dat.SocialItem.T_LAYOUT.MEDIUM; }
+  #getLayoutType(d) { return d ? d.type : SocialItem.T_LAYOUT.MEDIUM; }
 };
 
 // Backward compatibility

@@ -48,9 +48,11 @@ function createHashtags() {
     if (response.error) {
       Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
+import { Hashtag } from '../datatypes/Hashtag.js';
+
       let hts = [];
       for (let d of response.data.hashtags) {
-        let ht = new dat.Hashtag(d);
+        let ht = new Hashtag(d);
         _update(ht);
         hts.push(ht);
       }

@@ -3,6 +3,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { WebConfig } from '../dba/WebConfig.js';
 
 export const CF_UPGRADE_CHOICES = {
   SELECT : Symbol(),
@@ -66,7 +67,7 @@ export class FvcUpgradeChoices extends FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    if (dba.WebConfig.isDevSite()) {
+    if (WebConfig.isDevSite()) {
       let pList = new ListPanel();
       render.wrapPanel(pList);
       let p = new ListPanel();

@@ -1,4 +1,7 @@
-export class PreviewOrder extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+import { PreviewOrderItem } from './PreviewOrderItem.js';
+
+export class PreviewOrder extends ServerDataObject {
   constructor(data) {
     super(data);
     this._items = this.#initItems(data.items);
@@ -11,7 +14,7 @@ export class PreviewOrder extends dat.ServerDataObject {
   #initItems(dataList) {
     let items = [];
     for (let d of dataList) {
-      items.push(new dat.PreviewOrderItem(d));
+      items.push(new PreviewOrderItem(d));
     }
     return items;
   }

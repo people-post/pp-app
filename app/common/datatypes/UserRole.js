@@ -1,4 +1,6 @@
-export class UserRole extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class UserRole extends ServerDataObject {
   isOpen() { return this._data.is_open; }
 
   getName() { return this._data.name; }

@@ -1,4 +1,7 @@
-export class CustomerOrder extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+import { SupplierOrderPublic } from './SupplierOrderPublic.js';
+
+export class CustomerOrder extends ServerDataObject {
   constructor(data) {
     super(data);
     this._items = this.#initItems(data.items);
@@ -22,7 +25,7 @@ export class CustomerOrder extends dat.ServerDataObject {
   #initItems(dataList) {
     let items = [];
     for (let d of dataList) {
-      items.push(new dat.SupplierOrderPublic(d));
+      items.push(new SupplierOrderPublic(d));
     }
     return items;
   }

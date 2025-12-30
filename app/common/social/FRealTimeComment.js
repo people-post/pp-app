@@ -1,8 +1,17 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { FUserIcon } from '../hr/FUserIcon.js';
+import { FUserInfo } from '../hr/FUserInfo.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PComment } from './PComment.js';
+import Utilities from '../Utilities.js';
+
 const _CFT_REAL_TIME_COMMENT = {
   ICON : `<span class="inline-block s-icon6">__ICON__</span>`,
 };
 
-export class FRealTimeComment extends ui.Fragment {
+export class FRealTimeComment extends Fragment {
   #fAction;
   #fUserIcon;
   #fUserName;
@@ -10,19 +19,19 @@ export class FRealTimeComment extends ui.Fragment {
 
   constructor() {
     super();
-    this.#fAction = new ui.OptionContextButton();
+    this.#fAction = new OptionContextButton();
     this.#fAction.setTargetName(R.get("guest comment"));
     this.#fAction.addOption("Keep", "KEEP");
     this.#fAction.addOption("Discard", "DISCARD", null,
-                            ui.Button.T_THEME.RISKY);
+                            Button.T_THEME.RISKY);
     this.#fAction.setDelegate(this);
     this.setChild("action", this.#fAction);
 
-    this.#fUserIcon = new S.hr.FUserIcon();
+    this.#fUserIcon = new FUserIcon();
     this.setChild("usericon", this.#fUserIcon);
 
-    this.#fUserName = new S.hr.FUserInfo();
-    this.#fUserName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this.#fUserName = new FUserInfo();
+    this.#fUserName.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("username", this.#fUserName);
   }
 
@@ -44,7 +53,7 @@ export class FRealTimeComment extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let panel = new socl.PComment();
+    let panel = new PComment();
     render.wrapPanel(panel);
 
     let p = panel.getAuthorIconPanel();
@@ -70,7 +79,7 @@ export class FRealTimeComment extends ui.Fragment {
 
   #renderAuthorName(panel, comment) {
     if (comment.isFromGuest()) {
-      let p = new ui.Panel();
+      let p = new Panel();
       if (comment.isPending()) {
         p.setClassName("italic");
       }
@@ -85,7 +94,7 @@ export class FRealTimeComment extends ui.Fragment {
   }
 
   #renderCommentText(panel, comment) {
-    let p = new ui.Panel();
+    let p = new Panel();
     if (comment.isPending()) {
       p.setClassName("italic");
     }

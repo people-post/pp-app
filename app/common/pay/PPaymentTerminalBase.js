@@ -1,7 +1,9 @@
-export class PPaymentTerminalBase extends ui.Panel {
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PPaymentTerminalBase extends Panel {
   constructor() {
     super();
-    this._pStatus = new ui.Panel();
+    this._pStatus = new Panel();
   }
 
   isColorInvertible() { return false; }

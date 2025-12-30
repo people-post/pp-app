@@ -1,3 +1,5 @@
+import Utilities from '../../lib/ext/Utilities.js';
+
 export class Bip32Ed25519Key {
   #buffer = null; // Uint8Array
 
@@ -32,7 +34,7 @@ export class Bip32Ed25519Key {
     const hashArray =
         Array.from(new Uint8Array(hashBuffer)); // convert buffer to byte array
     const hashHex =
-        ext.Utilities.uint8ArrayToHex(hashArray); // convert bytes to hex string
+        Utilities.uint8ArrayToHex(hashArray); // convert bytes to hex string
     return hashHex;
   }
 };

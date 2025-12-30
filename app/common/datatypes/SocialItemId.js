@@ -1,25 +1,27 @@
+import { SocialItem } from './SocialItem.js';
+
 export class SocialItemId {
   #value = null;
   #type = null;
 
   // Synced with backend
   static #TYPE_ID_MAP = new Map([
-    [ dat.SocialItem.TYPE.ARTICLE, "10" ],
-    [ dat.SocialItem.TYPE.JOURNAL_ISSUE, "11" ],
-    [ dat.SocialItem.TYPE.PROJECT, "12" ],
-    [ dat.SocialItem.TYPE.PRODUCT, "13" ],
-    [ dat.SocialItem.TYPE.FEED_ARTICLE, "01" ], // Not synced
-    [ dat.SocialItem.TYPE.COMMENT, "02" ],      // Not synced
+    [ SocialItem.TYPE.ARTICLE, "10" ],
+    [ SocialItem.TYPE.JOURNAL_ISSUE, "11" ],
+    [ SocialItem.TYPE.PROJECT, "12" ],
+    [ SocialItem.TYPE.PRODUCT, "13" ],
+    [ SocialItem.TYPE.FEED_ARTICLE, "01" ], // Not synced
+    [ SocialItem.TYPE.COMMENT, "02" ],      // Not synced
   ]);
 
   // Synced with backend
   static #ID_TYPE_MAP = new Map([
-    [ "10", dat.SocialItem.TYPE.ARTICLE ],
-    [ "11", dat.SocialItem.TYPE.JOURNAL_ISSUE ],
-    [ "12", dat.SocialItem.TYPE.PROJECT ],
-    [ "13", dat.SocialItem.TYPE.PRODUCT ],
-    [ "01", dat.SocialItem.TYPE.FEED_ARTICLE ], // Not synced
-    [ "02", dat.SocialItem.TYPE.COMMENT ],      // Not synced
+    [ "10", SocialItem.TYPE.ARTICLE ],
+    [ "11", SocialItem.TYPE.JOURNAL_ISSUE ],
+    [ "12", SocialItem.TYPE.PROJECT ],
+    [ "13", SocialItem.TYPE.PRODUCT ],
+    [ "01", SocialItem.TYPE.FEED_ARTICLE ], // Not synced
+    [ "02", SocialItem.TYPE.COMMENT ],      // Not synced
   ]);
 
   constructor(value = null, type = null) {

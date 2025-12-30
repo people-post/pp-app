@@ -1,11 +1,19 @@
+import { WebConfig } from './WebConfig.js';
+import { WorkshopTeam } from '../datatypes/WorkshopTeam.js';
+import { Tag } from '../datatypes/Tag.js';
+import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import { api } from '../plt/Api.js';
+import { Project } from '../datatypes/Project.js';
+
 export const Workshop = function() {
   let _lib = new Map();
   let _config = null;
 
-  function _isOpen() { return dba.WebConfig.isWorkshopOpen(); }
+  function _isOpen() { return WebConfig.isWorkshopOpen(); }
   function _getTeam(id) {
-    let d = dba.WebConfig.getRoleData(id);
-    return d ? new dat.WorkshopTeam(d) : null;
+    let d = WebConfig.getRoleData(id);
+    return d ? new WorkshopTeam(d) : null;
   }
   function _getTeamIds() { return __getTeams().map(r => r.id); }
   function _getOpenTeamIds() {
@@ -30,7 +38,7 @@ export const Workshop = function() {
 
   function _updateProject(project) {
     _lib.set(project.getId(), project);
-    fwk.Events.trigger(plt.T_DATA.PROJECT, project);
+    FwkEvents.trigger(PltT_DATA.PROJECT, project);
   }
 
   function _reloadProject(id) {
@@ -40,37 +48,37 @@ export const Workshop = function() {
   }
 
   function __getTeams() {
-    return dba.WebConfig.getRoleDatasByTagId(dat.Tag.T_ID.WORKSHOP);
+    return WebConfig.getRoleDatasByTagId(Tag.T_ID.WORKSHOP);
   }
 
   function __setConfig(config) {
     _config = config;
-    fwk.Events.trigger(plt.T_DATA.WORKSHOP_CONFIG, config);
+    FwkEvents.trigger(PltT_DATA.WORKSHOP_CONFIG, config);
   }
 
   function __asyncLoadProject(id) {
     let url = "api/workshop/project?id=" + id;
-    plt.Api.asyncRawCall(url, r => __onProjectRRR(r));
+    api.asyncRawCall(url, r => __onProjectRRR(r));
   }
 
   function __onProjectRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
-      _updateProject(new dat.Project(response.data.project));
+      _updateProject(new Project(response.data.project));
     }
   }
 
   function __asyncLoadConfig() {
     let url = "api/workshop/config";
-    plt.Api.asyncRawCall(url, r => __onConfigRRR(r));
+    api.asyncRawCall(url, r => __onConfigRRR(r));
   }
 
   function __onConfigRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       __setConfig(response.data.config);
     }

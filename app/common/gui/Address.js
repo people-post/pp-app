@@ -2,6 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { PAddress } from './PAddress.js';
 import { PAddressSmall } from './PAddressSmall.js';
+import { T_DATA } from '../plt/Events.js';
 
 export const CF_ADDRESS = {
   ON_CLICK : Symbol(),
@@ -63,7 +64,7 @@ export class Address extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.ADDRESS:
+    case T_DATA.ADDRESS:
       if (data.getId() == this._addressId) {
         this.render();
       }

@@ -1,8 +1,18 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FUserIcon } from './FUserIcon.js';
+import { PUserInfoCompactCell } from './PUserInfoCompactCell.js';
+import { PUserInfoMidsizeCell } from './PUserInfoMidsizeCell.js';
+import { PUserInfoSmallRow } from './PUserInfoSmallRow.js';
+import { PUserInfoMidsizeRow } from './PUserInfoMidsizeRow.js';
+import { T_DATA } from '../plt/Events.js';
+import { Users } from '../dba/Users.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+
 export const CF_USER_INFO = {
   ON_CLICK : Symbol(),
 };
 
-export class FUserInfo extends ui.Fragment {
+export class FUserInfo extends Fragment {
   static T_LAYOUT = {
     SMALL_ROW : Symbol(),
     COMPACT: Symbol(),
@@ -11,7 +21,7 @@ export class FUserInfo extends ui.Fragment {
 
   constructor() {
     super();
-    this._fIcon = new S.hr.FUserIcon();
+    this._fIcon = new FUserIcon();
     this._fIcon.setDelegate(this);
     this.setChild("icon", this._fIcon);
 
@@ -24,7 +34,7 @@ export class FUserInfo extends ui.Fragment {
     switch (this._layoutType) {
     case this.constructor.T_LAYOUT.SMALL_ROW:
     case this.constructor.T_LAYOUT.MID_SQUARE:
-      this._fIcon.setSizeType(S.hr.FUserIcon.ST_SMALL);
+      this._fIcon.setSizeType(FUserIcon.ST_SMALL);
       break;
     default:
       break;
@@ -46,7 +56,7 @@ export class FUserInfo extends ui.Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
     default:
@@ -56,7 +66,7 @@ export class FUserInfo extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let u = dba.Users.get(this._fIcon.getUserId());
+    let u = Users.get(this._fIcon.getUserId());
     let p = this.#createPanel();
     p.setAttribute("onclick",
                    "javascript:G.action(S.hr.CF_USER_INFO.ON_CLICK)");
@@ -85,17 +95,17 @@ export class FUserInfo extends ui.Fragment {
     let p = null;
     switch (this._layoutType) {
     case this.constructor.T_LAYOUT.COMPACT:
-      p = new S.hr.PUserInfoCompactCell();
+      p = new PUserInfoCompactCell();
       p.setClassName("inline-block");
       break;
     case this.constructor.T_LAYOUT.MID_SQUARE:
-      p = new S.hr.PUserInfoMidsizeCell();
+      p = new PUserInfoMidsizeCell();
       break;
     case this.constructor.T_LAYOUT.SMALL_ROW:
-      p = new S.hr.PUserInfoSmallRow();
+      p = new PUserInfoSmallRow();
       break;
     default:
-      p = new S.hr.PUserInfoMidsizeRow();
+      p = new PUserInfoMidsizeRow();
       break;
     }
     return p;
@@ -120,7 +130,7 @@ export class FUserInfo extends ui.Fragment {
     if (this._delegate) {
       this._delegate.onClickInUserInfoFragment(this, userId);
     } else {
-      fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO, userId);
+      Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
     }
   }
 };

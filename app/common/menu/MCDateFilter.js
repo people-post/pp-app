@@ -1,3 +1,12 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { MenuContent } from './MenuContent.js';
+import { SearchBar } from '../gui/SearchBar.js';
+import { FDateTimeSelector } from '../../lib/ui/controllers/fragments/FDateTimeSelector.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { Factory, T_CATEGORY, T_OBJ } from '../../lib/framework/Factory.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+
 const _CPT_DATE_FILTER = {
   MAIN :
       `<div class="menu-hr-wrapper"><span class="menu-hr s-cmenubg"></span></div>
@@ -12,7 +21,7 @@ const _CPT_DATE_FILTER = {
   <br>`,
 };
 
-export class PDateFilter extends ui.Panel {
+export class PDateFilter extends Panel {
   #pSearchBar;
   #pFrom;
   #pTo;
@@ -20,10 +29,10 @@ export class PDateFilter extends ui.Panel {
 
   constructor() {
     super();
-    this.#pSearchBar = new ui.PanelWrapper();
-    this.#pFrom = new ui.PanelWrapper();
-    this.#pTo = new ui.PanelWrapper();
-    this.#btnApply = new ui.PanelWrapper();
+    this.#pSearchBar = new PanelWrapper();
+    this.#pFrom = new PanelWrapper();
+    this.#pTo = new PanelWrapper();
+    this.#btnApply = new PanelWrapper();
   }
 
   getSearchBarPanel() { return this.#pSearchBar; }
@@ -49,7 +58,7 @@ export class PDateFilter extends ui.Panel {
   }
 };
 
-export class MCDateFilter extends gui.MenuContent {
+export class MCDateFilter extends MenuContent {
   #fBar;
   #fFrom;
   #fTo;
@@ -57,24 +66,24 @@ export class MCDateFilter extends gui.MenuContent {
 
   constructor() {
     super();
-    this.#fBar = new gui.SearchBar();
+    this.#fBar = new SearchBar();
     this.#fBar.setFatMode(true);
     this.#fBar.setDelegate(this);
     this.setChild("searchbar", this.#fBar);
 
-    this.#fFrom = new ui.FDateTimeSelector();
+    this.#fFrom = new FDateTimeSelector();
     this.#fFrom.setEnableTime(false);
     this.#fFrom.setHintText("From date...");
     this.#fFrom.setDelegate(this);
     this.setChild("from", this.#fFrom);
 
-    this.#fTo = new ui.FDateTimeSelector();
+    this.#fTo = new FDateTimeSelector();
     this.#fTo.setEnableTime(false);
     this.#fTo.setHintText("To date...");
     this.#fTo.setDelegate(this);
     this.setChild("to", this.#fTo);
 
-    this.#btnApply = new ui.Button();
+    this.#btnApply = new Button();
     this.#btnApply.setName("Apply");
     this.#btnApply.setDelegate(this);
     this.setChild("btnApply", this.#btnApply);
@@ -89,11 +98,11 @@ export class MCDateFilter extends gui.MenuContent {
 
   onGuiSearchBarRequestSearch(fSearchBar, value) {
     this._delegate.onMenuFragmentRequestCloseMenu(this);
-    let cls = fwk.Factory.getClass(
-        fwk.T_CATEGORY.UI, fwk.T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
+    let cls = Factory.getClass(
+        T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
     let f = new cls();
     f.setKey(value);
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Search result");
   }

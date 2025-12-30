@@ -1,4 +1,6 @@
-export class UserBase extends dat.DataObject {};
+import { DataObject } from './DataObject.js';
+
+export class UserBase extends DataObject {};
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

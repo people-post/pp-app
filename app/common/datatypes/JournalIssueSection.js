@@ -1,3 +1,5 @@
+import { SocialItemId } from './SocialItemId.js';
+
 export class JournalIssueSection {
   #data;
   #ids = [];
@@ -5,7 +7,7 @@ export class JournalIssueSection {
   constructor(data) {
     this.#data = data;
     for (let d of data.item_ids) {
-      this.#ids.push(new dat.SocialItemId(d.id, d.type));
+      this.#ids.push(new SocialItemId(d.id, d.type));
     }
   }
 

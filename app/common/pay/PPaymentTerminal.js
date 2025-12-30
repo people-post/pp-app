@@ -1,3 +1,7 @@
+import { PPaymentTerminalBase } from './PPaymentTerminalBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
 const _CPT_PAYMENT_TERMINAL = {
   MAIN : `<div class="flex flex-start">
     <div id="__ID_NAME_DECOR__"></div>
@@ -7,12 +11,12 @@ const _CPT_PAYMENT_TERMINAL = {
   <div id="__ID_DETAIL__"></div>`,
 };
 
-export class PPaymentTerminal extends pay.PPaymentTerminalBase {
+export class PPaymentTerminal extends PPaymentTerminalBase {
   constructor() {
     super();
-    this._pNameDecor = new ui.Panel();
-    this._pNameEditor = new ui.PanelWrapper();
-    this._pDetail = new ui.PanelWrapper();
+    this._pNameDecor = new Panel();
+    this._pNameEditor = new PanelWrapper();
+    this._pDetail = new PanelWrapper();
   }
 
   getNameDecorationPanel() { return this._pNameDecor; }

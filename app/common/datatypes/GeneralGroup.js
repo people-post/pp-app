@@ -1,4 +1,7 @@
-export class GeneralGroup extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+import { ColorTheme } from './ColorTheme.js';
+
+export class GeneralGroup extends ServerDataObject {
   // Synced with backend
   static T_TAG_ID = {
     TAG : "5fe245a4adc8019539df9d1c",
@@ -10,7 +13,7 @@ export class GeneralGroup extends dat.ServerDataObject {
 
   getName() { return this._data.name; }
   getTheme() {
-    return this._data.theme ? new dat.ColorTheme(this._data.theme) : null;
+    return this._data.theme ? new ColorTheme(this._data.theme) : null;
   }
 };
 // Backward compatibility

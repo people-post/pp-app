@@ -1,3 +1,15 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { T_DATA } from '../plt/Events.js';
+import { Notifications } from '../dba/Notifications.js';
+import { UserRequest } from '../datatypes/UserRequest.js';
+import { Account } from '../dba/Account.js';
+import { Groups } from '../dba/Groups.js';
+import Utilities from '../Utilities.js';
+import { api } from '../plt/Api.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+
 export const CF_REQUEST_INFO = {
   ACCEPT : "CF_GUI_REQUEST_INFO_1",
   DECLINE : "CF_GUI_REQUEST_INFO_2",
@@ -19,7 +31,7 @@ const _CFT_REQUEST_INFO = {
   JOIN_GROUP : `__USER__ request to join __GROUP__.`,
 }
 
-export class FRequestInfo extends ui.Fragment {
+export class FRequestInfo extends Fragment {
   constructor() {
     super();
     this._requestId = null;
@@ -52,8 +64,8 @@ export class FRequestInfo extends ui.Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.GROUPS:
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.GROUPS:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
     default:
@@ -63,36 +75,36 @@ export class FRequestInfo extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let request = dba.Notifications.getRequest(this._requestId);
+    let request = Notifications.getRequest(this._requestId);
     if (!request) {
       return;
     }
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     p.setClassName("request-info");
     render.wrapPanel(p);
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderRequestContent(request));
 
-    let pActions = new ui.ListPanel();
+    let pActions = new ListPanel();
     pActions.setClassName("flex space-between");
     p.pushPanel(pActions);
-    pp = new ui.Panel();
+    pp = new Panel();
     pActions.pushPanel(pp);
     pp.replaceContent(_CFT_REQUEST_INFO.BTN_ACCEPT);
 
-    pp = new ui.Panel();
+    pp = new Panel();
     pActions.pushPanel(pp);
     pp.replaceContent(_CFT_REQUEST_INFO.BTN_DECLINE);
 
-    pp = new ui.Panel();
+    pp = new Panel();
     pActions.pushPanel(pp);
     pp.replaceContent(_CFT_REQUEST_INFO.BTN_IGNORE);
   }
 
   #renderRequestContent(request) {
     switch (request.getCategory()) {
-    case dat.UserRequest.T_CATEGORY.JOIN_GROUP:
+    case UserRequest.T_CATEGORY.JOIN_GROUP:
       return this.#renderJoinGroupRequest(request);
       break;
     default:
@@ -104,12 +116,12 @@ export class FRequestInfo extends ui.Fragment {
   #renderJoinGroupRequest(request) {
     let s = _CFT_REQUEST_INFO.JOIN_GROUP;
     let uid = request.getFromId();
-    let nickname = dba.Account.getUserNickname(uid);
+    let nickname = Account.getUserNickname(uid);
     s = s.replace("__USER__",
                   Utilities.renderSmallButton("S.hr.CF_REQUEST_INFO.USER_INFO",
                                               uid, nickname));
     let gid = request.getTargetId();
-    let g = dba.Groups.get(gid);
+    let g = Groups.get(gid);
     if (g) {
       s = s.replace("__GROUP__",
                     Utilities.renderSmallButton(
@@ -128,7 +140,7 @@ export class FRequestInfo extends ui.Fragment {
     let url = "api/career/accept_request";
     let fd = new FormData();
     fd.append("id", id);
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onRequestOperationRRR(d));
   }
 
@@ -136,7 +148,7 @@ export class FRequestInfo extends ui.Fragment {
     let url = "api/career/decline_request";
     let fd = new FormData();
     fd.append("id", id);
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onRequestOperationRRR(d));
   }
 
@@ -144,18 +156,18 @@ export class FRequestInfo extends ui.Fragment {
     let url = "/api/career/ignore_request";
     let fd = new FormData();
     fd.append("id", id);
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onRequestOperationRRR(d));
   }
 
-  #onRequestOperationRRR(data) { dba.Account.reset(data.profile); }
+  #onRequestOperationRRR(data) { Account.reset(data.profile); }
 
   #onShowUserInfo(userId) {
-    fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO, userId);
+    Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 
   #onShowGroupInfo(groupId) {
-    fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_GROUP_INFO, groupId);
+    Events.triggerTopAction(T_ACTION.SHOW_GROUP_INFO, groupId);
   }
 };
 

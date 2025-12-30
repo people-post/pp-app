@@ -1,4 +1,6 @@
-export class UniSegmentedLongListIdRecord extends dat.UniLongListIdRecord {
+import { UniLongListIdRecord } from './UniLongListIdRecord.js';
+
+export class UniSegmentedLongListIdRecord extends UniLongListIdRecord {
   // UniSegmentedLongListIdRecord only provided an extra attribute
   #nextSegmentId = 0;
 

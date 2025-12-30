@@ -1,3 +1,18 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { InputConsoleFragment } from '../gui/InputConsoleFragment.js';
+import { FRealTimeCommentList } from './FRealTimeCommentList.js';
+import { RealTimeCommentAgent } from './RealTimeCommentAgent.js';
+import { T_DATA } from '../plt/Events.js';
+import { Account } from '../dba/Account.js';
+import { Social } from '../dba/Social.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcUserInput } from '../hr/FvcUserInput.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+
 const _CPT_REAL_TIME_COMMENTS = {
   MAIN : `<div id="__ID_COMMENTS__"></div>
     <div id="__ID_HINT__" class="comment-hint"></div>
@@ -7,14 +22,14 @@ const _CPT_REAL_TIME_COMMENTS = {
   </div>`,
 };
 
-export class PRealTimeComments extends ui.Panel {
+export class PRealTimeComments extends Panel {
   #pComments;
   #pHint;
 
   constructor() {
     super();
-    this.#pComments = new ui.PanelWrapper();
-    this.#pHint = new ui.Panel();
+    this.#pComments = new PanelWrapper();
+    this.#pHint = new Panel();
   }
 
   getCommentsPanel() { return this.#pComments; }
@@ -38,7 +53,7 @@ export const CF_COMMENTS = {
   TOGGLE_CLICK : Symbol(),
 };
 
-export class FRealTimeComments extends ui.Fragment {
+export class FRealTimeComments extends Fragment {
   #fInput;
   #fComments;
   #hComments;
@@ -47,15 +62,15 @@ export class FRealTimeComments extends ui.Fragment {
 
   constructor() {
     super();
-    this.#hComments = new socl.RealTimeCommentAgent();
+    this.#hComments = new RealTimeCommentAgent();
     this.#hComments.setDelegate(this);
 
-    this.#fInput = new gui.InputConsoleFragment();
+    this.#fInput = new InputConsoleFragment();
     this.#fInput.setPlaceholder("Your comments here.");
     this.#fInput.setDelegate(this);
     this.setChild("input", this.#fInput);
 
-    this.#fComments = new socl.FRealTimeCommentList();
+    this.#fComments = new FRealTimeCommentList();
     this.#fComments.setDataSource(this);
     this.setChild("comments", this.#fComments);
   }
@@ -70,7 +85,7 @@ export class FRealTimeComments extends ui.Fragment {
   onCommentPostedInRealTimeCommentAgent(agent) {}
   onCommentsLoadedInRealTimeCommentAgent(agent) {
     this.#updateMain();
-    dba.Social.reload(agent.getThreadId());
+    Social.reload(agent.getThreadId());
   }
   onPostFailedInRealTimeCommentAgent(agent, msg, err) {
     this.#fInput.setText(msg);
@@ -94,7 +109,7 @@ export class FRealTimeComments extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case socl.CF_COMMENTS.TOGGLE_CLICK:
+    case CF_COMMENTS.TOGGLE_CLICK:
       this.#onToggleInput();
       break;
     default:
@@ -105,10 +120,10 @@ export class FRealTimeComments extends ui.Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
-    case plt.T_DATA.ADDON_SCRIPT:
+    case T_DATA.ADDON_SCRIPT:
       if (data == glb.env.SCRIPT.SIGNAL.id) {
         this.#hComments.activate();
       }
@@ -120,7 +135,7 @@ export class FRealTimeComments extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     pList.setClassName("h100");
     pList.setAttribute("onclick", "javascript:G.anchorClick()");
     render.wrapPanel(pList);
@@ -135,7 +150,7 @@ export class FRealTimeComments extends ui.Fragment {
 
     this.#updateMain();
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     p.setClassName("comment-input-console");
     pList.pushPanel(p);
     this.#fInput.attachRender(p);
@@ -160,23 +175,23 @@ export class FRealTimeComments extends ui.Fragment {
     if (isBottom) {
       this.#pMain.scrollToBottom();
     }
-    if (dba.Account.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       this.#hComments.updateReadership(this.#isAdmin);
     }
   }
 
   #postMessage(message) {
-    if (dba.Account.getId()) {
+    if (Account.getId()) {
       this.#hComments.asyncPost(message);
     } else {
       // Guest
-      let v = new ui.View();
-      let fvc = new S.hr.FvcUserInput();
-      let f = new ui.TextInput();
+      let v = new View();
+      let fvc = new FvcUserInput();
+      let f = new TextInput();
       f.setConfig({
         title : R.get("GUEST_NICKNAME_PROMPT"),
         hint : "Nickname",
-        value : dba.Account.getGuestName(),
+        value : Account.getGuestName(),
         isRequired : true
       });
       fvc.addInputCollector(f);
@@ -185,13 +200,13 @@ export class FRealTimeComments extends ui.Fragment {
         fcnOK : () => this.#onPostComment(message, f.getValue()),
       });
       v.setContentFragment(fvc);
-      fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+      Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                   "Guest comment", false);
     }
   }
 
   #onPostComment(message, guestName) {
-    dba.Account.setGuestName(guestName);
+    Account.setGuestName(guestName);
     this.#hComments.asyncPost(message, guestName);
   }
 };

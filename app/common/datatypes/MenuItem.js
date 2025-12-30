@@ -1,4 +1,6 @@
-export class MenuItem extends dat.DirItem {
+import { DirItem } from './DirItem.js';
+
+export class MenuItem extends DirItem {
   getTagId() { return this._data.tag_id; }
   getTagIds() {
     let ids = this._data.tag_id ? [ this._data.tag_id ] : [];

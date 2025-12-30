@@ -1,4 +1,6 @@
-export class UserRequest extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class UserRequest extends ServerDataObject {
   // Synced with backend
   static T_CATEGORY = {
       JOIN_GROUP : "JOIN_GROUP",

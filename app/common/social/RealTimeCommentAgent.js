@@ -1,4 +1,10 @@
-export class RealTimeCommentAgent extends ext.Controller {
+import Controller from '../../lib/ext/Controller.js';
+import { Signal } from '../dba/Signal.js';
+import { api } from '../plt/Api.js';
+import { RealTimeComment } from '../datatypes/RealTimeComment.js';
+import { BufferedList } from '../datatypes/BufferedList.js';
+
+export class RealTimeCommentAgent extends Controller {
   #threadId = null;
   #threadIdType = null;
   #commentBuffer = null;
@@ -8,11 +14,11 @@ export class RealTimeCommentAgent extends ext.Controller {
 
   activate() {
     if (this.#threadId) {
-      dba.Signal.subscribe(C.CHANNEL.COMMENT, this.#threadId,
+      Signal.subscribe(C.CHANNEL.COMMENT, this.#threadId,
                            m => this.#asyncLoad());
     }
   }
-  deactivate() { dba.Signal.unsubscribe(C.CHANNEL.COMMENT); }
+  deactivate() { Signal.unsubscribe(C.CHANNEL.COMMENT); }
 
   getComments() {
     if (this.#commentBuffer) {
@@ -40,7 +46,7 @@ export class RealTimeCommentAgent extends ext.Controller {
     if (guestName) {
       fd.append("guest_name", guestName);
     }
-    plt.Api.asyncRawPost(url, fd, r => this.#onPostRRR(r, message));
+    api.asyncRawPost(url, fd, r => this.#onPostRRR(r, message));
   }
 
   asyncKeep(commentId) {
@@ -49,7 +55,7 @@ export class RealTimeCommentAgent extends ext.Controller {
     fd.append("item_id", this.#threadId);
     fd.append("item_type", this.#threadIdType);
     fd.append("comment_id", commentId);
-    plt.Api.asyncRawPost(url, fd, r => this.#onKeepRRR(r));
+    api.asyncRawPost(url, fd, r => this.#onKeepRRR(r));
   }
 
   asyncDiscard(commentId) {
@@ -58,7 +64,7 @@ export class RealTimeCommentAgent extends ext.Controller {
     fd.append("item_id", this.#threadId);
     fd.append("item_type", this.#threadIdType);
     fd.append("comment_id", commentId);
-    plt.Api.asyncRawPost(url, fd, r => this.#onDiscardRRR(r));
+    api.asyncRawPost(url, fd, r => this.#onDiscardRRR(r));
   }
 
   updateReadership(isAdmin) {
@@ -87,7 +93,7 @@ export class RealTimeCommentAgent extends ext.Controller {
     let fd = new FormData();
     fd.append("target_id", this.#threadId);
     fd.append("comment_id", untilCommentId);
-    plt.Api.asyncRawPost(url, fd);
+    api.asyncRawPost(url, fd);
   }
 
   #onKeepRRR(responseText) {
@@ -127,7 +133,7 @@ export class RealTimeCommentAgent extends ext.Controller {
     let fd = new FormData();
     fd.append("target_id", this.#threadId);
     fd.append("target_type", this.#threadIdType);
-    plt.Api.asyncRawPost(url, fd, r => this.#onLoadRRR(r, this.#threadId));
+    api.asyncRawPost(url, fd, r => this.#onLoadRRR(r, this.#threadId));
   }
 
   #onLoadRRR(responseText, threadId) {
@@ -138,9 +144,9 @@ export class RealTimeCommentAgent extends ext.Controller {
       if (this.#threadId == threadId) {
         let comments = [];
         for (let m of response.data.messages) {
-          comments.push(new dat.RealTimeComment(m));
+          comments.push(new RealTimeComment(m));
         }
-        this.#commentBuffer = new dat.BufferedList();
+        this.#commentBuffer = new BufferedList();
         this.#commentBuffer.extend(comments);
         this._delegate.onCommentsLoadedInRealTimeCommentAgent(this);
       }

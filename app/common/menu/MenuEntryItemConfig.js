@@ -1,3 +1,13 @@
+import { DirFragment } from '../gui/DirFragment.js';
+import { ThemeEditorFragment } from '../gui/ThemeEditorFragment.js';
+import { FSmartInput } from '../gui/FSmartInput.js';
+import { MenuItemName } from './MenuItemName.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Menus } from '../dba/Menus.js';
+import { WebConfig } from '../dba/WebConfig.js';
+
 export const CF_MENU_ENTRY_ITEM_CONFIG = {
   CHANGE_DIR : "CF_GUI_MENU_ENTRY_ITEM_CONFIG_2",
 }
@@ -10,14 +20,14 @@ const _CFT_MENU_ENTRY_ITEM_CONFIG = {
   PATH : `Current path: <span class="cblue">__ITEMS__</span>`,
 }
 
-export class MenuEntryItemConfig extends gui.DirFragment {
+export class MenuEntryItemConfig extends DirFragment {
   constructor(itemId) {
     super();
-    this._fThemeEditor = new gui.ThemeEditorFragment();
+    this._fThemeEditor = new ThemeEditorFragment();
     this._fThemeEditor.setDelegate(this);
     this.setChild("themeEditor", this._fThemeEditor);
 
-    let f = new gui.FSmartInput();
+    let f = new FSmartInput();
     f.setHintText("+New tag name");
     f.setDelegate(this);
     this.setNewItemFragment(f);
@@ -50,7 +60,7 @@ export class MenuEntryItemConfig extends gui.DirFragment {
   getFilteredItemsForSmartInputFragment(fSmartInput, filterStr) {
     let s = filterStr.toLowerCase();
     let items = [];
-    for (let t of dba.WebConfig.getTags()) {
+    for (let t of WebConfig.getTags()) {
       if (t.getName().toLowerCase().indexOf(s) > -1) {
         items.push({id : t.getId(), name : t.getName()});
       }
@@ -70,14 +80,14 @@ export class MenuEntryItemConfig extends gui.DirFragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let owner = dba.WebConfig.getOwner();
+    let owner = WebConfig.getOwner();
     let iconUrl = owner ? owner.getIconUrl() : "";
 
-    let item = dba.Menus.find(this._itemId);
-    let pp = new ui.Panel();
+    let item = Menus.find(this._itemId);
+    let pp = new Panel();
     p.pushPanel(pp);
     let s = _CFT_MENU_ENTRY_ITEM_CONFIG.NAME;
     s = s.replace("__NAME__", this.#getTagName(item ? item.getTagId() : null));
@@ -87,20 +97,20 @@ export class MenuEntryItemConfig extends gui.DirFragment {
     let theme = item ? item.getTheme() : null;
     this._fThemeEditor.setTheme(theme);
     this._fThemeEditor.setIconUrl(iconUrl);
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fThemeEditor.attachRender(pp);
     this._fThemeEditor.render();
 
     p.pushSpace(1);
 
-    pp = new ui.Panel();
+    pp = new Panel();
     pp.setClassName("s-font5");
     p.pushPanel(pp);
     pp.replaceContent(
         this.#renderPath(this._subItemId ? this._subItemId : this._itemId));
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     super._renderOnRender(pp);
 
@@ -108,7 +118,7 @@ export class MenuEntryItemConfig extends gui.DirFragment {
   }
 
   _createSubDirFragment(item) {
-    let f = new gui.MenuItemName(item.getId());
+    let f = new MenuItemName(item.getId());
     f.setDelegate(this);
     return f;
   }
@@ -121,13 +131,13 @@ export class MenuEntryItemConfig extends gui.DirFragment {
   }
 
   #getSubItems(itemId) {
-    let i = dba.Menus.find(itemId);
+    let i = Menus.find(itemId);
     return i ? i.getSubItems() : [];
   }
 
   #renderPath(itemId) {
     let names = [];
-    let i = dba.Menus.find(itemId);
+    let i = Menus.find(itemId);
     while (i) {
       if (names.length) {
         names.unshift(this.#renderPathItem(i));
@@ -149,11 +159,11 @@ export class MenuEntryItemConfig extends gui.DirFragment {
   }
 
   #getTagName(tagId) {
-    let tag = dba.WebConfig.getTag(tagId);
+    let tag = WebConfig.getTag(tagId);
     return tag ? tag.getName() : "";
   }
 
-  #getItem() { return dba.Menus.find(this._itemId); }
+  #getItem() { return Menus.find(this._itemId); }
 
   #onChangeDir(menuItemId) {
     this._subItemId = menuItemId;

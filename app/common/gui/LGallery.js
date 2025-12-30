@@ -6,6 +6,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ICONS } from '../../lib/ui/Icons.js';
 import { ICON } from '../constants/Icons.js';
 import { Utilities } from '../Utilities.js';
+import { FRealTimeComments } from '../social/FRealTimeComments.js';
 
 export const CLC_GALLERY = {
   TOGGLE_COMMENT : "CLC_GALLERY_1",
@@ -26,7 +27,7 @@ export class LGallery extends Layer {
     this._fGallery.setDelegate(this);
     this.setChild("Gallery", this._fGallery);
 
-    this._fComments = new socl.FRealTimeComments();
+    this._fComments = new FRealTimeComments();
     this._fComments.setShowInputOnInit(false);
     this.setChild("Comments", this._fComments);
 

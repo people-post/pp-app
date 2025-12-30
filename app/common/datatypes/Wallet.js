@@ -1,4 +1,6 @@
-export class Wallet extends dat.DataObject {
+import { DataObject } from './DataObject.js';
+
+export class Wallet extends DataObject {
   // BIP44: m/purpose'/coin_type'/account'/role/index
   // Purpose derivation (See BIP43)
   static T_PURPOSE = {

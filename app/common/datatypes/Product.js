@@ -1,13 +1,19 @@
-export class Product extends dat.SocialItem {
+import { SocialItem } from './SocialItem.js';
+import { RemoteFile } from './RemoteFile.js';
+import { ProductDeliveryChoice } from './ProductDeliveryChoice.js';
+import { SocialItemId } from './SocialItemId.js';
+import { OgpData } from './OgpData.js';
+
+export class Product extends SocialItem {
   constructor(data) {
     super(data);
     this._files = [];
     for (let f of data.files) {
-      this._files.push(new dat.RemoteFile(f));
+      this._files.push(new RemoteFile(f));
     }
     this._delivery_choices = [];
     for (let d of data.delivery_choices) {
-      this._delivery_choices.push(new dat.ProductDeliveryChoice(d));
+      this._delivery_choices.push(new ProductDeliveryChoice(d));
     }
   }
 
@@ -17,9 +23,9 @@ export class Product extends dat.SocialItem {
   }
 
   // For social actions like comment, like, repost or quote
-  getSocialItemType() { return dat.SocialItem.TYPE.PRODUCT; }
+  getSocialItemType() { return SocialItem.TYPE.PRODUCT; }
   getSocialId() {
-    return new dat.SocialItemId(this.getId(), this.getSocialItemType());
+    return new SocialItemId(this.getId(), this.getSocialItemType());
   }
   getName() { return this._data.name; }
   getDeliveryChoices() { return this._delivery_choices; }
@@ -39,7 +45,7 @@ export class Product extends dat.SocialItem {
     }
   }
   getOgpData() {
-    let d = new dat.OgpData();
+    let d = new OgpData();
     d.setTitle(this.getName());
     d.setType("website");
     d.setImageUrl("");

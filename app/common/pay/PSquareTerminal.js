@@ -1,3 +1,5 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
 const _CPT_SQUARE_TERMINAL = {
   MAIN : `<div id="__ID_TITLE__"></div>
   <div id="__ID_DEVICE_ID__"></div>
@@ -7,15 +9,15 @@ const _CPT_SQUARE_TERMINAL = {
   <div id="__ID_PAIRED_AT__"></div>`,
 };
 
-export class PSquareTerminal extends ui.Panel {
+export class PSquareTerminal extends Panel {
   constructor() {
     super();
-    this._pTitle = new ui.Panel();
-    this._pDeviceId = new ui.Panel();
-    this._pPairCode = new ui.Panel();
-    this._pPairBy = new ui.Panel();
-    this._pStatus = new ui.Panel();
-    this._pPairedAt = new ui.Panel();
+    this._pTitle = new Panel();
+    this._pDeviceId = new Panel();
+    this._pPairCode = new Panel();
+    this._pPairBy = new Panel();
+    this._pStatus = new Panel();
+    this._pPairedAt = new Panel();
   }
 
   getTitlePanel() { return this._pTitle; }

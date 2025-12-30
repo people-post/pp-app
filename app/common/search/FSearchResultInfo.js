@@ -25,7 +25,12 @@ const _CPT_SEARCH_RESULT_INFO = {
   KEYWORD : `<span class="search-result-match">__KEYWORD__</span>`,
 };
 
-export class PSearchResultInfo extends ui.Panel {
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { SocialItem } from '../datatypes/SocialItem.js';
+import Utilities from '../Utilities.js';
+
+export class PSearchResultInfo extends Panel {
   getTimePanel() { return null; }
   getIconPanel() { return null; }
   getTitlePanel() { return null; }
@@ -37,7 +42,7 @@ export class PSearchResultInfoTitleOnly extends PSearchResultInfo {
 
   constructor() {
     super();
-    this.#pTitle = new ui.Panel();
+    this.#pTitle = new Panel();
   }
 
   getTitlePanel() { return this.#pTitle; }
@@ -60,8 +65,8 @@ export class PSearchResultInfoBrief extends PSearchResultInfo {
 
   constructor() {
     super();
-    this.#pContent = new ui.Panel();
-    this.#pTime = new ui.Panel();
+    this.#pContent = new Panel();
+    this.#pTime = new Panel();
   }
 
   getContentPanel() { return this.#pContent; }
@@ -89,10 +94,10 @@ export class PSearchResultInfoNormal extends PSearchResultInfo {
 
   constructor() {
     super();
-    this.#pIcon = new ui.Panel();
-    this.#pTitle = new ui.Panel();
-    this.#pContent = new ui.Panel();
-    this.#pTime = new ui.Panel();
+    this.#pIcon = new Panel();
+    this.#pTitle = new Panel();
+    this.#pContent = new Panel();
+    this.#pTime = new Panel();
   }
 
   getIconPanel() { return this.#pIcon; }
@@ -118,7 +123,7 @@ export class PSearchResultInfoNormal extends PSearchResultInfo {
   }
 };
 
-export class FSearchResultInfo extends ui.Fragment {
+export class FSearchResultInfo extends Fragment {
   static T_LAYOUT = {
     BRIEF : Symbol(),
     TITLE_ONLY: Symbol(),
@@ -216,7 +221,7 @@ export class FSearchResultInfo extends ui.Fragment {
     if (!panel) {
       return;
     }
-    let icon = dat.SocialItem.getIcon(type);
+    let icon = SocialItem.getIcon(type);
     panel.replaceContent(Utilities.renderSvgFuncIcon(icon));
   }
 

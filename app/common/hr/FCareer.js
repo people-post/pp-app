@@ -1,8 +1,12 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { PCareerInfo } from './PCareerInfo.js';
+import { Account } from '../dba/Account.js';
+
 export const CF_CAREER = {
   ON_CLICK : Symbol(),
 };
 
-export class FCareer extends ui.Fragment {
+export class FCareer extends Fragment {
   constructor() {
     super();
     this._roleId;
@@ -28,7 +32,7 @@ export class FCareer extends ui.Fragment {
       return;
     }
 
-    let panel = new S.hr.PCareerInfo();
+    let panel = new PCareerInfo();
     render.wrapPanel(panel);
 
     if (panel.isHighlightable()) {
@@ -43,9 +47,9 @@ export class FCareer extends ui.Fragment {
     p.replaceContent(this.#renderName(role));
 
     p = panel.getStatusPanel();
-    if (dba.Account.isRoleApplicationPending(this._roleId)) {
+    if (Account.isRoleApplicationPending(this._roleId)) {
       p.replaceContent("Applied");
-    } else if (dba.Account.isInGroup(this._roleId)) {
+    } else if (Account.isInGroup(this._roleId)) {
       p.replaceContent("Joined");
     }
   }

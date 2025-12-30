@@ -1,4 +1,11 @@
-export class FLocalUserSearch extends srch.FSearch {
+import { FSearch } from './FSearch.js';
+import { T_DATA } from '../plt/Events.js';
+import { Account } from '../dba/Account.js';
+import { SocialItem } from '../datatypes/SocialItem.js';
+import { SearchResult } from '../datatypes/SearchResult.js';
+import { Users } from '../dba/Users.js';
+
+export class FLocalUserSearch extends FSearch {
   constructor() {
     super();
     this._userIds = null;
@@ -8,7 +15,7 @@ export class FLocalUserSearch extends srch.FSearch {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this._clearCache();
       this.render();
       break;
@@ -29,10 +36,10 @@ export class FLocalUserSearch extends srch.FSearch {
 
   #makeResultFromUserId(userId) {
     // TODO: This return is a hack result
-    let nickname = dba.Account.getUserNickname(userId, "...");
+    let nickname = Account.getUserNickname(userId, "...");
     return {
       id : userId,
-      type : dat.SocialItem.TYPE.USER,
+      type : SocialItem.TYPE.USER,
       title : {
         elements : [ {
           prefix : nickname,
@@ -58,11 +65,11 @@ export class FLocalUserSearch extends srch.FSearch {
         items.push(this.#makeResultFromUserId(id));
       }
     }
-    return new dat.SearchResult(items);
+    return new SearchResult(items);
   }
 
   #isUserMatch(userId, lKey) {
-    let u = dba.Users.get(userId);
+    let u = Users.get(userId);
     if (u) {
       for (let n of [u.getNickname(), u.getUsername()]) {
         if (n.toLowerCase().indexOf(lKey) >= 0) {

@@ -1,4 +1,6 @@
-export class WorkshopTeam extends dat.UserRole {
+import { UserRole } from './UserRole.js';
+
+export class WorkshopTeam extends UserRole {
   // Sync with backend
   static T_PERMISSION = {
     CREATE : "CREATE",

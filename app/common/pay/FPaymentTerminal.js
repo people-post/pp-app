@@ -1,8 +1,19 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { PPaymentTerminalSmall } from './PPaymentTerminalSmall.js';
+import { PPaymentTerminal } from './PPaymentTerminal.js';
+import { FSquareTerminal } from './FSquareTerminal.js';
+import { T_DATA } from '../plt/Events.js';
+import { Shop } from '../dba/Shop.js';
+import { PaymentTerminal } from '../datatypes/PaymentTerminal.js';
+import Utilities from '../Utilities.js';
+import { api } from '../plt/Api.js';
+
 export const CF_PAYMENT_TERMINAL = {
   ON_CLICK : Symbol(),
 };
 
-export class FPaymentTerminal extends ui.Fragment {
+export class FPaymentTerminal extends Fragment {
   static T_LAYOUT = {
     SMALL : Symbol(),
     FULL: Symbol(),
@@ -10,7 +21,7 @@ export class FPaymentTerminal extends ui.Fragment {
 
   constructor() {
     super();
-    this._fNameInput = new ui.TextInput();
+    this._fNameInput = new TextInput();
     this._fNameInput.setDelegate(this);
     this.setChild("nameEditor", this._fNameInput);
 
@@ -40,7 +51,7 @@ export class FPaymentTerminal extends ui.Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.PAYMENT_TERMINAL:
+    case T_DATA.PAYMENT_TERMINAL:
       if (data.getId() == this._terminalId) {
         this.render();
       }
@@ -52,7 +63,7 @@ export class FPaymentTerminal extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let terminal = dba.Shop.getPaymentTerminal(this._terminalId);
+    let terminal = Shop.getPaymentTerminal(this._terminalId);
     if (!terminal) {
       return;
     }
@@ -105,12 +116,12 @@ export class FPaymentTerminal extends ui.Fragment {
     let p;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.SMALL:
-      p = new pay.PPaymentTerminalSmall();
+      p = new PPaymentTerminalSmall();
       p.setAttribute("onclick",
                      "javascript:G.action(pay.CF_PAYMENT_TERMINAL.ON_CLICK)");
       break;
     default:
-      p = new pay.PPaymentTerminal();
+      p = new PPaymentTerminal();
       break;
     }
     return p;
@@ -126,8 +137,8 @@ export class FPaymentTerminal extends ui.Fragment {
   #initDetailFragment(type, dataObj) {
     let f;
     switch (type) {
-    case dat.PaymentTerminal.T_TYPE.SQUARE_TERMINAL:
-      f = new pay.FSquareTerminal();
+    case PaymentTerminal.T_TYPE.SQUARE_TERMINAL:
+      f = new FSquareTerminal();
       f.setData(dataObj);
       break;
     default:
@@ -146,11 +157,11 @@ export class FPaymentTerminal extends ui.Fragment {
   #asyncUpdate() {
     let url = "api/shop/update_terminal";
     let fd = this.#collectData();
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
   }
 
   #onUpdateRRR(data) {
-    dba.Shop.updatePaymentTerminal(new dat.PaymentTerminal(data.terminal));
+    Shop.updatePaymentTerminal(new PaymentTerminal(data.terminal));
   }
 };
 

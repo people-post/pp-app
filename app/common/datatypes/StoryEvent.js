@@ -1,4 +1,6 @@
-export class StoryEvent extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class StoryEvent extends ServerDataObject {
   // Synced with backend
   static T_TYPE = {
     MODIFICATION : "MOD",

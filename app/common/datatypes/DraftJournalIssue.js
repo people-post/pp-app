@@ -1,4 +1,6 @@
-export class DraftJournalIssue extends dat.JournalIssueBase {
+import { JournalIssueBase } from './JournalIssueBase.js';
+
+export class DraftJournalIssue extends JournalIssueBase {
   isDraft() { return true; }
 };
 

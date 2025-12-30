@@ -1,9 +1,12 @@
-export class Story extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+import { StoryEvent } from './StoryEvent.js';
+
+export class Story extends ServerDataObject {
   constructor(data) {
     super(data);
     this._events = [];
     for (let d of data.events) {
-      this._events.push(new dat.StoryEvent(d));
+      this._events.push(new StoryEvent(d));
     }
   }
 

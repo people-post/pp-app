@@ -1,9 +1,24 @@
+import CronJob from '../../lib/ext/CronJob.js';
+import { SocialItem } from '../datatypes/SocialItem.js';
+import { Tag } from '../datatypes/Tag.js';
+import { MessageThreadInfo } from '../datatypes/MessageThreadInfo.js';
+import { UserRequest } from '../datatypes/UserRequest.js';
+import { Notice } from '../datatypes/Notice.js';
+import { LikedItemNotice } from '../datatypes/LikedItemNotice.js';
+import { RepostItemNotice } from '../datatypes/RepostItemNotice.js';
+import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import { api } from '../plt/Api.js';
+import { Account } from './Account.js';
+import { Signal } from './Signal.js';
+import { Badge } from './Badge.js';
+
 export const Notifications = function() {
   let _mMessages = new Map();
   let _mNotices = new Map();
   let _mRequests = new Map();
   let _nUnreadEmail = 0;
-  let _cronJob = new ext.CronJob();
+  let _cronJob = new CronJob();
 
   function _init() {
     _reload();
@@ -21,8 +36,8 @@ export const Notifications = function() {
   }
 
   function _getNBlogNotifications() {
-    return __getNNotices(dat.SocialItem.TYPE.ARTICLE) +
-           __getNNotices(dat.SocialItem.TYPE.FEED_ARTICLE) +
+    return __getNNotices(SocialItem.TYPE.ARTICLE) +
+           __getNNotices(SocialItem.TYPE.FEED_ARTICLE) +
            _getBlogRequestIds().length;
   }
 
@@ -31,7 +46,7 @@ export const Notifications = function() {
   }
 
   function _getNWorkshopNotifications() {
-    return __getNNotices(dat.SocialItem.TYPE.PROJECT) +
+    return __getNNotices(SocialItem.TYPE.PROJECT) +
            _getWorkshopRequestIds().length;
   }
   function _getNShopNotifications() { return _getShopRequestIds().length; }
@@ -45,22 +60,22 @@ export const Notifications = function() {
 
   function _getMessengerRequestIds() { return __getSectorRequestIds(); }
   function _getBlogRequestIds() {
-    return __getSectorRequestIds(dat.Tag.T_ID.BLOG);
+    return __getSectorRequestIds(Tag.T_ID.BLOG);
   }
   function _getWorkshopRequestIds() {
-    return __getSectorRequestIds(dat.Tag.T_ID.WORKSHOP);
+    return __getSectorRequestIds(Tag.T_ID.WORKSHOP);
   }
   function _getShopRequestIds() {
-    return __getSectorRequestIds(dat.Tag.T_ID.SHOP);
+    return __getSectorRequestIds(Tag.T_ID.SHOP);
   }
 
   function _getBlogNotices() {
-    return __getNotices(dat.SocialItem.TYPE.ARTICLE)
-        .concat(__getNotices(dat.SocialItem.TYPE.FEED_ARTICLE));
+    return __getNotices(SocialItem.TYPE.ARTICLE)
+        .concat(__getNotices(SocialItem.TYPE.FEED_ARTICLE));
   }
 
   function _getWorkshopNotices() {
-    return __getNotices(dat.SocialItem.TYPE.PROJECT);
+    return __getNotices(SocialItem.TYPE.PROJECT);
   }
 
   function __getNNotices(type) {
@@ -108,12 +123,12 @@ export const Notifications = function() {
     _mRequests.clear();
     for (let i of data.message_threads) {
       switch (i.from_id_type) {
-      case dat.SocialItem.TYPE.USER:
-      case dat.SocialItem.TYPE.GROUP:
-        _mMessages.set(i.from_id, new dat.MessageThreadInfo(i));
+      case SocialItem.TYPE.USER:
+      case SocialItem.TYPE.GROUP:
+        _mMessages.set(i.from_id, new MessageThreadInfo(i));
         break;
       default:
-        _mNotices.set(i.from_id, new dat.MessageThreadInfo(i));
+        _mNotices.set(i.from_id, new MessageThreadInfo(i));
         break;
       }
     }
@@ -122,20 +137,20 @@ export const Notifications = function() {
     }
 
     for (let d of data.requests) {
-      let r = new dat.UserRequest(d);
+      let r = new UserRequest(d);
       _mRequests.set(r.getId(), r);
     }
     _nUnreadEmail = data.n_emails;
 
-    fwk.Events.trigger(fwk.T_DATA.NOTIFICATIONS);
+    FwkEvents.trigger(FwkT_DATA.NOTIFICATIONS);
     let n = __getNNotices() + _getNMessages() + _mRequests.size + _nUnreadEmail;
-    dba.Badge.updateBadge(n);
+    Badge.updateBadge(n);
   }
 
   function _reload() {
-    if (dba.Account.isAuthenticated()) {
-      if (!dba.Signal.isChannelSet(C.CHANNEL.USER_INBOX)) {
-        dba.Signal.subscribe(C.CHANNEL.USER_INBOX, dba.Account.getId(),
+    if (Account.isAuthenticated()) {
+      if (!Signal.isChannelSet(C.CHANNEL.USER_INBOX)) {
+        Signal.subscribe(C.CHANNEL.USER_INBOX, Account.getId(),
                              m => __handleSignal(m));
       }
       __asyncLoadNotifications();
@@ -144,10 +159,10 @@ export const Notifications = function() {
 
   function __addNotificationData(d) {
     switch (d.type) {
-    case dat.Notice.T_TYPE.LIKE:
+    case Notice.T_TYPE.LIKE:
       __addLikedItemData(d);
       break;
-    case dat.Notice.T_TYPE.REPOST:
+    case Notice.T_TYPE.REPOST:
       __addRepostItemData(d);
       break;
     default:
@@ -158,7 +173,7 @@ export const Notifications = function() {
   function __addLikedItemData(d) {
     let k = __getNoticeKey(d.subject_id, d.type);
     if (!_mNotices.has(k)) {
-      _mNotices.set(k, new dat.LikedItemNotice(d.subject_id, d.sub_type));
+      _mNotices.set(k, new LikedItemNotice(d.subject_id, d.sub_type));
     }
 
     let n = _mNotices.get(k);
@@ -168,7 +183,7 @@ export const Notifications = function() {
   function __addRepostItemData(d) {
     let k = __getNoticeKey(d.subject_id, d.type);
     if (!_mNotices.has(k)) {
-      _mNotices.set(k, new dat.RepostItemNotice(d.subject_id, d.sub_type));
+      _mNotices.set(k, new RepostItemNotice(d.subject_id, d.sub_type));
     }
 
     let n = _mNotices.get(k);
@@ -180,12 +195,12 @@ export const Notifications = function() {
   }
 
   function __handleSignal(message) {
-    fwk.Events.trigger(plt.T_DATA.USER_INBOX_SIGNAL, message);
+    FwkEvents.trigger(PltT_DATA.USER_INBOX_SIGNAL, message);
   }
 
   function __asyncLoadNotifications() {
     let url = "/api/user/notifications";
-    plt.Api.asyncCall(url).then(d => __reset(d), e => {});
+    api.asyncCall(url).then(d => __reset(d), e => {});
   }
 
   return {

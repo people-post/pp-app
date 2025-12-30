@@ -1,4 +1,9 @@
-export class ArticleBase extends dat.Post {
+import { Post } from './Post.js';
+import { RemoteFile } from './RemoteFile.js';
+import { SocialItem } from './SocialItem.js';
+import { SocialItemId } from './SocialItemId.js';
+
+export class ArticleBase extends Post {
   #files = [];
   #attachments = [];
 
@@ -6,13 +11,13 @@ export class ArticleBase extends dat.Post {
     super(data);
     if (data.files) {
       for (let f of data.files) {
-        this.#files.push(new dat.RemoteFile(f));
+        this.#files.push(new RemoteFile(f));
       }
     }
 
     if (data.attachments) {
       for (let d of data.attachments) {
-        this.#attachments.push(new dat.RemoteFile(d));
+        this.#attachments.push(new RemoteFile(d));
       }
     }
   }
@@ -21,17 +26,17 @@ export class ArticleBase extends dat.Post {
   isRepost() {
     return this._data.link_to &&
            (this._data.link_type == null ||
-            this._data.link_type == dat.SocialItem.TYPE.FEED_ARTICLE ||
-            this._data.link_type == dat.SocialItem.TYPE.ARTICLE) &&
+            this._data.link_type == SocialItem.TYPE.FEED_ARTICLE ||
+            this._data.link_type == SocialItem.TYPE.ARTICLE) &&
            this.#isEmpty();
   }
   isQuotePost() { return this._data.link_to && !this.isRepost(); }
   getLinkTo() { return this._data.link_to; }
   getLinkType() { return this._data.link_type; }
   getLinkToSocialId() {
-    return new dat.SocialItemId(this._data.link_to, this._data.link_type);
+    return new SocialItemId(this._data.link_to, this._data.link_type);
   }
-  getSocialItemType() { return dat.SocialItem.TYPE.ARTICLE; }
+  getSocialItemType() { return SocialItem.TYPE.ARTICLE; }
   getTitle() { return this._data.title; }
   getContent() { return this._data.content; }
   getFiles() { return this.#files; }
@@ -47,7 +52,7 @@ export class ArticleBase extends dat.Post {
   getClassification() { return this._data.classification; }
   getUpdateTime() { return new Date(this._data.updated_at * 1000); }
   getExternalQuoteUrl() {
-    if (this._data.link_type == dat.SocialItem.TYPE.URL) {
+    if (this._data.link_type == SocialItem.TYPE.URL) {
       return this._data.link_to;
     } else {
       return null;

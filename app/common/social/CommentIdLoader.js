@@ -1,8 +1,14 @@
-export class CommentIdLoader extends plt.LongListIdLoader {
+import { LongListIdLoader } from '../plt/LongListIdLoader.js';
+import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
+import { SocialItemId } from '../datatypes/SocialItemId.js';
+import { api } from '../plt/Api.js';
+import { Blog } from '../dba/Blog.js';
+
+export class CommentIdLoader extends LongListIdLoader {
   #isBatchLoading = false;
   #threadId = null; // SocialItemId
   #hashtagIds = [];
-  #idRecord = new dat.UniLongListIdRecord();
+  #idRecord = new UniLongListIdRecord();
 
   getIdRecord() { return this.#idRecord; }
 
@@ -28,9 +34,9 @@ export class CommentIdLoader extends plt.LongListIdLoader {
     let fromId = this.#idRecord.getLastId();
     if (fromId) {
       fd.append("before_id",
-                dat.SocialItemId.fromEncodedStr(fromId).getValue());
+                SocialItemId.fromEncodedStr(fromId).getValue());
     }
-    plt.Api.asyncRawPost(url, fd, r => this.#onLoadRRR(r));
+    api.asyncRawPost(url, fd, r => this.#onLoadRRR(r));
   }
 
   #onLoadRRR(responseText) {
@@ -42,7 +48,7 @@ export class CommentIdLoader extends plt.LongListIdLoader {
       let ds = response.data.comments;
       if (ds.length) {
         for (let d of ds) {
-          let p = dba.Blog.updatePostData(d);
+          let p = Blog.updatePostData(d);
           this.#idRecord.appendId(p.getSocialId().toEncodedStr());
         }
       } else {

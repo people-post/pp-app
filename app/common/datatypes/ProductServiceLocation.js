@@ -1,4 +1,7 @@
-export class ProductServiceLocation extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+import { ProductServiceTimeslot } from './ProductServiceTimeslot.js';
+
+export class ProductServiceLocation extends ServerDataObject {
   constructor(data) {
     super(data);
     this._timeslots = [];
@@ -41,7 +44,7 @@ export class ProductServiceLocation extends dat.ServerDataObject {
     };
   }
 
-  #initTimeslot(data) { return new dat.ProductServiceTimeslot(data); }
+  #initTimeslot(data) { return new ProductServiceTimeslot(data); }
 };
 
 // Backward compatibility

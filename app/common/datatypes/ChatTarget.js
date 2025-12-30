@@ -1,10 +1,13 @@
+import { SocialItemId } from './SocialItemId.js';
+import { SocialItem } from './SocialItem.js';
+
 export class ChatTarget {
-  #sId = new dat.SocialItemId();
+  #sId = new SocialItemId();
   #isReadOnly = false;
 
   isReadOnly() { return this.#isReadOnly; }
-  isGroup() { return this.getIdType() == dat.SocialItem.TYPE.GROUP; }
-  isUser() { return this.getIdType() == dat.SocialItem.TYPE.USER; }
+  isGroup() { return this.getIdType() == SocialItem.TYPE.GROUP; }
+  isUser() { return this.getIdType() == SocialItem.TYPE.USER; }
 
   getId() { return this.#sId.getValue(); }
   getIdType() { return this.#sId.getType(); }

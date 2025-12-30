@@ -1,4 +1,6 @@
-export class CommunityProfile extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class CommunityProfile extends ServerDataObject {
   getName() { return this._data.name; }
   getDescription() { return this._data.description; }
   getIconUrl() { return this._data.icon ? this._data.icon.url : ""; }

@@ -1,13 +1,16 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+
 const _CPT_REPOST_ITEM_NOTICE_INFO = {
   MAIN : `<div id="__ID_MSG__" class="flex flex-begin"></div>
     <div id="__ID_TITLE__" class="bold"></div>`,
 };
 
-export class PRepostItemNotice extends ui.Panel {
+export class PRepostItemNotice extends Panel {
   constructor() {
     super();
-    this._pMessage = new ui.ListPanel();
-    this._pTitle = new ui.Panel();
+    this._pMessage = new ListPanel();
+    this._pTitle = new Panel();
   }
 
   getMessagePanel() { return this._pMessage; }

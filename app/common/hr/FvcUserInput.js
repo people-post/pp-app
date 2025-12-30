@@ -1,18 +1,23 @@
-export class FvcUserInput extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/views/FScrollViewContent.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ButtonList } from '../../lib/ui/controllers/fragments/ButtonList.js';
+import { Label } from '../../lib/ui/controllers/fragments/Label.js';
+
+export class FvcUserInput extends FScrollViewContent {
   constructor() {
     super();
-    this._fAll = new ui.FSimpleFragmentList();
+    this._fAll = new FSimpleFragmentList();
 
-    this._fInputs = new ui.FSimpleFragmentList();
+    this._fInputs = new FSimpleFragmentList();
     this._fAll.append(this._fInputs);
 
-    this._fActions = new ui.ButtonList();
+    this._fActions = new ButtonList();
     this._fActions.setDelegate(this);
     this._fActions.addButton("OK", () => this.#onInputOk());
     this._fActions.addButton("Cancel", () => this.#onInputCancelled(), true);
     this._fAll.append(this._fActions);
 
-    this._fSpace = new ui.Label("<br>");
+    this._fSpace = new Label("<br>");
     this._fAll.append(this._fSpace);
     this.setChild("all", this._fAll);
 

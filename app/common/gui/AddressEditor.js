@@ -1,5 +1,8 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Address } from '../datatypes/Address.js';
 
 export class AddressEditor extends Fragment {
   constructor() {
@@ -72,47 +75,47 @@ export class AddressEditor extends Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     p.setClassName("center-align");
 
     render.wrapPanel(p);
 
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     this._fNickname.attachRender(pp);
     this._fNickname.render();
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this._fName.attachRender(pp);
     this._fName.render();
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this._fCountry.attachRender(pp);
     this._fCountry.render();
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this._fState.attachRender(pp);
     this._fState.render();
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this._fCity.attachRender(pp);
     this._fCity.render();
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this._fZipcode.attachRender(pp);
     this._fZipcode.render();
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this._fLine1.attachRender(pp);
     this._fLine1.render();
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this._fLine2.attachRender(pp);
     this._fLine2.render();
@@ -130,7 +133,7 @@ export class AddressEditor extends Fragment {
       zipcode : this._fZipcode.getValue(),
       lines : [ this._fLine1.getValue(), this._fLine2.getValue() ]
     };
-    return new dat.Address(data);
+    return new Address(data);
   }
 };
 

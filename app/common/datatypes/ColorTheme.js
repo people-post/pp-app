@@ -1,3 +1,5 @@
+import Utilities from '../../lib/ext/Utilities.js';
+
 export class ColorTheme {
   #cWhite = "#FFF";
   #cDark = "#333";
@@ -16,7 +18,7 @@ export class ColorTheme {
     return this.#cDark;
   }
   getInfoTextColor(eTest) {
-    if (ext.Utilities.colorDiff(this.getSecondaryColor(), this.#cDimGray,
+    if (Utilities.colorDiff(this.getSecondaryColor(), this.#cDimGray,
                                 eTest) < 20) {
       return this.#cLightGray;
     }
@@ -58,32 +60,32 @@ export class ColorTheme {
 
   #hasEnoughContrast(eTest) {
     // Color diff big enough to use primary color as system widget color
-    return ext.Utilities.colorDiff(this.getPrimaryColor(),
+    return Utilities.colorDiff(this.getPrimaryColor(),
                                    this.getSecondaryColor(), eTest) > 20;
   }
 
   #tooWhite(color, eTest) {
-    return ext.Utilities.colorDiff(color, "#FFF", eTest) < 20;
+    return Utilities.colorDiff(color, "#FFF", eTest) < 20;
   }
 
   #tooDark(color, eTest) {
-    return ext.Utilities.colorDiff(color, "#000", eTest) < 20;
+    return Utilities.colorDiff(color, "#000", eTest) < 20;
   }
 
   #getLightPrimeColor(eTest) {
-    return ext.Utilities.lighterColor(this.getPrimaryColor(), 0.1, eTest);
+    return Utilities.lighterColor(this.getPrimaryColor(), 0.1, eTest);
   }
 
   #getDarkerPrimeColor(eTest) {
-    return ext.Utilities.darkerColor(this.getPrimaryColor(), 0.9, eTest);
+    return Utilities.darkerColor(this.getPrimaryColor(), 0.9, eTest);
   }
 
   #getLightSecondaryColor(eTest) {
-    return ext.Utilities.lighterColor(this.getSecondaryColor(), 0.5, eTest);
+    return Utilities.lighterColor(this.getSecondaryColor(), 0.5, eTest);
   }
 
   #getDarkerSecondaryColor(eTest) {
-    return ext.Utilities.darkerColor(this.getSecondaryColor(), 0.9, eTest);
+    return Utilities.darkerColor(this.getSecondaryColor(), 0.9, eTest);
   }
 };
 

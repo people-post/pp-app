@@ -1,4 +1,6 @@
-export class RepostItemNotice extends dat.Notice {
+import { Notice } from './Notice.js';
+
+export class RepostItemNotice extends Notice {
   constructor(itemId, itemType) {
     super();
     this._itemId = itemId;

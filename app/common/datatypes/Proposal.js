@@ -1,4 +1,7 @@
-export class Proposal extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+import { VotingSummary } from './VotingSummary.js';
+
+export class Proposal extends ServerDataObject {
   // Synced with backend
   static T_TYPE = {
     ISSUE_COINS : "ISSUE_COINS",
@@ -19,7 +22,7 @@ export class Proposal extends dat.ServerDataObject {
   getTitle() { return this._data.title; }
   getAbstract() { return this._data.abstract; }
 
-  getVotingResult() { return new dat.VotingSummary(this._data.vote_result); }
+  getVotingResult() { return new VotingSummary(this._data.vote_result); }
 
   getIcon() {
     switch (this._data.type) {

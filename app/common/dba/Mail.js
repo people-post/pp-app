@@ -1,7 +1,13 @@
+import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import { api } from '../plt/Api.js';
+import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
+import { Email } from '../datatypes/Email.js';
+
 export const Mail = function() {
   let _lib = new Map();
   let _pendingResponses = [];
-  let _idRecord = new dat.UniLongListIdRecord();
+  let _idRecord = new UniLongListIdRecord();
 
   function _get(id) {
     if (!id) {
@@ -16,13 +22,13 @@ export const Mail = function() {
 
   function _update(email) {
     _lib.set(email.getId(), email);
-    fwk.Events.trigger(plt.T_DATA.EMAIL, email);
+    FwkEvents.trigger(PltT_DATA.EMAIL, email);
   }
 
   function _remove(emailId) {
     _idRecord.removeId(emailId);
     _lib.delete(emailId);
-    fwk.Events.trigger(plt.T_DATA.EMAIL_IDS);
+    FwkEvents.trigger(PltT_DATA.EMAIL_IDS);
   }
 
   function _reload(id) { _asyncLoad(id); }
@@ -31,7 +37,7 @@ export const Mail = function() {
   function _clear() {
     _lib.clear();
     _idRecord.clear();
-    fwk.Events.trigger(plt.T_DATA.EMAIL_IDS);
+    FwkEvents.trigger(PltT_DATA.EMAIL_IDS);
   }
 
   function _asyncLoad(id) {
@@ -41,7 +47,7 @@ export const Mail = function() {
     _pendingResponses.push(id);
 
     let url = "api/email/item?id=" + id;
-    plt.Api.asyncRawCall(url, r => __onEmailRRR(r, id));
+    api.asyncRawCall(url, r => __onEmailRRR(r, id));
   }
 
   function __onEmailRRR(responseText, id) {
@@ -52,10 +58,10 @@ export const Mail = function() {
 
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data.email) {
-        let e = new dat.Email(response.data.email);
+        let e = new Email(response.data.email);
         _update(e);
       }
     }

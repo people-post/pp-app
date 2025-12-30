@@ -1,8 +1,11 @@
-export class Quiz extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+import Utilities from '../../lib/ext/Utilities.js';
+
+export class Quiz extends ServerDataObject {
   constructor(data) {
     super(data);
     // Gen choices
-    this._choices = ext.Utilities.shuffle(
+    this._choices = Utilities.shuffle(
         this._data.distractors.concat(this._data.answers));
   }
 

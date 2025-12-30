@@ -1,3 +1,12 @@
+import { Wallet } from '../datatypes/Wallet.js';
+import { KeyNode } from '../datatypes/KeyNode.js';
+import { Cip1852Key } from '../datatypes/Cip1852Key.js';
+import { Bip32Ed25519Key } from '../datatypes/Bip32Ed25519Key.js';
+import { MlDsa44Key } from '../datatypes/MlDsa44Key.js';
+import { Events as FwkEvents } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import Utilities from '../../lib/ext/Utilities.js';
+
 export const Keys = function() {
   let _entropy = null;
   let _seed = null;
@@ -11,7 +20,7 @@ export const Keys = function() {
 
   async function _asyncGetAccount() {
     let dPath =
-        [ dat.Wallet.T_PURPOSE.NFSC001, dat.Wallet.T_COIN.NFSC001, 0, 0, 0 ];
+        [ Wallet.T_PURPOSE.NFSC001, Wallet.T_COIN.NFSC001, 0, 0, 0 ];
     let k = __getBip32Ed25519Impl(dPath);
 
     let seed = k.deriveSeed();
@@ -38,11 +47,11 @@ export const Keys = function() {
     _entropy = bip39.mnemonicToEntropy(v);
     _seed = bip39.mnemonicToSeedSync(v);
     /*
-    console.log("Seed:", ext.Utilities.uint8ArrayToHex(seed));
+    console.log("Seed:", Utilities.uint8ArrayToHex(seed));
 
     scureBip32.HDKey.fromMasterSeed(seed);
     const priK = seed.slice(0, 32);
-    console.log("Private:", ext.Utilities.uint8ArrayToHex(priK));
+    console.log("Private:", Utilities.uint8ArrayToHex(priK));
     */
   }
 
@@ -54,12 +63,12 @@ export const Keys = function() {
 
   async function _sign(path, msg) {
     let k = __getMlDsa44Impl(path);
-    return ext.Utilities.uint8ArrayToHex(k.sign(msg));
+    return Utilities.uint8ArrayToHex(k.sign(msg));
   }
 
   async function _signUint8Array(path, msg) {
     let k = __getMlDsa44Impl(path);
-    return ext.Utilities.uint8ArrayToHex(k.signUint8Array(msg));
+    return Utilities.uint8ArrayToHex(k.signUint8Array(msg));
   }
 
   async function _verify(path, msg, sig) {
@@ -81,7 +90,7 @@ export const Keys = function() {
   function __getCip1852Impl(path) {
     let k = _METHOD.CIP1852;
     if (_lib.has(k)) {
-      return _lib.get(k).get([ dat.Wallet.T_PURPOSE.CIP1852 ].concat(path),
+      return _lib.get(k).get([ Wallet.T_PURPOSE.CIP1852 ].concat(path),
                              [ 1, 1, 1 ]);
     } else {
       if (_busyKeys.has(k)) {
@@ -90,7 +99,7 @@ export const Keys = function() {
       _busyKeys.add(k);
       __asyncDeriveBip44Ed25519RootKey(_entropy)
           //__deriveBip44Ed25519RootKeyFromSeed()
-          .then(v => __updateLib(k, new dat.KeyNode(new dat.Cip1852Key(v))))
+          .then(v => __updateLib(k, new KeyNode(new Cip1852Key(v))))
           .finally(() => _busyKeys.delete(k));
       return null;
     }
@@ -100,7 +109,7 @@ export const Keys = function() {
     let k = _METHOD.BIP32_ED25119;
     if (!_lib.has(k)) {
       let kBuffer = Bip32Ed25519.generateFromSeed(_seed);
-      __updateLib(k, new dat.KeyNode(new dat.Bip32Ed25519Key(kBuffer)));
+      __updateLib(k, new KeyNode(new Bip32Ed25519Key(kBuffer)));
     }
     return _lib.get(k).get(path, [ 1, 1, 1 ]);
   }
@@ -108,7 +117,7 @@ export const Keys = function() {
   function __getMlDsa44Impl(path) {
     let k = __getBip32Ed25519Impl(path);
     let seed = k.deriveSeed();
-    return new dat.MlDsa44Key(pp.sys.utl.mlDsa44KeyGen(seed));
+    return new MlDsa44Key(pp.sys.utl.mlDsa44KeyGen(seed));
   }
 
   async function __asyncDeriveBip44Ed25519RootKey(entropy) {
@@ -118,7 +127,7 @@ export const Keys = function() {
 
   function __deriveBip44Ed25519RootKey(entropy) {
     return Cardano.Bip32PrivateKey.from_bip39_entropy(
-        ext.Utilities.uint8ArrayFromHex(entropy), new Uint8Array());
+        Utilities.uint8ArrayFromHex(entropy), new Uint8Array());
   }
 
   async function __deriveBip44Ed25519RootKeyFromSeed() {
@@ -128,7 +137,7 @@ export const Keys = function() {
 
   function __updateLib(k, v) {
     _lib.set(k, v);
-    fwk.Events.trigger(plt.T_DATA.KEY_UPDATE);
+    FwkEvents.trigger(PltT_DATA.KEY_UPDATE);
   }
 
   return {

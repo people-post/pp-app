@@ -1,4 +1,8 @@
-export class Article extends dat.ArticleBase {
+import { ArticleBase } from './ArticleBase.js';
+import { OgpData } from './OgpData.js';
+import { SocialItemId } from './SocialItemId.js';
+
+export class Article extends ArticleBase {
   #mTagComments = new Map();
 
   constructor(data) {
@@ -18,7 +22,7 @@ export class Article extends dat.ArticleBase {
   }
 
   getOgpData() {
-    let d = new dat.OgpData();
+    let d = new OgpData();
     d.setTitle(this.getTitle());
     d.setType("website");
     d.setImageUrl("");
@@ -39,7 +43,7 @@ export class Article extends dat.ArticleBase {
   }
   getReplyToSocialId() {
     if (this._data.reply_to) {
-      return new dat.SocialItemId(this._data.reply_to.id,
+      return new SocialItemId(this._data.reply_to.id,
                                   this._data.reply_to.type);
     }
     return null;
@@ -57,7 +61,7 @@ export class Article extends dat.ArticleBase {
     for (let ct of ds) {
       let sids = [];
       for (let d of ct.comment_ids) {
-        sids.push(new dat.SocialItemId(d.id, d.type));
+        sids.push(new SocialItemId(d.id, d.type));
       }
       this.#mTagComments.set(ct.tag_id, sids);
     }

@@ -1,4 +1,13 @@
-export class Project extends dat.SocialItem {
+import { SocialItem } from './SocialItem.js';
+import { RemoteFile } from './RemoteFile.js';
+import { ProjectActor } from './ProjectActor.js';
+import { Story } from './Story.js';
+import { SimpleProjectStage } from './SimpleProjectStage.js';
+import { ProjectStage } from './ProjectStage.js';
+import { SocialItemId } from './SocialItemId.js';
+import { OgpData } from './OgpData.js';
+
+export class Project extends SocialItem {
   static ACTIONS = {
     ASSIGN : {name : "Assign...", type: "ASSIGN"},        // Assign facilitator
     ADD_AGENT: {name: "Add agent...", type: "ADD_AGENT"}, // Add agent
@@ -19,7 +28,7 @@ export class Project extends dat.SocialItem {
     super(data);
     this._files = [];
     for (let f of data.files) {
-      this._files.push(new dat.RemoteFile(f));
+      this._files.push(new RemoteFile(f));
     }
 
     this._stageMap = new Map();
@@ -30,12 +39,12 @@ export class Project extends dat.SocialItem {
 
     this._agents = [];
     for (let d of data.agents) {
-      this._agents.push(new dat.ProjectActor(d, dat.ProjectActor.T_ROLE.AGENT));
+      this._agents.push(new ProjectActor(d, ProjectActor.T_ROLE.AGENT));
     }
 
     this._story = null;
     if (data.story) {
-      this._story = new dat.Story(data.story);
+      this._story = new Story(data.story);
     }
   }
 
@@ -72,9 +81,9 @@ export class Project extends dat.SocialItem {
 
   getStage(id) { return this._stageMap.get(id); }
   // For social actions like comment, like, repost or quote
-  getSocialItemType() { return dat.SocialItem.TYPE.PROJECT; }
+  getSocialItemType() { return SocialItem.TYPE.PROJECT; }
   getSocialId() {
-    return new dat.SocialItemId(this.getId(), this.getSocialItemType());
+    return new SocialItemId(this.getId(), this.getSocialItemType());
   }
   getVisibility() { return this._data.visibility; }
   getFiles() { return this._files; }
@@ -83,8 +92,8 @@ export class Project extends dat.SocialItem {
   getOwnerId() { return this._data.owner_id; }
   getCreatorId() { return this._data.creator_id; }
   getFacilitator() {
-    return new dat.ProjectActor({"user_id" : this.getFacilitatorId()},
-                                dat.ProjectActor.T_ROLE.FACILITATOR);
+    return new ProjectActor({"user_id" : this.getFacilitatorId()},
+                                ProjectActor.T_ROLE.FACILITATOR);
   }
   getFacilitatorId() {
     return this._data.facilitator ? this._data.facilitator.id
@@ -93,8 +102,8 @@ export class Project extends dat.SocialItem {
   getClientId() { return this._data.client ? this._data.client.id : null; }
   getClient() {
     return this._data.client
-               ? new dat.ProjectActor(this._data.client,
-                                      dat.ProjectActor.T_ROLE.CLIENT)
+               ? new ProjectActor(this._data.client,
+                                      ProjectActor.T_ROLE.CLIENT)
                : null;
   }
   getAgents() { return this._agents; }
@@ -166,7 +175,7 @@ export class Project extends dat.SocialItem {
   }
 
   getOgpData() {
-    let d = new dat.OgpData();
+    let d = new OgpData();
     d.setTitle(this.getName());
     d.setType("website");
     d.setImageUrl("");
@@ -214,7 +223,7 @@ export class Project extends dat.SocialItem {
       }
     } else if (this.isFacilitator(userId)) {
       switch (actor.getRoleId()) {
-      case dat.ProjectActor.T_ROLE.FACILITATOR:
+      case ProjectActor.T_ROLE.FACILITATOR:
         actions.push(this.constructor.ACTIONS.ASSIGN);
         if (userId != this.getOwnerId()) {
           actions.push(this.constructor.ACTIONS.RESIGN);
@@ -223,7 +232,7 @@ export class Project extends dat.SocialItem {
           actions.push(this.constructor.ACTIONS.INVITE_CLIENT);
         }
         break;
-      case dat.ProjectActor.T_ROLE.AGENT:
+      case ProjectActor.T_ROLE.AGENT:
         // TODO: Handle agents in finished stages
         actions.push(this.constructor.ACTIONS.REPLACE_AGENT);
         actions.push(this.constructor.ACTIONS.DISMISS_AGENT);
@@ -233,10 +242,10 @@ export class Project extends dat.SocialItem {
       }
     } else if (userId == actor.getUserId()) {
       switch (actor.getRoleId()) {
-      case dat.ProjectActor.T_ROLE.CLIENT:
+      case ProjectActor.T_ROLE.CLIENT:
         actions.push(this.constructor.ACTIONS.RESIGN);
         break;
-      case dat.ProjectActor.T_ROLE.AGENT:
+      case ProjectActor.T_ROLE.AGENT:
         // TODO: Handle agents in finished stages
         actions.push(this.constructor.ACTIONS.RESIGN);
         break;
@@ -288,7 +297,7 @@ export class Project extends dat.SocialItem {
     switch (this.getState()) {
     case C.STATE.NEW:
     case C.STATE.ONHOLD:
-      actions.push(dat.ProjectStage.ACTIONS.APPEND);
+      actions.push(ProjectStage.ACTIONS.APPEND);
       break;
     default:
       break;
@@ -306,7 +315,7 @@ export class Project extends dat.SocialItem {
     switch (this.getState()) {
     case C.STATE.NEW:
     case C.STATE.ONHOLD:
-      actions.push(dat.ProjectStage.ACTIONS.PREPEND);
+      actions.push(ProjectStage.ACTIONS.PREPEND);
       break;
     default:
       break;
@@ -413,7 +422,7 @@ export class Project extends dat.SocialItem {
     return ss;
   }
 
-  #createStage(data) { return new dat.SimpleProjectStage(data, this.getId()); }
+  #createStage(data) { return new SimpleProjectStage(data, this.getId()); }
 };
 
 // Backward compatibility

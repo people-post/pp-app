@@ -1,4 +1,7 @@
-export class Web2FileUploader extends plt.FileUploader {
+import { FileUploader } from './FileUploader.js';
+import { api } from './Api.js';
+
+export class Web2FileUploader extends FileUploader {
   _asyncUploadThumbnail(file) {
     this._isThumbnailUploading = true;
     let url = "/api/user/upload";
@@ -6,7 +9,7 @@ export class Web2FileUploader extends plt.FileUploader {
     fd.append('file', file);
     fd.append('id', this._cacheId.toString() + '_cover');
 
-    plt.Api.asyncRawPost(url, fd, r => this.#onUploadThumbnailDone(r),
+    api.asyncRawPost(url, fd, r => this.#onUploadThumbnailDone(r),
                          r => this.#onUploadThumbnailError(r),
                          v => this.#onUploadThumbnailProgress(v));
   }
@@ -18,7 +21,7 @@ export class Web2FileUploader extends plt.FileUploader {
     fd.append('file', file);
     fd.append('id', this._cacheId.toString() + '_raw');
 
-    plt.Api.asyncRawPost(url, fd, r => this.#onUploadFileDone(r),
+    api.asyncRawPost(url, fd, r => this.#onUploadFileDone(r),
                          r => this.#onUploadFileError(r),
                          v => this.#onUploadFileProgress(v));
   }

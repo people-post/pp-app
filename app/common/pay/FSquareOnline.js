@@ -1,13 +1,20 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { T_DATA } from '../plt/Events.js';
+
 const _CFT_SQUARE_PAYMENT = {
   MAIN : `<div id="__ID__"><div>`,
 };
 
-export class FSquareOnline extends ui.Fragment {
+export class FSquareOnline extends Fragment {
   constructor() {
     super();
-    this._fPayBtn = new ui.Button();
+    this._fPayBtn = new Button();
     this._fPayBtn.setName("Submit");
-    this._fPayBtn.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
+    this._fPayBtn.setLayoutType(Button.LAYOUT_TYPE.BAR);
     this._fPayBtn.setDelegate(this);
 
     this.setChild("pay", this._fPayBtn);
@@ -21,7 +28,7 @@ export class FSquareOnline extends ui.Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.ADDON_SCRIPT:
+    case T_DATA.ADDON_SCRIPT:
       if (data == glb.env.SCRIPT.PAYMENT.id) {
         this.#loadJsPayment();
       }
@@ -33,15 +40,15 @@ export class FSquareOnline extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     let s = _CFT_SQUARE_PAYMENT.MAIN;
     s = s.replace("__ID__", this.#getPaymentElementId());
     pp.replaceContent(s);
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fPayBtn.attachRender(pp);
     this._fPayBtn.disable();

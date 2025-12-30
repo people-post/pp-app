@@ -1,8 +1,15 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { T_DATA } from '../plt/Events.js';
+import { Account } from '../dba/Account.js';
+import Utilities from '../Utilities.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+
 export const CF_USER_ID_INPUT = {
   USER_INFO : Symbol()
 };
 
-export class FUserIdInput extends ui.Fragment {
+export class FUserIdInput extends Fragment {
   #userId = null;
 
   getUserId() { return this.#userId; }
@@ -21,7 +28,7 @@ export class FUserIdInput extends ui.Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
     default:
@@ -31,19 +38,19 @@ export class FUserIdInput extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.Panel();
+    let p = new Panel();
     render.wrapPanel(p);
     p.replaceContent(this.#renderUser());
   }
 
   #renderUser() {
-    let nickname = dba.Account.getUserNickname(this.#userId);
+    let nickname = Account.getUserNickname(this.#userId);
     return Utilities.renderSmallButton("S.hr.CF_USER_ID_INPUT.USER_INFO",
                                        this.#userId, nickname);
   }
 
   #showUserInfo(userId) {
-    fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO, userId);
+    Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 }
 

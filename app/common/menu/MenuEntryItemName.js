@@ -1,3 +1,6 @@
+import { MenuItemName } from './MenuItemName.js';
+import { WebConfig } from '../dba/WebConfig.js';
+
 const _CFT_MENU_ENTRY_ITEM_NAME = {
   MENU_ITEM_HEADER : `<table class="main-menu-item-config-title">
     <tbody>
@@ -9,16 +12,16 @@ const _CFT_MENU_ENTRY_ITEM_NAME = {
   </table>`,
 }
 
-export class MenuEntryItemName extends gui.MenuItemName {
+export class MenuEntryItemName extends MenuItemName {
   _renderName() {
     let menuItem = this._getItem();
     let s = _CFT_MENU_ENTRY_ITEM_NAME.MENU_ITEM_HEADER;
-    let tag = dba.WebConfig.getTag(menuItem ? menuItem.getTagId() : null);
+    let tag = WebConfig.getTag(menuItem ? menuItem.getTagId() : null);
     if (tag) {
       s = s.replace("__NAME__", tag.getName());
       let theme = menuItem.getTheme();
       if (!theme) {
-        theme = dba.WebConfig.getDefaultTheme();
+        theme = WebConfig.getDefaultTheme();
       }
       s = s.replace("__BG_COLOR_1__", theme.getPrimaryColor());
       s = s.replace("__COLOR_1__", theme.getSecondaryColor());

@@ -74,7 +74,9 @@ export class SearchBar extends Fragment {
     }
     ppp.replaceContent(s);
 
-    ppp = new ui.Panel();
+import { ICONS } from '../../lib/ui/Icons.js';
+
+    ppp = new Panel();
     ppp.setClassName("flex-grow");
     pp.pushPanel(ppp);
     s = _CFT_SEARCH_BAR.INPUT;
@@ -87,14 +89,14 @@ export class SearchBar extends Fragment {
     s = s.replace("__ID__", this.#getInputElementId());
     ppp.replaceContent(s);
 
-    ppp = new ui.Panel();
+    ppp = new Panel();
     ppp.setClassName("right-pad5px flex center-align-items");
     pp.pushPanel(ppp);
     s = _CFT_SEARCH_BAR.CLEAR_ICON;
     if (this.isMenuRenderMode()) {
-      s = s.replace("__ICON__", Utilities.renderSvgMenuIcon(ui.ICONS.CLOSE));
+      s = s.replace("__ICON__", Utilities.renderSvgMenuIcon(ICONS.CLOSE));
     } else {
-      s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ui.ICONS.CLOSE));
+      s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICONS.CLOSE));
     }
     ppp.replaceContent(s);
   }

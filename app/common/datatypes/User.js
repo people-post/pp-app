@@ -1,4 +1,9 @@
-export class User extends dat.UserBase {
+import { UserBase } from './UserBase.js';
+import { BlogConfig } from './BlogConfig.js';
+import { ColorTheme } from './ColorTheme.js';
+import { WebConfig } from '../dba/WebConfig.js';
+
+export class User extends UserBase {
   static C_ID = {
     SYSTEM : "SYSTEM",        // Synced with backend
     L_ADD_USER: "L_ADD_USER", // Local
@@ -10,7 +15,7 @@ export class User extends dat.UserBase {
     super(data);
     this._data = data;
     if (data.blog_config) {
-      this.#blogConfig = new dat.BlogConfig(data.blog_config);
+      this.#blogConfig = new BlogConfig(data.blog_config);
     }
   }
 
@@ -36,7 +41,7 @@ export class User extends dat.UserBase {
     }
   }
   getColorTheme() {
-    return this._data.theme ? new dat.ColorTheme(this._data.theme) : null;
+    return this._data.theme ? new ColorTheme(this._data.theme) : null;
   }
   getDomainUrl() {
     if (this.isFeed()) {
@@ -71,12 +76,12 @@ export class User extends dat.UserBase {
 
   #generateUrl(sub = null, paramStrs = null) {
     let allParamStrs = paramStrs ? paramStrs : [];
-    if (dba.WebConfig.isDevSite() || !this._data.domain) {
+    if (WebConfig.isDevSite() || !this._data.domain) {
       allParamStrs.unshift(C.URL_PARAM.USER + "=" + this._data.username);
     }
 
     let url = "";
-    if (dba.WebConfig.isDevSite()) {
+    if (WebConfig.isDevSite()) {
       url = window.location.origin;
     } else {
       let d = this._data.domain;

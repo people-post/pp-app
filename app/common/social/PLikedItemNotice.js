@@ -1,13 +1,16 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+
 const _CPT_LIKED_ITEM_NOTICE_INFO = {
   MAIN : `<div id="__ID_MSG__"></div>
     <div id="__ID_TITLE__" class="bold ellipsis"></div>`,
 }
 
-export class PLikedItemNotice extends ui.Panel {
+export class PLikedItemNotice extends Panel {
   constructor() {
     super();
-    this._pMessage = new ui.ListPanel();
-    this._pTitle = new ui.Panel();
+    this._pMessage = new ListPanel();
+    this._pTitle = new Panel();
   }
 
   getMessagePanel() { return this._pMessage; }
