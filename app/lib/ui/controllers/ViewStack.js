@@ -1,6 +1,9 @@
 import { Logger } from '../../ext/Logger.js';
 import { URL_PARAM } from '../Constants.js';
 import { RenderController } from './RenderController.js';
+import { FNavBack } from './fragments/FNavBack.js';
+import { ViewPanel } from '../renders/panels/ViewPanel.js';
+import { VBlank } from './views/VBlank.js';
 
 const _CRC_NAVIGATION = {
   BIT : {NARROW : 1 << 1, WIDE_EXTRA : 1 << 0},
@@ -98,7 +101,7 @@ export class ViewStack extends RenderController {
       let i = this.#childStack.indexOf(view);
       this.#childStack[i] = newView;
       if (this.getStackSize() > 0 && !this.#isOptionalView(newView)) {
-        let ff = new ui.FNavBack();
+        let ff = new FNavBack();
         ff.setDelegate(this);
         newView.setNavMenuFragment(ff);
       }
@@ -215,7 +218,7 @@ export class ViewStack extends RenderController {
     if (pw > 0 && maxWidth > 0) {
       pw = Math.min(pw, maxWidth * 100 / listPanel.getWidth());
     }
-    let f = new ui.ViewPanel();
+    let f = new ViewPanel();
     f.setClassName("f-frame flex flex-column");
     listPanel.pushPanel(f);
     f.setLeft(pl, "%");
@@ -322,7 +325,7 @@ export class ViewStack extends RenderController {
       let f = this.#addFrame(r, view.getPreferredWidth().max);
       let p = f.getHeaderPanel();
       if (this.getStackSize() > 0 && !this.#isOptionalView(view)) {
-        let ff = new ui.FNavBack();
+        let ff = new FNavBack();
         ff.setDelegate(this);
         view.setNavMenuFragment(ff);
       }
@@ -342,7 +345,7 @@ export class ViewStack extends RenderController {
         }
       }
       while (n-- > 0) {
-        this.#pushViewElements(new ui.VBlank());
+        this.#pushViewElements(new VBlank());
       }
     }
   }
@@ -377,7 +380,7 @@ export class ViewStack extends RenderController {
   }
 
   #isOptionalView(v) {
-    return this.#optionalViews.indexOf(v) >= 0 || v instanceof ui.VBlank;
+    return this.#optionalViews.indexOf(v) >= 0 || v instanceof VBlank;
   }
 
   #decideVisibleFrameSizes(total, preferredWidths) {
@@ -448,8 +451,3 @@ export class ViewStack extends RenderController {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.ViewStack = ViewStack;
-}

@@ -79,7 +79,7 @@ export class FHeaderMenu extends Fragment {
         this.#pMain.setClassName("clickable");
       }
       this.#pMain.setAttribute(
-          "onclick", "javascript:G.action(ui.CF_UI_HEADER_MENU.ON_CLICK)");
+          "onclick", "javascript:G.action(window.CF_UI_HEADER_MENU.ON_CLICK)");
       this.#isOpen = false;
       this.#pMain.replaceContent(this.#icon);
     } else {
@@ -110,9 +110,3 @@ export class FHeaderMenu extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_UI_HEADER_MENU = CF_UI_HEADER_MENU;
-  window.ui.FHeaderMenu = FHeaderMenu;
-}

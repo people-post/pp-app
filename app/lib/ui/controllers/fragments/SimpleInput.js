@@ -33,8 +33,3 @@ export class SimpleInput extends FInput {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.SimpleInput = SimpleInput;
-}

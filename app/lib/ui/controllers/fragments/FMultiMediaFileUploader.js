@@ -13,7 +13,7 @@ export const _CFT_MULTI_MEDIA_FILE_UPLOAD = {
   BTN_ADD_FILE : `<label class="s-font5" for="__ID__">
       <span class="icon-btn-wrapper inline-block s-icon1 clickable">__ICON__</span>
     </label>
-    <input id="__ID__" multiple="" type="file" accept="image/*,video/*" style="display:none" onchange="javascript:G.action(ui.CF_MULTI_MEDIA_FILE_UPLOAD.ADD_FILES, this)">`,
+    <input id="__ID__" multiple="" type="file" accept="image/*,video/*" style="display:none" onchange="javascript:G.action(window.CF_MULTI_MEDIA_FILE_UPLOAD.ADD_FILES, this)">`,
 };
 
 export class FMultiMediaFileUploader extends Fragment {
@@ -127,10 +127,3 @@ export class FMultiMediaFileUploader extends Fragment {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_MULTI_MEDIA_FILE_UPLOAD = CF_MULTI_MEDIA_FILE_UPLOAD;
-  window.ui._CFT_MULTI_MEDIA_FILE_UPLOAD = _CFT_MULTI_MEDIA_FILE_UPLOAD;
-  window.ui.FMultiMediaFileUploader = FMultiMediaFileUploader;
-}

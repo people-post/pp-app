@@ -13,8 +13,3 @@ export class FScrollViewContent extends FViewContentBase {
   _renderContentOnRender(render) {}
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.FScrollViewContent = FScrollViewContent;
-}

@@ -123,12 +123,12 @@ export const Utilities = function() {
     }
     // Safari has issue with lookbehind, workaround needed...
     let btn1 =
-        `$1<a class="hashtag" href="javascript:void(0)" onclick="G.action(ui.CR_VIEW_FRAME.ON_SEARCH, '$2')">$2</a>`;
+        `$1<a class="hashtag" href="javascript:void(0)" onclick="G.action(window.CR_VIEW_FRAME.ON_SEARCH, '$2')">$2</a>`;
     s = s.replace(/([ >\w!\p{L}]{1})(#[\w!\p{L}]{2,32})/gu, btn1);
     // Second times for # right after first match
     s = s.replace(/([ >\w!\p{L}]{1})(#[\w!\p{L}]{2,32})/gu, btn1);
     let btn2 =
-        `<a class="hashtag" href="javascript:void(0)" onclick="G.action(ui.CR_VIEW_FRAME.ON_SEARCH, '$&')">$&</a>`;
+        `<a class="hashtag" href="javascript:void(0)" onclick="G.action(window.CR_VIEW_FRAME.ON_SEARCH, '$&')">$&</a>`;
     s = s.replace(/^(#[\w!\p{L}]{2,32})/gu, btn2);
     return s;
   }

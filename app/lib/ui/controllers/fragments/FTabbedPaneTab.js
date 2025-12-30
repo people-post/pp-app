@@ -1,6 +1,9 @@
 import { Fragment } from './Fragment.js';
 import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
 import { ICONS } from '../../Icons.js';
+import { PTabbedPaneTabMiddle } from '../../renders/panels/PTabbedPaneTabMiddle.js';
+import { PTabbedPaneTabLarge } from '../../renders/panels/PTabbedPaneTabLarge.js';
+import { PTabbedPaneTabSmall } from '../../renders/panels/PTabbedPaneTabSmall.js';
 
 export const CF_TABBED_PANE_TAB = {
   ON_CLICK : Symbol(),
@@ -45,7 +48,7 @@ export class FTabbedPaneTab extends Fragment {
 
     panel.invertColor(isSelected);
     panel.setAttribute("onclick",
-                       "javascript:G.action(ui.CF_TABBED_PANE_TAB.ON_CLICK)");
+                       "javascript:G.action(window.CF_TABBED_PANE_TAB.ON_CLICK)");
 
     let config = this._dataSource.getTabConfigForTabbedPaneTabFragment(
         this, this.#tabId);
@@ -89,13 +92,13 @@ export class FTabbedPaneTab extends Fragment {
     // Import panels dynamically to avoid circular dependencies
     switch (this.#tLayout) {
     case this.constructor.T_LAYOUT.MIDDLE:
-      p = new ui.PTabbedPaneTabMiddle();
+      p = new PTabbedPaneTabMiddle();
       break;
     case this.constructor.T_LAYOUT.LARGE:
-      p = new ui.PTabbedPaneTabLarge();
+      p = new PTabbedPaneTabLarge();
       break;
     default:
-      p = new ui.PTabbedPaneTabSmall();
+      p = new PTabbedPaneTabSmall();
       break;
     }
     return p;
@@ -103,7 +106,7 @@ export class FTabbedPaneTab extends Fragment {
 
   #renderCloseBtn(panel) {
     panel.setAttribute("onclick",
-                       "javascript:G.action(ui.CF_TABBED_PANE_TAB.ON_CLOSE)");
+                       "javascript:G.action(window.CF_TABBED_PANE_TAB.ON_CLOSE)");
     panel.replaceContent(CommonUtilities.renderSvgIcon(ICONS.CLOSE, "stkred"));
   }
 
@@ -123,9 +126,3 @@ export class FTabbedPaneTab extends Fragment {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_TABBED_PANE_TAB = CF_TABBED_PANE_TAB;
-  window.ui.FTabbedPaneTab = FTabbedPaneTab;
-}

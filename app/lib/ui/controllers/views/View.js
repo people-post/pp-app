@@ -12,6 +12,16 @@ export const CR_VIEW_FRAME = {
   ON_SEARCH : Symbol(),
 };
 
+// Export to window for string template access
+if (typeof window !== 'undefined') {
+  window.CR_VIEW_FRAME = CR_VIEW_FRAME;
+}
+
+// Export to window for string template access
+if (typeof window !== '''undefined''') {
+  window.CR_VIEW_FRAME = CR_VIEW_FRAME;
+}
+
 export class View extends RenderController {
   #fHeader;
   #fBanner;
@@ -199,9 +209,3 @@ export class View extends RenderController {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CR_VIEW_FRAME = CR_VIEW_FRAME;
-  window.ui.View = View;
-}

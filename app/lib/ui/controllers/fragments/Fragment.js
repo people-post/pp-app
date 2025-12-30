@@ -27,8 +27,3 @@ export class Fragment extends RenderController {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.Fragment = Fragment;
-}

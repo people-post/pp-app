@@ -5,9 +5,14 @@ export const CF_UI_NAV_BACK = {
   ON_CLICK : Symbol(),
 };
 
+// Export to window for string template access
+if (typeof window !== 'undefined') {
+  window.CF_UI_NAV_BACK = CF_UI_NAV_BACK;
+}
+
 const _CFT_UI_NAV_BACK = {
   MAIN :
-      `<a href="javascript:void(0)" onclick="javascript:G.action(ui.CF_UI_NAV_BACK.ON_CLICK)">__ICON__</a>`,
+      `<a href="javascript:void(0)" onclick="javascript:G.action(window.CF_UI_NAV_BACK.ON_CLICK)">__ICON__</a>`,
 };
 
 export class FNavBack extends Fragment {
@@ -29,9 +34,3 @@ export class FNavBack extends Fragment {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_UI_NAV_BACK = CF_UI_NAV_BACK;
-  window.ui.FNavBack = FNavBack;
-}

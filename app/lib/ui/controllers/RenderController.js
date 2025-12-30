@@ -1,4 +1,6 @@
 import { Controller } from '../../ext/Controller.js';
+import { View } from './views/View.js';
+import { FvcConfirmAction } from './views/FvcConfirmAction.js';
 
 const _CRC_RENDER_CONTROLLER = {
   TIP_LINK :
@@ -226,8 +228,8 @@ export class RenderController extends Controller {
   }
 
   _confirmDangerousOperation(msg, func) {
-    let v = new ui.View();
-    let f = new ui.FvcConfirmAction();
+    let v = new View();
+    let f = new FvcConfirmAction();
     f.setMessage(msg);
     f.addOption("Yes", func, true);
     f.addOption("Cancel", null);
@@ -245,8 +247,3 @@ export class RenderController extends Controller {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.RenderController = RenderController;
-}

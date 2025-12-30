@@ -27,8 +27,3 @@ export class FViewContentBase extends Fragment {
   knockKnock() {}
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.FViewContentBase = FViewContentBase;
-}

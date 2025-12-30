@@ -19,6 +19,7 @@ const _CFT_GUEST_HOSTING_CONTENT = {
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { ICONS } from '../../lib/ui/Icons.js';
 
 export class FvcGuestHosting extends FScrollViewContent {
   action(type, ...args) {
@@ -60,7 +61,7 @@ export class FvcGuestHosting extends FScrollViewContent {
     s = s.replace("__DOMAIN__",
                   this._renderTipLink("CF_GUEST_HOSTING_CONTENT.SHOW_TIP",
                                       R.t("domain"), "TIP_DOMAIN"));
-    s = s.replace("__DOWN_ICON__", Utilities.renderSvgFuncIcon(ui.ICONS.DOWN));
+    s = s.replace("__DOWN_ICON__", Utilities.renderSvgFuncIcon(ICONS.DOWN));
     return s;
   }
 

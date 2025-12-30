@@ -1,5 +1,6 @@
 import { LvTabbedPage } from './LvTabbedPage.js';
 import { FHomeBtn } from './FHomeBtn.js';
+import { URL_PARAM } from '../lib/ui/Constants.js';
 
 export class LvMain extends LvTabbedPage {
   init() {
@@ -13,7 +14,7 @@ export class LvMain extends LvTabbedPage {
     let sectorId = urlParam.get(C.URL_PARAM.SECTOR);
     if (!sectorId) {
       // Try to decode from id
-      let id = urlParam.get(ui.C.URL_PARAM.ID);
+      let id = urlParam.get(URL_PARAM.ID);
       if (id) {
         let sid = dat.SocialItemId.fromEncodedStr(id);
         if (sid) {

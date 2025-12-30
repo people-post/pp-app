@@ -22,8 +22,3 @@ export class SectionPanel extends PanelWrapper {
   _onFrameworkDidAppear() { this.wrapPanel(this._content); }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.SectionPanel = SectionPanel;
-}

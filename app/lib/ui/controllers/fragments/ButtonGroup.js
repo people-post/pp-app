@@ -8,8 +8,13 @@ export const CF_BUTTON_GROUP = {
   ON_CLICK : Symbol(),
 };
 
+// Export to window for string template access
+if (typeof window !== 'undefined') {
+  window.CF_BUTTON_GROUP = CF_BUTTON_GROUP;
+}
+
 const _CFT_BUTTON_GROUP = {
-  F_ONCLICK : `javascript:G.action(ui.CF_BUTTON_GROUP.ON_CLICK, __IDX__)`,
+  F_ONCLICK : `javascript:G.action(window.CF_BUTTON_GROUP.ON_CLICK, __IDX__)`,
   ICON_WRAPPER :
       `<span class="inline-block s-icon5 v-middle-align">__ICON__</span>`,
 };
@@ -121,9 +126,3 @@ export class ButtonGroup extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_BUTTON_GROUP = CF_BUTTON_GROUP;
-  window.ui.ButtonGroup = ButtonGroup;
-}

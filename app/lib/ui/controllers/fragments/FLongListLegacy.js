@@ -63,8 +63,3 @@ export class FLongListLegacy extends Fragment {
   _resetList() { throw "_resetList is required"; }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.FLongListLegacy = FLongListLegacy;
-}

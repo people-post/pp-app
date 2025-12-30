@@ -7,8 +7,8 @@ export const CF_TIME_INPUT = {
 
 const _CFT_NUMBER_INPUT = {
   INPUT :
-      `<input class="inline-short" type="number" id="__ID__" min="0" max="23" step="1", value="__HR__" onchange="javascript:G.action(ui.CF_TIME_INPUT.ON_H_CHANGE, this.value)">:
-    <input class="inline-short" type="number" id="__ID__" min="0" max="59" step="1", value="__MINUTE__" onchange="javascript:G.action(ui.CF_TIME_INPUT.ON_M_CHANGE, this.value)">`,
+      `<input class="inline-short" type="number" id="__ID__" min="0" max="23" step="1", value="__HR__" onchange="javascript:G.action(window.CF_TIME_INPUT.ON_H_CHANGE, this.value)">:
+    <input class="inline-short" type="number" id="__ID__" min="0" max="59" step="1", value="__MINUTE__" onchange="javascript:G.action(window.CF_TIME_INPUT.ON_M_CHANGE, this.value)">`,
 };
 
 export class FTimeInput extends Fragment {
@@ -49,9 +49,3 @@ export class FTimeInput extends Fragment {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_TIME_INPUT = CF_TIME_INPUT;
-  window.ui.FTimeInput = FTimeInput;
-}

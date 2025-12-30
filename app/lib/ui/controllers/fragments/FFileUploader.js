@@ -73,8 +73,3 @@ export class FFileUploader extends Fragment {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.FFileUploader = FFileUploader;
-}

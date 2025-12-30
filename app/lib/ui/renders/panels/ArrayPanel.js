@@ -39,8 +39,3 @@ export class ArrayPanel extends Panel {
   #getPanelElementId(idx) { return this._elementId + "_" + idx; }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.ArrayPanel = ArrayPanel;
-}

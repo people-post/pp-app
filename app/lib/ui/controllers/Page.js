@@ -11,8 +11,3 @@ export class Page extends ViewStack {
   setPageId(id) { this._pageId = id; }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.Page = Page;
-}

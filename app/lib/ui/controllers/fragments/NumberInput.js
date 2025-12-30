@@ -10,7 +10,7 @@ const _CFT_NUMBER_INPUT = {
        __INPUT__
     </div>`,
   INPUT :
-      `<input class="__CLASS__" type="number" id="__ID__" min="__MIN__" max="__MAX__" step="__STEP__", value="__VALUE__" onchange="javascript:G.action(ui.CF_NUMBER_INPUT.ONCHANGE, this.value)">__UNIT__`,
+      `<input class="__CLASS__" type="number" id="__ID__" min="__MIN__" max="__MAX__" step="__STEP__", value="__VALUE__" onchange="javascript:G.action(window.CF_NUMBER_INPUT.ONCHANGE, this.value)">__UNIT__`,
 }
 
 export class NumberInput extends SimpleInput {
@@ -78,9 +78,3 @@ export class NumberInput extends SimpleInput {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_NUMBER_INPUT = CF_NUMBER_INPUT;
-  window.ui.NumberInput = NumberInput;
-}
