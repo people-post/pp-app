@@ -1,12 +1,16 @@
-(function(ui) {
-class FvcConfirmAction extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../fragments/FScrollViewContent.js';
+import { FSimpleFragmentList } from '../fragments/FSimpleFragmentList.js';
+import { Label } from '../fragments/Label.js';
+import { ButtonList } from '../fragments/ButtonList.js';
+
+export class FvcConfirmAction extends FScrollViewContent {
   constructor() {
     super();
-    this._fItems = new ui.FSimpleFragmentList();
-    this._fTitle = new ui.Label();
+    this._fItems = new FSimpleFragmentList();
+    this._fTitle = new Label();
     this._fItems.append(this._fTitle);
 
-    this._fButtons = new ui.ButtonList();
+    this._fButtons = new ButtonList();
     this._fButtons.setDelegate(this);
     this._fItems.append(this._fButtons);
 
@@ -29,5 +33,8 @@ class FvcConfirmAction extends ui.FScrollViewContent {
   }
 };
 
-ui.FvcConfirmAction = FvcConfirmAction;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FvcConfirmAction = FvcConfirmAction;
+}

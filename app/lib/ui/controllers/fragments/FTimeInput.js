@@ -1,5 +1,6 @@
-(function(ui) {
-ui.CF_TIME_INPUT = {
+import { Fragment } from './Fragment.js';
+
+export const CF_TIME_INPUT = {
   ON_H_CHANGE : Symbol(),
   ON_M_CHANGE : Symbol(),
 };
@@ -10,7 +11,7 @@ const _CFT_NUMBER_INPUT = {
     <input class="inline-short" type="number" id="__ID__" min="0" max="59" step="1", value="__MINUTE__" onchange="javascript:G.action(ui.CF_TIME_INPUT.ON_M_CHANGE, this.value)">`,
 };
 
-class FTimeInput extends ui.Fragment {
+export class FTimeInput extends Fragment {
   #date;
 
   constructor() {
@@ -28,10 +29,10 @@ class FTimeInput extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_TIME_INPUT.ON_H_CHANGE:
+    case CF_TIME_INPUT.ON_H_CHANGE:
       this.#date.setHours(args[0]);
       break;
-    case ui.CF_TIME_INPUT.ON_M_CHANGE:
+    case CF_TIME_INPUT.ON_M_CHANGE:
       this.#date.setMinutes(args[0]);
       break;
     default:
@@ -48,5 +49,9 @@ class FTimeInput extends ui.Fragment {
   }
 }
 
-ui.FTimeInput = FTimeInput;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_TIME_INPUT = CF_TIME_INPUT;
+  window.ui.FTimeInput = FTimeInput;
+}

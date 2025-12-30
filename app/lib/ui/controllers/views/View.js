@@ -1,13 +1,18 @@
 import Utilities from '../../../ext/Utilities.js';
 import { Factory, T_CATEGORY, T_OBJ } from '../../../framework/Factory.js';
+import { RenderController } from '../RenderController.js';
+import { FViewHeader } from '../fragments/FViewHeader.js';
+import { ViewPanel } from '../../renders/panels/ViewPanel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+import { FScrollViewContent } from '../fragments/FScrollViewContent.js';
+import { FScrollViewContentHook } from '../fragments/FScrollViewContentHook.js';
 
-(function(ui) {
 // Note. following constants are used elsewhere, please be careful
-ui.CR_VIEW_FRAME = {
+export const CR_VIEW_FRAME = {
   ON_SEARCH : Symbol(),
 };
 
-class View extends ui.RenderController {
+export class View extends RenderController {
   #fHeader;
   #fBanner;
   #pContent;
@@ -18,7 +23,7 @@ class View extends ui.RenderController {
     super();
     this._id = Utilities.uuid();
 
-    this.#fHeader = new ui.FViewHeader();
+    this.#fHeader = new FViewHeader();
     this.#fHeader.setDataSource(this);
     this.#fHeader.setDelegate(this);
     this.setChild("__header", this.#fHeader);
@@ -78,9 +83,9 @@ class View extends ui.RenderController {
 
   setNavMenuFragment(f) { this.#fHeader.setNavFragment(f); }
   setContentFragment(f) {
-    if (f instanceof ui.FScrollViewContent) {
+    if (f instanceof FScrollViewContent) {
       // Wrap scroll content with scroll hook
-      this.#resetContentFragment(new ui.FScrollViewContentHook(f));
+      this.#resetContentFragment(new FScrollViewContentHook(f));
     } else {
       this.#resetContentFragment(f);
     }
@@ -97,7 +102,7 @@ class View extends ui.RenderController {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CR_VIEW_FRAME.ON_SEARCH:
+    case CR_VIEW_FRAME.ON_SEARCH:
       this.#search(args[0]);
       break;
     default:
@@ -166,7 +171,7 @@ class View extends ui.RenderController {
         T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
     let f = new cls();
     f.setKey(key);
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(f);
     this._owner.onViewRequestPush(this, v, "Search result");
   }
@@ -194,5 +199,9 @@ class View extends ui.RenderController {
   }
 }
 
-ui.View = View;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CR_VIEW_FRAME = CR_VIEW_FRAME;
+  window.ui.View = View;
+}

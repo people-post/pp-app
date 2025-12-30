@@ -1,9 +1,12 @@
-(function(ui) {
-ui.CF_SELECTION = {
+import { Fragment } from './Fragment.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { Panel } from '../../renders/panels/Panel.js';
+
+export const CF_SELECTION = {
   ONSELECT : "CF_SELECTION_1",
 }
 
-class Selection extends ui.Fragment {
+export class Selection extends Fragment {
   constructor() {
     super();
     this._hintText = "";
@@ -13,7 +16,7 @@ class Selection extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_SELECTION.ONSELECT:
+    case CF_SELECTION.ONSELECT:
       this._delegate.onSelectionChangedInSelection(this, args[0]);
       break;
     default:
@@ -25,13 +28,13 @@ class Selection extends ui.Fragment {
     let e = this.#renderSelectionElement();
     let p = render;
     if (this._hintText && this._hintText.length) {
-      let panel = new ui.ListPanel();
+      let panel = new ListPanel();
       panel.setClassName("flex flex-start");
       render.wrapPanel(panel);
-      p = new ui.Panel();
+      p = new Panel();
       p.replaceContent(this._hintText);
       panel.pushPanel(p);
-      p = new ui.Panel();
+      p = new Panel();
       panel.pushPanel(p);
     }
     p.replaceContent(e.outerHTML);
@@ -65,5 +68,9 @@ class Selection extends ui.Fragment {
   }
 }
 
-ui.Selection = Selection;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_SELECTION = CF_SELECTION;
+  window.ui.Selection = Selection;
+}

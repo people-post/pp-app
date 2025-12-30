@@ -1,5 +1,16 @@
-(function(ui) {
-ui.CF_DATE_SELECTOR = {
+import { Panel } from '../../renders/panels/Panel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { Fragment } from './Fragment.js';
+import { LContext } from '../layers/LContext.js';
+import { FMonthSelector } from './FMonthSelector.js';
+import { Button } from './Button.js';
+import { ICON } from '../../../../common/constants/Icons.js';
+import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+import { T_ACTION } from '../../../framework/Events.js';
+import { Events } from '../../../framework/Events.js';
+
+export const CF_DATE_SELECTOR = {
   TODAY : Symbol(),
   D_CHOOSE : Symbol(),
   M_CHOOSE : Symbol(),
@@ -20,7 +31,7 @@ const _CPT_DATE_SELECTOR = {
   <div id="__ID_ACTIONS__"></div>`,
 };
 
-class PDateSelector extends ui.Panel {
+class PDateSelector extends Panel {
   #pMonth;
   #pBtnToday;
   #pPrev;
@@ -30,12 +41,12 @@ class PDateSelector extends ui.Panel {
 
   constructor() {
     super();
-    this.#pMonth = new ui.PanelWrapper();
-    this.#pBtnToday = new ui.PanelWrapper();
-    this.#pPrev = new ui.PanelWrapper();
-    this.#pNext = new ui.PanelWrapper();
-    this.#pDates = new ui.ListPanel();
-    this.#pActions = new ui.ListPanel();
+    this.#pMonth = new PanelWrapper();
+    this.#pBtnToday = new PanelWrapper();
+    this.#pPrev = new PanelWrapper();
+    this.#pNext = new PanelWrapper();
+    this.#pDates = new ListPanel();
+    this.#pActions = new ListPanel();
   }
 
   getMonthPanel() { return this.#pMonth; }
@@ -67,7 +78,7 @@ class PDateSelector extends ui.Panel {
   }
 };
 
-class FDateSelector extends ui.Fragment {
+export class FDateSelector extends Fragment {
   #lc;
   #fMonth;
   #btnClear;
@@ -78,15 +89,15 @@ class FDateSelector extends ui.Fragment {
     super();
     this.#date = new Date();
 
-    this.#lc = new ui.LContext();
+    this.#lc = new LContext();
     this.#lc.setDelegate(this);
     this.#lc.setTargetName("month");
 
-    this.#fMonth = new ui.FMonthSelector();
+    this.#fMonth = new FMonthSelector();
     this.#fMonth.setDelegate(this);
     this.setChild("month", this.#fMonth);
 
-    this.#btnClear = new ui.Button();
+    this.#btnClear = new Button();
     this.#btnClear.setName("Clear");
     this.#btnClear.setValue("CLEAR");
     this.#btnClear.setDelegate(this);
@@ -121,19 +132,19 @@ class FDateSelector extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_DATE_SELECTOR.TODAY:
+    case CF_DATE_SELECTOR.TODAY:
       this.#onToday();
       break;
-    case ui.CF_DATE_SELECTOR.D_CHOOSE:
+    case CF_DATE_SELECTOR.D_CHOOSE:
       this.#onChooseDate(args[0]);
       break;
-    case ui.CF_DATE_SELECTOR.M_CHOOSE:
+    case CF_DATE_SELECTOR.M_CHOOSE:
       this.#onChooseMonth();
       break;
-    case ui.CF_DATE_SELECTOR.PREV:
+    case CF_DATE_SELECTOR.PREV:
       this.#onPrevMonth();
       break;
-    case ui.CF_DATE_SELECTOR.NEXT:
+    case CF_DATE_SELECTOR.NEXT:
       this.#onNextMonth();
       break;
     default:
@@ -159,12 +170,12 @@ class FDateSelector extends ui.Fragment {
     p = panel.getBtnPrevPanel();
     p.setAttribute("onclick", `javascript:G.action(ui.CF_DATE_SELECTOR.PREV)`);
     // TODO: Fix dependency of downstream utilities
-    p.replaceContent(Utilities.renderSvgFuncIcon(C.ICON.PREV));
+    p.replaceContent(CommonUtilities.renderSvgFuncIcon(ICON.PREV));
 
     p = panel.getBtnNextPanel();
     p.setAttribute("onclick", `javascript:G.action(ui.CF_DATE_SELECTOR.NEXT)`);
     // TODO: Fix dependency of downstream utilities
-    p.replaceContent(Utilities.renderSvgFuncIcon(C.ICON.NEXT));
+    p.replaceContent(CommonUtilities.renderSvgFuncIcon(ICON.NEXT));
 
     //  this.#fYear.setConfig({min : 0, max : y + 30, step : 1, value :
     //  y}); this.#fYear.attachRender(p); this.#fYear.render();
@@ -172,7 +183,7 @@ class FDateSelector extends ui.Fragment {
     let pList = panel.getDatesPanel();
 
     for (let t of ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]) {
-      p = new ui.Panel();
+      p = new Panel();
       p.setClassName("s-font5 bold");
       pList.pushPanel(p);
       p.replaceContent(t);
@@ -186,7 +197,7 @@ class FDateSelector extends ui.Fragment {
     let n = new Date(y, m + 1, 0).getDate();
     let total = 42; // 6 * 7;
     for (let i = 0; i < total; ++i) {
-      p = new ui.PanelWrapper();
+      p = new PanelWrapper();
       let d = i - offset + 1;
       if (d > 0 && d <= n) {
         let names = [
@@ -213,7 +224,7 @@ class FDateSelector extends ui.Fragment {
     if (this.#isClearBtnEnabled) {
       pList = panel.getActionsPanel();
       pList.pushSpace(1);
-      p = new ui.PanelWrapper();
+      p = new PanelWrapper();
       pList.pushPanel(p);
       this.#btnClear.attachRender(p);
       this.#btnClear.render();
@@ -233,7 +244,7 @@ class FDateSelector extends ui.Fragment {
   #onChooseMonth() {
     this.#lc.clearOptions();
     this.#lc.addOptionFragment(this.#fMonth);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lc,
+    Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lc,
                                 "Context");
   }
 
@@ -249,5 +260,9 @@ class FDateSelector extends ui.Fragment {
   }
 };
 
-ui.FDateSelector = FDateSelector;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_DATE_SELECTOR = CF_DATE_SELECTOR;
+  window.ui.FDateSelector = FDateSelector;
+}

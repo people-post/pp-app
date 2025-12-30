@@ -1,5 +1,11 @@
-(function(ui) {
-ui.CL_CONTEXT = {
+import { Panel } from '../../renders/panels/Panel.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+import { Layer } from './Layer.js';
+import { FFragmentList } from '../fragments/FFragmentList.js';
+import { Button } from '../fragments/Button.js';
+
+export const CL_CONTEXT = {
   CLOSE : Symbol(),
 };
 
@@ -12,7 +18,7 @@ const _CLT_CONTEXT = {
   <div id="__ID_BTN_CANCEL__"></div>`,
 };
 
-class PContextLayer extends ui.Panel {
+class PContextLayer extends Panel {
   #pTitle;
   #pDescription;
   #pContent;
@@ -20,10 +26,10 @@ class PContextLayer extends ui.Panel {
 
   constructor() {
     super();
-    this.#pTitle = new ui.Panel();
-    this.#pDescription = new ui.Panel();
-    this.#pContent = new ui.ListPanel();
-    this.#btnCancel = new ui.PanelWrapper();
+    this.#pTitle = new Panel();
+    this.#pDescription = new Panel();
+    this.#pContent = new ListPanel();
+    this.#btnCancel = new PanelWrapper();
   }
 
   getTitlePanel() { return this.#pTitle; }
@@ -53,7 +59,7 @@ const _CL_CONTEXT = {
   TITLE : `__TITLE__:`,
 };
 
-class LContext extends ui.Layer {
+export class LContext extends Layer {
   #title = null;
   #description = null;
   #fOptions;
@@ -61,11 +67,11 @@ class LContext extends ui.Layer {
 
   constructor() {
     super();
-    this.#fOptions = new ui.FFragmentList();
+    this.#fOptions = new FFragmentList();
     this.setChild("options", this.#fOptions);
 
-    this.#btnCancel = new ui.Button();
-    this.#btnCancel.setThemeType(ui.Button.T_THEME.PALE);
+    this.#btnCancel = new Button();
+    this.#btnCancel.setThemeType(Button.T_THEME.PALE);
     this.#btnCancel.setName("Cancel");
     this.#btnCancel.setDelegate(this);
     this.setChild("btnCancel", this.#btnCancel);
@@ -81,7 +87,7 @@ class LContext extends ui.Layer {
   setDescription(d) { this.#description = d; }
 
   addOption(name, value, icon = null, themeType = null, isEnabled = true) {
-    let f = new ui.Button();
+    let f = new Button();
     f.setName(name);
     f.setIcon(icon);
     f.setEnabled(isEnabled);
@@ -125,12 +131,12 @@ class LContext extends ui.Layer {
     // Animate when render for the first time, this might be a hack
     let shouldAnimate = !render.getContentPanel();
 
-    let panel = new ui.PanelWrapper();
+    let panel = new PanelWrapper();
     panel.setClassName("w100 h100 context-layer flex flex-column flex-end");
     panel.setAttribute("onclick", "javascript:G.action(ui.CL_CONTEXT.CLOSE)");
     render.wrapPanel(panel);
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     p.setClassName("w100 flex flex-center relative");
     panel.wrapPanel(p);
 
@@ -153,7 +159,7 @@ class LContext extends ui.Layer {
     this.#fOptions.attachRender(p);
 
     for (let f of this.#fOptions.getChildren()) {
-      let pp = new ui.PanelWrapper();
+      let pp = new PanelWrapper();
       p.pushPanel(pp);
       f.attachRender(pp);
       f.render();
@@ -172,7 +178,7 @@ class LContext extends ui.Layer {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CL_CONTEXT.CLOSE:
+    case CL_CONTEXT.CLOSE:
       this.#onClose();
       break;
     default:
@@ -195,5 +201,9 @@ class LContext extends ui.Layer {
   #onClose() { this.dismiss(); }
 }
 
-ui.LContext = LContext;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CL_CONTEXT = CL_CONTEXT;
+  window.ui.LContext = LContext;
+}

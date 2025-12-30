@@ -1,5 +1,12 @@
-(function(ui) {
-class FTabbedPaneTabBar extends ui.Fragment {
+import { Fragment } from './Fragment.js';
+import { FFragmentList } from './FFragmentList.js';
+import { FTabbedPaneTab } from './FTabbedPaneTab.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+import { ICONS } from '../../Icons.js';
+import { T_DATA } from '../../../framework/Events.js';
+
+export class FTabbedPaneTabBar extends Fragment {
   #configs = [];
   #currentIdx = null;
   #enableEdit = false;
@@ -10,7 +17,7 @@ class FTabbedPaneTabBar extends ui.Fragment {
 
   constructor() {
     super();
-    this.#fTabs = new ui.FFragmentList();
+    this.#fTabs = new FFragmentList();
     this.setChild("tabs", this.#fTabs);
   }
 
@@ -80,7 +87,7 @@ class FTabbedPaneTabBar extends ui.Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case fwk.T_DATA.NOTIFICATIONS:
+    case T_DATA.NOTIFICATIONS:
       this.render();
       break;
     default:
@@ -94,7 +101,7 @@ class FTabbedPaneTabBar extends ui.Fragment {
         this.#configs.length < 2) {
       return;
     }
-    let panel = new ui.ListPanel();
+    let panel = new ListPanel();
     panel.setClassName(
         "bd-b-1px bd-b-solid bdlightgrey flex flex-start center-align-items x-scroll no-scrollbar no-wrap");
     render.wrapPanel(panel);
@@ -104,7 +111,7 @@ class FTabbedPaneTabBar extends ui.Fragment {
 
     this.#fTabs.clear();
     for (let i = 0; i < this.#configs.length; ++i) {
-      let f = new ui.FTabbedPaneTab();
+      let f = new FTabbedPaneTab();
       f.setTabId(i);
       f.setDataSource(this);
       f.setDelegate(this);
@@ -113,7 +120,7 @@ class FTabbedPaneTabBar extends ui.Fragment {
 
     if (this.#enableEdit &&
         (this.#nMax == 0 || this.#configs.length < this.#nMax)) {
-      let f = new ui.FTabbedPaneTab();
+      let f = new FTabbedPaneTab();
       f.setTabId(this.#idxNew);
       f.setDataSource(this);
       f.setDelegate(this);
@@ -121,7 +128,7 @@ class FTabbedPaneTabBar extends ui.Fragment {
     }
 
     for (let f of this.#fTabs.getChildren()) {
-      let p = new ui.PanelWrapper();
+      let p = new PanelWrapper();
       panel.pushPanel(p);
       f.attachRender(p);
       f.render();
@@ -130,7 +137,7 @@ class FTabbedPaneTabBar extends ui.Fragment {
 
   #getTabConfig(idx) {
     if (idx == this.#idxNew) {
-      return { name: "New", value: "__NEW", icon: ui.ICONS.NEW }
+      return { name: "New", value: "__NEW", icon: ICONS.NEW }
     } else {
       return this.#configs[idx];
     }
@@ -157,5 +164,8 @@ class FTabbedPaneTabBar extends ui.Fragment {
   }
 };
 
-ui.FTabbedPaneTabBar = FTabbedPaneTabBar;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FTabbedPaneTabBar = FTabbedPaneTabBar;
+}

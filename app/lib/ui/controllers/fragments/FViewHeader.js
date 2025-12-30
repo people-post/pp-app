@@ -1,7 +1,11 @@
 import { Logger } from '../../../ext/Logger.js';
+import { Fragment } from './Fragment.js';
+import { FNavMagic } from './FNavMagic.js';
+import { PHeaderThick } from '../../renders/panels/PHeaderThick.js';
+import { PHeaderThin } from '../../renders/panels/PHeaderThin.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
-(function(ui) {
-class FViewHeader extends ui.Fragment {
+export class FViewHeader extends Fragment {
   static T_LAYOUT = {
     THICK : Symbol(),
   };
@@ -120,7 +124,7 @@ class FViewHeader extends ui.Fragment {
           this.#pMain.expandPanelIfPossible(i);
         }
       } else {
-        f = new ui.FNavMagic();
+        f = new FNavMagic();
         f.setDelegate(this);
         this.setChild("magic" + i, f);
       }
@@ -152,10 +156,10 @@ class FViewHeader extends ui.Fragment {
     let p;
     switch (this.#tLayout) {
     case this.constructor.T_LAYOUT.THICK:
-      p = new ui.PHeaderThick();
+      p = new PHeaderThick();
       break;
     default:
-      p = new ui.PHeaderThin();
+      p = new PHeaderThin();
       break;
     }
     return p;
@@ -201,7 +205,7 @@ class FViewHeader extends ui.Fragment {
     fragment.resetStatus();
     let id = this.#getMenuContentElementId();
     if (id) {
-      let p = new ui.PanelWrapper();
+      let p = new PanelWrapper();
       p.attach(id);
       this.setChild("content", fragment);
       fragment.attachRender(p);
@@ -236,5 +240,8 @@ class FViewHeader extends ui.Fragment {
   }
 };
 
-ui.FViewHeader = FViewHeader;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FViewHeader = FViewHeader;
+}

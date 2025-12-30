@@ -1,5 +1,10 @@
-(function(ui) {
-ui.CF_MONTH_SELECTOR = {
+import { Panel } from '../../renders/panels/Panel.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+import { Fragment } from './Fragment.js';
+import { Button } from './Button.js';
+
+export const CF_MONTH_SELECTOR = {
   Y_CHOOSE : Symbol(),
   M_CHOOSE : Symbol(),
 };
@@ -12,16 +17,16 @@ const _CPT_MONTH_SELECTOR = {
   <div id="__ID_BTN_OK__"></div>`,
 };
 
-class PMonthSelector extends ui.Panel {
+class PMonthSelector extends Panel {
   #pYear;
   #pMonth;
   #pBtnOk;
 
   constructor() {
     super();
-    this.#pYear = new ui.ListPanel();
-    this.#pMonth = new ui.ListPanel();
-    this.#pBtnOk = new ui.PanelWrapper();
+    this.#pYear = new ListPanel();
+    this.#pMonth = new ListPanel();
+    this.#pBtnOk = new PanelWrapper();
   }
 
   getYearPanel() { return this.#pYear; }
@@ -44,7 +49,7 @@ class PMonthSelector extends ui.Panel {
   }
 };
 
-class FMonthSelector extends ui.Fragment {
+export class FMonthSelector extends Fragment {
   #date;
   #btnOk;
 
@@ -52,7 +57,7 @@ class FMonthSelector extends ui.Fragment {
     super();
     this.#date = new Date();
 
-    this.#btnOk = new ui.Button();
+    this.#btnOk = new Button();
     this.#btnOk.setName("Ok");
     this.#btnOk.setDelegate(this);
     this.setChild("btnOk", this.#btnOk);
@@ -70,10 +75,10 @@ class FMonthSelector extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_MONTH_SELECTOR.Y_CHOOSE:
+    case CF_MONTH_SELECTOR.Y_CHOOSE:
       this.#onChooseYear(args[0]);
       break;
-    case ui.CF_MONTH_SELECTOR.M_CHOOSE:
+    case CF_MONTH_SELECTOR.M_CHOOSE:
       this.#onChooseMonth(args[0]);
       break;
     default:
@@ -95,7 +100,7 @@ class FMonthSelector extends ui.Fragment {
     let names;
     for (let i = -20; i < 20; ++i) {
       let yy = y + i;
-      pp = new ui.Panel();
+      pp = new Panel();
       pp.setAttribute(
           "onclick",
           `javascript:G.action(ui.CF_MONTH_SELECTOR.Y_CHOOSE, ${yy})`);
@@ -116,7 +121,7 @@ class FMonthSelector extends ui.Fragment {
 
     p = panel.getMonthPanel();
     for (let i = 0; i < 12; ++i) {
-      pp = new ui.Panel();
+      pp = new Panel();
 
       pp.setAttribute(
           "onclick",
@@ -153,5 +158,9 @@ class FMonthSelector extends ui.Fragment {
   }
 };
 
-ui.FMonthSelector = FMonthSelector;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_MONTH_SELECTOR = CF_MONTH_SELECTOR;
+  window.ui.FMonthSelector = FMonthSelector;
+}
