@@ -1,4 +1,4 @@
-(function(cart) {
+
 const _CFT_CART = {
   TITLE : `[__NAME__]`,
 };

@@ -1,4 +1,4 @@
-(function(cmut) {
+
 window.CF_GLOBAL_COMMUNITY_CONTENT = {
   VIEW_USER : "CF_COMMUNITY_CONTENT_1",
 }

@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FBtnViewQueue extends ui.Fragment {
   constructor() {
     super();

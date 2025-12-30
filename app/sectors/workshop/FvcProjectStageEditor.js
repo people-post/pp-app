@@ -1,4 +1,4 @@
-(function(wksp) {
+
 window.CF_STAGE_EDITOR = {
   SUBMIT : "CF_STAGE_EDITOR_1",
 }

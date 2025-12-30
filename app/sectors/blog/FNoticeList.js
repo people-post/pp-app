@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FNoticeList extends ui.Fragment {
   #selectedPostId = null;
 

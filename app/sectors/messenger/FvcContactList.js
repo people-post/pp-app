@@ -1,4 +1,4 @@
-(function(msgr) {
+
 class FvcContactList extends ui.FScrollViewContent {
   constructor() {
     super();

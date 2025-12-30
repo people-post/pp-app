@@ -1,4 +1,4 @@
-(function(acnt) {
+
 class FvcAddressEditor extends ui.FScrollViewContent {
   #fAddress;
   #btnSubmit;

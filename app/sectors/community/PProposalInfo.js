@@ -1,4 +1,4 @@
-(function(cmut) {
+
 const _CPT_PROPOSAL_INFO = {
   MAIN : `<div id="__ID_MAIN__" class="proposal-info">
   <div class="flex space-between clickable">

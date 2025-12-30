@@ -1,4 +1,4 @@
-(function(cmut) {
+
 class FGlobalCommunityInfo extends ui.Fragment {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {

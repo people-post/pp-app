@@ -1,5 +1,4 @@
-(function(shop) {
-shop.CF_SHOP_TEAM_EDITOR = {
+export const CF_SHOP_TEAM_EDITOR = {
   SUBMIT : "CF_SHOP_TEAM_EDITOR_1",
 }
 
@@ -161,3 +160,9 @@ class FvcTeamEditor extends ui.FScrollViewContent {
 
 shop.FvcTeamEditor = FvcTeamEditor;
 }(window.shop = window.shop || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.CF_SHOP_TEAM_EDITOR = CF_SHOP_TEAM_EDITOR;
+}

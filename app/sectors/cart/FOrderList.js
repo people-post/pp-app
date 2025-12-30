@@ -1,4 +1,4 @@
-(function(cart) {
+
 class FOrderList extends gui.DefaultLongList {
   isOrderSelected(orderId) { return this._currentId == orderId; }
 

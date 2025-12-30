@@ -1,4 +1,4 @@
-(function(cart) {
+
 class FvcCheckout extends ui.FScrollViewContent {
   constructor() {
     super();

@@ -1,4 +1,4 @@
-(function(msgr) {
+
 class GroupMessageHandler extends msgr.MessageHandler {
   activate() {
     dba.Signal.subscribe(C.CHANNEL.GROUP_MSG, this._target.getId(),

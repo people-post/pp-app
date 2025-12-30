@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FvcCareerList extends ui.FScrollViewContent {
   #fList;
 

@@ -1,4 +1,4 @@
-(function(scol) {
+
 class FvcQuizFilter extends ui.FScrollViewContent {
   static T_PRESENTATION = {
     QUIZ : Symbol(),

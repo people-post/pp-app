@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class TimelineFragment extends ui.Fragment {
   constructor() {
     super();

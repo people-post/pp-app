@@ -1,4 +1,4 @@
-(function(emal) {
+
 class FvcInbox extends ui.FScrollViewContent {
   constructor() {
     super();

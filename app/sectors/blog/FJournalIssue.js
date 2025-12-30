@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FJournalIssue extends blog.FPostBase {
   #issueId = null;
   #fSections;

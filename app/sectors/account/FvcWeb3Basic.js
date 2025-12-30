@@ -1,4 +1,4 @@
-(function(acnt) {
+
 class FvcWeb3Basic extends ui.FScrollViewContent {
   #fName;
   #fNickname;

@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FvcDrafts extends ui.FScrollViewContent {
   #fInsiderAuthored;
   #fInsiderTasks;

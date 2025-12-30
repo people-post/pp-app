@@ -1,5 +1,4 @@
-(function(shop) {
-shop.CF_PRODUCT = {
+export const CF_PRODUCT = {
   VIEW : Symbol(),
   EDIT : Symbol(),
 };
@@ -251,3 +250,9 @@ class FProduct extends gui.MajorSectorItem {
 
 shop.FProduct = FProduct;
 }(window.shop = window.shop || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.CF_PRODUCT = CF_PRODUCT;
+}

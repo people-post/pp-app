@@ -1,5 +1,4 @@
-(function(shop) {
-shop.CF_SHOP_CONFIG = {
+export const CF_SHOP_CONFIG = {
   ON_NAME_CHANGE : Symbol(),
 };
 
@@ -262,3 +261,9 @@ class FvcConfig extends ui.FScrollViewContent {
 
 shop.FvcConfig = FvcConfig;
 }(window.shop = window.shop || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.CF_SHOP_CONFIG = CF_SHOP_CONFIG;
+}

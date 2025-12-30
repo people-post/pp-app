@@ -1,4 +1,4 @@
-(function(wksp) {
+
 const _CPT_PROJECT_STAGE_MENU_ITEM = {
   MAIN : `<div class="flex space-between baseline-align-items">
       <div>

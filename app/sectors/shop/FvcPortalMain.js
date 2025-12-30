@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcPortalMain extends ui.FScrollViewContent {
   #branchId = null;
 

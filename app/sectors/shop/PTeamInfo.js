@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_TEAM_INFO = {
   MAIN :
       `<div id="__ID_MAIN__" class="pad5px bd-b-solid bdlightgray bd1px clickable">

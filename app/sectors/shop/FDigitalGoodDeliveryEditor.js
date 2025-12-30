@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FDigitalGoodDeliveryEditor extends shop.FProductDeliveryEditor {
   _getType() { return dat.ProductDeliveryChoice.TYPE.DIGITAL; }
   _collectData() { return null; }

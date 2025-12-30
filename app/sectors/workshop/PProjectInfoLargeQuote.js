@@ -1,4 +1,4 @@
-(function(wksp) {
+
 const _CPT_PROJECT_INFO_LARGE_QUOTE = {
   MAIN : `<div class="quote-element pad5px">
   <div class="flex space-between">

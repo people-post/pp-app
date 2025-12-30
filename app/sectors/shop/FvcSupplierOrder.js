@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcSupplierOrder extends ui.FScrollViewContent {
   #fOrder;
   

@@ -1,4 +1,4 @@
-(function(hstn) {
+
 class FvcWeb3ServerRegistration extends ui.FScrollViewContent {
   #agent;
   #fNameInput;

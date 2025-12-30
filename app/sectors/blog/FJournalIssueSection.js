@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FJournalIssueSection extends ui.Fragment {
   #data = null;
   #fPost;

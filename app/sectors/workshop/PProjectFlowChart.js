@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class PProjectFlowChart extends ui.Panel {
   constructor() {
     super();

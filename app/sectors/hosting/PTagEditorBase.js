@@ -1,4 +1,4 @@
-(function(hstn) {
+
 class PTagEditorBase extends ui.Panel {
   constructor() {
     super();

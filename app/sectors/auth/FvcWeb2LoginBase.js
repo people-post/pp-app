@@ -1,4 +1,4 @@
-(function(auth) {
+
 class FvcWeb2LoginBase extends auth.FvcLoginBase {
   constructor() {
     super();

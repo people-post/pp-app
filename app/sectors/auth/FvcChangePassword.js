@@ -1,5 +1,4 @@
-(function(auth) {
-auth.CF_CHANGE_PASSWORD = {
+export const CF_CHANGE_PASSWORD = {
   SUBMIT : Symbol(),
 };
 
@@ -94,3 +93,9 @@ class FvcChangePassword extends ui.FScrollViewContent {
 
 auth.FvcChangePassword = FvcChangePassword;
 }(window.auth = window.auth || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.auth = window.auth || {};
+  window.auth.CF_CHANGE_PASSWORD = CF_CHANGE_PASSWORD;
+}

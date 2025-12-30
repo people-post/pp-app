@@ -1,4 +1,4 @@
-(function(shop) {
+
 class PWalkinQueueItemBase extends ui.Panel {
   constructor() {
     super();

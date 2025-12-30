@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcBranchSelection extends ui.FScrollViewContent {
   constructor() {
     super();

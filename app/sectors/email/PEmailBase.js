@@ -1,4 +1,4 @@
-(function(emal) {
+
 class PEmailBase extends ui.Panel {
   constructor() {
     super();

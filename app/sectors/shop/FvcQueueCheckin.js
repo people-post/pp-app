@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcQueueCheckin extends ui.FScrollViewContent {
   constructor() {
     super();

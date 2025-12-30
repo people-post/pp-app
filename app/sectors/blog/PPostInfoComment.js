@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CPT_POST_INFO_COMMENT = {
   MAIN : `<div class="flex bd-b-1px bd-b-solid bdlightgray v-pad5px">
   <div id="__ID_OWNER_ICON__" class="w50px flex-noshrink"></div>

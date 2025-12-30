@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class FIdolProjectList extends wksp.FProjectList {
   #isBatchLoading = false;
 

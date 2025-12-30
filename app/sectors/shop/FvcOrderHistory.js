@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcOrderHistory extends ui.FScrollViewContent {
   constructor() {
     super();

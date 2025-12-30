@@ -1,4 +1,4 @@
-(function(ftpg) {
+
 class FvcInsights extends ui.FViewContentBase {
   _renderOnRender(render) {
     let panel = new ui.Panel();

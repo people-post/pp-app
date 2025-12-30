@@ -1,4 +1,4 @@
-(function(msgr) {
+
 msgr.GMessenger = function() {
   let _mHandlers = new Map();
 

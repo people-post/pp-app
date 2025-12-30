@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FArticleInfo extends blog.FPostBase {
   #fAttachment;
   #fThumbnail;

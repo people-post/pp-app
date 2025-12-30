@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FQuoteElement extends ui.Fragment {
   #fItem = null;
   #item = null;

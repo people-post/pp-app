@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcExplorer extends ui.FScrollViewContent {
   #fmSearch;
   #fList;

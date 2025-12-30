@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcOwner extends ui.FScrollViewContent {
   #fmMain;
   #fmSearch;

@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FQueueDelivery extends shop.FServiceDelivery {
   constructor() {
     super();

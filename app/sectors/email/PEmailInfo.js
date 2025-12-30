@@ -1,4 +1,4 @@
-(function(emal) {
+
 const _CPT_EMAIL_INFO = {
   MAIN : `<div class="aspect-5-1-frame">
     <div class="aspect-content border-box top-pad5px right-pad5px">

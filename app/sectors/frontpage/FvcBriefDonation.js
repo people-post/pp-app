@@ -1,4 +1,4 @@
-(function(ftpg) {
+
 class FvcBriefDonation extends ui.FViewContentBase {
   #fPayment;
 

@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_SUPPLIER_ORDER_INFO = {
   MAIN : `<div class="supplier-order-info">
     <div class="flex space-between">

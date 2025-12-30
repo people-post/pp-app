@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CFT_CART_BUTTON = {
   CART_BADGE : `<span class="cart-badge inline-block bgtransparent s-font6 bold cgold center-align">__COUNT__</span>`,
 };

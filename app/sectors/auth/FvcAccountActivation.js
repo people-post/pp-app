@@ -1,4 +1,4 @@
-(function(auth) {
+
 const _CFT_ACCOUNT_ACTIVATION = {
   MAIN : `
     <br>

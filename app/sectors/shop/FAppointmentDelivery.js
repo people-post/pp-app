@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FAppointmentDelivery extends shop.FServiceDelivery {
   #btnAdd;
 

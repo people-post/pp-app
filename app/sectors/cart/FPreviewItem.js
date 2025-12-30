@@ -1,4 +1,4 @@
-(function(cart) {
+
 const _CFT_PREVIEW_ORDER_ITEM = {
   MAIN : `<div class="w40">__DESCRIPTION__</div>
     <div>__QTY__x</div>

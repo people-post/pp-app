@@ -1,4 +1,4 @@
-(function(wksp) {
+
 window.CF_PROJECT_EDITOR_CONTENT = {
   SUBMIT : "C_PROJECT_EDITOR_1",
   DELETE : "C_PROJECT_EDITOR_2",

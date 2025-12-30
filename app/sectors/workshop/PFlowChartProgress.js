@@ -1,4 +1,4 @@
-(function(wksp) {
+
 const _CPT_FLOW_CHART_PROGRESS = {
   MAIN : `<div id="__ID_MAIN__" class="flow-progress">
     <div id="__ID_WRAPPER__" class="flow-progress-content"></div>

@@ -1,4 +1,4 @@
-(function(cart) {
+
 class POrderBase extends ui.Panel {
   getShopNamePanel() { return null; }
   getSellerInfoPanel() { return null; }

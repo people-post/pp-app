@@ -1,4 +1,4 @@
-(function(cart) {
+
 const _CPT_ACTIVE_ITEM_INFO = {
   MAIN : `<div class="cart-item-info">
     <div class="flex">

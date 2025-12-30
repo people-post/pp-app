@@ -1,4 +1,4 @@
-(function(wksp) {
+
 window.CF_PROJECT_ACTOR_INFO = {
   ON_CLICK : "CF_PROJECT_ACTOR_INFO_1",
 };

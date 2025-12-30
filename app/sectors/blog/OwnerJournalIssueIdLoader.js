@@ -1,4 +1,4 @@
-(function(blog) {
+
 class OwnerJournalIssueIdLoader extends plt.LongListIdLoader {
   #isBatchLoading = false;
   #idRecord = new dat.UniLongListIdRecord();

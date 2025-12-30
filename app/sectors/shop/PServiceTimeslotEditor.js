@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_SERVICE_TIME_SLOT_EDITOR = {
   MAIN : `<div class="service-time-slot">
   <div id="__ID_FROM__"></div>

@@ -1,5 +1,4 @@
-(function(hstn) {
-hstn.CF_NS_HOWTO = {
+export const CF_NS_HOWTO = {
   TOGGLE : Symbol(),
 };
 
@@ -95,3 +94,9 @@ class FvcNsHowto extends ui.FScrollViewContent {
 
 hstn.FvcNsHowto = FvcNsHowto;
 }(window.hstn = window.hstn || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.CF_NS_HOWTO = CF_NS_HOWTO;
+}

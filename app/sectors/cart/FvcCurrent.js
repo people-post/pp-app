@@ -1,4 +1,4 @@
-(function(cart) {
+
 const _CFT_CART_CONTENT = {
   EMPTY : `<div class="info-message">Cart is empty.</div>`,
 };

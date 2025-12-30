@@ -1,4 +1,4 @@
-(function(emal) {
+
 class FAllEmailList extends emal.FEmailList {
   constructor() {
     super();

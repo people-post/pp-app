@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FPostBase extends ui.Fragment {
   isInfoClickable() { return true; }
 };

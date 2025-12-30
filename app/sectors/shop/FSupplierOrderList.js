@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FSupplierOrderList extends gui.DefaultLongList {
   isOrderSelected(orderId) { return this._currentId == orderId; }
 

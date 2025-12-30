@@ -1,4 +1,4 @@
-(function(scol) {
+
 const _CPT_FILTER_ITEM = {
   MAIN : `<div class="pad5">
   <div class="pad5 bd1px bdsolid bdlightgray bdradius5px">

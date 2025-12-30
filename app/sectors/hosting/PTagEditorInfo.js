@@ -1,4 +1,4 @@
-(function(hstn) {
+
 const _CPT_TAG_EDITOR_INFO = {
   MAIN :
       `<div class="flex space-between pad5px bdlightgray bd1px bd-b-solid clickable">

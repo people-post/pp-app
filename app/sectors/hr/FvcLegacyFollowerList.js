@@ -1,4 +1,4 @@
-(function(hr) {
+
 class FvcLegacyFollowerList extends ui.FScrollViewContent {
   constructor() {
     super();

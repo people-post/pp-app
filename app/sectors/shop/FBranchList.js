@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FBranchList extends ui.Fragment {
   #fItems;
   #btnAdd;

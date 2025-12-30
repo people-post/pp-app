@@ -1,4 +1,4 @@
-(function(msgr) {
+
 class Gateway extends plt.SectorGateway {
   getNTabNoticesForViewContentMuxFragment(fMux, v) {
     let n = 0;

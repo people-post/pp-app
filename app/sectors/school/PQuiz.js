@@ -1,4 +1,4 @@
-(function(scol) {
+
 const _CPT_QUIZ = {
   MAIN : `<div class="pad5">
     <div id="__ID_QUESTION__" class="u-font3 bold"></div>

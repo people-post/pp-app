@@ -1,4 +1,4 @@
-(function(cmut) {
+
 const _CFT_COMMUNITY_OVERVIEW = {
   N_COINS : `__N_ACTIVE_COINS__ active/__N_TOTAL_COINS__ total`,
 };

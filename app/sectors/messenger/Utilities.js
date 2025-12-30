@@ -1,4 +1,4 @@
-(function(msgr) {
+
 msgr.Utilities = function() {
   function _getGroupName(groupId) {
     let g = dba.Groups.get(groupId);

@@ -1,5 +1,4 @@
-(function(wksp) {
-wksp.CF_STORY_EVENT_INFO = {
+export const CF_STORY_EVENT_INFO = {
   ONCLICK : Symbol(),
 };
 
@@ -92,3 +91,9 @@ class FStoryEventInfo extends ui.Fragment {
 
 wksp.FStoryEventInfo = FStoryEventInfo;
 }(window.wksp = window.wksp || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.CF_STORY_EVENT_INFO = CF_STORY_EVENT_INFO;
+}

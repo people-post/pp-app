@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FilteredPostIdLoader extends plt.LongListIdLoader {
   #isBatchLoading = false;
   #tagId = null;

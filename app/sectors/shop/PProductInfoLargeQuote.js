@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_PRODUCT_INFO_LARGE_QUOTE = {
   MAIN : `<div class="quote-element pad5px">
   <div id="__ID_SELLER_NAME__"></div>

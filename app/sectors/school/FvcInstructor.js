@@ -1,4 +1,4 @@
-(function(scol) {
+
 class FvcInstructor extends ui.FScrollViewContent {
   _renderContentOnRender(render) {
     // Approve hours.

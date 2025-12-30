@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FOwnerProductList extends shop.FProductList {
   #ownerId = null;
   #isBatchLoading = false;

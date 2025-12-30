@@ -1,4 +1,4 @@
-(function(scol) {
+
 class Gateway extends plt.SectorGateway {
   static T_CONFIG = {
     LIBRARY : {ID : "LIBRARY", NAME: "Library", ICON: C.ICON.LIBRARY},

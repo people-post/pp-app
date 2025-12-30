@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class FvcCareerList extends ui.FScrollViewContent {
   constructor() {
     super();

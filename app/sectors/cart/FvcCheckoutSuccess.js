@@ -1,5 +1,4 @@
-(function(cart) {
-cart.CF_CHECKOUT_SUCCESS = {
+export const CF_CHECKOUT_SUCCESS = {
   CONTINUE : Symbol(),
   SHOW_ORDER : Symbol(),
 };
@@ -52,3 +51,9 @@ class FvcCheckoutSuccess extends ui.FScrollViewContent {
 
 cart.FvcCheckoutSuccess = FvcCheckoutSuccess;
 }(window.cart = window.cart || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.CF_CHECKOUT_SUCCESS = CF_CHECKOUT_SUCCESS;
+}

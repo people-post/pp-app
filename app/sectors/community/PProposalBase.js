@@ -1,4 +1,4 @@
-(function(cmut) {
+
 class PProposalBase extends ui.Panel {
   isColorInvertible() { return false; }
 

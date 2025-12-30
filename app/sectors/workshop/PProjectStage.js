@@ -1,4 +1,4 @@
-(function(wksp) {
+
 const _CPT_PROJECT_STAGE = {
   MAIN : `<div id="__ID_NAME__" class="u-font3"></div>
     <div id="__ID_DESCRIPTION__" class="stage-description"></div>

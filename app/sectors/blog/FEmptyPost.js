@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FEmptyPost extends blog.FPostBase {
   #post = null;
 

@@ -1,4 +1,4 @@
-(function(shop) {
+
 class PBranchBase extends ui.Panel {
   constructor() { super(); }
 

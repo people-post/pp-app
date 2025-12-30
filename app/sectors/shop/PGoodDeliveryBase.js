@@ -1,4 +1,4 @@
-(function(shop) {
+
 class PGoodDeliveryBase extends ui.Panel {
   constructor() {
     super();

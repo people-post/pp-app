@@ -1,5 +1,4 @@
-(function(blog) {
-class FArticle extends ui.Fragment {
+export class FArticle extends ui.Fragment {
   #fQuote;
   #fGallery;
   #fAttachment;
@@ -152,7 +151,10 @@ class FArticle extends ui.Fragment {
     }
     return "...";
   }
-};
+}
 
-blog.FArticle = FArticle;
-}(window.blog = window.blog || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FArticle = FArticle;
+}

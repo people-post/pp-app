@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FServiceDeliveryEditor extends shop.FProductDeliveryEditor {
   constructor() {
     super();

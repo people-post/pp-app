@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CPT_POST_INFO_CARD = {
   MAIN : `<div class="info-panel card">
     <div>

@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_BRANCH = {
   MAIN : `<div class="flex flex-start">
     <div id="__ID_NAME_DECOR__"></div>

@@ -1,4 +1,4 @@
-(function(cmut) {
+
 window.CF_USER_COMMUNITY_CONTENT = {
   CREATE : "CF_USER_COMMUNITY_CONTENT_1",
 }

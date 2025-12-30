@@ -1,4 +1,4 @@
-(function(cart) {
+
 const _CPT_CUSTOMER_ORDER_INFO = {
   MAIN : `<div class="customer-order-info">
     <div class="flex space-between">

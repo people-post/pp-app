@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcBookAppointment extends ui.FScrollViewContent {
   constructor() {
     super();

@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CPT_ROLE_INFO = {
   MAIN :
       `<div id="__ID_MAIN__" class="pad5px bd-b-solid bdlightgray bd1px clickable">

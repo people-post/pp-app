@@ -1,4 +1,4 @@
-(function(msgr) {
+
 class FChatHeader extends ui.Fragment {
   constructor() {
     super();

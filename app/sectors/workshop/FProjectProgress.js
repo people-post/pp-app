@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class FProjectProgress extends ui.Fragment {
   constructor() {
     super();

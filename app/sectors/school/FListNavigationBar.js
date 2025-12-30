@@ -1,4 +1,4 @@
-(function(scol) {
+
 class FListNavigationBar extends ui.Fragment {
   constructor() {
     super();

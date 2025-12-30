@@ -1,4 +1,4 @@
-(function(hstn) {
+
 window.CFM_DS_SETUP = {
   SUBMIT : "CFM_DS_SETUP_1",
   DS_HOW_TO : "CFM_DS_SETUP_2",

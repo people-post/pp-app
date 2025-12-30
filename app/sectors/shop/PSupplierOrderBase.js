@@ -1,4 +1,4 @@
-(function(shop) {
+
 class PSupplierOrderBase extends ui.Panel {
   getCustomerNamePanel() { return null; }
   getCreationTimePanel() { return null; }

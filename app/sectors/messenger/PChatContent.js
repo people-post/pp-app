@@ -1,4 +1,4 @@
-(function(msgr) {
+
 const _CPT_CHAT_VIEW_CONTENT = {
   MAIN : `<div id="__ID_HEADER__"></div>
   <div class="chat-view-content flex flex-column flex-end">

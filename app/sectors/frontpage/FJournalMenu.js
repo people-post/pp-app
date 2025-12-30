@@ -1,4 +1,4 @@
-(function(ftpg) {
+
 class FJournalMenu extends gui.MenuContent {
   #journalIds;
   #currentJournalId = null;

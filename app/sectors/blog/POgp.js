@@ -1,4 +1,4 @@
-(function(blog) {
+
 class POgp extends ui.Panel {
   constructor() {
     super();

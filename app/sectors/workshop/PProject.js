@@ -1,4 +1,4 @@
-(function(wksp) {
+
 const _CPT_PROJECT = {
   MAIN : `<div id="__ID_TITLE__" class="u-font1 bold pad5px"></div>
     <div class="flex flex-start baseline-align-items">

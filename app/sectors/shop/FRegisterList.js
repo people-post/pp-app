@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FRegisterList extends ui.Fragment {
   constructor() {
     super();

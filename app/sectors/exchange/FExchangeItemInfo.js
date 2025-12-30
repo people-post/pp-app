@@ -1,4 +1,4 @@
-(function(xchg) {
+
 window.CF_EXCHANGE_ITEM_INFO = {
   BUY : "CF_EXCHANGE_ITEM_INFO_1",
   SELL : "CF_EXCHANGE_ITEM_INFO_2",

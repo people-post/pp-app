@@ -1,5 +1,4 @@
-(function(hstn) {
-hstn.CF_TAG_EDITOR = {
+export const CF_TAG_EDITOR = {
   ON_CLICK : Symbol(),
 }
 
@@ -114,3 +113,9 @@ class FTagEditor extends ui.Fragment {
 
 hstn.FTagEditor = FTagEditor;
 }(window.hstn = window.hstn || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hstn = window.hstn || {};
+  window.hstn.CF_TAG_EDITOR = CF_TAG_EDITOR;
+}

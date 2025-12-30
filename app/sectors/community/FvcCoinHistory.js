@@ -1,13 +1,15 @@
-(function(cmut) {
-class FvcCoinHistory extends ui.FScrollViewContent {
+export class FvcCoinHistory extends ui.FScrollViewContent {
   constructor() {
     super();
     this._communityId;
   }
 
-  setCommunityId(id) { this._communityId = id; }
-};
+  setCommunityId(id) { this._communityId = id;   }
+}
 
-cmut.FvcCoinHistory = FvcCoinHistory;
-}(window.cmut = window.cmut || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.FvcCoinHistory = FvcCoinHistory;
+}
 

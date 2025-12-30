@@ -1,4 +1,4 @@
-(function(scol) {
+
 class FvcFlashcard extends ui.FScrollViewContent {
   constructor() {
     super();

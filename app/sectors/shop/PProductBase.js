@@ -1,4 +1,4 @@
-(function(shop) {
+
 class PProductBase extends ui.Panel {
   constructor() {
     super();

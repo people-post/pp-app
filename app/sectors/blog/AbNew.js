@@ -1,4 +1,4 @@
-(function(blog) {
+
 // ActionButton needs some redesign
 class AbNew extends ui.Fragment {
   #lc;

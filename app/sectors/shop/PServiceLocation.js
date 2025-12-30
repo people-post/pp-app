@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_SERVICE_LOCATION = {
   MAIN : `<div id="__ID_MAIN__">
   <div class="bd1px bdsolid bdlightgray bdradius5px pad5px clickable">

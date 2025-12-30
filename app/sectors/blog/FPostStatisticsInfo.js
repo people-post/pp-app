@@ -1,4 +1,4 @@
-(function(blog) {
+
 window.CF_POST_STATISTICS_INFO = {
   ONCLICK : "CF_POST_STATISTICS_INFO_1",
 }

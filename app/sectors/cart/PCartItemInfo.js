@@ -1,4 +1,4 @@
-(function(cart) {
+
 class PCartItemInfo extends ui.Panel {
   constructor() {
     super();

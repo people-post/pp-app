@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FvcWeb3OwnerPosts extends ui.FScrollViewContent {
   #loader;
   #fPosts;

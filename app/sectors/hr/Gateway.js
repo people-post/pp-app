@@ -1,4 +1,4 @@
-(function(hr) {
+
 class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() {
     let f = new ui.FViewContentMux();

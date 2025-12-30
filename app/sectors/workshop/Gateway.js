@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() { return new wksp.FvcMain(); }
 };

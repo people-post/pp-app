@@ -1,4 +1,4 @@
-(function(cart) {
+
 class FOrderItem extends ui.Fragment {
   constructor() {
     super();

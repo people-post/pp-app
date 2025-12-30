@@ -1,4 +1,4 @@
-(function(acnt) {
+
 const _CPT_BASIC = {
   MAIN : `<div id="__ID_NICKNAME__"></div>
     <br>

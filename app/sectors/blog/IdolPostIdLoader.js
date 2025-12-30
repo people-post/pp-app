@@ -1,4 +1,4 @@
-(function(blog) {
+
 class IdolPostIdLoader extends plt.LongListIdLoader {
   #isBatchLoading = false;
   #idRecord = new dat.UniLongListIdRecord();

@@ -1,4 +1,4 @@
-(function(hr) {
+
 const _CFT_CAREER_CONTENT = {
   MEMBER : `<img class="user-info-icon s-icon2" src="__ICON_URL__"></img>
     <div class="user-info-name">__NAME__</div>`,

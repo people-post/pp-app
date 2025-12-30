@@ -1,4 +1,4 @@
-(function(hr) {
+
 class FvcAddIdol extends ui.FScrollViewContent {
   #fSearch;
 

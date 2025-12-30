@@ -1,4 +1,4 @@
-(function(xchg) {
+
 class FCashierNoticeList extends ui.Fragment {};
 
 xchg.FCashierNoticeList = FCashierNoticeList;

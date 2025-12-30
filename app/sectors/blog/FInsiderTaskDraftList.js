@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FInsiderTaskDraftList extends blog.FDraftList {
   _renderOnRender(render) {
     let pMain = new ui.SectionPanel(dba.Account.isWebOwner() ? "External tasks"

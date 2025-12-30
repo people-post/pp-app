@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class FNoticeList extends ui.Fragment {
   constructor() {
     super();

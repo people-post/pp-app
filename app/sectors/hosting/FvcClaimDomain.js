@@ -1,4 +1,4 @@
-(function(hstn) {
+
 const _CFT_CLAIM_DOMAIN = {
   MAIN : `Claim domain`,
 };

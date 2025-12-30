@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class TimelinePanel extends ui.PanelListPanel {
   constructor() {
     super();

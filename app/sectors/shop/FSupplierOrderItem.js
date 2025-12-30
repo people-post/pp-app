@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CFT_SUPPLIER_ORDER_ITEM = {
   MAIN : `<div class="w40">__DESCRIPTION__</div>
   <div>

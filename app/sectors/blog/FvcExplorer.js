@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FvcExplorer extends ui.FScrollViewContent {
   #fmSearch;
   #fPosts;

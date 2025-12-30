@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FPostList extends gui.FSocialItemList {
   #loader;
 

@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class FvcProjectStage extends ui.FScrollViewContent {
   constructor() {
     super();

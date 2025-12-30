@@ -1,4 +1,4 @@
-(function(blog) {
+
 
 const _CPT_WEB3_ARTICLE_EDITOR = {
   MAIN : `<div id="__ID_TITLE__"></div>

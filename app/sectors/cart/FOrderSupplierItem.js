@@ -1,4 +1,4 @@
-(function(cart) {
+
 const _CFT_CUSTOMER_ORDER_SUPPLIER_ITEM = {
   MAIN : `<div class="w40">__DESCRIPTION__</div>
   <div>

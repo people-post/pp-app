@@ -1,4 +1,4 @@
-(function(blog) {
+
 blog.Utilities = function() {
   function _isPostRelated(post, toPost, cascade = true) {
     // Related if:

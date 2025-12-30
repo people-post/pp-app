@@ -1,5 +1,4 @@
-(function(shop) {
-shop.CF_TEAM = {
+export const CF_TEAM = {
   ON_CLICK : Symbol(),
 };
 
@@ -64,3 +63,9 @@ class FTeam extends ui.Fragment {
 
 shop.FTeam = FTeam;
 }(window.shop = window.shop || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.CF_TEAM = CF_TEAM;
+}

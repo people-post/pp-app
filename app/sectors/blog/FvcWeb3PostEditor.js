@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FvcWeb3PostEditor extends ui.FScrollViewContent {
   #fEditor = null;
 

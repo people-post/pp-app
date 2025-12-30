@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_SUPPLIER_ORDER = {
   MAIN : `<div class="small-info-text">
     <div id="__ID_CUSTOMER_NAME__"></div>

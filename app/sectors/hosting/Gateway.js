@@ -1,4 +1,4 @@
-(function(hstn) {
+
 class Gateway extends plt.SectorGateway {
   createWebConfigMainViewContentFragment() {
     let f = new ui.FViewContentMux();

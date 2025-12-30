@@ -1,4 +1,4 @@
-(function(hr) {
+
 class Web3UserIdolIdListLoader extends plt.LongListIdLoader {
   #idRecord = new dat.UniLongListIdRecord();
   #userId;

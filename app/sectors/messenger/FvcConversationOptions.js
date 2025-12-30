@@ -1,4 +1,4 @@
-(function(msgr) {
+
 class FvcConversationOptions extends ui.FScrollViewContent {
   constructor() {
     super();

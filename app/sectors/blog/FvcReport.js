@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CFT_BLOG_REPORT = {
   TAG_STATISTICS : `<div class="flex space-between baseline-align-items">
     <div class="ellipsis">__TAG_NAME__</div>

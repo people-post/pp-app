@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_SERVICE_LOCATION_EDITOR = {
   MAIN : `<div>
   <div id="__ID_TIME_OVERHEAD__"></div>

@@ -1,4 +1,4 @@
-(function(cart) {
+
 class FvcHistory extends ui.FScrollViewContent {
   constructor() {
     super();

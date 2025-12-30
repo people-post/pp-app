@@ -1,4 +1,4 @@
-(function(emal) {
+
 const _CPT_EMAIL = {
   MAIN : `<div class="pad5">
     <div class="email-header">

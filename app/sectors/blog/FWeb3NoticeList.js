@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FWeb3NoticeList extends ui.Fragment {
   #selectedPostId = null;
   #fNotices;

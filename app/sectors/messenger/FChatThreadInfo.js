@@ -1,4 +1,4 @@
-(function(msgr) {
+
 window.CF_CHAT_THREAD_INFO = {
   ON_CLICK : "CF_CHAT_THREAD_INFO_1",
 }

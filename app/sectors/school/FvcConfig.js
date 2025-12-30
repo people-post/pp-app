@@ -1,4 +1,4 @@
-(function(scol) {
+
 class FvcConfig extends ui.FScrollViewContent {
   _renderContentOnRender(render) {
     // Transfer credit.

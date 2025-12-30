@@ -1,4 +1,4 @@
-(function(acnt) {
+
 class FvcCloudFiles extends ui.FScrollViewContent {};
 
 acnt.FvcCloudFiles = FvcCloudFiles;

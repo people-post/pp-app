@@ -1,4 +1,4 @@
-(function(wksp) {
+
 const _CPT_PROJECT_STAGE_INFO_CELL = {
   MAIN : `<div class="flex space-between">
     <div id="__ID_NAME__" class="s-font5 cdimgray"></div>

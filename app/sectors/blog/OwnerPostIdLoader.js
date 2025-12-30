@@ -1,5 +1,4 @@
-(function(blog) {
-class OwnerPostIdLoader extends plt.LongListIdLoader {
+export class OwnerPostIdLoader extends plt.LongListIdLoader {
   #idRecord = new dat.BiLongListIdRecord();
   #ownerId = null;
   #isBatchLoadingFront = false;
@@ -170,7 +169,10 @@ class OwnerPostIdLoader extends plt.LongListIdLoader {
     }
     return ids.map(id => id.toEncodedStr());
   }
-};
+}
 
-blog.OwnerPostIdLoader = OwnerPostIdLoader;
-}(window.blog = window.blog || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.OwnerPostIdLoader = OwnerPostIdLoader;
+}

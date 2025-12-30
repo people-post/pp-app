@@ -1,4 +1,4 @@
-(function(msgr) {
+
 window.CF_CHAT_INPUT_MENU = {
   CALL : "CF_CHAT_INPUT_MENU_1",
   VIDEO_CALL : "CF_CHAT_INPUT_MENU_2",

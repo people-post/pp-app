@@ -1,5 +1,4 @@
-(function(auth) {
-auth.CF_RESET_PASSWORD = {
+export const CF_RESET_PASSWORD = {
   SUBMIT : Symbol(),
 };
 
@@ -89,3 +88,9 @@ class FvcResetPassword extends ui.FScrollViewContent {
 
 auth.FvcResetPassword = FvcResetPassword;
 }(window.auth = window.auth || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.auth = window.auth || {};
+  window.auth.CF_RESET_PASSWORD = CF_RESET_PASSWORD;
+}

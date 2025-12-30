@@ -1,4 +1,4 @@
-(function(hstn) {
+
 const _CPT_TAG_EDITOR = {
   MAIN : `<div id="__ID_NAME__"></div>
     <div id="__ID_THEME__"></div>`,

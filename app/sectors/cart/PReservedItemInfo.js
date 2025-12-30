@@ -1,4 +1,4 @@
-(function(cart) {
+
 const _CPT_RESERVED_ITEM_INFO = {
   MAIN : `<div class="cart-item-info">
     <div class="flex">

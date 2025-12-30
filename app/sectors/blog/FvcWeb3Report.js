@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FvcWeb3Report extends ui.FScrollViewContent {
   #fNoticeList;
 

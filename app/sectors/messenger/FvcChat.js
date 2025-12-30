@@ -1,4 +1,4 @@
-(function(msgr) {
+
 class FvcChat extends ui.FViewContentBase {
   #fHeader;
   #fMessages;

@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_PRODUCT_EDITOR = {
   MAIN : `<div class="product">
   <div id="__ID_NAME__"></div>

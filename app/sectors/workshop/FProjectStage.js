@@ -1,5 +1,4 @@
-(function(wksp) {
-wksp.CF_PROJECT_STAGE = {
+export const CF_PROJECT_STAGE = {
   ON_CLICK : Symbol(),
 };
 
@@ -244,3 +243,9 @@ class FProjectStage extends ui.Fragment {
 
 wksp.FProjectStage = FProjectStage;
 }(window.wksp = window.wksp || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.CF_PROJECT_STAGE = CF_PROJECT_STAGE;
+}

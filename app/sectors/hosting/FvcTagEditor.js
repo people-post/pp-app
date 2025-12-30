@@ -1,4 +1,4 @@
-(function(hstn) {
+
 class FvcTagEditor extends ui.FScrollViewContent {
   constructor() {
     super();

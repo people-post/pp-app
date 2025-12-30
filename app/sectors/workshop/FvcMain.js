@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class FvcMain extends ui.FViewContentWithHeroBanner {
   static #T_PAGE = {
     OWNER_OPEN : Symbol(),

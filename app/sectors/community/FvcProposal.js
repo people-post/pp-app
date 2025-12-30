@@ -1,4 +1,4 @@
-(function(cmut) {
+
 class FvcProposal extends ui.FScrollViewContent {
   constructor() {
     super();

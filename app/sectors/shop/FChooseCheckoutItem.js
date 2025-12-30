@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FChooseCheckoutItem extends ui.Fragment {
   action(type, ...args) {
     switch (type) {

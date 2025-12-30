@@ -1,4 +1,4 @@
-(function(scol) {
+
 class PQuizBase extends ui.Panel {
   constructor() {
     super();

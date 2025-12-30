@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcQueueMain extends ui.FScrollViewContent {
   constructor() {
     super();

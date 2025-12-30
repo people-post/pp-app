@@ -1,4 +1,4 @@
-(function(hstn) {
+
 const _CFT_MEMBER_HOSTING_CONTENT = {
   INIT : `Initializing...`,
   NS_PENDING :

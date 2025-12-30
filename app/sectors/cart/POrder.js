@@ -1,4 +1,4 @@
-(function(cart) {
+
 const _CPT_CUSTOMER_ORDER = {
   MAIN : `<div class="small-info-text">
     <div id="__ID_SHOP_NAME__"></div>

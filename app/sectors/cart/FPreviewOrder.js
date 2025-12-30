@@ -1,4 +1,4 @@
-(function(cart) {
+
 class FPreviewOrder extends ui.Fragment {
   constructor() {
     super();

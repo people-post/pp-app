@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_WALKIN_QUEUE_ITEM_INFO = {
   MAIN : `<div class="pad5px clickable">
     <div id="__ID_MAIN__" class="flex space-between bd-b-1px bd-b-solid bdlightgray">

@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CPT_POST = {
   MAIN : `<div id="__ID_TITLE__" class="view-content-title"></div>
     <div class="flex space-between">

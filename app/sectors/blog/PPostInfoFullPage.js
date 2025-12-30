@@ -1,4 +1,4 @@
-(function(blog) {
+
 // This is maily for JournalIssue
 const _CPT_POST_INFO_FULL_PAGE = {
   MAIN : `<div class="h100 h-pad5 v-pad5px y-scroll no-scrollbar">

@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CPT_POST_NAVIGATOR = {
   MAIN : `<div id="__ID_POST__"></div>
   <div class="pad5px flex space-between">

@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class FOwnerProjectList extends wksp.FProjectList {
   #ownerId = null;
   #isBatchLoading = false;

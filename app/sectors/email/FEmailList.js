@@ -1,4 +1,4 @@
-(function(emal) {
+
 class FEmailList extends ui.FLongListLegacy {
   initFromUrl(urlParam) {
     let id = urlParam.get(ui.C.URL_PARAM.ID);

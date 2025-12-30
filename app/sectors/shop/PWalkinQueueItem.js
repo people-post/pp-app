@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_WALKIN_QUEUE_ITEM = {
   MAIN : `<div class="pad5px">
     <div id="__ID_STATUS__"></div>

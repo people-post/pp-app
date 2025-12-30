@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CPT_OGP_LARGE = {
   MAIN : `<div class="quote-element pad5px">
   <div class="flex space-between">

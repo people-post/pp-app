@@ -1,5 +1,4 @@
-(function(blog) {
-blog.CF_POST_INFO = {
+export const CF_POST_INFO = {
   ON_CLICK : Symbol(),
 };
 
@@ -316,3 +315,9 @@ class FPostInfo extends gui.MajorSectorItem {
 
 blog.FPostInfo = FPostInfo;
 }(window.blog = window.blog || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.CF_POST_INFO = CF_POST_INFO;
+}

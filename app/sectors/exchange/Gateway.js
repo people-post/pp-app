@@ -1,4 +1,4 @@
-(function(xchg) {
+
 class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() {
     if (glb.env.isWeb3()) {

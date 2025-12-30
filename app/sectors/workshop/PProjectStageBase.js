@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class PProjectStageBase extends ui.Panel {
   constructor() {
     super();

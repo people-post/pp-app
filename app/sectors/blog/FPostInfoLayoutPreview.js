@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FPostInfoLayoutPreview extends ui.Fragment {
   constructor() {
     super();

@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_BRANCH_SMALL = {
   MAIN :
       `<div id="__ID_MAIN__" class="bd-b-solid bd-b-1px bdlightgray clickable">

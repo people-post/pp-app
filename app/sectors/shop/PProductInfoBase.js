@@ -1,4 +1,4 @@
-(function(shop) {
+
 class PProductInfoBase extends shop.PProductBase {
   constructor() {
     super();

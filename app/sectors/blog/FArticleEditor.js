@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FArticleEditor extends ui.Fragment {
   #fTitle;
   #fContent;

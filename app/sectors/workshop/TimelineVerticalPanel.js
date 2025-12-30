@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class TimelineVerticalPanel extends wksp.TimelinePanel {
   _createNodePanel() { return new wksp.TimelineVerticalNodePanel(); }
 };

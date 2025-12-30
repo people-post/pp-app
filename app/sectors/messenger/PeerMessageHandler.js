@@ -1,4 +1,4 @@
-(function(msgr) {
+
 class PeerMessageHandler extends msgr.MessageHandler {
   constructor() {
     super();

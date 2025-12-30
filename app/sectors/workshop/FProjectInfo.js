@@ -1,4 +1,4 @@
-(function(wksp) {
+
 window.CF_PROJECT_INFO = {
   VIEW_PROJECT : "CF_PROJECT_INFO_1",
 }

@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FProductList extends gui.FSocialItemList {
   // TODO: Swith id to SocialItemId
   #idRecord;

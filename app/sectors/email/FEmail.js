@@ -1,4 +1,4 @@
-(function(emal) {
+
 window.CF_EMAIL_INFO = {
   VIEW_EMAIL : "CF_EMAIL_INFO_1",
 }

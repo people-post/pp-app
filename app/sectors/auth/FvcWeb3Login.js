@@ -1,4 +1,4 @@
-(function(auth) {
+
 class FvcWeb3Login extends auth.FvcLoginBase {
   #fMnemonic;
   #btnSubmit;

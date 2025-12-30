@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_WALKIN_QUEUE_ITEM_INFO_PUBLIC = {
   MAIN : `<div class="pad5px">
     <div class="flex space-between bd-b-1px bd-b-solid bdlightgray">

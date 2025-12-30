@@ -1,4 +1,4 @@
-(function(auth) {
+
 class Gateway extends plt.SectorGateway {
   createLoginView(nextView) {
     let v = new ui.View();

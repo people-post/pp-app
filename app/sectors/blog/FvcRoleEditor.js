@@ -1,4 +1,4 @@
-(function(blog) {
+
 window.CF_BLOG_ROLE_EDITOR = {
   SUBMIT : "CF_BLOG_ROLE_EDITOR_1",
 }

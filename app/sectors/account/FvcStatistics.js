@@ -1,4 +1,4 @@
-(function(acnt) {
+
 class FvcStatistics extends ui.FScrollViewContent {
   constructor() {
     super();

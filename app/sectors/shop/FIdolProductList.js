@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FIdolProductList extends shop.FProductList {
   #isBatchLoading = false;
 

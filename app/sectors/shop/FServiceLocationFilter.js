@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FServiceLocationFilter extends ui.Fragment {
   constructor() {
     super();

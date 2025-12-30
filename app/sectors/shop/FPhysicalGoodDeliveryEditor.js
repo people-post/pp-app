@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FPhysicalGoodDeliveryEditor extends shop.FProductDeliveryEditor {
   _getType() { return dat.ProductDeliveryChoice.TYPE.GOOD; }
   _collectData() { return null; }

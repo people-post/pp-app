@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CPT_POST_INFO_LARGE_QUOTE = {
   MAIN : `<div class="quote-element pad5px">
   <div id="__ID_REF__" class="crosslink-note"></div>

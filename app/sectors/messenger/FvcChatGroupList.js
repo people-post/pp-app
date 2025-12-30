@@ -1,4 +1,4 @@
-(function(msgr) {
+
 class FvcChatGroupList extends ui.FScrollViewContent {
   constructor() {
     super();

@@ -1,4 +1,4 @@
-(function(blog) {
+
 class IdolWeb3PostIdLoader extends plt.LongListIdLoader {
   #loaders = [];
 

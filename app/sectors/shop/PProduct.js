@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_PRODUCT = {
   MAIN : `<div class="product">
   <br>

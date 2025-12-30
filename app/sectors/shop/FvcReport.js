@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcReport extends ui.FScrollViewContent {
   constructor() {
     super();

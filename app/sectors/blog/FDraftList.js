@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FDraftList extends ui.Fragment {
   #fList;
   #selectedId = null;

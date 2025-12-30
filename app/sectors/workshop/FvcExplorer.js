@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class FvcExplorer extends ui.FScrollViewContent {
   #fmSearch;
   #fList;

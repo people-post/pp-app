@@ -1,4 +1,4 @@
-(function(xchg) {
+
 class FvcWeb3Wallet extends ui.FScrollViewContent {
   #fToAddr;
   #fAmt;

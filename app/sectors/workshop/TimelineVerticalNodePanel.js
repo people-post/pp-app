@@ -1,4 +1,4 @@
-(function(wksp) {
+
 const _CPT_TIMELINE_VERTICAL_NODE = {
   MAIN : `<div class="flex">
   <div class="w20 flex flex-center">

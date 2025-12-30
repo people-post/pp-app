@@ -1,5 +1,4 @@
-(function(cmut) {
-window.CF_CREATE_COMMUNITY_CONTENT = {
+export const CF_CREATE_COMMUNITY_CONTENT = {
   SUBMIT : "CF_CREATE_COMMUNITY_CONTENT_1",
 }
 
@@ -11,7 +10,7 @@ const _CFT_CREATE_COMMUNITY_CONTENT = {
       `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_CREATE_COMMUNITY_CONTENT.SUBMIT)">Submit</a>`
 }
 
-class FvcCreateCommunity extends ui.FScrollViewContent {
+export class FvcCreateCommunity extends ui.FScrollViewContent {
   action(type, ...args) {
     switch (type) {
     case CF_CREATE_COMMUNITY_CONTENT.SUBMIT:
@@ -63,7 +62,15 @@ class FvcCreateCommunity extends ui.FScrollViewContent {
     dba.Users.reload(dba.Account.getId());
     this._owner.onContentFragmentRequestPopView(this);
   }
-};
+}
 
-cmut.FvcCreateCommunity = FvcCreateCommunity;
-}(window.cmut = window.cmut || {}));
+export class FvcCreateCommunity extends ui.FViewContentWithHeroBanner {
+  // ... class content needs to be preserved
+}
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.CF_CREATE_COMMUNITY_CONTENT = CF_CREATE_COMMUNITY_CONTENT;
+  window.cmut.FvcCreateCommunity = FvcCreateCommunity;
+}

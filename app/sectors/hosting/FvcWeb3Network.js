@@ -1,4 +1,4 @@
-(function(hstn) {
+
 const _CPT_WEB3_NETWORK = {
   MAIN : `<div>
     <p class="title">Resolvers</p>

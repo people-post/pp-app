@@ -1,4 +1,4 @@
-(function(cmut) {
+
 const _CPT_PROPOSAL = {
   MAIN : `<div id="__ID_TITLE__" class="view-content-title"></div>
     <div id="__ID_SUBTITLE__" class="small-info-text"></div>

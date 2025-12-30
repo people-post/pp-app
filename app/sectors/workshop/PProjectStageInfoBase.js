@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class PProjectStageInfoBase extends wksp.PProjectStageBase {
   constructor() {
     super();

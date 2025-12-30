@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcQueueSide extends ui.FScrollViewContent {
   _renderContentOnRender(render) { render.replaceContent("Advertisement"); }
 };

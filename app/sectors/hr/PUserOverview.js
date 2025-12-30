@@ -1,4 +1,4 @@
-(function(hr) {
+
 const _CPT_USER_OVERVIEW = {
   MAIN : `<div class="aspect-5-1-frame bglightgrey">
     <div id="__ID_BG_IMAGE__" class="aspect-content"></div>

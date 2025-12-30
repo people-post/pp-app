@@ -1,5 +1,4 @@
-(function(wksp) {
-wksp.CF_TEAM = {
+export const CF_TEAM = {
   ON_CLICK : Symbol(),
 };
 
@@ -64,3 +63,9 @@ class FTeam extends ui.Fragment {
 
 wksp.FTeam = FTeam;
 }(window.wksp = window.wksp || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.CF_TEAM = CF_TEAM;
+}

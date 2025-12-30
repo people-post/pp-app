@@ -1,4 +1,4 @@
-(function(blog) {
+
 window.CF_OGP = {
   ON_CLICK : "CF_OGP_1",
 }

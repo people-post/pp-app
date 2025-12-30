@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FFeedArticle extends ui.Fragment {
   #fGallery;
   #fAttachment;

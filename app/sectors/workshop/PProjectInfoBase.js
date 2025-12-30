@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class PProjectInfoBase extends ui.Panel {
   // TODO: Extend from PQuotableBase
   constructor() {

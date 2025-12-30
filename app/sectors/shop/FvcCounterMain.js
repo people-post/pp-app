@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcCounterMain extends ui.FScrollViewContent {
   constructor() {
     super();

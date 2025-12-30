@@ -1,4 +1,4 @@
-(function(ftpg) {
+
 class FvcBlockchain extends ui.FViewContentBase {
   #blockHead;
 

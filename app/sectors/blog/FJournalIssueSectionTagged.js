@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CPT_JOURNAL_ISSUE_SECTION_TAGGED = {
   MAIN : `<div class="flex flex-start">
     <div id="__ID_TAG__" class="flex-noshrink u-font4"></div>

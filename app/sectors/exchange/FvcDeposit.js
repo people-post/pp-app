@@ -1,4 +1,4 @@
-(function(xchg) {
+
 class FvcDeposit extends ui.FScrollViewContent {
   constructor() {
     super();

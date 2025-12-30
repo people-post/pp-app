@@ -1,4 +1,4 @@
-(function(scol) {
+
 class FvcQuizList extends ui.FScrollViewContent {
   constructor() {
     super();

@@ -1,4 +1,4 @@
-(function(blog) {
+
 // ActionButton needs some redesign
 class AbWeb3New extends ui.Fragment {
   #lmcPublisher;

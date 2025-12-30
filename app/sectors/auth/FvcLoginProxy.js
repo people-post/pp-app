@@ -1,5 +1,4 @@
-(function(auth) {
-auth.CF_LOGIN_PROXY = {
+export const CF_LOGIN_PROXY = {
   TRIGGER_CHECK : Symbol(),
 };
 
@@ -182,3 +181,9 @@ class FvcLoginProxy extends auth.FvcWeb2LoginBase {
 
 auth.FvcLoginProxy = FvcLoginProxy;
 }(window.auth = window.auth || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.auth = window.auth || {};
+  window.auth.CF_LOGIN_PROXY = CF_LOGIN_PROXY;
+}

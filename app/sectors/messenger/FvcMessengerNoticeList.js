@@ -1,4 +1,4 @@
-(function(msgr) {
+
 class FvcMessengerNoticeList extends ui.FScrollViewContent {
   constructor() {
     super();

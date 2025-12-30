@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcPreCheckout extends ui.FScrollViewContent {
   // Serves as checkout register
   constructor() {

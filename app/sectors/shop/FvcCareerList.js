@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcCareerList extends ui.FScrollViewContent {
   constructor() {
     super();

@@ -1,5 +1,4 @@
-(function(shop) {
-shop.CF_SUPPLIER_ORDER = {
+export const CF_SUPPLIER_ORDER = {
   SHOW_ADDRESS : Symbol(),
   ON_CLICK : Symbol(),
   USER_INFO : Symbol(),
@@ -344,3 +343,9 @@ class FSupplierOrder extends ui.Fragment {
 
 shop.FSupplierOrder = FSupplierOrder;
 }(window.shop = window.shop || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.CF_SUPPLIER_ORDER = CF_SUPPLIER_ORDER;
+}

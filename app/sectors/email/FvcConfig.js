@@ -1,4 +1,4 @@
-(function(emal) {
+
 class FvcConfig extends ui.FScrollViewContent {};
 
 emal.FvcConfig = FvcConfig;

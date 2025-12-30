@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CPT_OGP_SMALL = {
   MAIN : `<div class="aspect-3-1-frame">
   <div class="aspect-content h100 hide-overflow quote-element small flex flex-begin">

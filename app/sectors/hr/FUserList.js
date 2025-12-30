@@ -1,4 +1,4 @@
-(function(hr) {
+
 class FUserList extends gui.FSocialItemList {
   #loader;
 

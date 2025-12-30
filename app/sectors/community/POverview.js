@@ -1,4 +1,4 @@
-(function(cmut) {
+
 const _CPT_OVERVIEW = {
   MAIN : `<div class="community-overview">
   <div id="__ID_HEADER__"></div>

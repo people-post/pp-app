@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FvcWeb3Explorer extends ui.FScrollViewContent {
   #fPosts;
   #fBtnNew;

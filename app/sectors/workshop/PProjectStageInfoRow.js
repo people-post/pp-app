@@ -1,4 +1,4 @@
-(function(wksp) {
+
 _CPT_PROJECT_STAGE_INFO_ROW = {
   MAIN : `<div class="flex space-between story-event-info pad5px bdlightgray">
     <div id="__ID_NAME__" class="s-font4"></div>

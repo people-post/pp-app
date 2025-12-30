@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FServiceLocationEditor extends ui.Fragment {
   constructor() {
     super();

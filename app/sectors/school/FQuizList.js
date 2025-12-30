@@ -1,4 +1,4 @@
-(function(scol) {
+
 class FQuizList extends ui.FLongListLegacy {
   constructor() {
     super();

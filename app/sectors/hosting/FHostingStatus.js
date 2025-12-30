@@ -1,4 +1,4 @@
-(function(hstn) {
+
 window.CF_HOSTING_STATUS = {
   NS_HOW_TO : "CFM_HOSTING_STATUS_1",
   SHOW_TIP : "CFM_HOSTING_STATUS_2",

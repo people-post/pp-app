@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FvcFilteredPostList extends ui.FScrollViewContent {
   #fPosts;
   #loader;

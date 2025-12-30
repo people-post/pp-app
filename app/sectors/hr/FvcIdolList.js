@@ -1,4 +1,4 @@
-(function(hr) {
+
 class FvcIdolList extends ui.FScrollViewContent {
   #fUsers;
   #idLoader;

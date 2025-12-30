@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FProductInfoLayoutPreview extends ui.Fragment {
   constructor() {
     super();

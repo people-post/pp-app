@@ -1,4 +1,4 @@
-(function(xchg) {
+
 window.CF_CASHIER_INFO = {
   DEPOSIT : "CF_CASHIER_INFO_1",
   WITHDRAW : "CF_CASHIER_INFO_2",

@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FGoodDelivery extends shop.FProductDelivery {
   constructor() {
     super();

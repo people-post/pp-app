@@ -1,4 +1,4 @@
-(function(wksp) {
+
 window.CF_WORKSHOP_TEAM_EDITOR = {
   SUBMIT : "CF_WORKSHOP_TEAM_EDITOR_1",
 }

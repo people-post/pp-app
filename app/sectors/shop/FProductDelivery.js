@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FProductDelivery extends ui.Fragment {
   static T_LAYOUT = {
     COMPACT : "COMPACT",

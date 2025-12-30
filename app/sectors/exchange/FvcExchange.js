@@ -1,4 +1,4 @@
-(function(xchg) {
+
 class FvcExchange extends ui.FScrollViewContent {
   constructor() {
     super();

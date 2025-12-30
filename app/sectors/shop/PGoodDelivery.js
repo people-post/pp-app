@@ -1,4 +1,4 @@
-(function(shop) {
+
 const _CPT_PRODUCT = {
   MAIN : `<div id="__ID_BTN_ADD__"></div>
   <div id="__ID_COUNT__" class="small-info-text"></div>`,

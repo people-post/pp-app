@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FQueueStatusMessage extends ui.Fragment {
   constructor() {
     super();

@@ -1,4 +1,4 @@
-(function(shop) {
+
 class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() { return new shop.FvcMain(); }
 };

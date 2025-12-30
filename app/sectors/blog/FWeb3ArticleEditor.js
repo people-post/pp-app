@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FWeb3ArticleEditor extends ui.Fragment {
   #fTitle;
   #fContent;

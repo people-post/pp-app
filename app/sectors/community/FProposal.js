@@ -1,5 +1,4 @@
-(function(cmut) {
-cmut.CF_PROPOSAL = {
+export const CF_PROPOSAL = {
   VIEW_PROPOSAL : Symbol(),
   VOTE : Symbol(),
   USER_INFO : Symbol(),
@@ -344,3 +343,9 @@ class FProposal extends ui.Fragment {
 
 cmut.FProposal = FProposal;
 }(window.cmut = window.cmut || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cmut = window.cmut || {};
+  window.cmut.CF_PROPOSAL = CF_PROPOSAL;
+}

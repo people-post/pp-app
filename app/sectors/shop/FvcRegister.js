@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FvcRegister extends ui.FScrollViewContent {
   #fRegister;
 

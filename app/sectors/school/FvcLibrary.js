@@ -1,4 +1,4 @@
-(function(scol) {
+
 class FvcLibrary extends ui.FScrollViewContent {
   _renderContentOnRender(render) { 
     // Library for students, per course.

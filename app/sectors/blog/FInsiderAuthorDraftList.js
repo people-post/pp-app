@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FInsiderAuthorDraftList extends blog.FDraftList {
   _renderOnRender(render) {
     let pMain = new ui.SectionPanel("Authored");

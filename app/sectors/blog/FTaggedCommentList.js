@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FTaggedCommentList extends ui.Fragment {
   #idLoader;
   #fComments;

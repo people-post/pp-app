@@ -1,4 +1,4 @@
-(function(blog) {
+
 class OwnerWeb3PostIdLoader extends plt.LongListIdLoader {
   #idRecord = new dat.UniSegmentedLongListIdRecord();
   #ownerId = null;

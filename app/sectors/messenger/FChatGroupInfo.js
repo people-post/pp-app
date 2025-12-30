@@ -1,4 +1,4 @@
-(function(msgr) {
+
 class FChatGroupInfo extends msgr.FChatThreadInfo {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {

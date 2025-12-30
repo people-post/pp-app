@@ -1,4 +1,4 @@
-(function(ftpg) {
+
 class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() {
     if (dba.Account.isAuthenticated()) {

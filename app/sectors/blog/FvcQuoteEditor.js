@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FvcQuoteEditor extends ui.FScrollViewContent {
   constructor() {
     super();

@@ -1,4 +1,4 @@
-(function(auth) {
+
 const _CFT_RETRIEVE_PASSWORD = {
   MAIN : `<table class="automargin">
     <tbody> 

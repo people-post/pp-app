@@ -1,4 +1,4 @@
-(function(blog) {
+
 window.CF_BLOG_CONFIG = {
   ADD_ROLE : "CF_BLOG_CONFIG_1",
 };

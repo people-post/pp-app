@@ -1,4 +1,4 @@
-(function(msgr) {
+
 class MessageHandler extends ext.Controller {
   constructor() {
     super();

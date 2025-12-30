@@ -1,4 +1,4 @@
-(function(psud) {
+
 class Gateway extends plt.SectorGateway {
   static T_CONFIG = {
     QUEUE : {ID : C.ID.SECTOR.QUEUE, NAME: "Queue", ICON: C.ICON.QUEUE},

@@ -1,4 +1,4 @@
-(function(hr) {
+
 class FvcWeb3UserInfo extends ui.FViewContentWithHeroBanner {
   #fBanner;
   #fBlog;

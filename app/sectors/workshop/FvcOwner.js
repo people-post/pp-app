@@ -1,4 +1,4 @@
-(function(wksp) {
+
 class FvcOwner extends ui.FScrollViewContent {
   #fmMain;
   #fmSearch;

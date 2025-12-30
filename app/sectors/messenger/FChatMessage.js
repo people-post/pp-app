@@ -1,4 +1,4 @@
-(function(msgr) {
+
 window.CF_CHAT_MESSAGE = {
   GROUP_INFO : "CF_CHAT_MESSAGE_1",
   USER_INFO : "CF_CHAT_MESSAGE_2",

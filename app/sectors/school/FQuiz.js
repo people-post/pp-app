@@ -1,5 +1,4 @@
-(function(scol) {
-scol.CF_QUIZ_INFO = {
+export const CF_QUIZ_INFO = {
   VIEW_QUIZ : Symbol(),
 };
 
@@ -101,3 +100,9 @@ class FQuiz extends gui.MajorSectorItem {
 
 scol.FQuiz = FQuiz;
 }(window.scol = window.scol || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.scol = window.scol || {};
+  window.scol.CF_QUIZ_INFO = CF_QUIZ_INFO;
+}

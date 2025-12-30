@@ -1,4 +1,4 @@
-(function(auth) {
+
 class FvcLoginBase extends ui.FScrollViewContent {
   getActionButton() {
     // Return empty fragment to avoid being assigned with default action button

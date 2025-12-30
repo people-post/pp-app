@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FRoleList extends ui.Fragment {
   constructor() {
     super();

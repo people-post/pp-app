@@ -1,4 +1,4 @@
-(function(wksp) {
+
 const _CPT_PROJECT_STAGE_INFO_COMPACT = {
   MAIN : `<div class="flex space-between baseline-align-items">
       <div>

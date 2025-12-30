@@ -1,5 +1,4 @@
-(function(blog) {
-blog.CF_ROLE = {
+export const CF_ROLE = {
   ON_CLICK : Symbol(),
 };
 
@@ -64,3 +63,9 @@ class FRole extends ui.Fragment {
 
 blog.FRole = FRole;
 }(window.blog = window.blog || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.CF_ROLE = CF_ROLE;
+}

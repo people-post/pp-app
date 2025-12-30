@@ -1,4 +1,4 @@
-(function(hstn) {
+
 window.CFM_NS_SETUP = {
   SUBMIT : "CFM_NS_SETUP_1",
   NS_HOW_TO : "CFM_NS_SETUP_2",

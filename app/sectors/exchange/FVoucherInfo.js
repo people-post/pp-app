@@ -1,4 +1,4 @@
-(function(xchg) {
+
 window.CF_VOUCHER_INFO = {
   DONATE : "CF_VOUCHER_INFO_1",
   CLAIM : "CF_VOUCHER_INFO_2",

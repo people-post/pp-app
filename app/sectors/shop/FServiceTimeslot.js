@@ -1,4 +1,4 @@
-(function(shop) {
+
 class FServiceTimeslot extends ui.Fragment {
   constructor() {
     super();

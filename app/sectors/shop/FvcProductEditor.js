@@ -1,5 +1,4 @@
-(function(shop) {
-shop.CF_PRODUCT_EDITOR = {
+export const CF_PRODUCT_EDITOR = {
   SUBMIT : "CF_SHOP_PRODUCT_EDITOR_1",
 }
 
@@ -222,3 +221,9 @@ class FvcProductEditor extends ui.FScrollViewContent {
 
 shop.FvcProductEditor = FvcProductEditor;
 }(window.shop = window.shop || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.shop = window.shop || {};
+  window.shop.CF_PRODUCT_EDITOR = CF_PRODUCT_EDITOR;
+}

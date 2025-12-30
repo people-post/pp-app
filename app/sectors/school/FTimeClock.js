@@ -1,4 +1,4 @@
-(function(scol) {
+
 class FTimeClock extends ui.Fragment {
   constructor() {
     super();

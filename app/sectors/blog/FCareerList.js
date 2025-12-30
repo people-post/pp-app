@@ -1,4 +1,4 @@
-(function(blog) {
+
 class FCareerList extends ui.Fragment {
   #fList;
   #selectedId = null;

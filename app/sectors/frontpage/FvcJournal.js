@@ -1,4 +1,4 @@
-(function(ftpg) {
+
 const _CPT_JOURNAL = {
   NARROW_MAIN : `<div class="h100 flex x-scroll x-scroll-snap">
   <div class="w90 pad5px flex-noshrink scroll-snap-start">

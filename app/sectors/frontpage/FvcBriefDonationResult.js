@@ -1,4 +1,4 @@
-(function(ftpg) {
+
 class FvcBriefDonationResult extends ui.FViewContentBase {
   static T_TYPE = {SUCCESS : Symbol(), FAILURE: Symbol()};
 

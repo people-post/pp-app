@@ -1,4 +1,4 @@
-(function(cmut) {
+
 window.CF_PROPOSAL_TITLE = {
   USER_INFO : "CF_PROPOSAL_TITLE_1",
 }

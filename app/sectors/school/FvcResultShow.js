@@ -1,4 +1,4 @@
-(function(scol) {
+
 class FvcResultShow extends ui.FScrollViewContent {
   _renderContentOnRender(render) { 
     // Result show for students, per course.

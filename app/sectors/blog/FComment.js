@@ -1,4 +1,4 @@
-(function(blog) {
+
 const _CFT_COMMENT = {
   ICON : `<span class="inline-block s-icon6">__ICON__</span>`,
 };
