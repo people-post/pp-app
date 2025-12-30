@@ -1,5 +1,7 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
-export class FQuoteElement extends ui.Fragment {
+export class FQuoteElement extends Fragment {
   #fItem = null;
   #item = null;
   #type = null;
@@ -78,7 +80,7 @@ export class FQuoteElement extends ui.Fragment {
 
   #showPost(id) {
     // id is SocialItemId
-    let v = new ui.View();
+    let v = new View();
     let f = new blog.FvcPost();
     f.setPostId(id);
     v.setContentFragment(f);
@@ -87,7 +89,7 @@ export class FQuoteElement extends ui.Fragment {
   }
 
   #showProject(id) {
-    let v = new ui.View();
+    let v = new View();
     let f = new wksp.FvcProject();
     f.setProjectId(id);
     v.setContentFragment(f);
@@ -95,7 +97,7 @@ export class FQuoteElement extends ui.Fragment {
   }
 
   #showProduct(id) {
-    let v = new ui.View();
+    let v = new View();
     let f = new shop.FvcProduct();
     f.setProductId(id);
     v.setContentFragment(f);

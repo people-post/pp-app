@@ -1,3 +1,5 @@
+import { FAttachmentFile } from '../../lib/ui/controllers/fragments/FAttachmentFile.js';
+import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 
 export class FFeedArticleInfo extends blog.FPostBase {
   #fAttachment;
@@ -10,7 +12,7 @@ export class FFeedArticleInfo extends blog.FPostBase {
 
   constructor() {
     super();
-    this.#fAttachment = new ui.FAttachmentFile();
+    this.#fAttachment = new FAttachmentFile();
     this.setChild("attachment", this.#fAttachment);
 
     this.#fThumbnail = new gui.FilesThumbnailFragment();
@@ -99,7 +101,7 @@ export class FFeedArticleInfo extends blog.FPostBase {
       return;
     }
 
-    let p = new ui.ThumbnailPanelWrapper();
+    let p = new ThumbnailPanelWrapper();
     if (this.#isSquareImage()) {
       p.setClassName("aspect-1-1-frame");
     }

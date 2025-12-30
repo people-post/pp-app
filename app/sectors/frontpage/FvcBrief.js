@@ -68,7 +68,21 @@ const _CPT_BRIEF = {
   </div>`,
 };
 
-export class PBriefBase extends ui.Panel {
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
+import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
+import { FScrollableHook } from '../../lib/ui/controllers/fragments/FScrollableHook.js';
+import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
+import { FDateSelector } from '../../lib/ui/controllers/fragments/FDateSelector.js';
+import { LContext } from '../../lib/ui/controllers/fragments/LContext.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { C } from '../../lib/framework/Constants.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
+import { ActionButtonGroup } from '../../common/gui/ActionButtonGroup.js';
+
+export class PBriefBase extends Panel {
   getBannerPanel() { return null; }
   getPostsPanel() { return null; }
   getCalendarBtnPanel() { return null; }
@@ -91,13 +105,13 @@ class PBriefNarrow extends PBriefBase {
   #pCopyrights;
   constructor() {
     super();
-    this.#pBanner = new ui.PanelWrapper();
-    this.#pPosts = new ui.PanelWrapper();
-    this.#pCalendarBtn = new ui.PanelWrapper();
-    this.#pPinnedTitle = new ui.PanelWrapper();
-    this.#pPinned = new ui.ListPanel();
-    this.#pSocialLinks = new ui.PanelWrapper();
-    this.#pCopyrights = new ui.PanelWrapper();
+    this.#pBanner = new PanelWrapper();
+    this.#pPosts = new PanelWrapper();
+    this.#pCalendarBtn = new PanelWrapper();
+    this.#pPinnedTitle = new PanelWrapper();
+    this.#pPinned = new ListPanel();
+    this.#pSocialLinks = new PanelWrapper();
+    this.#pCopyrights = new PanelWrapper();
   }
 
   getBannerPanel() { return this.#pBanner; }
@@ -143,14 +157,14 @@ class PBriefWide extends PBriefBase {
   #pCopyrights;
   constructor() {
     super();
-    this.#pBanner = new ui.PanelWrapper();
-    this.#pPosts = new ui.PanelWrapper();
-    this.#pCalendarTitle = new ui.PanelWrapper();
-    this.#pCalendar = new ui.PanelWrapper();
-    this.#pPinnedTitle = new ui.PanelWrapper();
-    this.#pPinned = new ui.ListPanel();
-    this.#pSocialLinks = new ui.PanelWrapper();
-    this.#pCopyrights = new ui.PanelWrapper();
+    this.#pBanner = new PanelWrapper();
+    this.#pPosts = new PanelWrapper();
+    this.#pCalendarTitle = new PanelWrapper();
+    this.#pCalendar = new PanelWrapper();
+    this.#pPinnedTitle = new PanelWrapper();
+    this.#pPinned = new ListPanel();
+    this.#pSocialLinks = new PanelWrapper();
+    this.#pCopyrights = new PanelWrapper();
   }
 
   getBannerPanel() { return this.#pBanner; }
@@ -188,7 +202,7 @@ class PBriefWide extends PBriefBase {
   }
 };
 
-class FvcBrief extends ui.FViewContentBase {
+class FvcBrief extends FViewContentBase {
   static #T_WIDTH = {
     NARROW : Symbol(),
     WIDE: Symbol(),
@@ -218,7 +232,7 @@ class FvcBrief extends ui.FViewContentBase {
     this.#fHome = new main.FHomeBtn();
     this.#fHome.setUrl(dba.WebConfig.getHomeUrl());
 
-    this.#fmMain = new ui.FHeaderMenu();
+    this.#fmMain = new FHeaderMenu();
     this.#fmMain.setIcon(C.ICON.M_MENU, new MainIconOperator());
     this.#fmMain.setExpansionPriority(0);
 
@@ -234,7 +248,7 @@ class FvcBrief extends ui.FViewContentBase {
     this.#mMain.setDelegate(this);
     this.#fmMain.setContentFragment(this.#mMain);
 
-    this.#fmSearch = new ui.FHeaderMenu();
+    this.#fmSearch = new FHeaderMenu();
     this.#fmSearch.setIcon(C.ICON.M_SEARCH, new SearchIconOperator());
     let f = new srch.FSearchMenu();
     f.setResultLayoutType(srch.FSearchResultInfo.T_LAYOUT.BRIEF);
@@ -242,11 +256,11 @@ class FvcBrief extends ui.FViewContentBase {
     this.#fmSearch.setContentFragment(f);
     this.#fmSearch.setExpansionPriority(1);
 
-    this.#fmLanguage = new ui.FHeaderMenu();
+    this.#fmLanguage = new FHeaderMenu();
     this.#fmLanguage.setIcon(Utilities.renderSvgMenuIcon(C.ICON.LANGUAGE));
     this.#fmLanguage.setDelegate(this);
 
-    this.#lc = new ui.LContext();
+    this.#lc = new LContext();
     this.#lc.setDelegate(this);
 
     this.#loader = new blog.OwnerPostIdLoader();
@@ -255,13 +269,13 @@ class FvcBrief extends ui.FViewContentBase {
     this.#fPosts.setDataSource(this);
     this.#fPosts.setDelegate(this);
     this.#fPosts.setLoader(this.#loader);
-    this.#fPostsHook = new ui.FScrollableHook(this.#fPosts);
+    this.#fPostsHook = new FScrollableHook(this.#fPosts);
     this.setChild("posts", this.#fPostsHook);
 
-    this.#fPinnedPosts = new ui.FFragmentList();
+    this.#fPinnedPosts = new FFragmentList();
     this.setChild("pinnedposts", this.#fPinnedPosts);
 
-    this.#fCalendar = new ui.FDateSelector();
+    this.#fCalendar = new FDateSelector();
     this.#fCalendar.setEnableClear(false);
     this.#fCalendar.setDelegate(this);
     this.setChild("calendar", this.#fCalendar);
@@ -269,11 +283,11 @@ class FvcBrief extends ui.FViewContentBase {
     this.setPreferredWidth({"min" : 320, "best" : 2048, "max" : 0});
     this.#resizeObserver = new ResizeObserver(() => this.#onResize());
 
-    this.#fBtnDonate = new gui.ActionButton();
-    this.#fBtnDonate.setIcon(gui.ActionButton.T_ICON.DONATE);
+    this.#fBtnDonate = new ActionButton();
+    this.#fBtnDonate.setIcon(ActionButton.T_ICON.DONATE);
     this.#fBtnDonate.setDelegate(this);
 
-    this.#fAbg = new gui.ActionButtonGroup();
+    this.#fAbg = new ActionButtonGroup();
     this.#fAbg.append(this.#fBtnDonate);
   }
 
@@ -300,7 +314,7 @@ class FvcBrief extends ui.FViewContentBase {
   setConfig(c) { this.#config = c; }
 
   initFromUrl(urlParam) {
-    let id = urlParam.get(ui.C.URL_PARAM.ID);
+    let id = urlParam.get(C.URL_PARAM.ID);
     if (id) {
       this.#showBriefArticle(dat.SocialItemId.fromEncodedStr(id));
     }
@@ -331,7 +345,7 @@ class FvcBrief extends ui.FViewContentBase {
 
   onItemSelectedInGuiMainMenu(fMainMenu, menuItem) {
     if (menuItem.getId() == "ZHUANTI") {
-      let v = new ui.View();
+      let v = new View();
       let f = new ftpg.FvcInsights();
       v.setContentFragment(f);
       this._owner.onFragmentRequestShowView(this, v, "insights");
@@ -416,7 +430,7 @@ class FvcBrief extends ui.FViewContentBase {
       }
       this.#fPinnedPosts.attachRender(p);
       for (let id of ids) {
-        let pp = new ui.PanelWrapper();
+        let pp = new PanelWrapper();
         pp.setClassName(
             "w90 s-csecondarydecorbg flex-noshrink scroll-snap-start h200px y-scroll no-scrollbar");
         p.pushPanel(pp);
@@ -434,7 +448,7 @@ class FvcBrief extends ui.FViewContentBase {
       this.#renderPinnedTitle(panel.getPinnedTitlePanel());
       this.#fPinnedPosts.attachRender(p);
       for (let id of ids) {
-        let pp = new ui.PanelWrapper();
+        let pp = new PanelWrapper();
         p.pushPanel(pp);
         let f = new blog.FPostInfo();
         f.setPostId(id);
@@ -496,7 +510,7 @@ class FvcBrief extends ui.FViewContentBase {
   }
 
   #showBriefArticle(sid) {
-    let v = new ui.View();
+    let v = new View();
     let f = new blog.FvcOwnerPostScroller();
     let a = dba.Blog.getArticle(sid.getValue());
     if (a) {
@@ -589,7 +603,7 @@ class FvcBrief extends ui.FViewContentBase {
   }
 
   #onShowDonation() {
-    let v = new ui.View();
+    let v = new View();
     let f = new ftpg.FvcBriefDonation();
     v.setContentFragment(f);
     this.onFragmentRequestShowView(this, v, "donation");

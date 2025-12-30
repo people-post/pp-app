@@ -1,8 +1,12 @@
-export class FvcProduct extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+
+export class FvcProduct extends FScrollViewContent {
   constructor() {
     super();
-    this._fBtnEdit = new gui.ActionButton();
-    this._fBtnEdit.setIcon(gui.ActionButton.T_ICON.EDIT);
+    this._fBtnEdit = new ActionButton();
+    this._fBtnEdit.setIcon(ActionButton.T_ICON.EDIT);
     this._fBtnEdit.setDelegate(this);
 
     this._fProduct = new shop.FProduct();
@@ -49,7 +53,7 @@ export class FvcProduct extends ui.FScrollViewContent {
   #onEdit() {
     let p = dba.Shop.getProduct(this._fProduct.getProductId());
     if (p) {
-      let v = new ui.View();
+      let v = new View();
       let f = new shop.FvcProductEditor();
       f.setDelegate(this);
       f.setProduct(p);

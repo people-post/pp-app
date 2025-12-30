@@ -1,11 +1,16 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class FRegisterList extends ui.Fragment {
+export class FRegisterList extends Fragment {
   constructor() {
     super();
-    this._fItems = new ui.FSimpleFragmentList();
+    this._fItems = new FSimpleFragmentList();
     this.setChild("items", this._fItems);
 
-    this._fBtnAdd = new ui.Button();
+    this._fBtnAdd = new Button();
     this._fBtnAdd.setName("+New register");
     this._fBtnAdd.setDelegate(this);
     this.setChild("btnAdd", this._fBtnAdd);
@@ -39,9 +44,9 @@ export class FRegisterList extends ui.Fragment {
       return;
     }
 
-    let pMain = new ui.ListPanel();
+    let pMain = new ListPanel();
     render.wrapPanel(pMain);
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     pMain.pushPanel(p);
 
     this._fItems.clear();
@@ -60,7 +65,7 @@ export class FRegisterList extends ui.Fragment {
     pMain.pushSpace(1);
 
     if (this._isEditEnabled) {
-      p = new ui.PanelWrapper();
+      p = new PanelWrapper();
       pMain.pushPanel(p);
       this._fBtnAdd.attachRender(p);
       this._fBtnAdd.render();

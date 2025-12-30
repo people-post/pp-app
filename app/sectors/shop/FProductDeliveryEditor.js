@@ -1,5 +1,9 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class FProductDeliveryEditor extends ui.Fragment {
+export class FProductDeliveryEditor extends Fragment {
   constructor() {
     super();
     this._value = null;
@@ -20,16 +24,16 @@ export class FProductDeliveryEditor extends ui.Fragment {
   _collectData() { return null; }
 
   _renderOnRender(render) {
-    let panel = new ui.ListPanel();
+    let panel = new ListPanel();
     render.wrapPanel(panel);
 
-    let p = new ui.Panel();
+    let p = new Panel();
     panel.pushPanel(p);
     if (this._value) {
       p.replaceContent(this._value.getDescription());
     }
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     panel.pushPanel(p);
     this._renderSpec(p);
   }

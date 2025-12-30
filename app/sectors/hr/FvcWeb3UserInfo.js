@@ -1,5 +1,9 @@
+import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/FViewContentWithHeroBanner.js';
+import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { C } from '../../lib/framework/Constants.js';
 
-export class FvcWeb3UserInfo extends ui.FViewContentWithHeroBanner {
+export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
   #fBanner;
   #fBlog;
   #fMain;
@@ -17,7 +21,7 @@ export class FvcWeb3UserInfo extends ui.FViewContentWithHeroBanner {
     this.#fBlog.setDataSource(this);
     this.#fBlog.setDelegate(this);
 
-    this.#fMain = new ui.FViewContentMux();
+    this.#fMain = new FViewContentMux();
     this.wrapContentFragment(this.#fMain);
   }
 
@@ -41,7 +45,7 @@ export class FvcWeb3UserInfo extends ui.FViewContentWithHeroBanner {
   }
 
   onUserInfoHeroBannerFragmentRequestStartChat(fBanner, target) {
-    let v = new ui.View();
+    let v = new View();
     let f = new msgr.FvcChat();
     f.setTarget(target);
     v.setContentFragment(f);

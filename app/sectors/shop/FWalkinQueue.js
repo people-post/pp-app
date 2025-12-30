@@ -1,5 +1,8 @@
+import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
+import { C } from '../../lib/framework/Constants.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
-export class FWalkinQueue extends ui.FLongListLegacy {
+export class FWalkinQueue extends FLongListLegacy {
   constructor() {
     super();
     this._isReadOnly = false;
@@ -9,7 +12,7 @@ export class FWalkinQueue extends ui.FLongListLegacy {
   }
 
   initFromUrl(urlParam) {
-    let id = urlParam.get(ui.C.URL_PARAM.ID);
+    let id = urlParam.get(C.URL_PARAM.ID);
     if (id) {
       this.switchToItem(id);
     }
@@ -17,7 +20,7 @@ export class FWalkinQueue extends ui.FLongListLegacy {
 
   getUrlParamString() {
     if (this._currentId) {
-      return ui.C.URL_PARAM.ID + "=" + this._currentId;
+      return C.URL_PARAM.ID + "=" + this._currentId;
     }
     return "";
   }
@@ -74,7 +77,7 @@ export class FWalkinQueue extends ui.FLongListLegacy {
   }
 
   _createItemView(id) {
-    let v = new ui.View();
+    let v = new View();
     let f = new shop.FvcWalkinQueueItem();
     f.setItemId(id);
     v.setContentFragment(f);

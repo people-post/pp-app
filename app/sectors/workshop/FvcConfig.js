@@ -1,11 +1,15 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 
-export class FvcConfig extends ui.FScrollViewContent {
+export class FvcConfig extends FScrollViewContent {
   constructor() {
     super();
-    this._fTeams = new ui.FSimpleFragmentList();
+    this._fTeams = new FSimpleFragmentList();
     this.setChild("teams", this._fTeams);
 
-    this._fOptions = new ui.OptionSwitch();
+    this._fOptions = new OptionSwitch();
     this._fOptions.addOption("Set as home page", "HOME");
     this._fOptions.setDelegate(this);
     this.setChild("options", this._fOptions);
@@ -16,14 +20,14 @@ export class FvcConfig extends ui.FScrollViewContent {
     this._fMenuConfig.setSectorId(C.ID.SECTOR.WORKSHOP);
     this.setChild("mainMenu", this._fMenuConfig);
 
-    this._fBtnAddTeam = new ui.Button();
+    this._fBtnAddTeam = new Button();
     this._fBtnAddTeam.setName("New team...");
     this._fBtnAddTeam.setDelegate(this);
     this.setChild("btnAddTeam", this._fBtnAddTeam);
 
-    this._fBtnClose = new ui.Button();
+    this._fBtnClose = new Button();
     this._fBtnClose.setName("Close workshop...");
-    this._fBtnClose.setThemeType(ui.Button.T_THEME.DANGER);
+    this._fBtnClose.setThemeType(Button.T_THEME.DANGER);
     this._fBtnClose.setDelegate(this);
     this.setChild("btnClose", this._fBtnClose);
 
@@ -78,27 +82,33 @@ export class FvcConfig extends ui.FScrollViewContent {
     super.handleSessionDataUpdate.apply(this, arguments);
   }
 
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { FTeam } from './FTeam.js';
+
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.SectionPanel("Options");
+    let pp = new SectionPanel("Options");
     p.pushPanel(pp);
     this._fOptions.setOption("HOME", dba.WebConfig.getHomeSector() ==
                                          C.ID.SECTOR.WORKSHOP);
     this._fOptions.attachRender(pp.getContentPanel());
     this._fOptions.render();
 
-    pp = new ui.SectionPanel("Main menu");
+    pp = new SectionPanel("Main menu");
     p.pushPanel(pp);
     this._fMenuConfig.attachRender(pp.getContentPanel());
     this._fMenuConfig.render();
 
-    pp = new ui.SectionPanel("Teams");
+    pp = new SectionPanel("Teams");
     p.pushPanel(pp);
     this._fTeams.clear();
     for (let id of dba.Workshop.getTeamIds()) {
-      let f = new wksp.FTeam();
+      let f = new FTeam();
       f.setTeamId(id);
       f.setDataSource(this);
       f.setDelegate(this);
@@ -109,13 +119,13 @@ export class FvcConfig extends ui.FScrollViewContent {
 
     p.pushSpace(1);
     if (dba.Workshop.getTeamIds().length < C.MAX.N_TEAMS) {
-      pp = new ui.PanelWrapper();
+      pp = new PanelWrapper();
       p.pushPanel(pp);
       this._fBtnAddTeam.attachRender(pp);
       this._fBtnAddTeam.render();
       p.pushSpace(1);
     }
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this._fBtnClose.attachRender(pp);
     this._fBtnClose.render();

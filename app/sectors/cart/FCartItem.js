@@ -14,7 +14,12 @@ const _CFT_CART_ITEM = {
   </span>`,
 };
 
-export class FCartItem extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+
+export class FCartItem extends Fragment {
   static T_LAYOUT = {
     ACTIVE : Symbol(),
     RESERVE: Symbol(),
@@ -27,23 +32,23 @@ export class FCartItem extends ui.Fragment {
     this._fThumbnail.setDelegate(this);
     this.setChild("thumbnail", this._fThumbnail);
 
-    this._fBtnDelete = new ui.Button();
-    this._fBtnDelete.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
-    this._fBtnDelete.setThemeType(ui.Button.T_THEME.RISKY);
+    this._fBtnDelete = new Button();
+    this._fBtnDelete.setLayoutType(Button.LAYOUT_TYPE.SMALL);
+    this._fBtnDelete.setThemeType(Button.T_THEME.RISKY);
     this._fBtnDelete.setName("delete");
     this._fBtnDelete.setDelegate(this);
     this.setChild("btnDelete", this._fBtnDelete);
 
-    this._fBtnSaveForLater = new ui.Button();
-    this._fBtnSaveForLater.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
-    this._fBtnSaveForLater.setThemeType(ui.Button.T_THEME.NONE);
+    this._fBtnSaveForLater = new Button();
+    this._fBtnSaveForLater.setLayoutType(Button.LAYOUT_TYPE.SMALL);
+    this._fBtnSaveForLater.setThemeType(Button.T_THEME.NONE);
     this._fBtnSaveForLater.setName("Save for later");
     this._fBtnSaveForLater.setDelegate(this);
     this.setChild("btnSaveForLater", this._fBtnSaveForLater);
 
-    this._fBtnMoveToCart = new ui.Button();
-    this._fBtnMoveToCart.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
-    this._fBtnMoveToCart.setThemeType(ui.Button.T_THEME.NONE);
+    this._fBtnMoveToCart = new Button();
+    this._fBtnMoveToCart.setLayoutType(Button.LAYOUT_TYPE.SMALL);
+    this._fBtnMoveToCart.setThemeType(Button.T_THEME.NONE);
     this._fBtnMoveToCart.setName("Move to cart");
     this._fBtnMoveToCart.setDelegate(this);
     this.setChild("btnMoveToCart", this._fBtnMoveToCart);
@@ -174,7 +179,7 @@ export class FCartItem extends ui.Fragment {
   }
 
   #renderThumbnail(panel) {
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     p.setClassName("thumbnail small");
     panel.wrapPanel(p);
     this._fThumbnail.attachRender(p);
@@ -224,7 +229,7 @@ export class FCartItem extends ui.Fragment {
   }
 
   #onProductClicked(productId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new shop.FvcProduct();
     f.setProductId(productId);
     v.setContentFragment(f);

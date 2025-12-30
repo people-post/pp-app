@@ -1,5 +1,8 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { C } from '../../lib/framework/Constants.js';
 
-export class FvcQueueMain extends ui.FScrollViewContent {
+export class FvcQueueMain extends FScrollViewContent {
   constructor() {
     super();
     this._fQueue = new shop.FWalkinQueue();
@@ -41,7 +44,7 @@ export class FvcQueueMain extends ui.FScrollViewContent {
   _onContentDidAppear() {
     super._onContentDidAppear();
     if (!this._fQueue.getBranchId()) {
-      let v = new ui.View();
+      let v = new View();
       let f = new shop.FvcBranchSelection();
       f.setDelegate(this);
       v.setContentFragment(f);

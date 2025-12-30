@@ -1,10 +1,12 @@
-(function(main) {
+import { Fragment } from '../lib/ui/controllers/fragments/Fragment.js';
+import { ActionButton } from '../common/gui/ActionButton.js';
+
 // ActionButton needs some redesign
-class AbClose extends ui.Fragment {
+export class AbClose extends Fragment {
   constructor() {
     super();
-    this._fClose = new gui.ActionButton();
-    this._fClose.setIcon(gui.ActionButton.T_ICON.CLOSE);
+    this._fClose = new ActionButton();
+    this._fClose.setIcon(ActionButton.T_ICON.CLOSE);
     this._fClose.setDelegate(this);
   }
 
@@ -33,5 +35,8 @@ class AbClose extends ui.Fragment {
   }
 };
 
-main.AbClose = AbClose;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.AbClose = AbClose;
+}

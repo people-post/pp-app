@@ -15,7 +15,11 @@ const _CPT_WEB3_ARTICLE_EDITOR = {
   <br>`,
 };
 
-export class PWeb3ArticleEditor extends blog.PArticleBase {
+import { PArticleBase } from './PArticleBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PWeb3ArticleEditor extends PArticleBase {
   #pTitle;
   #pFiles;
   #pAttachment;
@@ -24,11 +28,13 @@ export class PWeb3ArticleEditor extends blog.PArticleBase {
 
   constructor() {
     super();
-    this.#pTitle = new ui.Panel();
-    this.#pFiles = new ui.PanelWrapper();
-    this.#pAttachment = new ui.PanelWrapper();
-    this.#pContent = new ui.PanelWrapper();
-    this.#pBtnList = new ui.ListPanel();
+    this.#pTitle = new Panel();
+    this.#pFiles = new PanelWrapper();
+    this.#pAttachment = new PanelWrapper();
+    this.#pContent = new PanelWrapper();
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+
+    this.#pBtnList = new ListPanel();
   }
 
   getTitlePanel() { return this.#pTitle; }

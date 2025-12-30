@@ -1,12 +1,16 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { C } from '../../lib/framework/Constants.js';
 
-export class FvcExplorer extends ui.FScrollViewContent {
+export class FvcExplorer extends FScrollViewContent {
   #fmSearch;
   #fList;
   #fBtnCart;
 
   constructor() {
     super();
-    this.#fmSearch = new ui.FHeaderMenu();
+    this.#fmSearch = new FHeaderMenu();
     this.#fmSearch.setIcon(C.ICON.M_SEARCH, new SearchIconOperator());
     let f = new srch.FSearchMenu();
     f.setDelegate(this);
@@ -21,7 +25,7 @@ export class FvcExplorer extends ui.FScrollViewContent {
   }
 
   initFromUrl(urlParam) {
-    let id = urlParam.get(ui.C.URL_PARAM.ID);
+    let id = urlParam.get(C.URL_PARAM.ID);
     if (id) {
       let sid = dat.SocialItemId.fromEncodedStr(id);
       if (sid) {
@@ -34,7 +38,7 @@ export class FvcExplorer extends ui.FScrollViewContent {
     let id = this.#fList.getCurrentId();
     if (id) {
       let sid = new dat.SocialItemId(id, dat.SocialItem.TYPE.PRODUCT);
-      return ui.C.URL_PARAM.ID + "=" + sid.toEncodedStr();
+      return C.URL_PARAM.ID + "=" + sid.toEncodedStr();
     }
     return "";
   }
@@ -53,7 +57,7 @@ export class FvcExplorer extends ui.FScrollViewContent {
   onScrollFinished() { this.#fList.onScrollFinished(); }
 
   onGuiActionButtonClick(fAction) {
-    let v = new ui.View();
+    let v = new View();
     let f = new cart.FvcCurrent();
     v.setContentFragment(f);
     this.onFragmentRequestShowView(this, v, "Cart");

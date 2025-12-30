@@ -1,8 +1,10 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
 export const CF_ROLE = {
   ON_CLICK : Symbol(),
 };
 
-export class FRole extends ui.Fragment {
+export class FRole extends Fragment {
   constructor() {
     super();
     this._roleId;

@@ -1,5 +1,6 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 
-export class FvcBookAppointment extends ui.FScrollViewContent {
+export class FvcBookAppointment extends FScrollViewContent {
   constructor() {
     super();
     this._fFilter = new shop.FServiceLocationFilter();

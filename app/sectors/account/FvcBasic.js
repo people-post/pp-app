@@ -1,19 +1,27 @@
-export class FvcBasic extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { PBasic } from './PBasic.js';
+import { FvcChangePassword } from '../auth/FvcChangePassword.js';
+
+export class FvcBasic extends FScrollViewContent {
   constructor() {
     super();
-    this._fNickname = new ui.TextInput();
+    this._fNickname = new TextInput();
     this._fNickname.setConfig(
         {title : "Nickname", hint : "Nickname", isRequired : false});
     this._fNickname.setDelegate(this);
     this.setChild("nickname", this._fNickname);
 
-    this._fBtnChangePassword = new ui.Button();
+    this._fBtnChangePassword = new Button();
     this._fBtnChangePassword.setName("Change password...");
     this._fBtnChangePassword.setValue("CHANGE_PASSWORD");
     this._fBtnChangePassword.setDelegate(this);
     this.setChild("btnChangePassword", this._fBtnChangePassword);
 
-    this._fOptions = new ui.OptionSwitch();
+    this._fOptions = new OptionSwitch();
     this._fOptions.addOption("Become beta feature tester", "BETA_TESTER",
                              false);
     this._fOptions.setDelegate(this);
@@ -33,7 +41,7 @@ export class FvcBasic extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let panel = new acnt.PBasic();
+    let panel = new PBasic();
     render.wrapPanel(panel);
     let p = panel.getNicknamePanel();
     this.#renderNickname(p);
@@ -72,8 +80,8 @@ export class FvcBasic extends ui.FScrollViewContent {
   }
 
   #onChangePassword() {
-    let v = new ui.View();
-    v.setContentFragment(new auth.FvcChangePassword());
+    let v = new View();
+    v.setContentFragment(new FvcChangePassword());
     this._owner.onFragmentRequestShowView(this, v, "Change password");
   }
 

@@ -20,12 +20,16 @@ const _CFT_GLOBAL_COMMUNITY_CONTENT = {
     <li>Vote to</li>
   </ol>`,
 }
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FGlobalCommunityInfo } from './FGlobalCommunityInfo.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 
-export class FvcGlobalCommunity extends ui.FScrollViewContent {
+export class FvcGlobalCommunity extends FScrollViewContent {
   constructor() {
     super();
     this._userId = null;
-    this._fGlobal = new cmut.FGlobalCommunityInfo();
+    this._fGlobal = new FGlobalCommunityInfo();
     this.setChild("global", this._fGlobal);
   }
 
@@ -55,19 +59,19 @@ export class FvcGlobalCommunity extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.SectionPanel("Hall Of Fame(HOF)");
+    let pp = new SectionPanel("Hall Of Fame(HOF)");
     // p.pushPanel(pp);
     // pp.getContentPanel().replaceContent(this.#renderHof());
 
-    pp = new ui.SectionPanel("Global");
+    pp = new SectionPanel("Global");
     p.pushPanel(pp);
     this._fGlobal.attachRender(pp.getContentPanel());
     this._fGlobal.render();
 
-    pp = new ui.SectionPanel("Personal");
+    pp = new SectionPanel("Personal");
     p.pushPanel(pp);
     pp.getContentPanel().replaceContent(this.#renderPersonal());
   }

@@ -3,13 +3,22 @@ export const CF_PROJECT_FLOW_CHART = {
   ONCLICK_AT_END : Symbol(),
 };
 
-export class FProjectFlowChart extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
+import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { C } from '../../lib/framework/Constants.js';
+
+export class FProjectFlowChart extends Fragment {
   constructor() {
     super();
-    this._fItems = new ui.FFragmentList();
+    this._fItems = new FFragmentList();
     this.setChild("items", this._fItems);
 
-    this._lc = new ui.LContext();
+    this._lc = new LContext();
     this._lc.setDelegate(this);
 
     this._selectedStageId = null;
@@ -51,11 +60,11 @@ export class FProjectFlowChart extends ui.Fragment {
     // Hack to make fItems as event source, may need better design
     this._fItems.attachRender(render);
 
-    let pMain = new ui.ListPanel();
+    let pMain = new ListPanel();
     render.wrapPanel(pMain);
 
     let p, pp;
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     p.setClassName("x-scroll center-align");
     pMain.pushPanel(p);
 
@@ -111,7 +120,7 @@ export class FProjectFlowChart extends ui.Fragment {
     }
     p = pFlow.addTerminalPanel(x, y, st.x, st.y);
     panelIdMap.set(this._ID_START, p.getId());
-    pp = new ui.Panel();
+    pp = new Panel();
     p.wrapPanel(pp);
     p.setThemeClassName(this.#getBeginTerminalClassName());
     p.setMainElementAttribute(
@@ -138,7 +147,7 @@ export class FProjectFlowChart extends ui.Fragment {
         p = pFlow.addProcessPanel(x, y, se.x, se.y);
         panelId = p.getId();
         panelIdMap.set(stage.getId(), panelId);
-        pp = new ui.PanelWrapper();
+        pp = new PanelWrapper();
         p.wrapPanel(pp);
         p.setThemeClassName(
             Utilities.getStateClassName(stage.getState(), stage.getStatus()));
@@ -167,7 +176,7 @@ export class FProjectFlowChart extends ui.Fragment {
     }
     p = pFlow.addTerminalPanel(x, y, st.x, st.y);
     panelId = p.getId();
-    pp = new ui.Panel();
+    pp = new Panel();
     p.wrapPanel(pp);
     p.setThemeClassName(this.#getEndTerminalClassName());
     p.setMainElementAttribute(
@@ -238,7 +247,7 @@ export class FProjectFlowChart extends ui.Fragment {
   #onPrependBeforeEnd() {
     let project = this._dataSource.getProjectForFlowChartFragment(this);
     if (project) {
-      let v = new ui.View();
+      let v = new View();
       let f = new wksp.FvcCreateProjectStageChoice();
       f.setProjectId(project.getId());
       f.setBeforeStage("");
@@ -250,7 +259,7 @@ export class FProjectFlowChart extends ui.Fragment {
   #onAppendAfterBegin() {
     let project = this._dataSource.getProjectForFlowChartFragment(this);
     if (project) {
-      let v = new ui.View();
+      let v = new View();
       let f = new wksp.FvcCreateProjectStageChoice();
       f.setProjectId(project.getId());
       f.setAfterStage("");

@@ -20,10 +20,13 @@ const _CPT_PRODUCT_INFO_SMALL_QUOTE = {
   </div>`,
 }
 
-export class PProductInfoSmallQuote extends shop.PProductInfoBase {
+import { PProductInfoBase } from './PProductInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PProductInfoSmallQuote extends PProductInfoBase {
   constructor() {
     super();
-    this._pSellerName = new ui.PanelWrapper();
+    this._pSellerName = new PanelWrapper();
   }
 
   getSellerNamePanel() { return this._pSellerName; }

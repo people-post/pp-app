@@ -1,3 +1,8 @@
+import { FvcChatThreadList } from './FvcChatThreadList.js';
+import { FvcContactList } from './FvcContactList.js';
+import { FvcChatGroupList } from './FvcChatGroupList.js';
+import { FvcMessengerNoticeList } from './FvcMessengerNoticeList.js';
+import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 
 export class Gateway extends plt.SectorGateway {
   getNTabNoticesForViewContentMuxFragment(fMux, v) {
@@ -16,21 +21,21 @@ export class Gateway extends plt.SectorGateway {
   }
 
   createMainViewContentFragment() {
-    let f = new ui.FViewContentMux();
+    let f = new FViewContentMux();
     f.setDataSource(this);
 
-    let ff = new msgr.FvcChatThreadList();
+    let ff = new FvcChatThreadList();
     f.addTab({name : R.t("Chats"), value : "THREADS", icon : C.ICON.CHAT}, ff);
 
-    ff = new msgr.FvcContactList();
+    ff = new FvcContactList();
     f.addTab(
         {name : R.t("Contacts"), value : "CONTACTS", icon : C.ICON.CONTACT},
         ff);
 
-    ff = new msgr.FvcChatGroupList();
+    ff = new FvcChatGroupList();
     f.addTab({name : R.t("Groups"), value : "GROUPS", icon : C.ICON.GROUP}, ff);
 
-    ff = new msgr.FvcMessengerNoticeList();
+    ff = new FvcMessengerNoticeList();
     f.addTab({name : R.t("Notices"), value : "NOTICES", icon : C.ICON.BELL},
              ff);
 

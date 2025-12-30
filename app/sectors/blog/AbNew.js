@@ -1,13 +1,19 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
+import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { C } from '../../lib/framework/Constants.js';
 
 // ActionButton needs some redesign
-export class AbNew extends ui.Fragment {
+export class AbNew extends Fragment {
   #lc;
   #fBtn;
   #isPendingChoices = false;
 
   constructor() {
     super();
-    this.#lc = new ui.LContext();
+    this.#lc = new LContext();
     this.#lc.setDelegate(this);
     this.#lc.setTargetName("adding post");
 
@@ -99,7 +105,7 @@ export class AbNew extends ui.Fragment {
       if (ownerIds.length > 1) {
         // Multi owners
         this.#lc.clearOptions();
-        let fTPane = new ui.FTabbedPane();
+        let fTPane = new FTabbedPane();
 
         fTPane.addPane({name : "Article", value : "ARTICLE"},
                        this.#createUserChoiceList(ownerIds));
@@ -140,7 +146,7 @@ export class AbNew extends ui.Fragment {
   }
 
   #createJournalChoiceList(journalIds) {
-    let f = new ui.FSimpleFragmentList();
+    let f = new FSimpleFragmentList();
     for (let jId of journalIds) {
       let ff = new blog.FJournal();
       ff.setJournalId(jId);
@@ -161,7 +167,7 @@ export class AbNew extends ui.Fragment {
   }
 
   #showDraftEditor(draftArticle) {
-    let v = new ui.View();
+    let v = new View();
     let f = new blog.FvcPostEditor();
     f.setPost(draftArticle);
     v.setContentFragment(f);
@@ -178,7 +184,7 @@ export class AbNew extends ui.Fragment {
   }
 
   #showDraftIssueEditor(draftIssue) {
-    let v = new ui.View();
+    let v = new View();
     let f = new blog.FvcPostEditor();
     f.setPost(draftIssue);
     v.setContentFragment(f);

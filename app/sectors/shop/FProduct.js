@@ -9,6 +9,8 @@ const _CFT_PRODUCT = {
   </div>`,
 };
 
+import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
+
 export class FProduct extends gui.MajorSectorItem {
   static T_LAYOUT = {
     INFO : Symbol(),
@@ -230,8 +232,9 @@ export class FProduct extends gui.MajorSectorItem {
     this._fDelivery.render();
   }
 
-  #createThumbnailPanel() {
-    let p = new ui.ThumbnailPanelWrapper();
+import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
+
+export class FProduct extends gui.MajorSectorItem {
     if (this.#isSquareThumbnail()) {
       p.setClassName("aspect-1-1-frame");
     }

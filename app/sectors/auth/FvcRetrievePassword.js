@@ -1,3 +1,10 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 
 const _CFT_RETRIEVE_PASSWORD = {
   MAIN : `<table class="automargin">
@@ -18,10 +25,10 @@ const _CFT_RETRIEVE_PASSWORD = {
     <div>__R_THANK_YOU__!</div>`,
 }
 
-export class FvcRetrievePassword extends ui.FScrollViewContent {
+export class FvcRetrievePassword extends FScrollViewContent {
   constructor() {
     super();
-    this._fSubmit = new ui.Button();
+    this._fSubmit = new Button();
     this._fSubmit.setName(R.t("Send reset link"));
     this._fSubmit.setValue("SUBMIT");
     this._fSubmit.setDelegate(this);
@@ -30,7 +37,7 @@ export class FvcRetrievePassword extends ui.FScrollViewContent {
 
   getActionButton() {
     // Return empty fragment to avoid being assigned with default action button
-    return new ui.Fragment();
+    return new Fragment();
   }
 
   onSimpleButtonClicked(fButton) {
@@ -40,24 +47,24 @@ export class FvcRetrievePassword extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
     p.pushSpace(1);
 
-    let pp = new ui.Panel();
+    let pp = new Panel();
     pp.setClassName("center-align");
     p.pushPanel(pp);
     pp.replaceContent(R.get("RESET_PASS"));
     p.pushSpace(1);
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderForm());
 
     p.pushSpace(1);
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this._fSubmit.attachRender(pp);
     this._fSubmit.render();
@@ -86,8 +93,8 @@ export class FvcRetrievePassword extends ui.FScrollViewContent {
   }
 
   #onRetrievePasswordRRR(data) {
-    let v = new ui.View();
-    let f = new ui.FvcNotice();
+    let v = new View();
+    let f = new FvcNotice();
     f.setMessage(this.#renderSuccessMsg());
     v.setContentFragment(f);
     this._owner.onContentFragmentRequestReplaceView(this, v, "Message");

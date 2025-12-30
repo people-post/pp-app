@@ -1,3 +1,9 @@
+import { FAttachmentFile } from '../../lib/ui/controllers/fragments/FAttachmentFile.js';
+import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
+import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 
 export class FArticleInfo extends blog.FPostBase {
   #fAttachment;
@@ -13,7 +19,7 @@ export class FArticleInfo extends blog.FPostBase {
 
   constructor() {
     super();
-    this.#fAttachment = new ui.FAttachmentFile();
+    this.#fAttachment = new FAttachmentFile();
     this.setChild("attachment", this.#fAttachment);
 
     this.#fThumbnail = new gui.FilesThumbnailFragment();
@@ -37,10 +43,10 @@ export class FArticleInfo extends blog.FPostBase {
     this.#fAuthorName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("authorName", this.#fAuthorName);
 
-    this.#fTags = new ui.FFragmentList();
+    this.#fTags = new FFragmentList();
     this.setChild("tags", this.#fTags);
 
-    this.#fBtnContext = new ui.OptionContextButton();
+    this.#fBtnContext = new OptionContextButton();
     this.#fBtnContext.setTargetName("comment");
     this.#fBtnContext.setDelegate(this);
     this.setChild("btnContext", this.#fBtnContext);
@@ -115,7 +121,7 @@ export class FArticleInfo extends blog.FPostBase {
     if (tagIds.length < 1) {
       return;
     }
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     pList.setClassName("flex flex-start baseline-align-items");
     panel.wrapPanel(pList);
 
@@ -124,7 +130,7 @@ export class FArticleInfo extends blog.FPostBase {
       let f = new gui.FTag();
       f.setTagId(id);
       this.#fTags.append(f);
-      let p = new ui.PanelWrapper();
+      let p = new PanelWrapper();
       pList.pushPanel(p);
       f.attachRender(p);
       f.render();
@@ -189,7 +195,7 @@ export class FArticleInfo extends blog.FPostBase {
       return;
     }
 
-    let p = new ui.ThumbnailPanelWrapper();
+    let p = new ThumbnailPanelWrapper();
     if (this.#isSquareImage()) {
       p.setClassName("aspect-1-1-frame");
     }

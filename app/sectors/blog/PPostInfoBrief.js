@@ -27,7 +27,11 @@ const _CPT_POST_INFO_BRIEF = {
   </div>`,
 }
 
-export class PPostInfoBrief extends gui.PPostInfoBase {
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PPostInfoBrief extends PPostInfoBase {
   #pTags;
   #pTitle;
   #pContent;
@@ -39,14 +43,14 @@ export class PPostInfoBrief extends gui.PPostInfoBase {
 
   constructor() {
     super();
-    this.#pTags = new ui.PanelWrapper();
-    this.#pTitle = new ui.Panel();
-    this.#pContent = new ui.PanelWrapper();
-    this.#pTime = new ui.Panel();
-    this.#pSourceLink = new ui.Panel();
-    this.#pAttachment = new ui.PanelWrapper();
-    this.#pImage = new ui.PanelWrapper();
-    this.#pSocial = new ui.PanelWrapper();
+    this.#pTags = new PanelWrapper();
+    this.#pTitle = new Panel();
+    this.#pContent = new PanelWrapper();
+    this.#pTime = new Panel();
+    this.#pSourceLink = new Panel();
+    this.#pAttachment = new PanelWrapper();
+    this.#pImage = new PanelWrapper();
+    this.#pSocial = new PanelWrapper();
   }
 
   isClickable() { return false; }

@@ -1,8 +1,9 @@
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 
 export class FGoodDelivery extends shop.FProductDelivery {
   constructor() {
     super();
-    this._fBtnAdd = new ui.Button();
+    this._fBtnAdd = new Button();
     this._fBtnAdd.setName("Add to cart");
     this._fBtnAdd.setDelegate(this);
     this.setChild("add", this._fBtnAdd);

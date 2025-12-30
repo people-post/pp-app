@@ -1,3 +1,6 @@
+import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
+import { C } from '../../lib/framework/Constants.js';
+
 const _CG_BLOG = {
   NEWS : {ID : "NEWS", NAME : "News", ICON : C.ICON.EXPLORER},
   OWNER_PUBLIC : {ID : "BLOG", NAME : "Blog", ICON : C.ICON.EXPLORER},
@@ -53,7 +56,7 @@ export class Gateway extends plt.SectorGateway {
   }
 
   #createMainViewContentFragmentForVisitor() {
-    let f = new ui.FViewContentMux();
+    let f = new FViewContentMux();
     f.setPreferredWidth({"min" : 320, "best" : 800, "max" : 0});
     f.setDataSource(this);
 
@@ -69,7 +72,7 @@ export class Gateway extends plt.SectorGateway {
   }
 
   #createMainViewContentFragmentForWeb3Owner() {
-    let f = new ui.FViewContentMux();
+    let f = new FViewContentMux();
     f.setPreferredWidth({"min" : 320, "best" : 800, "max" : 0});
     f.setDataSource(this);
 
@@ -88,7 +91,7 @@ export class Gateway extends plt.SectorGateway {
   }
 
   #createMainViewContentFragmentForOwner() {
-    let f = new ui.FViewContentMux();
+    let f = new FViewContentMux();
     f.setPreferredWidth({"min" : 320, "best" : 800, "max" : 0});
     f.setDataSource(this);
 

@@ -1,5 +1,6 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 
-export class FvcPostEditor extends ui.FScrollViewContent {
+export class FvcPostEditor extends FScrollViewContent {
   #fEditor = null;
 
   setPost(post) {

@@ -8,11 +8,14 @@ const _CPT_FILTER_ITEM = {
   </div>`,
 }
 
-export class PFilterItem extends ui.Panel {
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PFilterItem extends Panel {
   constructor() {
     super();
-    this._pContent = new ui.PanelWrapper();
-    this._pHint = new ui.Panel();
+    this._pContent = new PanelWrapper();
+    this._pHint = new Panel();
   }
 
   getContentPanel() { return this._pContent; }

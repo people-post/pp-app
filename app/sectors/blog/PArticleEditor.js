@@ -24,7 +24,13 @@ const _CPT_ARTICLE_EDITOR = {
   <br>`,
 };
 
-export class PArticleEditor extends blog.PArticleBase {
+import { PArticleBase } from './PArticleBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+
+export class PArticleEditor extends PArticleBase {
   #pTitle;
   #pFiles;
   #pAttachment;
@@ -37,15 +43,15 @@ export class PArticleEditor extends blog.PArticleBase {
 
   constructor() {
     super();
-    this.#pTitle = new ui.Panel();
-    this.#pFiles = new ui.PanelWrapper();
-    this.#pAttachment = new ui.PanelWrapper();
-    this.#pContent = new ui.PanelWrapper();
-    this.#pTags = new ui.SectionPanel("Menu tags");
-    this.#pQuoteUrl = new ui.PanelWrapper();
-    this.#pQuotePreview = new ui.PanelWrapper();
-    this.#pOptions = new ui.SectionPanel("Options");
-    this.#pBtnList = new ui.ListPanel();
+    this.#pTitle = new Panel();
+    this.#pFiles = new PanelWrapper();
+    this.#pAttachment = new PanelWrapper();
+    this.#pContent = new PanelWrapper();
+    this.#pTags = new SectionPanel("Menu tags");
+    this.#pQuoteUrl = new PanelWrapper();
+    this.#pQuotePreview = new PanelWrapper();
+    this.#pOptions = new SectionPanel("Options");
+    this.#pBtnList = new ListPanel();
   }
 
   getTitlePanel() { return this.#pTitle; }

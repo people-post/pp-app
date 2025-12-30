@@ -1,14 +1,20 @@
-export class FvcAddressEditor extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { AddressEditor } from '../../common/gui/AddressEditor.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class FvcAddressEditor extends FScrollViewContent {
   #fAddress;
   #btnSubmit;
   #addressId = null;
 
   constructor() {
     super();
-    this.#fAddress = new gui.AddressEditor();
+    this.#fAddress = new AddressEditor();
     this.setChild("editor", this.#fAddress);
 
-    this.#btnSubmit = new ui.Button();
+    this.#btnSubmit = new Button();
     this.#btnSubmit.setName("Submit");
     this.#btnSubmit.setDelegate(this);
     this.setChild("submit", this.#btnSubmit);
@@ -27,10 +33,10 @@ export class FvcAddressEditor extends ui.FScrollViewContent {
       }
     }
 
-    let panel = new ui.ListPanel();
+    let panel = new ListPanel();
     render.wrapPanel(panel);
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     panel.pushPanel(p);
     this.#fAddress.attachRender(p);
     this.#fAddress.render();
@@ -40,7 +46,7 @@ export class FvcAddressEditor extends ui.FScrollViewContent {
 
     panel.pushSpace(1);
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     panel.pushPanel(p);
     this.#btnSubmit.attachRender(p);
     this.#btnSubmit.render();

@@ -1,10 +1,12 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FCareerList } from './FCareerList.js';
 
-export class FvcCareerList extends ui.FScrollViewContent {
+export class FvcCareerList extends FScrollViewContent {
   #fList;
 
   constructor() {
     super();
-    this.#fList = new blog.FCareerList();
+    this.#fList = new FCareerList();
     this.setChild("list", this.#fList);
   }
 

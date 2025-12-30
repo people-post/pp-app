@@ -17,7 +17,11 @@ const _CPT_POST_INFO_CARD = {
   </div>`,
 }
 
-export class PPostInfoCard extends gui.PPostInfoBase {
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PPostInfoCard extends PPostInfoBase {
   #pTags;
   #pTitle;
   #pContent;
@@ -27,12 +31,12 @@ export class PPostInfoCard extends gui.PPostInfoBase {
 
   constructor() {
     super();
-    this.#pTags = new ui.PanelWrapper();
-    this.#pTitle = new ui.Panel();
-    this.#pContent = new ui.PanelWrapper();
-    this.#pTime = new ui.Panel();
-    this.#pSourceLink = new ui.Panel();
-    this.#pImage = new ui.PanelWrapper();
+    this.#pTags = new PanelWrapper();
+    this.#pTitle = new Panel();
+    this.#pContent = new PanelWrapper();
+    this.#pTime = new Panel();
+    this.#pSourceLink = new Panel();
+    this.#pImage = new PanelWrapper();
   }
 
   isClickable() { return false; }

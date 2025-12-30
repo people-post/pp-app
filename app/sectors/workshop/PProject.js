@@ -20,18 +20,22 @@ const _CPT_PROJECT = {
     `,
 }
 
-export class PProject extends ui.Panel {
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+
+export class PProject extends Panel {
   constructor() {
     super();
-    this._pTitle = new ui.Panel();
-    this._pDescription = new ui.Panel();
-    this._pImage = new ui.PanelWrapper();
-    this._pSocial = new ui.PanelWrapper();
-    this._pCreator = new ui.PanelWrapper();
-    this._pRoles = new ui.ListPanel();
-    this._pProjectAction = new ui.PanelWrapper();
-    this._pStatus = new ui.Panel();
-    this._pQuickStages = new ui.PanelWrapper();
+    this._pTitle = new Panel();
+    this._pDescription = new Panel();
+    this._pImage = new PanelWrapper();
+    this._pSocial = new PanelWrapper();
+    this._pCreator = new PanelWrapper();
+    this._pRoles = new ListPanel();
+    this._pProjectAction = new PanelWrapper();
+    this._pStatus = new Panel();
+    this._pQuickStages = new PanelWrapper();
   }
 
   getTitlePanel() { return this._pTitle; }

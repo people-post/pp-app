@@ -48,10 +48,16 @@ const _CFT_USER_INFO_HERO_BANNER = {
   </table>`,
 };
 
-export class FUserInfoHeroBanner extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+
+export class FUserInfoHeroBanner extends Fragment {
   constructor() {
     super();
-    this._fBioEditor = new ui.TextArea();
+    this._fBioEditor = new TextArea();
     this._fBioEditor.setClassName(
         "small-info-text w100 implicit center-align s-csecondarybg");
     this._fBioEditor.setDelegate(this);
@@ -108,7 +114,7 @@ export class FUserInfoHeroBanner extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     p.setClassName("sticky-bottom-header");
     render.wrapPanel(p);
 
@@ -124,7 +130,7 @@ export class FUserInfoHeroBanner extends ui.Fragment {
     this.#renderUploadButton(pp.getUploadButtonPanel(), user);
 
     // Name
-    pp = new ui.Panel();
+    pp = new Panel();
     pp.setClassName("user-info-name center-align");
     p.pushPanel(pp);
     if (user) {
@@ -134,14 +140,14 @@ export class FUserInfoHeroBanner extends ui.Fragment {
     }
 
     // Social connections
-    pp = new ui.Panel();
+    pp = new Panel();
     pp.setClassName("small-info-text center-align");
     p.pushPanel(pp);
     pp.replaceContent(this.#renderSocialConnections(user));
 
     // Domain
     if (user) {
-      pp = new ui.Panel();
+      pp = new Panel();
       p.pushPanel(pp);
       if (dba.Account.getId() == user.getId()) {
         if (dba.WebConfig.getOwnerId() == user.getId()) {
@@ -160,7 +166,7 @@ export class FUserInfoHeroBanner extends ui.Fragment {
       }
     }
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.setClassName("small-info-text center-align");
     if (user) {
@@ -308,7 +314,7 @@ export class FUserInfoHeroBanner extends ui.Fragment {
   #onUpdateInfoImage(file) { this.#asyncUpdateInfoImage(file); }
   #onUpdateBriefBio(text) { this.#asyncUpdateBriefBio(text); }
   #onShowFollowers(userId) {
-    let v = new ui.View();
+    let v = new View();
     let f;
     if (glb.env.isWeb3()) {
       f = new hr.FvcFollowerList();
@@ -322,7 +328,7 @@ export class FUserInfoHeroBanner extends ui.Fragment {
                                                                "Followers");
   }
   #onShowIdols(userId) {
-    let v = new ui.View();
+    let v = new View();
     let f;
     if (glb.env.isWeb3()) {
       f = new hr.FvcIdolList();

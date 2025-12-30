@@ -15,13 +15,17 @@ const _CPT_WALKIN_QUEUE_ITEM = {
   </div>`,
 }
 
-export class PWalkinQueueItem extends shop.PWalkinQueueItemBase {
+import { PWalkinQueueItemBase } from './PWalkinQueueItemBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PWalkinQueueItem extends PWalkinQueueItemBase {
   constructor() {
     super();
-    this._pStatus = new ui.PanelWrapper();
-    this._pNameDecor = new ui.Panel();
-    this._pActions = [ new ui.PanelWrapper(), new ui.PanelWrapper() ];
-    this._pAgent = new ui.PanelWrapper();
+    this._pStatus = new PanelWrapper();
+    this._pNameDecor = new Panel();
+    this._pActions = [ new PanelWrapper(), new PanelWrapper() ];
+    this._pAgent = new PanelWrapper();
   }
 
   getNameDecorPanel() { return this._pNameDecor; }

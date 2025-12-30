@@ -9,8 +9,11 @@ const _CFT_CREATE_COMMUNITY_CONTENT = {
   BTN_SUBMIT :
       `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_CREATE_COMMUNITY_CONTENT.SUBMIT)">Submit</a>`
 }
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class FvcCreateCommunity extends ui.FScrollViewContent {
+export class FvcCreateCommunity extends FScrollViewContent {
   action(type, ...args) {
     switch (type) {
     case CF_CREATE_COMMUNITY_CONTENT.SUBMIT:
@@ -23,16 +26,16 @@ export class FvcCreateCommunity extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderForm());
 
     p.pushSpace(1);
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(_CFT_CREATE_COMMUNITY_CONTENT.BTN_SUBMIT);
   }

@@ -11,7 +11,9 @@ const _CFT_CUSTOMER_ORDER_SUPPLIER_ITEM = {
   <div>__UNIT_PRICE__</div>`,
 }
 
-export class FOrderSupplierItem extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export class FOrderSupplierItem extends Fragment {
   constructor() {
     super();
     this._currencyId = null;
@@ -22,7 +24,7 @@ export class FOrderSupplierItem extends ui.Fragment {
   setItem(item) { this._item = item; }
 
   _renderOnRender(render) {
-    let p = new ui.Panel();
+    let p = new Panel();
     p.setClassName("flex space-between");
     render.wrapPanel(p);
     p.replaceContent(this.#renderItem(this._item));

@@ -1,7 +1,8 @@
+import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 
 export class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() {
-    let f = new ui.FViewContentMux();
+    let f = new FViewContentMux();
 
     let ff = new blog.FvcCareerList();
     f.addTab(

@@ -20,14 +20,20 @@ const _CFT_PRODUCT_EDITOR = {
   DELETE_BUTTON :
       `<a class="button-bar danger" href="javascript:void(0)">Delete</a>`,
 }
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
 
-export class FvcProductEditor extends ui.FScrollViewContent {
+export class FvcProductEditor extends FScrollViewContent {
   constructor() {
     super();
     this._fContent = new gui.RichContentEditor();
     this.setChild("content", this._fContent);
 
-    this._fFiles = new ui.FMultiMediaFileUploader();
+    this._fFiles = new FMultiMediaFileUploader();
     this._fFiles.setCacheIds([ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]);
     this._fFiles.setDataSource(this);
     this._fFiles.setDelegate(this);
@@ -142,7 +148,7 @@ export class FvcProductEditor extends ui.FScrollViewContent {
   }
 
   #renderDelivery(product, panel) {
-    let p = new ui.SectionPanel("Delivery");
+    let p = new SectionPanel("Delivery");
     panel.wrapPanel(p);
     if (product) {
       this._fDelivery.setChoices(product.getDeliveryChoices());

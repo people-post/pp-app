@@ -25,14 +25,18 @@ const _CPT_POST_INFO_BIG_HEAD = {
   </div>`,
 }
 
-export class PPostInfoBigHead extends gui.PPostInfoBase {
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PPostInfoBigHead extends PPostInfoBase {
   constructor() {
     super();
-    this._pTitle = new ui.Panel();
+    this._pTitle = new Panel();
     this._pCrossRef = new S.hr.PUserReference();
-    this._pQuote = new ui.PanelWrapper();
-    this._pDateTime = new ui.Panel();
-    this._pImage = new ui.PanelWrapper();
+    this._pQuote = new PanelWrapper();
+    this._pDateTime = new Panel();
+    this._pImage = new PanelWrapper();
   }
 
   getTitlePanel() { return this._pTitle; }

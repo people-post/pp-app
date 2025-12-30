@@ -9,13 +9,16 @@ const _CPT_BRANCH_SMALL = {
   </div>
   </div>`,
 };
+import { PBranchBase } from './PBranchBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class PBranchSmall extends shop.PBranchBase {
+export class PBranchSmall extends PBranchBase {
   constructor() {
     super();
-    this._pName = new ui.Panel();
-    this._pAddress = new ui.PanelWrapper();
-    this._pRegisterInfo = new ui.Panel();
+    this._pName = new Panel();
+    this._pAddress = new PanelWrapper();
+    this._pRegisterInfo = new Panel();
   }
 
   isColorInvertible() { return true; }

@@ -1,7 +1,13 @@
-(function(main) {
-class WcMain extends main.WcSession {
+import { WcSession } from './WcSession.js';
+import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
+import { LvMain } from './LvMain.js';
+import { AbAccount } from './AbAccount.js';
+import { View } from '../lib/ui/controllers/views/View.js';
+import { FvcQuotaLimit } from '../common/gui/FvcQuotaLimit.js';
+
+export class WcMain extends WcSession {
   onLoginClickInAccountActionButtonFragment(fAbAccount) {
-    let gw = new auth.Gateway();
+    let gw = new AuthGateway();
     let v = gw.createLoginView();
     this._pushView(v, "Login");
   }
@@ -27,10 +33,10 @@ class WcMain extends main.WcSession {
     }
   }
 
-  _createLayerFragment() { return new main.LvMain(); }
+  _createLayerFragment() { return new LvMain(); }
 
   _initLayer(lc) {
-    let fAb = new main.AbAccount();
+    let fAb = new AbAccount();
     fAb.setDelegate(this);
     lc.setDefaultActionButton(fAb);
     lc.setDefaultPageId(dba.WebConfig.getHomeSector());
@@ -53,8 +59,8 @@ class WcMain extends main.WcSession {
   }
 
   #showUpgradeView(quotaError) {
-    let v = new ui.View();
-    v.setContentFragment(new gui.FvcQuotaLimit(quotaError));
+    let v = new View();
+    v.setContentFragment(new FvcQuotaLimit(quotaError));
     this._pushDialog(v, "Quota limit");
   }
 
@@ -73,7 +79,7 @@ class WcMain extends main.WcSession {
   }
 
   #showBlogRolesView() {
-    let v = new ui.View();
+    let v = new View();
     let gw = new hr.Gateway();
     let f = gw.createMainViewContentFragment();
     f.switchTo(dat.Tag.T_ID.BLOG);
@@ -91,5 +97,8 @@ class WcMain extends main.WcSession {
   }
 };
 
-main.WcMain = WcMain;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.WcMain = WcMain;
+}

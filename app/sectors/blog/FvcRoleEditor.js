@@ -9,29 +9,37 @@ const _CFT_BLOG_ROLE_EDITOR = {
   SEC_SUBMIT : `<br>
     <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_BLOG_ROLE_EDITOR.SUBMIT)">Submit<a>`,
 }
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
+import { HintText } from '../../lib/ui/controllers/fragments/HintText.js';
+import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { C } from '../../lib/framework/Constants.js';
 
-export class FvcRoleEditor extends ui.FScrollViewContent {
+export class FvcRoleEditor extends FScrollViewContent {
   constructor() {
     super();
-    this._fTypeChoices = new ui.ButtonGroup();
+    this._fTypeChoices = new ButtonGroup();
     this._fTypeChoices.setDataSource(this);
     this._fTypeChoices.setDelegate(this);
     this._fTypeChoices.addChoice({
       name : "Insider",
       value : dat.BlogRole.T_ROLE.EXCLUSIVE,
       icon : C.ICON.EMPLOYEE,
-      fDetail : new ui.HintText(R.get("BLOG_ROLE_EXCLUSIVE"))
+      fDetail : new HintText(R.get("BLOG_ROLE_EXCLUSIVE"))
     });
     this._fTypeChoices.addChoice({
       name : "Coalitionist",
       value : dat.BlogRole.T_ROLE.PARTNERSHIP,
       icon : C.ICON.PARTNERSHIP,
-      fDetail : new ui.HintText(R.get("BLOG_ROLE_PARTNERSHIP"))
+      fDetail : new HintText(R.get("BLOG_ROLE_PARTNERSHIP"))
     });
     this._fTypeChoices.setSelectedValue(dat.BlogRole.T_ROLE.PARTNERSHIP);
     this.setChild("typeChoices", this._fTypeChoices);
 
-    this._fOptions = new ui.OptionSwitch();
+    this._fOptions = new OptionSwitch();
     this._fOptions.setDelegate(this);
     this._fOptions.addOption("Active", "ACTIVE", true);
     this._fOptions.addOption("Recruiting", "OPEN", true);
@@ -66,26 +74,26 @@ export class FvcRoleEditor extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.SectionPanel("Name");
+    let pp = new SectionPanel("Name");
     p.pushPanel(pp);
     pp.getContentPanel().replaceContent(this.#renderNameInputs());
     if (!this._roleId) {
       // New role, provide selection of type
-      pp = new ui.SectionPanel("Type");
+      pp = new SectionPanel("Type");
       p.pushPanel(pp);
       this._fTypeChoices.attachRender(pp.getContentPanel());
       this._fTypeChoices.render();
     }
-    pp = new ui.SectionPanel("Allowed tags");
+    pp = new SectionPanel("Allowed tags");
     p.pushPanel(pp);
     this._fTagsEditor.attachRender(pp.getContentPanel());
     this._fTagsEditor.render();
-    pp = new ui.SectionPanel("Options");
+    pp = new SectionPanel("Options");
     p.pushPanel(pp);
     this.#renderOptions(pp.getContentPanel());
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(_CFT_BLOG_ROLE_EDITOR.SEC_SUBMIT);
   }

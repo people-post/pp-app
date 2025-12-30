@@ -1,5 +1,7 @@
 
-export class FvcBriefDonationResult extends ui.FViewContentBase {
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
+
+export class FvcBriefDonationResult extends FViewContentBase {
   static T_TYPE = {SUCCESS : Symbol(), FAILURE: Symbol()};
 
   #type;

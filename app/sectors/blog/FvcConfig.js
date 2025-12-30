@@ -1,3 +1,12 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
+import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
+import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { C } from '../../lib/framework/Constants.js';
 
 window.CF_BLOG_CONFIG = {
   ADD_ROLE : "CF_BLOG_CONFIG_1",
@@ -10,7 +19,7 @@ const _CFT_BLOG_CONFIG_CONTENT = {
     <br>`,
 }
 
-export class FvcConfig extends ui.FScrollViewContent {
+export class FvcConfig extends FScrollViewContent {
   constructor() {
     super();
     this._fInsiders = new blog.FRoleList();
@@ -19,7 +28,7 @@ export class FvcConfig extends ui.FScrollViewContent {
     this._fPartnerships = new blog.FRoleList();
     this._fPartnerships.setRoleType(dat.BlogRole.T_ROLE.PARTNERSHIP);
     this._fPartnerships.setDelegate(this);
-    this._fRoles = new ui.FTabbedPane();
+    this._fRoles = new FTabbedPane();
     this._fRoles.addPane(
         {name : "Insiders", value : "INSIDER", icon : C.ICON.EMPLOYEE},
         this._fInsiders);
@@ -38,7 +47,7 @@ export class FvcConfig extends ui.FScrollViewContent {
     this._fMenuConfig.setSectorId(C.ID.SECTOR.BLOG);
     this.setChild("mainMenu", this._fMenuConfig);
 
-    this._fOptions = new ui.OptionSwitch();
+    this._fOptions = new OptionSwitch();
     this._fOptions.addOption("Enable social action", "SOCIAL");
     this._fOptions.addOption("Use \"big head\" style for pinned",
                              "PIN_BIG_HEAD");
@@ -51,7 +60,7 @@ export class FvcConfig extends ui.FScrollViewContent {
     let fInfo = new blog.FPostInfo()
     fInfo.setSizeType(dat.SocialItem.T_LAYOUT.COMPACT);
     f.setInfoFragment(fInfo);
-    this._fLayout = new ui.ButtonGroup();
+    this._fLayout = new ButtonGroup();
     this._fLayout.addChoice({
       name : "Compact",
       value : dat.SocialItem.T_LAYOUT.COMPACT,
@@ -109,7 +118,7 @@ export class FvcConfig extends ui.FScrollViewContent {
     this.#asyncUpdateInfoViewSizeConfig(sizeType);
   }
   onRoleListFragmentRequestEditRole(fRoleList, roleId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new blog.FvcRoleEditor();
     f.setRoleId(roleId);
     v.setContentFragment(f);
@@ -143,21 +152,21 @@ export class FvcConfig extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.SectionPanel("Layout");
+    let pp = new SectionPanel("Layout");
     p.pushPanel(pp);
     this._fLayout.setSelectedValue(dba.Blog.getItemLayoutType());
     this._fLayout.attachRender(pp);
     this._fLayout.render();
 
-    pp = new ui.SectionPanel("Main menu");
+    pp = new SectionPanel("Main menu");
     p.pushPanel(pp);
     this._fMenuConfig.attachRender(pp.getContentPanel());
     this._fMenuConfig.render();
 
-    pp = new ui.SectionPanel("Options");
+    pp = new SectionPanel("Options");
     p.pushPanel(pp);
     this._fOptions.setOption("SOCIAL", dba.Blog.isSocialEnabled());
     this._fOptions.setOption("PIN_BIG_HEAD",
@@ -166,19 +175,19 @@ export class FvcConfig extends ui.FScrollViewContent {
     this._fOptions.attachRender(pp.getContentPanel());
     this._fOptions.render();
 
-    pp = new ui.SectionPanel("Collaborations");
+    pp = new SectionPanel("Collaborations");
     p.pushPanel(pp);
     this._fRoles.attachRender(pp.getContentPanel());
     this._fRoles.render();
     if (dba.Blog.getRoleIds().length < C.MAX.N_ROLES) {
-      pp = new ui.Panel();
+      pp = new Panel();
       p.pushPanel(pp);
       pp.replaceContent(_CFT_BLOG_CONFIG_CONTENT.BTN_NEW_ROLE);
     }
   }
 
   #onAddRole() {
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(new blog.FvcRoleEditor());
     this._owner.onFragmentRequestShowView(this, v, "Blog role");
   }

@@ -1,3 +1,6 @@
+import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FJournalIssue extends blog.FPostBase {
   #issueId = null;
@@ -5,7 +8,7 @@ export class FJournalIssue extends blog.FPostBase {
 
   constructor() {
     super();
-    this.#fSections = new ui.FFragmentList();
+    this.#fSections = new FFragmentList();
     this.setChild("sections", this.#fSections);
   }
 
@@ -72,7 +75,7 @@ export class FJournalIssue extends blog.FPostBase {
     if (!journal) {
       return;
     }
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     panel.wrapPanel(pList);
 
     this.#fSections.clear();
@@ -92,7 +95,7 @@ export class FJournalIssue extends blog.FPostBase {
 
   #renderDefaultSections(pList, sections) {
     for (let s of sections) {
-      let p = new ui.PanelWrapper();
+      let p = new PanelWrapper();
       pList.pushPanel(p);
       let f = new blog.FJournalIssueSection();
       f.setData(s);
@@ -109,7 +112,7 @@ export class FJournalIssue extends blog.FPostBase {
     }
 
     for (let tId of config.getTagIds()) {
-      let p = new ui.PanelWrapper();
+      let p = new PanelWrapper();
       pList.pushPanel(p);
 
       let f = new blog.FJournalIssueSectionTagged();

@@ -17,7 +17,11 @@ const _CFT_BASIC_WEB_CONFIG = {
       `<input type="text" class="tight-label-like" placeholder="Color" value-bak="__VALUE__" value="__VALUE__" style="color: __COLOR__" onchange="javascript:G.action(CF_BASIC_WEB_CONFIG.ON_DEFAULT_COLOR_CHANGE, '__KEY__', this)">`,
 }
 
-export class FvcBasicWebConfig extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+
+export class FvcBasicWebConfig extends FScrollViewContent {
   action(type, ...args) {
     switch (type) {
     case CF_BASIC_WEB_CONFIG.ON_DEFAULT_COLOR_CHANGE:
@@ -51,16 +55,16 @@ export class FvcBasicWebConfig extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.SectionPanel("Home page title");
+    let pp = new SectionPanel("Home page title");
     p.pushPanel(pp);
     let cp = pp.getContentPanel();
     cp.replaceContent(_CFT_BASIC_WEB_CONFIG.HOME_PAGE_TITLE.replace(
         "__VALUE__", dba.WebConfig.getHomePageTitle()));
 
-    pp = new ui.SectionPanel("Default theme");
+    pp = new SectionPanel("Default theme");
     p.pushPanel(pp);
     cp = pp.getContentPanel();
     cp.replaceContent(this.#renderDefaultThemeConfig());

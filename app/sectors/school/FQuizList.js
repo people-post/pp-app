@@ -1,12 +1,16 @@
 
-export class FQuizList extends ui.FLongListLegacy {
+import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { C } from '../../lib/framework/Constants.js';
+
+export class FQuizList extends FLongListLegacy {
   constructor() {
     super();
     this._idRecord = new dat.UniLongListIdRecord();
   }
 
   initFromUrl(urlParam) {
-    let id = urlParam.get(ui.C.URL_PARAM.ID);
+    let id = urlParam.get(C.URL_PARAM.ID);
     if (id) {
       this.switchToItem(id);
     }
@@ -14,7 +18,7 @@ export class FQuizList extends ui.FLongListLegacy {
 
   getUrlParamString() {
     if (this._currentId) {
-      return ui.C.URL_PARAM.ID + "=" + this._currentId;
+      return C.URL_PARAM.ID + "=" + this._currentId;
     }
     return "";
   }
@@ -53,7 +57,7 @@ export class FQuizList extends ui.FLongListLegacy {
   }
 
   _createItemView(id) {
-    let v = new ui.View();
+    let v = new View();
     let f = new scol.FvcQuiz();
     f.setDelegate(this);
     f.setQuizIds(this._idRecord.getIds());

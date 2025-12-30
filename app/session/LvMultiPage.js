@@ -1,5 +1,10 @@
-(function(main) {
-class LvMultiPage extends ui.ViewLayer {
+import { Gateway } from './Gateway.js';
+import { FvcExtras } from '../common/gui/FvcExtras.js';
+import { View } from '../lib/ui/controllers/views/View.js';
+import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
+import { PageViewController } from '../lib/ui/controllers/PageViewController.js';
+
+export class LvMultiPage extends ViewLayer {
   #fBtnHome = null;
   #fAbDefault = null;
   #logger;
@@ -9,12 +14,12 @@ class LvMultiPage extends ui.ViewLayer {
     this._pMain = this._createMainPanel();
     this._pMain.setClassName("w100 h100");
 
-    this._vc = new ui.PageViewController();
+    this._vc = new PageViewController();
     this._vc.setOwner(this);
     this._vc.setDataSource(this);
     this._vc.setDelegate(this);
 
-    this._gateway = new main.Gateway();
+    this._gateway = new Gateway();
     this.#logger = new ext.Logger("LvMultiPage");
   }
 
@@ -125,7 +130,7 @@ class LvMultiPage extends ui.ViewLayer {
   _getVisiblePageConfigs() {
     let configs = this._gateway.getPageConfigs();
     if (this._isExtrasPageNeeded()) {
-      configs.push(main.Gateway.T_CONFIG.EXTRAS);
+      configs.push(Gateway.T_CONFIG.EXTRAS);
     } else {
       configs = configs.concat(this._gateway.getExtrasPageConfigs());
     }
@@ -136,8 +141,8 @@ class LvMultiPage extends ui.ViewLayer {
 
   #createPageEntryViews(pageId) {
     if (pageId == C.ID.SECTOR.EXTRAS) {
-      let v = new ui.View();
-      let f = new gui.FvcExtras();
+      let v = new View();
+      let f = new FvcExtras();
       f.setDataSource(this);
       v.setContentFragment(f);
       return [ v ];
@@ -147,5 +152,8 @@ class LvMultiPage extends ui.ViewLayer {
   }
 };
 
-main.LvMultiPage = LvMultiPage;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.LvMultiPage = LvMultiPage;
+}

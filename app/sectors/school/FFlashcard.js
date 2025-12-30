@@ -2,7 +2,9 @@ export const CF_FLASHCARD = {
   ON_CLICK : Symbol(),
 };
 
-export class FFlashcard extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export class FFlashcard extends Fragment {
   constructor() {
     super();
     this._quizId = null;

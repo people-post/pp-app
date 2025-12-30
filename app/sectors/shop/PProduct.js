@@ -18,12 +18,15 @@ const _CPT_PRODUCT = {
   </div>`,
 }
 
-export class PProduct extends shop.PProductBase {
+import { PProductBase } from './PProductBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PProduct extends PProductBase {
   constructor() {
     super();
-    this._pGallery = new ui.PanelWrapper();
+    this._pGallery = new PanelWrapper();
     this._pPrice = new gui.PPrice();
-    this._pAction = new ui.PanelWrapper();
+    this._pAction = new PanelWrapper();
   }
 
   getGalleryPanel() { return this._pGallery; }

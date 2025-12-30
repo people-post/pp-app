@@ -1,5 +1,9 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class FvcAddIdol extends ui.FScrollViewContent {
+export class FvcAddIdol extends FScrollViewContent {
   #fSearch;
 
   constructor() {
@@ -30,9 +34,9 @@ export class FvcAddIdol extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p)
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     if (glb.env.isWeb3()) {
       pp.replaceContent(R.get("ADD_WEB3_IDOL_HINT"));
@@ -40,7 +44,7 @@ export class FvcAddIdol extends ui.FScrollViewContent {
       pp.replaceContent(R.get("ADD_IDOL_HINT"));
     }
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this.#fSearch.attachRender(pp);
     this.#fSearch.render();

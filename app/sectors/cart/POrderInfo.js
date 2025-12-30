@@ -10,13 +10,17 @@ const _CPT_CUSTOMER_ORDER_INFO = {
   <div>`,
 }
 
-export class POrderInfo extends cart.POrderBase {
+import { POrderBase } from './POrderBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class POrderInfo extends POrderBase {
   constructor() {
     super();
-    this._pSellerInfo = new ui.Panel();
-    this._pTimeInfo = new ui.Panel();
-    this._pStatusInfo = new ui.Panel();
-    this._pItemInfos = new ui.PanelWrapper();
+    this._pSellerInfo = new Panel();
+    this._pTimeInfo = new Panel();
+    this._pStatusInfo = new Panel();
+    this._pItemInfos = new PanelWrapper();
   }
 
   getSellerInfoPanel() { return this._pSellerInfo; }

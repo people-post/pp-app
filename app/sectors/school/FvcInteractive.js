@@ -1,13 +1,19 @@
 
-export class FvcInteractive extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+
+export class FvcInteractive extends FScrollViewContent {
   constructor() {
     super();
-    this._fBtnResume = new ui.Button();
+    this._fBtnResume = new Button();
     this._fBtnResume.setName("Resume learning");
     this._fBtnResume.setDelegate(this);
     this.setChild("btnResume", this._fBtnResume);
 
-    this._fBtnGen = new ui.Button();
+    this._fBtnGen = new Button();
     this._fBtnGen.setName("New learning...");
     this._fBtnGen.setDelegate(this);
     this.setChild("btnGen", this._fBtnGen);
@@ -47,12 +53,12 @@ export class FvcInteractive extends ui.FScrollViewContent {
   _renderContentOnRender(render) {
     // TODO:
     // Puzzles, real practice client queue etc.
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     render.wrapPanel(pList);
 
     pList.pushSpace(1);
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     pList.pushPanel(p);
     this._fBtnResume.setEnabled(false);
     this._fBtnResume.attachRender(p);
@@ -60,7 +66,7 @@ export class FvcInteractive extends ui.FScrollViewContent {
 
     pList.pushSpace(1);
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this._fBtnGen.attachRender(p);
     this._fBtnGen.render();
@@ -79,7 +85,7 @@ export class FvcInteractive extends ui.FScrollViewContent {
   }
 
   #showQuizFilter() {
-    let v = new ui.View();
+    let v = new View();
     let f = new scol.FvcQuizFilter();
     f.setDelegate(this);
     v.setContentFragment(f);
@@ -88,7 +94,7 @@ export class FvcInteractive extends ui.FScrollViewContent {
   }
 
   #showQuizzes(ids) {
-    let v = new ui.View();
+    let v = new View();
     let f = new scol.FvcQuizList();
     f.setQuizIds(ids);
     v.setContentFragment(f);
@@ -96,7 +102,7 @@ export class FvcInteractive extends ui.FScrollViewContent {
   }
 
   #showFlashcards(ids) {
-    let v = new ui.View();
+    let v = new View();
     let f = new scol.FvcFlashcard();
     f.setQuizIds(ids);
     v.setContentFragment(f);

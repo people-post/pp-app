@@ -1,5 +1,10 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class FBranchList extends ui.Fragment {
+export class FBranchList extends Fragment {
   #fItems;
   #btnAdd;
   #ids = null;
@@ -9,10 +14,10 @@ export class FBranchList extends ui.Fragment {
 
   constructor() {
     super();
-    this.#fItems = new ui.FSimpleFragmentList();
+    this.#fItems = new FSimpleFragmentList();
     this.setChild("items", this.#fItems);
 
-    this.#btnAdd = new ui.Button();
+    this.#btnAdd = new Button();
     this.#btnAdd.setName("+New branch");
     this.#btnAdd.setDelegate(this);
     this.setChild("btnAdd", this.#btnAdd);
@@ -40,9 +45,9 @@ export class FBranchList extends ui.Fragment {
       return;
     }
 
-    let pMain = new ui.ListPanel();
+    let pMain = new ListPanel();
     render.wrapPanel(pMain);
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     pMain.pushPanel(p);
 
     this.#fItems.clear();
@@ -61,7 +66,7 @@ export class FBranchList extends ui.Fragment {
     pMain.pushSpace(1);
 
     if (this.#isEditEnabled) {
-      p = new ui.PanelWrapper();
+      p = new PanelWrapper();
       pMain.pushPanel(p);
       this.#btnAdd.attachRender(p);
       this.#btnAdd.render();

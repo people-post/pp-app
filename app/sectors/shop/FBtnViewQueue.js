@@ -1,10 +1,12 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 
-export class FBtnViewQueue extends ui.Fragment {
+export class FBtnViewQueue extends Fragment {
   constructor() {
     super();
-    this._fBtn = new ui.Button();
+    this._fBtn = new Button();
     this._fBtn.setName("View queue&#x1f517;");
-    this._fBtn.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+    this._fBtn.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this._fBtn.setDelegate(this);
     this.setChild("btn", this._fBtn);
 

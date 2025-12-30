@@ -7,12 +7,15 @@ const _CPT_COMMUNITY_HEADER_EDITOR = {
   </div>`,
 };
 
-export class PHeaderEditor extends ui.Panel {
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PHeaderEditor extends Panel {
   constructor() {
     super();
-    this._pBgImage = new ui.PanelWrapper();
-    this._pCommunityIcon = new ui.PanelWrapper();
-    this._pBgUpload = new ui.PanelWrapper();
+    this._pBgImage = new PanelWrapper();
+    this._pCommunityIcon = new PanelWrapper();
+    this._pBgUpload = new PanelWrapper();
   }
 
   getBackgroundImagePanel() { return this._pBgImage; }

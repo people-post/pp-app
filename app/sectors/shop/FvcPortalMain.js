@@ -1,5 +1,9 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { C } from '../../lib/framework/Constants.js';
 
-export class FvcPortalMain extends ui.FScrollViewContent {
+export class FvcPortalMain extends FScrollViewContent {
   #branchId = null;
 
   constructor() {
@@ -34,16 +38,16 @@ export class FvcPortalMain extends ui.FScrollViewContent {
       return;
     }
 
-    let pMain = new ui.ListPanel();
+    let pMain = new ListPanel();
     render.wrapPanel(pMain);
-    let p = new ui.Panel();
+    let p = new Panel();
     p.setClassName("s-font001 center-align");
     pMain.pushPanel(p);
     p.replaceContent("Scan code to badge in:");
 
     pMain.pushSpace(2);
 
-    p = new ui.Panel();
+    p = new Panel();
     p.setClassName("flex flex-center");
     pMain.pushPanel(p);
     let qrCode = new QRCode(p.getDomElement(), "TEST");

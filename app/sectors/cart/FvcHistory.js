@@ -1,8 +1,10 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FOrderList } from './FOrderList.js';
 
-export class FvcHistory extends ui.FScrollViewContent {
+export class FvcHistory extends FScrollViewContent {
   constructor() {
     super();
-    this._fList = new cart.FOrderList();
+    this._fList = new FOrderList();
     this._fList.setDelegate(this);
     this.setChild("list", this._fList);
   }

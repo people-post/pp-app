@@ -1,8 +1,12 @@
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class FQueueDelivery extends shop.FServiceDelivery {
   constructor() {
     super();
-    this._fBtnCheckin = new ui.Button();
+    this._fBtnCheckin = new Button();
     this._fBtnCheckin.setName("Check in...");
     this._fBtnCheckin.setDelegate(this);
     this.setChild("checkin", this._fBtnCheckin);
@@ -38,17 +42,17 @@ export class FQueueDelivery extends shop.FServiceDelivery {
   }
 
   #renderCompact(render) {
-    let pMain = new ui.ListPanel();
-    panel.wrapPanel(pMain);
+    let pMain = new ListPanel();
+    render.wrapPanel(pMain);
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     p.setClassName("center-align");
     pMain.pushPanel(p);
-    this._fBtnCheckin.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+    this._fBtnCheckin.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this._fBtnCheckin.attachRender(p);
     this._fBtnCheckin.render();
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     p.setClassName("center-align");
     pMain.pushPanel(p);
     this._fMsg.attachRender(p);
@@ -56,16 +60,16 @@ export class FQueueDelivery extends shop.FServiceDelivery {
   }
 
   #renderFull(panel) {
-    let pMain = new ui.ListPanel();
+    let pMain = new ListPanel();
     panel.wrapPanel(pMain);
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     pMain.pushPanel(p);
-    this._fBtnCheckin.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
+    this._fBtnCheckin.setLayoutType(Button.LAYOUT_TYPE.BAR);
     this._fBtnCheckin.attachRender(p);
     this._fBtnCheckin.render();
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     p.setClassName("center-align");
     pMain.pushPanel(p);
     this._fMsg.attachRender(p);
@@ -91,7 +95,7 @@ export class FQueueDelivery extends shop.FServiceDelivery {
   }
 
   #onCheckin() {
-    let v = new ui.View();
+    let v = new View();
     let f = new shop.FvcQueueCheckin();
     let product = this._getProduct();
     f.setData(product.getId(), this._data.getLocations());

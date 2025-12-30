@@ -7,10 +7,13 @@ const _CPT_TAG_EDITOR_INFO = {
   </div>`,
 }
 
-export class PTagEditorInfo extends hstn.PTagEditorBase {
+import { PTagEditorBase } from './PTagEditorBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PTagEditorInfo extends PTagEditorBase {
   constructor() {
     super();
-    this._pBtnQuick = new ui.PanelWrapper();
+    this._pBtnQuick = new PanelWrapper();
   }
 
   getQuickButtonPanel() { return this._pBtnQuick; }

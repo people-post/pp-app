@@ -24,11 +24,15 @@ const _CPT_PROJECT_INFO_SMALL_QUOTE = {
   </div>`,
 }
 
-export class PProjectInfoSmallQuote extends wksp.PProjectInfoBase {
+import { PProjectInfoBase } from './PProjectInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PProjectInfoSmallQuote extends PProjectInfoBase {
   constructor() {
     super();
-    this._pUserName = new ui.PanelWrapper();
-    this._pTime = new ui.Panel();
+    this._pUserName = new PanelWrapper();
+    this._pTime = new Panel();
   }
 
   getProgressDirection() { return "V"; }

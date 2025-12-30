@@ -1,31 +1,36 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
+import { FDateTimeSelector } from '../../lib/ui/controllers/fragments/FDateTimeSelector.js';
+import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 
-export class FServiceTimeslotEditor extends ui.Fragment {
+export class FServiceTimeslotEditor extends Fragment {
   constructor() {
     super();
-    this._fRepetition = new ui.Selection();
+    this._fRepetition = new Selection();
     this._fRepetition.setHintText("Repetition");
     this._fRepetition.setDataSource(this);
     this._fRepetition.setDelegate(this);
     this.setChild("repetitation", this._fRepetition);
     this._repetition = dat.ProductServiceTimeslot.T_REP.ONCE;
 
-    this._fFrom = new ui.FDateTimeSelector();
+    this._fFrom = new FDateTimeSelector();
     this._fFrom.setHintText("From");
     this.setChild("from", this._fFrom);
 
-    this._fTo = new ui.FDateTimeSelector();
+    this._fTo = new FDateTimeSelector();
     this._fTo.setHintText("To");
     this.setChild("to", this._fTo);
 
-    this._fTotal = new ui.NumberInput();
+    this._fTotal = new NumberInput();
     this._fTotal.setConfig(
         {min : 1, max : 10000, step : 1, value : 1, title : "Available"});
     this.setChild("total", this._fTotal);
 
-    this._fDelete = new ui.Button();
+    this._fDelete = new Button();
     this._fDelete.setName("remove");
-    this._fDelete.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
-    this._fDelete.setThemeType(ui.Button.T_THEME.RISKY);
+    this._fDelete.setLayoutType(Button.LAYOUT_TYPE.SMALL);
+    this._fDelete.setThemeType(Button.T_THEME.RISKY);
     this._fDelete.setDelegate(this);
     this.setChild("delete", this._fDelete);
   }

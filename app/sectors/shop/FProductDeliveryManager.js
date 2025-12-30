@@ -1,8 +1,10 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
 
-export class FProductDeliveryManager extends ui.Fragment {
+export class FProductDeliveryManager extends Fragment {
   constructor() {
     super();
-    this._fChoices = new ui.ButtonGroup();
+    this._fChoices = new ButtonGroup();
     this._fChoices.setDelegate(this);
 
     this._mChoices = this.#initChoiceMap();

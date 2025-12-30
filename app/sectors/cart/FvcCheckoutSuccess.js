@@ -12,7 +12,10 @@ const _CFT_CHECKOUT_SUCCESS = {
     <br>`,
 }
 
-export class FvcCheckoutSuccess extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+
+export class FvcCheckoutSuccess extends FScrollViewContent {
   constructor() {
     super();
     this._orderId = null;
@@ -41,7 +44,7 @@ export class FvcCheckoutSuccess extends ui.FScrollViewContent {
   }
 
   #onShowOrder() {
-    let v = new ui.View();
+    let v = new View();
     let f = new cart.FvcOrder();
     f.setOrderId(this._orderId);
     v.setContentFragment(f);

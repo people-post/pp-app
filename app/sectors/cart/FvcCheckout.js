@@ -1,11 +1,17 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { AddressEditor } from '../../common/gui/AddressEditor.js';
+import { FPreviewOrder } from './FPreviewOrder.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 
-export class FvcCheckout extends ui.FScrollViewContent {
+export class FvcCheckout extends FScrollViewContent {
   constructor() {
     super();
-    this._fShipping = new gui.AddressEditor();
+    this._fShipping = new AddressEditor();
     this.setChild("shipping", this._fShipping);
 
-    this._fOrder = new cart.FPreviewOrder();
+    this._fOrder = new FPreviewOrder();
     this._fOrder.setDataSource(this);
     this.setChild("order", this._fOrder);
 
@@ -26,7 +32,7 @@ export class FvcCheckout extends ui.FScrollViewContent {
   getOrderForCartPaymentFragment(fCartPayment) { return this._order; }
 
   onPaymentSuccessInCartPaymentFragment(fCartPayment, orderId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new cart.FvcCheckoutSuccess();
     f.setOrderId(orderId);
     v.setContentFragment(f);
@@ -34,21 +40,21 @@ export class FvcCheckout extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.SectionPanel("Order review");
+    let pp = new SectionPanel("Order review");
     p.pushPanel(pp);
     this._fOrder.attachRender(pp.getContentPanel());
     this._fOrder.render();
 
     if (this._isShippingNeeded) {
-      pp = new ui.SectionPanel("Shipping Address");
+      pp = new SectionPanel("Shipping Address");
       p.pushPanel(pp);
       this._fShipping.attachRender(pp.getContentPanel());
       this._fShipping.render();
     }
 
-    pp = new ui.SectionPanel("Payment");
+    pp = new SectionPanel("Payment");
     p.pushPanel(pp);
     this._fPayment.attachRender(pp.getContentPanel());
     this._fPayment.render();

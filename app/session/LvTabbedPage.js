@@ -1,5 +1,7 @@
-(function(main) {
-class LvTabbedPage extends main.LvMultiPage {
+import { LvMultiPage } from './LvMultiPage.js';
+import { PMain } from './PMain.js';
+
+export class LvTabbedPage extends LvMultiPage {
   init() {
     let c = dba.WebConfig.getLeftSideFrameConfig();
     this.#initSideFrame("left", this._pMain.getLeftSidePanel(), c);
@@ -30,7 +32,7 @@ class LvTabbedPage extends main.LvMultiPage {
            this._gateway.getExtrasPageConfigs().length > 0;
   }
 
-  _createMainPanel() { return new main.PMain(); }
+  _createMainPanel() { return new PMain(); }
 
   _renderOnRender(render) {
     // This is before init()
@@ -78,5 +80,8 @@ class LvTabbedPage extends main.LvMultiPage {
   }
 };
 
-main.LvTabbedPage = LvTabbedPage;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.LvTabbedPage = LvTabbedPage;
+}

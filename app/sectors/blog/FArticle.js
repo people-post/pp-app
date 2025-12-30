@@ -1,4 +1,12 @@
-export class FArticle extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FAttachmentFile } from '../../lib/ui/controllers/fragments/FAttachmentFile.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+
+export class FArticle extends Fragment {
   #fQuote;
   #fGallery;
   #fAttachment;
@@ -16,10 +24,10 @@ export class FArticle extends ui.Fragment {
     this.#fQuote.setDelegate(this);
     this.setChild("quote", this.#fQuote);
 
-    this.#fAttachment = new ui.FAttachmentFile();
+    this.#fAttachment = new FAttachmentFile();
     this.setChild("attachment", this.#fAttachment);
 
-    this.#fTags = new ui.FSimpleFragmentList();
+    this.#fTags = new FSimpleFragmentList();
     this.#fTags.setGridMode(true);
     this.setChild("tags", this.#fTags);
   }
@@ -118,24 +126,24 @@ export class FArticle extends ui.Fragment {
     if (tagIds.length < 1) {
       return;
     }
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     pList.setClassName("flex flex-start baseline-align-items");
     panel.wrapPanel(pList);
-    let p = new ui.Panel();
+    let p = new Panel();
     p.setClassName("small-info-text");
     pList.pushPanel(p);
     p.replaceContent("Tags: ");
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
 
     this.#fTags.clear();
     for (let id of tagIds) {
-      let f = new ui.Button();
+      let f = new Button();
       f.setDelegate(this);
       let t = dba.Groups.getTag(id);
       f.setName(t ? t.getName() : "...");
       f.setValue(id);
-      f.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+      f.setLayoutType(Button.LAYOUT_TYPE.SMALL);
       if (t) {
         f.setTheme(t.getTheme());
       }

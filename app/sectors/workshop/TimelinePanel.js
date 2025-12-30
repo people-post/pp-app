@@ -1,5 +1,6 @@
+import { PanelListPanel } from '../../lib/ui/renders/panels/PanelListPanel.js';
 
-export class TimelinePanel extends ui.PanelListPanel {
+export class TimelinePanel extends PanelListPanel {
   constructor() {
     super();
     this._isFlowRunning = true;

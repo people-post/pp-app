@@ -1,4 +1,7 @@
 
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
 const _CPT_USER_OVERVIEW = {
   MAIN : `<div class="aspect-5-1-frame bglightgrey">
     <div id="__ID_BG_IMAGE__" class="aspect-content"></div>
@@ -7,12 +10,12 @@ const _CPT_USER_OVERVIEW = {
   </div>`,
 };
 
-export class PUserOverview extends ui.Panel {
+export class PUserOverview extends Panel {
   constructor() {
     super();
-    this._pBgImage = new ui.PanelWrapper();
-    this._pUserIcon = new ui.PanelWrapper();
-    this._pBgUpload = new ui.PanelWrapper();
+    this._pBgImage = new PanelWrapper();
+    this._pUserIcon = new PanelWrapper();
+    this._pBgUpload = new PanelWrapper();
   }
 
   getBackgroundImagePanel() { return this._pBgImage; }

@@ -1,8 +1,11 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
-export class FvcChatGroupList extends ui.FScrollViewContent {
+export class FvcChatGroupList extends FScrollViewContent {
   constructor() {
     super();
-    this._fList = new ui.FSimpleFragmentList();
+    this._fList = new FSimpleFragmentList();
     this.setChild("list", this._fList);
   }
 
@@ -26,7 +29,7 @@ export class FvcChatGroupList extends ui.FScrollViewContent {
   }
 
   #startChatWith(target) {
-    let v = new ui.View();
+    let v = new View();
     let f = new msgr.FvcChat();
     f.setTarget(target);
     v.setContentFragment(f);

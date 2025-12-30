@@ -1,4 +1,6 @@
-(function(main) {
+import { FBanner } from '../common/gui/FBanner.js';
+import { WindowController } from '../lib/ui/controllers/WindowController.js';
+
 const _CRCT_SESSION = {
   // Prime, secondary: User defined
   // Menu: Has good contrast with prime, black/white
@@ -36,13 +38,13 @@ const _CRCT_SESSION = {
     `,
 };
 
-class WcSession extends ui.WindowController {
+export class WcSession extends WindowController {
   #fBanner;
   #logger;
 
   constructor() {
     super();
-    this.#fBanner = new gui.FBanner();
+    this.#fBanner = new FBanner();
     this.setChild("banner", this.#fBanner);
 
     this.#logger = new ext.Logger("WcSession");
@@ -390,5 +392,8 @@ class WcSession extends ui.WindowController {
   }
 };
 
-main.WcSession = WcSession;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.WcSession = WcSession;
+}

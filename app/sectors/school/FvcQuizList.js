@@ -1,5 +1,7 @@
 
-export class FvcQuizList extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+
+export class FvcQuizList extends FScrollViewContent {
   constructor() {
     super();
     this._fQuizzes = new scol.FQuizList();

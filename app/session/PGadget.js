@@ -1,4 +1,7 @@
-(function(main) {
+import { Panel } from '../lib/ui/renders/panels/Panel.js';
+import { ListPanel } from '../lib/ui/renders/panels/ListPanel.js';
+import { ConsoleOverlayPanel } from '../lib/ui/renders/panels/ConsoleOverlayPanel.js';
+
 const _CPT_GADGET = {
   MAIN : `<div class="f-gadget">
     <div id="__ID_CONTENT__" class="f-page" style="z-index: 1"></div>
@@ -6,14 +9,14 @@ const _CPT_GADGET = {
   </div>`,
 };
 
-class PGadget extends ui.Panel {
+export class PGadget extends Panel {
   #pContent;
   #pConsoleOverlay;
 
   constructor() {
     super();
-    this.#pContent = new ui.ListPanel();
-    this.#pConsoleOverlay = new ui.ConsoleOverlayPanel();
+    this.#pContent = new ListPanel();
+    this.#pConsoleOverlay = new ConsoleOverlayPanel();
   }
 
   getContentPanel() { return this.#pContent; }
@@ -37,5 +40,8 @@ class PGadget extends ui.Panel {
   }
 };
 
-main.PGadget = PGadget;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.PGadget = PGadget;
+}

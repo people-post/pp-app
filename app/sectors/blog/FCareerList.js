@@ -1,5 +1,7 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
-export class FCareerList extends ui.Fragment {
+export class FCareerList extends Fragment {
   #fList;
   #selectedId = null;
 
@@ -43,7 +45,7 @@ export class FCareerList extends ui.Fragment {
 
   onClickInCareerFragment(fCareer) {
     this.#selectedId = fCareer.getRoleId();
-    let v = new ui.View();
+    let v = new View();
     let f = new hr.FvcCareer();
     f.setRoleId(this.#selectedId);
     v.setContentFragment(f);

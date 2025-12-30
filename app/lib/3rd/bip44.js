@@ -1,7 +1,6 @@
-(function(C) {
 // Format for each row:
 // [ constant, coinSymbol, coinName ]
-C.bip44 = [
+export const bip44 = [
   [ 0x80000000, 'BTC', 'Bitcoin' ],
   [ 0x80000001, '', 'Testnet (all coins)' ],
   [ 0x80000002, 'LTC', 'Litecoin' ],
@@ -1254,4 +1253,9 @@ C.bip44 = [
   [ 0xc655456b, 'RWA', 'Asset Chain' ],
   [ 0xc6554575, 'HXC', 'HuaXia Chain' ]
 ];
-}(window.C = window.C || {}));
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.C = window.C || {};
+  window.C.bip44 = bip44;
+}

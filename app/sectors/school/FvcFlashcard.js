@@ -1,5 +1,9 @@
 
-export class FvcFlashcard extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class FvcFlashcard extends FScrollViewContent {
   constructor() {
     super();
     this._fCard = new scol.FFlashcard();
@@ -25,10 +29,10 @@ export class FvcFlashcard extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     render.wrapPanel(pList);
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     p.setClassName("hmin300px");
     pList.pushPanel(p);
     this._fCard.attachRender(p);
@@ -36,7 +40,7 @@ export class FvcFlashcard extends ui.FScrollViewContent {
 
     pList.pushSpace(1);
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     p.setClassName("pad5");
     pList.pushPanel(p);
     this._fNavBar.attachRender(p);

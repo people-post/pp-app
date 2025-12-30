@@ -1,4 +1,7 @@
 
+import { PEmailBase } from './PEmailBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
 const _CPT_EMAIL = {
   MAIN : `<div class="pad5">
     <div class="email-header">
@@ -15,11 +18,11 @@ const _CPT_EMAIL = {
   </div>`,
 }
 
-export class PEmail extends emal.PEmailBase {
+export class PEmail extends PEmailBase {
   constructor() {
     super();
-    this._pReceiver = new ui.Panel();
-    this._pCarbonCopy = new ui.Panel();
+    this._pReceiver = new Panel();
+    this._pCarbonCopy = new Panel();
   }
 
   getReceiverPanel() { return this._pReceiver; }

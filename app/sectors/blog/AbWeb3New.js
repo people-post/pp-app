@@ -1,17 +1,21 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { LMultiChoice } from '../../lib/ui/controllers/layers/LMultiChoice.js';
+import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 // ActionButton needs some redesign
-export class AbWeb3New extends ui.Fragment {
+export class AbWeb3New extends Fragment {
   #lmcPublisher;
   #lcStorage;
   #fBtn;
 
   constructor() {
     super();
-    this.#lmcPublisher = new ui.LMultiChoice();
+    this.#lmcPublisher = new LMultiChoice();
     this.#lmcPublisher.setTargetName("publishers");
     this.#lmcPublisher.setDelegate(this);
 
-    this.#lcStorage = new ui.LContext();
+    this.#lcStorage = new LContext();
     this.#lcStorage.setTargetName("storage");
     this.#lcStorage.setDelegate(this);
 
@@ -132,7 +136,7 @@ export class AbWeb3New extends ui.Fragment {
   }
 
   #showDraftEditor() {
-    let v = new ui.View();
+    let v = new View();
     let f = new blog.FvcWeb3PostEditor();
     f.setPost(new dat.DraftArticle({}));
     v.setContentFragment(f);
@@ -140,7 +144,7 @@ export class AbWeb3New extends ui.Fragment {
   }
 
   #showPublisherRegistration(agent) {
-    let v = new ui.View();
+    let v = new View();
     let f = new hstn.FvcWeb3ServerRegistration();
     f.setAgent(agent);
     v.setContentFragment(f);

@@ -1,9 +1,14 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
-export class FvcProjectStage extends ui.FScrollViewContent {
+export class FvcProjectStage extends FScrollViewContent {
   constructor() {
     super();
-    this._fBtnEdit = new gui.ActionButton();
-    this._fBtnEdit.setIcon(gui.ActionButton.T_ICON.EDIT);
+    this._fBtnEdit = new ActionButton();
+    this._fBtnEdit.setIcon(ActionButton.T_ICON.EDIT);
     this._fBtnEdit.setDelegate(this);
     this._fStage = null;
   }
@@ -41,9 +46,9 @@ export class FvcProjectStage extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fStage.attachRender(pp);
     this._fStage.render();
@@ -69,7 +74,7 @@ export class FvcProjectStage extends ui.FScrollViewContent {
   }
 
   #onEdit() {
-    let v = new ui.View();
+    let v = new View();
     let f = new wksp.FvcProjectStageEditor();
     f.setStage(this._fStage.getStage());
     v.setContentFragment(f);

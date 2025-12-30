@@ -4,8 +4,9 @@ const _CPT_FLOW_CHART_PROGRESS = {
     <div id="__ID_WRAPPER__" class="flow-progress-content"></div>
   </div>`,
 }
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class PFlowChartProgress extends ui.PanelWrapper {
+export class PFlowChartProgress extends PanelWrapper {
   constructor() {
     super();
     this._elementType = "foreignObject";

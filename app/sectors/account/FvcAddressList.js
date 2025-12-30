@@ -1,11 +1,18 @@
-export class FvcAddressList extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
+import { Address } from '../../common/gui/Address.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcAddressEditor } from './FvcAddressEditor.js';
+
+export class FvcAddressList extends FScrollViewContent {
   constructor() {
     super();
-    this._fItems = new ui.FSimpleFragmentList();
+    this._fItems = new FSimpleFragmentList();
     this.setChild('items', this._fItems);
 
-    this._fBtnNew = new gui.ActionButton();
-    this._fBtnNew.setIcon(gui.ActionButton.T_ICON.NEW);
+    this._fBtnNew = new ActionButton();
+    this._fBtnNew.setIcon(ActionButton.T_ICON.NEW);
     this._fBtnNew.setDelegate(this);
   }
 
@@ -14,8 +21,8 @@ export class FvcAddressList extends ui.FScrollViewContent {
     return dba.Address.get(addressId);
   }
   onGuiActionButtonClick(fActionButton) {
-    let v = new ui.View();
-    v.setContentFragment(new acnt.FvcAddressEditor());
+    let v = new View();
+    v.setContentFragment(new FvcAddressEditor());
     this._owner.onFragmentRequestShowView(this, v, "New Address")
   }
 
@@ -47,7 +54,7 @@ export class FvcAddressList extends ui.FScrollViewContent {
     let ids = dba.Account.getAddressIds();
     this._fItems.clear();
     for (let id of ids) {
-      let f = new gui.Address();
+      let f = new Address();
       f.setDelegate(this);
       f.setDataSource(this);
       f.setAddressId(id);
@@ -58,8 +65,8 @@ export class FvcAddressList extends ui.FScrollViewContent {
   }
 
   #showAddressEditor(addressId) {
-    let v = new ui.View();
-    let f = new acnt.FvcAddressEditor();
+    let v = new View();
+    let f = new FvcAddressEditor();
     f.setAddressId(addressId);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Edit address");

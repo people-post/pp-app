@@ -19,22 +19,27 @@ const _CPT_SUPPLIER_ORDER = {
   <div id="__ID_SHIPPING_ADDRESS__"></div>`,
 }
 
-export class PSupplierOrder extends shop.PSupplierOrderBase {
+import { PSupplierOrderBase } from './PSupplierOrderBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PSupplierOrder extends PSupplierOrderBase {
   constructor() {
     super();
-    this._pCustomerName = new ui.Panel();
-    this._pCreationTime = new ui.Panel();
-    this._pUpdateTime = new ui.Panel();
-    this._pStatus = new ui.Panel();
-    this._pItems = new ui.SectionPanel("Items");
-    this._pExtraRefund = new ui.Panel();
-    this._pExtraPrice = new ui.Panel();
-    this._pSubtotal = new ui.Panel();
-    this._pShippingHandling = new ui.Panel();
-    this._pDiscount = new ui.Panel();
-    this._pRefund = new ui.Panel();
-    this._pTotal = new ui.Panel();
-    this._pShippingAddress = new ui.PanelWrapper();
+    this._pCustomerName = new Panel();
+    this._pCreationTime = new Panel();
+    this._pUpdateTime = new Panel();
+    this._pStatus = new Panel();
+    this._pItems = new SectionPanel("Items");
+    this._pExtraRefund = new Panel();
+    this._pExtraPrice = new Panel();
+    this._pSubtotal = new Panel();
+    this._pShippingHandling = new Panel();
+    this._pDiscount = new Panel();
+    this._pRefund = new Panel();
+    this._pTotal = new Panel();
+    this._pShippingAddress = new PanelWrapper();
   }
 
   getCustomerNamePanel() { return this._pCustomerName; }

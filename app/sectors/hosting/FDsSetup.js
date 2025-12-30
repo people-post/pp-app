@@ -37,7 +37,9 @@ const _CFMT_DS_SETUP = {
     </table>`,
 }
 
-export class FDsSetup extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export class FDsSetup extends Fragment {
   static T_DNSSEC = {
     ALGORITHM : {
       5 : "RSA/SHA-1",

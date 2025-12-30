@@ -12,7 +12,10 @@ const _CPT_POST_INFO_COMMENT = {
   </div>`,
 };
 
-export class PPostInfoComment extends gui.PPostInfoBase {
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PPostInfoComment extends PPostInfoBase {
   #pOwnerIcon;
   #pOwnerName;
   #pContent;
@@ -20,10 +23,10 @@ export class PPostInfoComment extends gui.PPostInfoBase {
 
   constructor() {
     super();
-    this.#pOwnerIcon = new ui.PanelWrapper();
-    this.#pOwnerName = new ui.PanelWrapper();
-    this.#pContent = new ui.PanelWrapper();
-    this.#pContext = new ui.PanelWrapper();
+    this.#pOwnerIcon = new PanelWrapper();
+    this.#pOwnerName = new PanelWrapper();
+    this.#pContent = new PanelWrapper();
+    this.#pContext = new PanelWrapper();
   }
 
   getOwnerIconPanel() { return this.#pOwnerIcon; }

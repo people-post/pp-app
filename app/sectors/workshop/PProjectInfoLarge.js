@@ -32,14 +32,18 @@ const _CPT_PROJECT_INFO_LARGE = {
   </div>`,
 }
 
-export class PProjectInfoLarge extends wksp.PProjectInfoBase {
+import { PProjectInfoBase } from './PProjectInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PProjectInfoLarge extends PProjectInfoBase {
   constructor() {
     super();
-    this._pUserName = new ui.PanelWrapper();
-    this._pUserIcon = new ui.PanelWrapper();
-    this._pReference = new ui.PanelWrapper();
-    this._pTime = new ui.Panel();
-    this._pSocial = new ui.PanelWrapper();
+    this._pUserName = new PanelWrapper();
+    this._pUserIcon = new PanelWrapper();
+    this._pReference = new PanelWrapper();
+    this._pTime = new Panel();
+    this._pSocial = new PanelWrapper();
   }
 
   getUserIconPanel() { return this._pUserIcon; }

@@ -4,12 +4,14 @@ const _CPT_PROJECT_STAGE = {
     <div id="__ID_DESCRIPTION__" class="stage-description"></div>
     <div id="__ID_COMMENT__" class="stage-comment"></div>`,
 }
+import { PProjectStageBase } from './PProjectStageBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class PProjectStage extends wksp.PProjectStageBase {
+export class PProjectStage extends PProjectStageBase {
   constructor() {
     super();
-    this._pDescription = new ui.PanelWrapper();
-    this._pComment = new ui.PanelWrapper();
+    this._pDescription = new PanelWrapper();
+    this._pComment = new PanelWrapper();
   }
 
   getDescriptionPanel() { return this._pDescription; }

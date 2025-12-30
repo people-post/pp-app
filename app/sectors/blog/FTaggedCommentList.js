@@ -1,5 +1,6 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
-export class FTaggedCommentList extends ui.Fragment {
+export class FTaggedCommentList extends Fragment {
   #idLoader;
   #fComments;
   #tagId;

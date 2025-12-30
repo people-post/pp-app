@@ -1,9 +1,11 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class PProductBase extends ui.Panel {
+export class PProductBase extends Panel {
   constructor() {
     super();
-    this._pName = new ui.PanelWrapper();
-    this._pDescription = new ui.PanelWrapper();
+    this._pName = new PanelWrapper();
+    this._pDescription = new PanelWrapper();
   }
 
   getSellerNamePanel() { return null; }

@@ -1,3 +1,10 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+
 const _CPT_POST = {
   MAIN : `<div id="__ID_POST__"></div>
   <div class="pad5px flex space-between">
@@ -8,7 +15,7 @@ const _CPT_POST = {
   <div id="__ID_INPUT__" class="sticky bottom0px"></div>`,
 };
 
-class PPost extends ui.Panel {
+class PPost extends Panel {
   #pPost;
   #pBtnPrev;
   #pBtnNext;
@@ -17,11 +24,11 @@ class PPost extends ui.Panel {
 
   constructor() {
     super();
-    this.#pPost = new ui.PanelWrapper();
-    this.#pBtnPrev = new ui.PanelWrapper();
-    this.#pBtnNext = new ui.PanelWrapper();
-    this.#pComments = new ui.PanelWrapper();
-    this.#pInput = new ui.PanelWrapper();
+    this.#pPost = new PanelWrapper();
+    this.#pBtnPrev = new PanelWrapper();
+    this.#pBtnNext = new PanelWrapper();
+    this.#pComments = new PanelWrapper();
+    this.#pInput = new PanelWrapper();
   }
 
   getPostPanel() { return this.#pPost; }
@@ -50,7 +57,7 @@ class PPost extends ui.Panel {
   }
 };
 
-class FvcPost extends ui.FScrollViewContent {
+class FvcPost extends FScrollViewContent {
   #fPost;
   #btnPrev;
   #btnNext;
@@ -67,17 +74,17 @@ class FvcPost extends ui.FScrollViewContent {
     this.#fPost.setDelegate(this);
     this.setChild("post", this.#fPost);
 
-    this.#btnNext = new ui.Button();
+    this.#btnNext = new Button();
     this.#btnNext.setName("Next->");
     this.#btnNext.setValue("NEXT");
-    this.#btnNext.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+    this.#btnNext.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this.#btnNext.setDelegate(this);
     this.setChild("btnNext", this.#btnNext);
 
-    this.#btnPrev = new ui.Button();
+    this.#btnPrev = new Button();
     this.#btnPrev.setName("<-Prev");
     this.#btnPrev.setValue("PREV");
-    this.#btnPrev.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+    this.#btnPrev.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this.#btnPrev.setDelegate(this);
     this.setChild("btnPrev", this.#btnPrev);
 
@@ -265,7 +272,7 @@ class FvcPost extends ui.FScrollViewContent {
   #onEdit() {
     let post = dba.Blog.getPost(this.#postId);
     if (post) {
-      let v = new ui.View();
+      let v = new View();
       let f = new blog.FvcPostEditor();
       f.setPost(post);
       v.setContentFragment(f);
@@ -283,7 +290,7 @@ class FvcPost extends ui.FScrollViewContent {
       let isAdmin =
           dba.Account.isWebOwner() && post.getOwnerId() == dba.Account.getId();
 
-      this.#fTabbedComments = new ui.FTabbedPane();
+      this.#fTabbedComments = new FTabbedPane();
       this.#fTabbedComments.addPane({name : "All", value : "ALL"},
                                     this.#fAllComments);
       for (let tid of tagIds) {

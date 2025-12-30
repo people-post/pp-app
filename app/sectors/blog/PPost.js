@@ -28,7 +28,11 @@ const _CPT_POST = {
     <div id="__ID_SOCIAL__"></div>`,
 };
 
-export class PPost extends gui.PPostBase {
+import { PPostBase } from '../../common/gui/PPostBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PPost extends PPostBase {
   #pTitle;
   #pAbstract;
   #pSummary;
@@ -49,23 +53,23 @@ export class PPost extends gui.PPostBase {
 
   constructor() {
     super();
-    this.#pTitle = new ui.Panel();
-    this.#pAbstract = new ui.PanelWrapper();
-    this.#pSummary = new ui.PanelWrapper();
-    this.#pTags = new ui.PanelWrapper();
-    this.#pAttachment = new ui.PanelWrapper();
-    this.#pContent = new ui.PanelWrapper();
-    this.#pGallery = new ui.PanelWrapper();
-    this.#pQuote = new ui.PanelWrapper();
-    this.#pSocialBar = new ui.PanelWrapper();
-    this.#pAuthor = new ui.PanelWrapper();
-    this.#pTCreateDecor = new ui.Panel();
-    this.#pTCreate = new ui.Panel();
-    this.#pTUpdateDecor = new ui.Panel();
-    this.#pTUpdate = new ui.Panel();
-    this.#pJobAd = new ui.PanelWrapper();
-    this.#pPin = new ui.Panel();
-    this.#pSourceLink = new ui.Panel();
+    this.#pTitle = new Panel();
+    this.#pAbstract = new PanelWrapper();
+    this.#pSummary = new PanelWrapper();
+    this.#pTags = new PanelWrapper();
+    this.#pAttachment = new PanelWrapper();
+    this.#pContent = new PanelWrapper();
+    this.#pGallery = new PanelWrapper();
+    this.#pQuote = new PanelWrapper();
+    this.#pSocialBar = new PanelWrapper();
+    this.#pAuthor = new PanelWrapper();
+    this.#pTCreateDecor = new Panel();
+    this.#pTCreate = new Panel();
+    this.#pTUpdateDecor = new Panel();
+    this.#pTUpdate = new Panel();
+    this.#pJobAd = new PanelWrapper();
+    this.#pPin = new Panel();
+    this.#pSourceLink = new Panel();
   }
 
   getTitlePanel() { return this.#pTitle; }

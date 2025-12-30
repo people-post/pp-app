@@ -1,5 +1,8 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class FChooseCheckoutItem extends ui.Fragment {
+export class FChooseCheckoutItem extends Fragment {
   action(type, ...args) {
     switch (type) {
     default:
@@ -17,9 +20,9 @@ export class FChooseCheckoutItem extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let pMain = new ui.ListPanel();
+    let pMain = new ListPanel();
     render.wrapPanel(pMain);
-    let p = new ui.Panel();
+    let p = new Panel();
     pMain.pushPanel(p);
     p.replaceContent("TODO: Options to add more or change item");
   }

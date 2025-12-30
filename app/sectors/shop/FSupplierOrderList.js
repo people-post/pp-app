@@ -1,3 +1,4 @@
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class FSupplierOrderList extends gui.DefaultLongList {
   isOrderSelected(orderId) { return this._currentId == orderId; }
@@ -15,7 +16,7 @@ export class FSupplierOrderList extends gui.DefaultLongList {
   }
 
   _createItemView(itemId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new shop.FvcSupplierOrder();
     f.setOrderId(itemId);
     v.setContentFragment(f);

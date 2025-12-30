@@ -1,14 +1,18 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+
 export const CF_JOURNAL = {
   ON_CLICK : Symbol(),
 };
 
 const _CPT_JOURNAL = {};
 
-export class PJournalBase extends ui.Panel {
+export class PJournalBase extends Panel {
   getTitlePanel() { return null; }
 };
 
-class FJournal extends ui.Fragment {
+class FJournal extends Fragment {
   static T_LAYOUT = {
     BUTTON_BAR : Symbol(),
   };
@@ -19,7 +23,7 @@ class FJournal extends ui.Fragment {
 
   constructor() {
     super();
-    this.#fBar = new ui.Button();
+    this.#fBar = new Button();
     this.#fBar.setDelegate(this);
     this.setChild("bar", this.#fBar);
   }

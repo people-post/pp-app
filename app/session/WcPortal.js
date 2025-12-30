@@ -1,6 +1,8 @@
-(function(main) {
-class WcPortal extends main.WcSession {
-  _createLayerFragment() { return new main.LvPortal(); }
+import { WcSession } from './WcSession.js';
+import { LvPortal } from './LvPortal.js';
+
+export class WcPortal extends WcSession {
+  _createLayerFragment() { return new LvPortal(); }
 
   _initEventHandlers() {
     super._initEventHandlers();
@@ -14,5 +16,8 @@ class WcPortal extends main.WcSession {
   }
 };
 
-main.WcPortal = WcPortal;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.WcPortal = WcPortal;
+}

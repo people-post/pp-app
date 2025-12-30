@@ -1,3 +1,4 @@
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class FProjectList extends gui.FSocialItemList {
   // TODO: Swith id to SocialItemId
@@ -19,7 +20,7 @@ export class FProjectList extends gui.FSocialItemList {
   _getIdRecord() { return this.#idRecord; }
 
   _createItemView(itemId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new wksp.FvcProject();
     f.setProjectId(itemId);
     v.setContentFragment(f);

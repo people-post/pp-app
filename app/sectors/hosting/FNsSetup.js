@@ -24,7 +24,9 @@ const _CVT_NS_SETUP = {
     </div>`,
 }
 
-export class FNsSetup extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export class FNsSetup extends Fragment {
   action(type, ...args) {
     switch (type) {
     case CFM_NS_SETUP.SUBMIT:

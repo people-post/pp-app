@@ -1,10 +1,13 @@
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class FAppointmentDelivery extends shop.FServiceDelivery {
   #btnAdd;
 
   constructor() {
     super();
-    this.#btnAdd = new ui.Button();
+    this.#btnAdd = new Button();
     this.#btnAdd.setName("Book...");
     this.#btnAdd.setDelegate(this);
     this.setChild("btnAdd", this.#btnAdd);
@@ -24,22 +27,22 @@ export class FAppointmentDelivery extends shop.FServiceDelivery {
   }
 
   #renderCompact(panel) {
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     p.setClassName("center-align");
     panel.wrapPanel(p);
-    this.#btnAdd.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+    this.#btnAdd.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this.#btnAdd.attachRender(p);
     this.#btnAdd.render();
   }
 
   #renderFull(panel) {
-    this.#btnAdd.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
+    this.#btnAdd.setLayoutType(Button.LAYOUT_TYPE.BAR);
     this.#btnAdd.attachRender(panel);
     this.#btnAdd.render();
   }
 
   #onBook() {
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(new shop.FvcBookAppointment());
     fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Book",
                                 false);

@@ -1,12 +1,17 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 
-export class FPostInfoLayoutPreview extends ui.Fragment {
+export class FPostInfoLayoutPreview extends Fragment {
   constructor() {
     super();
     this._desciption = "";
     this._fInfo = null;
 
-    this._fApply = new ui.Button();
-    this._fApply.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+    this._fApply = new Button();
+    this._fApply.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this._fApply.setDelegate(this);
     this.setChild("btn", this._fApply);
   }
@@ -30,9 +35,9 @@ export class FPostInfoLayoutPreview extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.Panel();
+    let pp = new Panel();
     pp.setClassName("small-info-text");
     p.pushPanel(pp);
     pp.replaceContent(this._desciption);
@@ -47,12 +52,12 @@ export class FPostInfoLayoutPreview extends ui.Fragment {
       this._fApply.setName("Apply");
       this._fApply.enable();
     }
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this._fApply.attachRender(pp);
     this._fApply.render();
 
-    pp = new ui.SectionPanel("Exmaple layout");
+    pp = new SectionPanel("Exmaple layout");
     p.pushPanel(pp);
     pp = pp.getContentPanel();
     pp.setClassName("quote-element");

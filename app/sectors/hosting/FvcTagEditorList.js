@@ -1,21 +1,27 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class FvcTagEditorList extends ui.FScrollViewContent {
+export class FvcTagEditorList extends FScrollViewContent {
   constructor() {
     super();
-    this._fList = new ui.FSimpleFragmentList();
+    this._fList = new FSimpleFragmentList();
     this.setChild("list", this._fList);
 
-    this._fBtnNew = new gui.ActionButton();
-    this._fBtnNew.setIcon(gui.ActionButton.T_ICON.NEW);
+    this._fBtnNew = new ActionButton();
+    this._fBtnNew.setIcon(ActionButton.T_ICON.NEW);
     this._fBtnNew.setDelegate(this);
   }
 
   getActionButton() { return this._fBtnNew }
 
   onGuiActionButtonClick(fActionButton) {
-    let v = new ui.View();
+    let v = new View();
     let fvc = new S.hr.FvcUserInput();
-    let f = new ui.TextInput();
+    let f = new TextInput();
     f.setConfig({
       title : "Tag name",
       hint : "New tag name",
@@ -33,7 +39,7 @@ export class FvcTagEditorList extends ui.FScrollViewContent {
   }
 
   onClickInTagEditorFragment(fTagEditor) {
-    let v = new ui.View();
+    let v = new View();
     let f = new hstn.FvcTagEditor();
     f.setTagId(fTagEditor.getTagId());
     v.setContentFragment(f);
@@ -56,7 +62,7 @@ export class FvcTagEditorList extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     render.wrapPanel(p);
     this._fList.clear();
     let tags = dba.WebConfig.getTags();

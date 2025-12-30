@@ -1,5 +1,6 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class PRegisterBase extends ui.Panel {
+export class PRegisterBase extends Panel {
   constructor() { super(); }
 
   isColorInvertible() { return false; }

@@ -1,4 +1,3 @@
-(function (ext) {
 function buf2str(buf) { return new TextDecoder().decode(buf); }
 
 async function cat(cid, options, helia, fLog, abortFlag) {
@@ -156,5 +155,11 @@ Usage example:
       });
     }
 */
-ext.HlsIpfsLoader = HlsIpfsLoader;
-}(window.ext = window.ext || {}));
+
+export { HlsIpfsLoader };
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.ext = window.ext || {};
+  window.ext.HlsIpfsLoader = HlsIpfsLoader;
+}

@@ -1,9 +1,11 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FProposal } from './FProposal.js';
 
-export class FvcProposal extends ui.FScrollViewContent {
+export class FvcProposal extends FScrollViewContent {
   constructor() {
     super();
-    this._fProposal = new cmut.FProposal();
-    this._fProposal.setLayoutType(cmut.FProposal.T_LAYOUT.FULL);
+    this._fProposal = new FProposal();
+    this._fProposal.setLayoutType(FProposal.T_LAYOUT.FULL);
     this.setChild("proposal", this._fProposal);
   }
 

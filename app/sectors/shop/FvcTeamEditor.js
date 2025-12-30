@@ -9,16 +9,22 @@ const _CFT_SHOP_TEAM_EDITOR = {
     <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(shop.CF_SHOP_TEAM_EDITOR.SUBMIT)">Submit<a>`,
 }
 
-export class FvcTeamEditor extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class FvcTeamEditor extends FScrollViewContent {
   constructor() {
     super();
-    this._fOptions = new ui.OptionSwitch();
+    this._fOptions = new OptionSwitch();
     this._fOptions.setDelegate(this);
     this._fOptions.addOption("Active", "ACTIVE", true);
     this._fOptions.addOption("Recruiting", "OPEN", true);
     this.setChild("options", this._fOptions);
 
-    this._fPermissions = new ui.OptionSwitch();
+    this._fPermissions = new OptionSwitch();
     this._fPermissions.setDelegate(this);
     this.setChild("permissions", this._fPermissions);
 
@@ -41,25 +47,25 @@ export class FvcTeamEditor extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.SectionPanel("Name");
+    let pp = new SectionPanel("Name");
     p.pushPanel(pp);
     pp.getContentPanel().replaceContent(this.#renderNameInputs());
 
     this.#setOptions();
 
-    pp = new ui.SectionPanel("Permissions");
+    pp = new SectionPanel("Permissions");
     p.pushPanel(pp);
     this._fPermissions.attachRender(pp.getContentPanel());
     this._fPermissions.render();
 
-    pp = new ui.SectionPanel("Options");
+    pp = new SectionPanel("Options");
     p.pushPanel(pp);
     this._fOptions.attachRender(pp.getContentPanel());
     this._fOptions.render();
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(_CFT_SHOP_TEAM_EDITOR.SEC_SUBMIT);
   }

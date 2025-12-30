@@ -1,5 +1,15 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
+import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
+import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
+import { FAttachmentFileUploader } from '../../lib/ui/controllers/fragments/FAttachmentFileUploader.js';
+import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { C } from '../../lib/framework/Constants.js';
 
-export class FArticleEditor extends ui.Fragment {
+export class FArticleEditor extends Fragment {
   #fTitle;
   #fContent;
   #fFiles;
@@ -18,7 +28,7 @@ export class FArticleEditor extends ui.Fragment {
 
   constructor() {
     super();
-    this.#fTitle = new ui.TextArea();
+    this.#fTitle = new TextArea();
     this.#fTitle.setClassName("w100 h40px");
     this.#fTitle.setDelegate(this);
     this.setChild("title", this.#fTitle);
@@ -26,7 +36,7 @@ export class FArticleEditor extends ui.Fragment {
     this.#fContent = new gui.RichContentEditor();
     this.setChild("content", this.#fContent);
 
-    this.#fFiles = new ui.FMultiMediaFileUploader();
+    this.#fFiles = new FMultiMediaFileUploader();
     this.#fFiles.setCacheIds([ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]);
     this.#fFiles.setDataSource(this);
     this.#fFiles.setDelegate(this);
@@ -37,7 +47,7 @@ export class FArticleEditor extends ui.Fragment {
     this.#fLiveStream.setDelegate(this);
     this.setChild("liveStream", this.#fLiveStream);
 
-    this.#fFileChoices = new ui.ButtonGroup();
+    this.#fFileChoices = new ButtonGroup();
     this.#fFileChoices.setDataSource(this);
     this.#fFileChoices.setDelegate(this);
     this.#fFileChoices.addChoice({
@@ -55,7 +65,7 @@ export class FArticleEditor extends ui.Fragment {
     this.#fFileChoices.setSelectedValue("FILES");
     this.setChild("fileChoices", this.#fFileChoices);
 
-    this.#fAttachment = new ui.FAttachmentFileUploader();
+    this.#fAttachment = new FAttachmentFileUploader();
     this.#fAttachment.setCacheId(9);
     this.#fAttachment.setDelegate(this);
     this.setChild("attachment", this.#fAttachment);
@@ -65,12 +75,12 @@ export class FArticleEditor extends ui.Fragment {
     this.#fTags.setDelegate(this);
     this.setChild("tags", this.#fTags);
 
-    this.#fOptions = new ui.OptionSwitch();
+    this.#fOptions = new OptionSwitch();
     this.#fOptions.addOption("Public", "O_VIS");
     this.#fOptions.setDelegate(this);
     this.setChild("options", this.#fOptions);
 
-    this.#fQuote = new ui.TextInput();
+    this.#fQuote = new TextInput();
     this.#fQuote.setDelegate(this);
     this.setChild("quote", this.#fQuote);
 
@@ -78,16 +88,16 @@ export class FArticleEditor extends ui.Fragment {
     this.#fQuotePreview.setDelegate(this);
     this.setChild("quotePreview", this.#fQuotePreview);
 
-    this.#fSubmit = new ui.Button();
+    this.#fSubmit = new Button();
     this.#fSubmit.setName("Post");
-    this.#fSubmit.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
+    this.#fSubmit.setLayoutType(Button.LAYOUT_TYPE.BAR);
     this.#fSubmit.setDelegate(this);
     this.setChild("btnSubmit", this.#fSubmit);
 
-    this.#fDelete = new ui.Button();
+    this.#fDelete = new Button();
     this.#fDelete.setName("Delete...");
-    this.#fDelete.setThemeType(ui.Button.T_THEME.DANGER);
-    this.#fDelete.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
+    this.#fDelete.setThemeType(Button.T_THEME.DANGER);
+    this.#fDelete.setLayoutType(Button.LAYOUT_TYPE.BAR);
     this.#fDelete.setDelegate(this);
     this.setChild("btnDelete", this.#fDelete);
   }
@@ -231,14 +241,14 @@ export class FArticleEditor extends ui.Fragment {
     this.#fOptions.render();
 
     p = panel.getBtnListPanel();
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     this.#fSubmit.attachRender(pp);
     this.#fSubmit.render();
 
     if (!this.#baseArticle.isDraft()) {
       p.pushSpace(2);
-      pp = new ui.Panel();
+      pp = new Panel();
       p.pushPanel(pp);
       this.#fDelete.attachRender(pp);
       this.#fDelete.render();

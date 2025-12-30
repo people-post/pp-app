@@ -1,12 +1,15 @@
+import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
+import { FvcInbox } from './FvcInbox.js';
+import { FvcConfig } from './FvcConfig.js';
 
 export class Gateway extends plt.SectorGateway {
   createMainViewContentFragment() {
-    let f = new ui.FViewContentMux();
+    let f = new FViewContentMux();
 
-    let ff = new emal.FvcInbox();
+    let ff = new FvcInbox();
     f.addTab({name : R.t("Inbox"), value : "INBOX", icon : C.ICON.EMAIL}, ff);
 
-    ff = new emal.FvcConfig();
+    ff = new FvcConfig();
     f.addTab({name : R.t("Config"), value : "CONFIG", icon : C.ICON.CONFIG},
              ff);
 

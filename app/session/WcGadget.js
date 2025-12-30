@@ -1,5 +1,10 @@
-(function(main) {
-class WcGadget extends main.WcSession {
+import { WcSession } from './WcSession.js';
+import { LvGadget } from './LvGadget.js';
+import { AbClose } from './AbClose.js';
+import { View } from '../lib/ui/controllers/views/View.js';
+import { FvcCountdownAction } from '../common/gui/FvcCountdownAction.js';
+
+export class WcGadget extends WcSession {
   onCountdownCancelledInCountdownContentFragment(fvcCountdown) {
     this._reload();
   }
@@ -32,10 +37,10 @@ class WcGadget extends main.WcSession {
   }
 
   _createLayerFragment() {
-    let lc = new main.LvGadget();
+    let lc = new LvGadget();
     lc.setDefaultPageId(C.ID.SECTOR.EXTRAS);
 
-    let fAb = new main.AbClose();
+    let fAb = new AbClose();
     fAb.setDelegate(this);
     lc.setDefaultActionButton(fAb);
     return lc;
@@ -47,8 +52,8 @@ class WcGadget extends main.WcSession {
     dba.Account.reset(profile);
     if (dba.Account.hasDomain()) {
       // Auto close for any domain owners
-      let v = new ui.View();
-      let f = new gui.FvcCountdownAction(
+      let v = new View();
+      let f = new FvcCountdownAction(
           {message : "Closing window", actionTitle : "Close"}, 3000);
       f.setDelegate(this);
       v.setContentFragment(f);
@@ -67,5 +72,8 @@ class WcGadget extends main.WcSession {
   }
 };
 
-main.WcGadget = WcGadget;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.WcGadget = WcGadget;
+}

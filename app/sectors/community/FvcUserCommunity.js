@@ -7,11 +7,15 @@ const _CFT_USER_COMMUNITY_CONTENT = {
   BTN_CREATE :
       `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_USER_COMMUNITY_CONTENT.CREATE)">Create community...</a>`
 }
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FOverview } from './FOverview.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
-export class FvcUserCommunity extends ui.FScrollViewContent {
+export class FvcUserCommunity extends FScrollViewContent {
   constructor() {
     super();
-    this._fOverview = new cmut.FOverview();
+    this._fOverview = new FOverview();
     this._fOverview.setDelegate(this);
     this.setChild("overview", this._fOverview);
 
@@ -53,7 +57,7 @@ export class FvcUserCommunity extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     render.wrapPanel(p);
 
     let user = dba.Users.get(this._userId);
@@ -74,7 +78,7 @@ export class FvcUserCommunity extends ui.FScrollViewContent {
   }
 
   #onCreateCommunity() {
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(new cmut.FvcCreateCommunity());
     this._owner.onFragmentRequestShowView(this, v, "Create community");
   }

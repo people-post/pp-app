@@ -4,22 +4,29 @@ const _CFT_CAREER_CONTENT = {
     <div class="user-info-name">__NAME__</div>`,
 }
 
-export class FvcCareer extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { GridFragment } from '../../lib/ui/controllers/fragments/GridFragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class FvcCareer extends FScrollViewContent {
   constructor() {
     super();
-    this._fMembers = new ui.GridFragment();
+    this._fMembers = new GridFragment();
     this._fMembers.setDataSource(this);
     this._fMembers.setDelegate(this);
     this.setChild("members", this._fMembers);
 
-    this._fBtnApply = new ui.Button();
+    this._fBtnApply = new Button();
     this._fBtnApply.setName("Apply");
     this._fBtnApply.setDelegate(this);
     this.setChild("btnApply", this._fBtnApply);
 
-    this._fBtnLeave = new ui.Button();
+    this._fBtnLeave = new Button();
     this._fBtnLeave.setName("Leave...");
-    this._fBtnLeave.setThemeType(ui.Button.T_THEME.DANGER);
+    this._fBtnLeave.setThemeType(Button.T_THEME.DANGER);
     this._fBtnLeave.setDelegate(this);
     this.setChild("btnLeave", this._fBtnLeave);
 
@@ -75,20 +82,20 @@ export class FvcCareer extends ui.FScrollViewContent {
     if (!role) {
       return;
     }
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.SectionPanel("Name");
+    let pp = new SectionPanel("Name");
     p.pushPanel(pp);
     pp.getContentPanel().replaceContent(role.getName());
-    pp = new ui.SectionPanel("Description");
+    pp = new SectionPanel("Description");
     p.pushPanel(pp);
 
-    pp = new ui.SectionPanel("Members");
+    pp = new SectionPanel("Members");
     p.pushPanel(pp);
     this._fMembers.attachRender(pp.getContentPanel());
     this._fMembers.render();
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this.#renderActions(role, pp);
     dba.Users.loadMissing(role.getMemberIds());

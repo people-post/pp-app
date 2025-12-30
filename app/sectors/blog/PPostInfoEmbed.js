@@ -11,11 +11,14 @@ const _CPT_POST_INFO_EMBED = {
   </div>`,
 }
 
-export class PPostInfoEmbed extends gui.PPostInfoBase {
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PPostInfoEmbed extends PPostInfoBase {
   #pTitle;
   constructor() {
     super();
-    this.#pTitle = new ui.Panel();
+    this.#pTitle = new Panel();
   }
 
   getTitlePanel() { return this.#pTitle; }

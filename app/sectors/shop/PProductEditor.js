@@ -15,17 +15,20 @@ const _CPT_PRODUCT_EDITOR = {
   <br>
   </div>`,
 }
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 
-export class PProductEditor extends ui.Panel {
+export class PProductEditor extends Panel {
   constructor() {
     super();
-    this._pName = new ui.Panel();
-    this._pFiles = new ui.PanelWrapper();
-    this._pDescription = new ui.PanelWrapper();
-    this._pMenuTags = new ui.SectionPanel("Menu tags");
-    this._pPrice = new ui.PanelWrapper();
-    this._pDelivery = new ui.PanelWrapper();
-    this._pActions = new ui.Panel();
+    this._pName = new Panel();
+    this._pFiles = new PanelWrapper();
+    this._pDescription = new PanelWrapper();
+    this._pMenuTags = new SectionPanel("Menu tags");
+    this._pPrice = new PanelWrapper();
+    this._pDelivery = new PanelWrapper();
+    this._pActions = new Panel();
   }
 
   getNamePanel() { return this._pName; }

@@ -1,5 +1,9 @@
-(function(main) {
-class WcWeb3 extends main.WcSession {
+import { WcSession } from './WcSession.js';
+import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
+import { LvMain } from './LvMain.js';
+import { AbAccount } from './AbAccount.js';
+
+export class WcWeb3 extends WcSession {
   #postingKeyPath =
       [ dat.Wallet.T_PURPOSE.NFSC001, dat.Wallet.T_COIN.NFSC001, 0, 0, 0 ];
 
@@ -33,7 +37,7 @@ class WcWeb3 extends main.WcSession {
   }
 
   onLoginClickInAccountActionButtonFragment(fAbAccount) {
-    let gw = new auth.Gateway();
+    let gw = new AuthGateway();
     let v = gw.createWeb3LoginView();
     this._pushView(v, "Login");
   }
@@ -61,10 +65,10 @@ class WcWeb3 extends main.WcSession {
 
   main(dConfig) { this.#asMain(dConfig); }
 
-  _createLayerFragment() { return new main.LvMain(); }
+  _createLayerFragment() { return new LvMain(); }
 
   _initLayer(lc) {
-    let fAb = new main.AbAccount();
+    let fAb = new AbAccount();
     fAb.setDelegate(this);
     lc.setDefaultActionButton(fAb);
     lc.setDefaultPageId(dba.WebConfig.getHomeSector());
@@ -137,5 +141,8 @@ class WcWeb3 extends main.WcSession {
   }
 };
 
-main.WcWeb3 = WcWeb3;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.WcWeb3 = WcWeb3;
+}

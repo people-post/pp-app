@@ -1,5 +1,6 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class PArticleBase extends ui.Panel {};
+export class PArticleBase extends Panel {};
 
 
 

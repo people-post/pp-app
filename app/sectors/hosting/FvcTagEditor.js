@@ -1,5 +1,6 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 
-export class FvcTagEditor extends ui.FScrollViewContent {
+export class FvcTagEditor extends FScrollViewContent {
   constructor() {
     super();
     this._fTagEditor = new hstn.FTagEditor();

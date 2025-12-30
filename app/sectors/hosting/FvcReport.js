@@ -1,5 +1,9 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 
-export class FvcReport extends ui.FScrollViewContent {
+export class FvcReport extends FScrollViewContent {
   constructor() {
     super();
     this._fVisit = new stat.FVisit();
@@ -9,7 +13,7 @@ export class FvcReport extends ui.FScrollViewContent {
   }
 
   onVisitSummaryFragmentRequestShowSubSummary(fVisitSummary, visitSummary) {
-    let v = new ui.View();
+    let v = new View();
     let f = new stat.FvcVisit();
     f.setQueryInfo("DOMAIN", visitSummary.getSubQueryKey(),
                    visitSummary.getSubQueryValue(),
@@ -19,9 +23,9 @@ export class FvcReport extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.SectionPanel(R.t("Your domain visits"));
+    let pp = new SectionPanel(R.t("Your domain visits"));
     p.pushPanel(pp);
 
     this._fVisit.attachRender(pp.getContentPanel());

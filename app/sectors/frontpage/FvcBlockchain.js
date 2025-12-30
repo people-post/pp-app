@@ -1,5 +1,7 @@
 
-export class FvcBlockchain extends ui.FViewContentBase {
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
+
+export class FvcBlockchain extends FViewContentBase {
   #blockHead;
 
   constructor() {

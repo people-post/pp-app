@@ -11,7 +11,14 @@ const _CFT_CUSTOMER_ORDER = {
   ACT_ONCLICK : `javascript:G.action(cart.CF_CUSTOMER_ORDER.ON_CLICK)`,
 };
 
-export class FOrder extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { C } from '../../lib/framework/Constants.js';
+
+export class FOrder extends Fragment {
   static T_LAYOUT = {
     FULL : Symbol(),
     INFO: Symbol(),
@@ -19,7 +26,7 @@ export class FOrder extends ui.Fragment {
 
   constructor() {
     super();
-    this._fItems = new ui.FSimpleFragmentList();
+    this._fItems = new FSimpleFragmentList();
     this.setChild("items", this._fItems);
 
     this._orderId = null;
@@ -227,13 +234,13 @@ export class FOrder extends ui.Fragment {
   }
 
   #renderItemInfos(order, panel) {
-    let pItems = new ui.ListPanel();
+    let pItems = new ListPanel();
     pItems.setClassName("clickable");
     pItems.setAttribute("onclick", _CFT_CUSTOMER_ORDER.ACT_ONCLICK);
     panel.wrapPanel(pItems);
     for (let item of order.getItems()) {
       for (let subItem of item.getItems()) {
-        let p = new ui.Panel();
+        let p = new Panel();
         p.setClassName("customer-order-info-item flex space-between");
         pItems.pushPanel(p);
         p.replaceContent(this.#renderOrderItem(subItem));
@@ -285,7 +292,7 @@ export class FOrder extends ui.Fragment {
   #renderShippingAddress(order, panel) {
     let addr = order.getShippingAddress();
     if (addr) {
-      let p = new ui.SectionPanel("Shipping address");
+      let p = new SectionPanel("Shipping address");
       panel.wrapPanel(p);
       p = p.getContentPanel();
       p.replaceContent(addr.data);

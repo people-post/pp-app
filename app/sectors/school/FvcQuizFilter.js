@@ -1,5 +1,12 @@
 
-export class FvcQuizFilter extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { PFilterItem } from './PFilterItem.js';
+
+export class FvcQuizFilter extends FScrollViewContent {
   static T_PRESENTATION = {
     QUIZ : Symbol(),
     FLASHCARD: Symbol(),
@@ -7,7 +14,7 @@ export class FvcQuizFilter extends ui.FScrollViewContent {
 
   constructor() {
     super();
-    this._fScope = new ui.ButtonGroup();
+    this._fScope = new ButtonGroup();
     // Values are synced with backend
     this._fScope.addChoice({name : "Learned", value : "MARKED", icon : null});
     this._fScope.addChoice({name : "New", value : "NEW", icon : null});
@@ -16,7 +23,7 @@ export class FvcQuizFilter extends ui.FScrollViewContent {
     this._fScope.setDelegate(this);
     this.setChild("scope", this._fScope);
 
-    this._fMethod = new ui.ButtonGroup();
+    this._fMethod = new ButtonGroup();
     this._fMethod.addChoice({
       name : "Quiz",
       value : this.constructor.T_PRESENTATION.QUIZ,
@@ -31,12 +38,12 @@ export class FvcQuizFilter extends ui.FScrollViewContent {
     this._fMethod.setDelegate(this);
     this.setChild("method", this._fMethod);
 
-    this._fBtnApply = new ui.Button();
+    this._fBtnApply = new Button();
     this._fBtnApply.setName("Apply");
     this._fBtnApply.setDelegate(this);
     this.setChild("btnApply", this._fBtnApply);
 
-    this._pScope = new scol.PFilterItem();
+    this._pScope = new PFilterItem();
   }
 
   onSimpleButtonClicked(fBtn) { this.#onSubmit(); }
@@ -51,7 +58,7 @@ export class FvcQuizFilter extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     render.wrapPanel(pList);
 
     let p = this._pScope;
@@ -62,14 +69,14 @@ export class FvcQuizFilter extends ui.FScrollViewContent {
 
     pList.pushSpace(1);
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this._fMethod.attachRender(p);
     this._fMethod.render();
 
     pList.pushSpace(1);
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this._fBtnApply.attachRender(p);
     this._fBtnApply.render();

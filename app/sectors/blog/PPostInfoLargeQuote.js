@@ -14,15 +14,19 @@ const _CPT_POST_INFO_LARGE_QUOTE = {
   </div>`,
 }
 
-export class PPostInfoLargeQuote extends gui.PPostInfoBase {
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PPostInfoLargeQuote extends PPostInfoBase {
   constructor() {
     super();
     this._pCrossRef = new S.hr.PUserReference();
-    this._pAuthorName = new ui.PanelWrapper();
-    this._pTitle = new ui.Panel();
-    this._pContent = new ui.PanelWrapper();
-    this._pTime = new ui.Panel();
-    this._pImage = new ui.PanelWrapper();
+    this._pAuthorName = new PanelWrapper();
+    this._pTitle = new Panel();
+    this._pContent = new PanelWrapper();
+    this._pTime = new Panel();
+    this._pImage = new PanelWrapper();
   }
 
   getCrossRefPanel() { return this._pCrossRef; }

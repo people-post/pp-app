@@ -8,13 +8,17 @@ const _CPT_BRANCH = {
   <div id="__ID_REGISTERS__"></div>`,
 };
 
-export class PBranch extends shop.PBranchBase {
+import { PBranchBase } from './PBranchBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PBranch extends PBranchBase {
   constructor() {
     super();
-    this._pNameEditor = new ui.PanelWrapper();
-    this._pNameDecor = new ui.Panel();
-    this._pAddress = new ui.PanelWrapper();
-    this._pRegisters = new ui.PanelWrapper();
+    this._pNameEditor = new PanelWrapper();
+    this._pNameDecor = new Panel();
+    this._pAddress = new PanelWrapper();
+    this._pRegisters = new PanelWrapper();
   }
 
   getNameDecorationPanel() { return this._pNameDecor; }

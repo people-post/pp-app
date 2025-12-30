@@ -1,5 +1,7 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class PProjectFlowChart extends ui.Panel {
+export class PProjectFlowChart extends Panel {
   constructor() {
     super();
     this._elementType = "svg";
@@ -51,7 +53,7 @@ export class PProjectFlowChart extends ui.Panel {
       return;
     }
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     p.setElementType("path");
     p.setClassName("flow-connection s-cprimestk");
     let xFrom = bboxFrom.x, yFrom = bboxFrom.y, xTo = bboxTo.x, yTo = bboxTo.y;

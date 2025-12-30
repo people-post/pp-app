@@ -1,4 +1,6 @@
-export class FvcFinanceHistory extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+
+export class FvcFinanceHistory extends FScrollViewContent {
   constructor() {
     super();
     this._communityId;

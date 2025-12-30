@@ -1,5 +1,11 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 
-export class FvcQueueCheckin extends ui.FScrollViewContent {
+export class FvcQueueCheckin extends FScrollViewContent {
   constructor() {
     super();
     this._fFilter = new shop.FServiceLocationFilter();
@@ -7,7 +13,7 @@ export class FvcQueueCheckin extends ui.FScrollViewContent {
     this._fFilter.setDelegate(this);
     this.setChild("filter", this._fFilter);
 
-    this._fBtn = new ui.Button();
+    this._fBtn = new Button();
     this._fBtn.setName("Checkin");
     this._fBtn.setDelegate(this);
     this._fBtn.setEnabled(false);
@@ -45,19 +51,19 @@ export class FvcQueueCheckin extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let panel = new ui.ListPanel();
+    let panel = new ListPanel();
     render.wrapPanel(panel);
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     panel.pushPanel(p);
     this._fFilter.attachRender(p);
     this._fFilter.render();
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     panel.pushPanel(p);
     this._fBtn.attachRender(p);
     this._fBtn.render();
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     p.setClassName("center-align");
     panel.pushPanel(p);
     this._fMsg.attachRender(p);
@@ -82,9 +88,9 @@ export class FvcQueueCheckin extends ui.FScrollViewContent {
       this.#asyncCheckin();
     } else {
       // Guest
-      let v = new ui.View();
+      let v = new View();
       let fvc = new S.hr.FvcUserInput();
-      let fName = new ui.TextInput();
+      let fName = new TextInput();
       fName.setConfig({
         title : R.get("GUEST_NICKNAME_PROMPT"),
         hint : "Nickname",
@@ -93,7 +99,7 @@ export class FvcQueueCheckin extends ui.FScrollViewContent {
       });
       fvc.addInputCollector(fName);
 
-      let fContact = new ui.TextInput();
+      let fContact = new TextInput();
       fContact.setConfig({
         title : R.get("GUEST_CONTACT_PROMPT"),
         hint : "Contact",

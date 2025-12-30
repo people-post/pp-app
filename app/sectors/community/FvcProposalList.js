@@ -1,8 +1,10 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FProposalList } from './FProposalList.js';
 
-export class FvcProposalList extends ui.FScrollViewContent {
+export class FvcProposalList extends FScrollViewContent {
   constructor() {
     super();
-    this._fList = new cmut.FProposalList();
+    this._fList = new FProposalList();
     this._fList.setDelegate(this);
     this.setChild("list", this._fList);
   }

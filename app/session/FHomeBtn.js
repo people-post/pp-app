@@ -1,4 +1,5 @@
-(function(main) {
+import { FHeaderMenu } from '../lib/ui/controllers/fragments/FHeaderMenu.js';
+
 const _CFT_HOME_BTN = {
   ICON : `<div class="pad5px">
     <a href="__URL__">
@@ -12,7 +13,7 @@ const _CFT_HOME_BTN = {
   </div>`,
 };
 
-class FHomeBtn extends ui.FHeaderMenu {
+export class FHomeBtn extends FHeaderMenu {
   #url = null;
   #icon = null;
 
@@ -57,5 +58,8 @@ class FHomeBtn extends ui.FHeaderMenu {
   }
 };
 
-main.FHomeBtn = FHomeBtn;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.FHomeBtn = FHomeBtn;
+}

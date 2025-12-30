@@ -1,8 +1,9 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class PWalkinQueueItemBase extends ui.Panel {
+export class PWalkinQueueItemBase extends Panel {
   constructor() {
     super();
-    this._pName = new ui.Panel();
+    this._pName = new Panel();
   }
 
   getNameDecorPanel() { return null; }

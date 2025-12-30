@@ -2,6 +2,9 @@
 window.CF_PROJECT_INFO = {
   VIEW_PROJECT : "CF_PROJECT_INFO_1",
 }
+import { RichProgress } from '../../lib/ui/controllers/fragments/RichProgress.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 
 export class FProjectInfo extends gui.MajorSectorItem {
   constructor() {
@@ -14,7 +17,7 @@ export class FProjectInfo extends gui.MajorSectorItem {
     this._fThumbnail.setDelegate(this);
     this.setChild("thumbnail", this._fThumbnail);
 
-    this._fProgress = new ui.RichProgress();
+    this._fProgress = new RichProgress();
 
     this.setChild("progress", this._fProgress);
 
@@ -73,10 +76,10 @@ export class FProjectInfo extends gui.MajorSectorItem {
   _renderOnRender(render) {
     let project = dba.Workshop.getProject(this._projectId);
     if (!project) {
-      let p = new ui.Panel();
+      let p = new Panel();
       p.setClassName("center-align");
       render.wrapPanel(p);
-      p.replaceContent(ui.ICONS.LOADING);
+      p.replaceContent("Loading...");
       return;
     }
 
@@ -130,7 +133,7 @@ export class FProjectInfo extends gui.MajorSectorItem {
       panel.enableImage();
       p = panel.getImagePanel();
 
-      let pp = new ui.ThumbnailPanelWrapper();
+      let pp = new ThumbnailPanelWrapper();
       if (this.#isSquareImage()) {
         pp.setClassName("aspect-1-1-frame");
       }

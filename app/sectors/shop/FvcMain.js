@@ -1,5 +1,12 @@
+import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/FViewContentWithHeroBanner.js';
+import { FvcOwner } from './FvcOwner.js';
+import { FvcExplorer } from './FvcExplorer.js';
+import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
+import { C } from '../../lib/framework/Constants.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
 
-export class FvcMain extends ui.FViewContentWithHeroBanner {
+export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {
     OWNER_OPEN : Symbol(),
     OWNER_CLOSED: Symbol(),
@@ -13,13 +20,13 @@ export class FvcMain extends ui.FViewContentWithHeroBanner {
 
   constructor() {
     super();
-    this.#fvcOwner = new shop.FvcOwner();
+    this.#fvcOwner = new FvcOwner();
     this.#fvcOwner.setDelegate(this);
 
-    this.#fvcExplorer = new shop.FvcExplorer();
+    this.#fvcExplorer = new FvcExplorer();
     this.#fvcExplorer.setDelegate(this);
 
-    this.#fMain = new ui.FViewContentMux();
+    this.#fMain = new FViewContentMux();
     this.#fMain.setDataSource(this);
     this.wrapContentFragment(this.#fMain);
 
@@ -28,7 +35,7 @@ export class FvcMain extends ui.FViewContentWithHeroBanner {
 
   initFromUrl(urlParam) {
     super.initFromUrl(urlParam);
-    let addon = urlParam.get(ui.C.URL_PARAM.ADDON);
+    let addon = urlParam.get(C.URL_PARAM.ADDON);
     if (addon == C.URL_PARAM_ADDON_VALUE.CART) {
       this.#showCart();
     }
@@ -55,12 +62,12 @@ export class FvcMain extends ui.FViewContentWithHeroBanner {
     }
   }
   onShopConfigFragmentRequestAddTeam(fConfig) {
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(new shop.FvcTeamEditor());
     this._owner.onFragmentRequestShowView(this, v, "Shop team");
   }
   onShopConfigFragmentRequestEditTeam(fConfig, teamId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new shop.FvcTeamEditor();
     f.setTeamId(teamId);
     v.setContentFragment(f);
@@ -152,7 +159,7 @@ export class FvcMain extends ui.FViewContentWithHeroBanner {
   #resetAsOwnerClosed() {
     this.#fMain.clearContents();
 
-    let ff = new ui.OptionSwitch();
+    let ff = new OptionSwitch();
     ff.addOption(R.get("OPEN_SHOP"), "MASTER");
     ff.setDelegate(this);
 
@@ -176,7 +183,7 @@ export class FvcMain extends ui.FViewContentWithHeroBanner {
   }
 
   #showCart() {
-    let v = new ui.View();
+    let v = new View();
     let f = new cart.FvcCurrent();
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Cart");

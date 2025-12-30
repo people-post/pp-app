@@ -1,3 +1,6 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { ICONS } from '../../lib/ui/Icons.js';
+
 export const CF_POST_INFO = {
   ON_CLICK : Symbol(),
 };
@@ -93,10 +96,10 @@ export class FPostInfo extends gui.MajorSectorItem {
     let post = dba.Blog.getPost(this.#postId);
     let realPost = this.#getRealPost(post);
     if (!realPost) {
-      let p = new ui.Panel();
+      let p = new Panel();
       p.setClassName("center-align");
       render.wrapPanel(p);
-      p.replaceContent(ui.ICONS.LOADING);
+      p.replaceContent(ICONS.LOADING);
       return;
     }
 

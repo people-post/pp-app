@@ -18,7 +18,12 @@ const _CPT_WEB3_NETWORK = {
   </div>`,
 };
 
-export class PWeb3Network extends ui.Panel {
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+
+export class PWeb3Network extends Panel {
   #pResolver;
   #pBlockchain;
   #pPublisher;
@@ -26,10 +31,10 @@ export class PWeb3Network extends ui.Panel {
 
   constructor() {
     super();
-    this.#pResolver = new ui.ListPanel();
-    this.#pBlockchain = new ui.ListPanel();
-    this.#pPublisher = new ui.ListPanel();
-    this.#pStorage = new ui.ListPanel();
+    this.#pResolver = new ListPanel();
+    this.#pBlockchain = new ListPanel();
+    this.#pPublisher = new ListPanel();
+    this.#pStorage = new ListPanel();
   }
 
   getResolverPanel() { return this.#pResolver; }
@@ -55,7 +60,7 @@ export class PWeb3Network extends ui.Panel {
   }
 };
 
-class FvcWeb3Network extends ui.FScrollViewContent {
+class FvcWeb3Network extends FScrollViewContent {
   constructor() { super(); }
 
   _renderContentOnRender(render) {
@@ -65,7 +70,7 @@ class FvcWeb3Network extends ui.FScrollViewContent {
     let agents = glb.web3Resolver.getAgents();
     let pList = panel.getResolverPanel();
     for (let a of agents) {
-      let p = new ui.PanelWrapper();
+      let p = new PanelWrapper();
       pList.pushPanel(p);
       this.#renderServer("", p, a.getHostAddress());
     }
@@ -73,7 +78,7 @@ class FvcWeb3Network extends ui.FScrollViewContent {
     agents = glb.web3Publisher.getAgents();
     pList = panel.getPublisherPanel();
     for (let a of agents) {
-      let p = new ui.PanelWrapper();
+      let p = new PanelWrapper();
       pList.pushPanel(p);
       this.#renderServer("", p, a.getHostAddress());
     }
@@ -81,7 +86,7 @@ class FvcWeb3Network extends ui.FScrollViewContent {
     agents = glb.web3Ledger.getAgents();
     pList = panel.getBlockchainPanel();
     for (let a of agents) {
-      let p = new ui.PanelWrapper();
+      let p = new PanelWrapper();
       pList.pushPanel(p);
       this.#renderServer("", p, a.getHostAddress());
     }
@@ -89,7 +94,7 @@ class FvcWeb3Network extends ui.FScrollViewContent {
     agents = glb.web3Storage.getAgents();
     pList = panel.getStoragePanel();
     for (let a of agents) {
-      let p = new ui.PanelWrapper();
+      let p = new PanelWrapper();
       pList.pushPanel(p);
       this.#renderServer("", p, a.getHostAddress());
     }

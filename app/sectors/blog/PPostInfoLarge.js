@@ -35,19 +35,23 @@ const _CPT_POST_INFO_LARGE = {
   </div>`,
 }
 
-export class PPostInfoLarge extends gui.PPostInfoBase {
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PPostInfoLarge extends PPostInfoBase {
   constructor() {
     super();
-    this._pOwnerIcon = new ui.PanelWrapper();
-    this._pTitle = new ui.Panel();
-    this._pContent = new ui.PanelWrapper();
-    this._pOwnerName = new ui.PanelWrapper();
+    this._pOwnerIcon = new PanelWrapper();
+    this._pTitle = new Panel();
+    this._pContent = new PanelWrapper();
+    this._pOwnerName = new PanelWrapper();
     this._pCrossRef = new S.hr.PUserReference();
-    this._pTime = new ui.Panel();
-    this._pSocial = new ui.PanelWrapper();
-    this._pQuote = new ui.PanelWrapper();
-    this._pAttachment = new ui.PanelWrapper();
-    this._pImage = new ui.PanelWrapper();
+    this._pTime = new Panel();
+    this._pSocial = new PanelWrapper();
+    this._pQuote = new PanelWrapper();
+    this._pAttachment = new PanelWrapper();
+    this._pImage = new PanelWrapper();
   }
 
   getOwnerIconPanel() { return this._pOwnerIcon; }

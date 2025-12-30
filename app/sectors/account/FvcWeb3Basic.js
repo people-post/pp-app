@@ -1,4 +1,10 @@
-export class FvcWeb3Basic extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class FvcWeb3Basic extends FScrollViewContent {
   #fName;
   #fNickname;
   #fIcon;
@@ -9,7 +15,7 @@ export class FvcWeb3Basic extends ui.FScrollViewContent {
     this.#fName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("name", this.#fName);
 
-    this.#fNickname = new ui.TextInput();
+    this.#fNickname = new TextInput();
     this.#fNickname.setConfig(
         {title : "Nickname", hint : "Nickname", isRequired : false});
     this.#fNickname.setDelegate(this);
@@ -28,9 +34,9 @@ export class FvcWeb3Basic extends ui.FScrollViewContent {
   }
 
   _renderOnRender(render) {
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     render.wrapPanel(pList);
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     pList.pushPanel(p);
 
     this.#fName.setUserId(dba.Account.getId());
@@ -38,14 +44,14 @@ export class FvcWeb3Basic extends ui.FScrollViewContent {
     this.#fName.render();
 
     if (glb.env.isWeb3()) {
-      p = new ui.Panel();
+      p = new Panel();
       pList.pushPanel(p);
       p.setClassName("ellipsis");
       p.replaceContent("Public key:" + dba.Account.getPublicKey());
 
       pList.pushSpace(1);
 
-      p = new ui.Panel();
+      p = new Panel();
       pList.pushPanel(p);
       p.setClassName("ellipsis");
       let peerId = glb.web3Publisher.getInitUserPeerId();
@@ -56,13 +62,13 @@ export class FvcWeb3Basic extends ui.FScrollViewContent {
       }
     }
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this.#fNickname.setValue(dba.Account.getNickname());
     this.#fNickname.attachRender(p);
     this.#fNickname.render();
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this.#fIcon.setIconUrl(dba.Account.getIconUrl());
     this.#fIcon.attachRender(p);

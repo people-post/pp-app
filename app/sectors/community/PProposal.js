@@ -8,13 +8,17 @@ const _CPT_PROPOSAL = {
     <div id="__ID_CONTENT__"></div>`,
 }
 
-export class PProposal extends cmut.PProposalBase {
+import { PProposalBase } from './PProposalBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PProposal extends PProposalBase {
   constructor() {
     super();
-    this._pTitle = new ui.Panel();
-    this._pSubtitle = new ui.Panel();
-    this._pVotingSummary = new ui.PanelWrapper();
-    this._pContent = new ui.Panel();
+    this._pTitle = new Panel();
+    this._pSubtitle = new Panel();
+    this._pVotingSummary = new PanelWrapper();
+    this._pContent = new Panel();
   }
 
   getTitlePanel() { return this._pTitle; }

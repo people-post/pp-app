@@ -12,13 +12,15 @@ const _CPT_FLASHCARD = {
   </div>`,
 }
 
-export class PFlashcard extends ui.Panel {
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PFlashcard extends Panel {
   constructor() {
     super();
-    this._pQuestion = new ui.Panel();
-    this._pChoices = new ui.Panel();
-    this._pAnswers = new ui.Panel();
-    this._pNavHint = new ui.Panel();
+    this._pQuestion = new Panel();
+    this._pChoices = new Panel();
+    this._pAnswers = new Panel();
+    this._pNavHint = new Panel();
   }
 
   getQuestionPanel() { return this._pQuestion; }

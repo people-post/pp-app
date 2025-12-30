@@ -9,15 +9,17 @@ const _CPT_SERVICE_LOCATION_EDITOR = {
   <div id="__ID_BTN_ADD__"></div>
   </div>`,
 }
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class PServiceLocationEditor extends ui.Panel {
+export class PServiceLocationEditor extends Panel {
   constructor() {
     super();
-    this._pTimeOverhead = new ui.PanelWrapper();
-    this._pPriceOverhead = new ui.PanelWrapper();
-    this._pTimeslots = new ui.PanelWrapper();
-    this._pLocations = new ui.PanelWrapper();
-    this._pBtnAdd = new ui.PanelWrapper();
+    this._pTimeOverhead = new PanelWrapper();
+    this._pPriceOverhead = new PanelWrapper();
+    this._pTimeslots = new PanelWrapper();
+    this._pLocations = new PanelWrapper();
+    this._pBtnAdd = new PanelWrapper();
   }
 
   getTimeOverheadPanel() { return this._pTimeOverhead; }

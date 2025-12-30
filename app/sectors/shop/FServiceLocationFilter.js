@@ -1,11 +1,14 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class FServiceLocationFilter extends ui.Fragment {
+export class FServiceLocationFilter extends Fragment {
   constructor() {
     super();
     this._fAllLocations = [];
     this._shouldUseCurrentTime = false;
 
-    this._fLocations = new ui.FSimpleFragmentList();
+    this._fLocations = new FSimpleFragmentList();
     this.setChild("locations", this._fLocations);
 
     this._fSelected = null;
@@ -40,7 +43,7 @@ export class FServiceLocationFilter extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let panel = new ui.PanelWrapper();
+    let panel = new PanelWrapper();
     render.wrapPanel(panel);
 
     this._fLocations.clear();

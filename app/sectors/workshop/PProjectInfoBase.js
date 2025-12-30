@@ -1,12 +1,14 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class PProjectInfoBase extends ui.Panel {
+export class PProjectInfoBase extends Panel {
   // TODO: Extend from PQuotableBase
   constructor() {
     super();
-    this._pTitle = new ui.Panel();
-    this._pContent = new ui.Panel();
-    this._pImage = new ui.PanelWrapper();
-    this._pProgress = new ui.PanelWrapper();
+    this._pTitle = new Panel();
+    this._pContent = new Panel();
+    this._pImage = new PanelWrapper();
+    this._pProgress = new PanelWrapper();
   }
 
   isColorInvertible() { return false; }

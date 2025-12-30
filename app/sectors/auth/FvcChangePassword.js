@@ -1,3 +1,8 @@
+// Note: ui namespace is available globally, but we could add explicit imports if needed
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
+
 export const CF_CHANGE_PASSWORD = {
   SUBMIT : Symbol(),
 };
@@ -33,10 +38,10 @@ const _CFT_CHANGE_PASSWORD = {
   <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(auth.CF_CHANGE_PASSWORD.SUBMIT)">Submit</a>`,
 };
 
-export class FvcChangePassword extends ui.FScrollViewContent {
+export class FvcChangePassword extends FScrollViewContent {
   action(type, ...args) {
     switch (type) {
-    case auth.CF_CHANGE_PASSWORD.SUBMIT:
+    case CF_CHANGE_PASSWORD.SUBMIT:
       this.#onSubmit();
       break;
     default:
@@ -79,8 +84,8 @@ export class FvcChangePassword extends ui.FScrollViewContent {
   }
 
   #onChangeSuccess() {
-    let v = new ui.View();
-    let f = new ui.FvcNotice();
+    let v = new View();
+    let f = new FvcNotice();
     f.setMessage(R.get("CHANGE_PASSWORD_SUCCESS"));
     f.setCloseAction(() => window.close());
     v.setContentFragment(f);

@@ -1,5 +1,9 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { C } from '../../lib/framework/Constants.js';
 
-export class FvcExchange extends ui.FScrollViewContent {
+export class FvcExchange extends FScrollViewContent {
   constructor() {
     super();
     this._fCoin = new xchg.FExchangeItemInfo();
@@ -30,21 +34,21 @@ export class FvcExchange extends ui.FScrollViewContent {
 
   _renderContentOnRender(render) {
     this.#updateData();
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fCoin.attachRender(pp);
     this._fCoin.render();
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fCash.attachRender(pp);
     this._fCash.render();
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fFood.attachRender(pp);
     this._fFood.render();
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fAmusement.attachRender(pp);
     this._fAmusement.render();

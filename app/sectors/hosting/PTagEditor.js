@@ -4,10 +4,13 @@ const _CPT_TAG_EDITOR = {
     <div id="__ID_THEME__"></div>`,
 }
 
-export class PTagEditor extends hstn.PTagEditorBase {
+import { PTagEditorBase } from './PTagEditorBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PTagEditor extends PTagEditorBase {
   constructor() {
     super();
-    this._pTheme = new ui.PanelWrapper();
+    this._pTheme = new PanelWrapper();
   }
 
   getThemePanel() { return this._pTheme; }
