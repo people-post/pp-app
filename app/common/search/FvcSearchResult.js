@@ -1,9 +1,19 @@
-export class FvcSearchResult extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/views/FScrollViewContent.js';
+import { FGeneralSearch } from './FGeneralSearch.js';
+import { FSearchResultInfo } from './FSearchResultInfo.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { SocialItem } from '../datatypes/SocialItem.js';
+import { SocialItemId } from '../datatypes/SocialItemId.js';
+import { Blog } from '../dba/Blog.js';
+import { Workshop } from '../dba/Workshop.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+
+export class FvcSearchResult extends FScrollViewContent {
   #fSearch;
 
   constructor() {
     super();
-    this.#fSearch = new srch.FGeneralSearch();
+    this.#fSearch = new FGeneralSearch();
     this.#fSearch.setDelegate(this);
     this.setChild("content", this.#fSearch);
   }
@@ -31,20 +41,20 @@ export class FvcSearchResult extends ui.FScrollViewContent {
 
   onSearchResultClickedInSearchFragment(fSearch, itemType, itemId) {
     switch (itemType) {
-    case dat.SocialItem.TYPE.USER:
-    case dat.SocialItem.TYPE.FEED:
+    case SocialItem.TYPE.USER:
+    case SocialItem.TYPE.FEED:
       this.#showUser(itemId);
       break;
-    case dat.SocialItem.TYPE.ARTICLE:
+    case SocialItem.TYPE.ARTICLE:
       this.#showArticle(itemId);
       break;
-    case dat.SocialItem.TYPE.PROJECT:
+    case SocialItem.TYPE.PROJECT:
       this.#showProject(itemId);
       break;
-    case dat.SocialItem.TYPE.PRODUCT:
+    case SocialItem.TYPE.PRODUCT:
       this.#showProduct(itemId);
       break;
-    case dat.SocialItem.TYPE.ORDER:
+    case SocialItem.TYPE.ORDER:
       this.#showOrder(itemId);
       break;
     default:
@@ -53,7 +63,7 @@ export class FvcSearchResult extends ui.FScrollViewContent {
   }
 
   #showUser(userId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new hr.FvcUserInfo();
     f.setUserId(userId);
     v.setContentFragment(f);
@@ -61,9 +71,9 @@ export class FvcSearchResult extends ui.FScrollViewContent {
   }
 
   #showArticle(articleId) {
-    let sid = new dat.SocialItemId(articleId, dat.SocialItem.TYPE.ARTICLE);
+    let sid = new SocialItemId(articleId, SocialItem.TYPE.ARTICLE);
     switch (this.#fSearch.getResultLayoutType()) {
-    case srch.FSearchResultInfo.T_LAYOUT.BRIEF:
+    case FSearchResultInfo.T_LAYOUT.BRIEF:
       this.#showBriefArticle(sid);
       break;
     default:
@@ -73,19 +83,19 @@ export class FvcSearchResult extends ui.FScrollViewContent {
   }
 
   #showBriefArticle(sid) {
-    let v = new ui.View();
+    let v = new View();
     let f = new blog.FvcOwnerPostScroller();
-    let a = dba.Blog.getArticle(sid.getValue());
+    let a = Blog.getArticle(sid.getValue());
     if (a) {
       f.setOwnerId(a.getOwnerId());
     }
     f.setAnchorPostId(sid);
     v.setContentFragment(f);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Article");
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Article");
   }
 
   #showNormalArticle(sid) {
-    let v = new ui.View();
+    let v = new View();
     let f = new blog.FvcPost();
     f.setPostId(sid);
     v.setContentFragment(f);
@@ -93,7 +103,7 @@ export class FvcSearchResult extends ui.FScrollViewContent {
   }
 
   #showProject(projectId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new wksp.FvcProject();
     f.setProjectId(projectId);
     v.setContentFragment(f);
@@ -101,7 +111,7 @@ export class FvcSearchResult extends ui.FScrollViewContent {
   }
 
   #showProduct(productId) {
-    let v = new ui.View();
+    let v = new View();
     let f = shop.FvcProduct();
     f.setProductId(productId);
     v.setContentFragment(f);
@@ -109,7 +119,7 @@ export class FvcSearchResult extends ui.FScrollViewContent {
   }
 
   #showOrder(orderId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new cart.FvcOrder();
     f.setOrderId(orderId);
     v.setContentFragment(f);

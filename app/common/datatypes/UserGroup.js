@@ -1,4 +1,6 @@
-export class UserGroup extends dat.GeneralGroup {
+import { GeneralGroup } from './GeneralGroup.js';
+
+export class UserGroup extends GeneralGroup {
   isWriterGroup() {
     let ids = this.getTagIds();
     let t = this.constructor.T_TAG_ID;

@@ -1,3 +1,5 @@
+import { SocialItemId } from './SocialItemId.js';
+
 export class CommentTag {
   #data;
   #sidComments = [];
@@ -5,7 +7,7 @@ export class CommentTag {
   constructor(data) {
     this.#data = data;
     for (let d of data.comment_ids) {
-      this.#sidComments.push(new dat.SocialItemId(d.id, d.type));
+      this.#sidComments.push(new SocialItemId(d.id, d.type));
     }
   }
 

@@ -1,4 +1,6 @@
-export class Vote extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class Vote extends ServerDataObject {
   // Synced with backend
   static T_VALUE = {YEA : "YEA", NAY: "NAY"};
 

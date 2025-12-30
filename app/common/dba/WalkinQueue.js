@@ -3,7 +3,9 @@ import { Events } from '../../lib/framework/Events.js';
 
 function createWalkinQueue() {
   let _lib = new Map();
-  let _idRecord = new dat.UniLongListIdRecord();
+import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
+
+  let _idRecord = new UniLongListIdRecord();
 
   function _getIdRecord() { return _idRecord; }
 

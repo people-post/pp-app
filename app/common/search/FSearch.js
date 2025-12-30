@@ -1,10 +1,18 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { SearchBar } from '../gui/SearchBar.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { FSearchResultInfo } from './FSearchResultInfo.js';
+
 const _CFT_SEARCH = {
   BRIEF : `Results found: __N_RESULTS__`,
   NO_RESULT :
       `We are sorry that we couldn't find any meaningful result, please try again...`,
 };
 
-export class FSearch extends ui.Fragment {
+export class FSearch extends Fragment {
   #fBar;
   #fContent;
   #tResultLayout = null;
@@ -12,12 +20,12 @@ export class FSearch extends ui.Fragment {
 
   constructor() {
     super();
-    this.#fBar = new gui.SearchBar();
+    this.#fBar = new SearchBar();
     this.#fBar.setFatMode(true);
     this.#fBar.setDelegate(this);
     this.setChild("bar", this.#fBar);
 
-    this.#fContent = new ui.FSimpleFragmentList();
+    this.#fContent = new FSimpleFragmentList();
     this.setChild("content", this.#fContent);
   }
 
@@ -41,15 +49,15 @@ export class FSearch extends ui.Fragment {
   _clearCache() { this.#cache = null; }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     p.pushPanel(pp);
     this.#fBar.attachRender(pp);
     this.#fBar.render();
 
-    pp = new ui.Panel();
+    pp = new Panel();
     pp.setClassName("s-font5 cdimgray search-result-brief");
     p.pushPanel(pp);
 
@@ -64,12 +72,12 @@ export class FSearch extends ui.Fragment {
       }
     }
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this.#fContent.clear();
     if (r) {
       for (let item of r.getItems()) {
-        let f = new srch.FSearchResultInfo();
+        let f = new FSearchResultInfo();
         f.setLayoutType(this.#tResultLayout);
         f.setData(item);
         f.setDelegate(this);

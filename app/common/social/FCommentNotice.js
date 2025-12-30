@@ -13,7 +13,12 @@ const _CFT_COMMENT_NOTICE_INFO = {
   </div>`,
 };
 
-export class FCommentNotice extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { SocialItem } from '../datatypes/SocialItem.js';
+import { Blog } from '../dba/Blog.js';
+import { Workshop } from '../dba/Workshop.js';
+
+export class FCommentNotice extends Fragment {
   constructor() {
     super();
     this._notification = null;
@@ -51,13 +56,13 @@ export class FCommentNotice extends ui.Fragment {
   #getCommentInfoText(n) {
     let text = "";
     switch (n.getFromIdType()) {
-    case dat.SocialItem.TYPE.ARTICLE:
+    case SocialItem.TYPE.ARTICLE:
       text = this.#getArticleTitle(n.getFromId());
       break;
-    case dat.SocialItem.TYPE.FEED_ARTICLE:
+    case SocialItem.TYPE.FEED_ARTICLE:
       text = this.#getFeedArticleTitle(n.getFromId());
       break;
-    case dat.SocialItem.TYPE.PROJECT:
+    case SocialItem.TYPE.PROJECT:
       text = this.#getProjectTitle(n.getFromId());
       break;
     default:
@@ -67,17 +72,17 @@ export class FCommentNotice extends ui.Fragment {
   }
 
   #getArticleTitle(articleId) {
-    let a = dba.Blog.getArticle(articleId);
+    let a = Blog.getArticle(articleId);
     return a ? a.getTitle() : articleId;
   }
 
   #getFeedArticleTitle(feedArticleId) {
-    let a = dba.Blog.getFeedArticle(feedArticleId);
+    let a = Blog.getFeedArticle(feedArticleId);
     return a ? a.getTitle() : feedArticleId;
   }
 
   #getProjectTitle(projectId) {
-    let project = dba.Workshop.getProject(projectId);
+    let project = Workshop.getProject(projectId);
     return project ? project.getTitle() : projectId;
   }
 };

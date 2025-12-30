@@ -50,7 +50,9 @@ function createVotes() {
     if (response.error) {
       Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
-      _update(new dat.Vote(response.data.vote));
+import { Vote } from '../datatypes/Vote.js';
+
+      _update(new Vote(response.data.vote));
     }
   }
 

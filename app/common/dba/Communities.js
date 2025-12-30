@@ -1,3 +1,11 @@
+import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import { api } from '../plt/Api.js';
+import { Proposal } from '../datatypes/Proposal.js';
+import { Vote } from '../datatypes/Vote.js';
+import { Votes } from './Votes.js';
+import { CommunityProfile } from '../datatypes/CommunityProfile.js';
+
 export const Communities = function() {
   let _globalProfile = null;
   let _isGlobalProfileLoading = false;
@@ -40,12 +48,12 @@ export const Communities = function() {
 
   function _updateProfile(profile) {
     _profileLib.set(profile.getId(), profile);
-    fwk.Events.trigger(plt.T_DATA.COMMUNITY_PROFILE);
+    FwkEvents.trigger(PltT_DATA.COMMUNITY_PROFILE);
   }
 
   function _updateProposal(proposal) {
     _proposalLib.set(proposal.getId(), proposal);
-    fwk.Events.trigger(plt.T_DATA.PROPOSAL, proposal);
+    FwkEvents.trigger(PltT_DATA.PROPOSAL, proposal);
   }
 
   function _reload(id) { __load(id); }
@@ -55,16 +63,16 @@ export const Communities = function() {
     let fd = new FormData();
     fd.append("id", itemId);
     fd.append("value", value);
-    plt.Api.asyncRawPost(url, fd, r => __onVoteRRR(r));
+    api.asyncRawPost(url, fd, r => __onVoteRRR(r));
   }
 
   function __onVoteRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
-      _updateProposal(new dat.Proposal(response.data.proposal));
-      dba.Votes.update(new dat.Vote(response.data.vote));
+      _updateProposal(new Proposal(response.data.proposal));
+      Votes.update(new Vote(response.data.vote));
     }
   }
 
@@ -72,16 +80,16 @@ export const Communities = function() {
     let url = "api/community/profile";
     let fd = new FormData();
     fd.append("id", id);
-    plt.Api.asyncRawPost(url, fd, r => __onLoadRRR(r));
+    api.asyncRawPost(url, fd, r => __onLoadRRR(r));
   }
 
   function __onLoadRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data.profile) {
-        _updateProfile(new dat.CommunityProfile(response.data.profile));
+        _updateProfile(new CommunityProfile(response.data.profile));
       }
     }
   }
@@ -93,7 +101,7 @@ export const Communities = function() {
     _pendingResponses.push(id);
 
     let url = "api/community/proposal?id=" + id;
-    plt.Api.asyncRawCall(url, r => __onProposalRRR(r, id));
+    api.asyncRawCall(url, r => __onProposalRRR(r, id));
   }
 
   function __onProposalRRR(responseText, proposalId) {
@@ -104,10 +112,10 @@ export const Communities = function() {
 
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data.proposal) {
-        _updateProposal(new dat.Proposal(response.data.proposal));
+        _updateProposal(new Proposal(response.data.proposal));
       }
     }
   }
@@ -118,16 +126,16 @@ export const Communities = function() {
     }
     _isGlobalProfileLoading = true;
     let url = "/api/community/global_profile";
-    plt.Api.asyncRawCall(url, r => __onGlobalProfileRRR(r));
+    api.asyncRawCall(url, r => __onGlobalProfileRRR(r));
   }
 
   function __onGlobalProfileRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       _globalProfile = response.data.profile;
-      fwk.Events.trigger(plt.T_DATA.GLOBAL_COMMUNITY_PROFILE);
+      FwkEvents.trigger(PltT_DATA.GLOBAL_COMMUNITY_PROFILE);
     }
     _isGlobalProfileLoading = false;
   }

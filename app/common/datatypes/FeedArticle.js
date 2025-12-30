@@ -1,17 +1,21 @@
-export class FeedArticle extends dat.Post {
+import { Post } from './Post.js';
+import { RemoteFile } from './RemoteFile.js';
+import { SocialItem } from './SocialItem.js';
+
+export class FeedArticle extends Post {
   #files = [];
 
   constructor(data) {
     super(data);
     if (data.files) {
       for (let f of data.files) {
-        this.#files.push(new dat.RemoteFile(f));
+        this.#files.push(new RemoteFile(f));
       }
     }
   }
 
   isSocialable() { return false; }
-  getSocialItemType() { return dat.SocialItem.TYPE.FEED_ARTICLE; }
+  getSocialItemType() { return SocialItem.TYPE.FEED_ARTICLE; }
   getTitle() { return this._data.title; }
   getContent() { return this._data.content; }
   getFiles() { return this.#files; }

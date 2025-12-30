@@ -1,10 +1,15 @@
-export class FSearchMenu extends gui.MenuContent {
+import { MenuContent } from '../menu/MenuContent.js';
+import { SearchBar } from '../gui/SearchBar.js';
+import { Factory, T_CATEGORY, T_OBJ } from '../../lib/framework/Factory.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+
+export class FSearchMenu extends MenuContent {
   #fBar;
   #tResultLayout = null;
 
   constructor() {
     super();
-    this.#fBar = new gui.SearchBar();
+    this.#fBar = new SearchBar();
     this.#fBar.setMenuRenderMode(true);
     this.#fBar.setDelegate(this);
     this.setChild("searchbar", this.#fBar);
@@ -14,12 +19,12 @@ export class FSearchMenu extends gui.MenuContent {
 
   onGuiSearchBarRequestSearch(fSearchBar, value) {
     this._delegate.onMenuFragmentRequestCloseMenu(this);
-    let cls = fwk.Factory.getClass(
-        fwk.T_CATEGORY.UI, fwk.T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
+    let cls = Factory.getClass(
+        T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
     let f = new cls();
     f.setKey(value);
     f.setResultLayoutType(this.#tResultLayout);
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Search result");
   }

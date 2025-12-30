@@ -5,6 +5,8 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { FMediaFile } from './FMediaFile.js';
 import { CronJob } from '../../lib/ext/CronJob.js';
 import { SimpleProgress } from '../../lib/ui/controllers/fragments/SimpleProgress.js';
+import { T_DATA } from '../plt/Events.js';
+import { api } from '../plt/Api.js';
 
 export const CF_GALLERY = {
   PREV_IMAGE_SLIDE : Symbol(),
@@ -138,7 +140,7 @@ export class FGallery extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.ADDON_SCRIPT:
+    case T_DATA.ADDON_SCRIPT:
       if (data == glb.env.SCRIPT.PLAYER.id) {
         this.#assignVideoPlayers();
       }
@@ -335,7 +337,7 @@ export class FGallery extends Fragment {
     for (let f of this.#pendingFiles) {
       fd.append("ids", f.getId());
     }
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onFileStatusRRR(d));
   }
 

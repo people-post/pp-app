@@ -1,17 +1,30 @@
-export class FCommentInput extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { LContext } from '../../lib/ui/controllers/fragments/LContext.js';
+import { InputConsoleFragment } from '../gui/InputConsoleFragment.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcUserInput } from '../hr/FvcUserInput.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Account } from '../dba/Account.js';
+import { FHashtag } from '../gui/FHashtag.js';
+import { SocialItem } from '../datatypes/SocialItem.js';
+import { api } from '../plt/Api.js';
+
+export class FCommentInput extends Fragment {
   #lc;
   #fInput;
   #tmpMessage = null;
-  #threadId = null; // dat.SocialItemId
+  #threadId = null; // SocialItemId
   #hashtagIds = [];
 
   constructor() {
     super();
-    this.#lc = new ui.LContext();
+    this.#lc = new LContext();
     this.#lc.setDelegate(this);
     this.#lc.setTargetName("comment type");
 
-    this.#fInput = new gui.InputConsoleFragment();
+    this.#fInput = new InputConsoleFragment();
     this.#fInput.setPlaceholder("Your comments here.");
     this.#fInput.setDelegate(this);
     this.setChild("input", this.#fInput);
@@ -41,7 +54,7 @@ export class FCommentInput extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     p.setClassName("comment-input-console");
     render.wrapPanel(p);
     this.#fInput.attachRender(p);
@@ -49,30 +62,30 @@ export class FCommentInput extends ui.Fragment {
   }
 
   #onPostMessage(message) {
-    if (dba.Account.getId()) {
+    if (Account.getId()) {
       // User, ask to choose comment vs article
       this.#tmpMessage = message;
       this.#lc.clearOptions();
       this.#lc.addOption("Just comment", "COMMENT");
       this.#lc.addOption("Comment and post", "POST");
       for (let id of this.#hashtagIds) {
-        let f = new gui.FHashtag();
+        let f = new FHashtag();
         f.setTagId(id);
-        f.setLayoutType(gui.FHashtag.T_LAYOUT.BUTTON_BAR);
+        f.setLayoutType(FHashtag.T_LAYOUT.BUTTON_BAR);
         f.setDelegate(this);
         this.#lc.addOptionFragment(f);
       }
-      fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lc,
+      Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lc,
                                   "Context");
     } else {
       // Guest, ask for a name
-      let v = new ui.View();
-      let fvc = new S.hr.FvcUserInput();
-      let f = new ui.TextInput();
+      let v = new View();
+      let fvc = new FvcUserInput();
+      let f = new TextInput();
       f.setConfig({
         title : R.get("GUEST_NICKNAME_PROMPT"),
         hint : "Nickname",
-        value : dba.Account.getGuestName(),
+        value : Account.getGuestName(),
         isRequired : true
       });
       fvc.addInputCollector(f);
@@ -81,13 +94,13 @@ export class FCommentInput extends ui.Fragment {
         fcnOK : () => this.#postGuestComment(message, f.getValue()),
       });
       v.setContentFragment(fvc);
-      fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+      Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                   "Guest comment", false);
     }
   }
 
   #postGuestComment(message, guestName) {
-    dba.Account.setGuestName(guestName);
+    Account.setGuestName(guestName);
     this.#asyncPostGuestComment(message, guestName);
   }
 
@@ -98,7 +111,7 @@ export class FCommentInput extends ui.Fragment {
     fd.append("item_type", this.#threadId.getType());
     fd.append("content", message);
     fd.append("guest_name", guestName);
-    plt.Api.asyncPost(url, fd).then(r => this.#onPostDone(r),
+    api.asyncPost(url, fd).then(r => this.#onPostDone(r),
                                     e => this.#onPostError(e, message));
   }
 
@@ -106,9 +119,9 @@ export class FCommentInput extends ui.Fragment {
     let url = "api/social/add_comment_article";
     let fd = new FormData();
     fd.append("item_id", hashtagId);
-    fd.append("item_type", dat.SocialItem.TYPE.HASHTAG);
+    fd.append("item_type", SocialItem.TYPE.HASHTAG);
     fd.append("content", message);
-    plt.Api.asyncPost(url, fd).then(r => this.#onPostDone(r),
+    api.asyncPost(url, fd).then(r => this.#onPostDone(r),
                                     e => this.#onPostError(e, message));
   }
 
@@ -131,10 +144,10 @@ export class FCommentInput extends ui.Fragment {
     // Make article out of comment text.
     let oArticle = new pp.dat.OArticle();
     oArticle.setContent(message);
-    oArticle.setOwnerId(dba.Account.getId());
+    oArticle.setOwnerId(Account.getId());
     oArticle.markCreation();
 
-    await dba.Account.asComment(this.#threadId.getValue(), oArticle, asPost);
+    await Account.asComment(this.#threadId.getValue(), oArticle, asPost);
   }
 
   #asyncWeb2PostUserComment(message, asPost) {
@@ -144,7 +157,7 @@ export class FCommentInput extends ui.Fragment {
     fd.append("item_id", this.#threadId.getValue());
     fd.append("item_type", this.#threadId.getType());
     fd.append("content", message);
-    plt.Api.asyncPost(url, fd).then(r => this.#onPostDone(r),
+    api.asyncPost(url, fd).then(r => this.#onPostDone(r),
                                     e => this.#onPostError(e, message));
   }
 

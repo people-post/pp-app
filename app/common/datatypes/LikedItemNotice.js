@@ -1,4 +1,6 @@
-export class LikedItemNotice extends dat.Notice {
+import { Notice } from './Notice.js';
+
+export class LikedItemNotice extends Notice {
   constructor(itemId, itemType) {
     super();
     this._itemId = itemId;

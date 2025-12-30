@@ -1,4 +1,6 @@
-export class SimpleProjectStage extends dat.ProjectStage {
+import { ProjectStage } from './ProjectStage.js';
+
+export class SimpleProjectStage extends ProjectStage {
   isDone() { return this._data.status == C.STATE.STATUS.F_DONE; }
   getType() { return this._data.type; }
   getName() { return this._data.name; }

@@ -1,4 +1,6 @@
-export class SupplierOrderPublic extends dat.SupplierOrderBase {};
+import { SupplierOrderBase } from './SupplierOrderBase.js';
+
+export class SupplierOrderPublic extends SupplierOrderBase {};
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

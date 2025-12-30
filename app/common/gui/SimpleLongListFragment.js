@@ -1,11 +1,11 @@
 import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
 import { api } from '../../common/plt/Api.js';
+import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 
 export class SimpleLongListFragment extends FLongListLegacy {
   constructor() {
     super();
-    // Use global namespace until DataObject.js is migrated
-    this._idRecord = new dat.UniLongListIdRecord();
+    this._idRecord = new UniLongListIdRecord();
     this._isBatchLoading = false;
   }
 

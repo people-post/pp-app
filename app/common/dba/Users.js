@@ -1,3 +1,9 @@
+import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import { Account } from './Account.js';
+import { User } from '../datatypes/User.js';
+import { api } from '../plt/Api.js';
+
 // Public users' information
 export class UserLib {
   #isLoading = false;
@@ -6,11 +12,11 @@ export class UserLib {
   constructor() { this.#initMap(); }
 
   onWeb3UserIdolsLoaded(user) {
-    fwk.Events.trigger(plt.T_DATA.USER_IDOLS, user.getId())
+    FwkEvents.trigger(PltT_DATA.USER_IDOLS, user.getId())
   }
 
   onWeb3UserProfileLoaded(user) {
-    fwk.Events.trigger(plt.T_DATA.USER_PUBLIC_PROFILE, user.getId());
+    FwkEvents.trigger(PltT_DATA.USER_PUBLIC_PROFILE, user.getId());
   }
 
   get(id) {
@@ -18,9 +24,9 @@ export class UserLib {
       return null;
     }
 
-    if (glb.env.isWeb3() && dba.Account.isAuthenticated() &&
-        dba.Account.getId() == id) {
-      return dba.Account;
+    if (glb.env.isWeb3() && Account.isAuthenticated() &&
+        Account.getId() == id) {
+      return Account;
     }
 
     if (this.#mUsers.has(id)) {
@@ -32,9 +38,9 @@ export class UserLib {
   }
 
   async asyncGet(id) {
-    if (glb.env.isWeb3() && dba.Account.isAuthenticated() &&
-        dba.Account.getId() == id) {
-      return dba.Account;
+    if (glb.env.isWeb3() && Account.isAuthenticated() &&
+        Account.getId() == id) {
+      return Account;
     }
 
     if (!this.#mUsers.has(id)) {
@@ -71,9 +77,9 @@ export class UserLib {
   #initMap() {
     this.#mUsers.clear();
     this.#mUsers.set(
-        dat.User.C_ID.SYSTEM,
-        new dat.User({nickname : "G-Cabin", icon_url : "file/gcabin_favicon"}));
-    this.#mUsers.set(dat.User.C_ID.L_ADD_USER, new dat.User({
+        User.C_ID.SYSTEM,
+        new User({nickname : "G-Cabin", icon_url : "file/gcabin_favicon"}));
+    this.#mUsers.set(User.C_ID.L_ADD_USER, new User({
       nickname : "Add",
       icon_url : C.PATH.STATIC + "/img/circle_add.svg"
     }));
@@ -99,7 +105,7 @@ export class UserLib {
       // Set to default
       this.#mUsers.set(id, null);
     }
-    plt.Api.asyncRawPost(url, fd, r => this.#onLoadRRR(ids, r));
+    api.asyncRawPost(url, fd, r => this.#onLoadRRR(ids, r));
   }
 
   #web3Load(ids) {
@@ -115,23 +121,23 @@ export class UserLib {
     u.setDataSource(this);
     u.setDelegate(this);
     this.#mUsers.set(userId, u);
-    fwk.Events.trigger(plt.T_DATA.USER_PUBLIC_PROFILES, [ u ]);
+    FwkEvents.trigger(PltT_DATA.USER_PUBLIC_PROFILES, [ u ]);
   }
 
   #onLoadRRR(ids, responseText) {
     this.#isLoading = false;
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       let us = [];
       for (let p of response.data.profiles) {
-        us.push(new dat.User(p));
+        us.push(new User(p));
       }
       for (let u of us) {
         this.update(u);
       }
-      fwk.Events.trigger(plt.T_DATA.USER_PUBLIC_PROFILES, us);
+      FwkEvents.trigger(PltT_DATA.USER_PUBLIC_PROFILES, us);
     }
   }
 };

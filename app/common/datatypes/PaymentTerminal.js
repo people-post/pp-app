@@ -1,4 +1,7 @@
-export class PaymentTerminal extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+import { SquareTerminal } from './SquareTerminal.js';
+
+export class PaymentTerminal extends ServerDataObject {
   // Synced with backend
   static T_TYPE = {
     SQUARE_TERMINAL : "SQUARE_TERMINAL",
@@ -31,7 +34,7 @@ export class PaymentTerminal extends dat.ServerDataObject {
     let obj = null;
     switch (type) {
     case this.constructor.T_TYPE.SQUARE_TERMINAL:
-      obj = new dat.SquareTerminal(data);
+      obj = new SquareTerminal(data);
       break;
     default:
       break;

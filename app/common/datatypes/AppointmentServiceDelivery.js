@@ -1,4 +1,7 @@
-export class AppointmentServiceDelivery extends dat.ProductDelivery {
+import { ProductDelivery } from './ProductDelivery.js';
+import { ProductServiceLocation } from './ProductServiceLocation.js';
+
+export class AppointmentServiceDelivery extends ProductDelivery {
   constructor(data) {
     super(data);
     this._locations = [];
@@ -9,7 +12,7 @@ export class AppointmentServiceDelivery extends dat.ProductDelivery {
 
   getLocations() { return this._locations; }
 
-  #initLocation(data) { return new dat.ProductServiceLocation(data); }
+  #initLocation(data) { return new ProductServiceLocation(data); }
 };
 
 // Backward compatibility

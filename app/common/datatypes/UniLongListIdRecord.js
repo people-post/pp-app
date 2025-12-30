@@ -1,5 +1,8 @@
-export class UniLongListIdRecord extends dat.LongListIdRecord {
-  #record = new dat.SingleLongListIdRecord();
+import { LongListIdRecord } from './LongListIdRecord.js';
+import { SingleLongListIdRecord } from './SingleLongListIdRecord.js';
+
+export class UniLongListIdRecord extends LongListIdRecord {
+  #record = new SingleLongListIdRecord();
 
   isEmpty() { return this.#record.isEmpty(); }
   isFrontComplete() { return true; }

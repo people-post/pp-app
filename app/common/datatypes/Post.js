@@ -1,4 +1,7 @@
-export class Post extends dat.SocialItem {
+import { SocialItem } from './SocialItem.js';
+import { SocialItemId } from './SocialItemId.js';
+
+export class Post extends SocialItem {
   isRepost() { return false; }
   isEditable() { return false; }
   isSocialable() { return true; }
@@ -9,7 +12,7 @@ export class Post extends dat.SocialItem {
   getLinkTo() { return null; }
   getLinkToSocialId() { return null; }
   getSocialId() {
-    return new dat.SocialItemId(this.getId(), this.getSocialItemType());
+    return new SocialItemId(this.getId(), this.getSocialItemType());
   }
   getVisibility() { return null; }
   getCommentTags() { return []; }

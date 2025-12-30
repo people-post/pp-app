@@ -1,3 +1,10 @@
+import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import { api } from '../plt/Api.js';
+import { Account } from './Account.js';
+import { Users } from './Users.js';
+import { SocialInfo } from '../datatypes/SocialInfo.js';
+
 export const Social = function() {
   let _lib = new Map();
   let _pendingResponses = [];
@@ -17,7 +24,7 @@ export const Social = function() {
 
   function _update(socialInfo) {
     _lib.set(socialInfo.getId(), socialInfo);
-    fwk.Events.trigger(plt.T_DATA.SOCIAL_INFO, socialInfo);
+    FwkEvents.trigger(PltT_DATA.SOCIAL_INFO, socialInfo);
   }
 
   function _reload(itemId) {
@@ -51,7 +58,7 @@ export const Social = function() {
     };
 
     // Search from owner data
-    let m = await dba.Account.asyncFindMark(itemId);
+    let m = await Account.asyncFindMark(itemId);
     if (m) {
       if (m.like) {
         data.n_likes += 1;
@@ -63,10 +70,10 @@ export const Social = function() {
     }
 
     // Search from all idols
-    let ids = await dba.Account.asyncGetIdolIds();
+    let ids = await Account.asyncGetIdolIds();
     let u;
     for (let id of ids) {
-      u = await dba.Users.asyncGet(id);
+      u = await Users.asyncGet(id);
       m = await u.asyncFindMark(itemId);
       if (m) {
         if (m.like) {
@@ -85,12 +92,12 @@ export const Social = function() {
     if (idx >= 0) {
       _pendingResponses.splice(idx, 1);
     }
-    _update(new dat.SocialInfo(data));
+    _update(new SocialInfo(data));
   }
 
   function __asyncWeb2Load(itemId) {
     let url = "api/social/info?item_id=" + itemId;
-    plt.Api.asyncRawCall(url, r => __onLoadRRR(r, itemId));
+    api.asyncRawCall(url, r => __onLoadRRR(r, itemId));
   }
 
   function __onLoadRRR(responseText, itemId) {
@@ -101,9 +108,9 @@ export const Social = function() {
 
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
-      _update(new dat.SocialInfo(response.data.info));
+      _update(new SocialInfo(response.data.info));
     }
   }
 

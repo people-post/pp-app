@@ -20,6 +20,13 @@ export class SectorNoticeInfoFragment extends Fragment {
 
   setData(notification) { this._notification = notification; }
 
+import { MessageThreadInfo } from '../datatypes/MessageThreadInfo.js';
+import { LikedItemNotice } from '../datatypes/LikedItemNotice.js';
+import { RepostItemNotice } from '../datatypes/RepostItemNotice.js';
+import { FCommentNotice } from '../social/FCommentNotice.js';
+import { FLikedItemNotice } from '../social/FLikedItemNotice.js';
+import { FRepostItemNotice } from '../social/FRepostItemNotice.js';
+
   _renderOnRender(render) {
     let p = new PanelWrapper();
     let className = "sector-notice";
@@ -29,12 +36,12 @@ export class SectorNoticeInfoFragment extends Fragment {
     p.setClassName(className);
     render.wrapPanel(p);
     let f;
-    if (this._notification instanceof (dat.MessageThreadInfo)) {
-      f = new socl.FCommentNotice();
-    } else if (this._notification instanceof (dat.LikedItemNotice)) {
-      f = new socl.FLikedItemNotice();
-    } else if (this._notification instanceof (dat.RepostItemNotice)) {
-      f = new socl.FRepostItemNotice();
+    if (this._notification instanceof (MessageThreadInfo)) {
+      f = new FCommentNotice();
+    } else if (this._notification instanceof (LikedItemNotice)) {
+      f = new FLikedItemNotice();
+    } else if (this._notification instanceof (RepostItemNotice)) {
+      f = new FRepostItemNotice();
     }
     this.setChild("notice", f);
     if (f) {

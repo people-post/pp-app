@@ -1,3 +1,17 @@
+import { WebConfig } from './WebConfig.js';
+import { SocialItem } from '../datatypes/SocialItem.js';
+import { ShopTeam } from '../datatypes/ShopTeam.js';
+import { Tag } from '../datatypes/Tag.js';
+import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import { api } from '../plt/Api.js';
+import { Product } from '../datatypes/Product.js';
+import { SupplierOrderPrivate } from '../datatypes/SupplierOrderPrivate.js';
+import { ItemLabel } from '../datatypes/ItemLabel.js';
+import { PaymentTerminal } from '../datatypes/PaymentTerminal.js';
+import { ShopRegister } from '../datatypes/ShopRegister.js';
+import { ShopBranch } from '../datatypes/ShopBranch.js';
+
 export const Shop = function() {
   let _productLib = new Map();
   let _orderLib = new Map();
@@ -9,7 +23,7 @@ export const Shop = function() {
   let _addressLabels = null;
   let _branchLabels = null;
 
-  function _isOpen() { return dba.WebConfig.isShopOpen(); }
+  function _isOpen() { return WebConfig.isShopOpen(); }
 
   function _getConfig() {
     if (!_config) {
@@ -21,12 +35,12 @@ export const Shop = function() {
   function _getItemLayoutType() {
     let c = _getConfig();
     let t = c && c.item_layout ? c.item_layout.type : null;
-    return t ? t : dat.SocialItem.T_LAYOUT.MEDIUM;
+    return t ? t : SocialItem.T_LAYOUT.MEDIUM;
   }
 
   function _getTeam(id) {
-    let d = dba.WebConfig.getRoleData(id);
-    return d ? new dat.ShopTeam(d) : null;
+    let d = WebConfig.getRoleData(id);
+    return d ? new ShopTeam(d) : null;
   }
 
   function _getTeamIds() { return __getTeams().map(r => r.id); }
@@ -116,53 +130,53 @@ export const Shop = function() {
   }
 
   function __getTeams() {
-    return dba.WebConfig.getRoleDatasByTagId(dat.Tag.T_ID.SHOP);
+    return WebConfig.getRoleDatasByTagId(Tag.T_ID.SHOP);
   }
 
   function __setConfig(config) {
     _config = config;
-    fwk.Events.trigger(plt.T_DATA.SHOP_CONFIG, config);
+    FwkEvents.trigger(PltT_DATA.SHOP_CONFIG, config);
   }
 
   function _updateProduct(product) {
     _productLib.set(product.getId(), product);
-    fwk.Events.trigger(plt.T_DATA.PRODUCT, product);
+    FwkEvents.trigger(PltT_DATA.PRODUCT, product);
   }
 
   function _updateOrder(order) {
     _orderLib.set(order.getId(), order);
-    fwk.Events.trigger(plt.T_DATA.SUPPLIER_ORDER, order);
+    FwkEvents.trigger(PltT_DATA.SUPPLIER_ORDER, order);
   }
 
   function _resetAddressLabels(labels) {
     _addressLabels = [];
     for (let l of labels) {
-      _addressLabels.push(new dat.ItemLabel(l));
+      _addressLabels.push(new ItemLabel(l));
     }
-    fwk.Events.trigger(plt.T_DATA.SHOP_ADDRESS_LABELS);
+    FwkEvents.trigger(PltT_DATA.SHOP_ADDRESS_LABELS);
   }
 
   function _resetBranchLabels(labels) {
     _branchLabels = [];
     for (let l of labels) {
-      _branchLabels.push(new dat.ItemLabel(l));
+      _branchLabels.push(new ItemLabel(l));
     }
-    fwk.Events.trigger(plt.T_DATA.SHOP_BRANCH_LABELS);
+    FwkEvents.trigger(PltT_DATA.SHOP_BRANCH_LABELS);
   }
 
   function _updateBranch(branch) {
     _mBranch.set(branch.getId(), branch);
-    fwk.Events.trigger(plt.T_DATA.SHOP_BRANCH, branch);
+    FwkEvents.trigger(PltT_DATA.SHOP_BRANCH, branch);
   }
 
   function _updateRegister(register) {
     _mRegister.set(register.getId(), register);
-    fwk.Events.trigger(plt.T_DATA.SHOP_REGISTER, register);
+    FwkEvents.trigger(PltT_DATA.SHOP_REGISTER, register);
   }
 
   function _updatePaymentTerminal(terminal) {
     _mTerminal.set(terminal.getId(), terminal);
-    fwk.Events.trigger(plt.T_DATA.PAYMENT_TERMINAL, terminal);
+    FwkEvents.trigger(PltT_DATA.PAYMENT_TERMINAL, terminal);
   }
 
   function __asyncLoadProduct(id) {
@@ -172,7 +186,7 @@ export const Shop = function() {
     _pendingResponses.push(id);
 
     let url = "api/shop/product?id=" + id;
-    plt.Api.asyncRawCall(url, r => __onProductRRR(r, id));
+    api.asyncRawCall(url, r => __onProductRRR(r, id));
   }
 
   function __onProductRRR(responseText, id) {
@@ -183,25 +197,25 @@ export const Shop = function() {
 
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data.product) {
-        _updateProduct(new dat.Product(response.data.product));
+        _updateProduct(new Product(response.data.product));
       }
     }
   }
 
   function __asyncLoadOrder(id) {
     let url = "api/shop/supplier_order?id=" + id;
-    plt.Api.asyncRawCall(url, r => __onOrderRRR(r));
+    api.asyncRawCall(url, r => __onOrderRRR(r));
   }
 
   function __onOrderRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
-      _updateOrder(new dat.SupplierOrderPrivate(response.data.supplier_order));
+      _updateOrder(new SupplierOrderPrivate(response.data.supplier_order));
     }
   }
 
@@ -212,27 +226,27 @@ export const Shop = function() {
     if (productId && productId.length) {
       fd.append("product_id", productId);
     }
-    plt.Api.asyncRawPost(url, fd, r => __onQueryQueueSizeRRR(r));
+    api.asyncRawPost(url, fd, r => __onQueryQueueSizeRRR(r));
   }
 
   function __onQueryQueueSizeRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
-      fwk.Events.trigger(plt.T_DATA.SERVICE_QUEUE_SIZE, response.data.size);
+      FwkEvents.trigger(PltT_DATA.SERVICE_QUEUE_SIZE, response.data.size);
     }
   }
 
   function __asyncLoadConfig() {
     let url = "api/shop/config";
-    plt.Api.asyncRawCall(url, r => __onConfigRRR(r));
+    api.asyncRawCall(url, r => __onConfigRRR(r));
   }
 
   function __onConfigRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       __setConfig(response.data.config);
     }
@@ -242,18 +256,18 @@ export const Shop = function() {
     let url = "api/shop/update_config";
     let fd = new FormData()
     fd.append("name", config.name);
-    plt.Api.asyncRawPost(url, fd, r => __onConfigRRR(r));
+    api.asyncRawPost(url, fd, r => __onConfigRRR(r));
   }
 
   function __asyncLoadAddressLabels() {
     let url = "api/shop/address_labels";
-    plt.Api.asyncRawCall(url, r => __onAddressLabelsRRR(r));
+    api.asyncRawCall(url, r => __onAddressLabelsRRR(r));
   }
 
   function __onAddressLabelsRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       _resetAddressLabels(response.data.labels);
     }
@@ -261,13 +275,13 @@ export const Shop = function() {
 
   function __asyncLoadBranchLabels() {
     let url = "api/shop/branch_labels";
-    plt.Api.asyncRawCall(url, r => __onBranchLabelsRRR(r));
+    api.asyncRawCall(url, r => __onBranchLabelsRRR(r));
   }
 
   function __onBranchLabelsRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       _resetBranchLabels(response.data.labels);
     }
@@ -277,15 +291,15 @@ export const Shop = function() {
     let url = "api/shop/payment_terminal";
     let fd = new FormData();
     fd.append("id", id);
-    plt.Api.asyncRawPost(url, fd, r => __onPaymentTerminalRRR(r));
+    api.asyncRawPost(url, fd, r => __onPaymentTerminalRRR(r));
   }
 
   function __onPaymentTerminalRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
-      _updatePaymentTerminal(new dat.PaymentTerminal(response.data.terminal));
+      _updatePaymentTerminal(new PaymentTerminal(response.data.terminal));
     }
   }
 
@@ -293,15 +307,15 @@ export const Shop = function() {
     let url = "api/shop/register";
     let fd = new FormData();
     fd.append("id", id);
-    plt.Api.asyncRawPost(url, fd, r => __onRegisterRRR(r));
+    api.asyncRawPost(url, fd, r => __onRegisterRRR(r));
   }
 
   function __onRegisterRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
-      _updateRegister(new dat.ShopRegister(response.data.register));
+      _updateRegister(new ShopRegister(response.data.register));
     }
   }
 
@@ -309,15 +323,15 @@ export const Shop = function() {
     let url = "api/shop/branch";
     let fd = new FormData();
     fd.append("id", id);
-    plt.Api.asyncRawPost(url, fd, r => __onBranchRRR(r));
+    api.asyncRawPost(url, fd, r => __onBranchRRR(r));
   }
 
   function __onBranchRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
-      _updateBranch(new dat.ShopBranch(response.data.branch));
+      _updateBranch(new ShopBranch(response.data.branch));
     }
   }
 

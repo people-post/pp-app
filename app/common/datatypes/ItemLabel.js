@@ -1,4 +1,6 @@
-export class ItemLabel extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class ItemLabel extends ServerDataObject {
   getName() { return this._data.name; }
 };
 

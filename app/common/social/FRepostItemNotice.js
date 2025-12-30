@@ -1,12 +1,21 @@
-export class FRepostItemNotice extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FUserInfo } from '../hr/FUserInfo.js';
+import Timer from '../../lib/ext/Timer.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { PRepostItemNotice } from './PRepostItemNotice.js';
+import { SocialItem } from '../datatypes/SocialItem.js';
+import { Blog } from '../dba/Blog.js';
+import { api } from '../plt/Api.js';
+
+export class FRepostItemNotice extends Fragment {
   constructor() {
     super();
     this._notice = null;
-    this._fUser1 = new S.hr.FUserInfo();
-    this._fUser1.setLayoutType(S.hr.FUserInfo.T_LAYOUT.MID_SQUARE);
-    this._fUser2 = new S.hr.FUserInfo();
-    this._fUser2.setLayoutType(S.hr.FUserInfo.T_LAYOUT.MID_SQUARE);
-    this._timer = new ext.Timer();
+    this._fUser1 = new FUserInfo();
+    this._fUser1.setLayoutType(FUserInfo.T_LAYOUT.MID_SQUARE);
+    this._fUser2 = new FUserInfo();
+    this._fUser2.setLayoutType(FUserInfo.T_LAYOUT.MID_SQUARE);
+    this._timer = new Timer();
 
     this.setChild("user1", this._fUser1);
     this.setChild("user2", this._fUser2);
@@ -23,24 +32,24 @@ export class FRepostItemNotice extends ui.Fragment {
   _onBeforeRenderDetach() { this._timer.cancel(); }
 
   _renderOnRender(render) {
-    let pMain = new socl.PRepostItemNotice();
+    let pMain = new PRepostItemNotice();
     render.wrapPanel(pMain);
 
     let p = pMain.getMessagePanel();
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     let ids = this._notice.getUserIds();
     if (ids.length > 0) {
       p.pushPanel(pp);
       this._fUser1.setUserId(ids[0]);
       this._fUser1.attachRender(pp);
       this._fUser1.render();
-      pp = new ui.PanelWrapper();
+      pp = new PanelWrapper();
       if (ids.length > 1) {
         p.pushPanel(pp);
         this._fUser2.setUserId(ids[1]);
         this._fUser2.attachRender(pp);
         this._fUser2.render();
-        pp = new ui.PanelWrapper();
+        pp = new PanelWrapper();
       }
     }
     let text = " reposted your article.";
@@ -57,10 +66,10 @@ export class FRepostItemNotice extends ui.Fragment {
   #getNoticeTitle(n) {
     let title = "";
     switch (n.getFromIdType()) {
-    case dat.SocialItem.TYPE.ARTICLE:
+    case SocialItem.TYPE.ARTICLE:
       title = this.#getArticleTitle(n.getFromId());
       break;
-    case dat.SocialItem.TYPE.FEED_ARTICLE:
+    case SocialItem.TYPE.FEED_ARTICLE:
       title = this.#getFeedArticleTitle(n.getFromId());
       break;
     default:
@@ -70,12 +79,12 @@ export class FRepostItemNotice extends ui.Fragment {
   }
 
   #getArticleTitle(articleId) {
-    let a = dba.Blog.getArticle(articleId);
+    let a = Blog.getArticle(articleId);
     return a ? a.getTitle() : articleId;
   }
 
   #getFeedArticleTitle(feedArticleId) {
-    let a = dba.Blog.getFeedArticle(feedArticleId);
+    let a = Blog.getFeedArticle(feedArticleId);
     return a ? a.getTitle() : feedArticleId;
   }
 
@@ -85,7 +94,7 @@ export class FRepostItemNotice extends ui.Fragment {
     for (let id of notice.getNotificationIds()) {
       fd.append("ids", id);
     }
-    plt.Api.asyncRawPost(url, fd, r => this.#onMarkReadershipRRR(r));
+    api.asyncRawPost(url, fd, r => this.#onMarkReadershipRRR(r));
   }
 
   #onMarkReadershipRRR(responseText) {}

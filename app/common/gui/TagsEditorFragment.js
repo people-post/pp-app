@@ -84,10 +84,15 @@ export class TagsEditorFragment extends Fragment {
     }
   }
 
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcUserInput } from '../hr/FvcUserInput.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+
   #onNewTag() {
-    let v = new ui.View();
-    let fvc = new S.hr.FvcUserInput();
-    let f = new ui.TextInput();
+    let v = new View();
+    let fvc = new FvcUserInput();
+    let f = new TextInput();
     f.setConfig({
       title : "Please input new tag:",
       hint : "New tag",
@@ -100,7 +105,7 @@ export class TagsEditorFragment extends Fragment {
       fcnOK : () => this.#addTag(f.getValue()),
     });
     v.setContentFragment(fvc);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "New tag",
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "New tag",
                                 false);
   }
 

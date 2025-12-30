@@ -1,5 +1,8 @@
-export class ConstListIdLoader extends plt.LongListIdLoader {
-  #idRecord = new dat.UniLongListIdRecord();
+import { LongListIdLoader } from './LongListIdLoader.js';
+import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
+
+export class ConstListIdLoader extends LongListIdLoader {
+  #idRecord = new UniLongListIdRecord();
 
   getIdRecord() { return this.#idRecord; }
 

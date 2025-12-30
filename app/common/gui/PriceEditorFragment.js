@@ -5,6 +5,8 @@ import { T_DATA } from '../../lib/framework/Events.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ArrayPanel } from '../../lib/ui/renders/panels/ArrayPanel.js';
+import { Shop } from '../dba/Shop.js';
+import { Exchange } from '../dba/Exchange.js';
 
 export class PriceEditorFragment extends Fragment {
   constructor() {
@@ -34,12 +36,12 @@ export class PriceEditorFragment extends Fragment {
 
   getItemsForSelection(fSelect) {
     let ids = [];
-    ids = dba.Shop.getCurrencyIds();
-    dba.Exchange.loadMissingCurrencies(ids);
+    ids = Shop.getCurrencyIds();
+    Exchange.loadMissingCurrencies(ids);
 
     let units = [];
     for (let id of ids) {
-      let c = dba.Exchange.getCurrency(id);
+      let c = Exchange.getCurrency(id);
       if (c) {
         units.push({text : this.#renderCurrencyName(c), value : id});
       }
@@ -88,7 +90,7 @@ export class PriceEditorFragment extends Fragment {
 
     for (let p of this._prices) {
       if (p.list_price == "" || p.sales_price == "") {
-        let c = dba.Exchange.getCurrency(p.currency_id);
+        let c = Exchange.getCurrency(p.currency_id);
         let s = R.get("EL_INCOMPLETE_PRICE");
         s = s.replace("__CURRENCY__", c ? c.getName() : p.currency_id);
         this.#markError(s);

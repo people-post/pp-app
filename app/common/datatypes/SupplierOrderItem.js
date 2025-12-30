@@ -1,4 +1,6 @@
-export class SupplierOrderItem extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class SupplierOrderItem extends ServerDataObject {
   getDescription() { return this._data.product.description; }
   getQuantity() { return this._data.product.quantity; }
   getUnitPrice() { return this._data.product.unit_price; }

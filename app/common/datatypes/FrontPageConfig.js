@@ -1,3 +1,9 @@
+import { BriefPageConfig } from './BriefPageConfig.js';
+import { JournalPageConfig } from './JournalPageConfig.js';
+import { BlockchainPageConfig } from './BlockchainPageConfig.js';
+import { FrontPageLayoutConfig } from './FrontPageLayoutConfig.js';
+import { TriplePanelConfig } from './TriplePanelConfig.js';
+
 export class FrontPageConfig {
   // Synced with backend
   static T_TEMPLATE = {
@@ -26,13 +32,13 @@ export class FrontPageConfig {
     let obj = null;
     switch (templateId) {
     case this.constructor.T_TEMPLATE.BRIEF:
-      obj = new dat.BriefPageConfig(data);
+      obj = new BriefPageConfig(data);
       break;
     case this.constructor.T_TEMPLATE.JOURNAL:
-      obj = new dat.JournalPageConfig(data);
+      obj = new JournalPageConfig(data);
       break;
     case this.constructor.T_TEMPLATE.BLOCKCHAIN:
-      obj = new dat.BlockchainPageConfig(data);
+      obj = new BlockchainPageConfig(data);
       break;
     default:
       break;
@@ -47,8 +53,8 @@ export class FrontPageConfig {
 
     let obj = null;
     switch (data.type_id) {
-    case dat.FrontPageLayoutConfig.T_LAYOUT.TRIPLE:
-      obj = new dat.TriplePanelConfig(data);
+    case FrontPageLayoutConfig.T_LAYOUT.TRIPLE:
+      obj = new TriplePanelConfig(data);
       break;
     default:
       break;

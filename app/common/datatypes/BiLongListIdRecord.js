@@ -1,7 +1,10 @@
-export class BiLongListIdRecord extends dat.LongListIdRecord {
+import { LongListIdRecord } from './LongListIdRecord.js';
+import { SingleLongListIdRecord } from './SingleLongListIdRecord.js';
+
+export class BiLongListIdRecord extends LongListIdRecord {
   // Front list goes backwards: index of 0, 1, 2 means global index -1 -2 -3
-  #rFront = new dat.SingleLongListIdRecord();
-  #rBack = new dat.SingleLongListIdRecord();
+  #rFront = new SingleLongListIdRecord();
+  #rBack = new SingleLongListIdRecord();
 
   isEmpty() { return this.#rFront.isEmpty() && this.#rBack.isEmpty(); }
   isFrontComplete() { return this.#rFront.isComplete(); }

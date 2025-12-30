@@ -1,9 +1,14 @@
-export class FWeb3Search extends srch.FSearch {
+import { FSearch } from './FSearch.js';
+import { SearchConfig } from '../datatypes/SearchConfig.js';
+import { SearchResult } from '../datatypes/SearchResult.js';
+import { Users } from '../dba/Users.js';
+
+export class FWeb3Search extends FSearch {
   #config;
 
   constructor() {
     super();
-    this.#config = new dat.SearchConfig();
+    this.#config = new SearchConfig();
   }
 
   getConfig() { return this.#config; }
@@ -29,7 +34,7 @@ export class FWeb3Search extends srch.FSearch {
 
   #asyncUserSearch(key) {
     if (this.#isUserId(key)) {
-      dba.Users.asyncGet(key).then(d => this.#onSearchUserRRR(d, key));
+      Users.asyncGet(key).then(d => this.#onSearchUserRRR(d, key));
     } else {
       // TODO: Try name server to resolve names
       this.#onSearchRRR([], key);
@@ -47,7 +52,7 @@ export class FWeb3Search extends srch.FSearch {
   }
 
   #onSearchRRR(results, key) {
-    let r = new dat.SearchResult(results);
+    let r = new SearchResult(results);
     this._updateResult(key, r);
   }
 };

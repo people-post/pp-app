@@ -1,5 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { T_DATA } from '../../lib/framework/Events.js';
+import { Groups } from '../dba/Groups.js';
 
 export class FTag extends Fragment {
   #tagId = null;
@@ -28,7 +29,7 @@ export class FTag extends Fragment {
   }
 
   _renderOnRender(render) {
-    let g = dba.Groups.getTag(this.#tagId);
+    let g = Groups.getTag(this.#tagId);
     if (g) {
       render.replaceContent(g.getName());
     } else {

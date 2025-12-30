@@ -1,4 +1,6 @@
-export class WalkinQueueItem extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class WalkinQueueItem extends ServerDataObject {
   getCustomerUserId() { return this._data.customer_user_id; }
   getCustomerName() { return this._data.customer_name; }
   getProductId() { return this._data.product_id; }

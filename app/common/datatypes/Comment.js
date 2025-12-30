@@ -1,4 +1,8 @@
-export class Comment extends dat.Post {
+import { Post } from './Post.js';
+import { ChatMessage } from './ChatMessage.js';
+import { SocialItem } from './SocialItem.js';
+
+export class Comment extends Post {
   // Synced with backend
   static T_STATUS = {
     PENDING : "PENDING",
@@ -7,14 +11,14 @@ export class Comment extends dat.Post {
   isSocialable() { return false; }
 
   isFromGuest() {
-    return this._data.type == dat.ChatMessage.T_TYPE.GUEST_COMMENT;
+    return this._data.type == ChatMessage.T_TYPE.GUEST_COMMENT;
   }
   isPending() {
     return this.isFromGuest() &&
            this._data.data.status == this.constructor.T_STATUS.PENDING;
   }
 
-  getSocialItemType() { return dat.SocialItem.TYPE.COMMENT; }
+  getSocialItemType() { return SocialItem.TYPE.COMMENT; }
   getFromUserId() { return this._data.from_user_id; }
   getGuestName() { return this._data.data.guestName; }
   getTargetItemId() { return this._data.in_group_id; }

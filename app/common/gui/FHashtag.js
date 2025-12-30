@@ -1,6 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { T_DATA } from '../../lib/framework/Events.js';
+import { Hashtags } from '../dba/Hashtags.js';
 
 export class FHashtag extends Fragment {
   static T_LAYOUT = {
@@ -38,7 +39,7 @@ export class FHashtag extends Fragment {
   }
 
   _renderOnRender(render) {
-    let ht = dba.Hashtags.get(this.#id);
+    let ht = Hashtags.get(this.#id);
     switch (this.#tLayout) {
     case this.constructor.T_LAYOUT.BUTTON_BAR:
       this.#renderAsButtonBar(render, ht);

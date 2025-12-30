@@ -1,4 +1,6 @@
-export class PhysicalGoodDelivery extends dat.ProductDelivery {};
+import { ProductDelivery } from './ProductDelivery.js';
+
+export class PhysicalGoodDelivery extends ProductDelivery {};
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

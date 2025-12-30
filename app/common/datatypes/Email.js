@@ -1,10 +1,13 @@
-export class Email extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+import { RemoteFile } from './RemoteFile.js';
+
+export class Email extends ServerDataObject {
   constructor(data) {
     super(data);
     this._files = [];
     if (data.files) {
       for (let f of data.files) {
-        this._files.push(new dat.RemoteFile(f));
+        this._files.push(new RemoteFile(f));
       }
     }
   }

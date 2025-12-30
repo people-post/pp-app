@@ -39,7 +39,9 @@ function createOgp() {
       Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
       let d = response.data.ogp;
-      let ogp = new dat.OgpData();
+import { OgpData } from '../datatypes/OgpData.js';
+
+      let ogp = new OgpData();
       ogp.setId(id);
       ogp.setTitle(d.title);
       ogp.setType(d.type);

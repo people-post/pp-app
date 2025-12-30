@@ -1,3 +1,13 @@
+import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import { Account } from './Account.js';
+import { User } from '../datatypes/User.js';
+import { ColorTheme } from '../datatypes/ColorTheme.js';
+import { FrontPageConfig } from '../datatypes/FrontPageConfig.js';
+import { Tag } from '../datatypes/Tag.js';
+import { Menus } from './Menus.js';
+import { api } from '../plt/Api.js';
+
 export const WebConfig = function() {
   let _data = null;
   let _themeId = null;
@@ -5,18 +15,18 @@ export const WebConfig = function() {
 
   function _reset(data) {
     _data = data;
-    fwk.Events.trigger(fwk.T_DATA.WEB_CONFIG);
+    FwkEvents.trigger(FwkT_DATA.WEB_CONFIG);
   }
   function _resetRoles(roles) {
     if (_data) {
       _data.roles = roles;
-      fwk.Events.trigger(plt.T_DATA.GROUPS);
+      FwkEvents.trigger(PltT_DATA.GROUPS);
     }
   }
   function _resetTags(tags) {
     if (_data) {
       _data.tags = tags;
-      fwk.Events.trigger(plt.T_DATA.GROUPS);
+      FwkEvents.trigger(PltT_DATA.GROUPS);
     }
   }
   function _isShopOpen() { return _data && _data.is_shop_open; }
@@ -38,16 +48,16 @@ export const WebConfig = function() {
   function _getHomePageTitle() { return _data ? _data.home_page_title : null; }
   function _getOwnerId() {
     if (glb.env.isWeb3()) {
-      return dba.Account.getId();
+      return Account.getId();
     }
 
     return _data ? _data.owner.uuid : null;
   }
   function _getOwner() {
     if (glb.env.isWeb3()) {
-      return dba.Account;
+      return Account;
     } else {
-      return _data ? new dat.User(_data.owner) : null;
+      return _data ? new User(_data.owner) : null;
     }
   }
   function _getHomeUrl() {
@@ -63,11 +73,11 @@ export const WebConfig = function() {
   }
   function _getDefaultTheme() {
     return _data && _data.default_theme
-               ? new dat.ColorTheme(_data.default_theme)
+               ? new ColorTheme(_data.default_theme)
                : _bootTheme;
   }
   function _getFrontPageConfig() {
-    return _data && _data.front_page ? new dat.FrontPageConfig(_data.front_page)
+    return _data && _data.front_page ? new FrontPageConfig(_data.front_page)
                                      : null;
   }
   function _getLeftSideFrameConfig() {
@@ -82,7 +92,7 @@ export const WebConfig = function() {
     let ds = _data ? _data.tags : [];
     let tags = [];
     for (let d of ds) {
-      tags.push(new dat.Tag(d));
+      tags.push(new Tag(d));
     }
     return tags;
   }
@@ -91,7 +101,7 @@ export const WebConfig = function() {
     if (id) {
       for (let d of ds) {
         if (d.id == id) {
-          return new dat.Tag(d);
+          return new Tag(d);
         }
       }
     }
@@ -123,7 +133,7 @@ export const WebConfig = function() {
 
   function _getCurrentTheme() {
     if (_themeId) {
-      let m = dba.Menus.find(_themeId);
+      let m = Menus.find(_themeId);
       if (m) {
         return m.getTheme();
       }
@@ -135,10 +145,10 @@ export const WebConfig = function() {
   function _setThemeId(id) {
     if (_themeId != id) {
       _themeId = id;
-      fwk.Events.trigger(fwk.T_DATA.WEB_CONFIG);
+      FwkEvents.trigger(FwkT_DATA.WEB_CONFIG);
     }
   }
-  function _setBootTheme(data) { _bootTheme = new dat.ColorTheme(data); }
+  function _setBootTheme(data) { _bootTheme = new ColorTheme(data); }
   function _setGroups(groups) {
     if (_data) {
       _data.groups = groups;
@@ -147,20 +157,20 @@ export const WebConfig = function() {
   function _setWorkshopOpen(v) {
     if (_data) {
       _data.is_workshop_open = v;
-      fwk.Events.trigger(fwk.T_DATA.WEB_CONFIG);
+      FwkEvents.trigger(FwkT_DATA.WEB_CONFIG);
     }
   }
   function _setShopOpen(v) {
     if (_data) {
       _data.is_shop_open = v;
-      fwk.Events.trigger(fwk.T_DATA.WEB_CONFIG);
+      FwkEvents.trigger(FwkT_DATA.WEB_CONFIG);
     }
   }
   function _asyncSetHomeSector(sectorId) {
     let url = "api/user/set_home_sector";
     let fd = new FormData();
     fd.append("sector", sectorId);
-    plt.Api.asyncRawPost(url, fd, r => __onSetHomeSectorRRR(r));
+    api.asyncRawPost(url, fd, r => __onSetHomeSectorRRR(r));
   }
 
   function _asyncUpdateGroupConfig(groupId, newName = null, themeKey = null,
@@ -177,7 +187,7 @@ export const WebConfig = function() {
     if (themeColor) {
       fd.append('color', themeColor)
     }
-    plt.Api.asyncRawPost(url, fd, r => __onUpdateGroupRRR(r));
+    api.asyncRawPost(url, fd, r => __onUpdateGroupRRR(r));
   }
 
   function __getRoleDatas() {
@@ -187,7 +197,7 @@ export const WebConfig = function() {
   function __onSetHomeSectorRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       _reset(response.data.web_config);
     }
@@ -196,7 +206,7 @@ export const WebConfig = function() {
   function __onUpdateGroupRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       _reset(response.data.web_config);
     }

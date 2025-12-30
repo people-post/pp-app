@@ -54,7 +54,7 @@ export const Utilities = function() {
       return t.toLocaleString(
           [], {month : "numeric", day : "numeric", year : "2-digit"})
     } else {
-      return ext.Utilities.timeDiffShortString(dt)
+      return UtilitiesExt.timeDiffShortString(dt)
     }
   }
 
@@ -63,8 +63,8 @@ export const Utilities = function() {
     if (isMs) {
       dt = dt / 1000;
     }
-    return isShortString ? ext.Utilities.timeDiffShortString(dt)
-                         : ext.Utilities.timeDiffString(dt);
+    return isShortString ? UtilitiesExt.timeDiffShortString(dt)
+                         : UtilitiesExt.timeDiffString(dt);
   }
 
   function _getTopLevelDomain() {
@@ -201,12 +201,15 @@ export const Utilities = function() {
     return name;
   }
 
+import { Country } from './datatypes/Country.js';
+import UtilitiesExt from '../lib/ext/Utilities.js';
+
   function _getCountryByCode(code) {
     let idx2 = C.COUNTRIES.IDX.A2CODE;
     let idx3 = C.COUNTRIES.IDX.A3CODE;
     let i = C.COUNTRIES.DATA.find(i => i[idx2] == code || i[idx3] == code);
     if (i) {
-      return new dat.Country({name : i[C.COUNTRIES.IDX.NAME]});
+      return new Country({name : i[C.COUNTRIES.IDX.NAME]});
     }
     return null;
   }

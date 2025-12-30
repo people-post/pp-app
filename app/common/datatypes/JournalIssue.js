@@ -1,4 +1,7 @@
-export class JournalIssue extends dat.JournalIssueBase {
+import { JournalIssueBase } from './JournalIssueBase.js';
+import { SocialItemId } from './SocialItemId.js';
+
+export class JournalIssue extends JournalIssueBase {
   #mTagComments = new Map();
 
   constructor(data) {
@@ -6,7 +9,7 @@ export class JournalIssue extends dat.JournalIssueBase {
     for (let ct of data.comment_tags) {
       let sids = [];
       for (let d of ct.comment_ids) {
-        sids.push(new dat.SocialItemId(d.id, d.type));
+        sids.push(new SocialItemId(d.id, d.type));
       }
       this.#mTagComments.set(ct.tag_id, sids);
     }

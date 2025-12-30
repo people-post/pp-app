@@ -1,7 +1,13 @@
+import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import { api } from '../plt/Api.js';
+import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
+import { Quiz } from '../datatypes/Quiz.js';
+
 export const Quiz = function() {
   let _lib = new Map();
   let _pendingResponses = [];
-  let _idRecord = new dat.UniLongListIdRecord();
+  let _idRecord = new UniLongListIdRecord();
 
   function _get(id) {
     if (!id) {
@@ -16,13 +22,13 @@ export const Quiz = function() {
 
   function _update(quiz) {
     _lib.set(quiz.getId(), quiz);
-    fwk.Events.trigger(plt.T_DATA.QUIZ, quiz);
+    FwkEvents.trigger(PltT_DATA.QUIZ, quiz);
   }
 
   function _remove(quizId) {
     _idRecord.removeId(quizId);
     _lib.delete(quizId);
-    fwk.Events.trigger(plt.T_DATA.QUIZ_IDS);
+    FwkEvents.trigger(PltT_DATA.QUIZ_IDS);
   }
 
   function _reload(id) { _asyncLoad(id); }
@@ -31,7 +37,7 @@ export const Quiz = function() {
   function _clear() {
     _lib.clear();
     _idRecord.clear();
-    fwk.Events.trigger(plt.T_DATA.QUIZ_IDS);
+    FwkEvents.trigger(PltT_DATA.QUIZ_IDS);
   }
 
   function _asyncLoad(id) {
@@ -41,7 +47,7 @@ export const Quiz = function() {
     _pendingResponses.push(id);
 
     let url = "api/school/quiz?id=" + id;
-    plt.Api.asyncRawCall(url, r => __onQuizRRR(r, id));
+    api.asyncRawCall(url, r => __onQuizRRR(r, id));
   }
 
   function __onQuizRRR(responseText, id) {
@@ -52,10 +58,10 @@ export const Quiz = function() {
 
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data.quiz) {
-        let e = new dat.Quiz(response.data.quiz);
+        let e = new Quiz(response.data.quiz);
         _update(e);
       }
     }

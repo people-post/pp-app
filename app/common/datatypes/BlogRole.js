@@ -1,4 +1,6 @@
-export class BlogRole extends dat.UserRole {
+import { UserRole } from './UserRole.js';
+
+export class BlogRole extends UserRole {
   // Sync with backend
   static T_ROLE = {
     EXCLUSIVE : "EXCLUSIVE",

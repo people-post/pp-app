@@ -1,6 +1,8 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
 import { T_DATA } from '../../lib/framework/Events.js';
+import { Exchange } from '../dba/Exchange.js';
+import Utilities from '../../lib/ext/Utilities.js';
 
 export class PriceFragment extends Fragment {
   constructor() {
@@ -30,7 +32,7 @@ export class PriceFragment extends Fragment {
 
     let units = [];
     for (let id of ids) {
-      let c = dba.Exchange.getCurrency(id);
+      let c = Exchange.getCurrency(id);
       if (c) {
         units.push({text : c.getCode(), value : id});
       }
@@ -67,7 +69,7 @@ export class PriceFragment extends Fragment {
     } else {
       pp.setClassName("small-info-text center-align");
       if (this._prices.length) {
-        let c = dba.Exchange.getCurrency(this._prices[0].currency_id)
+        let c = Exchange.getCurrency(this._prices[0].currency_id)
         pp.replaceContent(c ? c.getCode() : "...");
       } else {
         pp.replaceContent("N/A");
@@ -75,7 +77,7 @@ export class PriceFragment extends Fragment {
     }
 
     let price = this.#getCurrentPriceItem();
-    let c = price ? dba.Exchange.getCurrency(price.currency_id) : null;
+    let c = price ? Exchange.getCurrency(price.currency_id) : null;
 
     pp = render.getListPricePanel();
     if (price) {

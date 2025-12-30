@@ -1,4 +1,6 @@
-export class Address extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class Address extends ServerDataObject {
   getOwnerId() { return this._data.owner_id; }
   getNickname() { return this._data.nickname; }
   getName() { return this._data.name; }

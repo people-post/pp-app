@@ -1,3 +1,5 @@
+import { JournalConfigTagged } from './JournalConfigTagged.js';
+
 export class Journal {
   #data;
   #config;
@@ -20,7 +22,7 @@ export class Journal {
     let c = null;
     switch (type) {
     case this.constructor.T_TEMPLATE_ID.TAGGED:
-      c = new dat.JournalConfigTagged(data);
+      c = new JournalConfigTagged(data);
       break;
     default:
       break;

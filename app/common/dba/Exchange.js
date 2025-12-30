@@ -1,3 +1,8 @@
+import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import { api } from '../plt/Api.js';
+import { Currency } from '../datatypes/Currency.js';
+
 export const Exchange = function() {
   let _currencyLib = new Map();
   let _assetLib = new Map();
@@ -47,16 +52,16 @@ export const Exchange = function() {
     let fd = new FormData();
     fd.append('id', id);
     _assetLib.set(id, null);
-    plt.Api.asyncRawPost(url, fd, r => __onAssetRRR(r, id));
+    api.asyncRawPost(url, fd, r => __onAssetRRR(r, id));
   }
 
   function __onAssetRRR(responseText, id) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       _assetLib.set(id, response.data.total);
-      fwk.Events.trigger(plt.T_DATA.ASSET, id);
+      FwkEvents.trigger(PltT_DATA.ASSET, id);
     }
   }
 
@@ -68,18 +73,18 @@ export const Exchange = function() {
       // Set to default
       _currencyLib.set(id, null);
     }
-    plt.Api.asyncRawPost(url, fd, r => __onLoadCurrenciesRRR(ids, r));
+    api.asyncRawPost(url, fd, r => __onLoadCurrenciesRRR(ids, r));
   }
 
   function __onLoadCurrenciesRRR(ids, responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       for (let c of response.data.currencies) {
-        _updateCurrency(new dat.Currency(c));
+        _updateCurrency(new Currency(c));
       }
-      fwk.Events.trigger(plt.T_DATA.CURRENCIES);
+      FwkEvents.trigger(PltT_DATA.CURRENCIES);
     }
   }
 
