@@ -1,6 +1,4 @@
-(function(dba) {
-
-dba.Exchange = function() {
+export const Exchange = function() {
   let _currencyLib = new Map();
   let _assetLib = new Map();
 
@@ -92,4 +90,10 @@ dba.Exchange = function() {
   };
 }();
 
-}(window.dba = window.dba || {}));
+}();
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Exchange = Exchange;
+}

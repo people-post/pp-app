@@ -1,5 +1,7 @@
-(function(dat) {
-class DigitalGoodDelivery extends dat.ProductDelivery {};
+export class DigitalGoodDelivery extends dat.ProductDelivery {};
 
-dat.DigitalGoodDelivery = DigitalGoodDelivery;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.DigitalGoodDelivery = DigitalGoodDelivery;
+}

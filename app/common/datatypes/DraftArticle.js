@@ -1,7 +1,9 @@
-(function(dat) {
-class DraftArticle extends dat.ArticleBase {
+export class DraftArticle extends dat.ArticleBase {
   isDraft() { return true; }
 };
 
-dat.DraftArticle = DraftArticle;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.DraftArticle = DraftArticle;
+}

@@ -1,5 +1,4 @@
-(function(dat) {
-class RealTimeComment extends dat.ChatMessage {
+export class RealTimeComment extends dat.ChatMessage {
   // Synced with backend
   static T_STATUS = {
     PENDING : "PENDING",
@@ -27,5 +26,8 @@ class RealTimeComment extends dat.ChatMessage {
   }
 };
 
-dat.RealTimeComment = RealTimeComment;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.RealTimeComment = RealTimeComment;
+}

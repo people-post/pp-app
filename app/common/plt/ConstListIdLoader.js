@@ -1,5 +1,4 @@
-(function(plt) {
-class ConstListIdLoader extends plt.LongListIdLoader {
+export class ConstListIdLoader extends plt.LongListIdLoader {
   #idRecord = new dat.UniLongListIdRecord();
 
   getIdRecord() { return this.#idRecord; }
@@ -16,5 +15,8 @@ class ConstListIdLoader extends plt.LongListIdLoader {
   asyncLoadBackItems() {}
 };
 
-plt.ConstListIdLoader = ConstListIdLoader;
-}(window.plt = window.plt || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.plt = window.plt || {};
+  window.plt.ConstListIdLoader = ConstListIdLoader;
+}

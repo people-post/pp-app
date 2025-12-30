@@ -1,5 +1,4 @@
-(function(dba) {
-class Web2Account {
+export class Web2Account {
   #userId = null;
   // TODO: Code reorg in web2
   #profile = null;
@@ -216,5 +215,8 @@ class Web2Account {
   }
 };
 
-dba.Account = new Web2Account();
-}(window.dba = window.dba || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Account = new Web2Account();
+}

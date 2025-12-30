@@ -1,5 +1,4 @@
-(function(srch) {
-class FGeneralSearch extends srch.FSearch {
+export class FGeneralSearch extends srch.FSearch {
   #enableAddFeed = false;
   #config;
 
@@ -61,5 +60,8 @@ class FGeneralSearch extends srch.FSearch {
   }
 };
 
-srch.FGeneralSearch = FGeneralSearch;
-}(window.srch = window.srch || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.srch = window.srch || {};
+  window.srch.FGeneralSearch = FGeneralSearch;
+}

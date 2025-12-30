@@ -1,5 +1,4 @@
-(function(dat) {
-class SingleLongListIdRecord {
+export class SingleLongListIdRecord {
   #ids = [];
   #isComplete = false;
 
@@ -36,5 +35,8 @@ class SingleLongListIdRecord {
   }
 };
 
-dat.SingleLongListIdRecord = SingleLongListIdRecord;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.SingleLongListIdRecord = SingleLongListIdRecord;
+}

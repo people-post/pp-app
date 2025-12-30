@@ -1,6 +1,4 @@
-(function(dba) {
-
-dba.WebConfig = function() {
+export const WebConfig = function() {
   let _data = null;
   let _themeId = null;
   let _bootTheme = null;
@@ -241,4 +239,10 @@ dba.WebConfig = function() {
     setShopOpen : _setShopOpen,
   };
 }();
-}(window.dba = window.dba || {}));
+}();
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.WebConfig = WebConfig;
+}

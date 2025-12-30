@@ -1,5 +1,4 @@
-(function(dat) {
-class SocialInfo extends dat.ServerDataObject {
+export class SocialInfo extends dat.ServerDataObject {
   isLiked() { return this._data.is_liked; }
   isLinked() { return this._data.is_linked; }
 
@@ -8,5 +7,8 @@ class SocialInfo extends dat.ServerDataObject {
   getNComments() { return this._data.n_comments; }
 };
 
-dat.SocialInfo = SocialInfo;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.SocialInfo = SocialInfo;
+}

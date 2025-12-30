@@ -1,5 +1,4 @@
-(function(srch) {
-class FWeb3Search extends srch.FSearch {
+export class FWeb3Search extends srch.FSearch {
   #config;
 
   constructor() {
@@ -53,5 +52,8 @@ class FWeb3Search extends srch.FSearch {
   }
 };
 
-srch.FWeb3Search = FWeb3Search;
-}(window.srch = window.srch || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.srch = window.srch || {};
+  window.srch.FWeb3Search = FWeb3Search;
+}

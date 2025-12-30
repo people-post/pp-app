@@ -1,5 +1,4 @@
-(function(socl) {
-socl.CF_COMMENT_NOTICE_INFO = {
+export const CF_COMMENT_NOTICE_INFO = {
   ON_CLICK : Symbol(),
 };
 
@@ -14,7 +13,7 @@ const _CFT_COMMENT_NOTICE_INFO = {
   </div>`,
 };
 
-class FCommentNotice extends ui.Fragment {
+export class FCommentNotice extends ui.Fragment {
   constructor() {
     super();
     this._notification = null;
@@ -24,7 +23,7 @@ class FCommentNotice extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case socl.CF_COMMENT_NOTICE_INFO.ON_CLICK:
+    case CF_COMMENT_NOTICE_INFO.ON_CLICK:
       this._delegate.onCommentNoticeInfoFragmentRequestShowItem(
           this, this._notification.getFromId(),
           this._notification.getFromIdType());
@@ -83,5 +82,9 @@ class FCommentNotice extends ui.Fragment {
   }
 };
 
-socl.FCommentNotice = FCommentNotice;
-}(window.socl = window.socl || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.socl = window.socl || {};
+  window.socl.CF_COMMENT_NOTICE_INFO = CF_COMMENT_NOTICE_INFO;
+  window.socl.FCommentNotice = FCommentNotice;
+}

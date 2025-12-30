@@ -1,5 +1,4 @@
-(function(dat) {
-class RemoteError {
+export class RemoteError {
   // Synced with backend
   static T_TYPE = {
     USER : "USR",
@@ -54,5 +53,8 @@ class RemoteError {
   static T_CONN = "Failed to receive response from server";
 };
 
-dat.RemoteError = RemoteError;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.RemoteError = RemoteError;
+}

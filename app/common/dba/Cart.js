@@ -1,5 +1,4 @@
-(function(dba) {
-dba.Cart = function() {
+export const Cart = function() {
   // Customer shopping cart
   // Draft orders
   let _mCart = null;
@@ -116,4 +115,10 @@ dba.Cart = function() {
     asyncRemoveItem : _asyncRemoveItem,
   };
 }();
-}(window.dba = window.dba || {}));
+}();
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Cart = Cart;
+}

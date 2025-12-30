@@ -1,5 +1,4 @@
-(function(dat) {
-class UniSegmentedLongListIdRecord extends dat.UniLongListIdRecord {
+export class UniSegmentedLongListIdRecord extends dat.UniLongListIdRecord {
   // UniSegmentedLongListIdRecord only provided an extra attribute
   #nextSegmentId = 0;
 
@@ -13,5 +12,8 @@ class UniSegmentedLongListIdRecord extends dat.UniLongListIdRecord {
   }
 };
 
-dat.UniSegmentedLongListIdRecord = UniSegmentedLongListIdRecord;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.UniSegmentedLongListIdRecord = UniSegmentedLongListIdRecord;
+}

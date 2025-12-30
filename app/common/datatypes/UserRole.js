@@ -1,5 +1,4 @@
-(function(dat) {
-class UserRole extends dat.ServerDataObject {
+export class UserRole extends dat.ServerDataObject {
   isOpen() { return this._data.is_open; }
 
   getName() { return this._data.name; }
@@ -8,5 +7,8 @@ class UserRole extends dat.ServerDataObject {
 
   getStatus() { return this._data.status; }
 };
-dat.UserRole = UserRole;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.UserRole = UserRole;
+}

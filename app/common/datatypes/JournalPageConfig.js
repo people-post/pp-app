@@ -1,7 +1,9 @@
-(function(dat) {
-class JournalPageConfig extends dat.FrontPageTemplateConfig {
+export class JournalPageConfig extends dat.FrontPageTemplateConfig {
   getJournalId() { return this._getData("journal_id"); }
 };
 
-dat.JournalPageConfig = JournalPageConfig;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.JournalPageConfig = JournalPageConfig;
+}

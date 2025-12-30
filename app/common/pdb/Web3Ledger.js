@@ -1,5 +1,4 @@
-(function(pdb) {
-class Web3Ledger {
+export class Web3Ledger {
   #agents = [];
 
   isAvailable() { return this.#agents.length > 0; }
@@ -28,5 +27,8 @@ class Web3Ledger {
   }
 };
 
-pdb.Web3Ledger = Web3Ledger;
-}(window.pdb = window.pdb || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pdb = window.pdb || {};
+  window.pdb.Web3Ledger = Web3Ledger;
+}

@@ -1,5 +1,4 @@
-(function(dat) {
-class LongListIdRecord {
+export class LongListIdRecord {
   isEmpty() { throw "isEmpty() is required in LongListIdRecord"; }
   isFrontComplete() { throw "isFrontComplete is required in LongListIdRecord"; }
   isBackComplete() { throw "isBackComplete is required in LongListIdRecord"; }
@@ -10,5 +9,8 @@ class LongListIdRecord {
   clear() { throw "clear() is required in LongListIdRecord"; }
 };
 
-dat.LongListIdRecord = LongListIdRecord;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.LongListIdRecord = LongListIdRecord;
+}

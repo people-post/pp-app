@@ -1,5 +1,4 @@
-(function(dat) {
-class JournalConfigTagged {
+export class JournalConfigTagged {
   #data;
 
   constructor(data) { this.#data = data; }
@@ -8,5 +7,8 @@ class JournalConfigTagged {
   getPlaceholder() { return this.#data.placeholder; }
 };
 
-dat.JournalConfigTagged = JournalConfigTagged;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.JournalConfigTagged = JournalConfigTagged;
+}

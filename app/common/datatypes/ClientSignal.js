@@ -1,5 +1,4 @@
-(function(dat) {
-class ClientSignal {
+export class ClientSignal {
   // Partially synced with backend
   static T_SOURCE = {
     HOST : "HOST",
@@ -25,5 +24,8 @@ class ClientSignal {
   toEncodedString() { return JSON.stringify(this._data); }
 };
 
-dat.ClientSignal = ClientSignal;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ClientSignal = ClientSignal;
+}

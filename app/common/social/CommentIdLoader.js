@@ -1,5 +1,4 @@
-(function(socl) {
-class CommentIdLoader extends plt.LongListIdLoader {
+export class CommentIdLoader extends plt.LongListIdLoader {
   #isBatchLoading = false;
   #threadId = null; // SocialItemId
   #hashtagIds = [];
@@ -54,5 +53,8 @@ class CommentIdLoader extends plt.LongListIdLoader {
   }
 };
 
-socl.CommentIdLoader = CommentIdLoader;
-}(window.socl = window.socl || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.socl = window.socl || {};
+  window.socl.CommentIdLoader = CommentIdLoader;
+}

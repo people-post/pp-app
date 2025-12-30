@@ -1,5 +1,4 @@
-(function(dat) {
-class EmptyPost extends dat.Post {
+export class EmptyPost extends dat.Post {
   static TYPE = {DELETED : "DELETED", PERMISSION: "PERMISSION"};
 
   isSocialable() { return false; }
@@ -8,5 +7,8 @@ class EmptyPost extends dat.Post {
   getErrorCode() { return this._data.err_code; }
 };
 
-dat.EmptyPost = EmptyPost;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.EmptyPost = EmptyPost;
+}

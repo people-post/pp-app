@@ -1,5 +1,4 @@
-(function(dat) {
-class BufferedList {
+export class BufferedList {
   constructor() { this._items = []; }
 
   getObjects() { return this._items; }
@@ -26,5 +25,8 @@ class BufferedList {
   }
 };
 
-dat.BufferedList = BufferedList;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.BufferedList = BufferedList;
+}

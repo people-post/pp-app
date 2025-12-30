@@ -1,7 +1,5 @@
-(function(dba) {
-
 // Public users' information
-class UserLib {
+export class UserLib {
   #isLoading = false;
   #mUsers = new Map();
 
@@ -138,5 +136,8 @@ class UserLib {
   }
 };
 
-dba.Users = new UserLib();
-}(window.dba = window.dba || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Users = new UserLib();
+}

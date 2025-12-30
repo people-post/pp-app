@@ -1,5 +1,4 @@
-(function(dat) {
-class CommentTag {
+export class CommentTag {
   #data;
   #sidComments = [];
 
@@ -14,5 +13,8 @@ class CommentTag {
   getCommentSocialIds() { return this.#sidComments; }
 };
 
-dat.CommentTag = CommentTag;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.CommentTag = CommentTag;
+}

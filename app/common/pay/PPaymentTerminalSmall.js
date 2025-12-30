@@ -1,4 +1,3 @@
-(function(pay) {
 const _CPT_PAYMENT_TERMINAL_SMALL = {
   MAIN :
       `<div id="__ID_MAIN__" class="bd-b-solid bd-b-1px bdlightgray clickable">
@@ -9,7 +8,7 @@ const _CPT_PAYMENT_TERMINAL_SMALL = {
   </div>`,
 };
 
-class PPaymentTerminalSmall extends pay.PPaymentTerminalBase {
+export class PPaymentTerminalSmall extends pay.PPaymentTerminalBase {
   constructor() {
     super();
     this._pName = new ui.Panel();
@@ -41,5 +40,8 @@ class PPaymentTerminalSmall extends pay.PPaymentTerminalBase {
   }
 };
 
-pay.PPaymentTerminalSmall = PPaymentTerminalSmall;
-}(window.pay = window.pay || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pay = window.pay || {};
+  window.pay.PPaymentTerminalSmall = PPaymentTerminalSmall;
+}

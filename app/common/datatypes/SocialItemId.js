@@ -1,5 +1,4 @@
-(function(dat) {
-class SocialItemId {
+export class SocialItemId {
   #value = null;
   #type = null;
 
@@ -59,5 +58,8 @@ class SocialItemId {
   setType(t) { this.#type = t; }
 };
 
-dat.SocialItemId = SocialItemId;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.SocialItemId = SocialItemId;
+}

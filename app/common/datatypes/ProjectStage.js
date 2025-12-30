@@ -1,5 +1,4 @@
-(function(dat) {
-class ProjectStage {
+export class ProjectStage {
   static TYPES = {
     SIMPLE : "SIMPLE",
     REFERENCE: "REFERENCE",
@@ -38,5 +37,8 @@ class ProjectStage {
   getActionsForFacilitator() { return []; }
 };
 
-dat.ProjectStage = ProjectStage;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ProjectStage = ProjectStage;
+}

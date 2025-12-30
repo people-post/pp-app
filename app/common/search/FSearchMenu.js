@@ -1,5 +1,4 @@
-(function(srch) {
-class FSearchMenu extends gui.MenuContent {
+export class FSearchMenu extends gui.MenuContent {
   #fBar;
   #tResultLayout = null;
 
@@ -32,5 +31,8 @@ class FSearchMenu extends gui.MenuContent {
   }
 };
 
-srch.FSearchMenu = FSearchMenu;
-}(window.srch = window.srch || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.srch = window.srch || {};
+  window.srch.FSearchMenu = FSearchMenu;
+}

@@ -1,5 +1,4 @@
-(function(dat) {
-class Product extends dat.SocialItem {
+export class Product extends dat.SocialItem {
   constructor(data) {
     super(data);
     this._files = [];
@@ -60,5 +59,8 @@ class Product extends dat.SocialItem {
   }
 };
 
-dat.Product = Product;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Product = Product;
+}

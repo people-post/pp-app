@@ -1,10 +1,8 @@
-(function(S) {
-S.hr = S.hr || {};
-S.hr.CF_USER_ID_INPUT = {
+export const CF_USER_ID_INPUT = {
   USER_INFO : Symbol()
 };
 
-class FUserIdInput extends ui.Fragment {
+export class FUserIdInput extends ui.Fragment {
   #userId = null;
 
   getUserId() { return this.#userId; }
@@ -12,7 +10,7 @@ class FUserIdInput extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case S.hr.CF_USER_ID_INPUT.USER_INFO:
+    case CF_USER_ID_INPUT.USER_INFO:
       this.#showUserInfo(args[0]);
       break;
     default:
@@ -47,7 +45,12 @@ class FUserIdInput extends ui.Fragment {
   #showUserInfo(userId) {
     fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO, userId);
   }
-};
+}
 
-S.hr.FUserIdInput = FUserIdInput;
-}(window.S = window.S || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.S = window.S || {};
+  window.S.hr = window.S.hr || {};
+  window.S.hr.CF_USER_ID_INPUT = CF_USER_ID_INPUT;
+  window.S.hr.FUserIdInput = FUserIdInput;
+}

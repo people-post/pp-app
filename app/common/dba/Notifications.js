@@ -1,6 +1,4 @@
-(function(dba) {
-
-dba.Notifications = function() {
+export const Notifications = function() {
   let _mMessages = new Map();
   let _mNotices = new Map();
   let _mRequests = new Map();
@@ -211,4 +209,10 @@ dba.Notifications = function() {
     getMessageThreadInfo : _getMessageThreadInfo,
   };
 }();
-}(window.dba = window.dba || {}));
+}();
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Notifications = Notifications;
+}

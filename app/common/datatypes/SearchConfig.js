@@ -1,5 +1,4 @@
-(function(dat) {
-class SearchConfig {
+export class SearchConfig {
   #categories = [];
   #sectors = [];
   #userIds = [];
@@ -21,5 +20,8 @@ class SearchConfig {
   }
 };
 
-dat.SearchConfig = SearchConfig;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.SearchConfig = SearchConfig;
+}

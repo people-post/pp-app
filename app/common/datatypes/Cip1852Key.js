@@ -1,5 +1,4 @@
-(function(dat) {
-class Cip1852Key {
+export class Cip1852Key {
   #key = null;
 
   constructor(key) { this.#key = key; }
@@ -13,5 +12,8 @@ class Cip1852Key {
   }
 };
 
-dat.Cip1852Key = Cip1852Key;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Cip1852Key = Cip1852Key;
+}

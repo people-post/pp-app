@@ -1,5 +1,4 @@
-(function(dat) {
-class BlogRole extends dat.UserRole {
+export class BlogRole extends dat.UserRole {
   // Sync with backend
   static T_ROLE = {
     EXCLUSIVE : "EXCLUSIVE",
@@ -16,5 +15,8 @@ class BlogRole extends dat.UserRole {
   getAllowedTagIds() { return this._data.data.allowed_tag_ids; }
 };
 
-dat.BlogRole = BlogRole;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.BlogRole = BlogRole;
+}

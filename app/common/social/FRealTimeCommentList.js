@@ -1,5 +1,4 @@
-(function(socl) {
-class FRealTimeCommentList extends ui.Fragment {
+export class FRealTimeCommentList extends ui.Fragment {
   #fList;
   #comments = [];
 
@@ -27,7 +26,10 @@ class FRealTimeCommentList extends ui.Fragment {
     this.#fList.attachRender(render);
     this.#fList.render();
   }
-};
+}
 
-socl.FRealTimeCommentList = FRealTimeCommentList;
-}(window.socl = window.socl || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.socl = window.socl || {};
+  window.socl.FRealTimeCommentList = FRealTimeCommentList;
+}

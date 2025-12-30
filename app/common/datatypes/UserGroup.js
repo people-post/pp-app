@@ -1,5 +1,4 @@
-(function(dat) {
-class UserGroup extends dat.GeneralGroup {
+export class UserGroup extends dat.GeneralGroup {
   isWriterGroup() {
     let ids = this.getTagIds();
     let t = this.constructor.T_TAG_ID;
@@ -12,5 +11,8 @@ class UserGroup extends dat.GeneralGroup {
   getTagIds() { return this._data.tag_ids; }
 };
 
-dat.UserGroup = UserGroup;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.UserGroup = UserGroup;
+}

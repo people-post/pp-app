@@ -1,7 +1,4 @@
-(function(S) {
-S.hr = S.hr || {};
-
-class FCareerList extends ui.Fragment {
+export class FCareerList extends ui.Fragment {
   constructor() {
     super();
     this._fGroups = new ui.FSimpleFragmentList();
@@ -50,7 +47,11 @@ class FCareerList extends ui.Fragment {
     }
     return fGroup;
   }
-};
+}
 
-S.hr.FCareerList = FCareerList;
-}(window.S = window.S || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.S = window.S || {};
+  window.S.hr = window.S.hr || {};
+  window.S.hr.FCareerList = FCareerList;
+}

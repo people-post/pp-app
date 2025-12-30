@@ -1,5 +1,4 @@
-(function(dat) {
-class QueueServiceDelivery extends dat.ProductDelivery {
+export class QueueServiceDelivery extends dat.ProductDelivery {
   constructor(data) {
     super(data);
     this._locations = [];
@@ -13,5 +12,8 @@ class QueueServiceDelivery extends dat.ProductDelivery {
   #initLocation(data) { return new dat.ProductServiceLocation(data); }
 };
 
-dat.QueueServiceDelivery = QueueServiceDelivery;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.QueueServiceDelivery = QueueServiceDelivery;
+}

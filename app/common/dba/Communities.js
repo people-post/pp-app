@@ -1,5 +1,4 @@
-(function(dba) {
-dba.Communities = function() {
+export const Communities = function() {
   let _globalProfile = null;
   let _isGlobalProfileLoading = false;
   let _profileLib = new Map();
@@ -144,4 +143,10 @@ dba.Communities = function() {
   };
 }();
 
-}(window.dba = window.dba || {}));
+}();
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Communities = Communities;
+}

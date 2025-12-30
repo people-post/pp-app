@@ -1,5 +1,4 @@
-(function(gui) {
-class MenuContent extends ui.Fragment {
+export class MenuContent extends ui.Fragment {
   constructor() {
     super();
     this._isQuickLinkRenderMode = false;
@@ -11,5 +10,8 @@ class MenuContent extends ui.Fragment {
   resetStatus() { this.setQuickLinkRenderMode(false); }
 };
 
-gui.MenuContent = MenuContent;
-}(window.gui = window.gui || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.MenuContent = MenuContent;
+}

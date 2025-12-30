@@ -1,5 +1,4 @@
-(function(pay) {
-class FSquareTerminal extends ui.Fragment {
+export class FSquareTerminal extends ui.Fragment {
   constructor() {
     super();
     this._obj = null;
@@ -37,5 +36,8 @@ class FSquareTerminal extends ui.Fragment {
   }
 };
 
-pay.FSquareTerminal = FSquareTerminal;
-}(window.pay = window.pay || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pay = window.pay || {};
+  window.pay.FSquareTerminal = FSquareTerminal;
+}

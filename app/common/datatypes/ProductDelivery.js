@@ -1,8 +1,10 @@
-(function(dat) {
-class ProductDelivery extends dat.ServerDataObject {
+export class ProductDelivery extends dat.ServerDataObject {
   getDescription() { return this._data.description; }
   setDescription(d) { this._data.description = d; }
 }
 
-dat.ProductDelivery = ProductDelivery;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ProductDelivery = ProductDelivery;
+}

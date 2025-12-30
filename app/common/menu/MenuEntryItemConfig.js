@@ -1,5 +1,4 @@
-(function(gui) {
-gui.CF_MENU_ENTRY_ITEM_CONFIG = {
+export const CF_MENU_ENTRY_ITEM_CONFIG = {
   CHANGE_DIR : "CF_GUI_MENU_ENTRY_ITEM_CONFIG_2",
 }
 
@@ -11,7 +10,7 @@ const _CFT_MENU_ENTRY_ITEM_CONFIG = {
   PATH : `Current path: <span class="cblue">__ITEMS__</span>`,
 }
 
-class MenuEntryItemConfig extends gui.DirFragment {
+export class MenuEntryItemConfig extends gui.DirFragment {
   constructor(itemId) {
     super();
     this._fThemeEditor = new gui.ThemeEditorFragment();
@@ -61,7 +60,7 @@ class MenuEntryItemConfig extends gui.DirFragment {
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_MENU_ENTRY_ITEM_CONFIG.CHANGE_DIR:
+    case CF_MENU_ENTRY_ITEM_CONFIG.CHANGE_DIR:
       this.#onChangeDir(args[0]);
       break;
     default:
@@ -162,5 +161,9 @@ class MenuEntryItemConfig extends gui.DirFragment {
   }
 };
 
-gui.MenuEntryItemConfig = MenuEntryItemConfig;
-}(window.gui = window.gui || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_MENU_ENTRY_ITEM_CONFIG = CF_MENU_ENTRY_ITEM_CONFIG;
+  window.gui.MenuEntryItemConfig = MenuEntryItemConfig;
+}

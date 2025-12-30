@@ -1,11 +1,8 @@
-(function(S) {
-S.hr = S.hr || {};
-
-S.hr.CF_CAREER = {
+export const CF_CAREER = {
   ON_CLICK : Symbol(),
 };
 
-class FCareer extends ui.Fragment {
+export class FCareer extends ui.Fragment {
   constructor() {
     super();
     this._roleId;
@@ -16,7 +13,7 @@ class FCareer extends ui.Fragment {
 
   action(type, data) {
     switch (type) {
-    case S.hr.CF_CAREER.ON_CLICK:
+    case CF_CAREER.ON_CLICK:
       this._delegate.onClickInCareerFragment(this);
       break;
     default:
@@ -59,7 +56,12 @@ class FCareer extends ui.Fragment {
     s = s.replace("__TOTAL__", role.getNMembers());
     return s;
   }
-};
+}
 
-S.hr.FCareer = FCareer;
-}(window.S = window.S || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.S = window.S || {};
+  window.S.hr = window.S.hr || {};
+  window.S.hr.CF_CAREER = CF_CAREER;
+  window.S.hr.FCareer = FCareer;
+}

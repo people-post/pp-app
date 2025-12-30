@@ -1,5 +1,7 @@
-(function(pdb) {
-class Web3ResolverAgent extends pp.ServerAgent {};
+export class Web3ResolverAgent extends pp.ServerAgent {};
 
-pdb.Web3ResolverAgent = Web3ResolverAgent;
-}(window.pdb = window.pdb || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pdb = window.pdb || {};
+  window.pdb.Web3ResolverAgent = Web3ResolverAgent;
+}

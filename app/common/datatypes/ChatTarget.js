@@ -1,5 +1,4 @@
-(function(dat) {
-class ChatTarget {
+export class ChatTarget {
   #sId = new dat.SocialItemId();
   #isReadOnly = false;
 
@@ -15,5 +14,8 @@ class ChatTarget {
   setIsReadOnly(b) { this.#isReadOnly = b; }
 };
 
-dat.ChatTarget = ChatTarget;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ChatTarget = ChatTarget;
+}

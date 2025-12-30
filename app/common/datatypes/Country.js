@@ -1,9 +1,11 @@
-(function(dat) {
-class Country {
+export class Country {
   constructor(data) { this._data = data; }
 
   getName() { return this._data.name; }
 };
 
-dat.Country = Country;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Country = Country;
+}

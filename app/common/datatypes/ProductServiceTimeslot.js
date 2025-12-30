@@ -1,5 +1,4 @@
-(function(dat) {
-class ProductServiceTimeslot extends dat.ServerDataObject {
+export class ProductServiceTimeslot extends dat.ServerDataObject {
   // All time values are timestamp in seconds
   static T_REP = {
     ONCE : "ONCE",
@@ -118,5 +117,8 @@ class ProductServiceTimeslot extends dat.ServerDataObject {
   }
 };
 
-dat.ProductServiceTimeslot = ProductServiceTimeslot;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ProductServiceTimeslot = ProductServiceTimeslot;
+}

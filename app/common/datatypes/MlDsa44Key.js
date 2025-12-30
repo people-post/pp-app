@@ -1,5 +1,4 @@
-(function(dat) {
-class MlDsa44Key {
+export class MlDsa44Key {
   #buffer = null;
 
   constructor(buffer) { this.#buffer = buffer; }
@@ -17,5 +16,8 @@ class MlDsa44Key {
   }
 };
 
-dat.MlDsa44Key = MlDsa44Key;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.MlDsa44Key = MlDsa44Key;
+}

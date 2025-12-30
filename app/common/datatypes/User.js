@@ -1,5 +1,4 @@
-(function(dat) {
-class User extends dat.UserBase {
+export class User extends dat.UserBase {
   static C_ID = {
     SYSTEM : "SYSTEM",        // Synced with backend
     L_ADD_USER: "L_ADD_USER", // Local
@@ -103,5 +102,8 @@ class User extends dat.UserBase {
   }
 };
 
-dat.User = User;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.User = User;
+}

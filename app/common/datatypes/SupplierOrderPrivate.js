@@ -1,7 +1,9 @@
-(function(dat) {
-class SupplierOrderPrivate extends dat.SupplierOrderBase {
+export class SupplierOrderPrivate extends dat.SupplierOrderBase {
   getCustomerId() { return this._data.customer_id; }
 };
 
-dat.SupplierOrderPrivate = SupplierOrderPrivate;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.SupplierOrderPrivate = SupplierOrderPrivate;
+}

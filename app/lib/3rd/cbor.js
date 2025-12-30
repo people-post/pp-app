@@ -396,11 +396,16 @@ function decode(data, tagger, simpleValue) {
 
 var obj = { encode: encode, decode: decode };
 
+// Support for other module formats
 if (typeof define === "function" && define.amd)
   define("cbor/cbor", obj);
 else if (typeof module !== 'undefined' && module.exports)
   module.exports = obj;
 else if (!global.CBOR)
   global.CBOR = obj;
+
+// ES module exports (inside IIFE, will be hoisted by bundlers)
+export { encode, decode };
+export default obj;
 
 })(this);

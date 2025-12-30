@@ -1,5 +1,4 @@
-(function(socl) {
-class FCommentInput extends ui.Fragment {
+export class FCommentInput extends ui.Fragment {
   #lc;
   #fInput;
   #tmpMessage = null;
@@ -159,5 +158,8 @@ class FCommentInput extends ui.Fragment {
   }
 };
 
-socl.FCommentInput = FCommentInput;
-}(window.socl = window.socl || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.socl = window.socl || {};
+  window.socl.FCommentInput = FCommentInput;
+}

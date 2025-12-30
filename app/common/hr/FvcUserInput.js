@@ -1,6 +1,4 @@
-(function(S) {
-S.hr = S.hr || {};
-class FvcUserInput extends ui.FScrollViewContent {
+export class FvcUserInput extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fAll = new ui.FSimpleFragmentList();
@@ -43,5 +41,9 @@ class FvcUserInput extends ui.FScrollViewContent {
   }
 };
 
-S.hr.FvcUserInput = FvcUserInput;
-}(window.S = window.S || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.S = window.S || {};
+  window.S.hr = window.S.hr || {};
+  window.S.hr.FvcUserInput = FvcUserInput;
+}

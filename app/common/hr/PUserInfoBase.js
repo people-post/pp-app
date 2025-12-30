@@ -1,6 +1,4 @@
-(function(S) {
-S.hr = S.hr || {};
-class PUserInfoBase extends ui.Panel {
+export class PUserInfoBase extends ui.Panel {
   constructor() {
     super();
     this._pName = new ui.Panel();
@@ -13,5 +11,9 @@ class PUserInfoBase extends ui.Panel {
   getDescriptionPanel() { return null; }
 };
 
-S.hr.PUserInfoBase = PUserInfoBase;
-}(window.S = window.S || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.S = window.S || {};
+  window.S.hr = window.S.hr || {};
+  window.S.hr.PUserInfoBase = PUserInfoBase;
+}

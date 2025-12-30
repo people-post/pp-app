@@ -1,5 +1,4 @@
-(function(dat) {
-class BiLongListIdRecord extends dat.LongListIdRecord {
+export class BiLongListIdRecord extends dat.LongListIdRecord {
   // Front list goes backwards: index of 0, 1, 2 means global index -1 -2 -3
   #rFront = new dat.SingleLongListIdRecord();
   #rBack = new dat.SingleLongListIdRecord();
@@ -60,5 +59,8 @@ class BiLongListIdRecord extends dat.LongListIdRecord {
   }
 };
 
-dat.BiLongListIdRecord = BiLongListIdRecord;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.BiLongListIdRecord = BiLongListIdRecord;
+}

@@ -1,5 +1,4 @@
-(function(dat) {
-class FrontPageTemplateConfig {
+export class FrontPageTemplateConfig {
   #data;
 
   constructor(data) { this.#data = data; }
@@ -9,5 +8,8 @@ class FrontPageTemplateConfig {
   _getData(name) { return this.#data[name]; }
 };
 
-dat.FrontPageTemplateConfig = FrontPageTemplateConfig;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.FrontPageTemplateConfig = FrontPageTemplateConfig;
+}

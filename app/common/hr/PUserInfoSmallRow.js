@@ -1,5 +1,3 @@
-(function(S) {
-S.hr = S.hr || {};
 /*
  * +--------+-----------+
  * |  ICON  | NAME      |
@@ -14,7 +12,7 @@ const _CPT_USER_INFO_SMALL_ROW = {
   </div>`,
 }
 
-class PUserInfoSmallRow extends S.hr.PUserInfoBase {
+export class PUserInfoSmallRow extends S.hr.PUserInfoBase {
   constructor() {
     super();
     this._pIcon = new ui.PanelWrapper();
@@ -36,5 +34,9 @@ class PUserInfoSmallRow extends S.hr.PUserInfoBase {
   }
 };
 
-S.hr.PUserInfoSmallRow = PUserInfoSmallRow;
-}(window.S = window.S || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.S = window.S || {};
+  window.S.hr = window.S.hr || {};
+  window.S.hr.PUserInfoSmallRow = PUserInfoSmallRow;
+}

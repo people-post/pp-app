@@ -1,5 +1,4 @@
-(function(stat) {
-window.CF_VISIT_SUMMARY_INFO = {
+export const CF_VISIT_SUMMARY_INFO = {
   ONCLICK : "CF_VISIT_SUMMARY_INFO_1",
 }
 
@@ -8,7 +7,7 @@ const _CFT_VISIT_SUMMARY_INFO = {
     <div>__N_VISITS__</div>`,
 }
 
-class FVisitInfo extends ui.Fragment {
+export class FVisitInfo extends ui.Fragment {
   constructor() {
     super();
     this._data = null;
@@ -61,5 +60,9 @@ class FVisitInfo extends ui.Fragment {
   }
 };
 
-stat.FVisitInfo = FVisitInfo;
-}(window.stat = window.stat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.CF_VISIT_SUMMARY_INFO = CF_VISIT_SUMMARY_INFO;
+  window.stat = window.stat || {};
+  window.stat.FVisitInfo = FVisitInfo;
+}

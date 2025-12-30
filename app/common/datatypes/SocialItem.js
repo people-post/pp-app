@@ -1,5 +1,4 @@
-(function(dat) {
-class SocialItem extends dat.ServerDataObject {
+export class SocialItem extends dat.ServerDataObject {
   // Synced with backend
   static TYPE = {
     ARTICLE : "ARTICLE",
@@ -66,5 +65,8 @@ class SocialItem extends dat.ServerDataObject {
   getOgpData() { return null; }
 };
 
-dat.SocialItem = SocialItem;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.SocialItem = SocialItem;
+}

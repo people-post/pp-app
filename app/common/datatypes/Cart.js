@@ -1,5 +1,4 @@
-(function(dat) {
-class Cart {
+export class Cart {
   // Synced with backend
   static T_ID = {
     ACTIVE : "ACTIVE",
@@ -50,5 +49,8 @@ class Cart {
   }
 };
 
-dat.Cart = Cart;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Cart = Cart;
+}

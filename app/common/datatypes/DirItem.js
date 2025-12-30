@@ -1,5 +1,4 @@
-(function(dat) {
-class DirItem extends dat.ServerDataObject {
+export class DirItem extends dat.ServerDataObject {
   constructor(data, parentItem = null) {
     super(data);
     this._subItems = this.#initSubItems(data.sub_items);
@@ -62,5 +61,8 @@ class DirItem extends dat.ServerDataObject {
   }
 };
 
-dat.DirItem = DirItem;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.DirItem = DirItem;
+}

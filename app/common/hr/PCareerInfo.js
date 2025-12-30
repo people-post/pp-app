@@ -1,6 +1,3 @@
-(function(S) {
-S.hr = S.hr || {};
-
 const _CPT_CAREER_INFO = {
   MAIN :
       `<div id="__ID_MAIN__" class="pad5px bd-b-solid bdlightgray bd1px clickable">
@@ -11,7 +8,7 @@ const _CPT_CAREER_INFO = {
   </div>`,
 };
 
-class PCareerInfo extends ui.Panel {
+export class PCareerInfo extends ui.Panel {
   constructor() {
     super();
     this._pName = new ui.Panel();
@@ -45,5 +42,9 @@ class PCareerInfo extends ui.Panel {
   }
 };
 
-S.hr.PCareerInfo = PCareerInfo;
-}(window.S = window.S || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.S = window.S || {};
+  window.S.hr = window.S.hr || {};
+  window.S.hr.PCareerInfo = PCareerInfo;
+}

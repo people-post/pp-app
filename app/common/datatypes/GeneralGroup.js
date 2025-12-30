@@ -1,5 +1,4 @@
-(function(dat) {
-class GeneralGroup extends dat.ServerDataObject {
+export class GeneralGroup extends dat.ServerDataObject {
   // Synced with backend
   static T_TAG_ID = {
     TAG : "5fe245a4adc8019539df9d1c",
@@ -14,5 +13,8 @@ class GeneralGroup extends dat.ServerDataObject {
     return this._data.theme ? new dat.ColorTheme(this._data.theme) : null;
   }
 };
-dat.GeneralGroup = GeneralGroup;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.GeneralGroup = GeneralGroup;
+}

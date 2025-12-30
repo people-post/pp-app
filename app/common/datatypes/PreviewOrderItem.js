@@ -1,5 +1,4 @@
-(function(dat) {
-class PreviewOrderItem {
+export class PreviewOrderItem {
   constructor(data) { this._data = data; }
   getDescription() { return this._data.description; }
   getSpecs() { return this._data.specs; }
@@ -7,5 +6,8 @@ class PreviewOrderItem {
   getUnitPrice() { return this._data.unit_price; }
 };
 
-dat.PreviewOrderItem = PreviewOrderItem;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.PreviewOrderItem = PreviewOrderItem;
+}

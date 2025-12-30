@@ -1,11 +1,10 @@
-(function(srch) {
 const _CFT_SEARCH = {
   BRIEF : `Results found: __N_RESULTS__`,
   NO_RESULT :
       `We are sorry that we couldn't find any meaningful result, please try again...`,
 };
 
-class FSearch extends ui.Fragment {
+export class FSearch extends ui.Fragment {
   #fBar;
   #fContent;
   #tResultLayout = null;
@@ -101,5 +100,8 @@ class FSearch extends ui.Fragment {
   }
 };
 
-srch.FSearch = FSearch;
-}(window.srch = window.srch || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.srch = window.srch || {};
+  window.srch.FSearch = FSearch;
+}

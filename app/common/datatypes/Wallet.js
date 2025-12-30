@@ -1,5 +1,4 @@
-(function(dat) {
-class Wallet extends dat.DataObject {
+export class Wallet extends dat.DataObject {
   // BIP44: m/purpose'/coin_type'/account'/role/index
   // Purpose derivation (See BIP43)
   static T_PURPOSE = {
@@ -12,5 +11,8 @@ class Wallet extends dat.DataObject {
   };
 };
 
-dat.Wallet = Wallet;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Wallet = Wallet;
+}

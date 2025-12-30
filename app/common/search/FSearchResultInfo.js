@@ -1,5 +1,4 @@
-(function(srch) {
-srch.CF_SEARCH_RESULT_INFO = {
+export const CF_SEARCH_RESULT_INFO = {
   ON_CLICK : Symbol(),
 };
 
@@ -26,14 +25,14 @@ const _CPT_SEARCH_RESULT_INFO = {
   KEYWORD : `<span class="search-result-match">__KEYWORD__</span>`,
 };
 
-class PSearchResultInfo extends ui.Panel {
+export class PSearchResultInfo extends ui.Panel {
   getTimePanel() { return null; }
   getIconPanel() { return null; }
   getTitlePanel() { return null; }
   getContentPanel() { return null; }
 };
 
-class PSearchResultInfoTitleOnly extends PSearchResultInfo {
+export class PSearchResultInfoTitleOnly extends PSearchResultInfo {
   #pTitle;
 
   constructor() {
@@ -55,7 +54,7 @@ class PSearchResultInfoTitleOnly extends PSearchResultInfo {
   }
 };
 
-class PSearchResultInfoBrief extends PSearchResultInfo {
+export class PSearchResultInfoBrief extends PSearchResultInfo {
   #pContent;
   #pTime;
 
@@ -82,7 +81,7 @@ class PSearchResultInfoBrief extends PSearchResultInfo {
   }
 };
 
-class PSearchResultInfoNormal extends PSearchResultInfo {
+export class PSearchResultInfoNormal extends PSearchResultInfo {
   #pIcon;
   #pTitle;
   #pContent;
@@ -119,7 +118,7 @@ class PSearchResultInfoNormal extends PSearchResultInfo {
   }
 };
 
-class FSearchResultInfo extends ui.Fragment {
+export class FSearchResultInfo extends ui.Fragment {
   static T_LAYOUT = {
     BRIEF : Symbol(),
     TITLE_ONLY: Symbol(),
@@ -133,7 +132,7 @@ class FSearchResultInfo extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case srch.CF_SEARCH_RESULT_INFO.ON_CLICK:
+    case CF_SEARCH_RESULT_INFO.ON_CLICK:
       this.#onClick();
       break;
     default:
@@ -237,5 +236,13 @@ class FSearchResultInfo extends ui.Fragment {
   }
 };
 
-srch.FSearchResultInfo = FSearchResultInfo;
-}(window.srch = window.srch || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.srch = window.srch || {};
+  window.srch.CF_SEARCH_RESULT_INFO = CF_SEARCH_RESULT_INFO;
+  window.srch.PSearchResultInfo = PSearchResultInfo;
+  window.srch.PSearchResultInfoTitleOnly = PSearchResultInfoTitleOnly;
+  window.srch.PSearchResultInfoBrief = PSearchResultInfoBrief;
+  window.srch.PSearchResultInfoNormal = PSearchResultInfoNormal;
+  window.srch.FSearchResultInfo = FSearchResultInfo;
+}

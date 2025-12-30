@@ -1,5 +1,4 @@
-(function(pay) {
-class FvcPaymentTerminal extends ui.FScrollViewContent {
+export class FvcPaymentTerminal extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fTerminal = new pay.FPaymentTerminal();
@@ -21,5 +20,8 @@ class FvcPaymentTerminal extends ui.FScrollViewContent {
   }
 };
 
-pay.FvcPaymentTerminal = FvcPaymentTerminal;
-}(window.pay = window.pay || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pay = window.pay || {};
+  window.pay.FvcPaymentTerminal = FvcPaymentTerminal;
+}

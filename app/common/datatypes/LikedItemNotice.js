@@ -1,5 +1,4 @@
-(function(dat) {
-class LikedItemNotice extends dat.Notice {
+export class LikedItemNotice extends dat.Notice {
   constructor(itemId, itemType) {
     super();
     this._itemId = itemId;
@@ -38,5 +37,8 @@ class LikedItemNotice extends dat.Notice {
   addData(d) { this._elements.push(d); }
 };
 
-dat.LikedItemNotice = LikedItemNotice;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.LikedItemNotice = LikedItemNotice;
+}

@@ -1,5 +1,4 @@
-(function(dat) {
-class UserRequest extends dat.ServerDataObject {
+export class UserRequest extends dat.ServerDataObject {
   // Synced with backend
   static T_CATEGORY = {
       JOIN_GROUP : "JOIN_GROUP",
@@ -17,5 +16,8 @@ class UserRequest extends dat.ServerDataObject {
   getMessage() { return this._data.message; }
 };
 
-dat.UserRequest = UserRequest;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.UserRequest = UserRequest;
+}

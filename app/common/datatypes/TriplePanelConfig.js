@@ -1,9 +1,11 @@
-(function(dat) {
-class TriplePanelConfig extends dat.FrontPageLayoutConfig {
+export class TriplePanelConfig extends dat.FrontPageLayoutConfig {
   getLeftValue() { return this._getData("left"); }
   getRightValue() { return this._getData("right"); }
   getBottomValue() { return this._getData("bottom"); }
 };
 
-dat.TriplePanelConfig = TriplePanelConfig;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.TriplePanelConfig = TriplePanelConfig;
+}

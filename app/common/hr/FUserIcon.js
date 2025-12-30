@@ -1,6 +1,4 @@
-(function(S) {
-S.hr = S.hr || {};
-window.CF_USER_ICON = {
+export const CF_USER_ICON = {
   USER_INFO : "CF_USER_ICON_1",
 };
 
@@ -11,7 +9,7 @@ const _CFT_USER_ICON = {
   </span>`,
 };
 
-class FUserIcon extends ui.Fragment {
+export class FUserIcon extends ui.Fragment {
   static ST_SMALL = "SMALL";
   static ST_MIDDLE = "MIDDLE";
   static ST_LARGE = "LARGE";
@@ -88,7 +86,12 @@ class FUserIcon extends ui.Fragment {
       fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO, this.#userId);
     }
   }
-};
+}
 
-S.hr.FUserIcon = FUserIcon;
-}(window.S = window.S || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.CF_USER_ICON = CF_USER_ICON;
+  window.S = window.S || {};
+  window.S.hr = window.S.hr || {};
+  window.S.hr.FUserIcon = FUserIcon;
+}

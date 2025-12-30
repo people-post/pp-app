@@ -1,5 +1,4 @@
-(function(dat) {
-class WorkshopTeam extends dat.UserRole {
+export class WorkshopTeam extends dat.UserRole {
   // Sync with backend
   static T_PERMISSION = {
     CREATE : "CREATE",
@@ -16,5 +15,8 @@ class WorkshopTeam extends dat.UserRole {
   hasPermission(id) { return this._data.data.permissions.indexOf(id) >= 0; }
 };
 
-dat.WorkshopTeam = WorkshopTeam;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.WorkshopTeam = WorkshopTeam;
+}

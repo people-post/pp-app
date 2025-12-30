@@ -1,5 +1,4 @@
-(function(dat) {
-class OgpData {
+export class OgpData {
   constructor() {
     this._id = null;
     this._type = "";
@@ -33,5 +32,8 @@ class OgpData {
   setFiles(files) { this._files = files; }
 };
 
-dat.OgpData = OgpData;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.OgpData = OgpData;
+}

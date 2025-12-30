@@ -1,4 +1,4 @@
-const Encoder = require("common/Encoder");
+import Encoder from "../misc/Encoder.js";
 
 describe("Encoder test", () => {
   test("encode/decode test", () => {

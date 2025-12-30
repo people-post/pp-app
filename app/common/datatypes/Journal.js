@@ -1,5 +1,4 @@
-(function(dat) {
-class Journal {
+export class Journal {
   #data;
   #config;
 
@@ -30,5 +29,8 @@ class Journal {
   }
 };
 
-dat.Journal = Journal;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Journal = Journal;
+}

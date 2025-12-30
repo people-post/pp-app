@@ -1,6 +1,4 @@
-(function(dba) {
-
-dba.Workshop = function() {
+export const Workshop = function() {
   let _lib = new Map();
   let _config = null;
 
@@ -89,4 +87,10 @@ dba.Workshop = function() {
     reloadProject : _reloadProject,
   };
 }();
-}(window.dba = window.dba || {}));
+}();
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Workshop = Workshop;
+}

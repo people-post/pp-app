@@ -1,9 +1,8 @@
-(function(socl) {
-socl.CF_LIKED_ITEM_NOTICE = {
+export const CF_LIKED_ITEM_NOTICE = {
   ONCLICK : "CF_SOCL_LIKED_ITEM_NOTICE_1",
 }
 
-class FLikedItemNotice extends ui.Fragment {
+export class FLikedItemNotice extends ui.Fragment {
   constructor() {
     super();
     this._notice = null;
@@ -29,7 +28,7 @@ class FLikedItemNotice extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case socl.CF_LIKED_ITEM_NOTICE.ONCLICK:
+    case CF_LIKED_ITEM_NOTICE.ONCLICK:
       this.#onClick();
       break;
     default:
@@ -128,5 +127,9 @@ class FLikedItemNotice extends ui.Fragment {
   #onMarkReadershipRRR(responseText) {}
 };
 
-socl.FLikedItemNotice = FLikedItemNotice;
-}(window.socl = window.socl || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.socl = window.socl || {};
+  window.socl.CF_LIKED_ITEM_NOTICE = CF_LIKED_ITEM_NOTICE;
+  window.socl.FLikedItemNotice = FLikedItemNotice;
+}

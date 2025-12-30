@@ -1,5 +1,4 @@
-(function(dat) {
-class SupplierOrderItem extends dat.ServerDataObject {
+export class SupplierOrderItem extends dat.ServerDataObject {
   getDescription() { return this._data.product.description; }
   getQuantity() { return this._data.product.quantity; }
   getUnitPrice() { return this._data.product.unit_price; }
@@ -9,5 +8,8 @@ class SupplierOrderItem extends dat.ServerDataObject {
   }
 };
 
-dat.SupplierOrderItem = SupplierOrderItem;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.SupplierOrderItem = SupplierOrderItem;
+}

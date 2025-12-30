@@ -1,5 +1,4 @@
-(function(pay) {
-class FPaymentTerminalList extends ui.Fragment {
+export class FPaymentTerminalList extends ui.Fragment {
   constructor() {
     super();
     this._fItems = new ui.FSimpleFragmentList();
@@ -107,5 +106,8 @@ class FPaymentTerminalList extends ui.Fragment {
   }
 };
 
-pay.FPaymentTerminalList = FPaymentTerminalList;
-}(window.pay = window.pay || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pay = window.pay || {};
+  window.pay.FPaymentTerminalList = FPaymentTerminalList;
+}
