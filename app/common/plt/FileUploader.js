@@ -1,5 +1,4 @@
-(function(plt) {
-class FileUploader extends ext.Controller {
+export class FileUploader extends ext.Controller {
   constructor() {
     super();
     this._file = null;
@@ -57,7 +56,10 @@ class FileUploader extends ext.Controller {
   _asyncUploadThumbnail(file) {}
 
   _asyncUploadFile(file) {}
-};
+}
 
-plt.FileUploader = FileUploader;
-}(window.plt = window.plt || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.plt = window.plt || {};
+  window.plt.FileUploader = FileUploader;
+}

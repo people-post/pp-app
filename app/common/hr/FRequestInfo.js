@@ -1,7 +1,4 @@
-(function(S) {
-S.hr = S.hr || {};
-
-S.hr.CF_REQUEST_INFO = {
+export const CF_REQUEST_INFO = {
   ACCEPT : "CF_GUI_REQUEST_INFO_1",
   DECLINE : "CF_GUI_REQUEST_INFO_2",
   IGNORE : "CF_GUI_REQUEST_INFO_3",
@@ -22,7 +19,7 @@ const _CFT_REQUEST_INFO = {
   JOIN_GROUP : `__USER__ request to join __GROUP__.`,
 }
 
-class FRequestInfo extends ui.Fragment {
+export class FRequestInfo extends ui.Fragment {
   constructor() {
     super();
     this._requestId = null;
@@ -32,19 +29,19 @@ class FRequestInfo extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case S.hr.CF_REQUEST_INFO.ACCEPT:
+    case CF_REQUEST_INFO.ACCEPT:
       this.#onAccept();
       break;
-    case S.hr.CF_REQUEST_INFO.DECLINE:
+    case CF_REQUEST_INFO.DECLINE:
       this.#onDecline();
       break;
-    case S.hr.CF_REQUEST_INFO.IGNORE:
+    case CF_REQUEST_INFO.IGNORE:
       this.#onIgnore();
       break;
-    case S.hr.CF_REQUEST_INFO.USER_INFO:
+    case CF_REQUEST_INFO.USER_INFO:
       this.#onShowUserInfo(args[0]);
       break;
-    case S.hr.CF_REQUEST_INFO.GROUP_INFO:
+    case CF_REQUEST_INFO.GROUP_INFO:
       this.#onShowGroupInfo(args[0]);
       break;
     default:
@@ -162,5 +159,10 @@ class FRequestInfo extends ui.Fragment {
   }
 };
 
-S.hr.FRequestInfo = FRequestInfo;
-}(window.S = window.S || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.S = window.S || {};
+  window.S.hr = window.S.hr || {};
+  window.S.hr.CF_REQUEST_INFO = CF_REQUEST_INFO;
+  window.S.hr.FRequestInfo = FRequestInfo;
+}
