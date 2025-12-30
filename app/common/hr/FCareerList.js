@@ -1,13 +1,18 @@
-export class FCareerList extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { Label } from '../../lib/ui/controllers/fragments/Label.js';
+import { T_DATA } from '../plt/Events.js';
+
+export class FCareerList extends Fragment {
   constructor() {
     super();
-    this._fGroups = new ui.FSimpleFragmentList();
+    this._fGroups = new FSimpleFragmentList();
     this.setChild("groups", this._fGroups);
   }
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PROFILE:
       this.render();
       break;
     default:
@@ -30,8 +35,8 @@ export class FCareerList extends ui.Fragment {
   }
 
   #createGroupFragment(name, fragments) {
-    let fGroup = new ui.FSimpleFragmentList();
-    let fHeader = new ui.Label(name);
+    let fGroup = new FSimpleFragmentList();
+    let fHeader = new Label(name);
     if (!name) {
       fHeader.setText("Ungrouped");
     }
@@ -43,7 +48,7 @@ export class FCareerList extends ui.Fragment {
         fGroup.append(f);
       }
     } else {
-      fGroup.append(new ui.Label("[Empty]"));
+      fGroup.append(new Label("[Empty]"));
     }
     return fGroup;
   }

@@ -1,3 +1,18 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/views/FScrollViewContent.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { FUserIcon } from './FUserIcon.js';
+import { Groups } from '../dba/Groups.js';
+import { Account } from '../dba/Account.js';
+import { WebConfig } from '../dba/WebConfig.js';
+import { T_DATA } from '../plt/Events.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { api } from '../plt/Api.js';
+
 const _CF_USER_GROUP_CONTENT = {
   HEAD : `<div>
     <br>
@@ -11,15 +26,15 @@ const _CF_USER_GROUP_CONTENT = {
   </div>`,
 }
 
-export class FvcUserGroup extends ui.FScrollViewContent {
+export class FvcUserGroup extends FScrollViewContent {
   constructor() {
     super();
-    this._fMembers = new ui.FSimpleFragmentList();
+    this._fMembers = new FSimpleFragmentList();
     this._fMembers.setGridMode(true);
-    this._fLeave = new ui.Button();
+    this._fLeave = new Button();
     this._fLeave.setName("Leave...");
-    this._fLeave.setThemeType(ui.Button.T_THEME.DANGER);
-    this._fLeave.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
+    this._fLeave.setThemeType(Button.T_THEME.DANGER);
+    this._fLeave.setLayoutType(Button.LAYOUT_TYPE.BAR);
     this._fLeave.setDelegate(this);
 
     this.setChild("members", this._fMembers);
@@ -31,7 +46,7 @@ export class FvcUserGroup extends ui.FScrollViewContent {
   setGroupId(id) { this._groupId = id; }
 
   onSimpleButtonClicked(fButton) {
-    let group = dba.Groups.get(this._groupId);
+    let group = Groups.get(this._groupId);
     if (group) {
       this._confirmDangerousOperation(R.get("CONFIRM_LEAVE_GROUP"),
                                       () =>
@@ -40,7 +55,7 @@ export class FvcUserGroup extends ui.FScrollViewContent {
   }
 
   onIconClickedInUserIconFragment(fUserIcon, userId) {
-    fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO, userId);
+    Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 
   action(type, ...args) {
@@ -53,7 +68,7 @@ export class FvcUserGroup extends ui.FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.GROUPS:
+    case T_DATA.GROUPS:
       this.render();
       break;
     default:
@@ -63,23 +78,23 @@ export class FvcUserGroup extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let group = dba.Groups.get(this._groupId);
+    let group = Groups.get(this._groupId);
     if (!group) {
       return;
     }
 
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderHead(group));
 
-    pp = new ui.SectionPanel("Members");
+    pp = new SectionPanel("Members");
     p.pushPanel(pp);
     this._fMembers.clear();
     for (let id of group.getMemberIds()) {
-      let f = new S.hr.FUserIcon();
+      let f = new FUserIcon();
       f.setUserId(id);
       f.setDelegate(this);
       this._fMembers.append(f);
@@ -87,10 +102,10 @@ export class FvcUserGroup extends ui.FScrollViewContent {
     this._fMembers.attachRender(pp.getContentPanel());
     this._fMembers.render();
 
-    if (dba.Account.isInGroup(group.getId()) &&
-        dba.Account.getId() != group.getOwnerId()) {
+    if (Account.isInGroup(group.getId()) &&
+        Account.getId() != group.getOwnerId()) {
       p.pushSpace(1);
-      pp = new ui.PanelWrapper();
+      pp = new PanelWrapper();
       p.pushPanel(pp);
       this._fLeave.attachRender(pp);
       this._fLeave.render();
@@ -110,13 +125,13 @@ export class FvcUserGroup extends ui.FScrollViewContent {
     let fd = new FormData();
     fd.append("id", groupId);
     let url = "api/career/resign_role";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onLeaveGroupRRR(d));
   }
 
   #onLeaveGroupRRR(data) {
-    dba.Account.reset(data.profile);
-    dba.WebConfig.reset(data.web_config);
+    Account.reset(data.profile);
+    WebConfig.reset(data.web_config);
     this._owner.onContentFragmentRequestPopView(this);
   }
 };

@@ -1,3 +1,5 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
 const _CPT_CAREER_INFO = {
   MAIN :
       `<div id="__ID_MAIN__" class="pad5px bd-b-solid bdlightgray bd1px clickable">
@@ -8,11 +10,11 @@ const _CPT_CAREER_INFO = {
   </div>`,
 };
 
-export class PCareerInfo extends ui.Panel {
+export class PCareerInfo extends Panel {
   constructor() {
     super();
-    this._pName = new ui.Panel();
-    this._pStatus = new ui.Panel();
+    this._pName = new Panel();
+    this._pStatus = new Panel();
   }
 
   isHighlightable() { return true; }

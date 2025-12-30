@@ -1,3 +1,8 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Menus } from '../dba/Menus.js';
+import { WebConfig } from '../dba/WebConfig.js';
+
 export const CF_MENU_ITEM_NAME = {
   ONCLICK : "CF_GUI_MENU_ITEM_NAME_1",
   DELETE : "CF_GUI_MENU_ITEM_NAME_2",
@@ -20,7 +25,7 @@ const _CFT_MENU_ITEM_NAME = {
       `<span class="clickable underline" onclick="javascript:G.action(gui.CF_MENU_ITEM_NAME.ONCLICK)">__TEXT__</span>`,
 }
 
-export class MenuItemName extends ui.Fragment {
+export class MenuItemName extends Fragment {
   constructor(itemId) {
     super();
     this._itemId = itemId;
@@ -41,7 +46,7 @@ export class MenuItemName extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.Panel();
+    let p = new Panel();
     p.setClassName("");
     render.wrapPanel(p);
     p.replaceContent(this._renderName());
@@ -49,7 +54,7 @@ export class MenuItemName extends ui.Fragment {
 
   _renderName() {
     let item = this._getItem();
-    let tag = dba.WebConfig.getTag(item.getTagId());
+    let tag = WebConfig.getTag(item.getTagId());
     let s = _CFT_MENU_ITEM_NAME.MAIN;
     let name = tag ? tag.getName() : item.getName();
     if (item.getDepth() < 5) {
@@ -59,7 +64,7 @@ export class MenuItemName extends ui.Fragment {
     return s;
   }
 
-  _getItem() { return dba.Menus.find(this._itemId); }
+  _getItem() { return Menus.find(this._itemId); }
 
   #onClick() {
     this._delegate.onItemClickedInGuiMenuItemName(this, this._itemId);

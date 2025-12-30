@@ -1,14 +1,18 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import Utilities from '../Utilities.js';
+
 const _CPT_USER_REFERENCE = {
   MAIN : `<span class="inline-block s-icon5 v-middle-align">__REF_ICON__</span>
     <span id="__ID_TEXT__"></span>
     <span id="__ID_USER__"></span>`,
 }
 
-export class PUserReference extends ui.Panel {
+export class PUserReference extends Panel {
   constructor() {
     super();
-    this._pText = new ui.Panel();
-    this._pUser = new ui.PanelWrapper();
+    this._pText = new Panel();
+    this._pUser = new PanelWrapper();
   }
 
   getTextPanel() { return this._pText; }
