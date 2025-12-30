@@ -1,7 +1,9 @@
-(function(main) {
-class LvMain extends main.LvTabbedPage {
+import { LvTabbedPage } from './LvTabbedPage.js';
+import { FHomeBtn } from './FHomeBtn.js';
+
+export class LvMain extends LvTabbedPage {
   init() {
-    let f = new main.FHomeBtn();
+    let f = new FHomeBtn();
     f.setUrl(dba.WebConfig.getHomeUrl());
     this.setHomeBtnFragment(f);
     super.init();
@@ -61,5 +63,8 @@ class LvMain extends main.LvTabbedPage {
   }
 };
 
-main.LvMain = LvMain;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.LvMain = LvMain;
+}

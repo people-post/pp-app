@@ -1,5 +1,6 @@
-(function(main) {
-class WcGadget extends main.WcSession {
+import { WcSession } from './WcSession.js';
+
+export class WcGadget extends WcSession {
   onCountdownCancelledInCountdownContentFragment(fvcCountdown) {
     this._reload();
   }
@@ -67,5 +68,8 @@ class WcGadget extends main.WcSession {
   }
 };
 
-main.WcGadget = WcGadget;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.WcGadget = WcGadget;
+}

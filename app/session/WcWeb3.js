@@ -1,5 +1,6 @@
-(function(main) {
-class WcWeb3 extends main.WcSession {
+import { WcSession } from './WcSession.js';
+
+export class WcWeb3 extends WcSession {
   #postingKeyPath =
       [ dat.Wallet.T_PURPOSE.NFSC001, dat.Wallet.T_COIN.NFSC001, 0, 0, 0 ];
 
@@ -137,5 +138,8 @@ class WcWeb3 extends main.WcSession {
   }
 };
 
-main.WcWeb3 = WcWeb3;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.WcWeb3 = WcWeb3;
+}

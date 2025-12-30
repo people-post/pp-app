@@ -1,5 +1,6 @@
-(function(main) {
-class WcSub extends main.WcSession {
+import { WcSession } from './WcSession.js';
+
+export class WcSub extends WcSession {
   topAction(type, ...args) {
     switch (type) {
     case plt.T_ACTION.LOGIN_SUCCESS:
@@ -38,5 +39,8 @@ class WcSub extends main.WcSession {
   }
 };
 
-main.WcSub = WcSub;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.WcSub = WcSub;
+}

@@ -1,4 +1,3 @@
-(function(main) {
 const _CRCT_SESSION = {
   // Prime, secondary: User defined
   // Menu: Has good contrast with prime, black/white
@@ -36,7 +35,7 @@ const _CRCT_SESSION = {
     `,
 };
 
-class WcSession extends ui.WindowController {
+export class WcSession extends ui.WindowController {
   #fBanner;
   #logger;
 
@@ -390,5 +389,8 @@ class WcSession extends ui.WindowController {
   }
 };
 
-main.WcSession = WcSession;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.WcSession = WcSession;
+}

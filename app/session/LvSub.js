@@ -1,5 +1,6 @@
-(function(main) {
-class LvSub extends main.LvTabbedPage {
+import { LvTabbedPage } from './LvTabbedPage.js';
+
+export class LvSub extends LvTabbedPage {
   initFromUrl(urlParam) {
     this.setSectorId(urlParam.get(C.URL_PARAM.SECTOR));
     let pageId = urlParam.get(C.URL_PARAM.PAGE);
@@ -74,5 +75,8 @@ class LvSub extends main.LvTabbedPage {
   }
 };
 
-main.LvSub = LvSub;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.LvSub = LvSub;
+}

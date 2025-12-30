@@ -1,4 +1,3 @@
-(function(main) {
 const _CPT_WINDOW = {
   MAIN : `<div class="w100 h100 flex flex-column">
     <div id="__ID_BANNER__" class="banner s-csecondarybg"></div>
@@ -6,7 +5,7 @@ const _CPT_WINDOW = {
   </div>`,
 };
 
-class PWindow extends ui.Panel {
+export class PWindow extends ui.Panel {
   constructor() {
     super();
     this._pLayers = new ui.ListPanel();
@@ -36,5 +35,8 @@ class PWindow extends ui.Panel {
   }
 };
 
-main.PWindow = PWindow;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.PWindow = PWindow;
+}

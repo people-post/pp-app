@@ -1,5 +1,4 @@
-(function(main) {
-class LvPortal extends ui.ViewLayer {
+export class LvPortal extends ui.ViewLayer {
   constructor() {
     super();
     this._vc = new ui.ViewStack();
@@ -59,5 +58,8 @@ class LvPortal extends ui.ViewLayer {
   }
 };
 
-main.LvPortal = LvPortal;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.LvPortal = LvPortal;
+}

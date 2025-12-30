@@ -1,7 +1,10 @@
-(function(main) {
-class LvGadget extends main.LvMultiPage {
+import { LvMultiPage } from './LvMultiPage.js';
+import { FHomeBtn } from './FHomeBtn.js';
+import { PGadget } from './PGadget.js';
+
+export class LvGadget extends LvMultiPage {
   init() {
-    let f = new main.FHomeBtn();
+    let f = new FHomeBtn();
     f.setUrl(dba.WebConfig.getHomeUrl());
     this.setHomeBtnFragment(f);
     super.init();
@@ -34,7 +37,7 @@ class LvGadget extends main.LvMultiPage {
 
   _isExtrasPageNeeded() { return true; }
 
-  _createMainPanel() { return new main.PGadget(); }
+  _createMainPanel() { return new PGadget(); }
 
   _renderOnRender(render) {
     render.wrapPanel(this._pMain);
@@ -43,5 +46,8 @@ class LvGadget extends main.LvMultiPage {
   }
 };
 
-main.LvGadget = LvGadget;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.LvGadget = LvGadget;
+}

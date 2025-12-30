@@ -1,4 +1,3 @@
-(function(main) {
 const _CPT_GADGET = {
   MAIN : `<div class="f-gadget">
     <div id="__ID_CONTENT__" class="f-page" style="z-index: 1"></div>
@@ -6,7 +5,7 @@ const _CPT_GADGET = {
   </div>`,
 };
 
-class PGadget extends ui.Panel {
+export class PGadget extends ui.Panel {
   #pContent;
   #pConsoleOverlay;
 
@@ -37,5 +36,8 @@ class PGadget extends ui.Panel {
   }
 };
 
-main.PGadget = PGadget;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.PGadget = PGadget;
+}

@@ -1,5 +1,6 @@
-(function(main) {
-class WcMain extends main.WcSession {
+import { WcSession } from './WcSession.js';
+
+export class WcMain extends WcSession {
   onLoginClickInAccountActionButtonFragment(fAbAccount) {
     let gw = new auth.Gateway();
     let v = gw.createLoginView();
@@ -91,5 +92,8 @@ class WcMain extends main.WcSession {
   }
 };
 
-main.WcMain = WcMain;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.WcMain = WcMain;
+}

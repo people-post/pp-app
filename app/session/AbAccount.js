@@ -1,6 +1,5 @@
-(function(main) {
 // ActionButton needs some redesign
-class AbAccount extends ui.Fragment {
+export class AbAccount extends ui.Fragment {
   constructor() {
     super();
     this._fLogin = new gui.ActionButton();
@@ -38,5 +37,8 @@ class AbAccount extends ui.Fragment {
   }
 };
 
-main.AbAccount = AbAccount;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.AbAccount = AbAccount;
+}

@@ -1,5 +1,6 @@
-(function(main) {
-class LvMultiPage extends ui.ViewLayer {
+import { Gateway } from './Gateway.js';
+
+export class LvMultiPage extends ui.ViewLayer {
   #fBtnHome = null;
   #fAbDefault = null;
   #logger;
@@ -14,7 +15,7 @@ class LvMultiPage extends ui.ViewLayer {
     this._vc.setDataSource(this);
     this._vc.setDelegate(this);
 
-    this._gateway = new main.Gateway();
+    this._gateway = new Gateway();
     this.#logger = new ext.Logger("LvMultiPage");
   }
 
@@ -125,7 +126,7 @@ class LvMultiPage extends ui.ViewLayer {
   _getVisiblePageConfigs() {
     let configs = this._gateway.getPageConfigs();
     if (this._isExtrasPageNeeded()) {
-      configs.push(main.Gateway.T_CONFIG.EXTRAS);
+      configs.push(Gateway.T_CONFIG.EXTRAS);
     } else {
       configs = configs.concat(this._gateway.getExtrasPageConfigs());
     }
@@ -147,5 +148,8 @@ class LvMultiPage extends ui.ViewLayer {
   }
 };
 
-main.LvMultiPage = LvMultiPage;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.LvMultiPage = LvMultiPage;
+}

@@ -1,6 +1,5 @@
-(function(main) {
 // ActionButton needs some redesign
-class AbClose extends ui.Fragment {
+export class AbClose extends ui.Fragment {
   constructor() {
     super();
     this._fClose = new gui.ActionButton();
@@ -33,5 +32,8 @@ class AbClose extends ui.Fragment {
   }
 };
 
-main.AbClose = AbClose;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.AbClose = AbClose;
+}

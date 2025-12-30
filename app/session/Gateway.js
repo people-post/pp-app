@@ -1,7 +1,6 @@
 import { Controller } from '../lib/ext/Controller.js';
 
-(function(main) {
-class Gateway extends Controller {
+export class Gateway extends Controller {
   static T_CONFIG = {
     FRONT_PAGE :
         {ID : C.ID.SECTOR.FRONT_PAGE, NAME: "FrontPage", ICON: C.ICON.HOME},
@@ -439,5 +438,8 @@ class Gateway extends Controller {
   }
 };
 
-main.Gateway = Gateway;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.Gateway = Gateway;
+}

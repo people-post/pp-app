@@ -1,5 +1,6 @@
-(function(main) {
-class WcPortal extends main.WcSession {
+import { WcSession } from './WcSession.js';
+
+export class WcPortal extends WcSession {
   _createLayerFragment() { return new main.LvPortal(); }
 
   _initEventHandlers() {
@@ -14,5 +15,8 @@ class WcPortal extends main.WcSession {
   }
 };
 
-main.WcPortal = WcPortal;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.WcPortal = WcPortal;
+}

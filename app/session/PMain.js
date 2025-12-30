@@ -1,4 +1,3 @@
-(function(main) {
 const _CPT_MAIN = {
   MAIN : `<div class="h100 w100">
     <div class="h100 w100 flex" style="z-index: 1">
@@ -11,7 +10,7 @@ const _CPT_MAIN = {
   </div>`,
 };
 
-class PMain extends ui.Panel {
+export class PMain extends ui.Panel {
   #pConsoleColumn;
   #pConsoleOverlay;
   #pContent;
@@ -77,5 +76,8 @@ class PMain extends ui.Panel {
   }
 };
 
-main.PMain = PMain;
-}(window.main = window.main || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.main = window.main || {};
+  window.main.PMain = PMain;
+}

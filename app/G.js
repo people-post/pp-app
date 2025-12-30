@@ -1,7 +1,11 @@
-(function(glb) {
 // System level services
-glb.env = new plt.Env();
-}(window.glb = window.glb || {}));
+export const env = new plt.Env();
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.glb = window.glb || {};
+  window.glb.env = env;
+}
 
 const G = function() {
   let _session = null;
@@ -12,35 +16,35 @@ const G = function() {
   }
 
   function _initWeb3(dConfig) {
-    glb.env.setWindowType(C.TYPE.WINDOW.WEB3);
+    env.setWindowType(C.TYPE.WINDOW.WEB3);
     _session = new main.WcWeb3();
     fwk.Events.setOnLoadHandler("init", () => _session.main(dConfig));
   }
 
   function _initMain(userId, primaryColor, secondaryColor, lang) {
-    glb.env.setWindowType(C.TYPE.WINDOW.MAIN);
-    glb.env.setDefaultLanguage(lang);
+    env.setWindowType(C.TYPE.WINDOW.MAIN);
+    env.setDefaultLanguage(lang);
     _session = new main.WcMain();
     _initLoader(userId, primaryColor, secondaryColor);
   }
 
   function _initGadget(userId, primaryColor, secondaryColor, lang) {
-    glb.env.setWindowType(C.TYPE.WINDOW.GADGET);
-    glb.env.setDefaultLanguage(lang);
+    env.setWindowType(C.TYPE.WINDOW.GADGET);
+    env.setDefaultLanguage(lang);
     _session = new main.WcGadget();
     _initLoader(userId, primaryColor, secondaryColor);
   }
 
   function _initSub(userId, primaryColor, secondaryColor, lang) {
-    glb.env.setWindowType(C.TYPE.WINDOW.SUB);
-    glb.env.setDefaultLanguage(lang);
+    env.setWindowType(C.TYPE.WINDOW.SUB);
+    env.setDefaultLanguage(lang);
     _session = new main.WcSub();
     _initLoader(userId, primaryColor, secondaryColor);
   }
 
   function _initPortal(userId, primaryColor, secondaryColor, lang) {
-    glb.env.setWindowType(C.TYPE.WINDOW.PORTAL);
-    glb.env.setDefaultLanguage(lang);
+    env.setWindowType(C.TYPE.WINDOW.PORTAL);
+    env.setDefaultLanguage(lang);
     _session = new main.WcPortal();
     _initLoader(userId, primaryColor, secondaryColor);
   }
@@ -66,3 +70,5 @@ const G = function() {
     anchorClick : _anchorClick
   };
 }();
+
+export default G;
