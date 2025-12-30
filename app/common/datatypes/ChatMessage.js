@@ -1,4 +1,6 @@
-export class ChatMessage extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class ChatMessage extends ServerDataObject {
   // Synced with backend
   static T_TYPE = {
     TEXT : "TXT",

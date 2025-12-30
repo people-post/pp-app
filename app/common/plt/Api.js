@@ -1,5 +1,7 @@
 import ExtApi from '../../lib/ext/Api.js';
 import { URL_PARAM } from '../constants/Constants.js';
+import { RemoteError } from '../datatypes/RemoteError.js';
+import { WebConfig } from '../dba/WebConfig.js';
 
 export class Api {
   asyncCall(url) {
@@ -13,7 +15,7 @@ export class Api {
     return new Promise(
         (onOk, onErr) => ExtApi.asyncFormPost(
             this.#wrapUrl(url), data, txt => this.#onRRR(txt, onOk, onErr),
-            txt => onErr({type : dat.RemoteError.T_TYPE.CONN}), onProg));
+            txt => onErr({type : RemoteError.T_TYPE.CONN}), onProg));
   }
 
   asyncFragmentCall(f, url) {
@@ -49,7 +51,7 @@ export class Api {
 
   #dummyFunc(dummy) {}
 
-  #onConnErr(txt, onErr) { onErr({type : dat.RemoteError.T_TYPE.CONN}); }
+  #onConnErr(txt, onErr) { onErr({type : RemoteError.T_TYPE.CONN}); }
 
   #onFragmentConnErr(txt, f) {
     this.#onConnErr(txt, e => f.onRemoteErrorInFragment(f, e));
@@ -69,11 +71,11 @@ export class Api {
   }
 
   #wrapUrl(url) {
-    if (glb.env.isTrustedSite() || dba.WebConfig.isDevSite()) {
+    if (glb.env.isTrustedSite() || WebConfig.isDevSite()) {
       if (url.indexOf('?') > 0) {
-        return url + "&" + URL_PARAM.USER + "=" + dba.WebConfig.getOwnerId();
+        return url + "&" + URL_PARAM.USER + "=" + WebConfig.getOwnerId();
       } else {
-        return url + "?" + URL_PARAM.USER + "=" + dba.WebConfig.getOwnerId();
+        return url + "?" + URL_PARAM.USER + "=" + WebConfig.getOwnerId();
       }
     } else {
       return url;

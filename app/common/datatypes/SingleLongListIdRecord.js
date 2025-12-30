@@ -1,3 +1,5 @@
+import Utilities from '../../lib/ext/Utilities.js';
+
 export class SingleLongListIdRecord {
   #ids = [];
   #isComplete = false;
@@ -18,8 +20,8 @@ export class SingleLongListIdRecord {
 
   markComplete() { this.#isComplete = true; }
 
-  findIdBefore(id) { return ext.Utilities.findItemBefore(this.#ids, id); }
-  findIdAfter(id) { return ext.Utilities.findItemAfter(this.#ids, id); }
+  findIdBefore(id) { return Utilities.findItemBefore(this.#ids, id); }
+  findIdAfter(id) { return Utilities.findItemAfter(this.#ids, id); }
 
   removeId(id) {
     let idx = this.#ids.indexOf(id);

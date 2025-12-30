@@ -1,3 +1,10 @@
+import { WebConfig } from './WebConfig.js';
+import { Users } from './Users.js';
+import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import { api } from '../plt/Api.js';
+import { CustomerOrder } from '../datatypes/CustomerOrder.js';
+
 export class Web2Account {
   #userId = null;
   // TODO: Code reorg in web2
@@ -8,7 +15,7 @@ export class Web2Account {
 
   isWebOwner() {
     let id = this.getId();
-    return id && id == dba.WebConfig.getOwnerId();
+    return id && id == WebConfig.getOwnerId();
   }
 
   isAuthenticated() { return this.#profile || this.#userId; }
@@ -57,7 +64,7 @@ export class Web2Account {
   getCommunityId() { return this.#profile ? this.#profile.community_id : null; }
   getUserShopName(userId, defaultName) {
     let n = defaultName;
-    let u = dba.Users.get(userId);
+    let u = Users.get(userId);
     if (u) {
       n = u.getShopName();
       if (!n) {
@@ -72,7 +79,7 @@ export class Web2Account {
       return idol.nickname;
     }
 
-    let u = dba.Users.get(userId);
+    let u = Users.get(userId);
     if (u) {
       return u.getNickname();
     }
@@ -116,31 +123,31 @@ export class Web2Account {
   reset(profile) {
     this.#profile = profile;
     this.#orderLib.clear();
-    fwk.Events.trigger(plt.T_DATA.USER_PROFILE);
+    FwkEvents.trigger(PltT_DATA.USER_PROFILE);
   }
 
   updateOrder(order) {
     this.#orderLib.set(order.getId(), order);
-    fwk.Events.trigger(plt.T_DATA.CUSTOMER_ORDER, order);
+    FwkEvents.trigger(PltT_DATA.CUSTOMER_ORDER, order);
   }
 
   resetAddressIds(ids) {
     this.#profile.address_ids = ids;
-    fwk.Events.trigger(plt.T_DATA.USER_ADDRESS_IDS);
+    FwkEvents.trigger(PltT_DATA.USER_ADDRESS_IDS);
   }
 
   asyncFollow(userId) {
     let url = "api/user/follow";
     let fd = new FormData();
     fd.append("userId", userId);
-    plt.Api.asyncRawPost(url, fd, r => this.#onFollowRRR(r));
+    api.asyncRawPost(url, fd, r => this.#onFollowRRR(r));
   }
 
   asyncUnfollow(userId) {
     let url = "api/user/unfollow";
     let fd = new FormData();
     fd.append("userId", userId);
-    plt.Api.asyncRawPost(url, fd, r => this.#onFollowRRR(r));
+    api.asyncRawPost(url, fd, r => this.#onFollowRRR(r));
   }
 
   asyncReload() {
@@ -161,7 +168,7 @@ export class Web2Account {
   #onFollowRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       this.reset(response.data.profile);
     }
@@ -169,13 +176,13 @@ export class Web2Account {
 
   #asyncLoadProfile() {
     let url = "/api/user/profile";
-    plt.Api.asyncRawCall(url, r => this.#onProfileRRR(r));
+    api.asyncRawCall(url, r => this.#onProfileRRR(r));
   }
 
   #onProfileRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       this.reset(response.data.profile);
     }
@@ -183,13 +190,13 @@ export class Web2Account {
 
   #asyncLoadAddressIds() {
     let url = "/api/user/address_ids";
-    plt.Api.asyncRawCall(url, r => this.#onAddressIdsRRR(r));
+    api.asyncRawCall(url, r => this.#onAddressIdsRRR(r));
   }
 
   #onAddressIdsRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       this.resetAddressIds(response.data.address_ids);
     }
@@ -197,19 +204,19 @@ export class Web2Account {
 
   #asyncLoadOrder(id) {
     let url = "/api/user/order?id=" + id;
-    plt.Api.asyncRawCall(url, r => this.#onOrderRRR(r, id));
+    api.asyncRawCall(url, r => this.#onOrderRRR(r, id));
   }
 
   #onOrderRRR(responseText, id) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data.order) {
-        this.updateOrder(new dat.CustomerOrder(response.data.order));
+        this.updateOrder(new CustomerOrder(response.data.order));
       } else {
         this.#orderLib.set(id, null);
-        fwk.Events.trigger(plt.T_DATA.CUSTOMER_ORDER, null);
+        FwkEvents.trigger(PltT_DATA.CUSTOMER_ORDER, null);
       }
     }
   }

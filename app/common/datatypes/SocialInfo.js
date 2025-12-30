@@ -1,4 +1,6 @@
-export class SocialInfo extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class SocialInfo extends ServerDataObject {
   isLiked() { return this._data.is_liked; }
   isLinked() { return this._data.is_linked; }
 

@@ -1,4 +1,6 @@
-export class ShopTeam extends dat.UserRole {
+import { UserRole } from './UserRole.js';
+
+export class ShopTeam extends UserRole {
   // Sync with backend
   static T_STATUS = {
     DISABLED : "DISABLED",

@@ -1,4 +1,6 @@
-export class ProductServiceTimeslot extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+
+export class ProductServiceTimeslot extends ServerDataObject {
   // All time values are timestamp in seconds
   static T_REP = {
     ONCE : "ONCE",

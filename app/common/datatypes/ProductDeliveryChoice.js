@@ -1,4 +1,10 @@
-export class ProductDeliveryChoice extends dat.ServerDataObject {
+import { ServerDataObject } from './ServerDataObject.js';
+import { PhysicalGoodDelivery } from './PhysicalGoodDelivery.js';
+import { DigitalGoodDelivery } from './DigitalGoodDelivery.js';
+import { QueueServiceDelivery } from './QueueServiceDelivery.js';
+import { AppointmentServiceDelivery } from './AppointmentServiceDelivery.js';
+
+export class ProductDeliveryChoice extends ServerDataObject {
   static TYPE =
       {GOOD : null, DIGITAL: "DIGITAL", SCHEDULE: "SCHEDULE", QUEUE: "QUEUE"};
 
@@ -14,16 +20,16 @@ export class ProductDeliveryChoice extends dat.ServerDataObject {
     let obj;
     switch (type) {
     case this.constructor.TYPE.GOOD:
-      obj = new dat.PhysicalGoodDelivery(data);
+      obj = new PhysicalGoodDelivery(data);
       break;
     case this.constructor.TYPE.DIGITAL:
-      obj = new dat.DigitalGoodDelivery(data);
+      obj = new DigitalGoodDelivery(data);
       break;
     case this.constructor.TYPE.QUEUE:
-      obj = new dat.QueueServiceDelivery(data);
+      obj = new QueueServiceDelivery(data);
       break;
     case this.constructor.TYPE.SCHEDULE:
-      obj = new dat.AppointmentServiceDelivery(data);
+      obj = new AppointmentServiceDelivery(data);
       break;
     default:
       console.log("Unsupported type: " + type);

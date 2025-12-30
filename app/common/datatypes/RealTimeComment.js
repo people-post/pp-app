@@ -1,4 +1,6 @@
-export class RealTimeComment extends dat.ChatMessage {
+import { ChatMessage } from './ChatMessage.js';
+
+export class RealTimeComment extends ChatMessage {
   // Synced with backend
   static T_STATUS = {
     PENDING : "PENDING",

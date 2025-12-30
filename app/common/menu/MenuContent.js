@@ -1,4 +1,6 @@
-export class MenuContent extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export class MenuContent extends Fragment {
   constructor() {
     super();
     this._isQuickLinkRenderMode = false;
