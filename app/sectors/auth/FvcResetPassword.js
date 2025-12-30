@@ -37,7 +37,7 @@ export class FvcResetPassword extends ui.FScrollViewContent {
 
   action(type, ...args) {
     switch (type) {
-    case auth.CF_RESET_PASSWORD.SUBMIT:
+    case CF_RESET_PASSWORD.SUBMIT:
       this.#onSubmit();
       break;
     default:

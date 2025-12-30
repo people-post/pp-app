@@ -1,8 +1,11 @@
 import { WcSession } from './WcSession.js';
+import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
+import { LvMain } from './LvMain.js';
+import { AbAccount } from './AbAccount.js';
 
 export class WcMain extends WcSession {
   onLoginClickInAccountActionButtonFragment(fAbAccount) {
-    let gw = new auth.Gateway();
+    let gw = new AuthGateway();
     let v = gw.createLoginView();
     this._pushView(v, "Login");
   }
@@ -28,10 +31,10 @@ export class WcMain extends WcSession {
     }
   }
 
-  _createLayerFragment() { return new main.LvMain(); }
+  _createLayerFragment() { return new LvMain(); }
 
   _initLayer(lc) {
-    let fAb = new main.AbAccount();
+    let fAb = new AbAccount();
     fAb.setDelegate(this);
     lc.setDefaultActionButton(fAb);
     lc.setDefaultPageId(dba.WebConfig.getHomeSector());

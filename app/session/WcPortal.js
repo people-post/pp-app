@@ -1,7 +1,8 @@
 import { WcSession } from './WcSession.js';
+import { LvPortal } from './LvPortal.js';
 
 export class WcPortal extends WcSession {
-  _createLayerFragment() { return new main.LvPortal(); }
+  _createLayerFragment() { return new LvPortal(); }
 
   _initEventHandlers() {
     super._initEventHandlers();

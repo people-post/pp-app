@@ -1,4 +1,5 @@
 import { WcSession } from './WcSession.js';
+import { LvSub } from './LvSub.js';
 
 export class WcSub extends WcSession {
   topAction(type, ...args) {
@@ -12,7 +13,7 @@ export class WcSub extends WcSession {
     }
   }
 
-  _createLayerFragment() { return new main.LvSub(); }
+  _createLayerFragment() { return new LvSub(); }
 
   _initEventHandlers() {
     super._initEventHandlers();

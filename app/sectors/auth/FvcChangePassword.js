@@ -1,3 +1,4 @@
+// Note: ui namespace is available globally, but we could add explicit imports if needed
 export const CF_CHANGE_PASSWORD = {
   SUBMIT : Symbol(),
 };
@@ -36,7 +37,7 @@ const _CFT_CHANGE_PASSWORD = {
 export class FvcChangePassword extends ui.FScrollViewContent {
   action(type, ...args) {
     switch (type) {
-    case auth.CF_CHANGE_PASSWORD.SUBMIT:
+    case CF_CHANGE_PASSWORD.SUBMIT:
       this.#onSubmit();
       break;
     default:

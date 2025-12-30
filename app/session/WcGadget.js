@@ -1,4 +1,6 @@
 import { WcSession } from './WcSession.js';
+import { LvGadget } from './LvGadget.js';
+import { AbClose } from './AbClose.js';
 
 export class WcGadget extends WcSession {
   onCountdownCancelledInCountdownContentFragment(fvcCountdown) {
@@ -33,10 +35,10 @@ export class WcGadget extends WcSession {
   }
 
   _createLayerFragment() {
-    let lc = new main.LvGadget();
+    let lc = new LvGadget();
     lc.setDefaultPageId(C.ID.SECTOR.EXTRAS);
 
-    let fAb = new main.AbClose();
+    let fAb = new AbClose();
     fAb.setDelegate(this);
     lc.setDefaultActionButton(fAb);
     return lc;

@@ -1,4 +1,7 @@
 import { WcSession } from './WcSession.js';
+import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
+import { LvMain } from './LvMain.js';
+import { AbAccount } from './AbAccount.js';
 
 export class WcWeb3 extends WcSession {
   #postingKeyPath =
@@ -34,7 +37,7 @@ export class WcWeb3 extends WcSession {
   }
 
   onLoginClickInAccountActionButtonFragment(fAbAccount) {
-    let gw = new auth.Gateway();
+    let gw = new AuthGateway();
     let v = gw.createWeb3LoginView();
     this._pushView(v, "Login");
   }
@@ -62,10 +65,10 @@ export class WcWeb3 extends WcSession {
 
   main(dConfig) { this.#asMain(dConfig); }
 
-  _createLayerFragment() { return new main.LvMain(); }
+  _createLayerFragment() { return new LvMain(); }
 
   _initLayer(lc) {
-    let fAb = new main.AbAccount();
+    let fAb = new AbAccount();
     fAb.setDelegate(this);
     lc.setDefaultActionButton(fAb);
     lc.setDefaultPageId(dba.WebConfig.getHomeSector());
