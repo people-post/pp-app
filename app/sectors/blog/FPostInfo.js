@@ -1,4 +1,5 @@
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { ICONS } from '../../lib/ui/Icons.js';
 
 export const CF_POST_INFO = {
   ON_CLICK : Symbol(),
@@ -98,7 +99,7 @@ export class FPostInfo extends gui.MajorSectorItem {
       let p = new Panel();
       p.setClassName("center-align");
       render.wrapPanel(p);
-      p.replaceContent("Loading...");
+      p.replaceContent(ICONS.LOADING);
       return;
     }
 
