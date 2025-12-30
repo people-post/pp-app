@@ -12,6 +12,11 @@ const _CFT_BLOG_ROLE_EDITOR = {
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
 import { HintText } from '../../lib/ui/controllers/fragments/HintText.js';
+import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { C } from '../../lib/framework/Constants.js';
 
 export class FvcRoleEditor extends FScrollViewContent {
   constructor() {
@@ -34,7 +39,7 @@ export class FvcRoleEditor extends FScrollViewContent {
     this._fTypeChoices.setSelectedValue(dat.BlogRole.T_ROLE.PARTNERSHIP);
     this.setChild("typeChoices", this._fTypeChoices);
 
-    this._fOptions = new ui.OptionSwitch();
+    this._fOptions = new OptionSwitch();
     this._fOptions.setDelegate(this);
     this._fOptions.addOption("Active", "ACTIVE", true);
     this._fOptions.addOption("Recruiting", "OPEN", true);
@@ -69,26 +74,26 @@ export class FvcRoleEditor extends FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.SectionPanel("Name");
+    let pp = new SectionPanel("Name");
     p.pushPanel(pp);
     pp.getContentPanel().replaceContent(this.#renderNameInputs());
     if (!this._roleId) {
       // New role, provide selection of type
-      pp = new ui.SectionPanel("Type");
+      pp = new SectionPanel("Type");
       p.pushPanel(pp);
       this._fTypeChoices.attachRender(pp.getContentPanel());
       this._fTypeChoices.render();
     }
-    pp = new ui.SectionPanel("Allowed tags");
+    pp = new SectionPanel("Allowed tags");
     p.pushPanel(pp);
     this._fTagsEditor.attachRender(pp.getContentPanel());
     this._fTagsEditor.render();
-    pp = new ui.SectionPanel("Options");
+    pp = new SectionPanel("Options");
     p.pushPanel(pp);
     this.#renderOptions(pp.getContentPanel());
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(_CFT_BLOG_ROLE_EDITOR.SEC_SUBMIT);
   }

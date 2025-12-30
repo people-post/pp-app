@@ -1,5 +1,11 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
+import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
+import { FAttachmentFileUploader } from '../../lib/ui/controllers/fragments/FAttachmentFileUploader.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class FWeb3ArticleEditor extends ui.Fragment {
+export class FWeb3ArticleEditor extends Fragment {
   #fTitle;
   #fContent;
   #fFiles;
@@ -9,29 +15,29 @@ export class FWeb3ArticleEditor extends ui.Fragment {
 
   constructor() {
     super();
-    this.#fTitle = new ui.TextArea();
+    this.#fTitle = new TextArea();
     this.#fTitle.setClassName("w100 h40px");
     this.#fTitle.setDelegate(this);
     this.setChild("title", this.#fTitle);
 
-    this.#fContent = new ui.TextArea();
+    this.#fContent = new TextArea();
     this.#fContent.setClassName("w100 h200px");
     this.#fContent.setDelegate(this);
     this.setChild("content", this.#fContent);
 
-    this.#fFiles = new ui.FMultiMediaFileUploader();
+    this.#fFiles = new FMultiMediaFileUploader();
     this.#fFiles.setCacheIds([ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]);
     this.#fFiles.setDataSource(this);
     this.#fFiles.setDelegate(this);
     this.setChild("files", this.#fFiles);
 
-    this.#fAttachment = new ui.FAttachmentFileUploader();
+    this.#fAttachment = new FAttachmentFileUploader();
     this.#fAttachment.setDelegate(this);
     this.setChild("attachment", this.#fAttachment);
 
-    this.#fSubmit = new ui.Button();
+    this.#fSubmit = new Button();
     this.#fSubmit.setName("Post");
-    this.#fSubmit.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
+    this.#fSubmit.setLayoutType(Button.LAYOUT_TYPE.BAR);
     this.#fSubmit.setDelegate(this);
     this.setChild("btnSubmit", this.#fSubmit);
   }
@@ -88,7 +94,7 @@ export class FWeb3ArticleEditor extends ui.Fragment {
     this.#fContent.render();
 
     p = panel.getBtnListPanel();
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     this.#fSubmit.attachRender(pp);
     this.#fSubmit.render();

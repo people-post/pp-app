@@ -1,5 +1,6 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
-export class FJournalIssueSection extends ui.Fragment {
+export class FJournalIssueSection extends Fragment {
   #data = null;
   #fPost;
 

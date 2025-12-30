@@ -1,3 +1,5 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 window.CF_POST_STATISTICS_INFO = {
   ONCLICK : "CF_POST_STATISTICS_INFO_1",
@@ -8,7 +10,7 @@ const _CFT_POST_STATISTICS_INFO = {
     <div class="small-info-text no-wrap">__COUNT__</div>`,
 }
 
-export class FPostStatisticsInfo extends ui.Fragment {
+export class FPostStatisticsInfo extends Fragment {
   constructor() {
     super();
     this._data = null;
@@ -28,7 +30,7 @@ export class FPostStatisticsInfo extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.Panel();
+    let p = new Panel();
     p.setClassName("pad5px flex space-between baseline-align-items clickable");
     p.setAttribute("onclick",
                    "javascript:G.action(CF_POST_STATISTICS_INFO.ONCLICK)");

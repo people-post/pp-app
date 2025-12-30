@@ -1,3 +1,4 @@
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class FPostList extends gui.FSocialItemList {
   #loader;
@@ -85,7 +86,7 @@ export class FPostList extends gui.FSocialItemList {
       return null;
     }
 
-    let v = new ui.View();
+    let v = new View();
     let f = new blog.FvcPost();
     f.setPostId(sid);
     f.setDataSource(this);

@@ -1,5 +1,7 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FAttachmentFile } from '../../lib/ui/controllers/fragments/FAttachmentFile.js';
 
-export class FFeedArticle extends ui.Fragment {
+export class FFeedArticle extends Fragment {
   #fGallery;
   #fAttachment;
   #articleId = null;
@@ -11,7 +13,7 @@ export class FFeedArticle extends ui.Fragment {
     this.#fGallery.setDelegate(this);
     this.setChild("gallery", this.#fGallery);
 
-    this.#fAttachment = new ui.FAttachmentFile();
+    this.#fAttachment = new FAttachmentFile();
     this.setChild("attachment", this.#fAttachment);
   }
 

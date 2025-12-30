@@ -1,8 +1,14 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
 export const CF_DRAFT_ARTICLE_INFO = {
   ON_CLICK : Symbol(),
 };
 
-export class FDraftArticleInfo extends ui.Fragment {
+export class FDraftArticleInfo extends Fragment {
   #draftId = null;
 
   constructor() {
@@ -18,7 +24,7 @@ export class FDraftArticleInfo extends ui.Fragment {
     this._fOwnerIcon = new S.hr.FUserIcon();
     this.setChild("ownerIcon", this._fOwnerIcon);
 
-    this._fTags = new ui.FFragmentList();
+    this._fTags = new FFragmentList();
     this.setChild("tags", this._fTags);
   }
 
@@ -51,10 +57,10 @@ export class FDraftArticleInfo extends ui.Fragment {
   _renderOnRender(render) {
     let draft = dba.Blog.getDraftArticle(this.#draftId);
     if (!draft) {
-      let p = new ui.Panel();
+      let p = new Panel();
       p.setClassName("center-align");
       render.wrapPanel(p);
-      p.replaceContent(ui.ICONS.LOADING);
+      p.replaceContent("Loading...");
       return;
     }
 
@@ -100,7 +106,7 @@ export class FDraftArticleInfo extends ui.Fragment {
     if (tagIds.length < 1) {
       return;
     }
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     pList.setClassName("flex flex-start baseline-align-items");
     panel.wrapPanel(pList);
 
@@ -109,7 +115,7 @@ export class FDraftArticleInfo extends ui.Fragment {
       let f = new gui.FTag();
       f.setTagId(id);
       this._fTags.append(f);
-      let p = new ui.PanelWrapper();
+      let p = new PanelWrapper();
       pList.pushPanel(p);
       f.attachRender(p);
       f.render();

@@ -1,3 +1,10 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
 export const CF_POST = {
   TOGGLE_PIN : Symbol(),
 };
@@ -7,7 +14,7 @@ const _CFT_POST = {
       `<span class="__CLASS__" onclick="javascript:G.action(blog.CF_POST.TOGGLE_PIN)">__ICON__</span>`,
 };
 
-export class FPost extends ui.Fragment {
+export class FPost extends Fragment {
   #fReposter;
   #fAuthor;
   #fItem;
@@ -17,7 +24,7 @@ export class FPost extends ui.Fragment {
 
   constructor() {
     super();
-    this.#btnApply = new ui.Button();
+    this.#btnApply = new Button();
     this.#btnApply.setName("Join our writer groups");
     this.#btnApply.setValue("APPLY");
     this.#btnApply.setDelegate(this);
@@ -42,7 +49,7 @@ export class FPost extends ui.Fragment {
   onCommentClickedInSocialBar(fSocial) {}
 
   onTagClickedInArticleFragment(fArticle, value) {
-    let v = new ui.View();
+    let v = new View();
     let f = new blog.FvcFilteredPostList();
     f.setTagId(value);
     v.setContentFragment(f);
@@ -216,14 +223,14 @@ export class FPost extends ui.Fragment {
   }
 
   #renderAuthor(panel, authorId, reposterId = null) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     panel.wrapPanel(p);
-    let pp = new ui.Panel();
+    let pp = new Panel();
     pp.setElementType("SPAN");
     p.pushPanel(pp);
     pp.replaceContent("By: ");
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     pp.setElementType("SPAN");
     p.pushPanel(pp);
     this.#fAuthor.setUserId(authorId);
@@ -231,12 +238,12 @@ export class FPost extends ui.Fragment {
     this.#fAuthor.render();
 
     if (reposterId) {
-      pp = new ui.Panel();
+      pp = new Panel();
       pp.setElementType("SPAN");
       p.pushPanel(pp);
       pp.replaceContent(", reposted by: ");
 
-      pp = new ui.PanelWrapper();
+      pp = new PanelWrapper();
       pp.setElementType("SPAN");
       p.pushPanel(pp);
       this.#fReposter.setUserId(reposterId);

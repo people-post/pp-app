@@ -1,3 +1,8 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
 
 const _CPT_JOURNAL_ISSUE_SECTION_TAGGED = {
   MAIN : `<div class="flex flex-start">
@@ -7,14 +12,14 @@ const _CPT_JOURNAL_ISSUE_SECTION_TAGGED = {
   </div>`,
 };
 
-export class PJournalIssueSectionTagged extends ui.Panel {
+export class PJournalIssueSectionTagged extends Panel {
   #pTag;
   #pContent;
 
   constructor() {
     super();
-    this.#pTag = new ui.PanelWrapper();
-    this.#pContent = new ui.ListPanel();
+    this.#pTag = new PanelWrapper();
+    this.#pContent = new ListPanel();
   }
 
   getTagPanel() { return this.#pTag; }
@@ -34,7 +39,7 @@ export class PJournalIssueSectionTagged extends ui.Panel {
   }
 };
 
-class FJournalIssueSectionTagged extends ui.Fragment {
+class FJournalIssueSectionTagged extends Fragment {
   #data = null;
   #placeholder = null;
   #fPosts;
@@ -45,7 +50,7 @@ class FJournalIssueSectionTagged extends ui.Fragment {
     this.#fTag = new gui.FTag();
     this.setChild("tag", this.#fTag);
 
-    this.#fPosts = new ui.FFragmentList();
+    this.#fPosts = new FFragmentList();
     this.setChild("posts", this.#fPosts);
   }
 
@@ -67,7 +72,7 @@ class FJournalIssueSectionTagged extends ui.Fragment {
     if (ids.length) {
       this.#fPosts.attachRender(p);
       for (let id of this.#data.getPostSocialIds()) {
-        let pp = new ui.PanelWrapper();
+        let pp = new PanelWrapper();
         p.pushPanel(pp);
 
         let f = new blog.FPostInfo();

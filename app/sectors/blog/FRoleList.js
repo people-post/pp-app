@@ -1,8 +1,10 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 
-export class FRoleList extends ui.Fragment {
+export class FRoleList extends Fragment {
   constructor() {
     super();
-    this._fList = new ui.FSimpleFragmentList();
+    this._fList = new FSimpleFragmentList();
     this.setChild("list", this._fList);
 
     this._selectedRoleId = null;

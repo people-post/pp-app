@@ -1,3 +1,6 @@
+import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 const _CFT_COMMENT = {
   ICON : `<span class="inline-block s-icon6">__ICON__</span>`,
@@ -11,11 +14,11 @@ export class FComment extends blog.FPostBase {
 
   constructor() {
     super();
-    this.#fAction = new ui.OptionContextButton();
+    this.#fAction = new OptionContextButton();
     this.#fAction.setTargetName(R.get("guest comment"));
     this.#fAction.addOption("Keep", "KEEP");
     this.#fAction.addOption("Discard", "DISCARD", null,
-                            ui.Button.T_THEME.RISKY);
+                            Button.T_THEME.RISKY);
     this.#fAction.setDelegate(this);
     this.setChild("action", this.#fAction);
 
@@ -91,7 +94,7 @@ export class FComment extends blog.FPostBase {
       return;
     }
     if (comment.isFromGuest()) {
-      let p = new ui.Panel();
+      let p = new Panel();
       if (comment.isPending()) {
         p.setClassName("italic");
       }
@@ -109,7 +112,7 @@ export class FComment extends blog.FPostBase {
     if (!panel) {
       return;
     }
-    let p = new ui.Panel();
+    let p = new Panel();
     if (comment.isPending()) {
       p.setClassName("italic");
     }

@@ -1,3 +1,6 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 window.CF_OGP = {
   ON_CLICK : "CF_OGP_1",
@@ -10,7 +13,7 @@ const _CFT_OGP = {
       `<span class="thumbnail-grid thumbnail-grid-1-1" style="background-image:url('__URL__')" onclick="javascript:G.action(CF_OGP.ON_CLICK)"></span>`,
 }
 
-export class FOgp extends ui.Fragment {
+export class FOgp extends Fragment {
   constructor() {
     super();
     this._url = null;
@@ -61,14 +64,14 @@ export class FOgp extends ui.Fragment {
 
     if (this.#hasImage(ogp)) {
       pp = p.getImagePanel();
-      let pThumbnail = new ui.ThumbnailPanelWrapper();
+      let pThumbnail = new ThumbnailPanelWrapper();
       if (this._sizeType == dat.SocialItem.T_LAYOUT.EXT_QUOTE_SMALL) {
         pp.setClassName("quote-element-image-thumbnail-wrapper flex-noshrink");
         pThumbnail.setClassName("aspect-1-1-frame");
       }
       pp.wrapPanel(pThumbnail);
 
-      pp = new ui.Panel();
+      pp = new Panel();
       pp.setClassName("thumbnail-grid-wrapper");
       pThumbnail.wrapPanel(pp);
       pp.replaceContent(this.#renderImage(ogp.getImageUrl()));

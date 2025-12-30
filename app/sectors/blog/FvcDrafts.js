@@ -1,5 +1,9 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 
-export class FvcDrafts extends ui.FScrollViewContent {
+export class FvcDrafts extends FScrollViewContent {
   #fInsiderAuthored;
   #fInsiderTasks;
   #fTasks;
@@ -17,21 +21,21 @@ export class FvcDrafts extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     render.wrapPanel(pList);
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     pList.pushPanel(p);
     this.#fInsiderAuthored.attachRender(p);
     this.#fInsiderAuthored.render();
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this.#fInsiderTasks.attachRender(p);
     this.#fInsiderTasks.render();
 
     if (dba.Account.isWebOwner()) {
-      p = new ui.SectionPanel("Tasks");
+      p = new SectionPanel("Tasks");
       pList.pushPanel(p);
       this.#fTasks.attachRender(p.getContentPanel());
       this.#fTasks.render();

@@ -27,7 +27,18 @@ const _CPT_JOURNAL_ISSUE_EDITOR = {
 
 };
 
-export class PEditor extends ui.Panel {
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
+import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+
+export class PEditor extends Panel {
   #pIssueId;
   #pAbstract;
   #pSummary;
@@ -37,12 +48,12 @@ export class PEditor extends ui.Panel {
 
   constructor() {
     super();
-    this.#pIssueId = new ui.PanelWrapper();
-    this.#pAbstract = new ui.PanelWrapper();
-    this.#pSummary = new ui.PanelWrapper();
-    this.#pSectionList = new ui.ListPanel();
-    this.#pTags = new ui.SectionPanel("Menu tags");
-    this.#pBtnList = new ui.ListPanel();
+    this.#pIssueId = new PanelWrapper();
+    this.#pAbstract = new PanelWrapper();
+    this.#pSummary = new PanelWrapper();
+    this.#pSectionList = new ListPanel();
+    this.#pTags = new SectionPanel("Menu tags");
+    this.#pBtnList = new ListPanel();
   }
 
   getIssueIdPanel() { return this.#pIssueId; }
@@ -74,14 +85,14 @@ export class PEditor extends ui.Panel {
   }
 };
 
-class PSectionTagged extends ui.Panel {
+class PSectionTagged extends Panel {
   #pTag;
   #pContent;
 
   constructor() {
     super();
-    this.#pTag = new ui.PanelWrapper();
-    this.#pContent = new ui.ListPanel();
+    this.#pTag = new PanelWrapper();
+    this.#pContent = new ListPanel();
   }
 
   getTagPanel() { return this.#pTag; }
@@ -101,7 +112,7 @@ class PSectionTagged extends ui.Panel {
   }
 };
 
-class FPostSelector extends ui.Fragment {
+class FPostSelector extends Fragment {
   #fSearch;
 
   constructor() {
@@ -139,14 +150,14 @@ class FPostSelector extends ui.Fragment {
   }
 };
 
-class FPostSelectorHandle extends ui.Fragment {
+class FPostSelectorHandle extends Fragment {
   #lc;
   #fPost;
   #fSelector;
 
   constructor() {
     super();
-    this.#lc = new ui.LContext();
+    this.#lc = new LContext();
     this.#lc.setDelegate(this);
     this.#lc.setTargetName("section");
 
@@ -195,7 +206,7 @@ class FPostSelectorHandle extends ui.Fragment {
       this.#fPost.attachRender(render);
       this.#fPost.render();
     } else {
-      let p = new ui.Panel();
+      let p = new Panel();
       render.wrapPanel(p);
       p.setAttribute("onclick",
                      `G.action(blog.CF_JOURNAL_ISSUE_EDITOR.ON_CHOOSE)`);
@@ -212,7 +223,7 @@ class FPostSelectorHandle extends ui.Fragment {
   }
 };
 
-class FSectionTagged extends ui.Fragment {
+class FSectionTagged extends Fragment {
   #fTag;
   #fSelectors;
   #data;
@@ -224,7 +235,7 @@ class FSectionTagged extends ui.Fragment {
     this.#fTag = new gui.FTag();
     this.setChild("tag", this.#fTag);
 
-    this.#fSelectors = new ui.FFragmentList();
+    this.#fSelectors = new FFragmentList();
     this.setChild("selectors", this.#fSelectors);
   }
 
@@ -266,7 +277,7 @@ class FSectionTagged extends ui.Fragment {
 
     let f, pp;
     for (let id of this.#newIds) {
-      pp = new ui.PanelWrapper();
+      pp = new PanelWrapper();
       p.pushPanel(pp);
       f = new FPostSelectorHandle();
       f.setPostId(new dat.SocialItemId(id, dat.SocialItem.TYPE.ARTICLE));
@@ -278,7 +289,7 @@ class FSectionTagged extends ui.Fragment {
     }
     this.#fSelectors.append(f);
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     f = new FPostSelectorHandle();
     f.setOwnerId(this.#ownerId);
@@ -290,7 +301,7 @@ class FSectionTagged extends ui.Fragment {
   }
 };
 
-class FJournalIssueEditor extends ui.Fragment {
+class FJournalIssueEditor extends Fragment {
   #fIssueId;
   #fAbstract;
   #fSummary;
@@ -302,18 +313,18 @@ class FJournalIssueEditor extends ui.Fragment {
 
   constructor() {
     super();
-    this.#fIssueId = new ui.TextInput();
+    this.#fIssueId = new TextInput();
     this.#fIssueId.setConfig({hint : "Issue id", isRequired : true});
     this.setChild("issueid", this.#fIssueId);
 
-    this.#fAbstract = new ui.TextArea();
+    this.#fAbstract = new TextArea();
     this.#fAbstract.setClassName("w100 h40px");
     this.#fAbstract.setConfig(
         {title : "Abstract", hint : "", isRequred : false});
     this.#fAbstract.setDelegate(this);
     this.setChild("abstract", this.#fAbstract);
 
-    this.#fSummary = new ui.TextArea();
+    this.#fSummary = new TextArea();
     this.#fSummary.setClassName("w100 h40px");
     this.#fSummary.setConfig({title : "Summary", hint : "", isRequred : false});
     this.#fSummary.setDelegate(this);
@@ -324,12 +335,12 @@ class FJournalIssueEditor extends ui.Fragment {
     this.#fTags.setDelegate(this);
     this.setChild("tags", this.#fTags);
 
-    this.#fSections = new ui.FFragmentList();
+    this.#fSections = new FFragmentList();
     this.setChild("sections", this.#fSections);
 
-    this.#btnSubmit = new ui.Button();
+    this.#btnSubmit = new Button();
     this.#btnSubmit.setName("Post");
-    this.#btnSubmit.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
+    this.#btnSubmit.setLayoutType(Button.LAYOUT_TYPE.BAR);
     this.#btnSubmit.setDelegate(this);
     this.setChild("btnSubmit", this.#btnSubmit);
   }
@@ -402,7 +413,7 @@ class FJournalIssueEditor extends ui.Fragment {
     this.#fTags.render();
 
     p = panel.getBtnListPanel();
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     this.#btnSubmit.attachRender(pp);
     this.#btnSubmit.render();
@@ -437,7 +448,7 @@ class FJournalIssueEditor extends ui.Fragment {
     this.#fSections.clear();
     this.#fSections.attachRender(pList);
     for (let tId of config.getTagIds()) {
-      let p = new ui.PanelWrapper();
+      let p = new PanelWrapper();
       pList.pushPanel(p);
       let f = new FSectionTagged();
       f.setOwnerId(ownerId);

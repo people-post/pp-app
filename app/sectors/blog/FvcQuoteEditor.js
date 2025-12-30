@@ -1,16 +1,22 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class FvcQuoteEditor extends ui.FScrollViewContent {
+export class FvcQuoteEditor extends FScrollViewContent {
   constructor() {
     super();
-    this._fDetail = new ui.TextArea();
+    this._fDetail = new TextArea();
     this._fDetail.setDelegate(this);
     this._fDetail.setConfig(
         {title : "Content", hint : "", value : "", isRequired : true});
     this._fQuote = new blog.FQuoteElement();
     this._fQuote.setDelegate(this);
-    this._fBtnSubmit = new ui.Button();
+    this._fBtnSubmit = new Button();
     this._fBtnSubmit.setName("Submit");
-    this._fBtnSubmit.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
+    this._fBtnSubmit.setLayoutType(Button.LAYOUT_TYPE.BAR);
     this._fBtnSubmit.setDelegate(this);
 
     this.setChild("detail", this._fDetail);
@@ -25,15 +31,15 @@ export class FvcQuoteEditor extends ui.FScrollViewContent {
   onQuotedElementRequestShowView(fQuote, view) {}
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fDetail.setClassName("w100");
     this._fDetail.attachRender(pp);
     this._fDetail.render();
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     pp.setClassName("pad5");
     p.pushPanel(pp);
     this._fQuote.attachRender(pp);
@@ -41,7 +47,7 @@ export class FvcQuoteEditor extends ui.FScrollViewContent {
 
     p.pushSpace(1);
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this._fBtnSubmit.attachRender(pp);
     this._fBtnSubmit.render();

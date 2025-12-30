@@ -1,11 +1,15 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class FDraftList extends ui.Fragment {
+export class FDraftList extends Fragment {
   #fList;
   #selectedId = null;
 
   constructor() {
     super();
-    this.#fList = new ui.FFragmentList();
+    this.#fList = new FFragmentList();
     this.setChild("list", this.#fList);
   }
 
@@ -22,14 +26,14 @@ export class FDraftList extends ui.Fragment {
     if (ids.length) {
       this.#fList.clear();
 
-      let pList = new ui.ListPanel();
+      let pList = new ListPanel();
       panel.wrapPanel(pList);
 
       // Hack to make fItems as event source, may need better design
       this.#fList.attachRender(pList);
 
       for (let id of ids) {
-        let p = new ui.PanelWrapper();
+        let p = new PanelWrapper();
         pList.pushPanel(p);
         let f = new blog.FDraftArticleInfo();
         f.setDelegate(this);

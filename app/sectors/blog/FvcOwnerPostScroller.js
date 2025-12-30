@@ -1,4 +1,6 @@
-export class FvcOwnerPostScroller extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+
+export class FvcOwnerPostScroller extends FScrollViewContent {
   // Note: For brief display only
   #fPosts;
   #loader;

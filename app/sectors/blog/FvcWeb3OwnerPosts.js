@@ -1,4 +1,5 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcWeb3OwnerPosts extends FScrollViewContent {
   #loader;
@@ -53,7 +54,7 @@ export class FvcWeb3OwnerPosts extends FScrollViewContent {
   }
 
   _renderOnRender(render) {
-    let panel = new ui.PanelWrapper();
+    let panel = new PanelWrapper();
     panel.setClassName("h100");
     render.wrapPanel(panel);
 

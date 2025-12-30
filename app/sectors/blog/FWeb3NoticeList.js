@@ -1,5 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class FWeb3NoticeList extends Fragment {
   #selectedPostId = null;
@@ -23,7 +25,7 @@ export class FWeb3NoticeList extends Fragment {
     }
 
     this.#fNotices.clear();
-    let p = new ui.SectionPanel("Notifications");
+    let p = new SectionPanel("Notifications");
     render.wrapPanel(p);
     for (let n of notices) {
       let f = new gui.SectorNoticeInfoFragment();
@@ -49,7 +51,7 @@ export class FWeb3NoticeList extends Fragment {
 
   #onViewPost(postId, idType) {
     this.#selectedPostId = postId;
-    let v = new ui.View();
+    let v = new View();
     let f = new blog.FvcPost();
     f.setPostId(new dat.SocialItemId(postId, idType));
     v.setContentFragment(f);

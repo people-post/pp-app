@@ -1,3 +1,7 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 
 const _CPT_POST_NAVIGATOR = {
   MAIN : `<div id="__ID_POST__"></div>
@@ -8,7 +12,7 @@ const _CPT_POST_NAVIGATOR = {
   <div id="__ID_COMMENT__" class="post-comment"></div>`,
 };
 
-export class PPostNavigator extends ui.Panel {
+export class PPostNavigator extends Panel {
   #pPost;
   #pBtnPrev;
   #pBtnNext;
@@ -16,10 +20,10 @@ export class PPostNavigator extends ui.Panel {
 
   constructor() {
     super();
-    this.#pPost = new ui.PanelWrapper();
-    this.#pBtnPrev = new ui.PanelWrapper();
-    this.#pBtnNext = new ui.PanelWrapper();
-    this.#pComment = new ui.PanelWrapper();
+    this.#pPost = new PanelWrapper();
+    this.#pBtnPrev = new PanelWrapper();
+    this.#pBtnNext = new PanelWrapper();
+    this.#pComment = new PanelWrapper();
   }
 
   getPostPanel() { return this.#pPost; }
@@ -45,7 +49,7 @@ export class PPostNavigator extends ui.Panel {
   }
 };
 
-class FPostNavigator extends ui.Fragment {
+class FPostNavigator extends Fragment {
   #fPost;
   #btnPrev;
   #btnNext;
@@ -59,17 +63,17 @@ class FPostNavigator extends ui.Fragment {
     this.#fPost.setDelegate(this);
     this.setChild("post", this.#fPost);
 
-    this.#btnNext = new ui.Button();
+    this.#btnNext = new Button();
     this.#btnNext.setName("Next->");
     this.#btnNext.setValue("NEXT");
-    this.#btnNext.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+    this.#btnNext.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this.#btnNext.setDelegate(this);
     this.setChild("btnNext", this.#btnNext);
 
-    this.#btnPrev = new ui.Button();
+    this.#btnPrev = new Button();
     this.#btnPrev.setName("<-Prev");
     this.#btnPrev.setValue("PREV");
-    this.#btnPrev.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+    this.#btnPrev.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this.#btnPrev.setDelegate(this);
     this.setChild("btnPrev", this.#btnPrev);
 

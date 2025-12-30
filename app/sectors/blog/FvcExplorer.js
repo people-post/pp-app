@@ -1,12 +1,15 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
+import { C } from '../../lib/framework/Constants.js';
 
-export class FvcExplorer extends ui.FScrollViewContent {
+export class FvcExplorer extends FScrollViewContent {
   #fmSearch;
   #fPosts;
   #fBtnNew;
 
   constructor() {
     super();
-    this.#fmSearch = new ui.FHeaderMenu();
+    this.#fmSearch = new FHeaderMenu();
     this.#fmSearch.setIcon(C.ICON.M_SEARCH, new SearchIconOperator());
     let f = new srch.FSearchMenu();
     f.setDelegate(this);
@@ -23,7 +26,7 @@ export class FvcExplorer extends ui.FScrollViewContent {
   }
 
   initFromUrl(urlParam) {
-    let id = urlParam.get(ui.C.URL_PARAM.ID);
+    let id = urlParam.get(C.URL_PARAM.ID);
     if (id) {
       this.#fPosts.switchToItem(id);
     }
@@ -31,7 +34,7 @@ export class FvcExplorer extends ui.FScrollViewContent {
 
   getUrlParamString() {
     let id = this.#fPosts.getCurrentId();
-    return id ? ui.C.URL_PARAM.ID + "=" + id : "";
+    return id ? C.URL_PARAM.ID + "=" + id : "";
   }
 
   isReloadable() { return true; }
