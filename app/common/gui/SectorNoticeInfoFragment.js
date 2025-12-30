@@ -1,5 +1,11 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { MessageThreadInfo } from '../datatypes/MessageThreadInfo.js';
+import { LikedItemNotice } from '../datatypes/LikedItemNotice.js';
+import { RepostItemNotice } from '../datatypes/RepostItemNotice.js';
+import { FCommentNotice } from '../social/FCommentNotice.js';
+import { FLikedItemNotice } from '../social/FLikedItemNotice.js';
+import { FRepostItemNotice } from '../social/FRepostItemNotice.js';
 
 export class SectorNoticeInfoFragment extends Fragment {
   constructor() {
@@ -19,13 +25,6 @@ export class SectorNoticeInfoFragment extends Fragment {
   }
 
   setData(notification) { this._notification = notification; }
-
-import { MessageThreadInfo } from '../datatypes/MessageThreadInfo.js';
-import { LikedItemNotice } from '../datatypes/LikedItemNotice.js';
-import { RepostItemNotice } from '../datatypes/RepostItemNotice.js';
-import { FCommentNotice } from '../social/FCommentNotice.js';
-import { FLikedItemNotice } from '../social/FLikedItemNotice.js';
-import { FRepostItemNotice } from '../social/FRepostItemNotice.js';
 
   _renderOnRender(render) {
     let p = new PanelWrapper();

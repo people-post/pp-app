@@ -95,8 +95,6 @@ export const Exchange = function() {
   };
 }();
 
-}();
-
 // Backward compatibility
 if (typeof window !== 'undefined') {
   window.dba = window.dba || {};

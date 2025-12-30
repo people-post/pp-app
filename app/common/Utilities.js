@@ -266,3 +266,5 @@ export const Utilities = function() {
     writeIframe : _writeIframe,
   };
 }();
+
+export default Utilities;

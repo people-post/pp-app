@@ -2,7 +2,7 @@ import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Ev
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { api } from '../plt/Api.js';
 import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
-import { Quiz } from '../datatypes/Quiz.js';
+import { Quiz as QuizDataType } from '../datatypes/Quiz.js';
 
 export const Quiz = function() {
   let _lib = new Map();
@@ -61,7 +61,7 @@ export const Quiz = function() {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data.quiz) {
-        let e = new Quiz(response.data.quiz);
+        let e = new QuizDataType(response.data.quiz);
         _update(e);
       }
     }
@@ -76,7 +76,6 @@ export const Quiz = function() {
     remove : _remove,
     clear : _clear,
   };
-}();
 }();
 
 // Backward compatibility

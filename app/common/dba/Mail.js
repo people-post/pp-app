@@ -77,7 +77,6 @@ export const Mail = function() {
     clear : _clear,
   };
 }();
-}();
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

@@ -134,7 +134,6 @@ export const Signal = function() {
     unsubscribe : _unsubscribe,
   };
 }();
-}();
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

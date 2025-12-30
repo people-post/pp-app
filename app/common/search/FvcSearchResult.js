@@ -1,4 +1,4 @@
-import { FScrollViewContent } from '../../lib/ui/controllers/views/FScrollViewContent.js';
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FGeneralSearch } from './FGeneralSearch.js';
 import { FSearchResultInfo } from './FSearchResultInfo.js';
 import { View } from '../../lib/ui/controllers/views/View.js';

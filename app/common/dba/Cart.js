@@ -3,7 +3,7 @@ import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { api } from '../plt/Api.js';
 import { Account } from './Account.js';
 import { CartItem } from '../datatypes/CartItem.js';
-import { Cart } from '../datatypes/Cart.js';
+import { Cart as CartDataType } from '../datatypes/Cart.js';
 
 export const Cart = function() {
   // Customer shopping cart
@@ -38,7 +38,7 @@ export const Cart = function() {
       let item = new CartItem(data);
       let cId = item.getCartId();
       if (!_mCart.has(cId)) {
-        _mCart.set(cId, new Cart());
+        _mCart.set(cId, new CartDataType());
       }
       _mCart.get(cId).set(item.getId(), item);
     }
@@ -121,7 +121,6 @@ export const Cart = function() {
     asyncChangeItemQuantity : _asyncChangeItemQuantity,
     asyncRemoveItem : _asyncRemoveItem,
   };
-}();
 }();
 
 // Backward compatibility

@@ -16,6 +16,8 @@ export class Timer {
   }
 }
 
+export default Timer;
+
 // Maintain backward compatibility with global namespace
 if (typeof window !== 'undefined') {
   window.ext = window.ext || {};

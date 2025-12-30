@@ -249,7 +249,6 @@ export const WebConfig = function() {
     setShopOpen : _setShopOpen,
   };
 }();
-}();
 
 // Backward compatibility
 if (typeof window !== 'undefined') {

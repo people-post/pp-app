@@ -1,6 +1,7 @@
 import { T_DATA } from '../plt/Events.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { api } from '../plt/Api.js';
+import { Vote } from '../datatypes/Vote.js';
 
 function createVotes() {
   let _lib = new Map();
@@ -50,8 +51,6 @@ function createVotes() {
     if (response.error) {
       Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
-import { Vote } from '../datatypes/Vote.js';
-
       _update(new Vote(response.data.vote));
     }
   }

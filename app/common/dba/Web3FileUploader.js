@@ -1,5 +1,6 @@
 import { FileUploader } from '../plt/FileUploader.js';
 import { api } from '../plt/Api.js';
+import { Account } from './Account.js';
 
 export class Web3FileUploader extends FileUploader {
   _asyncUploadThumbnail(file) {
@@ -19,8 +20,6 @@ export class Web3FileUploader extends FileUploader {
 
     // TODO: there is no progress track in fetch api, need to find p2p version
     // of XMLHttpRequest similar to p2pFetch
-import { Account } from './Account.js';
-
     Account.asUploadFile(file)
         .then(cid => this.#onUploadFileDone(cid))
         .finally(() => this._isFileUploading = false);
