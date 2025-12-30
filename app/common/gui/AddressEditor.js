@@ -1,36 +1,38 @@
-(function(gui) {
-class AddressEditor extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+
+export class AddressEditor extends Fragment {
   constructor() {
     super();
-    this._fNickname = new ui.TextInput();
+    this._fNickname = new TextInput();
     this._fNickname.setConfig({hint : "Nickname", isRequired : true});
     this.setChild("nickname", this._fNickname);
 
-    this._fName = new ui.TextInput();
+    this._fName = new TextInput();
     this._fName.setConfig({hint : "Name", isRequired : true});
     this.setChild("name", this._fName);
 
-    this._fCountry = new ui.TextInput();
+    this._fCountry = new TextInput();
     this._fCountry.setConfig({hint : "Country", isRequired : true});
     this.setChild("country", this._fCountry);
 
-    this._fState = new ui.TextInput();
+    this._fState = new TextInput();
     this._fState.setConfig({hint : "State/Province", isRequired : true});
     this.setChild("state", this._fState);
 
-    this._fCity = new ui.TextInput();
+    this._fCity = new TextInput();
     this._fCity.setConfig({hint : "City", isRequired : true});
     this.setChild("city", this._fCity);
 
-    this._fZipcode = new ui.TextInput();
+    this._fZipcode = new TextInput();
     this._fZipcode.setConfig({hint : "Zipcode", isRequired : true});
     this.setChild("zipcode", this._fZipcode);
 
-    this._fLine1 = new ui.TextInput();
+    this._fLine1 = new TextInput();
     this._fLine1.setConfig({hint : "Address line 1", isRequired : true});
     this.setChild("line1", this._fLine1);
 
-    this._fLine2 = new ui.TextInput();
+    this._fLine2 = new TextInput();
     this._fLine2.setConfig({hint : "Address line 2"});
     this.setChild("line2", this._fLine2);
   }
@@ -132,5 +134,8 @@ class AddressEditor extends ui.Fragment {
   }
 };
 
-gui.AddressEditor = AddressEditor;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.AddressEditor = AddressEditor;
+}

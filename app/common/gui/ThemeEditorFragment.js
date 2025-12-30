@@ -1,5 +1,8 @@
-(function(gui) {
-gui.CF_THEME_EDITOR = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export const CF_THEME_EDITOR = {
   ON_COLOR_CHANGE : "CF_GUI_THEME_EDITOR_1",
 };
 
@@ -14,7 +17,7 @@ const _CFT_THEME_EDITOR = {
     </span>`,
 };
 
-class ThemeEditorFragment extends ui.Fragment {
+export class ThemeEditorFragment extends Fragment {
   constructor() {
     super();
     this._theme = null;
@@ -26,7 +29,7 @@ class ThemeEditorFragment extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_THEME_EDITOR.ON_COLOR_CHANGE:
+    case CF_THEME_EDITOR.ON_COLOR_CHANGE:
       this.#onColorChange(args[0], args[1]);
       break;
     default:
@@ -36,18 +39,18 @@ class ThemeEditorFragment extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderHeaderTheme(this._theme));
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderContentTheme(this._theme));
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderIconPreview(this._theme, this._iconUrl));
   }
@@ -84,5 +87,9 @@ class ThemeEditorFragment extends ui.Fragment {
   }
 };
 
-gui.ThemeEditorFragment = ThemeEditorFragment;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_THEME_EDITOR = CF_THEME_EDITOR;
+  window.gui.ThemeEditorFragment = ThemeEditorFragment;
+}
