@@ -18,8 +18,3 @@ export class FFragmentList extends Fragment {
   #remove(f) { this.setChild(f, null); }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.FFragmentList = FFragmentList;
-}

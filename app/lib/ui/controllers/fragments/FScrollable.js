@@ -10,8 +10,3 @@ export class FScrollable extends Fragment {
   reload() {}
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.FScrollable = FScrollable;
-}

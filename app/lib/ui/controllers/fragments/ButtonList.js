@@ -6,7 +6,7 @@ export const CF_BUTTON_LIST = {
 
 const _CVT_BUTTON_LIST = {
   BTN :
-      `<a class="button-bar __STYLE__" href="javascript:void(0)" onclick="javascript:G.action(ui.CF_BUTTON_LIST.ONCLICK, __ID__)">__TEXT__</a>
+      `<a class="button-bar __STYLE__" href="javascript:void(0)" onclick="javascript:G.action('${CF_BUTTON_LIST.ONCLICK}', __ID__)">__TEXT__</a>
   <br>`,
 }
 
@@ -59,9 +59,8 @@ export class ButtonList extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_BUTTON_LIST = CF_BUTTON_LIST;
-  window.ui.ButtonList = ButtonList;
+// Export to window for string template access
+if (typeof window !== '''undefined''') {
+  window.CF_BUTTON_LIST = CF_BUTTON_LIST;
 }
+

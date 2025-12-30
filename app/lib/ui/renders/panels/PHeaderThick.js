@@ -47,8 +47,3 @@ export class PHeaderThick extends PHeader {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.PHeaderThick = PHeaderThick;
-}

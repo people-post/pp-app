@@ -10,7 +10,7 @@ const _CFT_TEXT_INPUT = {
        __INPUT__
     </div>`,
   INPUT :
-      `<input type="text" id="__ID__" class="__CLASS_NAME__" placeholder="__HINT__" value="__VALUE__" onchange="javascript:G.action(ui.CF_TEXT_INPUT.ONCHANGE, this.value)">`
+      `<input type="text" id="__ID__" class="__CLASS_NAME__" placeholder="__HINT__" value="__VALUE__" onchange="javascript:G.action(window.CF_TEXT_INPUT.ONCHANGE, this.value)">`
 }
 
 export class TextInput extends SimpleInput {
@@ -84,9 +84,3 @@ export class TextInput extends SimpleInput {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_TEXT_INPUT = CF_TEXT_INPUT;
-  window.ui.TextInput = TextInput;
-}

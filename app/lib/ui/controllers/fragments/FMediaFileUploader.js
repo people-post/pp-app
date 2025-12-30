@@ -11,7 +11,7 @@ export const CF_MEDIA_FILE_UPLOAD = {
 export const _CFT_MEDIA_FILE_UPLOAD = {
   ACTIONS :
       `<a class="button-like s-primary" href="javascript:void(0)" onclick="javascript:this.nextElementSibling.click();">Cover</a>
-      <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action(ui.CF_MEDIA_FILE_UPLOAD.SET_THUMBNAIL_IMAGE, this.files[0])">`,
+      <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action(window.CF_MEDIA_FILE_UPLOAD.SET_THUMBNAIL_IMAGE, this.files[0])">`,
 };
 
 export class FMediaFileUploader extends FFileUploader {
@@ -92,10 +92,3 @@ export class FMediaFileUploader extends FFileUploader {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_MEDIA_FILE_UPLOAD = CF_MEDIA_FILE_UPLOAD;
-  window.ui._CFT_MEDIA_FILE_UPLOAD = _CFT_MEDIA_FILE_UPLOAD;
-  window.ui.FMediaFileUploader = FMediaFileUploader;
-}

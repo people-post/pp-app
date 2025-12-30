@@ -55,7 +55,7 @@ export class Selection extends Fragment {
     let e = document.createElement("SELECT");
     e.id = this.#getElementId();
     e.setAttribute("onchange",
-                   "javascript:G.action(ui.CF_SELECTION.ONSELECT, this.value)");
+                   "javascript:G.action(window.CF_SELECTION.ONSELECT, this.value)");
     e.setAttribute("onclick", "javascript:G.anchorClick()");
     let eOption;
     for (let item of items) {
@@ -68,9 +68,3 @@ export class Selection extends Fragment {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_SELECTION = CF_SELECTION;
-  window.ui.Selection = Selection;
-}

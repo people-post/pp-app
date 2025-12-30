@@ -6,6 +6,11 @@ export const CF_NAVIGATION = {
   ON_TAB_CLICK : Symbol(),
 };
 
+// Export to window for string template access
+if (typeof window !== '''undefined''') {
+  window.CF_NAVIGATION = CF_NAVIGATION;
+}
+
 export class FNavigation extends Fragment {
   constructor() {
     super();
@@ -98,9 +103,3 @@ export class FNavigation extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_NAVIGATION = CF_NAVIGATION;
-  window.ui.FNavigation = FNavigation;
-}

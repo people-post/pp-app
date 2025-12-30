@@ -1,5 +1,10 @@
 import { FBanner } from '../common/gui/FBanner.js';
 import { WindowController } from '../lib/ui/controllers/WindowController.js';
+import { PanelWrapper } from '../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../lib/ui/controllers/views/View.js';
+import { FvcNotice } from '../lib/ui/controllers/views/FvcNotice.js';
+import { LvDialog } from '../lib/ui/controllers/layers/LvDialog.js';
+import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
 
 const _CRCT_SESSION = {
   // Prime, secondary: User defined
@@ -75,7 +80,7 @@ export class WcSession extends WindowController {
     w.attach("ID_R");
     this.attachRender(w);
     this.#fBanner.attachRender(w.getBannerPanel());
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     p.setClassName("layer");
     w.pushLayer(p);
 
@@ -222,7 +227,7 @@ export class WcSession extends WindowController {
 
   _pushView(view, title) {
     for (let lc of this._childStack) {
-      if (lc instanceof ui.ViewLayer) {
+      if (lc instanceof ViewLayer) {
         lc.pushView(view, title);
         break;
       }
@@ -327,14 +332,14 @@ export class WcSession extends WindowController {
   }
 
   #closeDialog() {
-    if (this._childStack[0] instanceof ui.LvDialog) {
+    if (this._childStack[0] instanceof LvDialog) {
       this.onRequestPopLayer(this._childStack[0]);
     }
   }
 
   #showNotice(msg) {
-    let v = new ui.View();
-    let f = new ui.FvcNotice();
+    let v = new View();
+    let f = new FvcNotice();
     f.setMessage(msg);
     v.setContentFragment(f);
     this._showCustomDialog(v, "Notice", false);
@@ -347,7 +352,7 @@ export class WcSession extends WindowController {
   }
 
   #showUserInfoView(userId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new hr.FvcUserInfo();
     f.setUserId(userId);
     v.setContentFragment(f);
@@ -355,7 +360,7 @@ export class WcSession extends WindowController {
   }
 
   #showUserGroupView(groupId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new S.hr.FvcUserGroup();
     f.setGroupId(groupId);
     v.setContentFragment(f);
@@ -363,8 +368,8 @@ export class WcSession extends WindowController {
   }
 
   #pushDialog(view, title, enableCloseButton) {
-    if (!(this._childStack[0] instanceof ui.LvDialog)) {
-      let lc = new ui.LvDialog();
+    if (!(this._childStack[0] instanceof LvDialog)) {
+      let lc = new LvDialog();
       lc.setEnableCloseButton(enableCloseButton);
       this._pushLayer(lc, "Dialog");
     }

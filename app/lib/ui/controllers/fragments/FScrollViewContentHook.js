@@ -64,6 +64,11 @@ export const CF_SCROLL_VIEW_CONTENT_HOOK = {
   SCROLL_TO_TOP : Symbol(),
 };
 
+// Export to window for string template access
+if (typeof window !== 'undefined') {
+  window.CF_SCROLL_VIEW_CONTENT_HOOK = CF_SCROLL_VIEW_CONTENT_HOOK;
+}
+
 export class FScrollViewContentHook extends FViewContentWrapper {
   #fElasticRefresh;
   #sScrollEvt;
@@ -113,7 +118,7 @@ export class FScrollViewContentHook extends FViewContentWrapper {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_SCROLL_VIEW_CONTENT_HOOK.SCROLL_TO_TOP:
+    case CF_SCROLL_VIEW_CONTENT_HOOK.SCROLL_TO_TOP:
       this.#scrollToTop();
       break;
     default:
@@ -137,7 +142,7 @@ export class FScrollViewContentHook extends FViewContentWrapper {
     p.setVisible(false);
     p.setAttribute(
         "onclick",
-        "javascript:G.action(ui.CF_SCROLL_VIEW_CONTENT_HOOK.SCROLL_TO_TOP)");
+        "javascript:G.action(window.CF_SCROLL_VIEW_CONTENT_HOOK.SCROLL_TO_TOP)");
 
     p = panel.getContentContainerPanel();
     this.#sScrollEvt.observe(p.getDomElement());
@@ -195,9 +200,3 @@ export class FScrollViewContentHook extends FViewContentWrapper {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_SCROLL_VIEW_CONTENT_HOOK = CF_SCROLL_VIEW_CONTENT_HOOK;
-  window.ui.FScrollViewContentHook = FScrollViewContentHook;
-}

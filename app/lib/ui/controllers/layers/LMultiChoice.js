@@ -165,7 +165,7 @@ export class LMultiChoice extends Layer {
     let panel = new PanelWrapper();
     panel.setClassName("w100 h100 context-layer flex flex-column flex-end");
     panel.setAttribute("onclick",
-                       "javascript:G.action(ui.CL_MULTI_CHOICE.CLOSE)");
+                       "javascript:G.action(window.CL_MULTI_CHOICE.CLOSE)");
     render.wrapPanel(panel);
 
     let p = new PanelWrapper();
@@ -245,9 +245,3 @@ export class LMultiChoice extends Layer {
   #onClose() { this.dismiss(); }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CL_MULTI_CHOICE = CL_MULTI_CHOICE;
-  window.ui.LMultiChoice = LMultiChoice;
-}

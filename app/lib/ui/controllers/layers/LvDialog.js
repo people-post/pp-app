@@ -10,7 +10,7 @@ export const CRC_DIALOG = {
 
 const _CRCT_DIALOG = {
   CLOSE_BTN :
-      `<span onclick="javascript:G.action(ui.CRC_DIALOG.CLOSE)">x</span>`,
+      `<span onclick="javascript:G.action(window.CRC_DIALOG.CLOSE)">x</span>`,
 }
 
 export class LvDialog extends ViewLayer {
@@ -33,7 +33,7 @@ export class LvDialog extends ViewLayer {
     let pWrapper = new PanelWrapper();
     pWrapper.setClassName("dialog");
     pWrapper.setAttribute("onclick",
-                          "javascript:G.action(ui.CRC_DIALOG.CLOSE)");
+                          "javascript:G.action(window.CRC_DIALOG.CLOSE)");
     render.wrapPanel(pWrapper);
     let pMain = new ListPanel();
     pMain.setClassName("dialog-content relative");
@@ -107,9 +107,3 @@ export class LvDialog extends ViewLayer {
   #hideCloseBtn() { this._pClose.setVisible(false); }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CRC_DIALOG = CRC_DIALOG;
-  window.ui.LvDialog = LvDialog;
-}

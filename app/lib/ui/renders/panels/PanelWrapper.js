@@ -29,8 +29,3 @@ export class PanelWrapper extends Panel {
   _onWrapperFrameworkDidAppear() {}
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.PanelWrapper = PanelWrapper;
-}

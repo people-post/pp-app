@@ -61,8 +61,3 @@ export class FLongList extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.FLongList = FLongList;
-}

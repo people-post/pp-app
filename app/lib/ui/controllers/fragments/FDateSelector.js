@@ -159,21 +159,21 @@ export class FDateSelector extends Fragment {
 
     let p = panel.getMonthPanel();
     p.setAttribute("onclick",
-                   `javascript:G.action(ui.CF_DATE_SELECTOR.M_CHOOSE)`);
+                   `javascript:G.action(window.CF_DATE_SELECTOR.M_CHOOSE)`);
     p.replaceContent(
         this.#date.toLocaleString([], {month : "2-digit", year : "numeric"}));
 
     p = panel.getBtnTodayPanel();
-    p.setAttribute("onclick", `javascript:G.action(ui.CF_DATE_SELECTOR.TODAY)`);
+    p.setAttribute("onclick", `javascript:G.action(window.CF_DATE_SELECTOR.TODAY)`);
     p.replaceContent("Today");
 
     p = panel.getBtnPrevPanel();
-    p.setAttribute("onclick", `javascript:G.action(ui.CF_DATE_SELECTOR.PREV)`);
+    p.setAttribute("onclick", `javascript:G.action(window.CF_DATE_SELECTOR.PREV)`);
     // TODO: Fix dependency of downstream utilities
     p.replaceContent(CommonUtilities.renderSvgFuncIcon(ICON.PREV));
 
     p = panel.getBtnNextPanel();
-    p.setAttribute("onclick", `javascript:G.action(ui.CF_DATE_SELECTOR.NEXT)`);
+    p.setAttribute("onclick", `javascript:G.action(window.CF_DATE_SELECTOR.NEXT)`);
     // TODO: Fix dependency of downstream utilities
     p.replaceContent(CommonUtilities.renderSvgFuncIcon(ICON.NEXT));
 
@@ -212,7 +212,7 @@ export class FDateSelector extends Fragment {
         p.setClassName(names.join(" "));
         p.setAttribute(
             "onclick",
-            `javascript:G.action(ui.CF_DATE_SELECTOR.D_CHOOSE, ${d})`);
+            `javascript:G.action(window.CF_DATE_SELECTOR.D_CHOOSE, ${d})`);
         pList.pushPanel(p);
         p.replaceContent(d);
       } else {
@@ -260,9 +260,3 @@ export class FDateSelector extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_DATE_SELECTOR = CF_DATE_SELECTOR;
-  window.ui.FDateSelector = FDateSelector;
-}

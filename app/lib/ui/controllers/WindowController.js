@@ -46,8 +46,3 @@ export class WindowController extends RenderController {
   _onPushState(stateData, title) {}
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.WindowController = WindowController;
-}

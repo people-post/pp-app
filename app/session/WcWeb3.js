@@ -2,6 +2,7 @@ import { WcSession } from './WcSession.js';
 import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
 import { LvMain } from './LvMain.js';
 import { AbAccount } from './AbAccount.js';
+import { View } from '../lib/ui/controllers/views/View.js';
 
 export class WcWeb3 extends WcSession {
   #postingKeyPath =
@@ -133,7 +134,7 @@ export class WcWeb3 extends WcSession {
   }
 
   #showUserInfoView(userId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new hr.FvcWeb3UserInfo();
     f.setUserId(userId);
     v.setContentFragment(f);

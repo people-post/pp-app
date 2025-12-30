@@ -7,8 +7,3 @@ export class HintText extends Label {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.HintText = HintText;
-}

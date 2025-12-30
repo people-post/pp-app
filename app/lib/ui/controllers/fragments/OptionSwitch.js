@@ -11,7 +11,7 @@ const _CFT_OPTION_SWITCH = {
         <td>__NAME__:</td>
         <td class="right-align">
           <label class="switch s-font5">
-            <input type="checkbox" onchange="javascript:G.action(ui.CFT_OPTION_SWITCH.ON_CHANGE, '__VALUE__', this.checked)"__EXTRA__>
+            <input type="checkbox" onchange="javascript:G.action(window.CFT_OPTION_SWITCH.ON_CHANGE, '__VALUE__', this.checked)"__EXTRA__>
             <span class="slider"></span>
           </label>
         </td>
@@ -73,9 +73,3 @@ export class OptionSwitch extends Fragment {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CFT_OPTION_SWITCH = CFT_OPTION_SWITCH;
-  window.ui.OptionSwitch = OptionSwitch;
-}

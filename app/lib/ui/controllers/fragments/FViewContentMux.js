@@ -199,8 +199,3 @@ export class FViewContentMux extends FViewContentContainer {
   #onResize() { this.#scrollToCurrentContent(); }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.FViewContentMux = FViewContentMux;
-}

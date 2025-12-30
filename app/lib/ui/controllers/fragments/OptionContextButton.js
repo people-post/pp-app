@@ -11,7 +11,7 @@ export const CF_OPTION_CONTEXT_BUTTON = {
 
 const _CFT_OPTION_CONTEXT_BUTTON = {
   BTN :
-      `<span class="clickable" onclick="javascript:G.action(ui.CF_OPTION_CONTEXT_BUTTON.ONCLICK)">__ICON__</span>`,
+      `<span class="clickable" onclick="javascript:G.action(window.CF_OPTION_CONTEXT_BUTTON.ONCLICK)">__ICON__</span>`,
 };
 
 export class OptionContextButton extends Fragment {
@@ -67,9 +67,3 @@ export class OptionContextButton extends Fragment {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_OPTION_CONTEXT_BUTTON = CF_OPTION_CONTEXT_BUTTON;
-  window.ui.OptionContextButton = OptionContextButton;
-}

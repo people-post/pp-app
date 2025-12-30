@@ -13,7 +13,7 @@ export const _CFT_ATTACHMENT_FILE_UPLOAD = {
   BTN_ADD_FILE : `<label class="s-font5" for="__ID__">
     <span class="icon-legacy inline-block s-icon3">__ICON__</span>
   </label>
-  <input id="__ID__" type="file" style="display:none" onchange="javascript:G.action(ui.CF_ATTACHMENT_FILE_UPLOAD.ADD_FILE, this)">`,
+  <input id="__ID__" type="file" style="display:none" onchange="javascript:G.action(window.CF_ATTACHMENT_FILE_UPLOAD.ADD_FILE, this)">`,
 }
 
 export class FAttachmentFileUploader extends FFileUploader {
@@ -114,10 +114,3 @@ export class FAttachmentFileUploader extends FFileUploader {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_ATTACHMENT_FILE_UPLOAD = CF_ATTACHMENT_FILE_UPLOAD;
-  window.ui._CFT_ATTACHMENT_FILE_UPLOAD = _CFT_ATTACHMENT_FILE_UPLOAD;
-  window.ui.FAttachmentFileUploader = FAttachmentFileUploader;
-}

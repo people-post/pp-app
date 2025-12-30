@@ -59,6 +59,11 @@ export const CF_SCROLLABLE_HOOK = {
   SCROLL_TO_TOP : Symbol(),
 };
 
+// Export to window for string template access
+if (typeof window !== 'undefined') {
+  window.CF_SCROLLABLE_HOOK = CF_SCROLLABLE_HOOK;
+}
+
 export class FScrollableHook extends Fragment {
   #fElasticRefresh;
   #fContent;
@@ -129,7 +134,7 @@ export class FScrollableHook extends Fragment {
     p.replaceContent("Back to top");
     p.setVisible(false);
     p.setAttribute("onclick",
-                   "javascript:G.action(ui.CF_SCROLLABLE_HOOK.SCROLL_TO_TOP)");
+                   "javascript:G.action(window.CF_SCROLLABLE_HOOK.SCROLL_TO_TOP)");
 
     p = panel.getContentContainerPanel();
     this.#sScrollEvt.observe(p.getDomElement());
@@ -186,9 +191,3 @@ export class FScrollableHook extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_SCROLLABLE_HOOK = CF_SCROLLABLE_HOOK;
-  window.ui.FScrollableHook = FScrollableHook;
-}

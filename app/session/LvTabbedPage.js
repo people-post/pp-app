@@ -1,5 +1,6 @@
 import { LvMultiPage } from './LvMultiPage.js';
 import { PMain } from './PMain.js';
+import { VBlank } from '../lib/ui/controllers/views/VBlank.js';
 
 export class LvTabbedPage extends LvMultiPage {
   init() {
@@ -47,15 +48,15 @@ export class LvTabbedPage extends LvMultiPage {
     if (config) {
       switch (config.type) {
       case "BGPRIME":
-        v = new ui.VBlank();
-        v.setLayoutType(ui.VBlank.T_LAYOUT.BGPRIME);
+        v = new VBlank();
+        v.setLayoutType(VBlank.T_LAYOUT.BGPRIME);
         break;
       default:
         break;
       }
     }
     if (!v) {
-      v = new ui.VBlank();
+      v = new VBlank();
     }
     this.setChild(name, v);
     v.attachRender(panel);

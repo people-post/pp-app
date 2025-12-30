@@ -1,3 +1,7 @@
+import { FScrollViewContent } from '../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ButtonGroup } from '../lib/ui/controllers/fragments/ButtonGroup.js';
+import { HintText } from '../lib/ui/controllers/fragments/HintText.js';
+
 window.C_LIVE_STREAM = {
   START_RECORD : "C_LIVE_STREAM_1",
   STOP_RECORD : "C_LIVE_STREAM_2",
@@ -40,7 +44,7 @@ const _CVT_LIVE_STREAM = {
       `<a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action(C_LIVE_STREAM.STOP_PREVIEW)">Stop Preview</a>`,
 }
 
-class FvcLiveStream extends ui.FScrollViewContent {
+class FvcLiveStream extends FScrollViewContent {
   #nUploading = 0;
   #nUploadError = 0;
 
@@ -51,22 +55,22 @@ class FvcLiveStream extends ui.FScrollViewContent {
     this._stream = null;
     this._mediaOption = {video : true, audio : true};
     // TODO: Use fragment based view
-    this._visView = new ui.ButtonGroup();
+    this._visView = new ButtonGroup();
     this._visView.setDelegate(this);
     this._visView.addChoice({
       name : "Public",
       value : C.VIS.PUBLIC,
-      fDetail : new ui.HintText("Visible to all.")
+      fDetail : new HintText("Visible to all.")
     });
     this._visView.addChoice({
       name : "Protected",
       value : C.VIS.PROTECTED,
-      fDetail : new ui.HintText("Visible to friends only.")
+      fDetail : new HintText("Visible to friends only.")
     });
     this._visView.addChoice({
       name : "Private",
       value : C.VIS.PRIVATE,
-      fDetail : new ui.HintText("Only visible to yourself.")
+      fDetail : new HintText("Only visible to yourself.")
     });
   }
 

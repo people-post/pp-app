@@ -103,7 +103,7 @@ export class FMonthSelector extends Fragment {
       pp = new Panel();
       pp.setAttribute(
           "onclick",
-          `javascript:G.action(ui.CF_MONTH_SELECTOR.Y_CHOOSE, ${yy})`);
+          `javascript:G.action(window.CF_MONTH_SELECTOR.Y_CHOOSE, ${yy})`);
       if (i == 0) {
         names = baseNames.concat([ "s-cfuncbg", "s-csecondary", "bold" ]);
         pCurrent = pp;
@@ -125,7 +125,7 @@ export class FMonthSelector extends Fragment {
 
       pp.setAttribute(
           "onclick",
-          `javascript:G.action(ui.CF_MONTH_SELECTOR.M_CHOOSE, ${i})`);
+          `javascript:G.action(window.CF_MONTH_SELECTOR.M_CHOOSE, ${i})`);
       if (i == m) {
         names = baseNames.concat([ "s-cfuncbg", "s-csecondary", "bold" ]);
         pCurrent = pp;
@@ -158,9 +158,3 @@ export class FMonthSelector extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_MONTH_SELECTOR = CF_MONTH_SELECTOR;
-  window.ui.FMonthSelector = FMonthSelector;
-}

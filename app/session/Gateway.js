@@ -1,4 +1,6 @@
 import { Controller } from '../lib/ext/Controller.js';
+import { View } from '../lib/ui/controllers/views/View.js';
+import { ICONS } from '../lib/ui/Icons.js';
 
 export class Gateway extends Controller {
   static T_CONFIG = {
@@ -10,7 +12,7 @@ export class Gateway extends Controller {
     WORKSHOP:
         {ID: C.ID.SECTOR.WORKSHOP, NAME: "Workshop", ICON: C.ICON.WORKSHOP},
     SHOP: {ID: C.ID.SECTOR.SHOP, NAME: "Shop", ICON: C.ICON.SHOP},
-    EXTRAS: {ID: C.ID.SECTOR.EXTRAS, NAME: "Extras", ICON: ui.ICONS.MORE},
+    EXTRAS: {ID: C.ID.SECTOR.EXTRAS, NAME: "Extras", ICON: ICONS.MORE},
     CONFIG: {
       ID: C.ID.SECTOR.WEB_CONFIG,
       NAME: "WebConfig",
@@ -338,84 +340,84 @@ export class Gateway extends Controller {
     let vs = [];
     switch (pageId) {
     case C.ID.SECTOR.FRONT_PAGE:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       gateway = new ftpg.Gateway();
       vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case C.ID.SECTOR.BLOG:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       gateway = new blog.Gateway();
       vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case C.ID.SECTOR.MESSENGER:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       gateway = new msgr.Gateway();
       vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case C.ID.SECTOR.WORKSHOP:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       gateway = new wksp.Gateway();
       vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case C.ID.SECTOR.SHOP:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       gateway = new shop.Gateway();
       vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case C.ID.SECTOR.WEB_CONFIG:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       gateway = new hstn.Gateway();
       vs[0].setContentFragment(
           gateway.createWebConfigMainViewContentFragment());
       break;
     case C.ID.SECTOR.COMMUNITY:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       vs[0].setContentFragment(new cmut.FvcMain());
       break;
     case C.ID.SECTOR.ORDERS:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       gateway = new cart.Gateway();
       vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case C.ID.SECTOR.ACCOUNT:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       gateway = new acnt.Gateway();
       vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case C.ID.SECTOR.ABOUT:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       f = new hr.FvcUserInfo();
       f.setUserId(dba.WebConfig.getOwnerId());
       vs[0].setContentFragment(f);
       break;
     case C.ID.SECTOR.PROFILE:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       f = new hr.FvcUserInfo();
       f.setUserId(dba.Account.getId());
       vs[0].setContentFragment(f);
       break;
     case C.ID.SECTOR.HOSTING:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       gateway = new hstn.Gateway();
       vs[0].setContentFragment(gateway.createMemberMainViewContentFragment());
       break;
     case C.ID.SECTOR.GUEST_HOSTING:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       gateway = new hstn.Gateway();
       vs[0].setContentFragment(gateway.createGuestMainViewContentFragment());
       break;
     case C.ID.SECTOR.CAREERS:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       gateway = new hr.Gateway();
       vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case C.ID.SECTOR.EXCHANGE:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       gateway = new xchg.Gateway();
       vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case C.ID.SECTOR.EMAIL:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       gateway = new emal.Gateway();
       vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
@@ -424,11 +426,11 @@ export class Gateway extends Controller {
       vs = [ gateway.createLoginView() ];
       break;
     case C.ID.SECTOR.RESET_PASS:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       vs[0].setContentFragment(new auth.FvcResetPassword());
       break;
     case C.ID.SECTOR.ACTIVATION:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       vs[0].setContentFragment(new auth.FvcAccountActivation());
       break;
     default:

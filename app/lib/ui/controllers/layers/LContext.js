@@ -133,7 +133,7 @@ export class LContext extends Layer {
 
     let panel = new PanelWrapper();
     panel.setClassName("w100 h100 context-layer flex flex-column flex-end");
-    panel.setAttribute("onclick", "javascript:G.action(ui.CL_CONTEXT.CLOSE)");
+    panel.setAttribute("onclick", "javascript:G.action(window.CL_CONTEXT.CLOSE)");
     render.wrapPanel(panel);
 
     let p = new PanelWrapper();
@@ -201,9 +201,3 @@ export class LContext extends Layer {
   #onClose() { this.dismiss(); }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CL_CONTEXT = CL_CONTEXT;
-  window.ui.LContext = LContext;
-}

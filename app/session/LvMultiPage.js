@@ -3,6 +3,7 @@ import { FvcExtras } from '../common/gui/FvcExtras.js';
 import { View } from '../lib/ui/controllers/views/View.js';
 import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
 import { PageViewController } from '../lib/ui/controllers/PageViewController.js';
+import { Page } from '../lib/ui/controllers/Page.js';
 
 export class LvMultiPage extends ViewLayer {
   #fBtnHome = null;
@@ -103,7 +104,7 @@ export class LvMultiPage extends ViewLayer {
   pushView(view, title) { this._vc.pushView(view, title); }
 
   createPageForPageViewController(pvc, pageId) {
-    let page = new ui.Page();
+    let page = new Page();
     page.setOwner(pvc);
     page.setPageId(pageId);
     page.setDataSource(this);

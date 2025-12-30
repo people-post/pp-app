@@ -29,8 +29,3 @@ export class FWaiting extends Fragment {
   #refresh() { this._delegate.onWaitingFragmentRequestUpdate(this); }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.FWaiting = FWaiting;
-}

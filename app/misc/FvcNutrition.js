@@ -1,3 +1,5 @@
+import { FScrollViewContent } from '../lib/ui/controllers/fragments/FScrollViewContent.js';
+
 class NutritionLib {
   constructor(data) {
     this.reference = data['reference'];
@@ -7,7 +9,7 @@ class NutritionLib {
   getData(name) { return this._data[name]; }
 }
 
-class FvcNutrition extends ui.FScrollViewContent {
+class FvcNutrition extends FScrollViewContent {
   constructor() {
     super();
     this._nutritionLib = null;

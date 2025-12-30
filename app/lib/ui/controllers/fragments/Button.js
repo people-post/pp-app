@@ -6,7 +6,7 @@ export const CF_UI_BUTTON = {
 };
 
 const _CFT_UI_BUTTON = {
-  ACTION : "javascript:G.action(ui.CF_UI_BUTTON.ON_CLICK)",
+  ACTION : "javascript:G.action(window.CF_UI_BUTTON.ON_CLICK)",
 };
 
 export class Button extends Fragment {
@@ -193,9 +193,3 @@ export class Button extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ui = window.ui || {};
-  window.ui.CF_UI_BUTTON = CF_UI_BUTTON;
-  window.ui.Button = Button;
-}
