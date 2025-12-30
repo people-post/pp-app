@@ -1,5 +1,4 @@
-(function(dba) {
-dba.Keys = function() {
+export const Keys = function() {
   let _entropy = null;
   let _seed = null;
   let _METHOD = {
@@ -147,4 +146,10 @@ dba.Keys = function() {
     fromEncodedStr : _fromEncodedStr
   };
 }();
-}(window.dba = window.dba || {}));
+}();
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Keys = Keys;
+}

@@ -1,5 +1,4 @@
-(function(dat) {
-class CardanoAccount {
+export class CardanoAccount {
   // m/purpose'/coin_type'/account'/role/index
   static T_ROLE = {
     EXTERNAL : 0, // External chain, from BIP44
@@ -38,5 +37,8 @@ class CardanoAccount {
   }
 };
 
-dat.CardanoAccount = CardanoAccount;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.CardanoAccount = CardanoAccount;
+}

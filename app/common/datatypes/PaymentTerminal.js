@@ -1,5 +1,4 @@
-(function(dat) {
-class PaymentTerminal extends dat.ServerDataObject {
+export class PaymentTerminal extends dat.ServerDataObject {
   // Synced with backend
   static T_TYPE = {
     SQUARE_TERMINAL : "SQUARE_TERMINAL",
@@ -41,5 +40,8 @@ class PaymentTerminal extends dat.ServerDataObject {
   }
 };
 
-dat.PaymentTerminal = PaymentTerminal;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.PaymentTerminal = PaymentTerminal;
+}

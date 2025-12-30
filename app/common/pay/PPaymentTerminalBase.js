@@ -1,5 +1,4 @@
-(function(pay) {
-class PPaymentTerminalBase extends ui.Panel {
+export class PPaymentTerminalBase extends ui.Panel {
   constructor() {
     super();
     this._pStatus = new ui.Panel();
@@ -16,5 +15,8 @@ class PPaymentTerminalBase extends ui.Panel {
   invertColor() {}
 };
 
-pay.PPaymentTerminalBase = PPaymentTerminalBase;
-}(window.pay = window.pay || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pay = window.pay || {};
+  window.pay.PPaymentTerminalBase = PPaymentTerminalBase;
+}

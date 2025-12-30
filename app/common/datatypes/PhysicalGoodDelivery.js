@@ -1,5 +1,7 @@
-(function(dat) {
-class PhysicalGoodDelivery extends dat.ProductDelivery {};
+export class PhysicalGoodDelivery extends dat.ProductDelivery {};
 
-dat.PhysicalGoodDelivery = PhysicalGoodDelivery;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.PhysicalGoodDelivery = PhysicalGoodDelivery;
+}

@@ -1,9 +1,8 @@
-(function(pay) {
-pay.CF_PAYMENT_TERMINAL = {
+export const CF_PAYMENT_TERMINAL = {
   ON_CLICK : Symbol(),
 };
 
-class FPaymentTerminal extends ui.Fragment {
+export class FPaymentTerminal extends ui.Fragment {
   static T_LAYOUT = {
     SMALL : Symbol(),
     FULL: Symbol(),
@@ -30,7 +29,7 @@ class FPaymentTerminal extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case pay.CF_PAYMENT_TERMINAL.ON_CLICK:
+    case CF_PAYMENT_TERMINAL.ON_CLICK:
       this._delegate.onClickInPaymentTerminalFragment(this, this._terminalId);
       break;
     default:
@@ -155,5 +154,9 @@ class FPaymentTerminal extends ui.Fragment {
   }
 };
 
-pay.FPaymentTerminal = FPaymentTerminal;
-}(window.pay = window.pay || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pay = window.pay || {};
+  window.pay.CF_PAYMENT_TERMINAL = CF_PAYMENT_TERMINAL;
+  window.pay.FPaymentTerminal = FPaymentTerminal;
+}

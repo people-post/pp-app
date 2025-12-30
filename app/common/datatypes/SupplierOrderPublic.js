@@ -1,5 +1,7 @@
-(function(dat) {
-class SupplierOrderPublic extends dat.SupplierOrderBase {};
+export class SupplierOrderPublic extends dat.SupplierOrderBase {};
 
-dat.SupplierOrderPublic = SupplierOrderPublic;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.SupplierOrderPublic = SupplierOrderPublic;
+}

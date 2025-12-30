@@ -1,7 +1,9 @@
-(function(dat) {
-class ShopRegister extends dat.ServerDataObject {
+export class ShopRegister extends dat.ServerDataObject {
   getName() { return this._data.name; }
 };
 
-dat.ShopRegister = ShopRegister;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ShopRegister = ShopRegister;
+}

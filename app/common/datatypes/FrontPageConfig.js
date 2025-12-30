@@ -1,5 +1,4 @@
-(function(dat) {
-class FrontPageConfig {
+export class FrontPageConfig {
   // Synced with backend
   static T_TEMPLATE = {
     BRIEF : "BRIEF",
@@ -58,5 +57,8 @@ class FrontPageConfig {
   }
 };
 
-dat.FrontPageConfig = FrontPageConfig;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.FrontPageConfig = FrontPageConfig;
+}

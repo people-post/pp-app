@@ -1,5 +1,4 @@
-(function(dat) {
-class ProjectActor {
+export class ProjectActor {
   static T_ROLE = {
     // Defined in backend
     FACILITATOR : "FACILITATOR",
@@ -41,5 +40,8 @@ class ProjectActor {
   }
 };
 
-dat.ProjectActor = ProjectActor;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ProjectActor = ProjectActor;
+}

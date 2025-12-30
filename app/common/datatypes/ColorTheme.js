@@ -1,5 +1,4 @@
-(function(dat) {
-class ColorTheme {
+export class ColorTheme {
   #cWhite = "#FFF";
   #cDark = "#333";
   #cDimGray = "#696969";
@@ -88,5 +87,8 @@ class ColorTheme {
   }
 };
 
-dat.ColorTheme = ColorTheme;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ColorTheme = ColorTheme;
+}

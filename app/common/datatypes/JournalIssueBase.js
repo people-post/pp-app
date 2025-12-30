@@ -1,5 +1,4 @@
-(function(dat) {
-class JournalIssueBase extends dat.Post {
+export class JournalIssueBase extends dat.Post {
   #sections = [];
 
   constructor(data) {
@@ -25,5 +24,8 @@ class JournalIssueBase extends dat.Post {
   getSections() { return this.#sections; }
 };
 
-dat.JournalIssueBase = JournalIssueBase;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.JournalIssueBase = JournalIssueBase;
+}

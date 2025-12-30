@@ -1,4 +1,3 @@
-(function(pay) {
 const _CPT_PAYMENT_TERMINAL = {
   MAIN : `<div class="flex flex-start">
     <div id="__ID_NAME_DECOR__"></div>
@@ -8,7 +7,7 @@ const _CPT_PAYMENT_TERMINAL = {
   <div id="__ID_DETAIL__"></div>`,
 };
 
-class PPaymentTerminal extends pay.PPaymentTerminalBase {
+export class PPaymentTerminal extends pay.PPaymentTerminalBase {
   constructor() {
     super();
     this._pNameDecor = new ui.Panel();
@@ -38,5 +37,8 @@ class PPaymentTerminal extends pay.PPaymentTerminalBase {
   }
 };
 
-pay.PPaymentTerminal = PPaymentTerminal;
-}(window.pay = window.pay || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pay = window.pay || {};
+  window.pay.PPaymentTerminal = PPaymentTerminal;
+}

@@ -1,4 +1,3 @@
-(function(gui) {
 const _CFT_MENU_ENTRY_ITEM_NAME = {
   MENU_ITEM_HEADER : `<table class="main-menu-item-config-title">
     <tbody>
@@ -10,7 +9,7 @@ const _CFT_MENU_ENTRY_ITEM_NAME = {
   </table>`,
 }
 
-class MenuEntryItemName extends gui.MenuItemName {
+export class MenuEntryItemName extends gui.MenuItemName {
   _renderName() {
     let menuItem = this._getItem();
     let s = _CFT_MENU_ENTRY_ITEM_NAME.MENU_ITEM_HEADER;
@@ -30,5 +29,8 @@ class MenuEntryItemName extends gui.MenuItemName {
   }
 };
 
-gui.MenuEntryItemName = MenuEntryItemName;
-}(window.gui = window.gui || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.MenuEntryItemName = MenuEntryItemName;
+}

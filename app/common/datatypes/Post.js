@@ -1,5 +1,4 @@
-(function(dat) {
-class Post extends dat.SocialItem {
+export class Post extends dat.SocialItem {
   isRepost() { return false; }
   isEditable() { return false; }
   isSocialable() { return true; }
@@ -18,5 +17,8 @@ class Post extends dat.SocialItem {
   getTaggedCommentIds(tagId) { return []; }
 };
 
-dat.Post = Post;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Post = Post;
+}

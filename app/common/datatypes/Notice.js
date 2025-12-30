@@ -1,5 +1,4 @@
-(function(dat) {
-class Notice {
+export class Notice {
   static T_TYPE = {
     LIKE : "LIKE",
     REPOST: "REPOST",
@@ -12,5 +11,8 @@ class Notice {
   getNUnread() { return 0; }
 };
 
-dat.Notice = Notice;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Notice = Notice;
+}

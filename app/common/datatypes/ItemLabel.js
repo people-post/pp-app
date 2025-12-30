@@ -1,7 +1,9 @@
-(function(dat) {
-class ItemLabel extends dat.ServerDataObject {
+export class ItemLabel extends dat.ServerDataObject {
   getName() { return this._data.name; }
 };
 
-dat.ItemLabel = ItemLabel;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ItemLabel = ItemLabel;
+}

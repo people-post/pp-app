@@ -1,5 +1,4 @@
-(function(dat) {
-class Article extends dat.ArticleBase {
+export class Article extends dat.ArticleBase {
   #mTagComments = new Map();
 
   constructor(data) {
@@ -65,5 +64,8 @@ class Article extends dat.ArticleBase {
   }
 };
 
-dat.Article = Article;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Article = Article;
+}

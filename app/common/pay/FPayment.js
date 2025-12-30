@@ -1,9 +1,8 @@
-(function(pay) {
 const _CFT_PAYMENT = {
   TITLE : `<div class="payment-choice-title">__TEXT__</div>`,
 }
 
-class FPayment extends ui.Fragment {
+export class FPayment extends ui.Fragment {
   #fSquare;
   #fBraintree;
 
@@ -136,5 +135,8 @@ class FPayment extends ui.Fragment {
   }
 };
 
-pay.FPayment = FPayment;
-}(window.pay = window.pay || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pay = window.pay || {};
+  window.pay.FPayment = FPayment;
+}

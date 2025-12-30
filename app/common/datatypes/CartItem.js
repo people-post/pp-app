@@ -1,5 +1,4 @@
-(function(dat) {
-class CartItem {
+export class CartItem {
   constructor(data) { this._data = data; }
   getId() { return this._data.id; }
   getProductId() { return this._data.product_id; }
@@ -51,5 +50,8 @@ class CartItem {
   }
 };
 
-dat.CartItem = CartItem;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.CartItem = CartItem;
+}

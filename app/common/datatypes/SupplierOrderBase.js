@@ -1,5 +1,4 @@
-(function(dat) {
-class SupplierOrderBase extends dat.ServerDataObject {
+export class SupplierOrderBase extends dat.ServerDataObject {
   constructor(data) {
     super(data);
     this._items = this.#initItems(data.items);
@@ -33,5 +32,8 @@ class SupplierOrderBase extends dat.ServerDataObject {
   }
 };
 
-dat.SupplierOrderBase = SupplierOrderBase;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.SupplierOrderBase = SupplierOrderBase;
+}

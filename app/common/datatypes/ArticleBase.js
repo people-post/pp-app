@@ -1,5 +1,4 @@
-(function(dat) {
-class ArticleBase extends dat.Post {
+export class ArticleBase extends dat.Post {
   #files = [];
   #attachments = [];
 
@@ -58,5 +57,8 @@ class ArticleBase extends dat.Post {
   #isEmpty() { return this._data.title == null && this._data.content == null; }
 };
 
-dat.ArticleBase = ArticleBase;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ArticleBase = ArticleBase;
+}

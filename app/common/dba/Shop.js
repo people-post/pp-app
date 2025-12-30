@@ -1,6 +1,4 @@
-(function(dba) {
-
-dba.Shop = function() {
+export const Shop = function() {
   let _productLib = new Map();
   let _orderLib = new Map();
   let _mBranch = new Map();
@@ -348,4 +346,10 @@ dba.Shop = function() {
     asyncUpdateConfig : _asyncUpdateConfig,
   };
 }();
-}(window.dba = window.dba || {}));
+}();
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Shop = Shop;
+}

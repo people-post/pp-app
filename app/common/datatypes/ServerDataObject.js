@@ -1,6 +1,4 @@
-(function(dat) {
-
-class ServerDataObject {
+export class ServerDataObject {
   constructor(data) {
     if (data.created_at) {
       data.created_at = new Date(data.created_at * 1000);
@@ -12,5 +10,8 @@ class ServerDataObject {
   getCreationTime() { return this._data.created_at; }
 };
 
-dat.ServerDataObject = ServerDataObject;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ServerDataObject = ServerDataObject;
+}

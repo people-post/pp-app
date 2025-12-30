@@ -1,5 +1,4 @@
-(function(dat) {
-class PreviewOrder extends dat.ServerDataObject {
+export class PreviewOrder extends dat.ServerDataObject {
   constructor(data) {
     super(data);
     this._items = this.#initItems(data.items);
@@ -18,5 +17,8 @@ class PreviewOrder extends dat.ServerDataObject {
   }
 };
 
-dat.PreviewOrder = PreviewOrder;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.PreviewOrder = PreviewOrder;
+}

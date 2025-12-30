@@ -1,5 +1,4 @@
-(function(dat) {
-class Vote extends dat.ServerDataObject {
+export class Vote extends dat.ServerDataObject {
   // Synced with backend
   static T_VALUE = {YEA : "YEA", NAY: "NAY"};
 
@@ -8,5 +7,8 @@ class Vote extends dat.ServerDataObject {
   getValue() { return this._data.value; }
 };
 
-dat.Vote = Vote;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Vote = Vote;
+}

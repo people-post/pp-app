@@ -1,4 +1,3 @@
-(function(gui) {
 const _CPT_MENU_ITEM = {
   V_MAIN : `<div class="flex">
     <div class="w5">
@@ -23,7 +22,7 @@ const _CPT_MENU_ITEM = {
   H_BAR : `<span class="menu-hr"></span>`,
 };
 
-class PVMenuItem extends ui.Panel {
+export class PVMenuItem extends ui.Panel {
   #pTheme;
   #pContent;
   #pArrow;
@@ -55,7 +54,7 @@ class PVMenuItem extends ui.Panel {
   }
 };
 
-class PHMenuItem extends ui.Panel {
+export class PHMenuItem extends ui.Panel {
   #pTheme;
   #pContent;
   #pArrow;
@@ -87,7 +86,7 @@ class PHMenuItem extends ui.Panel {
   }
 };
 
-class MainMenu extends gui.MenuContent {
+export class MainMenu extends gui.MenuContent {
   #fBar;
   #btnAll;
   #fChoices;
@@ -306,5 +305,10 @@ class MainMenu extends gui.MenuContent {
   }
 };
 
-gui.MainMenu = MainMenu;
-}(window.gui = window.gui || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PVMenuItem = PVMenuItem;
+  window.gui.PHMenuItem = PHMenuItem;
+  window.gui.MainMenu = MainMenu;
+}

@@ -1,6 +1,4 @@
-(function(dba) {
-
-dba.Menus = function() {
+export const Menus = function() {
   let _lib = new Map();
   let _pendingResponses = [];
 
@@ -122,4 +120,10 @@ dba.Menus = function() {
     asyncUpdateEntryMenuItemTheme : _asyncUpdateMenuEntryItemTheme,
   };
 }();
-}(window.dba = window.dba || {}));
+}();
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Menus = Menus;
+}

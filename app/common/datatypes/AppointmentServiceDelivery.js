@@ -1,5 +1,4 @@
-(function(dat) {
-class AppointmentServiceDelivery extends dat.ProductDelivery {
+export class AppointmentServiceDelivery extends dat.ProductDelivery {
   constructor(data) {
     super(data);
     this._locations = [];
@@ -13,5 +12,8 @@ class AppointmentServiceDelivery extends dat.ProductDelivery {
   #initLocation(data) { return new dat.ProductServiceLocation(data); }
 };
 
-dat.AppointmentServiceDelivery = AppointmentServiceDelivery;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.AppointmentServiceDelivery = AppointmentServiceDelivery;
+}

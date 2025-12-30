@@ -1,5 +1,4 @@
-(function(dat) {
-class RemoteFile extends dat.ServerDataObject {
+export class RemoteFile extends dat.ServerDataObject {
   // Synced with backend
   static T_STATUS = {
     LIVE : "LIVE",
@@ -53,5 +52,8 @@ class RemoteFile extends dat.ServerDataObject {
   #getCoverImageUrl() { return this._data.cover_image_url; }
 };
 
-dat.RemoteFile = RemoteFile;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.RemoteFile = RemoteFile;
+}

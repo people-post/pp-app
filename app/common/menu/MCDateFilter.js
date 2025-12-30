@@ -1,4 +1,3 @@
-(function(gui) {
 const _CPT_DATE_FILTER = {
   MAIN :
       `<div class="menu-hr-wrapper"><span class="menu-hr s-cmenubg"></span></div>
@@ -13,7 +12,7 @@ const _CPT_DATE_FILTER = {
   <br>`,
 };
 
-class PDateFilter extends ui.Panel {
+export class PDateFilter extends ui.Panel {
   #pSearchBar;
   #pFrom;
   #pTo;
@@ -50,7 +49,7 @@ class PDateFilter extends ui.Panel {
   }
 };
 
-class MCDateFilter extends gui.MenuContent {
+export class MCDateFilter extends gui.MenuContent {
   #fBar;
   #fFrom;
   #fTo;
@@ -141,5 +140,9 @@ class MCDateFilter extends gui.MenuContent {
   }
 };
 
-gui.MCDateFilter = MCDateFilter;
-}(window.gui = window.gui || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PDateFilter = PDateFilter;
+  window.gui.MCDateFilter = MCDateFilter;
+}

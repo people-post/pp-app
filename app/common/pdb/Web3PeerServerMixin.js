@@ -1,5 +1,4 @@
-(function(pdb) {
-const Web3PeerServerMixin = (Base) => class extends Base {
+export const Web3PeerServerMixin = (Base) => class extends Base {
   #mUsers = new Map();
   #initUserId;
 
@@ -92,5 +91,8 @@ const Web3PeerServerMixin = (Base) => class extends Base {
   }
 };
 
-pdb.Web3PeerServerMixin = Web3PeerServerMixin;
-}(window.pdb = window.pdb || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pdb = window.pdb || {};
+  window.pdb.Web3PeerServerMixin = Web3PeerServerMixin;
+}

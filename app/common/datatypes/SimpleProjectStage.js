@@ -1,5 +1,4 @@
-(function(dat) {
-class SimpleProjectStage extends dat.ProjectStage {
+export class SimpleProjectStage extends dat.ProjectStage {
   isDone() { return this._data.status == C.STATE.STATUS.F_DONE; }
   getType() { return this._data.type; }
   getName() { return this._data.name; }
@@ -28,5 +27,8 @@ class SimpleProjectStage extends dat.ProjectStage {
   }
 };
 
-dat.SimpleProjectStage = SimpleProjectStage;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.SimpleProjectStage = SimpleProjectStage;
+}

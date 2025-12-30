@@ -1,5 +1,4 @@
-(function(dat) {
-class Comment extends dat.Post {
+export class Comment extends dat.Post {
   // Synced with backend
   static T_STATUS = {
     PENDING : "PENDING",
@@ -34,5 +33,8 @@ class Comment extends dat.Post {
   }
 };
 
-dat.Comment = Comment;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Comment = Comment;
+}

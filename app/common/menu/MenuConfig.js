@@ -1,5 +1,4 @@
-(function(gui) {
-class MenuConfig extends gui.DirFragment {
+export class MenuConfig extends gui.DirFragment {
   constructor() {
     super();
     let f = new gui.FSmartInput();
@@ -111,5 +110,8 @@ class MenuConfig extends gui.DirFragment {
   }
 };
 
-gui.MenuConfig = MenuConfig;
-}(window.gui = window.gui || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.MenuConfig = MenuConfig;
+}

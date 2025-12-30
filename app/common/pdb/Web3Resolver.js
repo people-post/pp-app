@@ -1,5 +1,4 @@
-(function(pdb) {
-class Web3Resolver {
+export class Web3Resolver {
   #agents = [];
   #lib = new Map();
 
@@ -144,5 +143,8 @@ class Web3Resolver {
   }
 };
 
-pdb.Web3Resolver = Web3Resolver;
-}(window.pdb = window.pdb || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pdb = window.pdb || {};
+  window.pdb.Web3Resolver = Web3Resolver;
+}

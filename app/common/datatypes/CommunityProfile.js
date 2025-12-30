@@ -1,5 +1,4 @@
-(function(dat) {
-class CommunityProfile extends dat.ServerDataObject {
+export class CommunityProfile extends dat.ServerDataObject {
   getName() { return this._data.name; }
   getDescription() { return this._data.description; }
   getIconUrl() { return this._data.icon ? this._data.icon.url : ""; }
@@ -14,5 +13,8 @@ class CommunityProfile extends dat.ServerDataObject {
   getConfig() { return this._data.config; }
 };
 
-dat.CommunityProfile = CommunityProfile;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.CommunityProfile = CommunityProfile;
+}

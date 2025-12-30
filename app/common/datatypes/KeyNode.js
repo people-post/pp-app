@@ -1,5 +1,4 @@
-(function(dat) {
-class KeyNode {
+export class KeyNode {
   #children = new Map();
   #key = null;
 
@@ -30,5 +29,8 @@ class KeyNode {
   #harden(num) { return 0x80000000 + num; }
 };
 
-dat.KeyNode = KeyNode;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.KeyNode = KeyNode;
+}

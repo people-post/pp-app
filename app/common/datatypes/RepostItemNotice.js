@@ -1,5 +1,4 @@
-(function(dat) {
-class RepostItemNotice extends dat.Notice {
+export class RepostItemNotice extends dat.Notice {
   constructor(itemId, itemType) {
     super();
     this._itemId = itemId;
@@ -38,5 +37,8 @@ class RepostItemNotice extends dat.Notice {
   addData(d) { this._elements.push(d); }
 };
 
-dat.RepostItemNotice = RepostItemNotice;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.RepostItemNotice = RepostItemNotice;
+}

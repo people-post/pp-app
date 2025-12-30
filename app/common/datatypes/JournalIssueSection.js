@@ -1,5 +1,4 @@
-(function(dat) {
-class JournalIssueSection {
+export class JournalIssueSection {
   #data;
   #ids = [];
 
@@ -17,5 +16,8 @@ class JournalIssueSection {
   getPostSocialIds() { return this.#ids; }
 };
 
-dat.JournalIssueSection = JournalIssueSection;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.JournalIssueSection = JournalIssueSection;
+}

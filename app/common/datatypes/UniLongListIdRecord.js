@@ -1,5 +1,4 @@
-(function(dat) {
-class UniLongListIdRecord extends dat.LongListIdRecord {
+export class UniLongListIdRecord extends dat.LongListIdRecord {
   #record = new dat.SingleLongListIdRecord();
 
   isEmpty() { return this.#record.isEmpty(); }
@@ -31,5 +30,8 @@ class UniLongListIdRecord extends dat.LongListIdRecord {
   clear() { this.#record.clear(); }
 };
 
-dat.UniLongListIdRecord = UniLongListIdRecord;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.UniLongListIdRecord = UniLongListIdRecord;
+}

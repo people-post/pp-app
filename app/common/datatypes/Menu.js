@@ -1,5 +1,4 @@
-(function(dat) {
-class Menu extends dat.MenuItem {
+export class Menu extends dat.MenuItem {
   constructor(data) { super(data, null); }
 
   getTheme() { return null; }
@@ -8,5 +7,8 @@ class Menu extends dat.MenuItem {
   _createSubItem(data) { return new dat.MenuEntryItem(data, this); }
 };
 
-dat.Menu = Menu;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Menu = Menu;
+}

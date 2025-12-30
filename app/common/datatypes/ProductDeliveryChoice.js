@@ -1,5 +1,4 @@
-(function(dat) {
-class ProductDeliveryChoice extends dat.ServerDataObject {
+export class ProductDeliveryChoice extends dat.ServerDataObject {
   static TYPE =
       {GOOD : null, DIGITAL: "DIGITAL", SCHEDULE: "SCHEDULE", QUEUE: "QUEUE"};
 
@@ -34,5 +33,8 @@ class ProductDeliveryChoice extends dat.ServerDataObject {
   }
 };
 
-dat.ProductDeliveryChoice = ProductDeliveryChoice;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ProductDeliveryChoice = ProductDeliveryChoice;
+}

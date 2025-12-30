@@ -1,5 +1,4 @@
-(function(dat) {
-class Story extends dat.ServerDataObject {
+export class Story extends dat.ServerDataObject {
   constructor(data) {
     super(data);
     this._events = [];
@@ -11,5 +10,8 @@ class Story extends dat.ServerDataObject {
   getEvents() { return this._events; }
 };
 
-dat.Story = Story;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Story = Story;
+}

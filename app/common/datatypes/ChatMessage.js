@@ -1,5 +1,4 @@
-(function(dat) {
-class ChatMessage extends dat.ServerDataObject {
+export class ChatMessage extends dat.ServerDataObject {
   // Synced with backend
   static T_TYPE = {
     TEXT : "TXT",
@@ -29,5 +28,8 @@ class ChatMessage extends dat.ServerDataObject {
   getData() { return this._data.data; }
 };
 
-dat.ChatMessage = ChatMessage;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ChatMessage = ChatMessage;
+}

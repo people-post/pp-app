@@ -1,5 +1,4 @@
-(function(dat) {
-class MenuItem extends dat.DirItem {
+export class MenuItem extends dat.DirItem {
   getTagId() { return this._data.tag_id; }
   getTagIds() {
     let ids = this._data.tag_id ? [ this._data.tag_id ] : [];
@@ -14,5 +13,8 @@ class MenuItem extends dat.DirItem {
   _createSubItem(data) { return new MenuItem(data, this); }
 };
 
-dat.MenuItem = MenuItem;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.MenuItem = MenuItem;
+}

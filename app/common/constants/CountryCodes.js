@@ -1,5 +1,4 @@
-(function(C) {
-C.COUNTRIES = {
+export const COUNTRIES = {
   IDX : {NAME : 0, A2CODE : 1, A3CODE : 2, NCODE : 3},
   DATA : [
     [ "Afghanistan", "AF", "AFG", "004" ],
@@ -257,4 +256,8 @@ C.COUNTRIES = {
   ],
 };
 
-}(window.C = window.C || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.C = window.C || {};
+  window.C.COUNTRIES = COUNTRIES;
+}

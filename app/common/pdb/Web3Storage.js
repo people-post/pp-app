@@ -1,9 +1,8 @@
-(function(pdb) {
-class Web3PeerStorageAgent extends pdb.Web3PeerServerMixin
+export class Web3PeerStorageAgent extends pdb.Web3PeerServerMixin
 (pp.StorageAgent) {};
-class Web3GroupStorageAgent extends pp.StorageAgent {};
+export class Web3GroupStorageAgent extends pp.StorageAgent {};
 
-class Web3Storage {
+export class Web3Storage {
   #agents = [];
 
   async asInit(addrs) {
@@ -53,5 +52,10 @@ class Web3Storage {
   }
 };
 
-pdb.Web3Storage = Web3Storage;
-}(window.pdb = window.pdb || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pdb = window.pdb || {};
+  window.pdb.Web3PeerStorageAgent = Web3PeerStorageAgent;
+  window.pdb.Web3GroupStorageAgent = Web3GroupStorageAgent;
+  window.pdb.Web3Storage = Web3Storage;
+}

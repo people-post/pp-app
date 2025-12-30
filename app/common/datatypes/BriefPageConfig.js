@@ -1,7 +1,9 @@
-(function(dat) {
-class BriefPageConfig extends dat.FrontPageTemplateConfig {
+export class BriefPageConfig extends dat.FrontPageTemplateConfig {
   isLoginEnabled() { return !!this._getData("is_login_enabled"); }
 };
 
-dat.BriefPageConfig = BriefPageConfig;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.BriefPageConfig = BriefPageConfig;
+}

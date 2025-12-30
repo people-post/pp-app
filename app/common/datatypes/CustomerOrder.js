@@ -1,5 +1,4 @@
-(function(dat) {
-class CustomerOrder extends dat.ServerDataObject {
+export class CustomerOrder extends dat.ServerDataObject {
   constructor(data) {
     super(data);
     this._items = this.#initItems(data.items);
@@ -29,5 +28,8 @@ class CustomerOrder extends dat.ServerDataObject {
   }
 };
 
-dat.CustomerOrder = CustomerOrder;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.CustomerOrder = CustomerOrder;
+}

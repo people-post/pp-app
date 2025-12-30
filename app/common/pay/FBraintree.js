@@ -1,9 +1,8 @@
-(function(pay) {
 const _CFT_BRAINTREE = {
   MAIN : `<div id="__ID__"></div>`,
 };
 
-class FBraintree extends ui.Fragment {
+export class FBraintree extends ui.Fragment {
   #fBtnPay;
   #braintree;
   #payload;
@@ -129,5 +128,8 @@ class FBraintree extends ui.Fragment {
   }
 };
 
-pay.FBraintree = FBraintree;
-}(window.pay = window.pay || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pay = window.pay || {};
+  window.pay.FBraintree = FBraintree;
+}

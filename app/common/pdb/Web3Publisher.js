@@ -1,9 +1,8 @@
-(function(pdb) {
-class Web3PeerPublisherAgent extends pdb.Web3PeerServerMixin
+export class Web3PeerPublisherAgent extends pdb.Web3PeerServerMixin
 (pp.PublisherAgent) {};
-class Web3GroupPublisherAgent extends pp.PublisherAgent {};
+export class Web3GroupPublisherAgent extends pp.PublisherAgent {};
 
-class Web3Publisher {
+export class Web3Publisher {
   #agents = [];
 
   getInitUserPeerId() {
@@ -77,5 +76,10 @@ class Web3Publisher {
   }
 };
 
-pdb.Web3Publisher = Web3Publisher;
-}(window.pdb = window.pdb || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pdb = window.pdb || {};
+  window.pdb.Web3PeerPublisherAgent = Web3PeerPublisherAgent;
+  window.pdb.Web3GroupPublisherAgent = Web3GroupPublisherAgent;
+  window.pdb.Web3Publisher = Web3Publisher;
+}

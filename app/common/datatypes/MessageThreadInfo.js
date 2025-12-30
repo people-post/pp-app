@@ -1,5 +1,4 @@
-(function(dat) {
-class MessageThreadInfo extends dat.Notice {
+export class MessageThreadInfo extends dat.Notice {
   constructor(data) {
     super();
     this._data = data;
@@ -22,5 +21,8 @@ class MessageThreadInfo extends dat.Notice {
   }
 };
 
-dat.MessageThreadInfo = MessageThreadInfo;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.MessageThreadInfo = MessageThreadInfo;
+}

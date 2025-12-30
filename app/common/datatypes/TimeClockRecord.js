@@ -1,7 +1,9 @@
-(function(dat) {
-class TimeClockRecord extends dat.ServerDataObject {
+export class TimeClockRecord extends dat.ServerDataObject {
   getTotal() { return this._data.total; }
 };
 
-dat.TimeClockRecord = TimeClockRecord;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.TimeClockRecord = TimeClockRecord;
+}

@@ -1,5 +1,4 @@
-(function(dat) {
-class FeedArticle extends dat.Post {
+export class FeedArticle extends dat.Post {
   #files = [];
 
   constructor(data) {
@@ -22,5 +21,8 @@ class FeedArticle extends dat.Post {
   getSourceUrl() { return this._data.url; }
 };
 
-dat.FeedArticle = FeedArticle;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.FeedArticle = FeedArticle;
+}

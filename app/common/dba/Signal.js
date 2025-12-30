@@ -1,6 +1,4 @@
-(function(dba) {
-
-dba.Signal = function() {
+export const Signal = function() {
   let _cronJob = new ext.CronJob();
   let _mqttClient = null;
   let _cacheClient = null;
@@ -131,4 +129,10 @@ dba.Signal = function() {
     unsubscribe : _unsubscribe,
   };
 }();
-}(window.dba = window.dba || {}));
+}();
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Signal = Signal;
+}

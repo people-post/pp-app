@@ -1,5 +1,7 @@
-(function(dat) {
-class UserBase extends dat.DataObject {};
+export class UserBase extends dat.DataObject {};
 
-dat.UserBase = UserBase;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.UserBase = UserBase;
+}

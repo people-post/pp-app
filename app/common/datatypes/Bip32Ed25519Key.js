@@ -1,5 +1,4 @@
-(function(dat) {
-class Bip32Ed25519Key {
+export class Bip32Ed25519Key {
   #buffer = null; // Uint8Array
 
   constructor(buffer) { this.#buffer = buffer; }
@@ -38,5 +37,8 @@ class Bip32Ed25519Key {
   }
 };
 
-dat.Bip32Ed25519Key = Bip32Ed25519Key;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Bip32Ed25519Key = Bip32Ed25519Key;
+}

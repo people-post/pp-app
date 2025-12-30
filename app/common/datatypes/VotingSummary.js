@@ -1,5 +1,4 @@
-(function(dat) {
-class VotingSummary extends dat.ServerDataObject {
+export class VotingSummary extends dat.ServerDataObject {
   getBallotConfig() { return this._data.config; }
   getBallot(value) {
     for (let item of this._data.items) {
@@ -11,5 +10,8 @@ class VotingSummary extends dat.ServerDataObject {
   }
 };
 
-dat.VotingSummary = VotingSummary;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.VotingSummary = VotingSummary;
+}

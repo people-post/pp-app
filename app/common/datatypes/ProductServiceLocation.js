@@ -1,5 +1,4 @@
-(function(dat) {
-class ProductServiceLocation extends dat.ServerDataObject {
+export class ProductServiceLocation extends dat.ServerDataObject {
   constructor(data) {
     super(data);
     this._timeslots = [];
@@ -45,5 +44,8 @@ class ProductServiceLocation extends dat.ServerDataObject {
   #initTimeslot(data) { return new dat.ProductServiceTimeslot(data); }
 };
 
-dat.ProductServiceLocation = ProductServiceLocation;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ProductServiceLocation = ProductServiceLocation;
+}

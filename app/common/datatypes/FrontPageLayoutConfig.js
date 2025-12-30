@@ -1,5 +1,4 @@
-(function(dat) {
-class FrontPageLayoutConfig {
+export class FrontPageLayoutConfig {
   // Synced with backend
   static T_LAYOUT = {
     TRIPLE : "TRIPLE",
@@ -14,5 +13,8 @@ class FrontPageLayoutConfig {
   _getData(name) { return this.#data[name]; }
 };
 
-dat.FrontPageLayoutConfig = FrontPageLayoutConfig;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.FrontPageLayoutConfig = FrontPageLayoutConfig;
+}

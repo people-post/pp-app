@@ -1,5 +1,4 @@
-(function(dat) {
-class Proposal extends dat.ServerDataObject {
+export class Proposal extends dat.ServerDataObject {
   // Synced with backend
   static T_TYPE = {
     ISSUE_COINS : "ISSUE_COINS",
@@ -38,5 +37,8 @@ class Proposal extends dat.ServerDataObject {
   }
 };
 
-dat.Proposal = Proposal;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Proposal = Proposal;
+}

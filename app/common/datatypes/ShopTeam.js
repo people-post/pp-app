@@ -1,5 +1,4 @@
-(function(dat) {
-class ShopTeam extends dat.UserRole {
+export class ShopTeam extends dat.UserRole {
   // Sync with backend
   static T_STATUS = {
     DISABLED : "DISABLED",
@@ -10,5 +9,8 @@ class ShopTeam extends dat.UserRole {
   hasPermission(id) { return this._data.data.permissions.indexOf(id) >= 0; }
 };
 
-dat.ShopTeam = ShopTeam;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.ShopTeam = ShopTeam;
+}

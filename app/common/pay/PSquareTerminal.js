@@ -1,4 +1,3 @@
-(function(pay) {
 const _CPT_SQUARE_TERMINAL = {
   MAIN : `<div id="__ID_TITLE__"></div>
   <div id="__ID_DEVICE_ID__"></div>
@@ -8,7 +7,7 @@ const _CPT_SQUARE_TERMINAL = {
   <div id="__ID_PAIRED_AT__"></div>`,
 };
 
-class PSquareTerminal extends ui.Panel {
+export class PSquareTerminal extends ui.Panel {
   constructor() {
     super();
     this._pTitle = new ui.Panel();
@@ -48,5 +47,8 @@ class PSquareTerminal extends ui.Panel {
   }
 };
 
-pay.PSquareTerminal = PSquareTerminal;
-}(window.pay = window.pay || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pay = window.pay || {};
+  window.pay.PSquareTerminal = PSquareTerminal;
+}

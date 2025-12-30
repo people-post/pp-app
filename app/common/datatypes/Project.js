@@ -1,5 +1,4 @@
-(function(dat) {
-class Project extends dat.SocialItem {
+export class Project extends dat.SocialItem {
   static ACTIONS = {
     ASSIGN : {name : "Assign...", type: "ASSIGN"},        // Assign facilitator
     ADD_AGENT: {name: "Add agent...", type: "ADD_AGENT"}, // Add agent
@@ -417,5 +416,8 @@ class Project extends dat.SocialItem {
   #createStage(data) { return new dat.SimpleProjectStage(data, this.getId()); }
 };
 
-dat.Project = Project;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Project = Project;
+}

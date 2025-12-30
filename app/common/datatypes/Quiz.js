@@ -1,5 +1,4 @@
-(function(dat) {
-class Quiz extends dat.ServerDataObject {
+export class Quiz extends dat.ServerDataObject {
   constructor(data) {
     super(data);
     // Gen choices
@@ -12,5 +11,8 @@ class Quiz extends dat.ServerDataObject {
   getChoices() { return this._choices; }
 };
 
-dat.Quiz = Quiz;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Quiz = Quiz;
+}

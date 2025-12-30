@@ -1,5 +1,4 @@
-(function(dat) {
-class Email extends dat.ServerDataObject {
+export class Email extends dat.ServerDataObject {
   constructor(data) {
     super(data);
     this._files = [];
@@ -28,5 +27,8 @@ class Email extends dat.ServerDataObject {
   getUpdateTime() { return new Date(this._data.updated_at * 1000); }
 };
 
-dat.Email = Email;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Email = Email;
+}

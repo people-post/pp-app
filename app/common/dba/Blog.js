@@ -1,5 +1,4 @@
-(function(dba) {
-dba.Blog = function() {
+export const Blog = function() {
   let _config = null;
   let _postLib = new Map();
   let _draftLib = new Map();
@@ -393,4 +392,10 @@ dba.Blog = function() {
     clear : _clear,
   };
 }();
-}(window.dba = window.dba || {}));
+}();
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Blog = Blog;
+}

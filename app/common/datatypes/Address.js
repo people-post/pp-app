@@ -1,6 +1,4 @@
-(function(dat) {
-
-class Address extends dat.ServerDataObject {
+export class Address extends dat.ServerDataObject {
   getOwnerId() { return this._data.owner_id; }
   getNickname() { return this._data.nickname; }
   getName() { return this._data.name; }
@@ -11,5 +9,8 @@ class Address extends dat.ServerDataObject {
   getLine(idx) { return this._data.lines[idx]; }
 };
 
-dat.Address = Address;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.Address = Address;
+}

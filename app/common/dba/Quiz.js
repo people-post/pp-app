@@ -1,6 +1,4 @@
-(function(dba) {
-
-dba.Quiz = function() {
+export const Quiz = function() {
   let _lib = new Map();
   let _pendingResponses = [];
   let _idRecord = new dat.UniLongListIdRecord();
@@ -73,4 +71,10 @@ dba.Quiz = function() {
     clear : _clear,
   };
 }();
-}(window.dba = window.dba || {}));
+}();
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Quiz = Quiz;
+}

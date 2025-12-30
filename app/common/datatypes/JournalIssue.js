@@ -1,5 +1,4 @@
-(function(dat) {
-class JournalIssue extends dat.JournalIssueBase {
+export class JournalIssue extends dat.JournalIssueBase {
   #mTagComments = new Map();
 
   constructor(data) {
@@ -19,5 +18,8 @@ class JournalIssue extends dat.JournalIssueBase {
   }
 };
 
-dat.JournalIssue = JournalIssue;
-}(window.dat = window.dat || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.JournalIssue = JournalIssue;
+}

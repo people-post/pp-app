@@ -1,9 +1,8 @@
-(function(pay) {
 const _CFT_SQUARE_PAYMENT = {
   MAIN : `<div id="__ID__"><div>`,
 };
 
-class FSquareOnline extends ui.Fragment {
+export class FSquareOnline extends ui.Fragment {
   constructor() {
     super();
     this._fPayBtn = new ui.Button();
@@ -105,5 +104,8 @@ class FSquareOnline extends ui.Fragment {
   }
 };
 
-pay.FSquareOnline = FSquareOnline;
-}(window.pay = window.pay || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.pay = window.pay || {};
+  window.pay.FSquareOnline = FSquareOnline;
+}
