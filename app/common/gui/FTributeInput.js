@@ -1,12 +1,15 @@
-(function(gui) {
+import { FInput } from '../../lib/ui/controllers/fragments/FInput.js';
+import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
+import { SplitPanel } from '../../lib/ui/renders/panels/SplitPanel.js';
+
 const _CF_TRIBUTE_INPUT = {
   TYPE : {FLAT : "FLAT"},
 }
 
-class FTributetInput extends ui.FInput {
+export class FTributeInput extends FInput {
   constructor() {
     super();
-    this._fPercent = new ui.NumberInput();
+    this._fPercent = new NumberInput();
     this.setChild('percent', this._fPercent);
   }
 
@@ -35,7 +38,7 @@ class FTributetInput extends ui.FInput {
   }
 
   _renderOnRender(render) {
-    let pSplit = new ui.SplitPanel();
+    let pSplit = new SplitPanel();
     render.wrapPanel(pSplit);
 
     let p = pSplit.getLeftPanel();
@@ -86,5 +89,8 @@ class FTributetInput extends ui.FInput {
   }
 };
 
-gui.FTributetInput = FTributetInput;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.FTributeInput = FTributeInput;
+}

@@ -1,5 +1,6 @@
-(function(gui) {
-class PAddressBase extends ui.Panel {
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PAddressBase extends Panel {
   getNicknamePanel() { return null; }
   getNamePanel() { return null; }
   getCountryPanel() { return null; }
@@ -10,7 +11,10 @@ class PAddressBase extends ui.Panel {
   getLine2Panel() { return null; }
   getEditBtnPanel() { return null; }
   getDeleteBtnPanel() { return null; }
-};
+}
 
-gui.PAddressBase = PAddressBase;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PAddressBase = PAddressBase;
+}

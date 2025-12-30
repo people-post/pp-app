@@ -1,16 +1,22 @@
-(function(ui) {
-ui.CF_MULTI_MEDIA_FILE_UPLOAD = {
+import { Fragment } from './Fragment.js';
+import { FMediaFileUploader } from './FMediaFileUploader.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { Panel } from '../../renders/panels/Panel.js';
+import { ICONS } from '../../Icons.js';
+import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+
+export const CF_MULTI_MEDIA_FILE_UPLOAD = {
   ADD_FILES : "CF_MULTI_MEDIA_FILE_UPLOAD_1",
 };
 
-ui._CFT_MULTI_MEDIA_FILE_UPLOAD = {
+export const _CFT_MULTI_MEDIA_FILE_UPLOAD = {
   BTN_ADD_FILE : `<label class="s-font5" for="__ID__">
       <span class="icon-btn-wrapper inline-block s-icon1 clickable">__ICON__</span>
     </label>
     <input id="__ID__" multiple="" type="file" accept="image/*,video/*" style="display:none" onchange="javascript:G.action(ui.CF_MULTI_MEDIA_FILE_UPLOAD.ADD_FILES, this)">`,
 };
 
-class FMultiMediaFileUploader extends ui.Fragment {
+export class FMultiMediaFileUploader extends Fragment {
   constructor() {
     super();
     this._cacheIds = [];
@@ -34,7 +40,7 @@ class FMultiMediaFileUploader extends ui.Fragment {
     this.#clear();
     for (let [i, rf] of hrefFiles.entries()) {
       if (i < this._cacheIds.length) {
-        let f = new ui.FMediaFileUploader();
+        let f = new FMediaFileUploader();
         f.setCacheId(this._cacheIds[i]);
         f.setDataSource(this);
         f.setDelegate(this);
@@ -60,7 +66,7 @@ class FMultiMediaFileUploader extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_MULTI_MEDIA_FILE_UPLOAD.ADD_FILES:
+    case CF_MULTI_MEDIA_FILE_UPLOAD.ADD_FILES:
       this.#addFiles(args[0]);
       break;
     default:
@@ -77,27 +83,27 @@ class FMultiMediaFileUploader extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
     let pp;
     for (let f of this._fFiles) {
-      pp = new ui.PanelWrapper();
+      pp = new PanelWrapper();
       pp.setClassName("inline-block");
       p.pushPanel(pp);
       f.attachRender(pp);
       f.render();
     }
 
-    pp = new ui.Panel();
+    pp = new Panel();
     pp.setClassName("inline-block");
     p.pushPanel(pp);
     pp.replaceContent(this.#renderAddFileButton());
   }
 
   #renderAddFileButton() {
-    let s = ui._CFT_MULTI_MEDIA_FILE_UPLOAD.BTN_ADD_FILE;
-    s = s.replace("__ICON__", ui.ICONS.CAMERA);
+    let s = _CFT_MULTI_MEDIA_FILE_UPLOAD.BTN_ADD_FILE;
+    s = s.replace("__ICON__", ICONS.CAMERA);
     s = s.replace(/__ID__/g, this._id + "-btn-label");
     return s;
   }
@@ -108,7 +114,7 @@ class FMultiMediaFileUploader extends ui.Fragment {
     this.#clear();
     for (let i = 0; i < inputNode.files.length; ++i) {
       if (i < this._cacheIds.length) {
-        let f = new ui.FMediaFileUploader();
+        let f = new FMediaFileUploader();
         f.setCacheId(this._cacheIds[i]);
         f.setDataSource(this);
         f.setDelegate(this);
@@ -121,5 +127,10 @@ class FMultiMediaFileUploader extends ui.Fragment {
   }
 }
 
-ui.FMultiMediaFileUploader = FMultiMediaFileUploader;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_MULTI_MEDIA_FILE_UPLOAD = CF_MULTI_MEDIA_FILE_UPLOAD;
+  window.ui._CFT_MULTI_MEDIA_FILE_UPLOAD = _CFT_MULTI_MEDIA_FILE_UPLOAD;
+  window.ui.FMultiMediaFileUploader = FMultiMediaFileUploader;
+}

@@ -1,5 +1,6 @@
-(function(ui) {
-class Page extends ui.ViewStack {
+import { ViewStack } from './ViewStack.js';
+
+export class Page extends ViewStack {
   constructor() {
     super();
     this._pageId = null;
@@ -10,5 +11,8 @@ class Page extends ui.ViewStack {
   setPageId(id) { this._pageId = id; }
 }
 
-ui.Page = Page;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.Page = Page;
+}

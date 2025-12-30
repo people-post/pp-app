@@ -1,4 +1,7 @@
-(function(gui) {
+import { FInput } from '../../lib/ui/controllers/fragments/FInput.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { T_DATA } from '../../lib/framework/Events.js';
+
 const _CF_RICH_CONTENT_EDITOR = {
   TOOLBAR : [
     {name : 'document', items : [ 'Source', '-', 'SelectAll' ]},
@@ -26,7 +29,7 @@ const _CFT_RICH_CONTENT_EDITOR = {
       `<textarea id="__ID__" class="normal" placeholder="__HINT__">__VALUE__</textarea>`,
 }
 
-class RichContentEditor extends ui.FInput {
+export class RichContentEditor extends FInput {
   constructor() {
     super();
     this._editor = null;
@@ -37,7 +40,7 @@ class RichContentEditor extends ui.FInput {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.ADDON_SCRIPT:
+    case T_DATA.ADDON_SCRIPT:
       if (data == glb.env.SCRIPT.EDITOR.id) {
         this.#loadJsEditor();
       }
@@ -51,7 +54,7 @@ class RichContentEditor extends ui.FInput {
   _renderOnRender(render) {
     let pp = render;
     if (this._config.title && this._config.title.length) {
-      let p = new ui.SectionPanel(this._config.title);
+      let p = new SectionPanel(this._config.title);
       render.wrapPanel(p);
       pp = p.getContentPanel();
     }
@@ -74,5 +77,8 @@ class RichContentEditor extends ui.FInput {
   }
 };
 
-gui.RichContentEditor = RichContentEditor;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.RichContentEditor = RichContentEditor;
+}

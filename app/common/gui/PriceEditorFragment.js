@@ -1,13 +1,20 @@
-(function(gui) {
-class PriceEditorFragment extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
+import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
+import { T_DATA } from '../../lib/framework/Events.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { ArrayPanel } from '../../lib/ui/renders/panels/ArrayPanel.js';
+
+export class PriceEditorFragment extends Fragment {
   constructor() {
     super();
-    this._fListPriceUnits = new ui.Selection();
+    this._fListPriceUnits = new Selection();
     this._fListPriceUnits.setDataSource(this);
     this._fListPriceUnits.setDelegate(this);
-    this._fListPriceInput = new ui.NumberInput();
+    this._fListPriceInput = new NumberInput();
     this._fListPriceInput.setDelegate(this);
-    this._fSalesPriceInput = new ui.NumberInput();
+    this._fSalesPriceInput = new NumberInput();
     this._fSalesPriceInput.setDelegate(this);
     this.setChild("lpunits", this._fListPriceUnits);
     this.setChild("lpinput", this._fListPriceInput);
@@ -106,7 +113,7 @@ class PriceEditorFragment extends ui.Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.CURRENCIES:
+    case T_DATA.CURRENCIES:
       this.render();
       break;
     default:
@@ -116,39 +123,39 @@ class PriceEditorFragment extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     if (this._hasError) {
       p.setClassName("input-error");
     }
     render.wrapPanel(p);
 
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
 
     this._fListPriceUnits.attachRender(pp);
     this._fListPriceUnits.render();
 
-    pp = new ui.ArrayPanel();
+    pp = new ArrayPanel();
     p.pushPanel(pp);
     let ppp;
-    ppp = new ui.Panel();
+    ppp = new Panel();
     ppp.setClassName("list-price");
     pp.pushPanel(ppp);
     ppp.replaceContent("List price: ");
 
-    ppp = new ui.Panel();
+    ppp = new Panel();
     ppp.setClassName("list-price");
     pp.pushPanel(ppp);
     let price = this.#getCurrentPriceItem();
     this.#renderListPriceValue(ppp, price ? price.list_price : null);
 
-    pp = new ui.ArrayPanel();
+    pp = new ArrayPanel();
     p.pushPanel(pp);
-    ppp = new ui.Panel();
+    ppp = new Panel();
     pp.pushPanel(ppp);
     ppp.replaceContent("Sales price: ");
 
-    ppp = new ui.Panel();
+    ppp = new Panel();
     pp.pushPanel(ppp);
     this.#renderSalesPriceValue(ppp, price ? price.sales_price : null);
   }
@@ -207,5 +214,8 @@ class PriceEditorFragment extends ui.Fragment {
   }
 };
 
-gui.PriceEditorFragment = PriceEditorFragment;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PriceEditorFragment = PriceEditorFragment;
+}

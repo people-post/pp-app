@@ -1,4 +1,6 @@
-(function(ui) {
+import { PTabbedPaneTabBase } from './PTabbedPaneTabBase.js';
+import { Panel } from './Panel.js';
+
 const _CPT_TABBED_PANE_TAB_SMALL = {
   MAIN :
       `<div id="__ID_MAIN__" class="tabbed-pane-tab flex flex-start center-align-items bdsolid clickable pad5px s-font5 s-cinfotext bd1px bdlightgrey bd-b-0px">
@@ -9,13 +11,13 @@ const _CPT_TABBED_PANE_TAB_SMALL = {
   </div>`,
 }
 
-class PTabbedPaneTabSmall extends ui.PTabbedPaneTabBase {
+export class PTabbedPaneTabSmall extends PTabbedPaneTabBase {
   constructor() {
     super();
-    this._pIcon = new ui.Panel();
-    this._pName = new ui.Panel();
-    this._pBadge = new ui.Panel();
-    this._pBtnClose = new ui.Panel();
+    this._pIcon = new Panel();
+    this._pName = new Panel();
+    this._pBadge = new Panel();
+    this._pBtnClose = new Panel();
   }
 
   getIconPanel() { return this._pIcon; }
@@ -52,5 +54,8 @@ class PTabbedPaneTabSmall extends ui.PTabbedPaneTabBase {
   }
 };
 
-ui.PTabbedPaneTabSmall = PTabbedPaneTabSmall;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.PTabbedPaneTabSmall = PTabbedPaneTabSmall;
+}

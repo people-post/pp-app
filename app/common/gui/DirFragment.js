@@ -1,8 +1,13 @@
-(function(gui) {
-class DirFragment extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { HintText } from '../../lib/ui/controllers/fragments/HintText.js';
+
+export class DirFragment extends Fragment {
   constructor() {
     super();
-    this._fItems = new ui.FSimpleFragmentList();
+    this._fItems = new FSimpleFragmentList();
     this._fItems.setDataSource(this);
     this._fItems.setDelegate(this);
     this._fNewItem = null;
@@ -19,7 +24,7 @@ class DirFragment extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
     this._fItems.clear();
@@ -34,13 +39,13 @@ class DirFragment extends ui.Fragment {
       }
     }
 
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fItems.attachRender(pp);
     this._fItems.render();
 
     if (items.length < this._nMaxItems) {
-      pp = new ui.PanelWrapper();
+      pp = new PanelWrapper();
       p.pushPanel(pp);
       this._fNewItem.attachRender(pp);
       this._fNewItem.render();
@@ -49,15 +54,18 @@ class DirFragment extends ui.Fragment {
 
   _createSubDirFragment(item) {
     // TODO: To improve with particular fragment
-    return new ui.HintText(item.getName());
+    return new HintText(item.getName());
   }
 
   _createItemFragment(item) {
     // TODO: To improve with particular fragment
-    return new ui.HintText(item.getName());
+    return new HintText(item.getName());
   }
   _getSubItems() { return []; }
 };
 
-gui.DirFragment = DirFragment;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.DirFragment = DirFragment;
+}

@@ -1,5 +1,6 @@
-(function(ui) {
-class Panel extends ui.Render {
+import Render from '../Render.js';
+
+export class Panel extends Render {
   constructor() {
     super();
     this._elementType = "DIV";
@@ -187,5 +188,8 @@ class Panel extends ui.Render {
   }
 }
 
-ui.Panel = Panel;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.Panel = Panel;
+}

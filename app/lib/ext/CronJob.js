@@ -1,5 +1,4 @@
-(function(ext) {
-class CronJob {
+export class CronJob {
   constructor() {
     this._fId = null;
     this._fBeginId = null;
@@ -42,7 +41,10 @@ class CronJob {
       onEnd();
     }
   }
-};
+}
 
-ext.CronJob = CronJob;
-}(window.ext = window.ext || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ext = window.ext || {};
+  window.ext.CronJob = CronJob;
+}

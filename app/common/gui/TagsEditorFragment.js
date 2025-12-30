@@ -1,5 +1,7 @@
-(function(gui) {
-gui.CF_TAGS_EDITOR = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import Utilities from '../../lib/ext/Utilities.js';
+
+export const CF_TAGS_EDITOR = {
   TOGGLE : Symbol(),
   NEW_TAG : Symbol(),
   REMOVE_EXTRA_TAG : Symbol(),
@@ -18,7 +20,7 @@ const _CFT_TAGS_EDITOR = {
       `<span class="tag selected">__TEXT__ <span class="button-like tiny" onclick="javascript:G.action(gui.CF_TAGS_EDITOR.REMOVE_EXTRA_TAG, '__VALUE__')">x</span></span>`,
 };
 
-class TagsEditorFragment extends ui.Fragment {
+export class TagsEditorFragment extends Fragment {
   #elementName;
   #extraTagNames = [];
   #shouldEnableNewTags = false;
@@ -26,7 +28,7 @@ class TagsEditorFragment extends ui.Fragment {
 
   constructor(elementId) {
     super();
-    this.#elementName = "EDIT_TAG_" + ext.Utilities.uuid();
+    this.#elementName = "EDIT_TAG_" + Utilities.uuid();
   }
 
   getNewTagNames() { return this.#extraTagNames; }
@@ -68,13 +70,13 @@ class TagsEditorFragment extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_TAGS_EDITOR.TOGGLE:
+    case CF_TAGS_EDITOR.TOGGLE:
       this.#onToggleTag(args[0]);
       break;
-    case gui.CF_TAGS_EDITOR.NEW_TAG:
+    case CF_TAGS_EDITOR.NEW_TAG:
       this.#onNewTag();
       break;
-    case gui.CF_TAGS_EDITOR.REMOVE_EXTRA_TAG:
+    case CF_TAGS_EDITOR.REMOVE_EXTRA_TAG:
       this.#onRemoveExtraTag(args[0]);
       break;
     default:
@@ -188,5 +190,9 @@ class TagsEditorFragment extends ui.Fragment {
   }
 };
 
-gui.TagsEditorFragment = TagsEditorFragment;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_TAGS_EDITOR = CF_TAGS_EDITOR;
+  window.gui.TagsEditorFragment = TagsEditorFragment;
+}

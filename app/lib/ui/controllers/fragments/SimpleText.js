@@ -1,5 +1,6 @@
-(function(ui) {
-class SimpleText extends ui.Fragment {
+import { Fragment } from './Fragment.js';
+
+export class SimpleText extends Fragment {
   constructor(text) {
     super();
     this._text = text;
@@ -8,5 +9,8 @@ class SimpleText extends ui.Fragment {
   _renderContent() { return this._text; }
 };
 
-ui.SimpleText = SimpleText;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.SimpleText = SimpleText;
+}

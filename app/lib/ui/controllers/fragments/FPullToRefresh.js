@@ -1,16 +1,22 @@
-(function(ui) {
+import { Fragment } from './Fragment.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { Panel } from '../../renders/panels/Panel.js';
+import { ICONS } from '../../Icons.js';
+import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+
 const _CFT_PULL_TO_REFRESH = {
   ICON :
       `<span class="inline-block s-icon6" style="transform:rotate(__DEG__deg);">__ICON__</span>`,
 };
 
-class FPullToRefresh extends ui.Fragment {
+export class FPullToRefresh extends Fragment {
   #pIcon;
   #progress = 0;
 
   constructor() {
     super();
-    this.#pIcon = new ui.PanelWrapper();
+    this.#pIcon = new PanelWrapper();
     this.#pIcon.setClassName("flex space-around");
   }
 
@@ -25,12 +31,12 @@ class FPullToRefresh extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     p.setClassName("bglightgrey");
     render.wrapPanel(p);
     p.pushSpace(10);
     p.pushPanel(this.#pIcon);
-    p = new ui.Panel();
+    p = new Panel();
     p.setClassName("relative");
 
     this.#pIcon.wrapPanel(p);
@@ -38,10 +44,10 @@ class FPullToRefresh extends ui.Fragment {
     let s = _CFT_PULL_TO_REFRESH.ICON;
     if (this.#progress > 95) {
       s = s.replace("__ICON__",
-                    Utilities.renderSvgFuncIcon(ui.ICONS.SOLID_DOWN));
+                    CommonUtilities.renderSvgFuncIcon(ICONS.SOLID_DOWN));
       s = s.replace("__DEG__", "0");
     } else {
-      s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ui.ICONS.DOWN));
+      s = s.replace("__ICON__", CommonUtilities.renderSvgFuncIcon(ICONS.DOWN));
       if (this.#progress > 25 && this.#progress < 90) {
         s = s.replace("__DEG__", (this.#progress - 25) / 65 * 360);
       } else {
@@ -53,5 +59,8 @@ class FPullToRefresh extends ui.Fragment {
   }
 };
 
-ui.FPullToRefresh = FPullToRefresh;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FPullToRefresh = FPullToRefresh;
+}

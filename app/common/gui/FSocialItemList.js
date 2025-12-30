@@ -1,9 +1,11 @@
-(function(gui) {
-class FSocialItemList extends ui.FScrollable {
+import { FScrollable } from '../../lib/ui/controllers/fragments/FScrollable.js';
+import { FLongList } from '../../lib/ui/controllers/fragments/FLongList.js';
+
+export class FSocialItemList extends FScrollable {
   #fList;
   constructor() {
     super();
-    this.#fList = new ui.FLongList();
+    this.#fList = new FLongList();
     this.#fList.setDataSource(this);
     this.#fList.setDelegate(this);
     this.setChild("list", this.#fList);
@@ -94,5 +96,8 @@ class FSocialItemList extends ui.FScrollable {
   }
 };
 
-gui.FSocialItemList = FSocialItemList;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.FSocialItemList = FSocialItemList;
+}

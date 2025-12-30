@@ -1,5 +1,6 @@
-(function(ui) {
-class FScrollViewContent extends ui.FViewContentBase {
+import { FViewContentBase } from './FViewContentBase.js';
+
+export class FScrollViewContent extends FViewContentBase {
   onScrollFinished() {}
 
   isReloadable() { return false; }
@@ -12,5 +13,8 @@ class FScrollViewContent extends ui.FViewContentBase {
   _renderContentOnRender(render) {}
 };
 
-ui.FScrollViewContent = FScrollViewContent;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FScrollViewContent = FScrollViewContent;
+}

@@ -1,7 +1,11 @@
-(function(ui) {
-class Layer extends ui.RenderController {
+import { RenderController } from '../RenderController.js';
+
+export class Layer extends RenderController {
   onResize() {}
 };
 
-ui.Layer = Layer;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.Layer = Layer;
+}

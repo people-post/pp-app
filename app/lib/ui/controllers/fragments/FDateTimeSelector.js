@@ -1,5 +1,14 @@
-(function(ui) {
-class FDateTimeSelector extends ui.Fragment {
+import { Fragment } from './Fragment.js';
+import { LContext } from '../layers/LContext.js';
+import { Button } from './Button.js';
+import { FTimeInput } from './FTimeInput.js';
+import { FDateSelector } from './FDateSelector.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+import { T_ACTION } from '../../../framework/Events.js';
+import { Events } from '../../../framework/Events.js';
+
+export class FDateTimeSelector extends Fragment {
   #lc;
   #fDate;
   #fTime;
@@ -9,20 +18,20 @@ class FDateTimeSelector extends ui.Fragment {
 
   constructor() {
     super();
-    this.#lc = new ui.LContext();
+    this.#lc = new LContext();
     this.#lc.setDelegate(this);
     this.#lc.setTargetName("date");
 
-    this.#fBtn = new ui.Button();
-    this.#fBtn.setThemeType(ui.Button.T_THEME.PALE);
-    this.#fBtn.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+    this.#fBtn = new Button();
+    this.#fBtn.setThemeType(Button.T_THEME.PALE);
+    this.#fBtn.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this.#fBtn.setDelegate(this);
     this.setChild("date", this.#fBtn);
 
-    this.#fTime = new ui.FTimeInput();
+    this.#fTime = new FTimeInput();
     this.setChild("time", this.#fTime);
 
-    this.#fDate = new ui.FDateSelector();
+    this.#fDate = new FDateSelector();
     this.#fDate.setDelegate(this);
 
     this.setHintText("Click to select");
@@ -76,15 +85,15 @@ class FDateTimeSelector extends ui.Fragment {
   onSimpleButtonClicked(fBtn) { this.#popupDateSelector(); }
 
   _renderOnRender(render) {
-    let panel = new ui.ListPanel();
+    let panel = new ListPanel();
     render.wrapPanel(panel);
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     panel.pushPanel(p);
     this.#fBtn.attachRender(p);
     this.#fBtn.render();
 
     if (this.#isTimeEnabled) {
-      p = new ui.PanelWrapper();
+      p = new PanelWrapper();
       panel.pushPanel(p);
       this.#fTime.attachRender(p);
       this.#fTime.render();
@@ -94,7 +103,7 @@ class FDateTimeSelector extends ui.Fragment {
   #popupDateSelector() {
     this.#lc.clearOptions();
     this.#lc.addOptionFragment(this.#fDate);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lc,
+    Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lc,
                                 "Context");
   }
 
@@ -105,5 +114,8 @@ class FDateTimeSelector extends ui.Fragment {
   }
 }
 
-ui.FDateTimeSelector = FDateTimeSelector;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FDateTimeSelector = FDateTimeSelector;
+}

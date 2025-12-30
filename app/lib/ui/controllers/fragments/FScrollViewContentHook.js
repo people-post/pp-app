@@ -1,4 +1,9 @@
-(function(ui) {
+import { Panel } from '../../renders/panels/Panel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+import { FViewContentWrapper } from './FViewContentWrapper.js';
+import { ScrollEndEventShim } from '../../../ext/ScrollEndEventShim.js';
+import { FElasticRefresh } from './FElasticRefresh.js';
+
 const _CPT_SCROLL_VIEW_CONTENT_HOOK = {
   MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="flex-noshrink"></div>
   <div id="__ID_CONTENT__" class="flex-grow y-no-overflow y-scroll no-scrollbar">
@@ -14,7 +19,7 @@ const _CPT_SCROLL_VIEW_CONTENT_HOOK = {
   <br>`,
 };
 
-class PScrollViewContentHook extends ui.Panel {
+class PScrollViewContentHook extends Panel {
   #pElasticRefresh;
   #pContentContainer;
   #pContent;
@@ -22,10 +27,10 @@ class PScrollViewContentHook extends ui.Panel {
 
   constructor() {
     super();
-    this.#pElasticRefresh = new ui.PanelWrapper();
-    this.#pContentContainer = new ui.Panel();
-    this.#pContent = new ui.PanelWrapper();
-    this.#pBstt = new ui.Panel();
+    this.#pElasticRefresh = new PanelWrapper();
+    this.#pContentContainer = new Panel();
+    this.#pContent = new PanelWrapper();
+    this.#pBstt = new Panel();
   }
 
   getElasticRefreshPanel() { return this.#pElasticRefresh; }
@@ -55,11 +60,11 @@ class PScrollViewContentHook extends ui.Panel {
   }
 };
 
-ui.CF_SCROLL_VIEW_CONTENT_HOOK = {
+export const CF_SCROLL_VIEW_CONTENT_HOOK = {
   SCROLL_TO_TOP : Symbol(),
 };
 
-class FScrollViewContentHook extends ui.FViewContentWrapper {
+export class FScrollViewContentHook extends FViewContentWrapper {
   #fElasticRefresh;
   #sScrollEvt;
   #pMain = null;
@@ -67,10 +72,10 @@ class FScrollViewContentHook extends ui.FViewContentWrapper {
 
   constructor(fContent) {
     super();
-    this.#sScrollEvt = new ext.ScrollEndEventShim();
+    this.#sScrollEvt = new ScrollEndEventShim();
     this.#sScrollEvt.setDelegate(this);
 
-    this.#fElasticRefresh = new ui.FElasticRefresh();
+    this.#fElasticRefresh = new FElasticRefresh();
     this.#fElasticRefresh.setDataSource(this);
     this.#fElasticRefresh.setDelegate(this);
     this.setChild("__elasticrefresh", this.#fElasticRefresh);
@@ -190,5 +195,9 @@ class FScrollViewContentHook extends ui.FViewContentWrapper {
   }
 };
 
-ui.FScrollViewContentHook = FScrollViewContentHook;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_SCROLL_VIEW_CONTENT_HOOK = CF_SCROLL_VIEW_CONTENT_HOOK;
+  window.ui.FScrollViewContentHook = FScrollViewContentHook;
+}

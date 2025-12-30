@@ -1,4 +1,4 @@
-class TimeIconOperator {
+export class TimeIconOperator {
   press(iconElement) {
     let ee = iconElement.firstElementChild;
     ee = ee.firstElementChild;     // time-menu-icon-circle

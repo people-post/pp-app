@@ -1,5 +1,12 @@
-(function(gui) {
-gui.CF_SEARCH_BAR = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { ICONS } from '../../lib/ui/Icons.js';
+import { ICON } from '../constants/Icons.js';
+import { Utilities } from '../Utilities.js';
+
+export const CF_SEARCH_BAR = {
   ON_CLEAR : Symbol(),
   ON_CHANGE : Symbol(),
   ON_KEYDOWN : Symbol(),
@@ -13,7 +20,7 @@ const _CFT_SEARCH_BAR = {
       `<input id="__ID__" class="search-bar bgtransparent __THEME_CLASS_NAMES__" type="text" onchange="javascript:G.action(gui.CF_SEARCH_BAR.ON_CHANGE, this.value)" onkeydown="javascript:G.action(gui.CF_SEARCH_BAR.ON_KEYDOWN, this.value)" value="__VALUE__"/>`,
 };
 
-class SearchBar extends ui.Fragment {
+export class SearchBar extends Fragment {
   #isFatMode = false;
   #key = null
 
@@ -24,13 +31,13 @@ class SearchBar extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_SEARCH_BAR.ON_CLEAR:
+    case CF_SEARCH_BAR.ON_CLEAR:
       this.#onClear();
       break;
-    case gui.CF_SEARCH_BAR.ON_CHANGE:
+    case CF_SEARCH_BAR.ON_CHANGE:
       this.#onChange(args[0]);
       break;
-    case gui.CF_SEARCH_BAR.ON_KEYDOWN:
+    case CF_SEARCH_BAR.ON_KEYDOWN:
       this.#onKeydown(args[0]);
       break;
     default:
@@ -40,7 +47,7 @@ class SearchBar extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     if (this.#isFatMode) {
       p.setClassName("search-bar-panel h-pad5px fat");
     } else {
@@ -48,7 +55,7 @@ class SearchBar extends ui.Fragment {
     }
     render.wrapPanel(p);
 
-    let pp = new ui.ListPanel();
+    let pp = new ListPanel();
     if (this.isMenuRenderMode()) {
       pp.setClassName("search-bar flex s-cprimedecorbd");
     } else {
@@ -56,14 +63,14 @@ class SearchBar extends ui.Fragment {
     }
     p.wrapPanel(pp);
 
-    let ppp = new ui.Panel();
+    let ppp = new Panel();
     ppp.setClassName("left-pad5px flex center-align-items");
     pp.pushPanel(ppp);
     let s = _CFT_SEARCH_BAR.SEARCH_ICON;
     if (this.isMenuRenderMode()) {
-      s = s.replace("__ICON__", Utilities.renderSvgMenuIcon(C.ICON.SEARCH));
+      s = s.replace("__ICON__", Utilities.renderSvgMenuIcon(ICON.SEARCH));
     } else {
-      s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(C.ICON.SEARCH));
+      s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.SEARCH));
     }
     ppp.replaceContent(s);
 
@@ -117,5 +124,9 @@ class SearchBar extends ui.Fragment {
   }
 };
 
-gui.SearchBar = SearchBar;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_SEARCH_BAR = CF_SEARCH_BAR;
+  window.gui.SearchBar = SearchBar;
+}

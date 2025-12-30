@@ -1,8 +1,10 @@
-(function(ui) {
-class FLongListLegacy extends ui.Fragment {
+import { Fragment } from './Fragment.js';
+import { BufferedList } from './BufferedList.js';
+
+export class FLongListLegacy extends Fragment {
   constructor() {
     super();
-    this._fItems = new ui.BufferedList();
+    this._fItems = new BufferedList();
     this._fItems.setDataSource(this);
     this._fItems.setDelegate(this);
     this.setChild("items", this._fItems);
@@ -61,5 +63,8 @@ class FLongListLegacy extends ui.Fragment {
   _resetList() { throw "_resetList is required"; }
 };
 
-ui.FLongListLegacy = FLongListLegacy;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FLongListLegacy = FLongListLegacy;
+}

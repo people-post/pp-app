@@ -1,5 +1,4 @@
-(function(dba) {
-class Web3Config {
+class Web3ConfigClass {
   #guestIdolId = null;
   #network = null;
 
@@ -12,5 +11,10 @@ class Web3Config {
   }
 }
 
-dba.Web3Config = new Web3Config();
-}(window.dba = window.dba || {}));
+export const Web3Config = new Web3ConfigClass();
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Web3Config = Web3Config;
+}

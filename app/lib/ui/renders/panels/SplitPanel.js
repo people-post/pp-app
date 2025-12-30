@@ -1,15 +1,17 @@
-(function(ui) {
+import { Panel } from './Panel.js';
+import { PanelWrapper } from './PanelWrapper.js';
+
 const _CPT_SPLIT = {
   MAIN : `<div id="__ID_LEFT__"></div>
   <div id="__ID_RIGHT__"></div>`,
 }
 
-class SplitPanel extends ui.Panel {
+export class SplitPanel extends Panel {
   constructor() {
     super();
     this.setClassName("flex space-between");
-    this._pLeft = new ui.PanelWrapper();
-    this._pRight = new ui.PanelWrapper();
+    this._pLeft = new PanelWrapper();
+    this._pRight = new PanelWrapper();
     this._mode = this.constructor.M_SIDE;
   }
 
@@ -30,5 +32,8 @@ class SplitPanel extends ui.Panel {
   }
 };
 
-ui.SplitPanel = SplitPanel;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.SplitPanel = SplitPanel;
+}

@@ -11,7 +11,60 @@
 | app/                         | Main javascript source code folder                                                         |
 | sw/                          | Service worker source code folder                                                          |
 | html/                        | Entry files                                                                                |
-| package.sh                   | Packaging script to compile code and prepare package                                       |
+| build.js                     | Node.js build script to compile code and prepare package                                    |
+| package.json                 | npm package configuration with build scripts                                               |
+
+## Building
+
+This project uses Node.js and npm for building. The build process replaces the previous bash-based `package.sh` script.
+
+### Prerequisites
+
+- Node.js >= 18.0.0
+- npm
+
+### Build Commands
+
+```bash
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+
+# Clean build artifacts
+npm run clean
+
+# Package (same as build)
+npm run package
+```
+
+### Build Process
+
+The build script (`build.js`) performs the following steps:
+
+1. **Generate entry points**: Creates ES module entry points (`src/index.js`, `src/sw.js`) from `app/file_list.txt` and `sw/file_list.txt`
+2. **Bundle JavaScript**: Uses `esbuild` to bundle all modules into a single file with tree-shaking and minification
+3. **Minify CSS**: Uses `uglifycss` to minify `css/hst.css`
+4. **Package outputs**: Creates web2 and web3 deployment packages in the `obj/` directory
+5. **Create tarball**: Generates `obj/web3.tar.gz` for web3 deployment
+
+### Module-Based Architecture
+
+The project now uses ES modules instead of file concatenation:
+
+- **Entry points**: `src/index.js` and `src/sw.js` are auto-generated from file lists
+- **Bundling**: `esbuild` bundles all modules with proper dependency resolution
+- **Source files**: Original files in `app/` remain unchanged (still use IIFE pattern for now)
+- **Build output**: Same structure as before for compatibility
+
+### Migration Notes
+
+- The old `package.sh` bash script has been replaced with `build.js` (Node.js)
+- The old `mergejs` bash script has been replaced with module-based bundling using `esbuild`
+- Build dependencies (`esbuild`, `uglifycss`) are managed via npm
+- Build output structure remains the same for compatibility
+- Entry point files in `src/` are auto-generated and should not be edited manually
 
 ## Design
 ## Web3 file structures

@@ -1,5 +1,7 @@
-(function(gui) {
-class DefaultLongList extends ui.FLongListLegacy {
+import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
+import { URL_PARAM } from '../constants/Constants.js';
+
+export class DefaultLongList extends FLongListLegacy {
   constructor() {
     super();
     this._isBatchLoading = false;
@@ -8,7 +10,7 @@ class DefaultLongList extends ui.FLongListLegacy {
   }
 
   initFromUrl(urlParam) {
-    let id = urlParam.get(ui.C.URL_PARAM.ID);
+    let id = urlParam.get(URL_PARAM.ID);
     if (id) {
       this.switchToItem(id);
     }
@@ -16,7 +18,7 @@ class DefaultLongList extends ui.FLongListLegacy {
 
   getUrlParamString() {
     if (this._currentId) {
-      return ui.C.URL_PARAM.ID + "=" + this._currentId;
+      return URL_PARAM.ID + "=" + this._currentId;
     }
     return "";
   }
@@ -48,5 +50,8 @@ class DefaultLongList extends ui.FLongListLegacy {
   _asyncLoadItems() {}
 };
 
-gui.DefaultLongList = DefaultLongList;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.DefaultLongList = DefaultLongList;
+}

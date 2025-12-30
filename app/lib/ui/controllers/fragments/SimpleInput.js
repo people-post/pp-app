@@ -1,5 +1,6 @@
-(function(ui) {
-class SimpleInput extends ui.FInput {
+import { FInput } from './FInput.js';
+
+export class SimpleInput extends FInput {
   constructor() {
     super();
     this._hasError = false;
@@ -32,5 +33,8 @@ class SimpleInput extends ui.FInput {
   }
 }
 
-ui.SimpleInput = SimpleInput;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.SimpleInput = SimpleInput;
+}

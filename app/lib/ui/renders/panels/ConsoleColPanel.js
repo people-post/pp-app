@@ -1,4 +1,6 @@
-(function(ui) {
+import { ConsolePanel } from './ConsolePanel.js';
+import { NavPanel } from './NavPanel.js';
+
 const _CPT_CONSOLE_COL = {
   MAIN : `<div class="sticky-header s-csecondarybg">
     <div class="s-cprimebg h-header flex flex-column space-around">
@@ -8,10 +10,10 @@ const _CPT_CONSOLE_COL = {
   <div id="__ID_TAB__" class="tab-col"></div>`,
 };
 
-class ConsoleColPanel extends ui.ConsolePanel {
+export class ConsoleColPanel extends ConsolePanel {
   constructor() {
     super();
-    this._pTab = new ui.NavPanel();
+    this._pTab = new NavPanel();
   }
 
   getTabPanel() { return this._pTab; }
@@ -30,5 +32,8 @@ class ConsoleColPanel extends ui.ConsolePanel {
   }
 };
 
-ui.ConsoleColPanel = ConsoleColPanel;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.ConsoleColPanel = ConsoleColPanel;
+}

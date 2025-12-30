@@ -1,5 +1,6 @@
-(function(ui) {
-class PanelWrapper extends ui.Panel {
+import { Panel } from './Panel.js';
+
+export class PanelWrapper extends Panel {
   #pContent = null;
 
   getContentPanel() { return this.#pContent; }
@@ -28,5 +29,8 @@ class PanelWrapper extends ui.Panel {
   _onWrapperFrameworkDidAppear() {}
 };
 
-ui.PanelWrapper = PanelWrapper;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.PanelWrapper = PanelWrapper;
+}

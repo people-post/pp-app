@@ -1,4 +1,5 @@
-(function(gui) {
+import { PPriceBase } from './PPriceBase.js';
+
 /*
  * +-------------+
  * |   SYMBOL    |
@@ -15,7 +16,7 @@ const _CPT_COMPACT_PRICE = {
     <div id="__ID_SALES_PRICE__" class="sales-price center-align"></div>`,
 }
 
-class PPriceCompact extends gui.PPriceBase {
+export class PPriceCompact extends PPriceBase {
   _renderFramework() {
     let s = _CPT_COMPACT_PRICE.MAIN;
     s = s.replace("__ID_UNIT__", this._getSubElementId("U"));
@@ -32,5 +33,8 @@ class PPriceCompact extends gui.PPriceBase {
   }
 };
 
-gui.PPriceCompact = PPriceCompact;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PPriceCompact = PPriceCompact;
+}

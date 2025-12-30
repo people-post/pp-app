@@ -1,7 +1,11 @@
-(function(ui) {
-class ViewLayer extends ui.Layer {
+import { Layer } from './Layer.js';
+
+export class ViewLayer extends Layer {
   pushView(view, title) {}
 };
 
-ui.ViewLayer = ViewLayer;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.ViewLayer = ViewLayer;
+}

@@ -1,5 +1,7 @@
-(function(gui) {
-gui.CF_COUNTDOWN_ACTION = {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { CronJob } from '../../lib/ext/CronJob.js';
+
+export const CF_COUNTDOWN_ACTION = {
   ACTION : Symbol(),
   CANCEL : Symbol(),
 };
@@ -12,11 +14,11 @@ const _CFT_COUNTDOWN_ACTION = {
     <a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_COUNTDOWN_ACTION.CANCEL)">Cancel</a>`,
 };
 
-class FvcCountdownAction extends ui.FScrollViewContent {
+export class FvcCountdownAction extends FScrollViewContent {
   constructor(config, tTotal) {
     super();
     this._config = config;
-    this._timer = new ext.CronJob();
+    this._timer = new CronJob();
     this._tRemaining = tTotal;
   }
 
@@ -24,10 +26,10 @@ class FvcCountdownAction extends ui.FScrollViewContent {
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_COUNTDOWN_ACTION.ACTION:
+    case CF_COUNTDOWN_ACTION.ACTION:
       this.#onAction();
       break;
-    case gui.CF_COUNTDOWN_ACTION.CANCEL:
+    case CF_COUNTDOWN_ACTION.CANCEL:
       this.#onCancelAction();
       break;
     default:
@@ -72,5 +74,9 @@ class FvcCountdownAction extends ui.FScrollViewContent {
   }
 };
 
-gui.FvcCountdownAction = FvcCountdownAction;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_COUNTDOWN_ACTION = CF_COUNTDOWN_ACTION;
+  window.gui.FvcCountdownAction = FvcCountdownAction;
+}

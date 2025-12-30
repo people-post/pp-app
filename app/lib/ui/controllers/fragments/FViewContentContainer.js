@@ -1,5 +1,6 @@
-(function(ui) {
-class FViewContentContainer extends ui.FViewContentBase {
+import { FViewContentBase } from './FViewContentBase.js';
+
+export class FViewContentContainer extends FViewContentBase {
   initFromUrl(urlParam) {
     // TODO: This might be wrapper specific
     let f = this._getContentFragment();
@@ -88,5 +89,8 @@ class FViewContentContainer extends ui.FViewContentBase {
   _getContentFragment() { return null; }
 };
 
-ui.FViewContentContainer = FViewContentContainer;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FViewContentContainer = FViewContentContainer;
+}

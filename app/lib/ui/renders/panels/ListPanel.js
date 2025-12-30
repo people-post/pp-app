@@ -1,8 +1,10 @@
-(function(ui) {
-class ListPanel extends ui.PanelListPanel {
+import { PanelListPanel } from './PanelListPanel.js';
+import { Panel } from './Panel.js';
+
+export class ListPanel extends PanelListPanel {
   // Vertical list panel, should be renamed to SimpleListPanel
   pushSpace(n) {
-    let p = new ui.Panel();
+    let p = new Panel();
     this.pushPanel(p);
     let items = [];
     for (let i = 0; i < n; ++i) {
@@ -31,5 +33,8 @@ class ListPanel extends ui.PanelListPanel {
   }
 };
 
-ui.ListPanel = ListPanel;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.ListPanel = ListPanel;
+}

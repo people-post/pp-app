@@ -1,5 +1,6 @@
-(function(ui) {
-class FViewContentBase extends ui.Fragment {
+import { Fragment } from './Fragment.js';
+
+export class FViewContentBase extends Fragment {
   #preferredWidth = null;
   #maxWidthClassName = "wmax800px";
 
@@ -26,5 +27,8 @@ class FViewContentBase extends ui.Fragment {
   knockKnock() {}
 };
 
-ui.FViewContentBase = FViewContentBase;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FViewContentBase = FViewContentBase;
+}

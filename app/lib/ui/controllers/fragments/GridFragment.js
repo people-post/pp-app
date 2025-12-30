@@ -1,10 +1,11 @@
-(function(ui) {
+import { Fragment } from './Fragment.js';
+
 const _CFT_GRID = {
   MAIN : `<div class="custom-grid">__ITEMS__</div>`,
   ITEM : `<span class="item">__CONTENT__</span>`,
 }
 
-class GridFragment extends ui.Fragment {
+export class GridFragment extends Fragment {
   _renderContent() {
     let tItem = _CFT_GRID.ITEM;
     let items = [];
@@ -16,5 +17,8 @@ class GridFragment extends ui.Fragment {
   }
 };
 
-ui.GridFragment = GridFragment;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.GridFragment = GridFragment;
+}

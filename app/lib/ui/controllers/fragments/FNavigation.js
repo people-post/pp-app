@@ -1,17 +1,20 @@
-(function(ui) {
-ui.CF_NAVIGATION = {
+import { Fragment } from './Fragment.js';
+import { FSimpleFragmentList } from './FSimpleFragmentList.js';
+import { FTabbedPaneTab } from './FTabbedPaneTab.js';
+
+export const CF_NAVIGATION = {
   ON_TAB_CLICK : Symbol(),
 };
 
-class FNavigation extends ui.Fragment {
+export class FNavigation extends Fragment {
   constructor() {
     super();
-    this._fTabs = new ui.FSimpleFragmentList();
+    this._fTabs = new FSimpleFragmentList();
     this.setChild("tabs", this._fTabs);
 
-    this._fNavTabs = [ new ui.FTabbedPaneTab(), new ui.FTabbedPaneTab() ];
+    this._fNavTabs = [ new FTabbedPaneTab(), new FTabbedPaneTab() ];
     for (let [i, f] of this._fNavTabs.entries()) {
-      f.setLayoutType(ui.FTabbedPaneTab.T_LAYOUT.MIDDLE);
+      f.setLayoutType(FTabbedPaneTab.T_LAYOUT.MIDDLE);
       f.setDataSource(this);
       f.setDelegate(this);
       this.setChild("navTabs" + i, f);
@@ -20,7 +23,7 @@ class FNavigation extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_NAVIGATION.ON_TAB_CLICK:
+    case CF_NAVIGATION.ON_TAB_CLICK:
       this.#onNavClick(args[0]);
       break;
     default:
@@ -56,8 +59,8 @@ class FNavigation extends ui.Fragment {
       this._fTabs.clear();
       if (!p.isLoginRequired() || dba.Account.isAuthenticated()) {
         for (let item of items) {
-          let f = new ui.FTabbedPaneTab();
-          f.setLayoutType(ui.FTabbedPaneTab.T_LAYOUT.LARGE);
+          let f = new FTabbedPaneTab();
+          f.setLayoutType(FTabbedPaneTab.T_LAYOUT.LARGE);
           f.setTabId(item.ID);
           f.setDelegate(this);
           f.setDataSource(this);
@@ -95,5 +98,9 @@ class FNavigation extends ui.Fragment {
   }
 };
 
-ui.FNavigation = FNavigation;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_NAVIGATION = CF_NAVIGATION;
+  window.ui.FNavigation = FNavigation;
+}

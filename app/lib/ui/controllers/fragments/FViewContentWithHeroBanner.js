@@ -1,17 +1,20 @@
-(function(ui) {
+import { Panel } from '../../renders/panels/Panel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+import { FViewContentWrapper } from './FViewContentWrapper.js';
+
 const _CPT_VIEW_CONTENT_WITH_HERO_BANNER = {
   MAIN : `<div id="__ID_HEADER__" class="flex-noshrink"></div>
   <div id="__ID_CONTENT__" class="flex-grow y-no-overflow"></div>`,
 };
 
-class PViewContentWithHeroBanner extends ui.Panel {
+class PViewContentWithHeroBanner extends Panel {
   #pHeader;
   #pContent;
 
   constructor() {
     super();
-    this.#pHeader = new ui.PanelWrapper();
-    this.#pContent = new ui.PanelWrapper();
+    this.#pHeader = new PanelWrapper();
+    this.#pContent = new PanelWrapper();
   }
 
   getHeaderPanel() { return this.#pHeader; }
@@ -31,7 +34,7 @@ class PViewContentWithHeroBanner extends ui.Panel {
   }
 };
 
-class FViewContentWithHeroBanner extends ui.FViewContentWrapper {
+export class FViewContentWithHeroBanner extends FViewContentWrapper {
   // Hero banner will act on content scroll
   #fHeroBanner = null;
   #pHeader = null;
@@ -144,5 +147,8 @@ class FViewContentWithHeroBanner extends ui.FViewContentWrapper {
   }
 };
 
-ui.FViewContentWithHeroBanner = FViewContentWithHeroBanner;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FViewContentWithHeroBanner = FViewContentWithHeroBanner;
+}

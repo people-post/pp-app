@@ -1,5 +1,7 @@
-(function(gui) {
-class FTag extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { T_DATA } from '../../lib/framework/Events.js';
+
+export class FTag extends Fragment {
   #tagId = null;
 
   getTagId() { return this.#tagId; }
@@ -16,7 +18,7 @@ class FTag extends ui.Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.GROUPS:
+    case T_DATA.GROUPS:
       this.render();
       break;
     default:
@@ -35,5 +37,8 @@ class FTag extends ui.Fragment {
   }
 };
 
-gui.FTag = FTag;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.FTag = FTag;
+}

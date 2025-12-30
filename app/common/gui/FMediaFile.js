@@ -1,4 +1,5 @@
-(function(gui) {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
 const _CFT_MEDIA_FILE = {
   IMAGE :
       `<img class="hmax100 wmax100 clickable" src="__URL__" onclick="window.open('__DOWNLOAD_URL__', '_blank')"/>`,
@@ -6,7 +7,7 @@ const _CFT_MEDIA_FILE = {
       `<video class="hls" playsinline controls manifest-url="__URL__"></video>`,
 };
 
-class FMediaFile extends ui.Fragment {
+export class FMediaFile extends Fragment {
   #file = null;
 
   getFile(file) { return this.#file; }
@@ -34,5 +35,8 @@ class FMediaFile extends ui.Fragment {
   }
 };
 
-gui.FMediaFile = FMediaFile;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.FMediaFile = FMediaFile;
+}

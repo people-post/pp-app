@@ -1,9 +1,12 @@
-(function(ui) {
+import { Logger } from '../../ext/Logger.js';
+import { URL_PARAM } from '../Constants.js';
+import { RenderController } from './RenderController.js';
+
 const _CRC_NAVIGATION = {
   BIT : {NARROW : 1 << 1, WIDE_EXTRA : 1 << 0},
 };
 
-class ViewStack extends ui.RenderController {
+export class ViewStack extends RenderController {
   #logger;
   #childStack = []; // First element as the top most view
   #shouldLockLastView = true;
@@ -12,7 +15,7 @@ class ViewStack extends ui.RenderController {
 
   constructor() {
     super();
-    this.#logger = new ext.Logger("ViewStack");
+    this.#logger = new Logger("ViewStack");
   }
 
   getStackSize() { return this.#childStack.length; }
@@ -42,7 +45,7 @@ class ViewStack extends ui.RenderController {
   initFromUrl(urlParam) {
     this.#logger.debug("Init from url: " + urlParam);
     let vs = this._getActiveViews();
-    urlParam.set(ui.C.URL_PARAM.N_NAV_FRAME, vs.length);
+    urlParam.set(URL_PARAM.N_NAV_FRAME, vs.length);
     for (let v of vs) {
       v.initFromUrl(urlParam);
     }
@@ -445,5 +448,8 @@ class ViewStack extends ui.RenderController {
   }
 }
 
-ui.ViewStack = ViewStack;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.ViewStack = ViewStack;
+}

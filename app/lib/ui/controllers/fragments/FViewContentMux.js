@@ -1,17 +1,25 @@
-(function(ui) {
+import { Panel } from '../../renders/panels/Panel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { FViewContentContainer } from './FViewContentContainer.js';
+import { FTabbedPaneTabBar } from './FTabbedPaneTabBar.js';
+import { ScrollEndEventShim } from '../../../ext/ScrollEndEventShim.js';
+import { FScrollViewContent } from './FScrollViewContent.js';
+import { FScrollViewContentHook } from './FScrollViewContentHook.js';
+
 const _CPT_VIEW_CONTENT_MUX = {
   MAIN : `<div id="__ID_HEADER__" class="flex-noshrink"></div>
   <div id="__ID_CONTENT__" class="flex-grow y-no-overflow x-scroll x-scroll-snap flex"></div>`,
 };
 
-class PViewContentMux extends ui.Panel {
+class PViewContentMux extends Panel {
   #pHeader;
   #pContent;
 
   constructor() {
     super();
-    this.#pHeader = new ui.PanelWrapper();
-    this.#pContent = new ui.ListPanel();
+    this.#pHeader = new PanelWrapper();
+    this.#pContent = new ListPanel();
   }
 
   getHeaderPanel() { return this.#pHeader; }
@@ -31,7 +39,7 @@ class PViewContentMux extends ui.Panel {
   }
 };
 
-class FViewContentMux extends ui.FViewContentContainer {
+export class FViewContentMux extends FViewContentContainer {
   #fTabBar;
   #fCurrent = null;
   #pContent = null;
@@ -41,13 +49,13 @@ class FViewContentMux extends ui.FViewContentContainer {
 
   constructor() {
     super();
-    this.#fTabBar = new ui.FTabbedPaneTabBar();
+    this.#fTabBar = new FTabbedPaneTabBar();
     this.#fTabBar.setOnlyShowOnMultiple(true);
     this.#fTabBar.setDataSource(this);
     this.#fTabBar.setDelegate(this);
     this.setChild("muxHeader", this.#fTabBar);
 
-    this.#obScrollEnd = new ext.ScrollEndEventShim();
+    this.#obScrollEnd = new ScrollEndEventShim();
     this.#obScrollEnd.setDelegate(this);
 
     this.#obResize = new ResizeObserver(() => this.#onResize());
@@ -69,9 +77,9 @@ class FViewContentMux extends ui.FViewContentContainer {
   addTab(tabConfig, fTab) {
     this.#fTabBar.addTab(tabConfig);
     let f = fTab;
-    if (fTab instanceof ui.FScrollViewContent) {
+    if (fTab instanceof FScrollViewContent) {
       // Wrap scroll content with scroll hook
-      f = new ui.FScrollViewContentHook(fTab);
+      f = new FScrollViewContentHook(fTab);
     }
     this.#mChildren.set(tabConfig.value, f);
     this.setChild(tabConfig.value, f);
@@ -105,7 +113,7 @@ class FViewContentMux extends ui.FViewContentContainer {
 
     this.#pContent = panel.getContentPanel();
     for (let f of this.#mChildren.values()) {
-      p = new ui.PanelWrapper();
+      p = new PanelWrapper();
       p.setClassName("h100 w100 scroll-snap-start flex-noshrink");
       this.#pContent.pushPanel(p);
       f.attachRender(p);
@@ -191,5 +199,8 @@ class FViewContentMux extends ui.FViewContentContainer {
   #onResize() { this.#scrollToCurrentContent(); }
 };
 
-ui.FViewContentMux = FViewContentMux;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FViewContentMux = FViewContentMux;
+}

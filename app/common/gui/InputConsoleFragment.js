@@ -1,5 +1,12 @@
-(function(gui) {
-gui.CF_INPUT_CONSOLE = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ICONS } from '../../lib/ui/Icons.js';
+import { ICON } from '../constants/Icons.js';
+import { Utilities } from '../Utilities.js';
+
+export const CF_INPUT_CONSOLE = {
   ON_KEY_DOWN : "CF_GUI_INPUT_CONSOLE_1",
   ON_KEY_UP : "CF_GUI_INPUT_CONSOLE_2",
   ON_POST : "CF_GUI_INPUT_CONSOLE_3",
@@ -21,7 +28,7 @@ const _CFT_INPUT_CONSOLE = {
    </label>`,
 }
 
-class InputConsoleFragment extends ui.Fragment {
+export class InputConsoleFragment extends Fragment {
   constructor() {
     super();
     this._isVisible = true;
@@ -41,19 +48,19 @@ class InputConsoleFragment extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_INPUT_CONSOLE.ON_KEY_DOWN:
+    case CF_INPUT_CONSOLE.ON_KEY_DOWN:
       this.#onKeyDown();
       break;
-    case gui.CF_INPUT_CONSOLE.ON_KEY_UP:
+    case CF_INPUT_CONSOLE.ON_KEY_UP:
       this.#onKeyUp();
       break;
-    case gui.CF_INPUT_CONSOLE.ON_POST:
+    case CF_INPUT_CONSOLE.ON_POST:
       this.#onPost();
       break;
-    case gui.CF_INPUT_CONSOLE.TOGGLE_MORE:
+    case CF_INPUT_CONSOLE.TOGGLE_MORE:
       this.#toggleMoreMenu();
       break;
-    case gui.CF_INPUT_CONSOLE.ON_POST_FILE:
+    case CF_INPUT_CONSOLE.ON_POST_FILE:
       this.#onPostFile(args[0]);
       break;
     default:
@@ -85,17 +92,17 @@ class InputConsoleFragment extends ui.Fragment {
       render.replaceContent("");
       return;
     }
-    let pAll = new ui.ListPanel();
+    let pAll = new ListPanel();
     render.wrapPanel(pAll);
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     p.setClassName("input-console");
     pAll.pushPanel(p);
-    let pp = new ui.Panel();
+    let pp = new Panel();
     pp.setClassName("input-console-text");
     p.pushPanel(pp);
     pp.replaceContent(this.#renderTextInput(this._isEnabled));
     // Send btn
-    pp = new ui.Panel();
+    pp = new Panel();
     if (this._isEnabled) {
       pp.setAttribute("onclick",
                       "javascript:G.action(gui.CF_INPUT_CONSOLE.ON_POST)");
@@ -107,7 +114,7 @@ class InputConsoleFragment extends ui.Fragment {
     // More btn
     let fMenu = this._getChild("menu");
     if (fMenu) {
-      pp = new ui.Panel();
+      pp = new Panel();
       if (this._isMenuOpen) {
         pp.setClassName("input-console-icon s-cprimebg");
       } else {
@@ -120,7 +127,7 @@ class InputConsoleFragment extends ui.Fragment {
       p.pushPanel(pp);
       pp.replaceContent(this.#renderMoreButton());
       if (this._isMenuOpen) {
-        p = new ui.PanelWrapper();
+        p = new PanelWrapper();
         p.setClassName("input-console-menu");
         pAll.pushPanel(p);
         fMenu.attachRender(p);
@@ -145,13 +152,13 @@ class InputConsoleFragment extends ui.Fragment {
   #renderSendButton() {
     let s = _CFT_INPUT_CONSOLE.ICON;
     s = s.replace("__ICON__", Utilities.renderSvgIcon(
-                                  C.ICON.ENTER, "stkdimgray", "filldimgray"));
+                                  ICON.ENTER, "stkdimgray", "filldimgray"));
     return s;
   }
 
   #renderMoreButton() {
     let s = _CFT_INPUT_CONSOLE.ICON;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(C.ICON.CIRCLED_MORE,
+    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.CIRCLED_MORE,
                                                           this._isMenuOpen));
     return s;
   }
@@ -198,5 +205,9 @@ class InputConsoleFragment extends ui.Fragment {
   }
 };
 
-gui.InputConsoleFragment = InputConsoleFragment;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_INPUT_CONSOLE = CF_INPUT_CONSOLE;
+  window.gui.InputConsoleFragment = InputConsoleFragment;
+}

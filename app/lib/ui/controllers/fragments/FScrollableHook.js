@@ -1,4 +1,9 @@
-(function(ui) {
+import { Panel } from '../../renders/panels/Panel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+import { Fragment } from './Fragment.js';
+import { ScrollEndEventShim } from '../../../ext/ScrollEndEventShim.js';
+import { FElasticRefresh } from './FElasticRefresh.js';
+
 const _CPT_SCROLLABLE_HOOK = {
   MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="flex-noshrink"></div>
   <div id="__ID_CONTENT__" class="flex-grow y-no-overflow y-scroll no-scrollbar">
@@ -9,7 +14,7 @@ const _CPT_SCROLLABLE_HOOK = {
   CONTENT : `<div id="__ID_CONTENT__" class="hmin100"></div>`,
 };
 
-class PScrollableHook extends ui.Panel {
+class PScrollableHook extends Panel {
   #pElasticRefresh;
   #pContentContainer;
   #pContent;
@@ -17,10 +22,10 @@ class PScrollableHook extends ui.Panel {
 
   constructor() {
     super();
-    this.#pElasticRefresh = new ui.PanelWrapper();
-    this.#pContentContainer = new ui.Panel();
-    this.#pContent = new ui.PanelWrapper();
-    this.#pBstt = new ui.Panel();
+    this.#pElasticRefresh = new PanelWrapper();
+    this.#pContentContainer = new Panel();
+    this.#pContent = new PanelWrapper();
+    this.#pBstt = new Panel();
   }
 
   getElasticRefreshPanel() { return this.#pElasticRefresh; }
@@ -50,11 +55,11 @@ class PScrollableHook extends ui.Panel {
   }
 };
 
-ui.CF_SCROLLABLE_HOOK = {
+export const CF_SCROLLABLE_HOOK = {
   SCROLL_TO_TOP : Symbol(),
 };
 
-class FScrollableHook extends ui.Fragment {
+export class FScrollableHook extends Fragment {
   #fElasticRefresh;
   #fContent;
   #sScrollEvt;
@@ -63,10 +68,10 @@ class FScrollableHook extends ui.Fragment {
 
   constructor(fContent) {
     super();
-    this.#sScrollEvt = new ext.ScrollEndEventShim();
+    this.#sScrollEvt = new ScrollEndEventShim();
     this.#sScrollEvt.setDelegate(this);
 
-    this.#fElasticRefresh = new ui.FElasticRefresh();
+    this.#fElasticRefresh = new FElasticRefresh();
     this.#fElasticRefresh.setDataSource(this);
     this.#fElasticRefresh.setDelegate(this);
     this.setChild("__elasticrefresh", this.#fElasticRefresh);
@@ -101,7 +106,7 @@ class FScrollableHook extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_SCROLLABLE_HOOK.SCROLL_TO_TOP:
+    case CF_SCROLLABLE_HOOK.SCROLL_TO_TOP:
       this.#scrollToTop();
       break;
     default:
@@ -181,5 +186,9 @@ class FScrollableHook extends ui.Fragment {
   }
 };
 
-ui.FScrollableHook = FScrollableHook;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_SCROLLABLE_HOOK = CF_SCROLLABLE_HOOK;
+  window.ui.FScrollableHook = FScrollableHook;
+}

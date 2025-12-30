@@ -1,5 +1,4 @@
-(function(ext) {
-class Logger {
+export class Logger {
   static s_enable = true;
   static setEnable(b) { this.s_enable = b; }
 
@@ -14,7 +13,10 @@ class Logger {
   }
 
   #makeMsg(msg) { return this._prefix + msg; }
-};
+}
 
-ext.Logger = Logger;
-}(window.ext = window.ext || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ext = window.ext || {};
+  window.ext.Logger = Logger;
+}

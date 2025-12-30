@@ -1,4 +1,6 @@
-(function(ui) {
+import { Panel } from './Panel.js';
+import { PanelWrapper } from './PanelWrapper.js';
+
 const _CPT_ERROR = {
   MAIN : `<progress id="__ID_PROGRESS__" value="100" max="100"></progress>
   <div class="error-content flex center-align-items">
@@ -7,11 +9,11 @@ const _CPT_ERROR = {
   </div>`,
 }
 
-class PError extends ui.Panel {
+export class PError extends Panel {
   constructor() {
     super();
-    this._pText = new ui.Panel();
-    this._pBtn = new ui.PanelWrapper();
+    this._pText = new Panel();
+    this._pBtn = new PanelWrapper();
   }
 
   getTextPanel() { return this._pText; }
@@ -39,5 +41,8 @@ class PError extends ui.Panel {
   }
 }
 
-ui.PError = PError;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.PError = PError;
+}

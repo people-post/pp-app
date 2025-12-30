@@ -1,8 +1,11 @@
-(function(ui) {
-class FFileUploader extends ui.Fragment {
+import { Fragment } from './Fragment.js';
+import { SimpleProgress } from './SimpleProgress.js';
+import { Factory, T_CATEGORY, T_OBJ } from '../../../framework/Factory.js';
+
+export class FFileUploader extends Fragment {
   constructor() {
     super();
-    this._fProgress = new ui.SimpleProgress();
+    this._fProgress = new SimpleProgress();
     this.setChild("progress", this._fProgress);
 
     this._uploader = null;
@@ -62,7 +65,7 @@ class FFileUploader extends ui.Fragment {
   #getOrInitUploader() {
     if (!this._uploader) {
       let cls =
-          fwk.Factory.getClass(fwk.T_CATEGORY.UI, fwk.T_OBJ.FILE_UPLOADER);
+          Factory.getClass(T_CATEGORY.UI, T_OBJ.FILE_UPLOADER);
       this._uploader = new cls();
       this._uploader.setDelegate(this);
     }
@@ -70,5 +73,8 @@ class FFileUploader extends ui.Fragment {
   }
 }
 
-ui.FFileUploader = FFileUploader;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FFileUploader = FFileUploader;
+}

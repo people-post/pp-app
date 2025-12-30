@@ -1,5 +1,7 @@
-(function(ui) {
-ui.CF_UI_NAV_BACK = {
+import { Fragment } from './Fragment.js';
+import { ICONS } from '../../Icons.js';
+
+export const CF_UI_NAV_BACK = {
   ON_CLICK : Symbol(),
 };
 
@@ -8,10 +10,10 @@ const _CFT_UI_NAV_BACK = {
       `<a href="javascript:void(0)" onclick="javascript:G.action(ui.CF_UI_NAV_BACK.ON_CLICK)">__ICON__</a>`,
 };
 
-class FNavBack extends ui.Fragment {
+export class FNavBack extends Fragment {
   action(type, ...args) {
     switch (type) {
-    case ui.CF_UI_NAV_BACK.ON_CLICK:
+    case CF_UI_NAV_BACK.ON_CLICK:
       this._delegate.onNavBackFragmentClick(this);
       break;
     default:
@@ -22,10 +24,14 @@ class FNavBack extends ui.Fragment {
 
   _renderContent() {
     let s = _CFT_UI_NAV_BACK.MAIN;
-    s = s.replace("__ICON__", ui.ICONS.BACK);
+    s = s.replace("__ICON__", ICONS.BACK);
     return s;
   }
-};
+}
 
-ui.FNavBack = FNavBack;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_UI_NAV_BACK = CF_UI_NAV_BACK;
+  window.ui.FNavBack = FNavBack;
+}

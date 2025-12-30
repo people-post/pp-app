@@ -1,5 +1,7 @@
-(function(gui) {
-class SectorNoticeInfoFragment extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class SectorNoticeInfoFragment extends Fragment {
   constructor() {
     super();
     this._notification = null;
@@ -19,7 +21,7 @@ class SectorNoticeInfoFragment extends ui.Fragment {
   setData(notification) { this._notification = notification; }
 
   _renderOnRender(render) {
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     let className = "sector-notice";
     if (this._notification.getNUnread()) {
       className += " bgnew";
@@ -46,5 +48,8 @@ class SectorNoticeInfoFragment extends ui.Fragment {
   }
 };
 
-gui.SectorNoticeInfoFragment = SectorNoticeInfoFragment;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.SectorNoticeInfoFragment = SectorNoticeInfoFragment;
+}

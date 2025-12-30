@@ -1,4 +1,4 @@
-const Utilities = function() {
+export const Utilities = function() {
   function _isOrderReferenceId(key) {
     return key.length == 27 && key.indexOf('ORD') == 0;
   }

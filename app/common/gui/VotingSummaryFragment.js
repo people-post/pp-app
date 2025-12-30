@@ -1,9 +1,13 @@
-(function(gui) {
-class VotingSummaryFragment extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { VoteProgressFragment } from './VoteProgressFragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class VotingSummaryFragment extends Fragment {
   constructor() {
     super();
-    this._fGeneral = new gui.VoteProgressFragment();
-    this._fWealth = new gui.VoteProgressFragment();
+    this._fGeneral = new VoteProgressFragment();
+    this._fWealth = new VoteProgressFragment();
     this.setChild("general", this._fGeneral);
     this.setChild("wealth", this._fWealth);
     this._summary = null;
@@ -12,7 +16,7 @@ class VotingSummaryFragment extends ui.Fragment {
   setSummary(summary) { this._summary = summary; }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
     let config = {'threshold' : 0, 'total' : 0};
@@ -21,7 +25,7 @@ class VotingSummaryFragment extends ui.Fragment {
 
     let pp;
     if (bConfig.total.weight) {
-      pp = new ui.PanelWrapper();
+      pp = new PanelWrapper();
       p.pushPanel(pp);
       config.total = bConfig.total.weight;
       config.threshold = bConfig.threshold.weight;
@@ -36,7 +40,7 @@ class VotingSummaryFragment extends ui.Fragment {
       p.pushSpace(1);
     }
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     config.total = bConfig.total.count;
     config.threshold = bConfig.threshold.count;
@@ -50,5 +54,8 @@ class VotingSummaryFragment extends ui.Fragment {
   }
 };
 
-gui.VotingSummaryFragment = VotingSummaryFragment;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.VotingSummaryFragment = VotingSummaryFragment;
+}

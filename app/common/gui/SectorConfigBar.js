@@ -1,5 +1,6 @@
-(function(gui) {
-gui.CF_SECTOR_CONFIG_BAR = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export const CF_SECTOR_CONFIG_BAR = {
   ON_ENABLE_CLICKED : "CF_GUI_SECTOR_CONFIG_BAR_1",
   ON_HOME_CLICKED : "CF_GUI_SECTOR_CONFIG_BAR_2",
 }
@@ -17,13 +18,13 @@ const _CFT_SECTOR_CONFIG_BAR = {
   </table>`,
 }
 
-class SectorConfigBar extends ui.Fragment {
+export class SectorConfigBar extends Fragment {
   action(type, ...args) {
     switch (type) {
-    case gui.CF_SECTOR_CONFIG_BAR.ON_ENABLE_CLICKED:
+    case CF_SECTOR_CONFIG_BAR.ON_ENABLE_CLICKED:
       this.#onSetEnabled(args[0]);
       break;
-    case gui.CF_SECTOR_CONFIG_BAR.ON_HOME_CLICKED:
+    case CF_SECTOR_CONFIG_BAR.ON_HOME_CLICKED:
       this.#onSetHome(args[0]);
       break;
     default:
@@ -70,5 +71,9 @@ class SectorConfigBar extends ui.Fragment {
   #onSetHome(v) { this._delegate.onRequestSetHomeInConfigBar(this, v); }
 };
 
-gui.SectorConfigBar = SectorConfigBar;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_SECTOR_CONFIG_BAR = CF_SECTOR_CONFIG_BAR;
+  window.gui.SectorConfigBar = SectorConfigBar;
+}

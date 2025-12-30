@@ -1,13 +1,14 @@
-(function(ui) {
-class Render {
+import Utilities from '../../ext/Utilities.js';
+
+export default class Render {
   constructor() { this._elementId = null; }
 
   isInViewPort() {
-    return ext.Utilities.isElementInViewport(this.getDomElement());
+    return Utilities.isElementInViewport(this.getDomElement());
   }
 
   isCenterPointInViewPort() {
-    return ext.Utilities.isElementCenterPointInViewport(this.getDomElement());
+    return Utilities.isElementCenterPointInViewport(this.getDomElement());
   }
 
   isEventSource(evt) {
@@ -48,7 +49,7 @@ class Render {
   }
 
   getVisibleWidthInParent() {
-    return ext.Utilities.getVisibleWidthInParent(this.getDomElement());
+    return Utilities.getVisibleWidthInParent(this.getDomElement());
   }
 
   getViewportOverflow() {
@@ -118,5 +119,8 @@ class Render {
   }
 }
 
-ui.Render = Render;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.Render = Render;
+}
