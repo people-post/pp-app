@@ -1,8 +1,10 @@
-(function(gui) {
-class FBanner extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FError } from './FError.js';
+
+export class FBanner extends Fragment {
   constructor() {
     super();
-    this._fError = new gui.FError();
+    this._fError = new FError();
     this._fError.setDelegate(this);
     this.setChild("error", this._fError);
 
@@ -79,5 +81,8 @@ class FBanner extends ui.Fragment {
   }
 };
 
-gui.FBanner = FBanner;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.FBanner = FBanner;
+}

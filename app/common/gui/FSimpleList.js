@@ -1,5 +1,9 @@
-(function(gui) {
-gui.CF_SIMPLE_LIST = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Utilities } from '../Utilities.js';
+
+export const CF_SIMPLE_LIST = {
   ITEM_CLICK : Symbol(),
 }
 
@@ -9,10 +13,10 @@ const _CFT_SIMPLE_LIST = {
   ICON : `<span class="inline-block s-icon3 clickable">__ICON__</span>`,
 }
 
-class FSimpleList extends ui.Fragment {
+export class FSimpleList extends Fragment {
   action(type, ...args) {
     switch (type) {
-    case gui.CF_SIMPLE_LIST.ITEM_CLICK:
+    case CF_SIMPLE_LIST.ITEM_CLICK:
       this.#onItemClick(args[0]);
       break;
     default:
@@ -22,7 +26,7 @@ class FSimpleList extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let pMain = new ui.ListPanel();
+    let pMain = new ListPanel();
     render.wrapPanel(pMain);
 
     let items = this._dataSource.getListItemsForListFragment(this);
@@ -33,7 +37,7 @@ class FSimpleList extends ui.Fragment {
           (item.isSelectable &&
            item.id == this._dataSource.getSelectedItemIdForList(this));
 
-      let pItem = new ui.ListPanel();
+      let pItem = new ListPanel();
       let classNames = [ "simple-list-item flex center-align-items" ];
       if (item.isSelectable) {
         classNames.push("clickable");
@@ -47,7 +51,7 @@ class FSimpleList extends ui.Fragment {
       pMain.pushPanel(pItem);
 
       if (hasIconColumn) {
-        let p = new ui.Panel();
+        let p = new Panel();
         p.setClassName("right-pad5px");
         pItem.pushPanel(p);
 
@@ -56,14 +60,14 @@ class FSimpleList extends ui.Fragment {
         }
       }
 
-      let p = new ui.Panel();
+      let p = new Panel();
       p.setClassName("left-pad5px flex-grow");
       pItem.pushPanel(p);
       this._delegate.renderItemForSimpleListFragment(this, item, p);
 
       if (item.isSelectable) {
         // Last item
-        let p = new ui.Panel();
+        let p = new Panel();
         p.setClassName("s-font005 right-align cgray");
         pItem.pushPanel(p);
         p.replaceContent("&rsaquo;");
@@ -83,5 +87,9 @@ class FSimpleList extends ui.Fragment {
   }
 };
 
-gui.FSimpleList = FSimpleList;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_SIMPLE_LIST = CF_SIMPLE_LIST;
+  window.gui.FSimpleList = FSimpleList;
+}

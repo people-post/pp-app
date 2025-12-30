@@ -1,7 +1,10 @@
-(function(gui) {
-class SimpleLongListFragment extends ui.FLongListLegacy {
+import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
+import { api } from '../../common/plt/Api.js';
+
+export class SimpleLongListFragment extends FLongListLegacy {
   constructor() {
     super();
+    // Use global namespace until DataObject.js is migrated
     this._idRecord = new dat.UniLongListIdRecord();
     this._isBatchLoading = false;
   }
@@ -32,7 +35,7 @@ class SimpleLongListFragment extends ui.FLongListLegacy {
     let fromId = this._idRecord.getLastId();
     this._isBatchLoading = true;
     let url = this._dataSource.getUrlForLongListFragment(this, fromId);
-    plt.Api.asyncRawCall(url, r => this.#onLoadIdsRRR(r));
+    api.asyncRawCall(url, r => this.#onLoadIdsRRR(r));
   }
 
   #onLoadIdsRRR(responseText) {
@@ -54,5 +57,8 @@ class SimpleLongListFragment extends ui.FLongListLegacy {
   }
 };
 
-gui.SimpleLongListFragment = SimpleLongListFragment;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.SimpleLongListFragment = SimpleLongListFragment;
+}
