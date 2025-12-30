@@ -1,4 +1,10 @@
 import { FvcLoginBase } from './FvcLoginBase.js';
+import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcProgress } from '../../lib/ui/controllers/views/FvcProgress.js';
 
 export class FvcWeb3Login extends FvcLoginBase {
   #fMnemonic;
@@ -8,7 +14,7 @@ export class FvcWeb3Login extends FvcLoginBase {
 
   constructor() {
     super();
-    this.#fMnemonic = new ui.TextArea();
+    this.#fMnemonic = new TextArea();
     this.#fMnemonic.setClassName("w100 h120px");
     this.#fMnemonic.setConfig({
       title : "Mnemonic",
@@ -18,15 +24,15 @@ export class FvcWeb3Login extends FvcLoginBase {
     });
     this.setChild("mnemonic", this.#fMnemonic);
 
-    this.#btnCreate = new ui.Button();
+    this.#btnCreate = new Button();
     this.#btnCreate.setDelegate(this);
     this.#btnCreate.setValue("CREATE");
     this.#btnCreate.setName("Create");
-    this.#btnCreate.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
-    this.#btnCreate.setThemeType(ui.Button.T_THEME.PALE);
+    this.#btnCreate.setLayoutType(Button.LAYOUT_TYPE.SMALL);
+    this.#btnCreate.setThemeType(Button.T_THEME.PALE);
     this.setChild("btnCreate", this.#btnCreate);
 
-    this.#btnSubmit = new ui.Button();
+    this.#btnSubmit = new Button();
     this.#btnSubmit.setDelegate(this);
     this.#btnSubmit.setValue("SUBMIT");
     this.#btnSubmit.setName("Submit");
@@ -51,25 +57,25 @@ export class FvcWeb3Login extends FvcLoginBase {
   }
 
   _renderContentOnRender(render) {
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     pList.setClassName("h100");
     render.wrapPanel(pList);
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     pList.pushPanel(p);
     this.#fMnemonic.attachRender(p);
     this.#fMnemonic.render();
 
     pList.pushSpace(1);
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this.#btnSubmit.attachRender(p);
     this.#btnSubmit.render();
 
     pList.pushSpace(1);
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this.#btnCreate.attachRender(p);
     this.#btnCreate.render();
@@ -88,8 +94,8 @@ export class FvcWeb3Login extends FvcLoginBase {
     }
 
     this.#btnSubmit.setEnabled(false);
-    let v = new ui.View();
-    let f = new ui.FvcProgress();
+    let v = new View();
+    let f = new FvcProgress();
     f.setDelegate(this);
     v.setContentFragment(f);
 

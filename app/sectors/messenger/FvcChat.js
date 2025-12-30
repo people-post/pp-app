@@ -1,5 +1,8 @@
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class FvcChat extends ui.FViewContentBase {
+export class FvcChat extends FViewContentBase {
   #fHeader;
   #fMessages;
   #fConsole;
@@ -13,7 +16,7 @@ export class FvcChat extends ui.FViewContentBase {
     this.#fHeader = new msgr.FChatHeader();
     this.setChild("header", this.#fHeader);
 
-    this.#fMessages = new ui.FSimpleFragmentList();
+    this.#fMessages = new FSimpleFragmentList();
     this.setChild("messages", this.#fMessages);
 
     this.#fConsole = new gui.InputConsoleFragment();
@@ -126,7 +129,7 @@ export class FvcChat extends ui.FViewContentBase {
     this.#fConsole.render();
 
     p = panel.getContentPanel();
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     pp.setClassName("chat-thread-main-body");
     p.wrapPanel(pp);
     this.#fMessages.attachRender(pp);

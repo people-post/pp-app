@@ -1,6 +1,10 @@
 import { Gateway } from './Gateway.js';
+import { FvcExtras } from '../common/gui/FvcExtras.js';
+import { View } from '../lib/ui/controllers/views/View.js';
+import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
+import { PageViewController } from '../lib/ui/controllers/PageViewController.js';
 
-export class LvMultiPage extends ui.ViewLayer {
+export class LvMultiPage extends ViewLayer {
   #fBtnHome = null;
   #fAbDefault = null;
   #logger;
@@ -10,7 +14,7 @@ export class LvMultiPage extends ui.ViewLayer {
     this._pMain = this._createMainPanel();
     this._pMain.setClassName("w100 h100");
 
-    this._vc = new ui.PageViewController();
+    this._vc = new PageViewController();
     this._vc.setOwner(this);
     this._vc.setDataSource(this);
     this._vc.setDelegate(this);
@@ -137,8 +141,8 @@ export class LvMultiPage extends ui.ViewLayer {
 
   #createPageEntryViews(pageId) {
     if (pageId == C.ID.SECTOR.EXTRAS) {
-      let v = new ui.View();
-      let f = new gui.FvcExtras();
+      let v = new View();
+      let f = new FvcExtras();
       f.setDataSource(this);
       v.setContentFragment(f);
       return [ v ];

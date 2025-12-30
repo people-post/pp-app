@@ -1,19 +1,27 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { FSmartInput } from '../../common/gui/FSmartInput.js';
+import { SimpleLongListFragment } from '../../common/gui/SimpleLongListFragment.js';
+import { ButtonList } from '../../lib/ui/controllers/fragments/ButtonList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class FvcCreateChatTarget extends ui.FScrollViewContent {
+export class FvcCreateChatTarget extends FScrollViewContent {
   constructor() {
     super();
-    this._fMembers = new ui.FSimpleFragmentList();
+    this._fMembers = new FSimpleFragmentList();
     this._fMembers.setGridMode(true);
 
-    this._fInput = new gui.FSmartInput();
+    this._fInput = new FSmartInput();
     this._fInput.setHintText("User name");
     this._fInput.setDelegate(this);
 
-    this._fContacts = new gui.SimpleLongListFragment();
+    this._fContacts = new SimpleLongListFragment();
     this._fContacts.setGridMode(true);
     this._fContacts.setDataSource(this);
 
-    this._fActions = new ui.ButtonList();
+    this._fActions = new ButtonList();
     this._fActions.setDelegate(this);
     this._fActions.addButton("OK", () => this.#onInputOk());
     this._fActions.addButton("Cancel", () => this.#onInputCancelled(), true);
@@ -53,10 +61,10 @@ export class FvcCreateChatTarget extends ui.FScrollViewContent {
   onItemChosenInSmartInputFragment(fSmartInput, userId) {}
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.SectionPanel("Members");
+    let pp = new SectionPanel("Members");
     p.pushPanel(pp);
     this._fMembers.clear();
     for (let uid of this._selectedIds) {
@@ -66,17 +74,17 @@ export class FvcCreateChatTarget extends ui.FScrollViewContent {
     this._fMembers.attachRender(pp.getContentPanel());
     this._fMembers.render();
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fInput.attachRender(pp);
     this._fInput.render();
 
-    pp = new ui.SectionPanel("Browse");
+    pp = new SectionPanel("Browse");
     p.pushPanel(pp);
     this._fContacts.attachRender(pp.getContentPanel());
     this._fContacts.render();
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fActions.attachRender(pp);
     this._fActions.render();

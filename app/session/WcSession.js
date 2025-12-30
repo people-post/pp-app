@@ -1,3 +1,6 @@
+import { FBanner } from '../common/gui/FBanner.js';
+import { WindowController } from '../lib/ui/controllers/WindowController.js';
+
 const _CRCT_SESSION = {
   // Prime, secondary: User defined
   // Menu: Has good contrast with prime, black/white
@@ -35,13 +38,13 @@ const _CRCT_SESSION = {
     `,
 };
 
-export class WcSession extends ui.WindowController {
+export class WcSession extends WindowController {
   #fBanner;
   #logger;
 
   constructor() {
     super();
-    this.#fBanner = new gui.FBanner();
+    this.#fBanner = new FBanner();
     this.setChild("banner", this.#fBanner);
 
     this.#logger = new ext.Logger("WcSession");

@@ -1,3 +1,9 @@
+import { Panel } from '../lib/ui/renders/panels/Panel.js';
+import { ConsoleColPanel } from '../lib/ui/renders/panels/ConsoleColPanel.js';
+import { ConsoleOverlayPanel } from '../lib/ui/renders/panels/ConsoleOverlayPanel.js';
+import { ListPanel } from '../lib/ui/renders/panels/ListPanel.js';
+import { ViewPanel } from '../lib/ui/renders/panels/ViewPanel.js';
+
 const _CPT_MAIN = {
   MAIN : `<div class="h100 w100">
     <div class="h100 w100 flex" style="z-index: 1">
@@ -10,7 +16,7 @@ const _CPT_MAIN = {
   </div>`,
 };
 
-export class PMain extends ui.Panel {
+export class PMain extends Panel {
   #pConsoleColumn;
   #pConsoleOverlay;
   #pContent;
@@ -21,11 +27,11 @@ export class PMain extends ui.Panel {
 
   constructor() {
     super();
-    this.#pConsoleColumn = new ui.ConsoleColPanel();
-    this.#pConsoleOverlay = new ui.ConsoleOverlayPanel();
-    this.#pContent = new ui.ListPanel();
-    this.#pLeft = new ui.ViewPanel();
-    this.#pRight = new ui.ViewPanel();
+    this.#pConsoleColumn = new ConsoleColPanel();
+    this.#pConsoleOverlay = new ConsoleOverlayPanel();
+    this.#pContent = new ListPanel();
+    this.#pLeft = new ViewPanel();
+    this.#pRight = new ViewPanel();
   }
 
   isConsoleOverlay() { return this.#isConsoleOverlay; }

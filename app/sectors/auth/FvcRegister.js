@@ -1,3 +1,11 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
+
 export const CF_REGISTER_CONTENT = {
   VALIDATE_EMAIL : "CF_REGISTER_CONTENT_1",
   SHOW_TERM : "CF_REGISTER_CONTENT_2",
@@ -33,11 +41,11 @@ const _CFT_REGISTER_CONTENT = {
       `<input type="checkbox" onchange="javascript:G.action(CF_REGISTER_CONTENT.ON_TOGGLE_AGREE, this.checked)">__R_AGREE__ __TERM__.`,
 }
 
-export class FvcRegister extends ui.FScrollViewContent {
+export class FvcRegister extends FScrollViewContent {
   constructor() {
     super();
-    this._fSubmit = new ui.Button();
-    this._fSubmit.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
+    this._fSubmit = new Button();
+    this._fSubmit.setLayoutType(Button.LAYOUT_TYPE.BAR);
     this._fSubmit.disable();
     this._fSubmit.setName(R.t("Register"));
     this._fSubmit.setDelegate(this);
@@ -46,7 +54,7 @@ export class FvcRegister extends ui.FScrollViewContent {
 
   getActionButton() {
     // Return empty fragment to avoid being assigned with default action button
-    return new ui.Fragment();
+    return new Fragment();
   }
 
   onSimpleButtonClicked(fButton) { this.#onSubmit(); }
@@ -69,30 +77,30 @@ export class FvcRegister extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
     p.pushSpace(1);
 
-    let pp = new ui.Panel();
+    let pp = new Panel();
     pp.setClassName("center-align");
     p.pushPanel(pp);
     pp.replaceContent(R.t("Join us"));
     p.pushSpace(1);
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderForm());
 
     p.pushSpace(1);
 
-    pp = new ui.Panel();
+    pp = new Panel();
     pp.setClassName("s-font7 center-align");
     p.pushPanel(pp);
     pp.replaceContent(this.#renderTerms());
 
     p.pushSpace(1);
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
 
     this._fSubmit.attachRender(pp);
@@ -140,8 +148,8 @@ export class FvcRegister extends ui.FScrollViewContent {
   }
 
   #onRegisterSuccess() {
-    let v = new ui.View();
-    let f = new ui.FvcNotice();
+    let v = new View();
+    let f = new FvcNotice();
     f.setMessage(R.get("REGISTER_SUCCESS"));
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Register success");

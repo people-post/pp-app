@@ -1,6 +1,11 @@
 import { FvcWeb2LoginBase } from './FvcWeb2LoginBase.js';
 import { FvcRegister } from './FvcRegister.js';
 import { FvcRetrievePassword } from './FvcRetrievePassword.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export const CF_LOGIN = {
   REGISTER : Symbol(),
@@ -31,13 +36,13 @@ export class FvcLogin extends FvcWeb2LoginBase {
   #btnSkip;
   constructor() {
     super();
-    this.#btnLogin = new ui.Button();
+    this.#btnLogin = new Button();
     this.#btnLogin.setName(R.t("Login"));
     this.#btnLogin.setValue("LOGIN");
     this.#btnLogin.setDelegate(this);
     this.setChild("btnLogin", this.#btnLogin);
 
-    this.#btnSkip = new ui.Button();
+    this.#btnSkip = new Button();
     this.#btnSkip.setName("Continue as guest");
     this.#btnSkip.setValue("SKIP");
     this.#btnSkip.setDelegate(this);
@@ -89,13 +94,13 @@ export class FvcLogin extends FvcWeb2LoginBase {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
     p.pushSpace(1);
 
     // Title
-    let pp = new ui.Panel();
+    let pp = new Panel();
     pp.setClassName("center-align");
     p.pushPanel(pp);
 
@@ -108,23 +113,23 @@ export class FvcLogin extends FvcWeb2LoginBase {
     p.pushSpace(1);
 
     // Login form
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderForm());
     p.pushSpace(1);
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this.#btnLogin.attachRender(pp);
     this.#btnLogin.render();
 
     // Skip
     if (this._nextView) {
-      pp = new ui.Panel();
+      pp = new Panel();
       p.pushPanel(pp);
       p.pushSpace(1);
       pp.replaceContent(_CFT_LOGIN.SKIP_TEXT);
-      pp = new ui.PanelWrapper();
+      pp = new PanelWrapper();
       p.pushPanel(pp);
       this.#btnSkip.attachRender(pp);
       this.#btnSkip.render();
@@ -155,13 +160,13 @@ export class FvcLogin extends FvcWeb2LoginBase {
   }
 
   #onRegister() {
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(new FvcRegister());
     this._owner.onFragmentRequestShowView(this, v, "Register");
   }
 
   #onRetrievePassword() {
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(new FvcRetrievePassword());
     this._owner.onFragmentRequestShowView(this, v, "Retrieve password");
   }

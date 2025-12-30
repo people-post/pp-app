@@ -1,7 +1,10 @@
-export class FvcLoginBase extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export class FvcLoginBase extends FScrollViewContent {
   getActionButton() {
     // Return empty fragment to avoid being assigned with default action button
-    return new ui.Fragment();
+    return new Fragment();
   }
 }
 

@@ -2,6 +2,8 @@ import { WcSession } from './WcSession.js';
 import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
 import { LvMain } from './LvMain.js';
 import { AbAccount } from './AbAccount.js';
+import { View } from '../lib/ui/controllers/views/View.js';
+import { FvcQuotaLimit } from '../common/gui/FvcQuotaLimit.js';
 
 export class WcMain extends WcSession {
   onLoginClickInAccountActionButtonFragment(fAbAccount) {
@@ -57,8 +59,8 @@ export class WcMain extends WcSession {
   }
 
   #showUpgradeView(quotaError) {
-    let v = new ui.View();
-    v.setContentFragment(new gui.FvcQuotaLimit(quotaError));
+    let v = new View();
+    v.setContentFragment(new FvcQuotaLimit(quotaError));
     this._pushDialog(v, "Quota limit");
   }
 
@@ -77,7 +79,7 @@ export class WcMain extends WcSession {
   }
 
   #showBlogRolesView() {
-    let v = new ui.View();
+    let v = new View();
     let gw = new hr.Gateway();
     let f = gw.createMainViewContentFragment();
     f.switchTo(dat.Tag.T_ID.BLOG);

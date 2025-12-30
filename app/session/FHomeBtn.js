@@ -1,3 +1,5 @@
+import { FHeaderMenu } from '../lib/ui/controllers/fragments/FHeaderMenu.js';
+
 const _CFT_HOME_BTN = {
   ICON : `<div class="pad5px">
     <a href="__URL__">
@@ -11,7 +13,7 @@ const _CFT_HOME_BTN = {
   </div>`,
 };
 
-export class FHomeBtn extends ui.FHeaderMenu {
+export class FHomeBtn extends FHeaderMenu {
   #url = null;
   #icon = null;
 

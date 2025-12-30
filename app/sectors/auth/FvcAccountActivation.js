@@ -1,10 +1,14 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
+
 const _CFT_ACCOUNT_ACTIVATION = {
   MAIN : `
     <br>
     <div class="center-align">Activating your account...</div>`,
 };
 
-export class FvcAccountActivation extends ui.FScrollViewContent {
+export class FvcAccountActivation extends FScrollViewContent {
   constructor() {
     super();
     this._activationCode = null;
@@ -23,8 +27,8 @@ export class FvcAccountActivation extends ui.FScrollViewContent {
   }
 
   #onActivationSuccess() {
-    let v = new ui.View();
-    let f = new ui.FvcNotice();
+    let v = new View();
+    let f = new FvcNotice();
     f.setMessage(R.get("ACK_ACCOUNT_ACTIVATION"));
     f.setCloseAction(() => window.close());
     v.setContentFragment(f);

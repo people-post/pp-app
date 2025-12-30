@@ -1,4 +1,7 @@
-export class FvcWeb3Basic extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+
+export class FvcWeb3Basic extends FScrollViewContent {
   #fName;
   #fNickname;
   #fIcon;
@@ -9,7 +12,7 @@ export class FvcWeb3Basic extends ui.FScrollViewContent {
     this.#fName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("name", this.#fName);
 
-    this.#fNickname = new ui.TextInput();
+    this.#fNickname = new TextInput();
     this.#fNickname.setConfig(
         {title : "Nickname", hint : "Nickname", isRequired : false});
     this.#fNickname.setDelegate(this);

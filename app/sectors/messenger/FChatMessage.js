@@ -23,7 +23,9 @@ const _CFT_CHAT_MESSAGE = {
   </span>`,
 }
 
-export class FChatMessage extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export class FChatMessage extends Fragment {
   constructor() {
     super();
     this._message = null;

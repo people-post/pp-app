@@ -1,3 +1,5 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
 const _CPT_BASIC = {
   MAIN : `<div id="__ID_NICKNAME__"></div>
     <br>
@@ -6,12 +8,12 @@ const _CPT_BASIC = {
     <div id="__ID_BTNS__"></div>`,
 }
 
-export class PBasic extends ui.Panel {
+export class PBasic extends Panel {
   constructor() {
     super();
-    this._pNickname = new ui.Panel();
-    this._pOptions = new ui.Panel();
-    this._pBtns = new ui.Panel();
+    this._pNickname = new Panel();
+    this._pOptions = new Panel();
+    this._pBtns = new Panel();
   }
 
   getNicknamePanel() { return this._pNickname; }

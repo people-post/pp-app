@@ -1,3 +1,7 @@
+import { Panel } from '../lib/ui/renders/panels/Panel.js';
+import { ListPanel } from '../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../lib/ui/renders/panels/PanelWrapper.js';
+
 const _CPT_WINDOW = {
   MAIN : `<div class="w100 h100 flex flex-column">
     <div id="__ID_BANNER__" class="banner s-csecondarybg"></div>
@@ -5,11 +9,11 @@ const _CPT_WINDOW = {
   </div>`,
 };
 
-export class PWindow extends ui.Panel {
+export class PWindow extends Panel {
   constructor() {
     super();
-    this._pLayers = new ui.ListPanel();
-    this._pBanner = new ui.PanelWrapper();
+    this._pLayers = new ListPanel();
+    this._pBanner = new PanelWrapper();
   }
 
   getBannerPanel() { return this._pBanner; }

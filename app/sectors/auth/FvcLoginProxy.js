@@ -1,4 +1,7 @@
 import { FvcWeb2LoginBase } from './FvcWeb2LoginBase.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 export const CF_LOGIN_PROXY = {
   TRIGGER_CHECK : Symbol(),
@@ -12,8 +15,8 @@ const _CFT_LOGIN_PROXY = {
 export class FvcLoginProxy extends FvcWeb2LoginBase {
   constructor() {
     super();
-    this._fBtn = new ui.Button();
-    this._fBtn.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
+    this._fBtn = new Button();
+    this._fBtn.setLayoutType(Button.LAYOUT_TYPE.BAR);
     this._fBtn.setDelegate(this);
     this._fBtn.setName(R.t("Login through gcabin.com"));
     this.setChild("btn", this._fBtn);
@@ -46,21 +49,21 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     pp.setClassName("info-message");
     this._pMsg = pp;
 
     p.pushSpace(1);
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(R.get("PROXY_LOGIN_PROMPT"));
     this._pContent = pp;
 
     p.pushSpace(1);
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this._fBtn.attachRender(pp);
     this._fBtn.render();

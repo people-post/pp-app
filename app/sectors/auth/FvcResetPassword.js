@@ -1,3 +1,7 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
+
 export const CF_RESET_PASSWORD = {
   SUBMIT : Symbol(),
 };
@@ -27,7 +31,7 @@ const _CFT_RESET_PASSWORD = {
   <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(auth.CF_RESET_PASSWORD.SUBMIT)">Submit</a>`,
 }
 
-export class FvcResetPassword extends ui.FScrollViewContent {
+export class FvcResetPassword extends FScrollViewContent {
   constructor() {
     super();
     this._resetCode = null;
@@ -74,8 +78,8 @@ export class FvcResetPassword extends ui.FScrollViewContent {
   }
 
   #onResetSuccess() {
-    let v = new ui.View();
-    let f = new ui.FvcNotice();
+    let v = new View();
+    let f = new FvcNotice();
     f.setMessage(R.get("RESET_PASSWORD_SUCCESS"));
     f.setCloseAction(() => window.close());
     v.setContentFragment(f);

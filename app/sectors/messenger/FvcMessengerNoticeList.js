@@ -1,8 +1,11 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 
-export class FvcMessengerNoticeList extends ui.FScrollViewContent {
+export class FvcMessengerNoticeList extends FScrollViewContent {
   constructor() {
     super();
-    this._fRequestList = new ui.FSimpleFragmentList();
+    this._fRequestList = new FSimpleFragmentList();
     this.setChild("requests", this._fRequestList);
   }
 
@@ -13,7 +16,7 @@ export class FvcMessengerNoticeList extends ui.FScrollViewContent {
     }
 
     this._fRequestList.clear();
-    let p = new ui.SectionPanel("Requests");
+    let p = new SectionPanel("Requests");
     render.wrapPanel(p);
 
     for (let id of ids) {

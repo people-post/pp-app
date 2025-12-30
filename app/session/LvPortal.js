@@ -1,12 +1,19 @@
-export class LvPortal extends ui.ViewLayer {
+import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
+import { ViewStack } from '../lib/ui/controllers/ViewStack.js';
+import { View } from '../lib/ui/controllers/views/View.js';
+import { PanelWrapper } from '../lib/ui/renders/panels/PanelWrapper.js';
+import { ListPanel } from '../lib/ui/renders/panels/ListPanel.js';
+import { FvcPortalMain } from '../sectors/shop/FvcPortalMain.js';
+
+export class LvPortal extends ViewLayer {
   constructor() {
     super();
-    this._vc = new ui.ViewStack();
+    this._vc = new ViewStack();
     this._vc.setOwner(this);
     this._vc.setDataSource(this);
     this._vc.setDelegate(this);
-    let vs = [ new ui.View() ];
-    vs[0].setContentFragment(new shop.FvcPortalMain());
+    let vs = [ new View() ];
+    vs[0].setContentFragment(new FvcPortalMain());
     this._vc.resetStack(vs);
   }
 
@@ -30,10 +37,10 @@ export class LvPortal extends ui.ViewLayer {
   pushView(view, title) { this._vc.pushView(view, title); }
 
   _renderOnRender(render) {
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     p.setClassName("f-main");
     render.wrapPanel(p);
-    let pp = new ui.ListPanel();
+    let pp = new ListPanel();
     pp.setClassName("f-page");
     pp.setAttribute("z-index", "1");
     p.wrapPanel(pp);
