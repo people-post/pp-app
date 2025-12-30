@@ -1,5 +1,10 @@
-(function(gui) {
-gui.CF_UPGRADE_CHOICES = {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export const CF_UPGRADE_CHOICES = {
   SELECT : Symbol(),
 };
 
@@ -8,7 +13,7 @@ const _CFT_UPGRACE_CHOICES = {
       `We are sorry, upgrade account feature is still under development...`,
 };
 
-class FvcUpgradeChoices extends ui.FScrollViewContent {
+export class FvcUpgradeChoices extends FScrollViewContent {
   #btnNext;
 
   #choices = [
@@ -41,7 +46,7 @@ class FvcUpgradeChoices extends ui.FScrollViewContent {
   constructor() {
     super();
     this._tier = 1;
-    this.#btnNext = new ui.Button();
+    this.#btnNext = new Button();
     this.#btnNext.setName("Continue");
     this.#btnNext.setDelegate(this);
     this.setChild("btnNext", this.#btnNext);
@@ -51,7 +56,7 @@ class FvcUpgradeChoices extends ui.FScrollViewContent {
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_UPGRADE_CHOICES.SELECT:
+    case CF_UPGRADE_CHOICES.SELECT:
       this.#onSelect(args[0]);
       break;
     default:
@@ -62,13 +67,13 @@ class FvcUpgradeChoices extends ui.FScrollViewContent {
 
   _renderContentOnRender(render) {
     if (dba.WebConfig.isDevSite()) {
-      let pList = new ui.ListPanel();
+      let pList = new ListPanel();
       render.wrapPanel(pList);
-      let p = new ui.ListPanel();
+      let p = new ListPanel();
       p.setClassName("flex x-scroll x-scroll-snap");
       pList.pushPanel(p);
       for (let [i, c] of this.#choices.entries()) {
-        let pp = new ui.ListPanel();
+        let pp = new ListPanel();
         pp.setClassName("w90 flex-noshrink scroll-snap-center");
         pp.setAttribute("onclick",
                         "javascript:G.action(gui.CF_UPGRADE_CHOICES.SELECT, " +
@@ -76,7 +81,7 @@ class FvcUpgradeChoices extends ui.FScrollViewContent {
         p.pushPanel(pp);
         this.#renderChoice(pp, c);
       }
-      p = new ui.PanelWrapper();
+      p = new PanelWrapper();
       pList.pushPanel(p);
       this.#btnNext.attachRender(p);
       this.#btnNext.render();
@@ -87,22 +92,22 @@ class FvcUpgradeChoices extends ui.FScrollViewContent {
   }
 
   #renderChoice(listPanel, c) {
-    let p = new ui.Panel();
+    let p = new Panel();
     listPanel.pushPanel(p);
     p.replaceContent(c.name);
-    p = new ui.Panel();
+    p = new Panel();
     listPanel.pushPanel(p);
     p.replaceContent("Blog: " + c.blog);
-    p = new ui.Panel();
+    p = new Panel();
     listPanel.pushPanel(p);
     p.replaceContent("Livestream: " + c.livestream);
-    p = new ui.Panel();
+    p = new Panel();
     listPanel.pushPanel(p);
     p.replaceContent("Project: " + c.project);
-    p = new ui.Panel();
+    p = new Panel();
     listPanel.pushPanel(p);
     p.replaceContent("Proposal: " + c.proposal);
-    p = new ui.Panel();
+    p = new Panel();
     listPanel.pushPanel(p);
     p.replaceContent("Price: " + c.price);
   }
@@ -115,5 +120,9 @@ class FvcUpgradeChoices extends ui.FScrollViewContent {
   }
 };
 
-gui.FvcUpgradeChoices = FvcUpgradeChoices;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_UPGRADE_CHOICES = CF_UPGRADE_CHOICES;
+  window.gui.FvcUpgradeChoices = FvcUpgradeChoices;
+}
