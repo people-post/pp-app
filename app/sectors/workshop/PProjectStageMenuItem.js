@@ -8,11 +8,13 @@ const _CPT_PROJECT_STAGE_MENU_ITEM = {
       <div id="__ID_CHECKED__"></div>
     </div>`,
 }
+import { PProjectStageBase } from './PProjectStageBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class PProjectStageMenuItem extends wksp.PProjectStageBase {
+export class PProjectStageMenuItem extends PProjectStageBase {
   constructor() {
     super();
-    this._pChecked = new ui.Panel();
+    this._pChecked = new Panel();
   }
 
   setSelected(b) { this._pChecked.replaceContent(b ? "Y" : ""); }

@@ -4,8 +4,9 @@ const _CPT_FLOW_CHART_TERMINAL = {
     <div id="__ID_WRAPPER__" class="flow-terminal-content"></div>
   </div>`,
 }
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class PFlowChartTerminal extends ui.PanelWrapper {
+export class PFlowChartTerminal extends PanelWrapper {
   constructor() {
     super();
     this._elementType = "foreignObject";

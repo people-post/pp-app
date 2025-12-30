@@ -1,5 +1,11 @@
 
-export class FvcWeb3ServerRegistration extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class FvcWeb3ServerRegistration extends FScrollViewContent {
   #agent;
   #fNameInput;
   #btnSubmit;
@@ -7,17 +13,17 @@ export class FvcWeb3ServerRegistration extends ui.FScrollViewContent {
 
   constructor() {
     super();
-    this.#fNameInput = new ui.TextInput();
+    this.#fNameInput = new TextInput();
     this.#fNameInput.setConfig({hint : "Name", value : "", isRequired : true});
     this.#fNameInput.setDelegate(this);
     this.setChild("nameInput", this.#fNameInput);
 
-    this.#btnSubmit = new ui.Button();
+    this.#btnSubmit = new Button();
     this.#btnSubmit.setDelegate(this);
     this.#btnSubmit.setName("Submit");
     this.setChild("btnSubmit", this.#btnSubmit);
 
-    this.#btnCancel = new ui.Button();
+    this.#btnCancel = new Button();
     this.#btnCancel.setDelegate(this);
     this.#btnCancel.setName("Cancel");
     this.setChild("btnCancel", this.#btnCancel);
@@ -39,27 +45,27 @@ export class FvcWeb3ServerRegistration extends ui.FScrollViewContent {
   onInputChangeInTextInputFragment(fInput, value) { this.#testName(value); }
 
   _renderContentOnRender(render) {
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     render.wrapPanel(pList);
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     pList.pushPanel(p);
     p.replaceContent("Registration page for " + this.#agent.getHostName());
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this.#fNameInput.attachRender(p);
     this.#fNameInput.render();
 
     pList.pushSpace(1);
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this.#btnSubmit.attachRender(p);
     this.#btnSubmit.render();
 
     pList.pushSpace(1);
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this.#btnCancel.attachRender(p);
     this.#btnCancel.render();

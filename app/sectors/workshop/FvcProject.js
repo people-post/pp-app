@@ -1,4 +1,17 @@
-export class FvcProject extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
+import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { FvcSimpleFragmentList } from '../../lib/ui/controllers/fragments/FvcSimpleFragmentList.js';
+import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
+
+export class FvcProject extends FScrollViewContent {
   constructor() {
     super();
     this._fThumbnail = new gui.FilesThumbnailFragment();
@@ -20,7 +33,7 @@ export class FvcProject extends ui.FScrollViewContent {
 
     this._fComments = new socl.FRealTimeComments();
 
-    this._fTabs = new ui.FTabbedPane();
+    this._fTabs = new FTabbedPane();
     this._fTabs.addPane(
         {name : "Comments", value : "COMMENTS", icon : C.ICON.COMMENT},
         this._fComments);
@@ -36,18 +49,18 @@ export class FvcProject extends ui.FScrollViewContent {
     this._fCreatorName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("creatorname", this._fCreatorName);
 
-    this._fBtnEdit = new gui.ActionButton();
-    this._fBtnEdit.setIcon(gui.ActionButton.T_ICON.EDIT);
+    this._fBtnEdit = new ActionButton();
+    this._fBtnEdit.setIcon(ActionButton.T_ICON.EDIT);
     this._fBtnEdit.setDelegate(this);
 
-    this._fProjectActions = new ui.OptionContextButton();
+    this._fProjectActions = new OptionContextButton();
     this._fProjectActions.setDelegate(this);
     this.setChild("projectactions", this._fProjectActions);
 
-    this._fQuickStages = new ui.FSimpleFragmentList();
+    this._fQuickStages = new FSimpleFragmentList();
     this.setChild("quickstages", this._fQuickStages);
 
-    this._lc = new ui.LContext();
+    this._lc = new LContext();
     this._lc.setDelegate(this);
     this._fOnUserSelect = null;
 
@@ -206,7 +219,7 @@ export class FvcProject extends ui.FScrollViewContent {
   }
 
   onGuiActionButtonClick(fActionButton) {
-    let v = new ui.View();
+    let v = new View();
     let f = new wksp.FvcProjectEditor();
     f.setDelegate(this);
     f.setProject(this.#getProject());
@@ -240,7 +253,7 @@ export class FvcProject extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
     let project = this.#getProject();
     if (!project) {
@@ -254,7 +267,7 @@ export class FvcProject extends ui.FScrollViewContent {
     this._fComments.setIsAdmin(
         this.#isUserProjectAdmin(dba.Account.getId(), project));
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fTabs.attachRender(pp);
     this._fTabs.render();
@@ -317,7 +330,7 @@ export class FvcProject extends ui.FScrollViewContent {
 
     p = panel.getImagePanel();
     if (project.getFiles().length) {
-      let pp = new ui.ThumbnailPanelWrapper();
+      let pp = new ThumbnailPanelWrapper();
       pp.setClassName("aspect-21-9-frame");
       p.wrapPanel(pp);
       this._fThumbnail.attachRender(pp);
@@ -404,7 +417,7 @@ export class FvcProject extends ui.FScrollViewContent {
   }
 
   #onRequestShowStage(stage) {
-    let v = new ui.View();
+    let v = new View();
     let f = new wksp.FvcProjectStage();
     f.setStage(stage);
     v.setContentFragment(f);
@@ -412,8 +425,8 @@ export class FvcProject extends ui.FScrollViewContent {
   }
 
   #onAssign() {
-    let v = new ui.View();
-    let f = new ui.FvcSimpleFragmentList();
+    let v = new View();
+    let f = new FvcSimpleFragmentList();
     f.append(this._fWorkerSearch);
     v.setContentFragment(f);
 
@@ -423,7 +436,7 @@ export class FvcProject extends ui.FScrollViewContent {
   }
 
   #onInviteClient() {
-    let v = new ui.View();
+    let v = new View();
     let fvc = new ui.FvcSimpleFragmentList();
     let f = new srch.FGeneralSearch();
     f.setDelegate(this);
@@ -440,8 +453,8 @@ export class FvcProject extends ui.FScrollViewContent {
   }
 
   #onAddAgent() {
-    let v = new ui.View();
-    let f = new ui.FvcSimpleFragmentList();
+    let v = new View();
+    let f = new FvcSimpleFragmentList();
     f.append(this._fAgentSearch);
     v.setContentFragment(f);
 
@@ -451,8 +464,8 @@ export class FvcProject extends ui.FScrollViewContent {
   }
 
   #onReplaceAgent(userId) {
-    let v = new ui.View();
-    let f = new ui.FvcSimpleFragmentList();
+    let v = new View();
+    let f = new FvcSimpleFragmentList();
     f.append(this._fAgentSearch);
     v.setContentFragment(f);
 
@@ -487,9 +500,9 @@ export class FvcProject extends ui.FScrollViewContent {
   }
 
   #onPause() {
-    let v = new ui.View();
+    let v = new View();
     let fvc = new S.hr.FvcUserInput();
-    let f = new ui.TextInput();
+    let f = new TextInput();
     f.setConfig({
       title : R.get("CONFIRM_PAUSE_PROJECT"),
       hint : "Comments",
@@ -507,9 +520,9 @@ export class FvcProject extends ui.FScrollViewContent {
   }
 
   #onCancel() {
-    let v = new ui.View();
+    let v = new View();
     let fvc = new S.hr.FvcUserInput();
-    let f = new ui.TextInput();
+    let f = new TextInput();
     f.setConfig({
       title : R.get("CONFIRM_CANCEL_PROJECT"),
       hint : "Comments",
@@ -527,9 +540,9 @@ export class FvcProject extends ui.FScrollViewContent {
   }
 
   #onReopen() {
-    let v = new ui.View();
+    let v = new View();
     let fvc = new S.hr.FvcUserInput();
-    let f = new ui.TextInput();
+    let f = new TextInput();
     f.setConfig({
       title : R.get("CONFIRM_REOPEN_PROJECT"),
       hint : "Comments",

@@ -13,14 +13,18 @@ const _CPT_DRAFT_ARTICLE_INFO = {
   </div>`,
 };
 
-export class PDraftArticleInfo extends blog.PArticleBase {
+import { PArticleBase } from './PArticleBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PDraftArticleInfo extends PArticleBase {
   constructor() {
     super();
-    this._pAuthorName = new ui.PanelWrapper();
-    this._pTags = new ui.PanelWrapper();
-    this._pTitle = new ui.Panel();
-    this._pContent = new ui.PanelWrapper();
-    this._pTime = new ui.Panel();
+    this._pAuthorName = new PanelWrapper();
+    this._pTags = new PanelWrapper();
+    this._pTitle = new Panel();
+    this._pContent = new PanelWrapper();
+    this._pTime = new Panel();
   }
 
   getTitlePanel() { return this._pTitle; }

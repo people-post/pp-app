@@ -1,4 +1,6 @@
-export class FvcMain extends ui.FViewContentMux {
+import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
+
+export class FvcMain extends FViewContentMux {
   #fProposals;
   #fMemberList;
   #fGlobal;

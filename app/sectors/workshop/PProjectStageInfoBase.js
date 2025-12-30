@@ -1,8 +1,10 @@
+import { PProjectStageBase } from './PProjectStageBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class PProjectStageInfoBase extends wksp.PProjectStageBase {
+export class PProjectStageInfoBase extends PProjectStageBase {
   constructor() {
     super();
-    this._pOptionBtn = new ui.PanelWrapper();
+    this._pOptionBtn = new PanelWrapper();
   }
 
   getOptionBtnPanel() { return this._pOptionBtn; }

@@ -14,13 +14,17 @@ const _CPT_PROJECT_INFO_LARGE_QUOTE = {
   </div>`,
 }
 
-export class PProjectInfoLargeQuote extends wksp.PProjectInfoBase {
+import { PProjectInfoBase } from './PProjectInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PProjectInfoLargeQuote extends PProjectInfoBase {
   constructor() {
     super();
-    this._pUserName = new ui.PanelWrapper();
-    this._pTitle = new ui.Panel();
-    this._pContent = new ui.Panel();
-    this._pTime = new ui.Panel();
+    this._pUserName = new PanelWrapper();
+    this._pTitle = new Panel();
+    this._pContent = new Panel();
+    this._pTime = new Panel();
   }
 
   getUserNamePanel() { return this._pUserName; }

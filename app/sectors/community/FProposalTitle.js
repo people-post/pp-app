@@ -8,7 +8,9 @@ const _CFT_PROPOSAL_TITLE = {
   ISSUE_COINS : `Issue __TOTAL__M coins`,
 }
 
-export class FProposalTitle extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export class FProposalTitle extends Fragment {
   action(type, ...args) {
     switch (type) {
     case CF_PROPOSAL_TITLE.USER_INFO:

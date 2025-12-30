@@ -16,7 +16,11 @@ const _CFT_GUEST_HOSTING_CONTENT = {
     </div>`,
 }
 
-export class FvcGuestHosting extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class FvcGuestHosting extends FScrollViewContent {
   action(type, ...args) {
     switch (type) {
     case CF_GUEST_HOSTING_CONTENT.REGISTER:
@@ -32,18 +36,18 @@ export class FvcGuestHosting extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(R.get("HOSTING_MSG_TITLE"));
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderMain());
 
-    pp = new ui.Panel();
+    pp = new Panel();
     pp.setClassName("s-font7");
     p.pushPanel(pp);
     pp.replaceContent(this.#renderFootNote());

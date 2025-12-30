@@ -1,5 +1,6 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class PProjectFlowChart extends ui.Panel {
+export class PProjectFlowChart extends Panel {
   constructor() {
     super();
     this._elementType = "svg";

@@ -33,17 +33,20 @@ const _CPT_POST_INFO_MIDDLE = {
   </div>`,
 }
 
-export class PPostInfoMiddle extends gui.PPostInfoBase {
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PPostInfoMiddle extends PPostInfoBase {
   constructor() {
     super();
-    this._pImage = new ui.PanelWrapper();
-    this._pTitle = new ui.Panel();
-    this._pContent = new ui.PanelWrapper();
-    this._pQuote = new ui.PanelWrapper();
+    this._pImage = new PanelWrapper();
+    this._pTitle = new Panel();
+    this._pContent = new PanelWrapper();
+    this._pQuote = new PanelWrapper();
     this._pCrossRef = new S.hr.PUserReference();
-    this._pSocial = new ui.PanelWrapper();
-    this._pPin = new ui.Panel();
-    this._pImage = new ui.PanelWrapper();
+    this._pSocial = new PanelWrapper();
+    this._pPin = new Panel();
   }
 
   isColorInvertible() { return true; }

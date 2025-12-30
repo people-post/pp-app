@@ -1,12 +1,15 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 
-export class FvcProjectStageConnection extends ui.FScrollViewContent {
+export class FvcProjectStageConnection extends FScrollViewContent {
   constructor() {
     super();
     this._stage = null;
-    this._fList = new ui.FSimpleFragmentList();
+    this._fList = new FSimpleFragmentList();
     this.setChild("list", this._fList);
 
-    this._fBtnSubmit = new ui.Button();
+    this._fBtnSubmit = new Button();
     this._fBtnSubmit.setName("Submit");
     this._fBtnSubmit.setDelegate(this);
     this.setChild("submit", this._fBtnSubmit);

@@ -35,7 +35,9 @@ const _CFT_DS_HOWTO = {
   DS : `<img class="photo" src="static/img/__IMG_SRC__"></img>`,
 }
 
-export class FvcDsHowto extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+
+export class FvcDsHowto extends FScrollViewContent {
   action(type, ...args) {
     switch (type) {
     case hstn.CF_DS_HOWTO.TOGGLE:

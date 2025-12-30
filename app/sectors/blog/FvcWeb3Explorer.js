@@ -1,5 +1,6 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 
-export class FvcWeb3Explorer extends ui.FScrollViewContent {
+export class FvcWeb3Explorer extends FScrollViewContent {
   #fPosts;
   #fBtnNew;
 

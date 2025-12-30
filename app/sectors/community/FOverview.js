@@ -3,7 +3,14 @@ const _CFT_COMMUNITY_OVERVIEW = {
   N_COINS : `__N_ACTIVE_COINS__ active/__N_TOTAL_COINS__ total`,
 };
 
-export class FOverview extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
+
+export class FOverview extends Fragment {
   #fHeaderEditor;
   #fCreator;
   #fCaptain;
@@ -31,50 +38,50 @@ export class FOverview extends ui.Fragment {
     this.#fCaptain.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("captain", this.#fCaptain);
 
-    this.#fNameEditor = new ui.TextInput();
+    this.#fNameEditor = new TextInput();
     this.#fNameEditor.setClassName("no-border center-align s-csecondarybg");
     this.#fNameEditor.setDelegate(this);
     this.setChild("name", this.#fNameEditor);
 
-    this.#fDescriptionEditor = new ui.TextArea();
+    this.#fDescriptionEditor = new TextArea();
     this.#fDescriptionEditor.setClassName(
         "w100 small-info-text implicit center-align s-csecondarybg");
     this.#fDescriptionEditor.setDelegate(this);
     this.setChild("description", this.#fDescriptionEditor);
 
-    this.#btnCoinInfo = new ui.Button();
-    this.#btnCoinInfo.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+    this.#btnCoinInfo = new Button();
+    this.#btnCoinInfo.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this.#btnCoinInfo.setValue("COIN_INFO");
     this.#btnCoinInfo.setName("Details");
     this.#btnCoinInfo.setDelegate(this);
     this.setChild("btnCoinInfo", this.#btnCoinInfo);
 
-    this.#btnCashInfo = new ui.Button();
-    this.#btnCashInfo.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+    this.#btnCashInfo = new Button();
+    this.#btnCashInfo.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this.#btnCashInfo.setValue("CASH_INFO");
     this.#btnCashInfo.setName("Details");
     this.#btnCashInfo.setDelegate(this);
     this.setChild("btnCashInfo", this.#btnCashInfo);
 
-    this.#btnJoin = new ui.Button();
+    this.#btnJoin = new Button();
     this.#btnJoin.setValue("JOIN");
     this.#btnJoin.setName("Apply membership...");
     this.#btnJoin.setDelegate(this);
     this.setChild("btnJoin", this.#btnJoin);
 
-    this.#btnPropose = new ui.Button();
+    this.#btnPropose = new Button();
     this.#btnPropose.setValue("PROPOSE");
     this.#btnPropose.setName("New proposal...");
     this.#btnPropose.setDelegate(this);
     this.setChild("btnPropose", this.#btnPropose);
 
-    this.#btnConfig = new ui.Button();
+    this.#btnConfig = new Button();
     this.#btnConfig.setValue("CONFIG");
     this.#btnConfig.setName("Settings...");
     this.#btnConfig.setDelegate(this);
     this.setChild("btnConfig", this.#btnConfig);
 
-    this.#btnIssue = new ui.Button();
+    this.#btnIssue = new Button();
     this.#btnIssue.setValue("ISSUE");
     this.#btnIssue.setName("Issue coins...");
     this.#btnIssue.setDelegate(this);
@@ -274,7 +281,7 @@ export class FOverview extends ui.Fragment {
   }
 
   #onShowCoins() {
-    let v = new ui.View();
+    let v = new View();
     let f = new cmut.FvcCoinHistory();
     f.setCommunityId(this.#communityId);
     v.setContentFragment(f);
@@ -282,7 +289,7 @@ export class FOverview extends ui.Fragment {
   }
 
   #onShowFinance() {
-    let v = new ui.View();
+    let v = new View();
     let f = new cmut.FvcFinanceHistory();
     f.setCommunityId(this.#communityId);
     v.setContentFragment(f);
@@ -291,7 +298,7 @@ export class FOverview extends ui.Fragment {
   }
 
   #onConfigClicked() {
-    let v = new ui.View();
+    let v = new View();
     let f = new cmut.FvcConfigEditor();
     f.setCommunityId(this.#communityId);
     f.setDelegate(this);
@@ -301,16 +308,16 @@ export class FOverview extends ui.Fragment {
   }
 
   #onProposeClicked() {
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(new cmut.FvcProposalEditor());
     this._delegate.onCommunityOverviewFragmentRequestShowView(this, v,
                                                               "Proposal");
   }
 
   #onApplyClicked() {
-    let v = new ui.View();
+    let v = new View();
     let fvc = new S.hr.FvcUserInput();
-    let f = new ui.TextArea();
+    let f = new TextArea();
     f.setDelegate(this);
     f.setClassName("w100 h120px");
     f.setConfig({
@@ -330,9 +337,9 @@ export class FOverview extends ui.Fragment {
   }
 
   #onIssueCoinClicked() {
-    let v = new ui.View();
+    let v = new View();
     let fvc = new S.hr.FvcUserInput();
-    let f = new ui.NumberInput();
+    let f = new NumberInput();
     f.setConfig({
       title : R.get("CONFIRM_ISSUE_COINS"),
       min : 1,

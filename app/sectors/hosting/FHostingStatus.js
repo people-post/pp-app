@@ -17,13 +17,18 @@ const _CFT_HOSTING_STATUS = {
     <p>ns4.gcabin.com</p>`,
 }
 
-export class FHostingStatus extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class FHostingStatus extends Fragment {
   constructor() {
     super();
     this._domainName = null;
-    this._fBtn = new ui.Button();
+    this._fBtn = new Button();
     this._fBtn.setName(R.t("Unregister") + "...");
-    this._fBtn.setThemeType(ui.Button.T_THEME.DANGER);
+    this._fBtn.setThemeType(Button.T_THEME.DANGER);
     this._fBtn.setDelegate(this);
     this.setChild("btn", this._fBtn);
   }
@@ -46,16 +51,16 @@ export class FHostingStatus extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderMain());
 
     p.pushSpace(1);
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this._fBtn.attachRender(pp);
     this._fBtn.render();

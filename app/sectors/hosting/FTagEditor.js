@@ -2,16 +2,21 @@ export const CF_TAG_EDITOR = {
   ON_CLICK : Symbol(),
 }
 
-export class FTagEditor extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+
+export class FTagEditor extends Fragment {
   static T_LAYOUT = {
     INFO : Symbol(),
   };
 
   constructor() {
     super();
-    this._fBtnQuick = new ui.Button();
+    this._fBtnQuick = new Button();
     this._fBtnQuick.setName("Rename...");
-    this._fBtnQuick.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+    this._fBtnQuick.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this._fBtnQuick.setDelegate(this);
     this.setChild("btnQuick", this._fBtnQuick);
 
@@ -90,9 +95,9 @@ export class FTagEditor extends ui.Fragment {
     if (!tag) {
       return;
     }
-    let v = new ui.View();
+    let v = new View();
     let fvc = new S.hr.FvcUserInput();
-    let f = new ui.TextInput();
+    let f = new TextInput();
     f.setConfig({
       title : "Change tag name:",
       hint : "New tag name",

@@ -1,11 +1,13 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 
-export class FWeb3NoticeList extends ui.Fragment {
+export class FWeb3NoticeList extends Fragment {
   #selectedPostId = null;
   #fNotices;
 
   constructor() {
     super();
-    this.#fNotices = new ui.FSimpleFragmentList();
+    this.#fNotices = new FSimpleFragmentList();
     this.setChild("notices", this.#fNotices);
   }
 

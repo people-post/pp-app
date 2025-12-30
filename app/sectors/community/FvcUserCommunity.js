@@ -7,11 +7,13 @@ const _CFT_USER_COMMUNITY_CONTENT = {
   BTN_CREATE :
       `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_USER_COMMUNITY_CONTENT.CREATE)">Create community...</a>`
 }
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FOverview } from './FOverview.js';
 
-export class FvcUserCommunity extends ui.FScrollViewContent {
+export class FvcUserCommunity extends FScrollViewContent {
   constructor() {
     super();
-    this._fOverview = new cmut.FOverview();
+    this._fOverview = new FOverview();
     this._fOverview.setDelegate(this);
     this.setChild("overview", this._fOverview);
 

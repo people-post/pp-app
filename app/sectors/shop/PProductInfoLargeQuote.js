@@ -9,11 +9,13 @@ const _CPT_PRODUCT_INFO_LARGE_QUOTE = {
   <div id="__ID_IMAGE__"></div>
   </div>`,
 }
+import { PProductInfoBase } from './PProductInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class PProductInfoLargeQuote extends shop.PProductInfoBase {
+export class PProductInfoLargeQuote extends PProductInfoBase {
   constructor() {
     super();
-    this._pSellerName = new ui.PanelWrapper();
+    this._pSellerName = new PanelWrapper();
   }
 
   getSellerNamePanel() { return this._pSellerName; }

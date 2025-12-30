@@ -9,11 +9,14 @@ const _CPT_REGISTER_SMALL = {
   </div>`,
 };
 
-export class PRegisterSmall extends shop.PRegisterBase {
+import { PRegisterBase } from './PRegisterBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PRegisterSmall extends PRegisterBase {
   constructor() {
     super();
-    this._pName = new ui.Panel();
-    this._pTerminalInfo = new ui.Panel();
+    this._pName = new Panel();
+    this._pTerminalInfo = new Panel();
   }
 
   isColorInvertible() { return true; }

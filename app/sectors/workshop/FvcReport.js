@@ -1,12 +1,15 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FNoticeList } from './FNoticeList.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 
-export class FvcReport extends ui.FScrollViewContent {
+export class FvcReport extends FScrollViewContent {
   constructor() {
     super();
-    this._fNoticeList = new wksp.FNoticeList();
+    this._fNoticeList = new FNoticeList();
     this._fNoticeList.setDelegate(this);
     this.setChild("notices", this._fNoticeList);
 
-    this._fRequestList = new ui.FSimpleFragmentList();
+    this._fRequestList = new FSimpleFragmentList();
     this.setChild("requests", this._fRequestList);
   }
 

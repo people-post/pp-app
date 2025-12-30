@@ -1,5 +1,6 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class PProposalBase extends ui.Panel {
+export class PProposalBase extends Panel {
   isColorInvertible() { return false; }
 
   getIconPanel() { return null; }

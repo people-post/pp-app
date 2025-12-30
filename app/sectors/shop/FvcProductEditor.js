@@ -20,8 +20,13 @@ const _CFT_PRODUCT_EDITOR = {
   DELETE_BUTTON :
       `<a class="button-bar danger" href="javascript:void(0)">Delete</a>`,
 }
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class FvcProductEditor extends ui.FScrollViewContent {
+export class FvcProductEditor extends FScrollViewContent {
   constructor() {
     super();
     this._fContent = new gui.RichContentEditor();
@@ -142,7 +147,7 @@ export class FvcProductEditor extends ui.FScrollViewContent {
   }
 
   #renderDelivery(product, panel) {
-    let p = new ui.SectionPanel("Delivery");
+    let p = new SectionPanel("Delivery");
     panel.wrapPanel(p);
     if (product) {
       this._fDelivery.setChoices(product.getDeliveryChoices());

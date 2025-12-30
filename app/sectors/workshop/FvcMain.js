@@ -1,5 +1,9 @@
+import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/FViewContentWithHeroBanner.js';
+import { FvcExplorer } from './FvcExplorer.js';
+import { FvcOwner } from './FvcOwner.js';
+import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 
-export class FvcMain extends ui.FViewContentWithHeroBanner {
+export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {
     OWNER_OPEN : Symbol(),
     OWNER_CLOSED: Symbol(),
@@ -12,13 +16,13 @@ export class FvcMain extends ui.FViewContentWithHeroBanner {
 
   constructor() {
     super();
-    this.#fvcExplorer = new wksp.FvcExplorer();
+    this.#fvcExplorer = new FvcExplorer();
     this.#fvcExplorer.setDelegate(this);
 
-    this.#fvcOwner = new wksp.FvcOwner();
+    this.#fvcOwner = new FvcOwner();
     this.#fvcOwner.setDelegate(this);
 
-    this.#fMain = new ui.FViewContentMux();
+    this.#fMain = new FViewContentMux();
     this.#fMain.setDataSource(this);
     this.wrapContentFragment(this.#fMain);
 

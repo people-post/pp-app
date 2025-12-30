@@ -15,14 +15,18 @@ const _CPT_PROPOSAL_INFO = {
   </div>`,
 }
 
-export class PProposalInfo extends cmut.PProposalBase {
+import { PProposalBase } from './PProposalBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PProposalInfo extends PProposalBase {
   constructor() {
     super();
-    this._pTitle = new ui.Panel();
-    this._pIcon = new ui.Panel();
-    this._pStatus = new ui.Panel();
-    this._pVote = new ui.Panel();
-    this._pVotingSummary = new ui.PanelWrapper();
+    this._pTitle = new Panel();
+    this._pIcon = new Panel();
+    this._pStatus = new Panel();
+    this._pVote = new Panel();
+    this._pVotingSummary = new PanelWrapper();
   }
 
   isColorInvertible() { return true; }

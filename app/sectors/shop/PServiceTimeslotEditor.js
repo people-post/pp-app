@@ -10,15 +10,17 @@ const _CPT_SERVICE_TIME_SLOT_EDITOR = {
   </div>
   </div>`,
 }
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class PServiceTimeslotEditor extends ui.Panel {
+export class PServiceTimeslotEditor extends Panel {
   constructor() {
     super();
-    this._pFrom = new ui.PanelWrapper();
-    this._pTo = new ui.PanelWrapper();
-    this._pTotal = new ui.PanelWrapper();
-    this._pRep = new ui.PanelWrapper();
-    this._pBtnDelete = new ui.PanelWrapper();
+    this._pFrom = new PanelWrapper();
+    this._pTo = new PanelWrapper();
+    this._pTotal = new PanelWrapper();
+    this._pRep = new PanelWrapper();
+    this._pBtnDelete = new PanelWrapper();
   }
 
   getFromPanel() { return this._pFrom; }

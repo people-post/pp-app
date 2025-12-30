@@ -1,9 +1,11 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
 
-export class FvcProjectStage extends ui.FScrollViewContent {
+export class FvcProjectStage extends FScrollViewContent {
   constructor() {
     super();
-    this._fBtnEdit = new gui.ActionButton();
-    this._fBtnEdit.setIcon(gui.ActionButton.T_ICON.EDIT);
+    this._fBtnEdit = new ActionButton();
+    this._fBtnEdit.setIcon(ActionButton.T_ICON.EDIT);
     this._fBtnEdit.setDelegate(this);
     this._fStage = null;
   }

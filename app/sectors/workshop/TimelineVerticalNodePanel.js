@@ -17,19 +17,21 @@ const _CPT_TIMELINE_VERTICAL_NODE = {
   <div id="__ID_CONTENT_WRAPPER__" class="w80 pad5px"></div>
   </div>`,
 };
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class TimelineVerticalNodePanel extends ui.PanelWrapper {
+export class TimelineVerticalNodePanel extends PanelWrapper {
   constructor() {
     super();
-    this._pNode = new ui.Panel();
+    this._pNode = new Panel();
     this._pNode.setClassName("rpe-content node bggreen");
-    this._pUpperPipe = new ui.Panel();
+    this._pUpperPipe = new Panel();
     this._pUpperPipe.setClassName("rpe pipe vertical upper");
-    this._pLowerPipe = new ui.Panel();
+    this._pLowerPipe = new Panel();
     this._pLowerPipe.setClassName("rpe pipe vertical lower");
-    this._pUpperFlow = new ui.Panel();
+    this._pUpperFlow = new Panel();
     this._pUpperFlow.setClassName("rpe-content pipe vertical upper bggreen");
-    this._pLowerFlow = new ui.Panel();
+    this._pLowerFlow = new Panel();
     this._pLowerFlow.setClassName("rpe-content pipe vertical lower bggreen");
   }
 

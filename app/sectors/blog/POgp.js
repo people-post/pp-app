@@ -1,12 +1,14 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class POgp extends ui.Panel {
+export class POgp extends Panel {
   constructor() {
     super();
-    this._pAuthor = new ui.PanelWrapper();
-    this._pTime = new ui.Panel();
-    this._pImage = new ui.PanelWrapper();
-    this._pTitle = new ui.Panel();
-    this._pDescription = new ui.Panel();
+    this._pAuthor = new PanelWrapper();
+    this._pTime = new Panel();
+    this._pImage = new PanelWrapper();
+    this._pTitle = new Panel();
+    this._pDescription = new Panel();
   }
 
   getAuthorPanel() { return this._pAuthor; }

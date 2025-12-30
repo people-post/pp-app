@@ -1,5 +1,6 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
-export class FGlobalCommunityInfo extends ui.Fragment {
+export class FGlobalCommunityInfo extends Fragment {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case plt.T_DATA.GLOBAL_COMMUNITY_PROFILE:

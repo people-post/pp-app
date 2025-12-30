@@ -1,5 +1,6 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 
-export class FvcCareerList extends ui.FScrollViewContent {
+export class FvcCareerList extends FScrollViewContent {
   constructor() {
     super();
     this._fList = new S.hr.FCareerList();

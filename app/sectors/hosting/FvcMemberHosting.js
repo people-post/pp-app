@@ -11,7 +11,12 @@ const _CFT_MEMBER_HOSTING_CONTENT = {
       `__DOMAIN___ is already registered. If your spell is correct, do you want to claim it?`,
 }
 
-export class FvcMemberHosting extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FWaiting } from '../../lib/ui/controllers/fragments/FWaiting.js';
+import { FvcConfirmAction } from '../../lib/ui/controllers/fragments/FvcConfirmAction.js';
+
+export class FvcMemberHosting extends FScrollViewContent {
   constructor() {
     super();
     this.setChild("content", this.#initContentFragment());
@@ -56,13 +61,13 @@ export class FvcMemberHosting extends ui.FScrollViewContent {
   }
 
   onNsHowtoClicked() {
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(new hstn.FvcNsHowto());
     this._owner.onFragmentRequestShowView(this, v, "NS howto");
   }
 
   onDsHowtoClicked() {
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(new hstn.FvcDsHowto());
     this._owner.onFragmentRequestShowView(this, v, "DS howto");
   }
@@ -86,7 +91,7 @@ export class FvcMemberHosting extends ui.FScrollViewContent {
     let s = dba.Hosting.getStatus();
     let f = this.#createSetupFragment(s);
     if (!f) {
-      f = new ui.FWaiting(1000);
+      f = new FWaiting(1000);
       f.setDataSource(this);
       f.setDelegate(this);
     }
@@ -121,8 +126,8 @@ export class FvcMemberHosting extends ui.FScrollViewContent {
   #onDomainAlreayRegistered() {
     let msg = _CFT_MEMBER_HOSTING_CONTENT.CLAIM_CONFIRMATION_MSG;
     msg = msg.replace("__DOMAIN__", "TEMP");
-    let v = new ui.View();
-    let f = new ui.FvcConfirmAction();
+    let v = new View();
+    let f = new FvcConfirmAction();
     f.setMessage(msg);
     f.addOption("Yes", () => this.#onClaimDomain());
     f.addOption("No", null);
@@ -141,7 +146,7 @@ export class FvcMemberHosting extends ui.FScrollViewContent {
   }
 
   #onClaimDomain() {
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(new hstn.FvcClaimDomain());
     this._owner.onFragmentRequestShowView(this, v, "Claim domain");
   }

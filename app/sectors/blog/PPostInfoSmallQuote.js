@@ -24,15 +24,19 @@ const _CPT_POST_INFO_SMALL_QUOTE = {
   </div>`,
 }
 
-export class PPostInfoSmallQuote extends gui.PPostInfoBase {
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PPostInfoSmallQuote extends PPostInfoBase {
   constructor() {
     super();
     this._pCrossRef = new S.hr.PUserReference();
-    this._pAuthorName = new ui.PanelWrapper();
-    this._pTime = new ui.Panel();
-    this._pTitle = new ui.Panel();
-    this._pContent = new ui.PanelWrapper();
-    this._pImage = new ui.PanelWrapper();
+    this._pAuthorName = new PanelWrapper();
+    this._pTime = new Panel();
+    this._pTitle = new Panel();
+    this._pContent = new PanelWrapper();
+    this._pImage = new PanelWrapper();
   }
 
   getCrossRefPanel() { return this._pCrossRef; }

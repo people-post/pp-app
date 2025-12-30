@@ -1,5 +1,9 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
 
-export class FvcOwner extends ui.FScrollViewContent {
+export class FvcOwner extends FScrollViewContent {
   #fmMain;
   #fmSearch;
   #fList;
@@ -8,7 +12,7 @@ export class FvcOwner extends ui.FScrollViewContent {
 
   constructor() {
     super();
-    this.#fmMain = new ui.FHeaderMenu();
+    this.#fmMain = new FHeaderMenu();
     this.#fmMain.setIcon(C.ICON.M_MENU, new MainIconOperator());
     let f = new gui.MainMenu();
     f.setSector(C.ID.SECTOR.WORKSHOP);
@@ -16,7 +20,7 @@ export class FvcOwner extends ui.FScrollViewContent {
     this.#fmMain.setContentFragment(f);
     this.#fmMain.setExpansionPriority(0);
 
-    this.#fmSearch = new ui.FHeaderMenu();
+    this.#fmSearch = new FHeaderMenu();
     this.#fmSearch.setIcon(C.ICON.M_SEARCH, new SearchIconOperator());
     f = new srch.FSearchMenu();
     f.setDelegate(this);
@@ -28,8 +32,8 @@ export class FvcOwner extends ui.FScrollViewContent {
     this.#fList.setDelegate(this);
     this.setChild("list", this.#fList);
 
-    this.#fBtnNew = new gui.ActionButton();
-    this.#fBtnNew.setIcon(gui.ActionButton.T_ICON.NEW);
+    this.#fBtnNew = new ActionButton();
+    this.#fBtnNew.setIcon(ActionButton.T_ICON.NEW);
     this.#fBtnNew.setDelegate(this);
   }
 

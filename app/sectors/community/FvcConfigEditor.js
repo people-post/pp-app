@@ -1,15 +1,20 @@
 
-export class FvcConfigEditor extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
+import { FTributetInput } from '../../common/gui/FTributeInput.js';
+import { ButtonList } from '../../lib/ui/controllers/fragments/ButtonList.js';
+
+export class FvcConfigEditor extends FScrollViewContent {
   constructor() {
     super();
     this._fCaptain = new S.hr.FUserIdInput();
-    this._fMemberProfitPercent = new ui.NumberInput();
-    this._fNJoinApprovals = new ui.NumberInput();
-    this._fVotingThreshold = new ui.NumberInput();
-    this._fDaysToExpire = new ui.NumberInput();
-    this._fTribute = new gui.FTributetInput();
+    this._fMemberProfitPercent = new NumberInput();
+    this._fNJoinApprovals = new NumberInput();
+    this._fVotingThreshold = new NumberInput();
+    this._fDaysToExpire = new NumberInput();
+    this._fTribute = new FTributetInput();
 
-    this._fActions = new ui.ButtonList();
+    this._fActions = new ButtonList();
     this._fActions.setDelegate(this);
     this._fActions.addButton("Propose", () => this.#asyncPropose());
     this._fActions.addButton(

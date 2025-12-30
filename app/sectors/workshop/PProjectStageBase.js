@@ -1,8 +1,9 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class PProjectStageBase extends ui.Panel {
+export class PProjectStageBase extends Panel {
   constructor() {
     super();
-    this._pName = new ui.Panel();
+    this._pName = new Panel();
   }
 
   getNamePanel() { return this._pName; }

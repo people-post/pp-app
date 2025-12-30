@@ -1,5 +1,6 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 
-export class FvcRegisterSelection extends ui.FScrollViewContent {
+export class FvcRegisterSelection extends FScrollViewContent {
   #fRegisters;
   
   constructor() {

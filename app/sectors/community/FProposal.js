@@ -15,7 +15,9 @@ const _CFT_PROPOSAL = {
   <div>Status: __STATUS__</div>`,
 };
 
-export class FProposal extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export class FProposal extends Fragment {
   static T_LAYOUT = {
     FULL : Symbol(),
     INFO: Symbol(),

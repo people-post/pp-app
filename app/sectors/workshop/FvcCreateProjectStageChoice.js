@@ -1,28 +1,30 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 
-export class FvcCreateProjectStageChoice extends ui.FScrollViewContent {
+export class FvcCreateProjectStageChoice extends FScrollViewContent {
   constructor() {
     super();
-    this._fBtnSimple = new ui.Button();
+    this._fBtnSimple = new Button();
     this._fBtnSimple.setName("Simple stage");
     this._fBtnSimple.setValue(dat.ProjectStage.TYPES.SIMPLE);
     this._fBtnSimple.setDelegate(this);
     this.setChild("btnSimple", this._fBtnSimple);
 
-    this._fBtnRef = new ui.Button();
+    this._fBtnRef = new Button();
     this._fBtnRef.setName("Link to another stage");
     this._fBtnRef.setValue(dat.ProjectStage.TYPES.REFERENCE);
     this._fBtnRef.setDelegate(this);
     this._fBtnRef.setEnabled(false);
     this.setChild("btnRef", this._fBtnRef);
 
-    this._fBtnCheckin = new ui.Button();
+    this._fBtnCheckin = new Button();
     this._fBtnCheckin.setName("Check in stage");
     this._fBtnCheckin.setValue(dat.ProjectStage.TYPES.CHECK_IN);
     this._fBtnCheckin.setDelegate(this);
     this._fBtnCheckin.setEnabled(false);
     this.setChild("btnCheckin", this._fBtnCheckin);
 
-    this._fBtnSwitch = new ui.Button();
+    this._fBtnSwitch = new Button();
     this._fBtnSwitch.setName("Branch switch stage");
     this._fBtnSwitch.setValue(dat.ProjectStage.TYPES.SWITCH);
     this._fBtnSwitch.setDelegate(this);
@@ -46,14 +48,18 @@ export class FvcCreateProjectStageChoice extends ui.FScrollViewContent {
     this._position = "AFTER";
   }
 
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
     p.pushSpace(1);
 
     for (let f of [this._fBtnSimple, this._fBtnRef, this._fBtnCheckin,
                    this._fBtnSwitch]) {
-      let pp = new ui.PanelWrapper();
+      let pp = new PanelWrapper();
       p.pushPanel(pp);
       f.attachRender(pp);
       f.render();
@@ -85,7 +91,7 @@ export class FvcCreateProjectStageChoice extends ui.FScrollViewContent {
     dba.Workshop.updateProject(project);
     let stage = project.getStage(data.stage_id);
     if (stage) {
-      let v = new ui.View();
+      let v = new View();
       let f = new wksp.FvcProjectStageEditor();
       f.setStage(stage);
       v.setContentFragment(f);

@@ -9,24 +9,27 @@ const _CFT_BLOG_ROLE_EDITOR = {
   SEC_SUBMIT : `<br>
     <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_BLOG_ROLE_EDITOR.SUBMIT)">Submit<a>`,
 }
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
+import { HintText } from '../../lib/ui/controllers/fragments/HintText.js';
 
-export class FvcRoleEditor extends ui.FScrollViewContent {
+export class FvcRoleEditor extends FScrollViewContent {
   constructor() {
     super();
-    this._fTypeChoices = new ui.ButtonGroup();
+    this._fTypeChoices = new ButtonGroup();
     this._fTypeChoices.setDataSource(this);
     this._fTypeChoices.setDelegate(this);
     this._fTypeChoices.addChoice({
       name : "Insider",
       value : dat.BlogRole.T_ROLE.EXCLUSIVE,
       icon : C.ICON.EMPLOYEE,
-      fDetail : new ui.HintText(R.get("BLOG_ROLE_EXCLUSIVE"))
+      fDetail : new HintText(R.get("BLOG_ROLE_EXCLUSIVE"))
     });
     this._fTypeChoices.addChoice({
       name : "Coalitionist",
       value : dat.BlogRole.T_ROLE.PARTNERSHIP,
       icon : C.ICON.PARTNERSHIP,
-      fDetail : new ui.HintText(R.get("BLOG_ROLE_PARTNERSHIP"))
+      fDetail : new HintText(R.get("BLOG_ROLE_PARTNERSHIP"))
     });
     this._fTypeChoices.setSelectedValue(dat.BlogRole.T_ROLE.PARTNERSHIP);
     this.setChild("typeChoices", this._fTypeChoices);

@@ -18,13 +18,14 @@ const _CPT_PROJECT_ACTOR_INFO = {
     <div id="__ID_NAME__" class="small-info-text center-align ellipsis"></div>
   </div>`,
 }
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class PProjectActorInfo extends ui.Panel {
+export class PProjectActorInfo extends Panel {
   constructor() {
     super();
-    this._pTitle = new ui.Panel();
-    this._pIcon = new ui.Panel();
-    this._pName = new ui.Panel();
+    this._pTitle = new Panel();
+    this._pIcon = new Panel();
+    this._pName = new Panel();
   }
 
   getNamePanel() { return this._pName; }

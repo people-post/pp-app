@@ -5,20 +5,27 @@ const _CFT_BLOG_REPORT = {
     <div class="small-info-text no-wrap">__COUNT__</div>
   </div>`,
 };
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FNoticeList } from './FNoticeList.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
-export class FvcReport extends ui.FScrollViewContent {
+export class FvcReport extends FScrollViewContent {
   #selectedPostId = null;
 
   constructor() {
     super();
-    this._fNoticeList = new blog.FNoticeList();
+    this._fNoticeList = new FNoticeList();
     this._fNoticeList.setDelegate(this);
     this.setChild("notices", this._fNoticeList);
 
-    this._fRequestList = new ui.FSimpleFragmentList();
+    this._fRequestList = new FSimpleFragmentList();
     this.setChild("requests", this._fRequestList);
 
-    this._fMostComments = new ui.FSimpleFragmentList();
+    this._fMostComments = new FSimpleFragmentList();
     this.setChild("mostComments", this._fMostComments);
   }
 
@@ -78,16 +85,16 @@ export class FvcReport extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fNoticeList.attachRender(pp);
     this._fNoticeList.render();
 
     let ids = dba.Notifications.getBlogRequestIds();
     if (ids.length) {
-      pp = new ui.SectionPanel("Requests");
+      pp = new SectionPanel("Requests");
       p.pushPanel(pp);
       this._fRequestList.clear();
       for (let id of ids) {
@@ -104,7 +111,7 @@ export class FvcReport extends ui.FScrollViewContent {
     if (profile) {
       let items = profile.most_commented_articles;
       if (items && items.length) {
-        pp = new ui.SectionPanel("Most commented posts");
+        pp = new SectionPanel("Most commented posts");
         pp.setClassName("post-statistics");
         p.pushPanel(pp);
         this.#renderStatistics(pp.getContentPanel(), items);
@@ -113,7 +120,7 @@ export class FvcReport extends ui.FScrollViewContent {
       items = profile.count_by_tag;
       if (items && items.length) {
         items.sort((a, b) => b.count - a.count);
-        pp = new ui.SectionPanel("Posts by category");
+        pp = new SectionPanel("Posts by category");
         pp.setClassName("post-statistics");
         p.pushPanel(pp);
         pp.getContentPanel().replaceContent(
@@ -125,7 +132,7 @@ export class FvcReport extends ui.FScrollViewContent {
   #onViewPost(postId) {
     this.#selectedPostId =
         new dat.SocialItemId(postId, dat.SocialItem.TYPE.ARTICLE);
-    let v = new ui.View();
+    let v = new View();
     let f = new blog.FvcPost();
     f.setPostId(this.#selectedPostId);
     f.setDataSource(this);

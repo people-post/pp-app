@@ -29,14 +29,17 @@ const _CPT_PRODUCT_INFO_LARGE = {
     </div>`,
 }
 
-export class PProductInfoLarge extends shop.PProductInfoBase {
+import { PProductInfoBase } from './PProductInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PProductInfoLarge extends PProductInfoBase {
   constructor() {
     super();
-    this._pSellerIcon = new ui.PanelWrapper();
-    this._pSellerName = new ui.PanelWrapper();
-    this._pReference = new ui.PanelWrapper();
+    this._pSellerIcon = new PanelWrapper();
+    this._pSellerName = new PanelWrapper();
+    this._pReference = new PanelWrapper();
     this._pPrice = new gui.PPrice();
-    this._pAction = new ui.PanelWrapper();
+    this._pAction = new PanelWrapper();
   }
 
   getPricePanel() { return this._pPrice; }

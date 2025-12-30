@@ -1,8 +1,10 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
 
-export class TimelineFragment extends ui.Fragment {
+export class TimelineFragment extends Fragment {
   constructor() {
     super();
-    this._fItems = new ui.FFragmentList();
+    this._fItems = new FFragmentList();
     this.setChild("items", this._fItems);
 
     this._mode = "VERTICAL";

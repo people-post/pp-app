@@ -41,7 +41,10 @@ const _CPT_OVERVIEW = {
   </div>`,
 };
 
-export class POverview extends ui.Panel {
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class POverview extends Panel {
   #pHeader;
   #pName;
   #pDescription;
@@ -62,24 +65,24 @@ export class POverview extends ui.Panel {
 
   constructor() {
     super();
-    this.#pHeader = new ui.PanelWrapper();
-    this.#pName = new ui.PanelWrapper();
-    this.#pDescription = new ui.PanelWrapper();
-    this.#pCreator = new ui.PanelWrapper();
-    this.#pCaptain = new ui.PanelWrapper();
-    this.#pNMembers = new ui.Panel();
-    this.#pNCoinsDesc = new ui.Panel();
-    this.#pNCoins = new ui.Panel();
-    this.#pBtnCoin = new ui.PanelWrapper();
-    this.#pBalanceDesc = new ui.Panel();
-    this.#pBalance = new ui.Panel();
-    this.#pBtnBalance = new ui.PanelWrapper();
-    this.#pNProposals = new ui.Panel();
-    this.#pBtnJoin = new ui.PanelWrapper();
-    this.#pBtnJoin = new ui.PanelWrapper();
-    this.#pBtnPropose = new ui.PanelWrapper();
-    this.#pBtnConfig = new ui.PanelWrapper();
-    this.#pBtnIssue = new ui.PanelWrapper();
+    this.#pHeader = new PanelWrapper();
+    this.#pName = new PanelWrapper();
+    this.#pDescription = new PanelWrapper();
+    this.#pCreator = new PanelWrapper();
+    this.#pCaptain = new PanelWrapper();
+    this.#pNMembers = new Panel();
+    this.#pNCoinsDesc = new Panel();
+    this.#pNCoins = new Panel();
+    this.#pBtnCoin = new PanelWrapper();
+    this.#pBalanceDesc = new Panel();
+    this.#pBalance = new Panel();
+    this.#pBtnBalance = new PanelWrapper();
+    this.#pNProposals = new Panel();
+    this.#pBtnJoin = new PanelWrapper();
+    this.#pBtnJoin = new PanelWrapper();
+    this.#pBtnPropose = new PanelWrapper();
+    this.#pBtnConfig = new PanelWrapper();
+    this.#pBtnIssue = new PanelWrapper();
   }
 
   getHeaderPanel() { return this.#pHeader; }

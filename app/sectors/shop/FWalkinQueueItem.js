@@ -2,7 +2,14 @@ export const CF_SHOP_WALKIN_QUEUE_ITEM = {
   ON_CLICK : Symbol(),
 };
 
-export class FWalkinQueueItem extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class FWalkinQueueItem extends Fragment {
   static T_LAYOUT = {INFO : "INFO", FULL: "FULL"};
   constructor() {
     super();
@@ -10,15 +17,15 @@ export class FWalkinQueueItem extends ui.Fragment {
     this._isActionEnabled = false;
     this._tLayout = this.constructor.T_LAYOUT.INFO;
 
-    this._fAction1 = new ui.Button();
+    this._fAction1 = new Button();
     this._fAction1.setDelegate(this);
     this.setChild("action1", this._fAction1);
 
-    this._fAction2 = new ui.Button();
+    this._fAction2 = new Button();
     this._fAction2.setName(R.t("Dismiss..."));
     this._fAction2.setValue("__DISMISS");
-    this._fAction2.setThemeType(ui.Button.T_THEME.RISKY);
-    this._fAction2.setLayoutType(ui.Button.LAYOUT_TYPE.LARGE_CYCLE);
+    this._fAction2.setThemeType(Button.T_THEME.RISKY);
+    this._fAction2.setLayoutType(Button.LAYOUT_TYPE.LARGE_CYCLE);
     this._fAction2.setDelegate(this);
     this.setChild("action2", this._fAction2);
 
@@ -135,15 +142,15 @@ export class FWalkinQueueItem extends ui.Fragment {
     }
     p = panel.getAgentPanel();
     if (p && item.getAgentId()) {
-      let pp = new ui.ListPanel();
+      let pp = new ListPanel();
       pp.setClassName("flex flex-end center-align-items");
       p.wrapPanel(pp);
 
-      let ppp = new ui.Panel();
+      let ppp = new Panel();
       pp.pushPanel(ppp);
       ppp.replaceContent("Serving by: ");
 
-      ppp = new ui.PanelWrapper();
+      ppp = new PanelWrapper();
       pp.pushPanel(ppp);
       this._fAgent.setUserId(item.getAgentId());
       this._fAgent.attachRender(ppp);
@@ -156,10 +163,10 @@ export class FWalkinQueueItem extends ui.Fragment {
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.FULL:
       p = new shop.PWalkinQueueItem();
-      this._fAction1.setLayoutType(ui.Button.LAYOUT_TYPE.LARGE_CYCLE);
+      this._fAction1.setLayoutType(Button.LAYOUT_TYPE.LARGE_CYCLE);
       break;
     default:
-      this._fAction1.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+      this._fAction1.setLayoutType(Button.LAYOUT_TYPE.SMALL);
       if (this._isActionEnabled) {
         p = new shop.PWalkinQueueItemInfo();
         p.setAttribute("onclick",
@@ -186,7 +193,7 @@ export class FWalkinQueueItem extends ui.Fragment {
     default:
       this._fAction1.setName(R.t("Dismiss..."));
       this._fAction1.setValue("__DISMISS");
-      this._fAction1.setThemeType(ui.Button.T_THEME.RISKY);
+      this._fAction1.setThemeType(Button.T_THEME.RISKY);
       break;
     }
     this._fAction1.attachRender(panel);
@@ -201,7 +208,7 @@ export class FWalkinQueueItem extends ui.Fragment {
   }
 
   #onServe() {
-    let v = new ui.View();
+    let v = new View();
     let f = new ui.FvcSimpleFragmentList();
     f.append(this._fAgentSearch);
     v.setContentFragment(f);
@@ -234,7 +241,7 @@ export class FWalkinQueueItem extends ui.Fragment {
   }
 
   #goCheckout(cart) {
-    let v = new ui.View();
+    let v = new View();
     let f = new shop.FvcPreCheckout();
     f.setCart(cart);
     v.setContentFragment(f);

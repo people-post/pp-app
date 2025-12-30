@@ -7,14 +7,18 @@ const _CPT_POST_INFO_FULL_PAGE = {
   </div>`,
 }
 
-export class PPostInfoFullPage extends gui.PPostInfoBase {
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PPostInfoFullPage extends PPostInfoBase {
   #pTitle;
   #pContent;
 
   constructor() {
     super();
-    this.#pTitle = new ui.Panel();
-    this.#pContent = new ui.PanelWrapper();
+    this.#pTitle = new Panel();
+    this.#pContent = new PanelWrapper();
   }
 
   getTitlePanel() { return this.#pTitle; }

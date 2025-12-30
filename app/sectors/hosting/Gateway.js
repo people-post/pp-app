@@ -1,7 +1,8 @@
+import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 
 export class Gateway extends plt.SectorGateway {
   createWebConfigMainViewContentFragment() {
-    let f = new ui.FViewContentMux();
+    let f = new FViewContentMux();
 
     let ff = new hstn.FvcBasicWebConfig();
     f.addTab({name : R.t("Basic"), value : "BASIC", icon : C.ICON.CONFIG}, ff);
@@ -26,7 +27,7 @@ export class Gateway extends plt.SectorGateway {
   }
 
   #createWeb2MemberMainViewContentFragment() {
-    let f = new ui.FViewContentMux();
+    let f = new FViewContentMux();
 
     let ff = new hstn.FvcReport();
     f.addTab({name : R.t("Report"), value : "REPORT", icon : C.ICON.REPORT},

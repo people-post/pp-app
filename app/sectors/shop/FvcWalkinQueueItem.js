@@ -1,11 +1,13 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FWalkinQueueItem } from './FWalkinQueueItem.js';
 
-export class FvcWalkinQueueItem extends ui.FScrollViewContent {
+export class FvcWalkinQueueItem extends FScrollViewContent {
   #fItem;
   
   constructor() {
     super();
-    this.#fItem = new shop.FWalkinQueueItem();
-    this.#fItem.setLayoutType(shop.FWalkinQueueItem.T_LAYOUT.FULL);
+    this.#fItem = new FWalkinQueueItem();
+    this.#fItem.setLayoutType(FWalkinQueueItem.T_LAYOUT.FULL);
     this.#fItem.setEnableAction(true);
     this.#fItem.setDataSource(this);
     this.#fItem.setDelegate(this);

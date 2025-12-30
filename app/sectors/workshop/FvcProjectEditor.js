@@ -21,8 +21,15 @@ const _CFT_PROJECT_EDITOR_CONTENT = {
   DELETE_BUTTON :
       `<a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action(CF_PROJECT_EDITOR_CONTENT.DELETE)">Delete</a>`,
 }
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
+import { HintText } from '../../lib/ui/controllers/fragments/HintText.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 
-export class FvcProjectEditor extends ui.FScrollViewContent {
+export class FvcProjectEditor extends FScrollViewContent {
   constructor() {
     super();
     this._fContent = new gui.RichContentEditor();
@@ -39,13 +46,13 @@ export class FvcProjectEditor extends ui.FScrollViewContent {
     this._fteOwner.setDelegate(this);
     this.setChild("ownerTags", this._fteOwner);
 
-    this._fVisibility = new ui.ButtonGroup();
+    this._fVisibility = new ButtonGroup();
     this._fVisibility.setDataSource(this);
     this._fVisibility.setDelegate(this);
     this._fVisibility.addChoice({
       name : "Public",
       value : C.VIS.PUBLIC,
-      fDetail : new ui.HintText("Visible by all visitors.")
+      fDetail : new HintText("Visible by all visitors.")
     });
     this._fVisibility.addChoice({name : "Protected", value : C.VIS.PROTECTED});
     this._fVisibility.addChoice({name : "Private", value : C.VIS.PRIVATE});
@@ -67,21 +74,21 @@ export class FvcProjectEditor extends ui.FScrollViewContent {
   setProject(project) { this._project = project; }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
     let project = this._project;
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderTitle(project));
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fFiles.setToHrefFiles(project.getFiles());
     this._fFiles.attachRender(pp);
     this._fFiles.render();
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fContent.setConfig(
         {title : "Detail", value : project.getDescription(), hint : ""});
@@ -90,7 +97,7 @@ export class FvcProjectEditor extends ui.FScrollViewContent {
 
     p.pushSpace(1);
 
-    pp = new ui.SectionPanel("Menu tags");
+    pp = new SectionPanel("Menu tags");
     p.pushPanel(pp);
     this._fteOwner.setEnableNewTags(true);
     this._fteOwner.attachRender(pp.getContentPanel());
@@ -98,13 +105,13 @@ export class FvcProjectEditor extends ui.FScrollViewContent {
 
     p.pushSpace(1);
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fVisibility.setSelectedValue(project.getVisibility());
     this._fVisibility.attachRender(pp);
     this._fVisibility.render();
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderLower(project));
   }

@@ -10,7 +10,9 @@ const _CFT_STORY_EVENT_INFO = {
   </div>`,
 };
 
-export class FStoryEventInfo extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/FFragment.js';
+
+export class FStoryEventInfo extends Fragment {
   constructor() {
     super();
     this._event = null;

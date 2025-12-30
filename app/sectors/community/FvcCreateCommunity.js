@@ -9,8 +9,9 @@ const _CFT_CREATE_COMMUNITY_CONTENT = {
   BTN_SUBMIT :
       `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_CREATE_COMMUNITY_CONTENT.SUBMIT)">Submit</a>`
 }
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 
-export class FvcCreateCommunity extends ui.FScrollViewContent {
+export class FvcCreateCommunity extends FScrollViewContent {
   action(type, ...args) {
     switch (type) {
     case CF_CREATE_COMMUNITY_CONTENT.SUBMIT:
