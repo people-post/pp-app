@@ -1,7 +1,6 @@
 import { UserBase } from './UserBase.js';
 import { BlogConfig } from './BlogConfig.js';
 import { ColorTheme } from './ColorTheme.js';
-import { WebConfig } from '../dba/WebConfig.js';
 
 export class User extends UserBase {
   static C_ID = {
@@ -76,12 +75,18 @@ export class User extends UserBase {
 
   #generateUrl(sub = null, paramStrs = null) {
     let allParamStrs = paramStrs ? paramStrs : [];
-    if (WebConfig.isDevSite() || !this._data.domain) {
+    // Lazy access to WebConfig to avoid circular dependency
+    const WebConfig = (typeof window !== 'undefined' && window.dba && window.dba.WebConfig) 
+      ? window.dba.WebConfig 
+      : null;
+    const isDevSite = WebConfig ? WebConfig.isDevSite() : false;
+    
+    if (isDevSite || !this._data.domain) {
       allParamStrs.unshift(C.URL_PARAM.USER + "=" + this._data.username);
     }
 
     let url = "";
-    if (WebConfig.isDevSite()) {
+    if (isDevSite) {
       url = window.location.origin;
     } else {
       let d = this._data.domain;

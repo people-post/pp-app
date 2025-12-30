@@ -76,10 +76,22 @@ export class UserLib {
 
   #initMap() {
     this.#mUsers.clear();
+    // Get User class - use global namespace as fallback to handle circular dependency
+    const UserClass = (User && User.C_ID) 
+      ? User 
+      : (typeof window !== 'undefined' && window.dat && window.dat.User && window.dat.User.C_ID)
+        ? window.dat.User
+        : null;
+    
+    if (!UserClass || !UserClass.C_ID) {
+      console.error('User.C_ID is not available. Module loading issue?');
+      return;
+    }
+    
     this.#mUsers.set(
-        User.C_ID.SYSTEM,
-        new User({nickname : "G-Cabin", icon_url : "file/gcabin_favicon"}));
-    this.#mUsers.set(User.C_ID.L_ADD_USER, new User({
+        UserClass.C_ID.SYSTEM,
+        new UserClass({nickname : "G-Cabin", icon_url : "file/gcabin_favicon"}));
+    this.#mUsers.set(UserClass.C_ID.L_ADD_USER, new UserClass({
       nickname : "Add",
       icon_url : C.PATH.STATIC + "/img/circle_add.svg"
     }));

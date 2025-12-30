@@ -1,7 +1,6 @@
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Account } from './Account.js';
-import { User } from '../datatypes/User.js';
 import { ColorTheme } from '../datatypes/ColorTheme.js';
 import { FrontPageConfig } from '../datatypes/FrontPageConfig.js';
 import { Tag } from '../datatypes/Tag.js';
@@ -57,7 +56,15 @@ export const WebConfig = function() {
     if (glb.env.isWeb3()) {
       return Account;
     } else {
-      return _data ? new User(_data.owner) : null;
+      if (!_data) {
+        return null;
+      }
+      // Use global namespace to avoid circular dependency with User.js
+      // User.js sets window.dat.User for backward compatibility
+      const UserClass = (typeof window !== 'undefined' && window.dat && window.dat.User) 
+        ? window.dat.User 
+        : null;
+      return UserClass ? new UserClass(_data.owner) : null;
     }
   }
   function _getHomeUrl() {
