@@ -8,6 +8,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { FvcSimpleFragmentList } from '../../lib/ui/controllers/fragments/FvcSimpleFragmentList.js';
 
 export class FWalkinQueueItem extends Fragment {
   static T_LAYOUT = {INFO : "INFO", FULL: "FULL"};
@@ -209,7 +210,7 @@ export class FWalkinQueueItem extends Fragment {
 
   #onServe() {
     let v = new View();
-    let f = new ui.FvcSimpleFragmentList();
+    let f = new FvcSimpleFragmentList();
     f.append(this._fAgentSearch);
     v.setContentFragment(f);
 

@@ -2,7 +2,9 @@ export const CF_TEAM = {
   ON_CLICK : Symbol(),
 };
 
-export class FTeam extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export class FTeam extends Fragment {
   constructor() {
     super();
     this._teamId;

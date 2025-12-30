@@ -8,12 +8,13 @@ const _CPT_TEAM_INFO = {
   </div>
   </div>`,
 };
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class PTeamInfo extends ui.Panel {
+export class PTeamInfo extends Panel {
   constructor() {
     super();
-    this._pName = new ui.Panel();
-    this._pStatus = new ui.Panel();
+    this._pName = new Panel();
+    this._pStatus = new Panel();
   }
 
   isHighlightable() { return true; }

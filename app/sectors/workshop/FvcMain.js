@@ -2,6 +2,9 @@ import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/F
 import { FvcExplorer } from './FvcExplorer.js';
 import { FvcOwner } from './FvcOwner.js';
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
+import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { C } from '../../lib/framework/Constants.js';
 
 export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {
@@ -48,13 +51,13 @@ export class FvcMain extends FViewContentWithHeroBanner {
   }
 
   onWorkshopConfigFragmentRequestAddTeam(fConfig) {
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(new wksp.FvcTeamEditor());
     this._owner.onFragmentRequestShowView(this, v, "Workshop team");
   }
 
   onWorkshopConfigFragmentRequestEditTeam(fConfig, teamId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new wksp.FvcTeamEditor();
     f.setTeamId(teamId);
     v.setContentFragment(f);
@@ -137,7 +140,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
   #resetAsOwnerClosed() {
     this.#fMain.clearContents();
 
-    let ff = new ui.OptionSwitch();
+    let ff = new OptionSwitch();
     ff.addOption(R.get("OPEN_WORKSHOP"), "MASTER");
     ff.setDelegate(this);
     this.setHeroBannerFragment(ff);
@@ -176,7 +179,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   #showDraftEditor(project) {
     project.setIsDraft();
-    let v = new ui.View();
+    let v = new View();
     let f = new wksp.FvcProjectEditor();
     f.setDelegate(this);
     f.setProject(project);

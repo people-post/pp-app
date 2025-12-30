@@ -10,15 +10,17 @@ const _CPT_SERVICE_LOCATION = {
   </div>
   </div>`,
 }
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class PServiceLocation extends ui.Panel {
+export class PServiceLocation extends Panel {
   constructor() {
     super();
-    this._pTimeOverhead = new ui.PanelWrapper();
-    this._pPriceOverhead = new ui.PanelWrapper();
-    this._pTimeslots = new ui.PanelWrapper();
-    this._pAddress = new ui.PanelWrapper();
-    this._pBtnViewQueue = new ui.PanelWrapper();
+    this._pTimeOverhead = new PanelWrapper();
+    this._pPriceOverhead = new PanelWrapper();
+    this._pTimeslots = new PanelWrapper();
+    this._pAddress = new PanelWrapper();
+    this._pBtnViewQueue = new PanelWrapper();
   }
 
   getTimeOverheadPanel() { return this._pTimeOverhead; }

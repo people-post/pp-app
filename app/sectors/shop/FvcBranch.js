@@ -1,5 +1,6 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 
-export class FvcBranch extends ui.FScrollViewContent {
+export class FvcBranch extends FScrollViewContent {
   constructor() {
     super();
     this._fBranch = new shop.FBranch();

@@ -10,7 +10,8 @@ const _CFT_STORY_EVENT_INFO = {
   </div>`,
 };
 
-import { Fragment } from '../../lib/ui/controllers/fragments/FFragment.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 export class FStoryEventInfo extends Fragment {
   constructor() {
@@ -32,7 +33,7 @@ export class FStoryEventInfo extends Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.Panel();
+    let p = new Panel();
     p.setAttribute("onclick",
                    "javascript:G.action(wksp.CF_STORY_EVENT_INFO.ONCLICK)");
     render.wrapPanel(p)

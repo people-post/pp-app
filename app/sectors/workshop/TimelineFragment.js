@@ -1,5 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class TimelineFragment extends Fragment {
   constructor() {
@@ -26,7 +27,7 @@ export class TimelineFragment extends Fragment {
     let fs = this._fItems.getChildren();
     let n = fs.length;
     for (let i = 0; i < n - 1; ++i) {
-      let p = new ui.PanelWrapper();
+      let p = new PanelWrapper();
       if (i + 1 == this._stopFlowIdx) {
         panel.pushStopPanel(p);
       } else {
@@ -36,7 +37,7 @@ export class TimelineFragment extends Fragment {
       fs[i].render();
     }
     if (n > 0) {
-      let p = new ui.PanelWrapper();
+      let p = new PanelWrapper();
       panel.pushEndPanel(p);
       fs[n - 1].attachRender(p);
       fs[n - 1].render();

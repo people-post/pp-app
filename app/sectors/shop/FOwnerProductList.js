@@ -1,3 +1,4 @@
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class FOwnerProductList extends shop.FProductList {
   #ownerId = null;
@@ -10,7 +11,7 @@ export class FOwnerProductList extends shop.FProductList {
   }
 
   onRequestEditProduct(productId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new shop.FvcProductEditor();
     f.setDelegate(this);
     f.setProduct(dba.Shop.getProduct(productId));

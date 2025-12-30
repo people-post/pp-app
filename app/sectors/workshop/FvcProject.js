@@ -74,7 +74,7 @@ export class FvcProject extends FScrollViewContent {
   }
 
   getProjectId() { return this._projectId; }
-  getUrlParamString() { return ui.C.URL_PARAM.ID + "=" + this._projectId; }
+  getUrlParamString() { return C.URL_PARAM.ID + "=" + this._projectId; }
 
   setProjectId(projectId) { this._projectId = projectId; }
 
@@ -344,7 +344,7 @@ export class FvcProject extends FScrollViewContent {
   }
 
   #renderRoles(panel, project) {
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     p.setClassName("left-pad5px");
     panel.pushPanel(p);
 
@@ -359,7 +359,7 @@ export class FvcProject extends FScrollViewContent {
     f = null;
     let client = project.getClient();
     if (client) {
-      p = new ui.PanelWrapper();
+      p = new PanelWrapper();
       p.setClassName("left-pad5px");
       panel.pushPanel(p);
 
@@ -374,7 +374,7 @@ export class FvcProject extends FScrollViewContent {
     }
 
     for (let [i, agent] of project.getAgents().entries()) {
-      p = new ui.PanelWrapper();
+      p = new PanelWrapper();
       p.setClassName("left-pad5px");
       panel.pushPanel(p);
 
@@ -388,7 +388,7 @@ export class FvcProject extends FScrollViewContent {
 
     if (!project.isFinished() && project.getAgents().length < C.MAX.N_AGENTS &&
         project.isFacilitator(dba.Account.getId())) {
-      p = new ui.PanelWrapper();
+      p = new PanelWrapper();
       p.setClassName("left-pad5px");
       panel.pushPanel(p);
       f = new wksp.FProjectActorInfo();
@@ -437,7 +437,7 @@ export class FvcProject extends FScrollViewContent {
 
   #onInviteClient() {
     let v = new View();
-    let fvc = new ui.FvcSimpleFragmentList();
+    let fvc = new FvcSimpleFragmentList();
     let f = new srch.FGeneralSearch();
     f.setDelegate(this);
     let c = new dat.SearchConfig();

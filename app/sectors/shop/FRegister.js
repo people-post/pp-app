@@ -2,7 +2,12 @@ export const CF_REGISTER = {
   ON_CLICK : Symbol(),
 };
 
-export class FRegister extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+
+export class FRegister extends Fragment {
   static T_LAYOUT = {
     SMALL : Symbol(),
     FULL: Symbol(),
@@ -14,7 +19,7 @@ export class FRegister extends ui.Fragment {
     this._fTerminals.setDelegate(this);
     this.setChild("terminals", this._fTerminals);
 
-    this._fNameInput = new ui.TextInput();
+    this._fNameInput = new TextInput();
     this._fNameInput.setDelegate(this);
     this.setChild("nameEditor", this._fNameInput);
 
@@ -33,7 +38,7 @@ export class FRegister extends ui.Fragment {
   }
   onPaymentTerminalSelectedInPaymentTerminalListFragment(fTerminalList,
                                                          terminalId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new pay.FvcPaymentTerminal();
     f.setTerminalId(terminalId);
     f.setEnableEdit(this._isEditEnabled);
@@ -101,7 +106,7 @@ export class FRegister extends ui.Fragment {
 
     p = panel.getTerminalListPanel();
     if (p) {
-      let pp = new ui.SectionPanel("Payment terminals");
+      let pp = new SectionPanel("Payment terminals");
       p.wrapPanel(pp);
       this._fTerminals.setRegisterId(this._registerId);
       this._fTerminals.setEnableEdit(this._isEditEnabled);

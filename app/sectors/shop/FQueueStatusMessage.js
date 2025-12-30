@@ -1,9 +1,11 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Label } from '../../lib/ui/controllers/fragments/Label.js';
 
-export class FQueueStatusMessage extends ui.Fragment {
+export class FQueueStatusMessage extends Fragment {
   constructor() {
     super();
-    this._fText = new ui.Label();
-    this.setChild("text", this._text);
+    this._fText = new Label();
+    this.setChild("text", this._fText);
   }
 
   updateStatus(n, nTotal) {

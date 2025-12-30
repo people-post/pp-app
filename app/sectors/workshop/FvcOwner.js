@@ -2,6 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
+import { C } from '../../lib/framework/Constants.js';
 
 export class FvcOwner extends FScrollViewContent {
   #fmMain;
@@ -38,7 +39,7 @@ export class FvcOwner extends FScrollViewContent {
   }
 
   initFromUrl(urlParam) {
-    let id = urlParam.get(ui.C.URL_PARAM.ID);
+    let id = urlParam.get(C.URL_PARAM.ID);
     if (id) {
       let sid = dat.SocialItemId.fromEncodedStr(id);
       if (sid) {
@@ -51,7 +52,7 @@ export class FvcOwner extends FScrollViewContent {
     let id = this.#fList.getCurrentId();
     if (id) {
       let sid = new dat.SocialItemId(id, dat.SocialItem.TYPE.PROJECT);
-      return ui.C.URL_PARAM.ID + "=" + sid.toEncodedStr();
+      return C.URL_PARAM.ID + "=" + sid.toEncodedStr();
     }
     return "";
   }

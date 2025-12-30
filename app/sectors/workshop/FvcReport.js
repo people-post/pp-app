@@ -1,6 +1,8 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FNoticeList } from './FNoticeList.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 
 export class FvcReport extends FScrollViewContent {
   constructor() {
@@ -29,17 +31,17 @@ export class FvcReport extends FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let panel = new ui.ListPanel();
+    let panel = new ListPanel();
     render.wrapPanel(panel);
 
-    let p = new ui.SectionPanel("Notices");
+    let p = new SectionPanel("Notices");
     panel.pushPanel(p);
     this._fNoticeList.attachRender(p.getContentPanel());
     this._fNoticeList.render();
 
     let ids = dba.Notifications.getWorkshopRequestIds();
     if (ids.length) {
-      p = new ui.SectionPanel("Requests");
+      p = new SectionPanel("Requests");
       panel.pushPanel(p);
       this._fRequestList.clear();
       for (let id of ids) {

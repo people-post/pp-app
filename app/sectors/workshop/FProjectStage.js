@@ -2,7 +2,13 @@ export const CF_PROJECT_STAGE = {
   ON_CLICK : Symbol(),
 };
 
-export class FProjectStage extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+
+export class FProjectStage extends Fragment {
   static LTC_MID = "LTC_MID";
   static LTR_COMPACT = "LTR_COMPACT";
   static LTR_MID = "LTR_MID";
@@ -11,7 +17,7 @@ export class FProjectStage extends ui.Fragment {
 
   constructor() {
     super();
-    this._fOptions = new ui.OptionContextButton();
+    this._fOptions = new OptionContextButton();
     this._fOptions.setDelegate(this);
     this.setChild("options", this._fOptions);
 
@@ -86,14 +92,14 @@ export class FProjectStage extends ui.Fragment {
 
     pp = p.getDescriptionPanel();
     if (pp && this._stage.getDescription()) {
-      ppp = new ui.SectionPanel("Description");
+      ppp = new SectionPanel("Description");
       pp.wrapPanel(ppp);
       ppp.replaceContent(this._stage.getDescription());
     }
 
     pp = p.getCommentPanel();
     if (pp && this._stage.getComment()) {
-      ppp = new ui.SectionPanel("Comment");
+      ppp = new SectionPanel("Comment");
       pp.wrapPanel(ppp);
       ppp.replaceContent(this._stage.getComment());
     }
@@ -152,9 +158,9 @@ export class FProjectStage extends ui.Fragment {
   }
 
   #onMarkDone() {
-    let v = new ui.View();
+    let v = new View();
     let fvc = new S.hr.FvcUserInput();
-    let f = new ui.TextInput();
+    let f = new TextInput();
     f.setConfig({
       title : R.get("CONFIRM_MARK_STAGE_DONE"),
       hint : "Comments",
@@ -182,7 +188,7 @@ export class FProjectStage extends ui.Fragment {
   }
 
   #onConnect() {
-    let v = new ui.View();
+    let v = new View();
     let f = new wksp.FvcProjectStageConnection();
     f.setStage(this._stage);
     v.setContentFragment(f);
@@ -191,7 +197,7 @@ export class FProjectStage extends ui.Fragment {
   }
 
   #onPrepend() {
-    let v = new ui.View();
+    let v = new View();
     let f = new wksp.FvcCreateProjectStageChoice();
     f.setProjectId(this._stage.getProjectId());
     f.setBeforeStage(this._stage.getId());
@@ -200,7 +206,7 @@ export class FProjectStage extends ui.Fragment {
   }
 
   #onAppend() {
-    let v = new ui.View();
+    let v = new View();
     let f = new wksp.FvcCreateProjectStageChoice();
     f.setProjectId(this._stage.getProjectId());
     f.setAfterStage(this._stage.getId());

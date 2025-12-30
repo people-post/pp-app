@@ -1,16 +1,19 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
+import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 
-export class FProductDeliveryEditorManager extends ui.Fragment {
+export class FProductDeliveryEditorManager extends Fragment {
   constructor() {
     super();
     this._mChoices = this.#initChoiceMap();
 
-    this._fChoices = new ui.FTabbedPane();
+    this._fChoices = new FTabbedPane();
     this._fChoices.setEnableEdit(true);
     this._fChoices.setMaxNTabs(this._mChoices.size);
     this._fChoices.setDelegate(this);
     this.setChild("choices", this._fChoices);
 
-    this._lc = new ui.LContext();
+    this._lc = new LContext();
     this._lc.setDelegate(this);
   }
 

@@ -1,6 +1,9 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcProjectStageConnection extends FScrollViewContent {
   constructor() {
@@ -42,14 +45,14 @@ export class FvcProjectStageConnection extends FScrollViewContent {
       return;
     }
 
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.Panel();
+    let pp = new Panel();
     pp.setClassName("u-font3");
     p.pushPanel(pp);
     pp.replaceContent("Select required stages:");
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     let stages = project.getStages();
     let downstreamIds =
@@ -74,7 +77,7 @@ export class FvcProjectStageConnection extends FScrollViewContent {
     this._fList.render();
 
     p.pushSpace(1);
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fBtnSubmit.attachRender(pp);
     this._fBtnSubmit.render();

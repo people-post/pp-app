@@ -1,9 +1,11 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class PGoodDeliveryBase extends ui.Panel {
+export class PGoodDeliveryBase extends Panel {
   constructor() {
     super();
-    this._pBtnAdd = new ui.PanelWrapper();
-    this._pProductCount = new ui.Panel();
+    this._pBtnAdd = new PanelWrapper();
+    this._pProductCount = new Panel();
   }
 
   getAddBtnPanel() { return this._pBtnAdd; }

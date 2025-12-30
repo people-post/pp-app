@@ -25,6 +25,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
 
 export class FvcProductEditor extends FScrollViewContent {
   constructor() {
@@ -32,7 +33,7 @@ export class FvcProductEditor extends FScrollViewContent {
     this._fContent = new gui.RichContentEditor();
     this.setChild("content", this._fContent);
 
-    this._fFiles = new ui.FMultiMediaFileUploader();
+    this._fFiles = new FMultiMediaFileUploader();
     this._fFiles.setCacheIds([ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]);
     this._fFiles.setDataSource(this);
     this._fFiles.setDelegate(this);

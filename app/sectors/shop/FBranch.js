@@ -2,7 +2,12 @@ export const CF_BRANCH = {
   ON_CLICK : Symbol(),
 };
 
-export class FBranch extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+
+export class FBranch extends Fragment {
   static T_LAYOUT = {
     SMALL : Symbol(),
     FULL: Symbol(),
@@ -20,7 +25,7 @@ export class FBranch extends ui.Fragment {
     this._fAddress.setLayoutType(gui.Address.T_LAYOUT.SMALL);
     this.setChild("address", this._fAddress);
 
-    this._fNameInput = new ui.TextInput();
+    this._fNameInput = new TextInput();
     this._fNameInput.setDelegate(this);
     this.setChild("nameEditor", this._fNameInput);
 
@@ -55,7 +60,7 @@ export class FBranch extends ui.Fragment {
     this._delegate.onBranchFragmentRequestShowView(this, view, title);
   }
   onRegisterSelectedInRegisterListFragment(fRegisterList, registerId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new shop.FvcRegister();
     f.setRegisterId(registerId);
     f.setEnableEdit(this._isEditEnabled);
@@ -129,7 +134,7 @@ export class FBranch extends ui.Fragment {
 
     p = panel.getRegisterListPanel();
     if (p) {
-      let pp = new ui.SectionPanel("Registers");
+      let pp = new SectionPanel("Registers");
       p.wrapPanel(pp);
       this._fRegisters.setBranchId(this._branchId);
       this._fRegisters.setEnableEdit(this._isEditEnabled);
@@ -162,7 +167,7 @@ export class FBranch extends ui.Fragment {
   }
 
   #showAddressEditor(addressId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new acnt.FvcAddressEditor();
     f.setAddressId(addressId);
     v.setContentFragment(f);

@@ -8,10 +8,13 @@ const _CPT_WALKIN_QUEUE_ITEM_INFO_PUBLIC = {
   </div>`,
 }
 
-export class PWalkinQueueItemInfoPublic extends shop.PWalkinQueueItemBase {
+import { PWalkinQueueItemBase } from './PWalkinQueueItemBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PWalkinQueueItemInfoPublic extends PWalkinQueueItemBase {
   constructor() {
     super();
-    this._pStatus = new ui.PanelWrapper();
+    this._pStatus = new PanelWrapper();
   }
 
   getStatusPanel() { return this._pStatus; }

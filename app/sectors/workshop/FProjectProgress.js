@@ -1,5 +1,9 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { C } from '../../lib/framework/Constants.js';
 
-export class FProjectProgress extends ui.Fragment {
+export class FProjectProgress extends Fragment {
   constructor() {
     super();
     this._fTimeline = new wksp.TimelineFragment();
@@ -23,10 +27,10 @@ export class FProjectProgress extends ui.Fragment {
   onClickInProjectStageFragment(fStage) {}
 
   _renderOnRender(render) {
-    let pMain = new ui.ListPanel();
+    let pMain = new ListPanel();
     render.wrapPanel(pMain);
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     pMain.pushPanel(p);
 
     this._fTimeline.clear();

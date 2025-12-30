@@ -1,5 +1,6 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
-export class FProductDelivery extends ui.Fragment {
+export class FProductDelivery extends Fragment {
   static T_LAYOUT = {
     COMPACT : "COMPACT",
     FULL: "FULL",

@@ -1,5 +1,6 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
-export class FServiceTimeslot extends ui.Fragment {
+export class FServiceTimeslot extends Fragment {
   constructor() {
     super();
     this._data = null;

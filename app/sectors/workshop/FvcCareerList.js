@@ -1,4 +1,5 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class FvcCareerList extends FScrollViewContent {
   constructor() {
@@ -36,7 +37,7 @@ export class FvcCareerList extends FScrollViewContent {
 
   onClickInCareerFragment(fCareer) {
     this._selectedId = fCareer.getRoleId();
-    let v = new ui.View();
+    let v = new View();
     let f = new hr.FvcCareer();
     f.setRoleId(this._selectedId);
     v.setContentFragment(f);

@@ -11,14 +11,18 @@ const _CPT_SUPPLIER_ORDER_INFO = {
   </div>`,
 }
 
-export class PSupplierOrderInfo extends shop.PSupplierOrderBase {
+import { PSupplierOrderBase } from './PSupplierOrderBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PSupplierOrderInfo extends PSupplierOrderBase {
   constructor() {
     super();
-    this._pAddressBtn = new ui.Panel();
-    this._pStatusInfo = new ui.Panel();
-    this._pTimeInfo = new ui.Panel();
-    this._pItemInfos = new ui.PanelWrapper();
-    this._pTotalPriceInfo = new ui.Panel();
+    this._pAddressBtn = new Panel();
+    this._pStatusInfo = new Panel();
+    this._pTimeInfo = new Panel();
+    this._pItemInfos = new PanelWrapper();
+    this._pTotalPriceInfo = new Panel();
   }
 
   getShippingAddressBtnPanel() { return this._pAddressBtn; }

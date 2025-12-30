@@ -1,13 +1,18 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
+import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 
-export class FServiceLocationEditor extends ui.Fragment {
+export class FServiceLocationEditor extends Fragment {
   constructor() {
     super();
-    this._fBtnAdd = new ui.Button();
+    this._fBtnAdd = new Button();
     this._fBtnAdd.setName("Add time slot");
     this._fBtnAdd.setDelegate(this);
     this.setChild("add", this._fBtnAdd);
 
-    this._fTimeOverhead = new ui.NumberInput();
+    this._fTimeOverhead = new NumberInput();
     this._fTimeOverhead.setConfig({
       title : "Min time ahead of registration",
       min : 0,
@@ -16,17 +21,17 @@ export class FServiceLocationEditor extends ui.Fragment {
     });
     this.setChild("timeoverhead", this._fTimeOverhead);
 
-    this._fPriceOverhead = new ui.NumberInput();
+    this._fPriceOverhead = new NumberInput();
     this._fPriceOverhead.setConfig(
         {title : "Extra price", min : 0, max : 10000, value : 0});
     this.setChild("priceoverhead", this._fTimeOverhead);
 
-    this._fSelectBranch = new ui.Selection();
+    this._fSelectBranch = new Selection();
     this._fSelectBranch.setDataSource(this);
     this._fSelectBranch.setDelegate(this);
     this.setChild("selectBranch", this._fSelectBranch);
 
-    this._fTimeslots = new ui.FSimpleFragmentList();
+    this._fTimeslots = new FSimpleFragmentList();
     this.setChild("timeslots", this._fTimeslots);
 
     this._branchId = null;

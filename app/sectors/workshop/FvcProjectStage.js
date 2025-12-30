@@ -1,5 +1,8 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class FvcProjectStage extends FScrollViewContent {
   constructor() {
@@ -43,9 +46,9 @@ export class FvcProjectStage extends FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fStage.attachRender(pp);
     this._fStage.render();
@@ -71,7 +74,7 @@ export class FvcProjectStage extends FScrollViewContent {
   }
 
   #onEdit() {
-    let v = new ui.View();
+    let v = new View();
     let f = new wksp.FvcProjectStageEditor();
     f.setStage(this._fStage.getStage());
     v.setContentFragment(f);

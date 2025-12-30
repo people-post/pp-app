@@ -1,5 +1,9 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
-export class FvcPreCheckout extends ui.FScrollViewContent {
+export class FvcPreCheckout extends FScrollViewContent {
   // Serves as checkout register
   constructor() {
     super();
@@ -35,15 +39,15 @@ export class FvcPreCheckout extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let pMain = new ui.ListPanel();
+    let pMain = new ListPanel();
     render.wrapPanel(pMain);
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     pMain.pushPanel(p);
     this._fChoose.attachRender(p);
     this._fChoose.render();
     pMain.pushSpace(1);
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pMain.pushPanel(p);
 
     // Hack
@@ -70,7 +74,7 @@ export class FvcPreCheckout extends ui.FScrollViewContent {
   }
 
   #goCheckout(order) {
-    let v = new ui.View();
+    let v = new View();
     let f = new cart.FvcCheckout();
     f.setOrder(order);
     f.setNeedsShipping(false);

@@ -1,5 +1,6 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class PSupplierOrderBase extends ui.Panel {
+export class PSupplierOrderBase extends Panel {
   getCustomerNamePanel() { return null; }
   getCreationTimePanel() { return null; }
   getTimeInfoPanel() { return null };

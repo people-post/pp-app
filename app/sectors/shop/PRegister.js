@@ -7,12 +7,16 @@ const _CPT_REGISTER = {
   <div id="__ID_TERMINALS__"></div>`,
 };
 
-export class PRegister extends shop.PRegisterBase {
+import { PRegisterBase } from './PRegisterBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PRegister extends PRegisterBase {
   constructor() {
     super();
-    this._pNameDecor = new ui.Panel();
-    this._pNameEditor = new ui.PanelWrapper();
-    this._pTerminals = new ui.PanelWrapper();
+    this._pNameDecor = new Panel();
+    this._pNameEditor = new PanelWrapper();
+    this._pTerminals = new PanelWrapper();
   }
 
   getNameDecorationPanel() { return this._pNameDecor; }

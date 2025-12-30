@@ -2,8 +2,9 @@
 window.CF_PROJECT_ACTOR_INFO = {
   ON_CLICK : "CF_PROJECT_ACTOR_INFO_1",
 };
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
-export class FProjectActorInfo extends ui.Fragment {
+export class FProjectActorInfo extends Fragment {
   static T_LAYOUT = {
     CARD : Symbol("CARD"),
   };

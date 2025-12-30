@@ -7,7 +7,19 @@ const _CFT_SHOP_CONFIG = {
       `<input type="text" class="tight-label-like border-box" placeholder="Your shop name" value="__VALUE__" onchange="javascript:G.action(shop.CF_SHOP_CONFIG.ON_NAME_CHANGE, this.value)">`,
 };
 
-export class FvcConfig extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { C } from '../../lib/framework/Constants.js';
+
+export class FvcConfig extends FScrollViewContent {
   #fTeams;
   #fOptions;
   #fMenuConfig;
@@ -19,10 +31,10 @@ export class FvcConfig extends ui.FScrollViewContent {
 
   constructor() {
     super();
-    this.#fTeams = new ui.FSimpleFragmentList();
+    this.#fTeams = new FSimpleFragmentList();
     this.setChild("teams", this.#fTeams);
 
-    this.#fOptions = new ui.OptionSwitch();
+    this.#fOptions = new OptionSwitch();
     this.#fOptions.addOption("Set as home page", "HOME");
     this.#fOptions.setDelegate(this);
     this.setChild("options", this.#fOptions);
@@ -38,18 +50,18 @@ export class FvcConfig extends ui.FScrollViewContent {
     this.#fBranches.setDelegate(this);
     this.setChild("branches", this.#fBranches);
 
-    this.#btnAddTeam = new ui.Button();
+    this.#btnAddTeam = new Button();
     this.#btnAddTeam.setName("New team...");
     this.#btnAddTeam.setDelegate(this);
     this.setChild("btnAddTeam", this.#btnAddTeam);
 
-    this.#btnClose = new ui.Button();
+    this.#btnClose = new Button();
     this.#btnClose.setName("Close shop...");
-    this.#btnClose.setThemeType(ui.Button.T_THEME.DANGER);
+    this.#btnClose.setThemeType(Button.T_THEME.DANGER);
     this.#btnClose.setDelegate(this);
     this.setChild("btnClose", this.#btnClose);
 
-    this.#fLayout = new ui.ButtonGroup();
+    this.#fLayout = new ButtonGroup();
     this.#fLayout.setDelegate(this);
     let f = new shop.FProductInfoLayoutPreview();
     f.setDelegate(this);
@@ -109,7 +121,7 @@ export class FvcConfig extends ui.FScrollViewContent {
   }
 
   onBranchSelectedInBranchListFragment(fBranchList, branchId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new shop.FvcBranch();
     f.setBranchId(branchId);
     f.setEnableEdit(true);
@@ -149,12 +161,12 @@ export class FvcConfig extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
     let config = dba.Shop.getConfig();
 
-    let pp = new ui.SectionPanel("Options");
+    let pp = new SectionPanel("Options");
     p.pushPanel(pp);
     this.#fOptions.setOption("HOME",
                              dba.WebConfig.getHomeSector() == C.ID.SECTOR.SHOP);
@@ -162,19 +174,19 @@ export class FvcConfig extends ui.FScrollViewContent {
     this.#fOptions.render();
 
     if (config) {
-      pp = new ui.SectionPanel("Shop name");
+      pp = new SectionPanel("Shop name");
       p.pushPanel(pp);
       pp.getContentPanel().replaceContent(this.#renderName(config.name));
     }
 
-    pp = new ui.SectionPanel("Main menu");
+    pp = new SectionPanel("Main menu");
     p.pushPanel(pp);
     this.#fMenuConfig.attachRender(pp.getContentPanel());
     this.#fMenuConfig.render();
 
     p.pushSpace(1);
 
-    pp = new ui.SectionPanel("Layout");
+    pp = new SectionPanel("Layout");
     p.pushPanel(pp);
     this.#fLayout.setSelectedValue(dba.Shop.getItemLayoutType());
     this.#fLayout.attachRender(pp);
@@ -182,7 +194,7 @@ export class FvcConfig extends ui.FScrollViewContent {
 
     p.pushSpace(1);
 
-    pp = new ui.SectionPanel("Teams");
+    pp = new SectionPanel("Teams");
     p.pushPanel(pp);
     this.#fTeams.clear();
     for (let id of dba.Shop.getTeamIds()) {
@@ -197,21 +209,21 @@ export class FvcConfig extends ui.FScrollViewContent {
     p.pushSpace(1);
 
     if (dba.Shop.getTeamIds().length < C.MAX.N_TEAMS) {
-      pp = new ui.PanelWrapper();
+      pp = new PanelWrapper();
       p.pushPanel(pp);
       this.#btnAddTeam.attachRender(pp);
       this.#btnAddTeam.render();
       p.pushSpace(1);
     }
 
-    pp = new ui.SectionPanel("Branches");
+    pp = new SectionPanel("Branches");
     p.pushPanel(pp);
     this.#fBranches.attachRender(pp.getContentPanel());
     this.#fBranches.render();
 
     p.pushSpace(1);
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     this.#btnClose.attachRender(pp);
     this.#btnClose.render();

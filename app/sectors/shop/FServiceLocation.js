@@ -2,10 +2,13 @@ export const CF_SERVICE_LOCATION = {
   ON_CLICK : Symbol(),
 };
 
-export class FServiceLocation extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+
+export class FServiceLocation extends Fragment {
   constructor() {
     super();
-    this._fTimeslots = new ui.FSimpleFragmentList();
+    this._fTimeslots = new FSimpleFragmentList();
     this.setChild("timeslots", this._fTimeslots);
 
     this._fBranch = new shop.FBranch();

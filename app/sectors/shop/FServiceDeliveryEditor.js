@@ -1,24 +1,30 @@
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcSimpleFragmentList } from '../../lib/ui/controllers/fragments/FvcSimpleFragmentList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FServiceDeliveryEditor extends shop.FProductDeliveryEditor {
   constructor() {
     super();
-    this._fBtnAdd = new ui.Button();
+    this._fBtnAdd = new Button();
     this._fBtnAdd.setName("+New service location...");
     this._fBtnAdd.setDelegate(this);
     this.setChild("add", this._fBtnAdd);
 
-    this._fLocations = new ui.FSimpleFragmentList();
+    this._fLocations = new FSimpleFragmentList();
     this.setChild("locations", this._fLocations);
 
-    this._fLocationOk = new ui.Button();
+    this._fLocationOk = new Button();
     this._fLocationOk.setName("OK");
     this._fLocationOk.setDelegate(this);
 
     this._fLocationEditor = new shop.FServiceLocationEditor();
     this._fLocationEditor.setDelegate(this);
 
-    this._vLocation = new ui.View();
-    let f = new ui.FvcSimpleFragmentList();
+    this._vLocation = new View();
+    let f = new FvcSimpleFragmentList();
     f.append(this._fLocationEditor);
     f.append(this._fLocationOk);
     this._vLocation.setContentFragment(f);
@@ -65,15 +71,15 @@ export class FServiceDeliveryEditor extends shop.FProductDeliveryEditor {
   }
 
   _renderSpec(panel) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     panel.wrapPanel(p);
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     pp.setClassName("pad5px");
     p.pushPanel(pp);
     this._fLocations.attachRender(pp);
     this._fLocations.render();
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fBtnAdd.attachRender(pp);
     this._fBtnAdd.render();
