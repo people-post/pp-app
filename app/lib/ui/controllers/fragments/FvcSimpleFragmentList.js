@@ -1,10 +1,12 @@
-(function(ui) {
-class FvcSimpleFragmentList extends ui.FScrollViewContent {
+import { FScrollViewContent } from './FScrollViewContent.js';
+import { FSimpleFragmentList } from './FSimpleFragmentList.js';
+
+export class FvcSimpleFragmentList extends FScrollViewContent {
   #fList;
 
   constructor() {
     super();
-    this.#fList = new ui.FSimpleFragmentList();
+    this.#fList = new FSimpleFragmentList();
     this.setChild("main", this.#fList);
   }
 
@@ -18,5 +20,8 @@ class FvcSimpleFragmentList extends ui.FScrollViewContent {
   }
 };
 
-ui.FvcSimpleFragmentList = FvcSimpleFragmentList;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FvcSimpleFragmentList = FvcSimpleFragmentList;
+}

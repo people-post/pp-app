@@ -1,5 +1,7 @@
-(function(gui) {
-gui.CF_FILES_THUMBNAIL = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export const CF_FILES_THUMBNAIL = {
   ON_CLICK : Symbol(),
 };
 
@@ -34,10 +36,10 @@ const _CFT_FILES_THUMBNAIL = {
     <div class="video-thumbnail-mask bottom0px"></div>`,
 };
 
-class FilesThumbnailFragment extends ui.Fragment {
+export class FilesThumbnailFragment extends Fragment {
   action(type, ...args) {
     switch (type) {
-    case gui.CF_FILES_THUMBNAIL.ON_CLICK:
+    case CF_FILES_THUMBNAIL.ON_CLICK:
       this._delegate.onThumbnailClickedInThumbnailFragment(this, args[0]);
       break;
     default:
@@ -51,7 +53,7 @@ class FilesThumbnailFragment extends ui.Fragment {
     if (!files) {
       return;
     }
-    let p = new ui.Panel();
+    let p = new Panel();
     p.setClassName("thumbnail-grid-wrapper");
     render.wrapPanel(p);
     this.#renderFiles(files, p);
@@ -95,5 +97,9 @@ class FilesThumbnailFragment extends ui.Fragment {
   }
 };
 
-gui.FilesThumbnailFragment = FilesThumbnailFragment;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_FILES_THUMBNAIL = CF_FILES_THUMBNAIL;
+  window.gui.FilesThumbnailFragment = FilesThumbnailFragment;
+}

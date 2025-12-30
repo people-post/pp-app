@@ -1,5 +1,9 @@
-(function(ui) {
-class PageViewController extends ui.RenderController {
+import { RenderController } from './RenderController.js';
+import { FNavigation } from './fragments/FNavigation.js';
+import { Page } from './Page.js';
+import { T_DATA, T_ACTION, Events } from '../../framework/Events.js';
+
+export class PageViewController extends RenderController {
   #mPageConfig;
   #mPage;
   #currentPage;
@@ -11,7 +15,7 @@ class PageViewController extends ui.RenderController {
     this.#mPageConfig = new Map(); // All pages with visible tab
     this.#mPage = new Map();       // All pages with visible tab
 
-    this.#fNav = new ui.FNavigation();
+    this.#fNav = new FNavigation();
     this.#fNav.setDataSource(this);
     this.#fNav.setDelegate(this);
   }
@@ -98,10 +102,10 @@ class PageViewController extends ui.RenderController {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case fwk.T_DATA.WEB_CONFIG:
+    case T_DATA.WEB_CONFIG:
       this.#updateNavView();
       break;
-    case fwk.T_DATA.NOTIFICATIONS:
+    case T_DATA.NOTIFICATIONS:
       this.#updateNavView();
       break;
     default:
@@ -147,7 +151,7 @@ class PageViewController extends ui.RenderController {
       this.#currentPage.render();
     }
     this.#updateNavView();
-    fwk.Events.triggerTopAction(fwk.T_ACTION.REPLACE_STATE, {}, "tab");
+    Events.triggerTopAction(T_ACTION.REPLACE_STATE, {}, "tab");
     this._delegate.onPageSwitchedInPageViewController(this);
   }
 
@@ -212,5 +216,8 @@ class PageViewController extends ui.RenderController {
   }
 };
 
-ui.PageViewController = PageViewController;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.PageViewController = PageViewController;
+}

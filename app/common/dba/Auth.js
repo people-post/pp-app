@@ -1,7 +1,10 @@
-(function(dba) {
-dba.Auth = function() {
+import { CronJob } from '../../lib/ext/CronJob.js';
+import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
+import { api } from '../plt/Api.js';
+
+function createAuth() {
   let _targetInfo = null;
-  let _beeper = new ext.CronJob();
+  let _beeper = new CronJob();
 
   function _getProxyTarget() { return _targetInfo; }
 
@@ -17,13 +20,13 @@ dba.Auth = function() {
     fd.append("domain", _targetInfo.toDomain);
     fd.append("token", _targetInfo.token);
     fd.append("type", C.TYPE.TOKEN.LOGIN);
-    plt.Api.asyncRawPost(url, fd, r => __onRefreshTokenRRR(r));
+    api.asyncRawPost(url, fd, r => __onRefreshTokenRRR(r));
   }
 
   function __onRefreshTokenRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     }
   }
 
@@ -37,13 +40,13 @@ dba.Auth = function() {
     }
 
     let url = "/api/auth/login";
-    plt.Api.asyncRawPost(url, fd, r => __onLoginRRR(r, onSuccess));
+    api.asyncRawPost(url, fd, r => __onLoginRRR(r, onSuccess));
   }
 
   function __onLoginRRR(responseText, onSuccess) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
       _beeper.stop();
       onSuccess(response.data.profile);
@@ -54,7 +57,7 @@ dba.Auth = function() {
     let url = "/api/auth/login_with_token";
     let fd = new FormData();
     fd.append("token", token);
-    plt.Api.asyncRawPost(url, fd, r => handler(r));
+    api.asyncRawPost(url, fd, r => handler(r));
   }
 
   function _asyncRegisterUser(email, password, onSuccess) {
@@ -66,14 +69,14 @@ dba.Auth = function() {
       fd.append("domain", _targetInfo.toDomain);
       fd.append("token", _targetInfo.token);
     }
-    plt.Api.asyncRawPost(url, fd,
-                         r => __onRegisterResultReceived(r, onSuccess));
+    api.asyncRawPost(url, fd,
+                     r => __onRegisterResultReceived(r, onSuccess));
   }
 
   function __onRegisterResultReceived(responseText, onSuccess) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
       _beeper.stop();
       onSuccess();
@@ -87,5 +90,12 @@ dba.Auth = function() {
     asyncLoginWithToken : _asyncLoginWithToken,
     asyncRegisterUser : _asyncRegisterUser,
   };
-}();
-}(window.dba = window.dba || {}));
+}
+
+export const Auth = createAuth();
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Auth = Auth;
+}

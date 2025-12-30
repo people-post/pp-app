@@ -1,12 +1,16 @@
-(function(ui) {
-class FTabbedPane extends ui.Fragment {
+import { Fragment } from './Fragment.js';
+import { FTabbedPaneTabBar } from './FTabbedPaneTabBar.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+
+export class FTabbedPane extends Fragment {
   #fBar;
   #paneMap = new Map();
   #paneId = "current";
 
   constructor() {
     super();
-    this.#fBar = new ui.FTabbedPaneTabBar();
+    this.#fBar = new FTabbedPaneTabBar();
     this.#fBar.setDataSource(this);
     this.#fBar.setDelegate(this);
     this.setChild("tabs", this.#fBar);
@@ -58,14 +62,14 @@ class FTabbedPane extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     p.pushPanel(pp);
     this.#fBar.attachRender(pp);
     this.#fBar.render();
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     let f = this._getChild(this.#paneId);
     if (f) {
@@ -84,5 +88,8 @@ class FTabbedPane extends ui.Fragment {
   }
 };
 
-ui.FTabbedPane = FTabbedPane;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FTabbedPane = FTabbedPane;
+}

@@ -1,5 +1,6 @@
-(function(ui) {
-class PanelListPanel extends ui.Panel {
+import { Panel } from './Panel.js';
+
+export class PanelListPanel extends Panel {
   constructor(idOffset = 0) {
     super();
     this._idOffset = idOffset;
@@ -55,5 +56,8 @@ class PanelListPanel extends ui.Panel {
   _getPanelRootElement() { return this.getDomElement(); }
 }
 
-ui.PanelListPanel = PanelListPanel;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.PanelListPanel = PanelListPanel;
+}

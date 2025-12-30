@@ -1,5 +1,11 @@
-(function(gui) {
-gui.CF_ERROR = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { CronJob } from '../../lib/ext/CronJob.js';
+import { PError } from '../../lib/ui/renders/panels/PError.js';
+import ExtUtilities from '../../lib/ext/Utilities.js';
+import { T_ACTION } from '../../lib/framework/Events.js';
+import { Events } from '../../lib/framework/Events.js';
+
+export const CF_ERROR = {
   DISMISS_ERROR : Symbol(),
 }
 
@@ -8,19 +14,19 @@ const _CFT_ERROR = {
       `<a class="button-like bgdanger cwhite" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_ERROR.DISMISS_ERROR)">Dismiss</a>`,
 }
 
-class FError extends ui.Fragment {
+export class FError extends Fragment {
   #pMain = null;
   #beeper;
   #counter = 100;
 
   constructor() {
     super();
-    this.#beeper = new ext.CronJob();
+    this.#beeper = new CronJob();
   }
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_ERROR.DISMISS_ERROR:
+    case CF_ERROR.DISMISS_ERROR:
       this.#dismiss();
       break;
     default:
@@ -30,6 +36,7 @@ class FError extends ui.Fragment {
   }
 
   handleRemoteError(err) {
+    // Use global namespace for RemoteError until DataObject.js is migrated
     switch (err.type) {
     case dat.RemoteError.T_TYPE.USER:
       this.#onUserError(err);
@@ -55,7 +62,7 @@ class FError extends ui.Fragment {
     this._delegate.onErrorFragmentRequestShow(this);
     let r = this.getRender();
     if (r && msg && msg.length > 0) {
-      let panel = new ui.PError();
+      let panel = new PError();
       panel.setClassName("error");
       r.wrapPanel(panel);
       this.#pMain = panel;
@@ -97,7 +104,7 @@ class FError extends ui.Fragment {
     switch (code) {
     case "E_TEMP_LOCK":
     case "E_LOGIN_FREEZE":
-      t = t.replace("__TIME__", ext.Utilities.timeDiffString(data.seconds));
+      t = t.replace("__TIME__", ExtUtilities.timeDiffString(data.seconds));
       break;
     case "E_INPUT_MISSING":
       t = t.replace("__MISSING__", data.items.join(", "));
@@ -114,7 +121,7 @@ class FError extends ui.Fragment {
       t = t.replace("__NAME__", data.name);
       t = t.replace("__TYPE__", data.is_underflow ? "earlier" : "later");
       t = t.replace("__VALUE__",
-                    ext.Utilities.timestampToDateTimeString(data.value));
+                    ExtUtilities.timestampToDateTimeString(data.value));
       break;
     default:
       break;
@@ -125,7 +132,7 @@ class FError extends ui.Fragment {
   #getLimitationErrorMsg(code, data) { return dat.RemoteError.T_LIMIT[code]; }
 
   #onQuotaError(err) {
-    fwk.Events.triggerTopAction(plt.T_ACTION.ACCOUNT_UPGRADE, err);
+    Events.triggerTopAction(T_ACTION.ACCOUNT_UPGRADE, err);
   }
 
   #onUserError(err) {
@@ -149,5 +156,9 @@ class FError extends ui.Fragment {
   }
 };
 
-gui.FError = FError;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_ERROR = CF_ERROR;
+  window.gui.FError = FError;
+}

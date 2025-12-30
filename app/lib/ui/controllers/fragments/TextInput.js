@@ -1,5 +1,6 @@
-(function(ui) {
-ui.CF_TEXT_INPUT = {
+import { SimpleInput } from './SimpleInput.js';
+
+export const CF_TEXT_INPUT = {
   ONCHANGE : Symbol(),
 };
 
@@ -12,7 +13,7 @@ const _CFT_TEXT_INPUT = {
       `<input type="text" id="__ID__" class="__CLASS_NAME__" placeholder="__HINT__" value="__VALUE__" onchange="javascript:G.action(ui.CF_TEXT_INPUT.ONCHANGE, this.value)">`
 }
 
-class TextInput extends ui.SimpleInput {
+export class TextInput extends SimpleInput {
   constructor() {
     super();
     this._config = {title : "", hint : "", value : "", isRequired : true};
@@ -45,7 +46,7 @@ class TextInput extends ui.SimpleInput {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_TEXT_INPUT.ONCHANGE:
+    case CF_TEXT_INPUT.ONCHANGE:
       if (this._delegate) {
         this._delegate.onInputChangeInTextInputFragment(this, args[0]);
       }
@@ -83,5 +84,9 @@ class TextInput extends ui.SimpleInput {
   }
 };
 
-ui.TextInput = TextInput;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_TEXT_INPUT = CF_TEXT_INPUT;
+  window.ui.TextInput = TextInput;
+}

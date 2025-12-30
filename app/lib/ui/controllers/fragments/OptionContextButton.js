@@ -1,5 +1,11 @@
-(function(ui) {
-ui.CF_OPTION_CONTEXT_BUTTON = {
+import { Fragment } from './Fragment.js';
+import { LContext } from '../layers/LContext.js';
+import { ICONS } from '../../Icons.js';
+import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+import { T_ACTION } from '../../../framework/Events.js';
+import { Events } from '../../../framework/Events.js';
+
+export const CF_OPTION_CONTEXT_BUTTON = {
   ONCLICK : Symbol(),
 };
 
@@ -8,17 +14,17 @@ const _CFT_OPTION_CONTEXT_BUTTON = {
       `<span class="clickable" onclick="javascript:G.action(ui.CF_OPTION_CONTEXT_BUTTON.ONCLICK)">__ICON__</span>`,
 };
 
-class OptionContextButton extends ui.Fragment {
+export class OptionContextButton extends Fragment {
   #lc;
   #icon;
 
   constructor() {
     super();
-    this.#lc = new ui.LContext();
+    this.#lc = new LContext();
     this.#lc.setDelegate(this);
     this.#icon =
         `<span class="bd1px bdsolid s-cprimebd option-context-default-icon-wrapper inline-block s-icon6">__ICON__</span>`
-            .replace("__ICON__", ui.ICONS.MORE);
+            .replace("__ICON__", ICONS.MORE);
   }
 
   setIcon(icon) { this.#icon = icon; }
@@ -35,7 +41,7 @@ class OptionContextButton extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_OPTION_CONTEXT_BUTTON.ONCLICK:
+    case CF_OPTION_CONTEXT_BUTTON.ONCLICK:
       this.#onClick();
       break;
     default:
@@ -50,16 +56,20 @@ class OptionContextButton extends ui.Fragment {
 
   #renderIcon(icon) {
     let s = _CFT_OPTION_CONTEXT_BUTTON.BTN;
-    let ss = Utilities.renderSvgFuncIcon(icon);
+    let ss = CommonUtilities.renderSvgFuncIcon(icon);
     s = s.replace("__ICON__", ss);
     return s;
   }
 
   #onClick() {
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lc,
+    Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lc,
                                 "Context");
   }
-};
+}
 
-ui.OptionContextButton = OptionContextButton;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_OPTION_CONTEXT_BUTTON = CF_OPTION_CONTEXT_BUTTON;
+  window.ui.OptionContextButton = OptionContextButton;
+}

@@ -1,5 +1,6 @@
-(function(gui) {
-class PPostInfoBase extends gui.PPostBase {
+import { PPostBase } from './PPostBase.js';
+
+export class PPostInfoBase extends PPostBase {
   isColorInvertible() { return false; }
   isClickable() { return true; }
 
@@ -16,5 +17,8 @@ class PPostInfoBase extends gui.PPostBase {
   invertColor() {}
 };
 
-gui.PPostInfoBase = PPostInfoBase;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PPostInfoBase = PPostInfoBase;
+}

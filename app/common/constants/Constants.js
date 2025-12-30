@@ -1,5 +1,4 @@
-(function(C) {
-C.MAX = {
+export const MAX = {
   N_TAGS : 64,
   N_TAGS_PER_ITEM : 7,
   N_ROLES : 7,
@@ -8,16 +7,16 @@ C.MAX = {
   N_AGENTS : 7,
 };
 
-C.PATH = {
+export const PATH = {
   STATIC : "/static",
   FLAGS : "/static/img/flags",
 };
 
-C.STORAGE = {
+export const STORAGE = {
   KEY : {PROFILE : "profile", KEYS : "keys"}
 };
 
-C.STATE = {
+export const STATE = {
   NEW : "NEW",
   ACTIVE : "ACTIVE",
   ONHOLD : "ONHOLD",
@@ -25,14 +24,14 @@ C.STATE = {
   STATUS : {F_DONE : "DONE", F_FAILED : "FAILED"}
 };
 
-C.VIS = {
+export const VIS = {
   PUBLIC : "PUBLIC",
   CONFIDENTIAL : "CONFIDENTIAL",
   PROTECTED : "RESTRICTED",
   PRIVATE : "PRIVATE",
 };
 
-C.URL_PARAM = {
+export const URL_PARAM = {
   USER : "u",
   SECTOR : "sector",
   LANGUAGE : "lang",
@@ -46,11 +45,11 @@ C.URL_PARAM = {
   KEY : "key",                 // For search
 };
 
-C.URL_PARAM_ADDON_VALUE = {
+export const URL_PARAM_ADDON_VALUE = {
   CART : "cart",
 };
 
-C.ID = {
+export const ID = {
   SECTOR : {
     // Sector id used in url
     FRONT_PAGE : "FRONT_PAGE", // Synced with backend
@@ -80,7 +79,7 @@ C.ID = {
   },
 };
 
-C.TYPE = {
+export const TYPE = {
   WINDOW : {
     WEB3 : "WEB3",
     MAIN : "MAIN",
@@ -93,13 +92,13 @@ C.TYPE = {
   },
 };
 
-C.CHANNEL = {
+export const CHANNEL = {
   COMMENT : "__COMMENT",
   GROUP_MSG : "__GROUP_MSG",
   USER_INBOX : "__USER_INBOX",
 };
 
-C.STUN_URLS = [
+export const STUN_URLS = [
   "stun:iphone-stun.strato-iphone.de:3478", "stun:numb.viagenie.ca:3478",
   //"stun:stun.12connect.com:3478",
   //"stun:stun.12voip.com:3478",
@@ -110,4 +109,19 @@ C.STUN_URLS = [
   //"stun:stun.advfn.com:3478",
   //"stun:stun.altar.com.pl:3478",
 ];
-}(window.C = window.C || {}));
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.C = window.C || {};
+  window.C.MAX = MAX;
+  window.C.PATH = PATH;
+  window.C.STORAGE = STORAGE;
+  window.C.STATE = STATE;
+  window.C.VIS = VIS;
+  window.C.URL_PARAM = URL_PARAM;
+  window.C.URL_PARAM_ADDON_VALUE = URL_PARAM_ADDON_VALUE;
+  window.C.ID = ID;
+  window.C.TYPE = TYPE;
+  window.C.CHANNEL = CHANNEL;
+  window.C.STUN_URLS = STUN_URLS;
+}

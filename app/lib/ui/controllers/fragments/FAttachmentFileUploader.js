@@ -1,19 +1,25 @@
-(function(ui) {
-ui.CF_ATTACHMENT_FILE_UPLOAD = {
+import { FFileUploader } from './FFileUploader.js';
+import { TextInput } from './TextInput.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { Panel } from '../../renders/panels/Panel.js';
+import { ICONS } from '../../Icons.js';
+import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+
+export const CF_ATTACHMENT_FILE_UPLOAD = {
   ADD_FILE : "CF_ATTACHMENT_FILE_UPLOAD_1",
 };
 
-ui._CFT_ATTACHMENT_FILE_UPLOAD = {
+export const _CFT_ATTACHMENT_FILE_UPLOAD = {
   BTN_ADD_FILE : `<label class="s-font5" for="__ID__">
     <span class="icon-legacy inline-block s-icon3">__ICON__</span>
   </label>
   <input id="__ID__" type="file" style="display:none" onchange="javascript:G.action(ui.CF_ATTACHMENT_FILE_UPLOAD.ADD_FILE, this)">`,
 }
 
-class FAttachmentFileUploader extends ui.FFileUploader {
+export class FAttachmentFileUploader extends FFileUploader {
   constructor() {
     super();
-    this._fName = new ui.TextInput();
+    this._fName = new TextInput();
     this._fName.setConfig(
         {title : "", hint : "File name", value : "", isRequired : true});
     this.setChild("name", this._fName);
@@ -48,7 +54,7 @@ class FAttachmentFileUploader extends ui.FFileUploader {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_ATTACHMENT_FILE_UPLOAD.ADD_FILE:
+    case CF_ATTACHMENT_FILE_UPLOAD.ADD_FILE:
       this.#addFile(args[0]);
       break;
     default:
@@ -65,15 +71,15 @@ class FAttachmentFileUploader extends ui.FFileUploader {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.Panel();
+    let pp = new Panel();
     pp.setClassName();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderAddFileButton());
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
 
     if (!this.#isEmpty()) {
@@ -84,15 +90,15 @@ class FAttachmentFileUploader extends ui.FFileUploader {
       }
 
       // Progress
-      pp = new ui.PanelWrapper();
+      pp = new PanelWrapper();
       p.pushPanel(pp);
       this._renderProgress(pp);
     }
   }
 
   #renderAddFileButton() {
-    let s = ui._CFT_ATTACHMENT_FILE_UPLOAD.BTN_ADD_FILE;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ui.ICONS.ATTACHMENT));
+    let s = _CFT_ATTACHMENT_FILE_UPLOAD.BTN_ADD_FILE;
+    s = s.replace("__ICON__", CommonUtilities.renderSvgFuncIcon(ICONS.ATTACHMENT));
     s = s.replace(/__ID__/g, this._id + "-btn-label");
     return s;
   }
@@ -108,5 +114,10 @@ class FAttachmentFileUploader extends ui.FFileUploader {
   }
 };
 
-ui.FAttachmentFileUploader = FAttachmentFileUploader;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_ATTACHMENT_FILE_UPLOAD = CF_ATTACHMENT_FILE_UPLOAD;
+  window.ui._CFT_ATTACHMENT_FILE_UPLOAD = _CFT_ATTACHMENT_FILE_UPLOAD;
+  window.ui.FAttachmentFileUploader = FAttachmentFileUploader;
+}

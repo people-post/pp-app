@@ -1,5 +1,12 @@
-(function(gui) {
-gui.CF_GALLERY = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { FMediaFile } from './FMediaFile.js';
+import { CronJob } from '../../lib/ext/CronJob.js';
+import { SimpleProgress } from '../../lib/ui/controllers/fragments/SimpleProgress.js';
+
+export const CF_GALLERY = {
   PREV_IMAGE_SLIDE : Symbol(),
   NEXT_IMAGE_SLIDE : Symbol(),
   SHOW_IMAGE_SLIDE : Symbol(),
@@ -20,14 +27,14 @@ const _CFT_GALLERY = {
     <div id="__ID_IMAGE__" class="s-photo bgblack h100"></div>`
 };
 
-class PSlide extends ui.Panel {
+class PSlide extends Panel {
   #pLabel;
   #pImage;
 
   constructor() {
     super();
-    this.#pLabel = new ui.Panel();
-    this.#pImage = new ui.PanelWrapper();
+    this.#pLabel = new Panel();
+    this.#pImage = new PanelWrapper();
   }
 
   getLabelPanel() { return this.#pLabel; }
@@ -47,14 +54,14 @@ class PSlide extends ui.Panel {
   }
 };
 
-class PGallery extends ui.Panel {
+class PGallery extends Panel {
   #pSlides;
   #pDots;
 
   constructor() {
     super();
-    this.#pSlides = new ui.ListPanel();
-    this.#pDots = new ui.ListPanel();
+    this.#pSlides = new ListPanel();
+    this.#pDots = new ListPanel();
   }
 
   getSlidesPanel() { return this.#pSlides; }
@@ -74,7 +81,7 @@ class PGallery extends ui.Panel {
   }
 };
 
-class FGallery extends ui.Fragment {
+export class FGallery extends Fragment {
   #slideIndex = 0;
   #scrollTimeoutAction = null;
   #fFiles = [];
@@ -84,7 +91,7 @@ class FGallery extends ui.Fragment {
 
   constructor() {
     super();
-    this.#statusChecker = new ext.CronJob();
+    this.#statusChecker = new CronJob();
   }
 
   isLivestreaming() {
@@ -96,7 +103,7 @@ class FGallery extends ui.Fragment {
     this.#fFiles = [];
     if (files) {
       for (let file of files) {
-        let f = new gui.FMediaFile();
+        let f = new FMediaFile();
         f.setFile(file);
         this.#fFiles.push(f);
       }
@@ -111,16 +118,16 @@ class FGallery extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_GALLERY.NEXT_IMAGE_SLIDE:
+    case CF_GALLERY.NEXT_IMAGE_SLIDE:
       this.#switchToNextSlide();
       break;
-    case gui.CF_GALLERY.PREV_IMAGE_SLIDE:
+    case CF_GALLERY.PREV_IMAGE_SLIDE:
       this.#switchToPrevSlide();
       break;
-    case gui.CF_GALLERY.SHOW_IMAGE_SLIDE:
+    case CF_GALLERY.SHOW_IMAGE_SLIDE:
       this.#switchToSlide(args[0]);
       break;
-    case gui.CF_GALLERY.ON_SCROLL:
+    case CF_GALLERY.ON_SCROLL:
       this.#onScroll(args[0]);
       break;
     default:
@@ -162,7 +169,7 @@ class FGallery extends ui.Fragment {
       this.#renderSlideShow(p, this.#fFiles);
       this.#switchToSlide(this.#slideIndex);
     } else {
-      let p = new ui.PanelWrapper();
+      let p = new PanelWrapper();
       p.setClassName("media-frame");
       render.wrapPanel(p);
       let f = this.#fFiles[0];
@@ -307,7 +314,7 @@ class FGallery extends ui.Fragment {
       fFile.attachRender(pp);
       fFile.render();
 
-      p = new ui.Panel();
+      p = new Panel();
       p.setAttribute("onclick",
                      "javascript:G.action(gui.CF_GALLERY.SHOW_IMAGE_SLIDE, " +
                          i + ")");
@@ -369,5 +376,9 @@ class FGallery extends ui.Fragment {
   }
 };
 
-gui.FGallery = FGallery;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_GALLERY = CF_GALLERY;
+  window.gui.FGallery = FGallery;
+}

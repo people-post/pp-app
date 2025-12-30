@@ -1,6 +1,4 @@
-(function(dba) {
-
-dba.Counter = function() {
+function createCounter() {
   let _registerId = null;
 
   function _getRegisterId() { return _registerId; }
@@ -10,5 +8,12 @@ dba.Counter = function() {
     getRegisterId : _getRegisterId,
     setRegisterId : _setRegisterId,
   };
-}();
-}(window.dba = window.dba || {}));
+}
+
+export const Counter = createCounter();
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Counter = Counter;
+}

@@ -1,6 +1,8 @@
-(function(dba) {
+import { T_DATA } from '../plt/Events.js';
+import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
+import { api } from '../plt/Api.js';
 
-dba.Groups = function() {
+function createGroups() {
   // Public groups' information
   let _map = new Map();
 
@@ -26,7 +28,7 @@ dba.Groups = function() {
       // Set to default
       _map.set(id, null);
     }
-    plt.Api.asyncRawPost(url, fd, r => __onLoadRRR(ids, r));
+    api.asyncRawPost(url, fd, r => __onLoadRRR(ids, r));
   }
 
   function _get(id) {
@@ -50,7 +52,7 @@ dba.Groups = function() {
   function __onLoadRRR(ids, responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
       let gs = [];
       for (let d of response.data.groups) {
@@ -58,7 +60,7 @@ dba.Groups = function() {
         _update(g);
         gs.push(g);
       }
-      fwk.Events.trigger(plt.T_DATA.GROUPS, gs);
+      Events.trigger(T_DATA.GROUPS, gs);
     }
   }
 
@@ -68,5 +70,12 @@ dba.Groups = function() {
     getTag : _getTag,
     update : _update,
   };
-}();
-}(window.dba = window.dba || {}));
+}
+
+export const Groups = createGroups();
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Groups = Groups;
+}

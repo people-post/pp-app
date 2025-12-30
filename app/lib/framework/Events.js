@@ -1,11 +1,10 @@
-(function(fwk) {
-fwk.T_DATA = {
+export const T_DATA = {
     REMOTE_ERROR : Symbol(),
     NOTIFICATIONS : Symbol(),
     WEB_CONFIG : Symbol(),
 };
 
-fwk.T_ACTION = {
+export const T_ACTION = {
     PUSH_STATE : Symbol(),
     REPLACE_STATE : Symbol(),
     SHOW_NOTICE : Symbol(),
@@ -15,7 +14,7 @@ fwk.T_ACTION = {
     RELOAD_URL : Symbol(),
 };
       
-fwk.Events = function() {
+export const Events = function() {
     let _delegate = null;
     let _handlersDict = new Map();
 
@@ -69,4 +68,11 @@ fwk.Events = function() {
         scheduleAction : _scheduleAction
     };
 }();
-}(window.fwk = window.fwk || {}));
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.fwk = window.fwk || {};
+  window.fwk.T_DATA = T_DATA;
+  window.fwk.T_ACTION = T_ACTION;
+  window.fwk.Events = Events;
+}

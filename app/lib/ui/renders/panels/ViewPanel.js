@@ -1,4 +1,6 @@
-(function(ui) {
+import { Panel } from './Panel.js';
+import { PanelWrapper } from './PanelWrapper.js';
+
 const _CPT_VIEW = {
   MAIN : `<div id="__ID_HEADER__"></div>
   <div id="__ID_BANNER__" class="banner flex-noshrink"></div>
@@ -7,12 +9,12 @@ const _CPT_VIEW = {
   </div>`,
 };
 
-class ViewPanel extends ui.Panel {
+export class ViewPanel extends Panel {
   constructor() {
     super();
-    this._pHeader = new ui.PanelWrapper();
-    this._pBanner = new ui.PanelWrapper();
-    this._pContent = new ui.PanelWrapper();
+    this._pHeader = new PanelWrapper();
+    this._pBanner = new PanelWrapper();
+    this._pContent = new PanelWrapper();
   }
 
   getHeaderPanel() { return this._pHeader; }
@@ -34,5 +36,8 @@ class ViewPanel extends ui.Panel {
   }
 };
 
-ui.ViewPanel = ViewPanel;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.ViewPanel = ViewPanel;
+}

@@ -1,5 +1,6 @@
-(function(ui) {
-class ArrayPanel extends ui.Panel {
+import { Panel } from './Panel.js';
+
+export class ArrayPanel extends Panel {
   // Horizontal array panel
   constructor() {
     super();
@@ -38,5 +39,8 @@ class ArrayPanel extends ui.Panel {
   #getPanelElementId(idx) { return this._elementId + "_" + idx; }
 };
 
-ui.ArrayPanel = ArrayPanel;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.ArrayPanel = ArrayPanel;
+}

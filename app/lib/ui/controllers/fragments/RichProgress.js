@@ -1,4 +1,5 @@
-(function(ui) {
+import { Fragment } from './Fragment.js';
+
 const _CFT_RICH_PROGRESS = {
   FIRST_NODE_H : `<div class="rpe node horizontal first">
   <div class="rpe-node-content-wrapper">
@@ -40,7 +41,7 @@ const _CFT_RICH_PROGRESS = {
       `<div class="rpe-content pipe vertical __BG_COLOR_CLS__" style="bottom:__P_BEGIN__%;height:__P_LENGTH__%"></div>`,
 }
 
-class RichProgress extends ui.Fragment {
+export class RichProgress extends Fragment {
   constructor() {
     super();
     this._percent = 0;
@@ -145,5 +146,8 @@ class RichProgress extends ui.Fragment {
   }
 };
 
-ui.RichProgress = RichProgress;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.RichProgress = RichProgress;
+}

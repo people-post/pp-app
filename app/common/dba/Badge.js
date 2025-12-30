@@ -1,6 +1,4 @@
-(function(dba) {
-
-dba.Badge = function() {
+function createBadge() {
   let _hasBadgePermission = false;
   let _lastN = 0;
 
@@ -75,6 +73,12 @@ dba.Badge = function() {
     checkPermission : _checkPermission,
     updateBadge : _updateBadge,
   };
-}();
+}
 
-}(window.dba = window.dba || {}));
+export const Badge = createBadge();
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Badge = Badge;
+}

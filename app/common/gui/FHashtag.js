@@ -1,5 +1,8 @@
-(function(gui) {
-class FHashtag extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { T_DATA } from '../../lib/framework/Events.js';
+
+export class FHashtag extends Fragment {
   static T_LAYOUT = {
     BUTTON_BAR : Symbol(),
   };
@@ -25,7 +28,7 @@ class FHashtag extends ui.Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.HASHTAGS:
+    case T_DATA.HASHTAGS:
       this.render();
       break;
     default:
@@ -51,9 +54,9 @@ class FHashtag extends ui.Fragment {
   #renderAsText(panel, ht) { panel.replaceContent(this.#getText(ht)); }
 
   #renderAsButtonBar(panel, ht) {
-    this.#fContent = new ui.Button();
+    this.#fContent = new Button();
     this.#fContent.setName(this.#getText(ht));
-    this.#fContent.setLayoutType(ui.Button.LAYOUT_TYPE.BAR);
+    this.#fContent.setLayoutType(Button.LAYOUT_TYPE.BAR);
     this.#fContent.setDelegate(this);
     this.setChild("content", this.#fContent);
     this.#fContent.attachRender(panel);
@@ -61,5 +64,8 @@ class FHashtag extends ui.Fragment {
   }
 };
 
-gui.FHashtag = FHashtag;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.FHashtag = FHashtag;
+}

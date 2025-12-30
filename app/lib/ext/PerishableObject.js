@@ -1,5 +1,4 @@
-(function(ext) {
-class PerishableObject {
+export class PerishableObject {
   #data;
   #timeout;
   #tExpire;
@@ -15,7 +14,10 @@ class PerishableObject {
   }
 
   #isValid() { return this.#tExpire && Date.now() < this.#tExpire; }
-};
+}
 
-ext.PerishableObject = PerishableObject;
-}(window.ext = window.ext || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ext = window.ext || {};
+  window.ext.PerishableObject = PerishableObject;
+}

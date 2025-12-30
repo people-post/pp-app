@@ -1,5 +1,9 @@
-(function(gui) {
-gui.CF_ACTION_BUTTON = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ICONS } from '../../lib/ui/Icons.js';
+import { ICON } from '../constants/Icons.js';
+import { Utilities } from '../Utilities.js';
+
+export const CF_ACTION_BUTTON = {
   ONCLICK : "CF_GUI_ACTION_BUTTON_1",
 };
 
@@ -10,19 +14,19 @@ const _CFT_ACTION_BUTTON = {
   </div>`,
 };
 
-class ActionButton extends ui.Fragment {
+export class ActionButton extends Fragment {
   static T_ICON = {
     NONE : ``,
-    INFO: C.ICON.INFO,
-    NEW: ui.ICONS.NEW,
-    EDIT: C.ICON.EDIT,
-    ORDER: C.ICON.CART,
-    MORE: ui.ICONS.MORE,
-    LOG_OUT: C.ICON.LOG_OUT,
+    INFO: ICON.INFO,
+    NEW: ICONS.NEW,
+    EDIT: ICON.EDIT,
+    ORDER: ICON.CART,
+    MORE: ICONS.MORE,
+    LOG_OUT: ICON.LOG_OUT,
     CLOSE: `Close`,
     CHECKOUT: `Checkout`,
-    LOGIN: C.ICON.ACCOUNT,
-    DONATE: C.ICON.COFFEE_MUG,
+    LOGIN: ICON.ACCOUNT,
+    DONATE: ICON.COFFEE_MUG,
   };
 
   constructor() {
@@ -34,7 +38,7 @@ class ActionButton extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_ACTION_BUTTON.ONCLICK:
+    case CF_ACTION_BUTTON.ONCLICK:
       this._delegate.onGuiActionButtonClick(this);
       break;
     default:
@@ -56,5 +60,9 @@ class ActionButton extends ui.Fragment {
   _getIcon() { return this._icon; }
 };
 
-gui.ActionButton = ActionButton;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_ACTION_BUTTON = CF_ACTION_BUTTON;
+  window.gui.ActionButton = ActionButton;
+}

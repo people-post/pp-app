@@ -1,10 +1,13 @@
-(function(ui) {
-ui.CF_TABBED_PANE_TAB = {
+import { Fragment } from './Fragment.js';
+import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+import { ICONS } from '../../Icons.js';
+
+export const CF_TABBED_PANE_TAB = {
   ON_CLICK : Symbol(),
   ON_CLOSE : Symbol(),
 };
 
-class FTabbedPaneTab extends ui.Fragment {
+export class FTabbedPaneTab extends Fragment {
   static T_LAYOUT = {
     SMALL : Symbol(),
     MIDDLE: Symbol(),
@@ -21,10 +24,10 @@ class FTabbedPaneTab extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_TABBED_PANE_TAB.ON_CLICK:
+    case CF_TABBED_PANE_TAB.ON_CLICK:
       this._delegate.onTabbedPaneTabFragmentClick(this, this.#tabId);
       break;
-    case ui.CF_TABBED_PANE_TAB.ON_CLOSE:
+    case CF_TABBED_PANE_TAB.ON_CLOSE:
       this._delegate.onTabbedPaneTabFragmentRequestClose(this, this.#tabId);
       break;
     default:
@@ -83,6 +86,7 @@ class FTabbedPaneTab extends ui.Fragment {
 
   #createPanel() {
     let p;
+    // Import panels dynamically to avoid circular dependencies
     switch (this.#tLayout) {
     case this.constructor.T_LAYOUT.MIDDLE:
       p = new ui.PTabbedPaneTabMiddle();
@@ -100,7 +104,7 @@ class FTabbedPaneTab extends ui.Fragment {
   #renderCloseBtn(panel) {
     panel.setAttribute("onclick",
                        "javascript:G.action(ui.CF_TABBED_PANE_TAB.ON_CLOSE)");
-    panel.replaceContent(Utilities.renderSvgIcon(ui.ICONS.CLOSE, "stkred"));
+    panel.replaceContent(CommonUtilities.renderSvgIcon(ICONS.CLOSE, "stkred"));
   }
 
   #renderIcon(icon, isSelected, panel) {
@@ -115,9 +119,13 @@ class FTabbedPaneTab extends ui.Fragment {
     default:
       break;
     }
-    panel.replaceContent(Utilities.renderSvgFuncIcon(icon, invertColor));
+    panel.replaceContent(CommonUtilities.renderSvgFuncIcon(icon, invertColor));
   }
-};
+}
 
-ui.FTabbedPaneTab = FTabbedPaneTab;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_TABBED_PANE_TAB = CF_TABBED_PANE_TAB;
+  window.ui.FTabbedPaneTab = FTabbedPaneTab;
+}

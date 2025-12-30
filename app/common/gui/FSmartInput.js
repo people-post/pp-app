@@ -1,5 +1,11 @@
-(function(gui) {
-gui.CF_SMART_INPUT = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Label } from '../../lib/ui/controllers/fragments/Label.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Events } from '../../lib/framework/Events.js';
+
+export const CF_SMART_INPUT = {
   ON_CHANGE : Symbol(),
   ON_BLUR : Symbol(),
   ON_HINT_ITEM_CHOSEN : Symbol(),
@@ -14,13 +20,13 @@ const _CFT_SMART_INPUT = {
       `<span class="clickable bd1px bdsolid bdlightblue bdradius5px pad2px" onclick="javascript:G.action(gui.CF_SMART_INPUT.ON_HINT_ITEM_CHOSEN, '__ITEM_ID__')">__VALUE__</span>`,
 };
 
-class FSmartInput extends ui.Fragment {
+export class FSmartInput extends Fragment {
   #fChoices;
   #hintText = "";
 
   constructor() {
     super();
-    this.#fChoices = new ui.Label();
+    this.#fChoices = new Label();
     this.setChild("choices", this.#fChoices);
   }
 
@@ -28,16 +34,16 @@ class FSmartInput extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_SMART_INPUT.ON_CHANGE:
+    case CF_SMART_INPUT.ON_CHANGE:
       this.#onNameInput(args[0]);
       break;
-    case gui.CF_SMART_INPUT.ON_BLUR:
+    case CF_SMART_INPUT.ON_BLUR:
       this.#onBlur();
       break;
-    case gui.CF_SMART_INPUT.ON_HINT_ITEM_CHOSEN:
+    case CF_SMART_INPUT.ON_HINT_ITEM_CHOSEN:
       this.#onHintItemChosen(args[0]);
       break;
-    case gui.CF_SMART_INPUT.CLEAR_CHOICES:
+    case CF_SMART_INPUT.CLEAR_CHOICES:
       this.#clearChoices();
       break;
     default:
@@ -47,15 +53,15 @@ class FSmartInput extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let panel = new ui.ListPanel();
+    let panel = new ListPanel();
     render.wrapPanel(panel);
-    let p = new ui.Panel();
+    let p = new Panel();
     panel.pushPanel(p);
     let s = _CFT_SMART_INPUT.INPUT;
     s = s.replace("__PLACEHOLDER__", this.#hintText);
     p.replaceContent(s);
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     panel.pushPanel(p);
     this.#fChoices.attachRender(p);
     this.#fChoices.render();
@@ -90,10 +96,14 @@ class FSmartInput extends ui.Fragment {
     if (!(r && r.containsElement(event.relatedTarget))) {
       // Use schedule action because safari fires blur without target,
       // if close too early, click will not be triggered
-      fwk.Events.scheduleAction(100, this, gui.CF_SMART_INPUT.CLEAR_CHOICES);
+      Events.scheduleAction(100, this, CF_SMART_INPUT.CLEAR_CHOICES);
     }
   }
 };
 
-gui.FSmartInput = FSmartInput;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_SMART_INPUT = CF_SMART_INPUT;
+  window.gui.FSmartInput = FSmartInput;
+}

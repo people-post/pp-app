@@ -1,11 +1,16 @@
-(function(ui) {
-class FvcProgress extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../fragments/FScrollViewContent.js';
+import { Button } from '../fragments/Button.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { Panel } from '../../renders/panels/Panel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+
+export class FvcProgress extends FScrollViewContent {
   #messages = [];
   #btnCancel = null;
 
   constructor() {
     super();
-    this.#btnCancel = new ui.Button();
+    this.#btnCancel = new Button();
     this.#btnCancel.setName("Cancel");
     this.#btnCancel.setDelegate(this);
     this.setChild("btnCancel", this.#btnCancel);
@@ -19,20 +24,20 @@ class FvcProgress extends ui.FScrollViewContent {
   onSimpleButtonClicked(fBtn) { this.#onCancel(); }
 
   _renderContentOnRender(render) {
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     render.wrapPanel(pList);
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     pList.pushPanel(p);
 
     for (let m of this.#messages) {
-      let pp = new ui.Panel();
+      let pp = new Panel();
       p.pushPanel(pp);
       pp.replaceContent(m);
     }
 
     pList.pushSpace(1);
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     this.#btnCancel.attachRender(p);
     this.#btnCancel.render();
@@ -46,5 +51,8 @@ class FvcProgress extends ui.FScrollViewContent {
   }
 };
 
-ui.FvcProgress = FvcProgress;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FvcProgress = FvcProgress;
+}

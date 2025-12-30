@@ -1,5 +1,6 @@
-(function(ui) {
-ui.CF_BUTTON_LIST = {
+import { Fragment } from './Fragment.js';
+
+export const CF_BUTTON_LIST = {
   ONCLICK : "CF_BUTTON_LIST_1",
 }
 
@@ -9,7 +10,7 @@ const _CVT_BUTTON_LIST = {
   <br>`,
 }
 
-class ButtonList extends ui.Fragment {
+export class ButtonList extends Fragment {
   constructor() {
     super();
     this._configs = [];
@@ -36,7 +37,7 @@ class ButtonList extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_BUTTON_LIST.ONCLICK:
+    case CF_BUTTON_LIST.ONCLICK:
       this.#onClick(args[0]);
       break;
     default:
@@ -58,5 +59,9 @@ class ButtonList extends ui.Fragment {
   }
 };
 
-ui.ButtonList = ButtonList;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_BUTTON_LIST = CF_BUTTON_LIST;
+  window.ui.ButtonList = ButtonList;
+}

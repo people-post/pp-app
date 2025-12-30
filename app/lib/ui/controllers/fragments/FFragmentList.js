@@ -1,5 +1,6 @@
-(function(ui) {
-class FFragmentList extends ui.Fragment {
+import { Fragment } from './Fragment.js';
+
+export class FFragmentList extends Fragment {
   size() { return this._getAllChildControllers().length; }
   getChildren() { return this._getAllChildControllers(); }
 
@@ -17,5 +18,8 @@ class FFragmentList extends ui.Fragment {
   #remove(f) { this.setChild(f, null); }
 };
 
-ui.FFragmentList = FFragmentList;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FFragmentList = FFragmentList;
+}

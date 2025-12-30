@@ -1,5 +1,4 @@
-(function(ext) {
-class Timer {
+export class Timer {
   constructor() { this._jobId = null; }
 
   isSet() { return this._jobId != null; }
@@ -15,7 +14,10 @@ class Timer {
       this._jobId = null;
     }
   }
-};
+}
 
-ext.Timer = Timer;
-}(window.ext = window.ext || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ext = window.ext || {};
+  window.ext.Timer = Timer;
+}

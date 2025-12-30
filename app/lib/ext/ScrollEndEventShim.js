@@ -1,5 +1,6 @@
-(function(ext) {
-class ScrollEndEventShim extends ext.Controller {
+import { Controller } from './Controller.js';
+
+export class ScrollEndEventShim extends Controller {
   #scrollEndEventPresent = false;
   #fcnScrollEnd = null;
 
@@ -32,7 +33,10 @@ class ScrollEndEventShim extends ext.Controller {
     this.#scrollEndEventPresent = true;
     this._delegate.onScrollEndInScrollEndEventShim(this);
   }
-};
+}
 
-ext.ScrollEndEventShim = ScrollEndEventShim;
-}(window.ext = window.ext || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ext = window.ext || {};
+  window.ext.ScrollEndEventShim = ScrollEndEventShim;
+}

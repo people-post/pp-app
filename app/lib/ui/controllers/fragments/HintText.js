@@ -1,10 +1,14 @@
-(function(ui) {
-class HintText extends ui.Label {
+import { Label } from './Label.js';
+
+export class HintText extends Label {
   constructor(text = "") {
     super(text);
     this.setClassName("hint-text");
   }
 }
 
-ui.HintText = HintText;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.HintText = HintText;
+}

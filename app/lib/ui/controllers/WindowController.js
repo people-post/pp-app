@@ -1,5 +1,7 @@
-(function(ui) {
-class WindowController extends ui.RenderController {
+import { RenderController } from './RenderController.js';
+import { PanelWrapper } from '../renders/panels/PanelWrapper.js';
+
+export class WindowController extends RenderController {
   constructor() {
     super();
     this._childStack = [];
@@ -28,7 +30,7 @@ class WindowController extends ui.RenderController {
 
   _pushLayer(lc, stateName) {
     let w = this.getWindow();
-    let l = new ui.PanelWrapper();
+    let l = new PanelWrapper();
     l.setClassName("layer");
     lc.setOwner(this);
     this._childStack[0].setActive(false);
@@ -44,5 +46,8 @@ class WindowController extends ui.RenderController {
   _onPushState(stateData, title) {}
 }
 
-ui.WindowController = WindowController;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.WindowController = WindowController;
+}

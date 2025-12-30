@@ -1,4 +1,5 @@
-(function(gui) {
+import { PPriceBase } from './PPriceBase.js';
+
 /*
  * +--------+------------+-------------+
  * | SYMBOL | LIST_PRICE | SALES_PRICE |
@@ -16,7 +17,7 @@ const _CPT_PRICE = {
   </table>`,
 }
 
-class PPrice extends gui.PPriceBase {
+export class PPrice extends PPriceBase {
   _renderFramework() {
     let s = _CPT_PRICE.MAIN;
     s = s.replace("__ID_UNIT__", this._getSubElementId("U"));
@@ -33,5 +34,8 @@ class PPrice extends gui.PPriceBase {
   }
 };
 
-gui.PPrice = PPrice;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PPrice = PPrice;
+}

@@ -1,4 +1,6 @@
-(function(ui) {
+import { PTabbedPaneTabBase } from './PTabbedPaneTabBase.js';
+import { Panel } from './Panel.js';
+
 const _CPT_TABBED_PANE_TAB_MIDDLE = {
   MAIN : `<div class="inline-block pad5px clickable">
       <div id="__ID_ICON__" class="bdradius5px inline-block s-icon32 s-csecondarybg"></div>
@@ -6,11 +8,11 @@ const _CPT_TABBED_PANE_TAB_MIDDLE = {
     <div id="__ID_BADGE__" class="notification-badge"></div>`,
 }
 
-class PTabbedPaneTabMiddle extends ui.PTabbedPaneTabBase {
+export class PTabbedPaneTabMiddle extends PTabbedPaneTabBase {
   constructor() {
     super();
-    this._pIcon = new ui.Panel();
-    this._pBadge = new ui.Panel();
+    this._pIcon = new Panel();
+    this._pBadge = new Panel();
   }
 
   getIconPanel() { return this._pIcon; }
@@ -41,5 +43,8 @@ class PTabbedPaneTabMiddle extends ui.PTabbedPaneTabBase {
   }
 };
 
-ui.PTabbedPaneTabMiddle = PTabbedPaneTabMiddle;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.PTabbedPaneTabMiddle = PTabbedPaneTabMiddle;
+}

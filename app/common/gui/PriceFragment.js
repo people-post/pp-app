@@ -1,8 +1,11 @@
-(function(gui) {
-class PriceFragment extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
+import { T_DATA } from '../../lib/framework/Events.js';
+
+export class PriceFragment extends Fragment {
   constructor() {
     super();
-    this._fListPriceUnits = new ui.Selection();
+    this._fListPriceUnits = new Selection();
     this._fListPriceUnits.setDataSource(this);
     this._fListPriceUnits.setDelegate(this);
     this.setChild("lpunits", this._fListPriceUnits);
@@ -46,7 +49,7 @@ class PriceFragment extends ui.Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.CURRENCIES:
+    case T_DATA.CURRENCIES:
       this.render();
       break;
     default:
@@ -104,5 +107,8 @@ class PriceFragment extends ui.Fragment {
   }
 };
 
-gui.PriceFragment = PriceFragment;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PriceFragment = PriceFragment;
+}

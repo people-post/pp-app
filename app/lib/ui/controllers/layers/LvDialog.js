@@ -1,5 +1,10 @@
-(function(ui) {
-ui.CRC_DIALOG = {
+import { ViewLayer } from './ViewLayer.js';
+import { ViewStack } from '../ViewStack.js';
+import { Panel } from '../../renders/panels/Panel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+
+export const CRC_DIALOG = {
   CLOSE : "CRC_DIALOG_1",
 }
 
@@ -8,15 +13,15 @@ const _CRCT_DIALOG = {
       `<span onclick="javascript:G.action(ui.CRC_DIALOG.CLOSE)">x</span>`,
 }
 
-class LvDialog extends ui.ViewLayer {
+export class LvDialog extends ViewLayer {
   constructor() {
     super();
-    this._vc = new ui.ViewStack();
+    this._vc = new ViewStack();
     this._vc.setOwner(this);
     this._vc.setLockLastView(false);
     this._vc.setDelegate(this);
     this._enableCloseBtn = true;
-    this._pClose = new ui.Panel();
+    this._pClose = new Panel();
     this._pClose.setClassName("dialog-close-btn s-ctext s-csecondarybg");
     this.setChild("__navigation_controller", this._vc);
   }
@@ -25,17 +30,17 @@ class LvDialog extends ui.ViewLayer {
     // Animate when render for the first time, this might be a hack
     let shouldAnimate = !render.getContentPanel();
 
-    let pWrapper = new ui.PanelWrapper();
+    let pWrapper = new PanelWrapper();
     pWrapper.setClassName("dialog");
     pWrapper.setAttribute("onclick",
                           "javascript:G.action(ui.CRC_DIALOG.CLOSE)");
     render.wrapPanel(pWrapper);
-    let pMain = new ui.ListPanel();
+    let pMain = new ListPanel();
     pMain.setClassName("dialog-content relative");
     pMain.setAttribute("onclick", "javascript:G.anchorClick()");
     pWrapper.wrapPanel(pMain);
 
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     p.setClassName("f-page");
     pMain.pushPanel(p);
     this._vc.attachRender(p);
@@ -57,7 +62,7 @@ class LvDialog extends ui.ViewLayer {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CRC_DIALOG.CLOSE:
+    case CRC_DIALOG.CLOSE:
       this.#onClose();
       break;
     default:
@@ -102,5 +107,9 @@ class LvDialog extends ui.ViewLayer {
   #hideCloseBtn() { this._pClose.setVisible(false); }
 };
 
-ui.LvDialog = LvDialog;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CRC_DIALOG = CRC_DIALOG;
+  window.ui.LvDialog = LvDialog;
+}

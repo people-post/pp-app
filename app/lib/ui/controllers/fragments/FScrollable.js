@@ -1,5 +1,6 @@
-(function(ui) {
-class FScrollable extends ui.Fragment {
+import { Fragment } from './Fragment.js';
+
+export class FScrollable extends Fragment {
   onScrollFinished() {}
 
   isReloadable() { return false; }
@@ -9,5 +10,8 @@ class FScrollable extends ui.Fragment {
   reload() {}
 };
 
-ui.FScrollable = FScrollable;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FScrollable = FScrollable;
+}

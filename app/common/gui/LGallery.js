@@ -1,5 +1,13 @@
-(function(gui) {
-window.CLC_GALLERY = {
+import { Layer } from '../../lib/ui/controllers/layers/Layer.js';
+import { FGallery } from './FGallery.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { ICONS } from '../../lib/ui/Icons.js';
+import { ICON } from '../constants/Icons.js';
+import { Utilities } from '../Utilities.js';
+
+export const CLC_GALLERY = {
   TOGGLE_COMMENT : "CLC_GALLERY_1",
   CLOSE : "CLC_GALLERY_2",
 }
@@ -10,10 +18,10 @@ const _CLCT_GALLERY = {
     <span class="inline-block s-icon3 clickable" onclick="javascript:G.action(CLC_GALLERY.CLOSE)">__CLOSE_ICON__</span>`,
 }
 
-class LGallery extends ui.Layer {
+export class LGallery extends Layer {
   constructor() {
     super();
-    this._fGallery = new gui.FGallery();
+    this._fGallery = new FGallery();
     this._fGallery.setDataSource(this);
     this._fGallery.setDelegate(this);
     this.setChild("Gallery", this._fGallery);
@@ -53,7 +61,7 @@ class LGallery extends ui.Layer {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     p.setClassName("f-simple flex flex-column flex-center");
     p.setAttribute("onclick", "javascript:G.action(CLC_GALLERY.CLOSE)");
     render.wrapPanel(p);
@@ -63,7 +71,7 @@ class LGallery extends ui.Layer {
     e.addEventListener("touchmove", evt => this.#onTouchMove(evt));
     e.addEventListener("touchend", evt => this.#onTouchEnd(evt));
 
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     pp.setAttribute("onclick", "javascript:G.anchorClick()");
     pp.setClassName("hmax100");
     p.pushPanel(pp);
@@ -72,14 +80,14 @@ class LGallery extends ui.Layer {
     this._fGallery.attachRender(pp);
     this._fGallery.render();
 
-    this._rComment = new ui.PanelWrapper();
+    this._rComment = new PanelWrapper();
     this._rComment.setClassName("overlay-comment darkmode");
     p.pushPanel(this._rComment);
     this._rComment.setVisible(this._fGallery.isLivestreaming());
     this._fComments.attachRender(this._rComment);
     this._fComments.render();
 
-    this._rControl = new ui.Panel();
+    this._rControl = new Panel();
     this._rControl.setClassName("gallery-layer-control");
     p.pushPanel(this._rControl);
     this._rControl.replaceContent(this.#renderControlBar());
@@ -102,10 +110,10 @@ class LGallery extends ui.Layer {
       stk = "s-cprimestk";
     }
     s = s.replace("__COMMENT_ICON__",
-                  Utilities.renderSvgIcon(C.ICON.COMMENT, stk, "filldimgray"));
+                  Utilities.renderSvgIcon(ICON.COMMENT, stk, "filldimgray"));
     s = s.replace(
         "__CLOSE_ICON__",
-        Utilities.renderSvgIcon(ui.ICONS.CLOSE, "stkdimgray", "filldimgray"));
+        Utilities.renderSvgIcon(ICONS.CLOSE, "stkdimgray", "filldimgray"));
     return s;
   }
 
@@ -157,5 +165,9 @@ class LGallery extends ui.Layer {
   #onClose() { this._owner.onRequestPopLayer(this); }
 };
 
-gui.LGallery = LGallery;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.CLC_GALLERY = CLC_GALLERY;
+  window.gui = window.gui || {};
+  window.gui.LGallery = LGallery;
+}

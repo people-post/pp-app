@@ -1,9 +1,13 @@
-(function(ui) {
+import { Fragment } from './Fragment.js';
+import { BufferedListPanel } from '../../renders/panels/BufferedListPanel.js';
+import { FLoading } from './FLoading.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+
 const _CFT_LONG_LIST = {
   EMPTY : `<div class="center-align">Empty list</div>`,
 };
 
-class BufferedList extends ui.Fragment {
+export class BufferedList extends Fragment {
   #idOffset = 0;
   #bufferSize = 20; // Buffer at each end
   #cacheSize = 200; // Full size
@@ -16,12 +20,12 @@ class BufferedList extends ui.Fragment {
 
   constructor() {
     super();
-    this.#panel = new ui.BufferedListPanel();
+    this.#panel = new BufferedListPanel();
 
-    this.#fHead = new ui.FLoading();
+    this.#fHead = new FLoading();
     this.setChild("head", this.#fHead);
 
-    this.#fTail = new ui.FLoading();
+    this.#fTail = new FLoading();
     this.setChild("tail", this.#fTail);
   }
 
@@ -101,7 +105,7 @@ class BufferedList extends ui.Fragment {
   }
 
   #createItemPanel() {
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     if (this.#isGridMode) {
       p.setClassName("inline-block");
     }
@@ -232,5 +236,8 @@ class BufferedList extends ui.Fragment {
   }
 };
 
-ui.BufferedList = BufferedList;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.BufferedList = BufferedList;
+}

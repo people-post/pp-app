@@ -1,4 +1,7 @@
-(function(ui) {
+import { ConsolePanel } from './ConsolePanel.js';
+import { NavPanel } from './NavPanel.js';
+import { PanelWrapper } from './PanelWrapper.js';
+
 const _CPT_CONSOLE_OVERLAY = {
   MAIN : `<div class="flex h-header flex-center bgtransparent">
     <div class="flex-grow flex-basis50"></div>
@@ -15,12 +18,12 @@ const _CPT_CONSOLE_OVERLAY = {
   </div>`,
 };
 
-class ConsoleOverlayPanel extends ui.ConsolePanel {
+export class ConsoleOverlayPanel extends ConsolePanel {
   constructor() {
     super();
-    this._pTab = new ui.NavPanel();
+    this._pTab = new NavPanel();
     this._pTab.setRequireLogin(true);
-    this._pNavs = [ new ui.PanelWrapper(), new ui.PanelWrapper() ];
+    this._pNavs = [ new PanelWrapper(), new PanelWrapper() ];
   }
 
   getTabPanel() { return this._pTab; }
@@ -46,5 +49,8 @@ class ConsoleOverlayPanel extends ui.ConsolePanel {
   }
 };
 
-ui.ConsoleOverlayPanel = ConsoleOverlayPanel;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.ConsoleOverlayPanel = ConsoleOverlayPanel;
+}

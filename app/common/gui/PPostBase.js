@@ -1,5 +1,6 @@
-(function(gui) {
-class PPostBase extends ui.Panel {
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PPostBase extends Panel {
   // Base class for all types of post panels, includes but not limited to:
   // 1. PostInfo at different sizes: Compact, small, middle, large etc.
   // 2. Full page post
@@ -57,5 +58,8 @@ class PPostBase extends ui.Panel {
   getContextPanel() { return null; }
 };
 
-gui.PPostBase = PPostBase;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PPostBase = PPostBase;
+}

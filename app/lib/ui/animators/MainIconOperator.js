@@ -1,4 +1,4 @@
-class MainIconOperator {
+export class MainIconOperator {
   press(iconElement) {
     let e = iconElement.firstElementChild;
     var t = e.firstElementChild;  // main-menu-icon-top

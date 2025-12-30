@@ -1,8 +1,10 @@
-(function(ui) {
-class Fragment extends ui.RenderController {
+import Utilities from '../../../ext/Utilities.js';
+import { RenderController } from '../RenderController.js';
+
+export class Fragment extends RenderController {
   constructor() {
     super();
-    this._id = ext.Utilities.uuid();
+    this._id = Utilities.uuid();
   }
 
   onFragmentRequestShowView(f, view, title) {
@@ -25,5 +27,8 @@ class Fragment extends ui.RenderController {
   }
 };
 
-ui.Fragment = Fragment;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.Fragment = Fragment;
+}

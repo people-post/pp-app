@@ -1,6 +1,8 @@
-(function(dba) {
+import { T_DATA } from '../plt/Events.js';
+import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
+import { api } from '../plt/Api.js';
 
-dba.Votes = function() {
+function createVotes() {
   let _lib = new Map();
   let _pendingResponses = [];
 
@@ -24,7 +26,7 @@ dba.Votes = function() {
     }
     let m = _lib.get(vote.getUserId());
     m.set(vote.getItemId(), vote);
-    fwk.Events.trigger(plt.T_DATA.VOTE, vote);
+    Events.trigger(T_DATA.VOTE, vote);
   }
 
   function __asyncLoadVote(userId, itemId) {
@@ -35,7 +37,7 @@ dba.Votes = function() {
     _pendingResponses.push(recordId);
 
     let url = "api/user/vote?user_id=" + userId + "&item_id=" + itemId;
-    plt.Api.asyncRawCall(url, r => __onLoadVoteRRR(r, recordId));
+    api.asyncRawCall(url, r => __onLoadVoteRRR(r, recordId));
   }
 
   function __onLoadVoteRRR(responseText, recordId) {
@@ -46,7 +48,7 @@ dba.Votes = function() {
 
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
       _update(new dat.Vote(response.data.vote));
     }
@@ -56,6 +58,12 @@ dba.Votes = function() {
     get : _get,
     update : _update,
   };
-}();
+}
 
-}(window.dba = window.dba || {}));
+export const Votes = createVotes();
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Votes = Votes;
+}

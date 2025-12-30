@@ -1,5 +1,11 @@
-(function(ui) {
-ui.CL_MULTI_CHOICE = {
+import { Panel } from '../../renders/panels/Panel.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+import { Layer } from './Layer.js';
+import { FFragmentList } from '../fragments/FFragmentList.js';
+import { Button } from '../fragments/Button.js';
+
+export const CL_MULTI_CHOICE = {
   CLOSE : Symbol(),
 };
 
@@ -15,7 +21,7 @@ const _CLT_MULTI_CHOICE = {
   <div id="__ID_BTN_CANCEL__"></div>`,
 };
 
-class PContextLayer extends ui.Panel {
+class PContextLayer extends Panel {
   #pTitle;
   #pDescription;
   #pChoices;
@@ -24,11 +30,11 @@ class PContextLayer extends ui.Panel {
 
   constructor() {
     super();
-    this.#pTitle = new ui.Panel();
-    this.#pDescription = new ui.Panel();
-    this.#pChoices = new ui.ListPanel();
-    this.#pAlternatives = new ui.ListPanel();
-    this.#btnCancel = new ui.PanelWrapper();
+    this.#pTitle = new Panel();
+    this.#pDescription = new Panel();
+    this.#pChoices = new ListPanel();
+    this.#pAlternatives = new ListPanel();
+    this.#btnCancel = new PanelWrapper();
   }
 
   getTitlePanel() { return this.#pTitle; }
@@ -61,7 +67,7 @@ const _CL_CONTEXT = {
   TITLE : `__TITLE__:`,
 };
 
-class LMultiChoice extends ui.Layer {
+export class LMultiChoice extends Layer {
   #title = null;
   #description = null;
   #fChoices;
@@ -70,14 +76,14 @@ class LMultiChoice extends ui.Layer {
 
   constructor() {
     super();
-    this.#fChoices = new ui.FFragmentList();
+    this.#fChoices = new FFragmentList();
     this.setChild("choices", this.#fChoices);
 
-    this.#fAlternatives = new ui.FFragmentList();
+    this.#fAlternatives = new FFragmentList();
     this.setChild("alternatives", this.#fAlternatives);
 
-    this.#btnCancel = new ui.Button();
-    this.#btnCancel.setThemeType(ui.Button.T_THEME.PALE);
+    this.#btnCancel = new Button();
+    this.#btnCancel.setThemeType(Button.T_THEME.PALE);
     this.#btnCancel.setName("Cancel");
     this.#btnCancel.setDelegate(this);
     this.setChild("btnCancel", this.#btnCancel);
@@ -93,7 +99,7 @@ class LMultiChoice extends ui.Layer {
   setDescription(d) { this.#description = d; }
 
   addChoice(name, value, icon = null, themeType = null, isEnabled = true) {
-    let f = new ui.Button();
+    let f = new Button();
     f.setName(name);
     f.setIcon(icon);
     f.setEnabled(isEnabled);
@@ -104,7 +110,7 @@ class LMultiChoice extends ui.Layer {
   }
 
   addAlternative(name, value, icon = null, themeType = null, isEnabled = true) {
-    let f = new ui.Button();
+    let f = new Button();
     f.setName(name);
     f.setIcon(icon);
     f.setEnabled(isEnabled);
@@ -156,13 +162,13 @@ class LMultiChoice extends ui.Layer {
     // Animate when render for the first time, this might be a hack
     let shouldAnimate = !render.getContentPanel();
 
-    let panel = new ui.PanelWrapper();
+    let panel = new PanelWrapper();
     panel.setClassName("w100 h100 context-layer flex flex-column flex-end");
     panel.setAttribute("onclick",
                        "javascript:G.action(ui.CL_MULTI_CHOICE.CLOSE)");
     render.wrapPanel(panel);
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     p.setClassName("w100 flex flex-center relative");
     panel.wrapPanel(p);
 
@@ -185,7 +191,7 @@ class LMultiChoice extends ui.Layer {
     this.#fChoices.attachRender(p);
 
     for (let f of this.#fChoices.getChildren()) {
-      let pp = new ui.PanelWrapper();
+      let pp = new PanelWrapper();
       p.pushPanel(pp);
       f.attachRender(pp);
       f.render();
@@ -197,7 +203,7 @@ class LMultiChoice extends ui.Layer {
     this.#fAlternatives.attachRender(p);
 
     for (let f of this.#fAlternatives.getChildren()) {
-      let pp = new ui.PanelWrapper();
+      let pp = new PanelWrapper();
       p.pushPanel(pp);
       f.attachRender(pp);
       f.render();
@@ -216,7 +222,7 @@ class LMultiChoice extends ui.Layer {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CL_MULTI_CHOICE.CLOSE:
+    case CL_MULTI_CHOICE.CLOSE:
       this.#onClose();
       break;
     default:
@@ -239,5 +245,9 @@ class LMultiChoice extends ui.Layer {
   #onClose() { this.dismiss(); }
 }
 
-ui.LMultiChoice = LMultiChoice;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CL_MULTI_CHOICE = CL_MULTI_CHOICE;
+  window.ui.LMultiChoice = LMultiChoice;
+}

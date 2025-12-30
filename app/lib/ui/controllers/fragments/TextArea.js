@@ -1,5 +1,6 @@
-(function(ui) {
-ui.CF_TEXT_AREA = {
+import { SimpleInput } from './SimpleInput.js';
+
+export const CF_TEXT_AREA = {
   ON_CHANGE : "CF_TEXT_AREA_1",
 }
 
@@ -9,7 +10,7 @@ const _CFT_TEXT_AREA = {
       `<textarea id="__ID__" class="__CLASS_NAME__" onchange="javascript:G.action(ui.CF_TEXT_AREA.ON_CHANGE, this.value)" placeholder="__HINT__">__VALUE__</textarea>`,
 }
 
-class TextArea extends ui.SimpleInput {
+export class TextArea extends SimpleInput {
   constructor() {
     super();
     this._config = {title : "", hint : "", value : "", isRequired : true};
@@ -38,7 +39,7 @@ class TextArea extends ui.SimpleInput {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_TEXT_AREA.ON_CHANGE:
+    case CF_TEXT_AREA.ON_CHANGE:
       this.#onInputChange(args[0]);
       break;
     default:
@@ -67,5 +68,9 @@ class TextArea extends ui.SimpleInput {
   }
 };
 
-ui.TextArea = TextArea;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_TEXT_AREA = CF_TEXT_AREA;
+  window.ui.TextArea = TextArea;
+}

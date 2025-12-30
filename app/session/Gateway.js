@@ -1,5 +1,7 @@
+import { Controller } from '../lib/ext/Controller.js';
+
 (function(main) {
-class Gateway extends ext.Controller {
+class Gateway extends Controller {
   static T_CONFIG = {
     FRONT_PAGE :
         {ID : C.ID.SECTOR.FRONT_PAGE, NAME: "FrontPage", ICON: C.ICON.HOME},

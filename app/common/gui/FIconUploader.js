@@ -1,5 +1,6 @@
-(function(gui) {
-gui.CF_ICON_UPLOADER = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export const CF_ICON_UPLOADER = {
   ON_ICON_CHANGE : Symbol(),
 };
 
@@ -11,13 +12,13 @@ const _CFT_ICON_UPLOADER = {
     </div>`,
 };
 
-class FIconUploader extends ui.Fragment {
+export class FIconUploader extends Fragment {
   #iconUrl;
   setIconUrl(url) { this.#iconUrl = url; }
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_ICON_UPLOADER.ON_ICON_CHANGE:
+    case CF_ICON_UPLOADER.ON_ICON_CHANGE:
       this._delegate.onIconUploaderFragmentRequestUpdateIcon(this, args[0]);
       break;
     default:
@@ -33,5 +34,9 @@ class FIconUploader extends ui.Fragment {
   }
 };
 
-gui.FIconUploader = FIconUploader;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_ICON_UPLOADER = CF_ICON_UPLOADER;
+  window.gui.FIconUploader = FIconUploader;
+}

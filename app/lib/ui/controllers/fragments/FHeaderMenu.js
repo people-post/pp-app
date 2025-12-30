@@ -1,9 +1,11 @@
-(function(ui) {
-ui.CF_UI_HEADER_MENU = {
+import { Fragment } from './Fragment.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+
+export const CF_UI_HEADER_MENU = {
   ON_CLICK : Symbol(),
 };
 
-class FHeaderMenu extends ui.Fragment {
+export class FHeaderMenu extends Fragment {
   #fContent = null;
   #pMain = null;
   #iconOperator = null;
@@ -54,7 +56,7 @@ class FHeaderMenu extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_UI_HEADER_MENU.ON_CLICK:
+    case CF_UI_HEADER_MENU.ON_CLICK:
       this.#onClick();
       break;
     default:
@@ -64,7 +66,7 @@ class FHeaderMenu extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    this.#pMain = new ui.PanelWrapper();
+    this.#pMain = new PanelWrapper();
     // this.#pMain.setClassName("w100 flex flex-center");
     render.wrapPanel(this.#pMain);
     if (!this.#fContent ||
@@ -108,5 +110,9 @@ class FHeaderMenu extends ui.Fragment {
   }
 };
 
-ui.FHeaderMenu = FHeaderMenu;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_UI_HEADER_MENU = CF_UI_HEADER_MENU;
+  window.ui.FHeaderMenu = FHeaderMenu;
+}

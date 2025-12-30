@@ -1,14 +1,15 @@
-(function(ui) {
+import { PanelWrapper } from './PanelWrapper.js';
+
 const _CPT_SECTION = {
   FRAMEWORK : `<p class="title">__TITLE__:</p>
       <div id="__ID__"></div>`,
 }
 
-class SectionPanel extends ui.PanelWrapper {
+export class SectionPanel extends PanelWrapper {
   constructor(title) {
     super();
     this._title = title;
-    this._content = new ui.PanelWrapper();
+    this._content = new PanelWrapper();
   }
 
   _getWrapperFramework(wrapperElementId) {
@@ -21,5 +22,8 @@ class SectionPanel extends ui.PanelWrapper {
   _onFrameworkDidAppear() { this.wrapPanel(this._content); }
 }
 
-ui.SectionPanel = SectionPanel;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.SectionPanel = SectionPanel;
+}

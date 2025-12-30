@@ -1,4 +1,5 @@
-(function(gui) {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
 const _CFT_VOTE_PROGRESS = {
   MAIN : `<div class="vote-progress-bg">
       <span class="vote-progress-target" style="left:__TARGET__%;"></span>
@@ -8,7 +9,7 @@ const _CFT_VOTE_PROGRESS = {
     </div>`,
 }
 
-class VoteProgressFragment extends ui.Fragment {
+export class VoteProgressFragment extends Fragment {
   constructor() {
     super();
     this._config = {"value" : 0, "threshold" : 0, "total" : 0};
@@ -58,5 +59,8 @@ class VoteProgressFragment extends ui.Fragment {
   }
 };
 
-gui.VoteProgressFragment = VoteProgressFragment;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.VoteProgressFragment = VoteProgressFragment;
+}

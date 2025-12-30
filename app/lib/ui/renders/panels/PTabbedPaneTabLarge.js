@@ -1,4 +1,6 @@
-(function(ui) {
+import { PTabbedPaneTabBase } from './PTabbedPaneTabBase.js';
+import { Panel } from './Panel.js';
+
 const _CPT_TABBED_PANE_TAB_LARGE = {
   MAIN :
       `<div id="__ID_MAIN__" class="tab-item center-align relative s-csecondarybg">
@@ -9,11 +11,11 @@ const _CPT_TABBED_PANE_TAB_LARGE = {
   </div>`,
 }
 
-class PTabbedPaneTabLarge extends ui.PTabbedPaneTabBase {
+export class PTabbedPaneTabLarge extends PTabbedPaneTabBase {
   constructor() {
     super();
-    this._pIcon = new ui.Panel();
-    this._pBadge = new ui.Panel();
+    this._pIcon = new Panel();
+    this._pBadge = new Panel();
   }
 
   getIconPanel() { return this._pIcon; }
@@ -43,5 +45,8 @@ class PTabbedPaneTabLarge extends ui.PTabbedPaneTabBase {
   }
 };
 
-ui.PTabbedPaneTabLarge = PTabbedPaneTabLarge;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.PTabbedPaneTabLarge = PTabbedPaneTabLarge;
+}

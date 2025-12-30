@@ -1,18 +1,23 @@
-(function(ui) {
-ui.CF_MEDIA_FILE_UPLOAD = {
+import { FFileUploader } from './FFileUploader.js';
+import { SimpleImage } from './SimpleImage.js';
+import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { Panel } from '../../renders/panels/Panel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+
+export const CF_MEDIA_FILE_UPLOAD = {
   SET_THUMBNAIL_IMAGE : "CF_MEDIA_FILE_UPLOAD_1",
 };
 
-ui._CFT_MEDIA_FILE_UPLOAD = {
+export const _CFT_MEDIA_FILE_UPLOAD = {
   ACTIONS :
       `<a class="button-like s-primary" href="javascript:void(0)" onclick="javascript:this.nextElementSibling.click();">Cover</a>
       <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action(ui.CF_MEDIA_FILE_UPLOAD.SET_THUMBNAIL_IMAGE, this.files[0])">`,
 };
 
-class FMediaFileUploader extends ui.FFileUploader {
+export class FMediaFileUploader extends FFileUploader {
   constructor() {
     super();
-    this._fPreview = new ui.SimpleImage();
+    this._fPreview = new SimpleImage();
     this.setChild("preview", this._fPreview);
   }
 
@@ -36,7 +41,7 @@ class FMediaFileUploader extends ui.FFileUploader {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_MEDIA_FILE_UPLOAD.SET_THUMBNAIL_IMAGE:
+    case CF_MEDIA_FILE_UPLOAD.SET_THUMBNAIL_IMAGE:
       this.#onThumbnailChange(args[0]);
       break;
     default:
@@ -49,23 +54,23 @@ class FMediaFileUploader extends ui.FFileUploader {
   _onFileUploadFinished() { this._delegate.onMediaFileUploadFinished(this); }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     p.setClassName("file-preview-block");
     render.wrapPanel(p);
-    let pp = new ui.Panel();
+    let pp = new Panel();
     pp.setClassName("file-preview-icon");
     p.pushPanel(pp);
     this._fPreview.attachRender(pp);
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._renderProgress(pp);
 
     if (!this.#isImage()) {
       // None image file only
-      pp = new ui.Panel();
+      pp = new Panel();
       p.pushPanel(pp);
-      pp.replaceContent(ui._CFT_MEDIA_FILE_UPLOAD.ACTIONS);
+      pp.replaceContent(_CFT_MEDIA_FILE_UPLOAD.ACTIONS);
     }
 
     if (this._urlFile) {
@@ -87,5 +92,10 @@ class FMediaFileUploader extends ui.FFileUploader {
   }
 }
 
-ui.FMediaFileUploader = FMediaFileUploader;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_MEDIA_FILE_UPLOAD = CF_MEDIA_FILE_UPLOAD;
+  window.ui._CFT_MEDIA_FILE_UPLOAD = _CFT_MEDIA_FILE_UPLOAD;
+  window.ui.FMediaFileUploader = FMediaFileUploader;
+}

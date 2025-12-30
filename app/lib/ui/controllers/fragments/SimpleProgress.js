@@ -1,4 +1,6 @@
-(function(ui) {
+import { Fragment } from './Fragment.js';
+import { Panel } from '../../renders/panels/Panel.js';
+
 const _CFT_SIMPLE_PROGRESS = {
   BAR :
       `<span class="simple-progress-fg __COLOR__" style="width:__PERCENT__%"></span>`,
@@ -6,7 +8,7 @@ const _CFT_SIMPLE_PROGRESS = {
       `<span class="w100 s-font7 bold center-align simple-progress-text">__VALUE__%</span>`,
 }
 
-class SimpleProgress extends ui.Fragment {
+export class SimpleProgress extends Fragment {
   constructor() {
     super();
     this._percent = 0;
@@ -23,7 +25,7 @@ class SimpleProgress extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.Panel();
+    let p = new Panel();
     p.setClassName("simple-progress-bg");
     render.wrapPanel(p);
 
@@ -50,5 +52,8 @@ class SimpleProgress extends ui.Fragment {
   }
 };
 
-ui.SimpleProgress = SimpleProgress;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.SimpleProgress = SimpleProgress;
+}

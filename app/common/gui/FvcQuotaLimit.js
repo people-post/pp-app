@@ -1,5 +1,9 @@
-(function(gui) {
-gui.CF_QUOTA_LIMIT = {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcUpgradeChoices } from './FvcUpgradeChoices.js';
+import Utilities from '../../lib/ext/Utilities.js';
+
+export const CF_QUOTA_LIMIT = {
   UPGRADE : Symbol(),
 };
 
@@ -8,7 +12,7 @@ const _CFT_QUOTA_LIMIT = {
       `<a class="internal-page-link" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_QUOTA_LIMIT.UPGRADE)">upgrade</a>`,
 };
 
-class FvcQuotaLimit extends ui.FScrollViewContent {
+export class FvcQuotaLimit extends FScrollViewContent {
   constructor(quotaError) {
     super();
     this._quotaError = quotaError;
@@ -16,7 +20,7 @@ class FvcQuotaLimit extends ui.FScrollViewContent {
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_QUOTA_LIMIT.UPGRADE:
+    case CF_QUOTA_LIMIT.UPGRADE:
       this.#onUpgradeClicked();
       break;
     default:
@@ -31,21 +35,25 @@ class FvcQuotaLimit extends ui.FScrollViewContent {
   }
 
   #onUpgradeClicked() {
-    let v = new ui.View();
-    v.setContentFragment(new gui.FvcUpgradeChoices());
+    let v = new View();
+    v.setContentFragment(new FvcUpgradeChoices());
     this._owner.onFragmentRequestShowView(this, v, "Upgrades");
   }
 
   #renderErrorMsg(code, data) {
     let t = R.get(code);
-    t = t.replace("__TIME__", ext.Utilities.timeDiffString(data.period));
+    t = t.replace("__TIME__", Utilities.timeDiffString(data.period));
     t = t.replace("__QUOTA__", data.quota);
     t = t.replace("__UPGRADE_BTN__", _CFT_QUOTA_LIMIT.UPGRADE_BTN);
     t = t.replace("__FREEZE_TIME__",
-                  ext.Utilities.timeDiffString(data.fallback_period));
+                  Utilities.timeDiffString(data.fallback_period));
     return t;
   }
 };
 
-gui.FvcQuotaLimit = FvcQuotaLimit;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_QUOTA_LIMIT = CF_QUOTA_LIMIT;
+  window.gui.FvcQuotaLimit = FvcQuotaLimit;
+}

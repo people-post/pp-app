@@ -1,5 +1,4 @@
-(function(dat) {
-class DataObject {
+export class DataObject {
   #data;
 
   constructor(data) { this.#data = data; }
@@ -14,7 +13,10 @@ class DataObject {
   }
 
   _setData(name, value) { this.#data[name] = value; }
-};
+}
 
-dat.DataObject = DataObject;
-}(window.dat = window.dat || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.dat = window.dat || {};
+  window.dat.DataObject = DataObject;
+}

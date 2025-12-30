@@ -1,5 +1,7 @@
-(function(ui) {
-ui.CF_UI_BUTTON = {
+import { Fragment } from './Fragment.js';
+import { Utilities } from '../../../../common/Utilities.js';
+
+export const CF_UI_BUTTON = {
   ON_CLICK : Symbol(),
 };
 
@@ -7,7 +9,7 @@ const _CFT_UI_BUTTON = {
   ACTION : "javascript:G.action(ui.CF_UI_BUTTON.ON_CLICK)",
 };
 
-class Button extends ui.Fragment {
+export class Button extends Fragment {
   static LAYOUT_TYPE = {
     SMALL : Symbol(),
     NORMAL: Symbol(),
@@ -47,7 +49,7 @@ class Button extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_UI_BUTTON.ON_CLICK:
+    case CF_UI_BUTTON.ON_CLICK:
       this._delegate.onSimpleButtonClicked(this);
       break;
     default:
@@ -191,5 +193,9 @@ class Button extends ui.Fragment {
   }
 };
 
-ui.Button = Button;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_UI_BUTTON = CF_UI_BUTTON;
+  window.ui.Button = Button;
+}

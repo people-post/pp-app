@@ -1,6 +1,8 @@
-(function(dba) {
+import { T_DATA } from '../plt/Events.js';
+import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
+import { api } from '../plt/Api.js';
 
-dba.Hashtags = function() {
+function createHashtags() {
   let _map = new Map();
 
   function _loadMissing(ids) {
@@ -25,7 +27,7 @@ dba.Hashtags = function() {
       // Set to default
       _map.set(id, null);
     }
-    plt.Api.asyncRawPost(url, fd, r => __onLoadRRR(ids, r));
+    api.asyncRawPost(url, fd, r => __onLoadRRR(ids, r));
   }
 
   function _get(id) {
@@ -44,7 +46,7 @@ dba.Hashtags = function() {
   function __onLoadRRR(ids, responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
       let hts = [];
       for (let d of response.data.hashtags) {
@@ -52,7 +54,7 @@ dba.Hashtags = function() {
         _update(ht);
         hts.push(ht);
       }
-      fwk.Events.trigger(plt.T_DATA.HASHTAGS, hts);
+      Events.trigger(T_DATA.HASHTAGS, hts);
     }
   }
 
@@ -61,5 +63,12 @@ dba.Hashtags = function() {
     get : _get,
     update : _update,
   };
-}();
-}(window.dba = window.dba || {}));
+}
+
+export const Hashtags = createHashtags();
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Hashtags = Hashtags;
+}

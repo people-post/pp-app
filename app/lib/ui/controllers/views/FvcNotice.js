@@ -1,5 +1,6 @@
-(function(ui) {
-ui.CF_NOTICE = {
+import { FScrollViewContent } from '../fragments/FScrollViewContent.js';
+
+export const CF_NOTICE = {
   CLOSE : Symbol(),
 };
 
@@ -9,7 +10,7 @@ const _CFT_NOTICE = {
   <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(ui.CF_NOTICE.CLOSE)">Close</a>`,
 };
 
-class FvcNotice extends ui.FScrollViewContent {
+export class FvcNotice extends FScrollViewContent {
   constructor() {
     super();
     this._msg = null;
@@ -21,7 +22,7 @@ class FvcNotice extends ui.FScrollViewContent {
 
   action(type, ...args) {
     switch (type) {
-    case ui.CF_NOTICE.CLOSE:
+    case CF_NOTICE.CLOSE:
       this.#onClose();
       break;
     default:
@@ -44,5 +45,9 @@ class FvcNotice extends ui.FScrollViewContent {
   }
 };
 
-ui.FvcNotice = FvcNotice;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_NOTICE = CF_NOTICE;
+  window.ui.FvcNotice = FvcNotice;
+}

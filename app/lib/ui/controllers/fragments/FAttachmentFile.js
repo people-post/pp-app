@@ -1,10 +1,13 @@
-(function(ui) {
+import { Fragment } from './Fragment.js';
+import { ICONS } from '../../Icons.js';
+import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+
 const _CFT_ATTACHMENT_FILE = {
   MAIN :
       `<a href="__DOWNLOAD_URL__" target="_blank" onclick="javascript:G.anchorClick()"><span class="inline-block s-icon6">__ICON__</span>__NAME__</a>`,
 }
 
-class FAttachmentFile extends ui.Fragment {
+export class FAttachmentFile extends Fragment {
   constructor() {
     super();
     this._file = null;
@@ -14,12 +17,15 @@ class FAttachmentFile extends ui.Fragment {
 
   _renderContent() {
     let s = _CFT_ATTACHMENT_FILE.MAIN;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ui.ICONS.ATTACHMENT));
+    s = s.replace("__ICON__", CommonUtilities.renderSvgFuncIcon(ICONS.ATTACHMENT));
     s = s.replace("__DOWNLOAD_URL__", this._file.getDownloadUrl());
     s = s.replace("__NAME__", this._file.getName());
     return s;
   }
 }
 
-ui.FAttachmentFile = FAttachmentFile;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.FAttachmentFile = FAttachmentFile;
+}

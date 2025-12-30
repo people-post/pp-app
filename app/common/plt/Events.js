@@ -1,5 +1,4 @@
-(function(plt) {
-plt.T_DATA = {
+export const T_DATA = {
   HOSTING_STATUS : Symbol(),
   ADDON_SCRIPT : Symbol(),
   SERVICE_QUEUE_SIZE : Symbol(),
@@ -52,7 +51,7 @@ plt.T_DATA = {
   KEY_UPDATE : Symbol(),
 };
 
-plt.T_ACTION = {
+export const T_ACTION = {
   LOGIN : Symbol(),
   ACCOUNT_UPGRADE : Symbol(),
   LOGIN_SUCCESS : Symbol(),
@@ -61,4 +60,10 @@ plt.T_ACTION = {
   SHOW_USER_INFO : Symbol(),
   SHOW_GROUP_INFO : Symbol(),
 };
-}(window.plt = window.plt || {}));
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.plt = window.plt || {};
+  window.plt.T_DATA = T_DATA;
+  window.plt.T_ACTION = T_ACTION;
+}

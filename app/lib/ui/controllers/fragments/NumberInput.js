@@ -1,5 +1,6 @@
-(function(ui) {
-ui.CF_NUMBER_INPUT = {
+import { SimpleInput } from './SimpleInput.js';
+
+export const CF_NUMBER_INPUT = {
   ONCHANGE : "CF_NUMBER_INPUT_1",
 }
 
@@ -12,7 +13,7 @@ const _CFT_NUMBER_INPUT = {
       `<input class="__CLASS__" type="number" id="__ID__" min="__MIN__" max="__MAX__" step="__STEP__", value="__VALUE__" onchange="javascript:G.action(ui.CF_NUMBER_INPUT.ONCHANGE, this.value)">__UNIT__`,
 }
 
-class NumberInput extends ui.SimpleInput {
+export class NumberInput extends SimpleInput {
   // Config: {
   // title
   // min
@@ -23,7 +24,7 @@ class NumberInput extends ui.SimpleInput {
   // }
   action(type, ...args) {
     switch (type) {
-    case ui.CF_NUMBER_INPUT.ONCHANGE:
+    case CF_NUMBER_INPUT.ONCHANGE:
       if (this._delegate) {
         this._delegate.onInputChangeInNumberInputFragment(this, args[0]);
       }
@@ -77,5 +78,9 @@ class NumberInput extends ui.SimpleInput {
   }
 };
 
-ui.NumberInput = NumberInput;
-}(window.ui = window.ui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.ui = window.ui || {};
+  window.ui.CF_NUMBER_INPUT = CF_NUMBER_INPUT;
+  window.ui.NumberInput = NumberInput;
+}
