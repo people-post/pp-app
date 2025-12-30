@@ -1,7 +1,7 @@
-const MOD = require("lib/Utilities");
+import ExtUtilities from "../lib/ext/Utilities.js";
 
 describe("Utilities test", () => {
   test("timeDiffString test", () => {
-    expect(ext.Utilities.timeDiffString(1000)).toEqual("17 minutes");
+    expect(ExtUtilities.timeDiffString(1000)).toEqual("17 minutes");
   });
 });

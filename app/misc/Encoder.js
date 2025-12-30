@@ -1,4 +1,4 @@
-module.exports = class Encoder {
+export default class Encoder {
   constructor(key) {
     this._xn_e7 = 5171985;
     this.encode(key)
