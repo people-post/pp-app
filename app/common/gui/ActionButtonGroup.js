@@ -1,16 +1,22 @@
-(function(gui) {
-class ActionButtonGroup extends ui.FFragmentList {
+import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class ActionButtonGroup extends FFragmentList {
   _renderOnRender(render) {
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     render.wrapPanel(pList);
     for (let c of this.getChildren()) {
-      let p = new ui.Panel();
+      let p = new Panel();
       pList.pushPanel(p);
       c.attachRender(p);
       c.render();
     }
   }
-};
+}
 
-gui.ActionButtonGroup = ActionButtonGroup;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.ActionButtonGroup = ActionButtonGroup;
+}

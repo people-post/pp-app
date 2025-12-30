@@ -1,4 +1,7 @@
-(function(gui) {
+import { PAddressBase } from './PAddressBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
 const _CPT_ADDRESS = {
   MAIN : `<div class="address-block clickable">
   <table class="address">
@@ -44,19 +47,19 @@ const _CPT_ADDRESS = {
   </div>`,
 };
 
-class PAddress extends gui.PAddressBase {
+export class PAddress extends PAddressBase {
   constructor() {
     super();
-    this._pNickname = new ui.Panel();
-    this._pName = new ui.Panel();
-    this._pCountry = new ui.Panel();
-    this._pState = new ui.Panel();
-    this._pCity = new ui.Panel();
-    this._pZipcode = new ui.Panel();
-    this._pLine1 = new ui.Panel();
-    this._pLine2 = new ui.Panel();
-    this._pBtnEdit = new ui.PanelWrapper();
-    this._pBtnDelete = new ui.PanelWrapper();
+    this._pNickname = new Panel();
+    this._pName = new Panel();
+    this._pCountry = new Panel();
+    this._pState = new Panel();
+    this._pCity = new Panel();
+    this._pZipcode = new Panel();
+    this._pLine1 = new Panel();
+    this._pLine2 = new Panel();
+    this._pBtnEdit = new PanelWrapper();
+    this._pBtnDelete = new PanelWrapper();
   }
 
   getNicknamePanel() { return this._pNickname; }
@@ -100,5 +103,8 @@ class PAddress extends gui.PAddressBase {
   }
 };
 
-gui.PAddress = PAddress;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PAddress = PAddress;
+}

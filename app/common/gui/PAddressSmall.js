@@ -1,4 +1,6 @@
-(function(gui) {
+import { PAddressBase } from './PAddressBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
 const _CPT_ADDRESS_SMALL = {
   MAIN : `<div class="address-block clickable">
     <div id="__ID_LINE1__"></div>
@@ -15,15 +17,15 @@ const _CPT_ADDRESS_SMALL = {
   </div>`,
 };
 
-class PAddressSmall extends gui.PAddressBase {
+export class PAddressSmall extends PAddressBase {
   constructor() {
     super();
-    this._pCountry = new ui.Panel();
-    this._pState = new ui.Panel();
-    this._pCity = new ui.Panel();
-    this._pZipcode = new ui.Panel();
-    this._pLine1 = new ui.Panel();
-    this._pLine2 = new ui.Panel();
+    this._pCountry = new Panel();
+    this._pState = new Panel();
+    this._pCity = new Panel();
+    this._pZipcode = new Panel();
+    this._pLine1 = new Panel();
+    this._pLine2 = new Panel();
   }
 
   getCountryPanel() { return this._pCountry; }
@@ -55,5 +57,8 @@ class PAddressSmall extends gui.PAddressBase {
   }
 };
 
-gui.PAddressSmall = PAddressSmall;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PAddressSmall = PAddressSmall;
+}

@@ -1,4 +1,5 @@
-(function(gui) {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
 const _CFT_PAYMENT_EDITOR = {
   MAIN : `<table>
         <tr>
@@ -32,9 +33,12 @@ const _CFT_PAYMENT_EDITOR = {
       </table>`,
 }
 
-class PaymentEditor extends ui.Fragment {
+export class PaymentEditor extends Fragment {
   _renderOnRender(render) { render.replaceContent(_CFT_PAYMENT_EDITOR.MAIN); }
-};
+}
 
-gui.PaymentEditor = PaymentEditor;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PaymentEditor = PaymentEditor;
+}

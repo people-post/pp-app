@@ -1,9 +1,13 @@
-(function(gui) {
-gui.CF_ADDRESS = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { PAddress } from './PAddress.js';
+import { PAddressSmall } from './PAddressSmall.js';
+
+export const CF_ADDRESS = {
   ON_CLICK : Symbol(),
 };
 
-class Address extends ui.Fragment {
+export class Address extends Fragment {
   static T_LAYOUT = {
     LARGE : Symbol(),
     SMALL: Symbol(),
@@ -11,16 +15,16 @@ class Address extends ui.Fragment {
 
   constructor() {
     super();
-    this._fBtnEdit = new ui.Button();
-    this._fBtnEdit.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+    this._fBtnEdit = new Button();
+    this._fBtnEdit.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this._fBtnEdit.setName("Edit");
     this._fBtnEdit.setDelegate(this);
     this.setChild("btnEdit", this._fBtnEdit);
 
-    this._fBtnDelete = new ui.Button();
-    this._fBtnDelete.setLayoutType(ui.Button.LAYOUT_TYPE.SMALL);
+    this._fBtnDelete = new Button();
+    this._fBtnDelete.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this._fBtnDelete.setName("Delete...");
-    this._fBtnDelete.setThemeType(ui.Button.T_THEME.DANGER);
+    this._fBtnDelete.setThemeType(Button.T_THEME.DANGER);
     this._fBtnDelete.setDelegate(this);
     this.setChild("btnDelete", this._fBtnDelete);
 
@@ -48,7 +52,7 @@ class Address extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_ADDRESS.ON_CLICK:
+    case CF_ADDRESS.ON_CLICK:
       this.#onClick();
       break;
     default:
@@ -127,10 +131,10 @@ class Address extends ui.Fragment {
     let p;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.SMALL:
-      p = new gui.PAddressSmall();
+      p = new PAddressSmall();
       break;
     default:
-      p = new gui.PAddress();
+      p = new PAddress();
       break;
     }
     return p;
@@ -157,5 +161,9 @@ class Address extends ui.Fragment {
   }
 };
 
-gui.Address = Address;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_ADDRESS = CF_ADDRESS;
+  window.gui.Address = Address;
+}
