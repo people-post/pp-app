@@ -7,10 +7,13 @@ const _CPT_QUIZ = {
   </div>`,
 }
 
-export class PQuiz extends scol.PQuizBase {
+import { PQuizBase } from './PQuizBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PQuiz extends PQuizBase {
   constructor() {
     super();
-    this._pChoices = new ui.Panel();
+    this._pChoices = new Panel();
   }
 
   getChoicesPanel() { return this._pChoices; }

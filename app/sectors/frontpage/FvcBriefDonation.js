@@ -1,5 +1,10 @@
 
-export class FvcBriefDonation extends ui.FViewContentBase {
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class FvcBriefDonation extends FViewContentBase {
   #fPayment;
 
   constructor() {
@@ -10,7 +15,7 @@ export class FvcBriefDonation extends ui.FViewContentBase {
   }
 
   onBraintreePaymentSuccess(fBraintree) {
-    let v = new ui.View();
+    let v = new View();
     let f = new ftpg.FvcBriefDonationResult();
     f.setType(ftpg.FvcBriefDonationResult.T_TYPE.SUCCESS);
     v.setContentFragment(f);
@@ -18,14 +23,14 @@ export class FvcBriefDonation extends ui.FViewContentBase {
   }
 
   _renderOnRender(render) {
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     render.wrapPanel(pList);
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     pList.pushPanel(p);
     p.replaceContent("TODO: Donate choices");
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     pList.pushPanel(p);
     // TODO:
     this.#fPayment.setAmount(10);

@@ -1,5 +1,7 @@
 
-export class FvcConfig extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+
+export class FvcConfig extends FScrollViewContent {
   _renderContentOnRender(render) {
     // Transfer credit.
     // Quit, refund.

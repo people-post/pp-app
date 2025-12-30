@@ -50,7 +50,13 @@ const _CPT_JOURNAL = {
   </div>`,
 };
 
-export class PJournal extends ui.Panel {
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
+import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
+import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
+
+export class PJournal extends Panel {
   #pMain;
   #pLeft;
   #pRight;
@@ -59,10 +65,10 @@ export class PJournal extends ui.Panel {
 
   constructor() {
     super();
-    this.#pMain = new ui.PanelWrapper();
-    this.#pLeft = new ui.PanelWrapper();
-    this.#pRight = new ui.PanelWrapper();
-    this.#pBottom = new ui.PanelWrapper();
+    this.#pMain = new PanelWrapper();
+    this.#pLeft = new PanelWrapper();
+    this.#pRight = new PanelWrapper();
+    this.#pBottom = new PanelWrapper();
   }
 
   getMainPanel() { return this.#pMain; }
@@ -90,7 +96,7 @@ export class PJournal extends ui.Panel {
   }
 };
 
-class FvcJournal extends ui.FViewContentBase {
+class FvcJournal extends FViewContentBase {
   static #T_WIDTH = {
     NARROW : Symbol(),
     MIDDLE: Symbol(),
@@ -119,13 +125,13 @@ class FvcJournal extends ui.FViewContentBase {
     this.#fHome = new main.FHomeBtn();
     this.#fHome.setUrl(dba.WebConfig.getHomeUrl());
 
-    this.#fmJournal = new ui.FHeaderMenu();
+    this.#fmJournal = new FHeaderMenu();
     this.#mJournal = new ftpg.FJournalMenu();
     this.#mJournal.setDelegate(this);
     this.#fmJournal.setContentFragment(this.#mJournal);
     this.#fmJournal.setExpandableInNarrowHeader(true);
 
-    this.#fmSearch = new ui.FHeaderMenu();
+    this.#fmSearch = new FHeaderMenu();
     this.#fmSearch.setIcon(C.ICON.M_SEARCH, new SearchIconOperator());
     let f = new srch.FSearchMenu();
     f.setDelegate(this);
@@ -143,7 +149,7 @@ class FvcJournal extends ui.FViewContentBase {
     this.#fRight = new blog.FTaggedCommentList();
     this.#fBottom = new blog.FTaggedCommentList();
 
-    this.#fcPanels = new ui.FFragmentList();
+    this.#fcPanels = new FFragmentList();
     this.setChild("commentPanelFragments", this.#fcPanels);
 
     this.setPreferredWidth({"min" : 320, "best" : 2048, "max" : 0});

@@ -1,10 +1,16 @@
 
-export class FTimeClock extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class FTimeClock extends Fragment {
   constructor() {
     super();
-    this._fBtn = new ui.Button();
-    this._fBtn.setLayoutType(ui.Button.LAYOUT_TYPE.NORMAL);
-    this._fBtn.setThemeType(ui.Button.T_THEME.FUNC);
+    this._fBtn = new Button();
+    this._fBtn.setLayoutType(Button.LAYOUT_TYPE.NORMAL);
+    this._fBtn.setThemeType(Button.T_THEME.FUNC);
     this._fBtn.setDelegate(this);
     this.setChild("btn", this._fBtn);
 
@@ -35,7 +41,7 @@ export class FTimeClock extends ui.Fragment {
         return;
       }
     }
-    let panel = new ui.ListPanel();
+    let panel = new ListPanel();
     if (this._beeper.isSet()) {
       panel.setClassName("flex center-align-items h100 bggreen");
     } else {
@@ -43,7 +49,7 @@ export class FTimeClock extends ui.Fragment {
     }
     render.wrapPanel(panel);
 
-    let p = new ui.Panel();
+    let p = new Panel();
     p.setClassName("w60 cwhite s-font1 center-align");
     panel.pushPanel(p);
     if (this._beeper.isSet()) {
@@ -52,7 +58,7 @@ export class FTimeClock extends ui.Fragment {
       p.replaceContent("00:00:00");
     }
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     p.setClassName("w40 center-align");
     panel.pushPanel(p);
     this._fBtn.setEnabled(dba.Account.isAuthenticated());

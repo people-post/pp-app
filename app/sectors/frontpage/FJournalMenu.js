@@ -1,3 +1,4 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 export class FJournalMenu extends gui.MenuContent {
   #journalIds;
@@ -20,7 +21,7 @@ export class FJournalMenu extends gui.MenuContent {
   }
 
   _renderOnRender(render) {
-    let p = new ui.Panel();
+    let p = new Panel();
     render.wrapPanel(p);
 
     if (!this.#currentJournalId) {

@@ -1,5 +1,9 @@
 
-export class FvcQuiz extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class FvcQuiz extends FScrollViewContent {
   constructor() {
     super();
     this._fQuiz = new scol.FQuiz();
@@ -32,10 +36,10 @@ export class FvcQuiz extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     render.wrapPanel(pList);
 
-    let p = new ui.PanelWrapper();
+    let p = new PanelWrapper();
     p.setClassName("hmin300px");
     pList.pushPanel(p);
     this._fQuiz.attachRender(p);
@@ -43,7 +47,7 @@ export class FvcQuiz extends ui.FScrollViewContent {
 
     pList.pushSpace(1);
 
-    p = new ui.PanelWrapper();
+    p = new PanelWrapper();
     p.setClassName("pad5");
     pList.pushPanel(p);
     this._fNavBar.attachRender(p);
