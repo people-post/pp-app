@@ -1,5 +1,11 @@
-(function(gui) {
-gui.CF_LIVE_STREAM_CONFIG = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { FMediaFileUploader } from '../../lib/ui/controllers/fragments/FMediaFileUploader.js';
+import { ICONS } from '../../lib/ui/Icons.js';
+
+export const CF_LIVE_STREAM_CONFIG = {
   ADD_FILE : "CF_GUI_LIVE_STREAM_CONFIG_1",
   SHOW_TIP : "CF_GUI_LIVE_STREAM_CONFIG_2",
   REGENERATE_KEY : "CF_GUI_LIVE_STREAM_CONFIG_3",
@@ -28,7 +34,7 @@ const _CFT_LIVE_STREAM_CONFIG = {
     <p>New to live stream? __TIP_LINK__</p>`,
 }
 
-class LiveStreamConfigFragment extends ui.Fragment {
+export class LiveStreamConfigFragment extends Fragment {
   constructor() {
     super();
     this._fFile = null;
@@ -57,13 +63,13 @@ class LiveStreamConfigFragment extends ui.Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_LIVE_STREAM_CONFIG.ADD_FILE:
+    case CF_LIVE_STREAM_CONFIG.ADD_FILE:
       this.#addFile(args[0]);
       break;
-    case gui.CF_LIVE_STREAM_CONFIG.SHOW_TIP:
+    case CF_LIVE_STREAM_CONFIG.SHOW_TIP:
       this._displayMessage(args[0]);
       break;
-    case gui.CF_LIVE_STREAM_CONFIG.REGENERATE_KEY:
+    case CF_LIVE_STREAM_CONFIG.REGENERATE_KEY:
       this.#onRegenerateStreamKey();
       break;
     default:
@@ -73,9 +79,9 @@ class LiveStreamConfigFragment extends ui.Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.SectionPanel("Cover image");
+    let pp = new SectionPanel("Cover image");
     p.pushPanel(pp);
 
     if (this._fFile) {
@@ -85,7 +91,7 @@ class LiveStreamConfigFragment extends ui.Fragment {
       pp.getContentPanel().replaceContent(this.#renderAddFileButton());
     }
 
-    pp = new ui.Panel();
+    pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderInstructions());
   }
@@ -93,12 +99,12 @@ class LiveStreamConfigFragment extends ui.Fragment {
   #renderAddFileButton() {
     let s = _CFT_LIVE_STREAM_CONFIG.BTN_ADD_FILE
     s = s.replace(/__ID__/g, this._id + "-add-file");
-    s = s.replace("__ICON__", ui.ICONS.CAMERA);
+    s = s.replace("__ICON__", ICONS.CAMERA);
     return s;
   }
 
   #addFile(inputNode) {
-    this._fFile = new ui.FMediaFileUploader();
+    this._fFile = new FMediaFileUploader();
     this._fFile.setCacheId(0);
     this._fFile.setDataSource(this);
     this._fFile.setDelegate(this);
@@ -128,5 +134,9 @@ class LiveStreamConfigFragment extends ui.Fragment {
   }
 };
 
-gui.LiveStreamConfigFragment = LiveStreamConfigFragment;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_LIVE_STREAM_CONFIG = CF_LIVE_STREAM_CONFIG;
+  window.gui.LiveStreamConfigFragment = LiveStreamConfigFragment;
+}

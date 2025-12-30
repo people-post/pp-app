@@ -1,7 +1,10 @@
-(function(dba) {
+import { PerishableObject } from '../../lib/ext/PerishableObject.js';
+import { T_DATA } from '../plt/Events.js';
+import { Events } from '../../lib/framework/Events.js';
+import { api } from '../plt/Api.js';
 
-dba.Hosting = function() {
-  let __status = new ext.PerishableObject(5000);
+function createHosting() {
+  let __status = new PerishableObject(5000);
 
   function _getStatus() {
     let d = __status.getData();
@@ -15,14 +18,14 @@ dba.Hosting = function() {
 
   function __asyncGetStatus() {
     let url = "api/hosting/status";
-    plt.Api.asyncRawCall(url, r => __onStatusRRR(r));
+    api.asyncRawCall(url, r => __onStatusRRR(r));
   }
 
   function __onStatusRRR(responseText) {
     let response = JSON.parse(responseText);
     if (!response.error) {
       _setStatus(response.data);
-      fwk.Events.trigger(plt.T_DATA.HOSTING_STATUS, __status);
+      Events.trigger(T_DATA.HOSTING_STATUS, __status);
     }
   }
 
@@ -30,6 +33,12 @@ dba.Hosting = function() {
     getStatus : _getStatus,
     setStatus : _setStatus,
   };
-}();
+}
 
-}(window.dba = window.dba || {}));
+export const Hosting = createHosting();
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Hosting = Hosting;
+}

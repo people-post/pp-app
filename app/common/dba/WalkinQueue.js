@@ -1,6 +1,7 @@
-(function(dba) {
+import { T_DATA } from '../plt/Events.js';
+import { Events } from '../../lib/framework/Events.js';
 
-dba.WalkinQueue = function() {
+function createWalkinQueue() {
   let _lib = new Map();
   let _idRecord = new dat.UniLongListIdRecord();
 
@@ -18,13 +19,13 @@ dba.WalkinQueue = function() {
 
   function _update(item) {
     _lib.set(item.getId(), item);
-    fwk.Events.trigger(plt.T_DATA.WALKIN_QUEUE_ITEM, item);
+    Events.trigger(T_DATA.WALKIN_QUEUE_ITEM, item);
   }
 
   function _clear() {
     _lib.clear();
     _idRecord.clear();
-    fwk.Events.trigger(plt.T_DATA.WALKIN_QUEUE_ITEMS);
+    Events.trigger(T_DATA.WALKIN_QUEUE_ITEMS);
   }
 
   function __asyncLoad(id) {
@@ -38,5 +39,12 @@ dba.WalkinQueue = function() {
     update : _update,
     clear : _clear,
   };
-}();
-}(window.dba = window.dba || {}));
+}
+
+export const WalkinQueue = createWalkinQueue();
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.WalkinQueue = WalkinQueue;
+}

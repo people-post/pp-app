@@ -1,6 +1,8 @@
-(function(dba) {
+import { T_DATA } from '../plt/Events.js';
+import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
+import { api } from '../plt/Api.js';
 
-dba.Ogp = function() {
+function createOgp() {
   let _lib = new Map();
   let _pendingResponses = [];
 
@@ -23,7 +25,7 @@ dba.Ogp = function() {
     let url = "/api/blog/ogp";
     let fd = new FormData();
     fd.append("url", ogpUrl);
-    plt.Api.asyncRawPost(url, fd, r => __onFetchOgpRRR(r, ogpUrl));
+    api.asyncRawPost(url, fd, r => __onFetchOgpRRR(r, ogpUrl));
   }
 
   function __onFetchOgpRRR(responseText, id) {
@@ -34,7 +36,7 @@ dba.Ogp = function() {
 
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
       let d = response.data.ogp;
       let ogp = new dat.OgpData();
@@ -45,10 +47,17 @@ dba.Ogp = function() {
       ogp.setUrl(d.url);
       ogp.setDescription(d.description);
       _lib.set(id, ogp);
-      fwk.Events.trigger(plt.T_DATA.OGP, ogp);
+      Events.trigger(T_DATA.OGP, ogp);
     }
   }
 
   return {get : _get};
-}();
-}(window.dba = window.dba || {}));
+}
+
+export const Ogp = createOgp();
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Ogp = Ogp;
+}

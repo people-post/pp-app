@@ -1,5 +1,7 @@
-(function(dba) {
-class Web3FileUploader extends plt.FileUploader {
+import { FileUploader } from '../plt/FileUploader.js';
+import { api } from '../plt/Api.js';
+
+export class Web3FileUploader extends FileUploader {
   _asyncUploadThumbnail(file) {
     this._isThumbnailUploading = true;
     let url = "/api/user/upload";
@@ -7,9 +9,9 @@ class Web3FileUploader extends plt.FileUploader {
     fd.append('file', file);
     fd.append('id', this._cacheId.toString() + '_cover');
 
-    plt.Api.asyncRawPost(url, fd, r => this.#onUploadThumbnailDone(r),
-                         r => this.#onUploadThumbnailError(r),
-                         v => this.#onUploadThumbnailProgress(v));
+    api.asyncRawPost(url, fd, r => this.#onUploadThumbnailDone(r),
+                     r => this.#onUploadThumbnailError(r),
+                     v => this.#onUploadThumbnailProgress(v));
   }
 
   _asyncUploadFile(file) {
@@ -58,5 +60,8 @@ class Web3FileUploader extends plt.FileUploader {
   }
 };
 
-dba.Web3FileUploader = Web3FileUploader;
-}(window.dba = window.dba || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Web3FileUploader = Web3FileUploader;
+}

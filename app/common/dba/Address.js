@@ -1,6 +1,8 @@
-(function(dba) {
+import { T_DATA } from '../plt/Events.js';
+import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
+import { api } from '../plt/Api.js';
 
-dba.Address = function() {
+function createAddress() {
   let _lib = new Map();
   let _pendingResponses = [];
 
@@ -18,7 +20,7 @@ dba.Address = function() {
 
   function _update(address) {
     _lib.set(address.getId(), address);
-    fwk.Events.trigger(plt.T_DATA.ADDRESS, address);
+    Events.trigger(T_DATA.ADDRESS, address);
   }
 
   function __asyncGet(id) {
@@ -29,7 +31,7 @@ dba.Address = function() {
     let url = "/api/user/address";
     let fd = new FormData();
     fd.append("id", id);
-    plt.Api.asyncRawPost(url, fd, r => __onGetRRR(r, id));
+    api.asyncRawPost(url, fd, r => __onGetRRR(r, id));
   }
 
   function __onGetRRR(responseText, id) {
@@ -40,7 +42,7 @@ dba.Address = function() {
 
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
       _update(new dat.Address(response.data.address));
     }
@@ -50,5 +52,12 @@ dba.Address = function() {
     get : _get,
     update : _update,
   };
-}();
-}(window.dba = window.dba || {}));
+}
+
+export const Address = createAddress();
+
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.dba = window.dba || {};
+  window.dba.Address = Address;
+}

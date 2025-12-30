@@ -1,5 +1,11 @@
-(function(gui) {
-gui.CF_EXTRAS_CONTENT = {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FSimpleList } from './FSimpleList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { T_DATA } from '../../lib/framework/Events.js';
+
+export const CF_EXTRAS_CONTENT = {
   TEST : Symbol(),
 }
 
@@ -9,10 +15,10 @@ const _CFT_EXTRAS_CONTENT = {
       `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_EXTRAS_CONTENT.TEST)">Test</a>`,
 }
 
-class FvcExtras extends ui.FScrollViewContent {
+export class FvcExtras extends FScrollViewContent {
   constructor() {
     super();
-    this._fMenu = new gui.FSimpleList();
+    this._fMenu = new FSimpleList();
     this._fMenu.setDataSource(this);
     this._fMenu.setDelegate(this);
     this.setChild("menu", this._fMenu);
@@ -45,7 +51,7 @@ class FvcExtras extends ui.FScrollViewContent {
 
   action(type, ...args) {
     switch (type) {
-    case gui.CF_EXTRAS_CONTENT.TEST:
+    case CF_EXTRAS_CONTENT.TEST:
       this.#onTest();
       break;
     default:
@@ -56,8 +62,8 @@ class FvcExtras extends ui.FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PROFILE:
-    case fwk.T_DATA.NOTIFICATIONS:
+    case T_DATA.USER_PROFILE:
+    case T_DATA.NOTIFICATIONS:
       this.render();
       break;
     default:
@@ -67,16 +73,16 @@ class FvcExtras extends ui.FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fMenu.attachRender(pp);
     this._fMenu.render();
 
     if (dba.WebConfig.isDevSite()) {
-      pp = new ui.Panel();
+      pp = new Panel();
       p.pushPanel(pp);
       pp.replaceContent(this.#renderTest());
     }
@@ -139,5 +145,9 @@ class FvcExtras extends ui.FScrollViewContent {
   }
 };
 
-gui.FvcExtras = FvcExtras;
-}(window.gui = window.gui || {}));
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_EXTRAS_CONTENT = CF_EXTRAS_CONTENT;
+  window.gui.FvcExtras = FvcExtras;
+}
