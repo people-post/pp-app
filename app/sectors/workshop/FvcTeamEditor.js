@@ -14,6 +14,12 @@ import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Workshop } from '../../common/dba/Workshop.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Groups } from '../../common/dba/Groups.js';
+import { WorkshopTeam } from '../../common/datatypes/WorkshopTeam.js';
+import { UserGroup } from '../../common/datatypes/UserGroup.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcTeamEditor extends FScrollViewContent {
   constructor() {
@@ -79,13 +85,13 @@ export class FvcTeamEditor extends FScrollViewContent {
       this._fOptions.setOption("ACTIVE", team.isActive());
       this._fOptions.setOption("OPEN", team.isOpen());
       this._fPermissions.setOption(
-          "P_CREATE", team.hasPermission(dat.WorkshopTeam.T_PERMISSION.CREATE));
+          "P_CREATE", team.hasPermission(WorkshopTeam.T_PERMISSION.CREATE));
       this._fPermissions.setOption(
-          "P_ASSIGN", team.hasPermission(dat.WorkshopTeam.T_PERMISSION.ASSIGN));
+          "P_ASSIGN", team.hasPermission(WorkshopTeam.T_PERMISSION.ASSIGN));
     }
   }
 
-  #getTeam() { return dba.Workshop.getTeam(this._teamId); }
+  #getTeam() { return Workshop.getTeam(this._teamId); }
 
   #renderNameInputs() {
     let s = _CFT_WORKSHOP_TEAM_EDITOR.SEC_NAME;
@@ -118,10 +124,10 @@ export class FvcTeamEditor extends FScrollViewContent {
     data.is_active = this._fOptions.isOptionOn("ACTIVE");
     data.permissions = [];
     if (this._fPermissions.isOptionOn("P_CREATE")) {
-      data.permissions.push(dat.WorkshopTeam.T_PERMISSION.CREATE);
+      data.permissions.push(WorkshopTeam.T_PERMISSION.CREATE);
     }
     if (this._fPermissions.isOptionOn("P_ASSIGN")) {
-      data.permissions.push(dat.WorkshopTeam.T_PERMISSION.ASSIGN);
+      data.permissions.push(WorkshopTeam.T_PERMISSION.ASSIGN);
     }
     return data;
   }
@@ -147,20 +153,20 @@ export class FvcTeamEditor extends FScrollViewContent {
   #asyncRequestAddTeam(data) {
     let url = "api/workshop/add_team";
     let fd = this.#makeForm(data);
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onNewTeamRRR(d));
+    Api.asyncFragmentPost(this, url, fd).then(d => this.#onNewTeamRRR(d));
   }
 
   #asyncRequestEditTeam(data) {
     let url = "api/workshop/update_team";
     let fd = this.#makeForm(data);
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onEditTeamRRR(d));
+    Api.asyncFragmentPost(this, url, fd).then(d => this.#onEditTeamRRR(d));
   }
 
   #asyncRequestDeleteTeam(id) {
     let url = "api/workshop/delete_team";
     let fd = FormData();
     fd.append("id", id);
-    plt.Api.asyncFragmentPost(this, url, fd)
+    Api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onDeleteTeamRRR(d));
   }
 
@@ -169,9 +175,9 @@ export class FvcTeamEditor extends FScrollViewContent {
   #onDeleteTeamRRR(data) { this.#onEditTeamFinished(data.groups); }
 
   #onEditTeamFinished(groups) {
-    dba.WebConfig.resetRoles(groups);
+    WebConfig.resetRoles(groups);
     for (let d of groups) {
-      dba.Groups.update(new dat.UserGroup(d));
+      Groups.update(new UserGroup(d));
     }
     this._owner.onContentFragmentRequestPopView(this);
   }

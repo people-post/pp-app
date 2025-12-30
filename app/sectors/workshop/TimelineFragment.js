@@ -1,6 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { TimelineVerticalPanel } from './TimelineVerticalPanel.js';
 
 export class TimelineFragment extends Fragment {
   constructor() {
@@ -48,7 +49,7 @@ export class TimelineFragment extends Fragment {
     let p;
     switch (this._mode) {
     default:
-      p = new wksp.TimelineVerticalPanel();
+      p = new TimelineVerticalPanel();
       break;
     }
     return p;

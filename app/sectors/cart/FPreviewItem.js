@@ -6,8 +6,8 @@ const _CFT_PREVIEW_ORDER_ITEM = {
 }
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-
-export class FPreviewItem extends Fragment {
+import { Exchange } from '../../common/dba/Exchange.js';
+import { Utilities } from '../../common/Utilities.js';
 
 export class FPreviewItem extends Fragment {
   constructor() {
@@ -30,7 +30,7 @@ export class FPreviewItem extends Fragment {
     let s = _CFT_PREVIEW_ORDER_ITEM.MAIN;
     s = s.replace("__DESCRIPTION__", item.getDescription());
     s = s.replace("__QTY__", item.getQuantity().toString());
-    let c = dba.Exchange.getCurrency(this._currencyId);
+    let c = Exchange.getCurrency(this._currencyId);
     let ss = Utilities.renderPrice(c, item.getUnitPrice());
     s = s.replace("__UNIT_PRICE__", ss);
     return s;

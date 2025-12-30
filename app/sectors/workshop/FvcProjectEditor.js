@@ -29,12 +29,18 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
-import { C } from '../../lib/framework/Constants.js';
+import { RichContentEditor } from '../../common/gui/RichContentEditor.js';
+import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Workshop } from '../../common/dba/Workshop.js';
+import { Project } from '../../common/datatypes/Project.js';
+import { Api } from '../../common/plt/Api.js';
+import { VIS } from '../../common/constants/Constants.js';
 
 export class FvcProjectEditor extends FScrollViewContent {
   constructor() {
     super();
-    this._fContent = new gui.RichContentEditor();
+    this._fContent = new RichContentEditor();
     this.setChild("content", this._fContent);
 
     this._fFiles = new FMultiMediaFileUploader();
@@ -43,7 +49,7 @@ export class FvcProjectEditor extends FScrollViewContent {
     this._fFiles.setDelegate(this);
     this.setChild("files", this._fFiles);
 
-    this._fteOwner = new gui.TagsEditorFragment();
+    this._fteOwner = new TagsEditorFragment();
     this._fteOwner.setDataSource(this);
     this._fteOwner.setDelegate(this);
     this.setChild("ownerTags", this._fteOwner);
@@ -53,17 +59,17 @@ export class FvcProjectEditor extends FScrollViewContent {
     this._fVisibility.setDelegate(this);
     this._fVisibility.addChoice({
       name : "Public",
-      value : C.VIS.PUBLIC,
+      value : VIS.PUBLIC,
       fDetail : new HintText("Visible by all visitors.")
     });
-    this._fVisibility.addChoice({name : "Protected", value : C.VIS.PROTECTED});
-    this._fVisibility.addChoice({name : "Private", value : C.VIS.PRIVATE});
+    this._fVisibility.addChoice({name : "Protected", value : VIS.PROTECTED});
+    this._fVisibility.addChoice({name : "Private", value : VIS.PRIVATE});
     this.setChild("vis", this._fVisibility);
 
     this._project = null;
   }
 
-  getTagsForTagsEditorFragment(fEditor) { return dba.WebConfig.getTags(); }
+  getTagsForTagsEditorFragment(fEditor) { return WebConfig.getTags(); }
   getInitialCheckedIdsForTagsEditorFragment(fEditor) {
     return this._project ? this._project.getTagIds() : [];
   }
@@ -187,7 +193,7 @@ export class FvcProjectEditor extends FScrollViewContent {
     this._fFiles.saveDataToForm(fd);
 
     let url = "/api/workshop/update_project";
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    Api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #collectData() {
@@ -205,7 +211,7 @@ export class FvcProjectEditor extends FScrollViewContent {
     if (this._project.isDraft()) {
       this._delegate.onNewProjectPostedInProjectEditorContentFragment(this);
     } else {
-      dba.Workshop.updateProject(new dat.Project(data.project));
+      Workshop.updateProject(new Project(data.project));
     }
     this._owner.onContentFragmentRequestPopView(this);
   }
@@ -214,10 +220,10 @@ export class FvcProjectEditor extends FScrollViewContent {
     let fd = new FormData();
     fd.append("project_id", this._project.getId());
     let url = "/api/workshop/delete_project";
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
+    Api.asyncFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
   }
 
-  #onDeleteRRR(data) { location.replace(dba.WebConfig.getHomeUrl()); }
+  #onDeleteRRR(data) { location.replace(WebConfig.getHomeUrl()); }
 };
 
 

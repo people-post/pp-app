@@ -8,7 +8,15 @@ import { FCart } from './FCart.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { C } from '../../lib/framework/Constants.js';
+import { Cart } from '../../common/dba/Cart.js';
+import { Account } from '../../common/dba/Account.js';
+import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
+import { PreviewOrder } from '../../common/datatypes/PreviewOrder.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Api } from '../../common/plt/Api.js';
+import { URL_PARAM, URL_PARAM_ADDON_VALUE } from '../../common/constants/Constants.js';
+import { FvcCheckout } from './FvcCheckout.js';
+import { Gateway as AuthGateway } from '../auth/Gateway.js';
 
 export class FvcCurrent extends FScrollViewContent {
   constructor() {
@@ -18,8 +26,8 @@ export class FvcCurrent extends FScrollViewContent {
 
     this._fReserved = new FCart();
     this._fReserved.setName("Saved for later");
-    this._fReserved.setCartId(dat.Cart.T_ID.RESERVE);
-    this._fReserved.setLayoutType(cart.FCart.T_LAYOUT.RESERVE);
+    this._fReserved.setCartId(CartDataType.T_ID.RESERVE);
+    this._fReserved.setLayoutType(FCart.T_LAYOUT.RESERVE);
     this._fReserved.setEnableCartTransfer(true);
     this._fReserved.setDataSource(this);
     this._fReserved.setDelegate(this);
@@ -27,22 +35,22 @@ export class FvcCurrent extends FScrollViewContent {
   }
 
   getUrlParamString() {
-    return C.URL_PARAM.ADDON + "=" + C.URL_PARAM_ADDON_VALUE.CART;
+    return URL_PARAM.ADDON + "=" + URL_PARAM_ADDON_VALUE.CART;
   }
 
-  getCartForCartFragment(fCart, cartId) { return dba.Cart.getCart(cartId); }
+  getCartForCartFragment(fCart, cartId) { return Cart.getCart(cartId); }
 
   onCartFragmentRequestShowView(fCart, view, title) {
     this._owner.onFragmentRequestShowView(this, view, title);
   }
   onCartFragmentRequestChangeItemQuantity(fCart, cartId, itemId, dQty) {
-    dba.Cart.asyncChangeItemQuantity(itemId, dQty);
+    Cart.asyncChangeItemQuantity(itemId, dQty);
   }
   onCartFragmentRequestRemoveItem(fCart, cartId, itemId) {
-    dba.Cart.asyncRemoveItem(cartId, itemId);
+    Cart.asyncRemoveItem(cartId, itemId);
   }
   onCartFragmentRequestCheckout(fCart, cartId, currencyId) {
-    let c = dba.Cart.getCart(cartId);
+    let c = Cart.getCart(cartId);
     let items = c ? c.getItems() : [];
     let ids = items.filter(i => i.getPreferredCurrencyId() == currencyId)
                   .map(i => i.getId());
@@ -51,7 +59,7 @@ export class FvcCurrent extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.DRAFT_ORDERS:
+    case T_DATA.DRAFT_ORDERS:
       this.render();
       break;
     default:
@@ -71,9 +79,9 @@ export class FvcCurrent extends FScrollViewContent {
     let ids = this.#getPayableCurrencyIds();
     if (ids.length) {
       for (let id of ids) {
-        let f = new cart.FCart();
-        f.setLayoutType(cart.FCart.T_LAYOUT.ACTIVE);
-        f.setCartId(dat.Cart.T_ID.ACTIVE);
+        let f = new FCart();
+        f.setLayoutType(FCart.T_LAYOUT.ACTIVE);
+        f.setCartId(CartDataType.T_ID.ACTIVE);
         f.setCurrencyId(id);
         f.setEnableCartTransfer(true);
         f.setDataSource(this);
@@ -93,7 +101,7 @@ export class FvcCurrent extends FScrollViewContent {
   }
 
   #getPayableCurrencyIds() {
-    let c = dba.Cart.getCart(dat.Cart.T_ID.ACTIVE);
+    let c = Cart.getCart(CartDataType.T_ID.ACTIVE);
     return c ? c.getAllCurrencyIds() : [];
   }
 
@@ -104,26 +112,26 @@ export class FvcCurrent extends FScrollViewContent {
       fd.append('item_ids', id);
     }
     let url = "/api/cart/guest_order_preview";
-    if (dba.Account.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       url = "/api/cart/order_preview";
     }
-    plt.Api.asyncFragmentPost(this, url, fd)
+    Api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onOrderPreviewRRR(d));
   }
 
   #onOrderPreviewRRR(data) {
-    this.#goCheckout(new dat.PreviewOrder(data.order));
+    this.#goCheckout(new PreviewOrder(data.order));
   }
 
   #goCheckout(order) {
-    if (dba.Account.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       let v = new View();
-      let f = new cart.FvcCheckout();
+      let f = new FvcCheckout();
       f.setOrder(order);
       v.setContentFragment(f);
       this._owner.onFragmentRequestShowView(this, v, "Checkout");
     } else {
-      let gw = new auth.Gateway();
+      let gw = new AuthGateway();
       let v = gw.createLoginView();
       this._owner.onFragmentRequestShowView(this, v, "Login");
     }

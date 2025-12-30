@@ -4,6 +4,8 @@ import { FPreviewOrder } from './FPreviewOrder.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { FPayment } from '../../common/pay/FPayment.js';
+import { FvcCheckoutSuccess } from './FvcCheckoutSuccess.js';
 
 export class FvcCheckout extends FScrollViewContent {
   constructor() {
@@ -15,7 +17,7 @@ export class FvcCheckout extends FScrollViewContent {
     this._fOrder.setDataSource(this);
     this.setChild("order", this._fOrder);
 
-    this._fPayment = new pay.FPayment();
+    this._fPayment = new FPayment();
     this._fPayment.setDataSource(this);
     this._fPayment.setDelegate(this);
     this.setChild("payment", this._fPayment);
@@ -33,7 +35,7 @@ export class FvcCheckout extends FScrollViewContent {
 
   onPaymentSuccessInCartPaymentFragment(fCartPayment, orderId) {
     let v = new View();
-    let f = new cart.FvcCheckoutSuccess();
+    let f = new FvcCheckoutSuccess();
     f.setOrderId(orderId);
     v.setContentFragment(f);
     this._owner.onContentFragmentRequestReplaceView(this, v, "Payment success");

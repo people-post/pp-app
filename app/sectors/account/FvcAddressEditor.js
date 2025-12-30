@@ -3,6 +3,10 @@ import { AddressEditor } from '../../common/gui/AddressEditor.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Address as AddressDBA } from '../../common/dba/Address.js';
+import { Account } from '../../common/dba/Account.js';
+import { api } from '../../common/plt/Api.js';
+import { Address as AddressDataType } from '../../common/datatypes/Address.js';
 
 export class FvcAddressEditor extends FScrollViewContent {
   #fAddress;
@@ -27,7 +31,7 @@ export class FvcAddressEditor extends FScrollViewContent {
   _renderContentOnRender(render) {
     let addr;
     if (this.#addressId) {
-      addr = dba.Address.get(this.#addressId);
+      addr = AddressDBA.get(this.#addressId);
       if (!addr) {
         return;
       }
@@ -79,7 +83,7 @@ export class FvcAddressEditor extends FScrollViewContent {
     let fd = new FormData();
     fd.append("id", this.#addressId);
     this.#fillFormData(fd, address);
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onUpdateAddressRRR(d));
   }
 
@@ -87,17 +91,17 @@ export class FvcAddressEditor extends FScrollViewContent {
     let url = "/api/user/add_address";
     let fd = new FormData();
     this.#fillFormData(fd, address);
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onAddAddressRRR(d));
   }
 
   #onUpdateAddressRRR(data) {
-    dba.Address.update(new dat.Address(data.address));
+    AddressDBA.update(new AddressDataType(data.address));
     this._owner.onContentFragmentRequestPopView(this);
   }
 
   #onAddAddressRRR(data) {
-    dba.Account.resetAddressIds(data.address_ids);
+    Account.resetAddressIds(data.address_ids);
     this._owner.onContentFragmentRequestPopView(this);
   }
 }

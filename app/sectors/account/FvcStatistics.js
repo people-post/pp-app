@@ -2,11 +2,14 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { FVisit } from '../../common/statistics/FVisit.js';
+import { FvcVisit } from '../../common/statistics/FvcVisit.js';
+import { R } from '../../common/constants/R.js';
 
 export class FvcStatistics extends FScrollViewContent {
   constructor() {
     super();
-    this._fVisit = new stat.FVisit();
+    this._fVisit = new FVisit();
     this._fVisit.setQueryInfo("ACCOUNT");
     this._fVisit.setDelegate(this);
     this.setChild("summary", this._fVisit);
@@ -14,7 +17,7 @@ export class FvcStatistics extends FScrollViewContent {
 
   onVisitSummaryFragmentRequestShowSubSummary(fVisitSummary, visitSummary) {
     let v = new View();
-    let f = new stat.FvcVisit();
+    let f = new FvcVisit();
     f.setQueryInfo("ACCOUNT", visitSummary.getSubQueryKey(),
                    visitSummary.getSubQueryValue(),
                    fVisitSummary.getDuration());

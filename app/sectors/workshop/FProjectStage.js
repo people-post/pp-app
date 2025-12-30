@@ -7,6 +7,21 @@ import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionCo
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { ProjectStage } from '../../common/datatypes/ProjectStage.js';
+import { Project } from '../../common/datatypes/Project.js';
+import { Workshop } from '../../common/dba/Workshop.js';
+import { Account } from '../../common/dba/Account.js';
+import { R } from '../../common/constants/R.js';
+import { api } from '../../common/plt/Api.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
+import { FvcProjectStageConnection } from './FvcProjectStageConnection.js';
+import { FvcCreateProjectStageChoice } from './FvcCreateProjectStageChoice.js';
+import { PProjectStageInfoCell } from './PProjectStageInfoCell.js';
+import { PProjectStageInfoCompact } from './PProjectStageInfoCompact.js';
+import { PProjectStageMenuItem } from './PProjectStageMenuItem.js';
+import { PProjectStageInfoRow } from './PProjectStageInfoRow.js';
+import { PProjectStage } from './PProjectStage.js';
 
 export class FProjectStage extends Fragment {
   static LTC_MID = "LTC_MID";
@@ -39,22 +54,22 @@ export class FProjectStage extends Fragment {
 
   onOptionClickedInContextButtonFragment(fBtn, value) {
     switch (value) {
-    case dat.ProjectStage.ACTIONS.CLOSE.type:
+    case ProjectStage.ACTIONS.CLOSE.type:
       this.#onMarkDone();
       break;
-    case dat.ProjectStage.ACTIONS.UNSET.type:
+    case ProjectStage.ACTIONS.UNSET.type:
       this.#onUnsetStatus();
       break;
-    case dat.ProjectStage.ACTIONS.DELETE.type:
+    case ProjectStage.ACTIONS.DELETE.type:
       this.#onDelete();
       break;
-    case dat.ProjectStage.ACTIONS.CONNECT.type:
+    case ProjectStage.ACTIONS.CONNECT.type:
       this.#onConnect();
       break;
-    case dat.ProjectStage.ACTIONS.PREPEND.type:
+    case ProjectStage.ACTIONS.PREPEND.type:
       this.#onPrepend();
       break;
-    case dat.ProjectStage.ACTIONS.APPEND.type:
+    case ProjectStage.ACTIONS.APPEND.type:
       this.#onAppend();
       break;
     default:
@@ -64,7 +79,7 @@ export class FProjectStage extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case wksp.CF_PROJECT_STAGE.ON_CLICK:
+    case CF_PROJECT_STAGE.ON_CLICK:
       this._delegate.onClickInProjectStageFragment(this);
       break;
     default:
@@ -78,7 +93,7 @@ export class FProjectStage extends Fragment {
     if (this._isEnabled) {
       p.setClassName("clickable");
       p.setAttribute("onclick",
-                     "javascript:G.action(wksp.CF_PROJECT_STAGE.ON_CLICK)");
+                     "javascript:G.action(CF_PROJECT_STAGE.ON_CLICK)");
     }
     render.wrapPanel(p);
 
@@ -124,42 +139,42 @@ export class FProjectStage extends Fragment {
     switch (this._layoutType) {
     case this.constructor.LTC_MID:
       // Currently for process element in flow chart
-      p = new wksp.PProjectStageInfoCell();
+      p = new PProjectStageInfoCell();
       break;
     case this.constructor.LTR_COMPACT:
       // Currently for quick action bar in project view
-      p = new wksp.PProjectStageInfoCompact();
+      p = new PProjectStageInfoCompact();
       break;
     case this.constructor.LT_MENU_ITEM:
       // Currently for config connections for stage
-      p = new wksp.PProjectStageMenuItem();
+      p = new PProjectStageMenuItem();
       break;
     case this.constructor.LTR_MID:
       // Currently for displaying stage info in activity
-      p = new wksp.PProjectStageInfoRow();
+      p = new PProjectStageInfoRow();
       break;
     case this.constructor.LT_FULL:
       // Currently for stage view
-      p = new wksp.PProjectStage();
+      p = new PProjectStage();
       break;
     default:
-      p = new wksp.PProjectStageInfoRow();
+      p = new PProjectStageInfoRow();
       break;
     }
     return p;
   }
 
   #getActions() {
-    let project = dba.Workshop.getProject(this._stage.getProjectId());
+    let project = Workshop.getProject(this._stage.getProjectId());
     if (project) {
-      return project.getActionsForUserInStage(dba.Account.getId(), this._stage);
+      return project.getActionsForUserInStage(Account.getId(), this._stage);
     }
     return [];
   }
 
   #onMarkDone() {
     let v = new View();
-    let fvc = new S.hr.FvcUserInput();
+    let fvc = new FvcUserInput();
     let f = new TextInput();
     f.setConfig({
       title : R.get("CONFIRM_MARK_STAGE_DONE"),
@@ -173,7 +188,7 @@ export class FProjectStage extends Fragment {
       fcnOK : () => this.#asyncMarkDone(f.getValue()),
     });
     v.setContentFragment(fvc);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Comments",
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Comments",
                                 false);
   }
 
@@ -189,16 +204,16 @@ export class FProjectStage extends Fragment {
 
   #onConnect() {
     let v = new View();
-    let f = new wksp.FvcProjectStageConnection();
+    let f = new FvcProjectStageConnection();
     f.setStage(this._stage);
     v.setContentFragment(f);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                 "Stage connection", true);
   }
 
   #onPrepend() {
     let v = new View();
-    let f = new wksp.FvcCreateProjectStageChoice();
+    let f = new FvcCreateProjectStageChoice();
     f.setProjectId(this._stage.getProjectId());
     f.setBeforeStage(this._stage.getId());
     v.setContentFragment(f);
@@ -207,7 +222,7 @@ export class FProjectStage extends Fragment {
 
   #onAppend() {
     let v = new View();
-    let f = new wksp.FvcCreateProjectStageChoice();
+    let f = new FvcCreateProjectStageChoice();
     f.setProjectId(this._stage.getProjectId());
     f.setAfterStage(this._stage.getId());
     v.setContentFragment(f);
@@ -219,7 +234,7 @@ export class FProjectStage extends Fragment {
     let fd = new FormData();
     fd.append("project_id", this._stage.getProjectId());
     fd.append("stage_id", this._stage.getId());
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -229,7 +244,7 @@ export class FProjectStage extends Fragment {
     fd.append("stage_id", this._stage.getId());
     fd.append("comment", comment);
     let url = "api/workshop/set_stage_status";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -238,12 +253,12 @@ export class FProjectStage extends Fragment {
     fd.append("project_id", this._stage.getProjectId());
     fd.append("stage_id", this._stage.getId());
     let url = "api/workshop/unset_stage_status";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
   #onProjectDataReceived(data) {
-    dba.Workshop.updateProject(new dat.Project(data.project));
+    Workshop.updateProject(new Project(data.project));
   }
 };
 

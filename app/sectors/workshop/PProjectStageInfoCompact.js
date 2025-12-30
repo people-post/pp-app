@@ -9,7 +9,10 @@ const _CPT_PROJECT_STAGE_INFO_COMPACT = {
     </div>`,
 }
 
-export class PProjectStageInfoCompact extends wksp.PProjectStageInfoBase {
+import { PProjectStageInfoBase } from './PProjectStageInfoBase.js';
+import { Utilities } from '../../common/Utilities.js';
+
+export class PProjectStageInfoCompact extends PProjectStageInfoBase {
   setThemeForState(state, status) {
     this._pName.setClassName("small-info-text status-text " +
                              Utilities.getStateClassName(state, status));

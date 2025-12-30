@@ -1,12 +1,16 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { C } from '../../lib/framework/Constants.js';
+import { TimelineFragment } from './TimelineFragment.js';
+import { FStoryEventInfo } from './FStoryEventInfo.js';
+import { FProjectStage } from './FProjectStage.js';
+import { StoryEvent } from '../../common/datatypes/StoryEvent.js';
+import { STATE } from '../../common/constants/Constants.js';
 
 export class FProjectProgress extends Fragment {
   constructor() {
     super();
-    this._fTimeline = new wksp.TimelineFragment();
+    this._fTimeline = new TimelineFragment();
     this.setChild("timeline", this._fTimeline);
 
     this._currentItemId = null;
@@ -36,7 +40,7 @@ export class FProjectProgress extends Fragment {
     this._fTimeline.clear();
     let events = this.#getStoryEvents();
     for (let e of events) {
-      let f = new wksp.FStoryEventInfo();
+      let f = new FStoryEventInfo();
       f.setDataSource(this);
       f.setDelegate(this);
       f.setEvent(e);
@@ -46,9 +50,9 @@ export class FProjectProgress extends Fragment {
     this._fTimeline.markStop();
 
     for (let i of this.#getStoryStageItems()) {
-      let f = new wksp.FProjectStage();
+      let f = new FProjectStage();
       f.setDelegate(this);
-      f.setLayoutType(wksp.FProjectStage.LTR_MID);
+      f.setLayoutType(FProjectStage.LTR_MID);
       f.setStage(i);
       this._fTimeline.append(f);
     }
@@ -65,11 +69,11 @@ export class FProjectProgress extends Fragment {
 
     let items = [];
     switch (project.getState()) {
-    case C.STATE.ONHOLD:
+    case STATE.ONHOLD:
       items = project.getFinishedStagesOnEdge();
       break;
-    case C.STATE.NEW:
-    case C.STATE.ACTIVE:
+    case STATE.NEW:
+    case STATE.ACTIVE:
       items = project.getUnfinishedStages();
       break;
     default:
@@ -83,9 +87,9 @@ export class FProjectProgress extends Fragment {
     let project = this._dataSource.getProjectForProgressFragment(this);
     if (project) {
       // Created at
-      events.push(new dat.StoryEvent({
+      events.push(new StoryEvent({
         name : "Created",
-        type : dat.StoryEvent.T_TYPE.STATUS,
+        type : StoryEvent.T_TYPE.STATUS,
         time : project.getCreationTime().getTime() / 1000
       }));
 

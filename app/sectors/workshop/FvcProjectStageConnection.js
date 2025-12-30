@@ -4,6 +4,11 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Workshop } from '../../common/dba/Workshop.js';
+import { Project } from '../../common/datatypes/Project.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Api } from '../../common/plt/Api.js';
+import { FProjectStage } from './FProjectStage.js';
 
 export class FvcProjectStageConnection extends FScrollViewContent {
   constructor() {
@@ -28,7 +33,7 @@ export class FvcProjectStageConnection extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.PROJECT:
+    case T_DATA.PROJECT:
       if (data.getId() == this._stage.getProjectId()) {
         this.render();
       }
@@ -40,7 +45,7 @@ export class FvcProjectStageConnection extends FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let project = dba.Workshop.getProject(this._stage.getProjectId());
+    let project = Workshop.getProject(this._stage.getProjectId());
     if (!project) {
       return;
     }
@@ -62,10 +67,10 @@ export class FvcProjectStageConnection extends FScrollViewContent {
       if (stage.getId() == this._stage.getId()) {
         continue;
       }
-      let f = new wksp.FProjectStage();
+      let f = new FProjectStage();
       f.setStage(stage);
       f.setDelegate(this);
-      f.setLayoutType(wksp.FProjectStage.LT_MENU_ITEM);
+      f.setLayoutType(FProjectStage.LT_MENU_ITEM);
       f.setEnableActions(false);
       f.setSelected(this._stage.hasDependencyOn(stage.getId()));
       if (downstreamIds.indexOf(stage.getId()) >= 0) {
@@ -94,7 +99,7 @@ export class FvcProjectStageConnection extends FScrollViewContent {
       }
     }
 
-   plt.Api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r));
+   Api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r));
   }
 
   #onSubmitRRR(responseText) {
@@ -102,7 +107,7 @@ export class FvcProjectStageConnection extends FScrollViewContent {
     if (response.error) {
       this.onErrorInFragment(response.error);
     } else {
-      dba.Workshop.updateProject(new dat.Project(response.data.project));
+      Workshop.updateProject(new Project(response.data.project));
       this._owner.onContentFragmentRequestPopView(this);
     }
   }

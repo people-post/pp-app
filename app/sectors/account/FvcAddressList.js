@@ -4,6 +4,11 @@ import { ActionButton } from '../../common/gui/ActionButton.js';
 import { Address } from '../../common/gui/Address.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcAddressEditor } from './FvcAddressEditor.js';
+import { Address as AddressDBA } from '../../common/dba/Address.js';
+import { Account } from '../../common/dba/Account.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
+import { R } from '../../common/constants/R.js';
 
 export class FvcAddressList extends FScrollViewContent {
   constructor() {
@@ -18,7 +23,7 @@ export class FvcAddressList extends FScrollViewContent {
 
   getActionButton() { return this._fBtnNew; }
   getDataForGuiAddress(fAddress, addressId) {
-    return dba.Address.get(addressId);
+    return AddressDBA.get(addressId);
   }
   onGuiActionButtonClick(fActionButton) {
     let v = new View();
@@ -41,7 +46,7 @@ export class FvcAddressList extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_ADDRESS_IDS:
+    case T_DATA.USER_ADDRESS_IDS:
       this.render();
       break;
     default:
@@ -51,7 +56,7 @@ export class FvcAddressList extends FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let ids = dba.Account.getAddressIds();
+    let ids = Account.getAddressIds();
     this._fItems.clear();
     for (let id of ids) {
       let f = new Address();
@@ -76,10 +81,10 @@ export class FvcAddressList extends FScrollViewContent {
     let url = "/api/user/remove_address";
     let fd = new FormData();
     fd.append("id", addressId);
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
   }
 
-  #onDeleteRRR(data) { dba.Account.resetAddressIds(response.data.address_ids);   }
+  #onDeleteRRR(data) { Account.resetAddressIds(data.address_ids);   }
 }
 
 // Backward compatibility

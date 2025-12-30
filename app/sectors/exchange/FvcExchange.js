@@ -1,16 +1,21 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { C } from '../../lib/framework/Constants.js';
+import { FExchangeItemInfo } from './FExchangeItemInfo.js';
+import { FCashierInfo } from './FCashierInfo.js';
+import { FVoucherInfo } from './FVoucherInfo.js';
+import { Communities } from '../../common/dba/Communities.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { ICON } from '../../common/constants/Icons.js';
 
 export class FvcExchange extends FScrollViewContent {
   constructor() {
     super();
-    this._fCoin = new xchg.FExchangeItemInfo();
-    this._fCash = new xchg.FCashierInfo();
+    this._fCoin = new FExchangeItemInfo();
+    this._fCash = new FCashierInfo();
     this._fCash.setDelegate(this);
-    this._fFood = new xchg.FVoucherInfo();
-    this._fAmusement = new xchg.FVoucherInfo();
+    this._fFood = new FVoucherInfo();
+    this._fAmusement = new FVoucherInfo();
     this.setChild("coin", this._fCoin);
     this.setChild("cash", this._fCash);
     this.setChild("food", this._fFood);
@@ -23,7 +28,7 @@ export class FvcExchange extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.GLOBAL_COMMUNITY_PROFILE:
+    case T_DATA.GLOBAL_COMMUNITY_PROFILE:
       this.render();
       break;
     default:
@@ -55,14 +60,14 @@ export class FvcExchange extends FScrollViewContent {
   }
 
   #updateData() {
-    let p = dba.Communities.getGlobalProfile();
-    let dCoin = {icon : C.ICON.COIN, name : "CabinCoin"};
-    let dCash = {icon : C.ICON.CASH, name : "CabinCash"};
+    let p = Communities.getGlobalProfile();
+    let dCoin = {icon : ICON.COIN, name : "CabinCoin"};
+    let dCash = {icon : ICON.CASH, name : "CabinCash"};
     // TODO: Make const for id
-    let dFood = {id : "FOOD", icon : C.ICON.VOUCHER_FOOD, name : "CabinFood"};
+    let dFood = {id : "FOOD", icon : ICON.VOUCHER_FOOD, name : "CabinFood"};
     let dZest = {
       id : "ZEST",
-      icon : C.ICON.VOUCHER_AMUSEMENT,
+      icon : ICON.VOUCHER_AMUSEMENT,
       name : "CabinZest"
     };
     if (p) {

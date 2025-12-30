@@ -34,7 +34,9 @@ const _CPT_PROJECT_INFO_MIDDLE = {
   </div>`,
 }
 
-export class PProjectInfoMiddle extends wksp.PProjectInfoBase {
+import { PProjectInfoBase } from './PProjectInfoBase.js';
+
+export class PProjectInfoMiddle extends PProjectInfoBase {
   isColorInvertible() { return true; }
   getProgressDirection() { return "V"; }
 

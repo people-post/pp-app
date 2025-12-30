@@ -1,5 +1,7 @@
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { PFlowChartTerminal } from './PFlowChartTerminal.js';
+import { PFlowChartProgress } from './PFlowChartProgress.js';
 
 export class PProjectFlowChart extends Panel {
   constructor() {
@@ -18,7 +20,7 @@ export class PProjectFlowChart extends Panel {
   }
 
   addTerminalPanel(x, y, w, h) {
-    let p = new wksp.PFlowChartTerminal();
+    let p = new PFlowChartTerminal();
     p.setAttribute("x", x.toString());
     p.setAttribute("y", y.toString());
     p.setAttribute("width", w.toString());
@@ -28,7 +30,7 @@ export class PProjectFlowChart extends Panel {
   }
 
   addProcessPanel(x, y, w, h) {
-    let p = new wksp.PFlowChartProgress();
+    let p = new PFlowChartProgress();
     p.setAttribute("x", x.toString());
     p.setAttribute("y", y.toString());
     p.setAttribute("width", w.toString());

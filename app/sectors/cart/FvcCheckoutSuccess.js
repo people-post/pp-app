@@ -14,6 +14,8 @@ const _CFT_CHECKOUT_SUCCESS = {
 
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { Utilities } from '../../common/Utilities.js';
+import { FvcOrder } from './FvcOrder.js';
 
 export class FvcCheckoutSuccess extends FScrollViewContent {
   constructor() {
@@ -25,10 +27,10 @@ export class FvcCheckoutSuccess extends FScrollViewContent {
 
   action(type, ...args) {
     switch (type) {
-    case cart.CF_CHECKOUT_SUCCESS.CONTINUE:
+    case CF_CHECKOUT_SUCCESS.CONTINUE:
       this._owner.onViewRequestPop(this);
       break;
-    case cart.CF_CHECKOUT_SUCCESS.SHOW_ORDER:
+    case CF_CHECKOUT_SUCCESS.SHOW_ORDER:
       this.#onShowOrder();
       break;
     default:
@@ -45,7 +47,7 @@ export class FvcCheckoutSuccess extends FScrollViewContent {
 
   #onShowOrder() {
     let v = new View();
-    let f = new cart.FvcOrder();
+    let f = new FvcOrder();
     f.setOrderId(this._orderId);
     v.setContentFragment(f);
     this._owner.onContentFragmentRequestReplaceView(this, v, "Order");

@@ -7,6 +7,10 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
+import { Wallet } from '../../common/datatypes/Wallet.js';
+import { CardanoAccount } from '../../common/datatypes/CardanoAccount.js';
+import { Keys } from '../../common/dba/Keys.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FvcWeb3Wallet extends FScrollViewContent {
   #fToAddr;
@@ -16,9 +20,9 @@ export class FvcWeb3Wallet extends FScrollViewContent {
   #pBalance;
   #input_hashs = [];
   #paymentKeyPath =
-      [ dat.Wallet.T_COIN.CARDANO, 0, dat.CardanoAccount.T_ROLE.EXTERNAL, 0 ];
+      [ Wallet.T_COIN.CARDANO, 0, CardanoAccount.T_ROLE.EXTERNAL, 0 ];
   #stakingKeyPath =
-      [ dat.Wallet.T_COIN.CARDANO, 0, dat.CardanoAccount.T_ROLE.STAKING, 0 ];
+      [ Wallet.T_COIN.CARDANO, 0, CardanoAccount.T_ROLE.STAKING, 0 ];
   #input_addr;
   #node = "http://3.145.68.8:9097/api/tx/";
   #options = {
@@ -83,7 +87,7 @@ export class FvcWeb3Wallet extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.KEY_UPDATE:
+    case T_DATA.KEY_UPDATE:
       this.render();
       break;
     default:
@@ -96,13 +100,13 @@ export class FvcWeb3Wallet extends FScrollViewContent {
     let pList = new ListPanel();
     render.wrapPanel(pList);
     console.log("render");
-    let kPayment = dba.Keys.getCip1852(this.#paymentKeyPath);
-    let kStaking = dba.Keys.getCip1852(this.#stakingKeyPath);
+    let kPayment = Keys.getCip1852(this.#paymentKeyPath);
+    let kStaking = Keys.getCip1852(this.#stakingKeyPath);
     if (!kPayment || !kStaking) {
       pList.replaceContent("Preparing keys");
       return;
     }
-    let c = new dat.CardanoAccount(kPayment, kStaking);
+    let c = new CardanoAccount(kPayment, kStaking);
     this.#input_addr = c.getAddress().to_bech32();
     let p = new Panel();
     pList.pushPanel(p);
@@ -169,7 +173,7 @@ export class FvcWeb3Wallet extends FScrollViewContent {
     console.log(2);
     // add keyhash witnesses
     const vkeyWitnesses = Cardano.Vkeywitnesses.new();
-    const vkeyWitness = dba.Keys.cip1852Witness(this.#paymentKeyPath, txHash);
+    const vkeyWitness = Keys.cip1852Witness(this.#paymentKeyPath, txHash);
     vkeyWitnesses.add(vkeyWitness);
     witnesses.set_vkeys(vkeyWitnesses);
     const transaction = Cardano.Transaction.new(

@@ -1,11 +1,16 @@
+import { FEmailList } from './FEmailList.js';
+import { FEmail } from './FEmail.js';
+import { Mail } from '../../common/dba/Mail.js';
+import { Email } from '../../common/datatypes/Email.js';
+import { api } from '../../common/plt/Api.js';
 
-export class FAllEmailList extends emal.FEmailList {
+export class FAllEmailList extends FEmailList {
   constructor() {
     super();
     this._isBatchLoading = false;
   }
 
-  _getIdRecord() { return dba.Mail.getIdRecord(); }
+  _getIdRecord() { return Mail.getIdRecord(); }
 
   _asyncLoadItems() {
     if (this._isBatchLoading) {
@@ -17,11 +22,11 @@ export class FAllEmailList extends emal.FEmailList {
     if (fromId) {
       url += "?before_id=" + fromId;
     }
-    plt.Api.asyncRawCall(url, r => this.#onEmailsRRR(r));
+    api.asyncRawCall(url, r => this.#onEmailsRRR(r));
   }
 
   _createInfoFragment(id) {
-    let f = new emal.FEmail();
+    let f = new FEmail();
     f.setDataSource(this);
     f.setDelegate(this);
     f.setEmailId(id);
@@ -36,11 +41,11 @@ export class FAllEmailList extends emal.FEmailList {
     } else {
       let emails = [];
       for (let e of response.data.emails) {
-        emails.push(new dat.Email(e));
+        emails.push(new Email(e));
       }
       if (emails.length) {
         for (let e of emails) {
-          dba.Mail.update(e);
+          Mail.update(e);
           this._getIdRecord().appendId(e.getId());
         }
       } else {

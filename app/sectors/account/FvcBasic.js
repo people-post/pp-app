@@ -5,6 +5,9 @@ import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { PBasic } from './PBasic.js';
 import { FvcChangePassword } from '../auth/FvcChangePassword.js';
+import { Account } from '../../common/dba/Account.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcBasic extends FScrollViewContent {
   constructor() {
@@ -53,7 +56,7 @@ export class FvcBasic extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PROFILE:
       this.render();
       break;
     default:
@@ -63,13 +66,13 @@ export class FvcBasic extends FScrollViewContent {
   }
 
   #renderNickname(panel) {
-    this._fNickname.setValue(dba.Account.getNickname());
+    this._fNickname.setValue(Account.getNickname());
     this._fNickname.attachRender(panel);
     this._fNickname.render();
   }
 
   #renderOptions(panel) {
-    this._fOptions.setOption("BETA_TESTER", dba.Account.isBetaTester());
+    this._fOptions.setOption("BETA_TESTER", Account.isBetaTester());
     this._fOptions.attachRender(panel);
     this._fOptions.render();
   }
@@ -99,11 +102,11 @@ export class FvcBasic extends FScrollViewContent {
     if (config.isBetaTester) {
       fd.append("is_beta_tester", 1);
     }
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onUpdateConfigRRR(d));
   }
 
-  #onUpdateConfigRRR(data) { dba.Account.asyncReload(); }
+  #onUpdateConfigRRR(data) { Account.asyncReload(); }
 };
 
 // Backward compatibility

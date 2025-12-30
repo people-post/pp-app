@@ -10,6 +10,10 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { FCartItem } from './FCartItem.js';
+import { Exchange } from '../../common/dba/Exchange.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Utilities } from '../../common/Utilities.js';
 
 export class FCart extends Fragment {
   static T_LAYOUT = {
@@ -62,9 +66,9 @@ export class FCart extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.PRODUCT:
-    case plt.T_DATA.CURRENCIES:
-    case plt.T_DATA.DRAFT_ORDERS:
+    case T_DATA.PRODUCT:
+    case T_DATA.CURRENCIES:
+    case T_DATA.DRAFT_ORDERS:
       this.render();
     default:
       break;
@@ -84,7 +88,7 @@ export class FCart extends Fragment {
       p = new SectionPanel(this.#renderTitle());
       pMain.pushPanel(p);
       for (let item of items) {
-        let f = new cart.FCartItem();
+        let f = new FCartItem();
         f.setItemId(item.getId());
         f.setCurrencyId(this._currencyId);
         f.setLayoutType(this.#getItemLayoutType());
@@ -138,10 +142,10 @@ export class FCart extends Fragment {
     let t;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.RESERVE:
-      t = cart.FCartItem.T_LAYOUT.RESERVE;
+      t = FCartItem.T_LAYOUT.RESERVE;
       break;
     default:
-      t = cart.FCartItem.T_LAYOUT.ACTIVE;
+      t = FCartItem.T_LAYOUT.ACTIVE;
       break;
     }
     return t;
@@ -149,7 +153,7 @@ export class FCart extends Fragment {
 
   #renderTitle() {
     if (this._currencyId) {
-      let c = dba.Exchange.getCurrency(this._currencyId);
+      let c = Exchange.getCurrency(this._currencyId);
       let s = _CFT_CART.TITLE;
       s = s.replace("__NAME__", this.#renderCurrencyName(c));
       return s;
@@ -170,7 +174,7 @@ export class FCart extends Fragment {
   }
 
   #renderTotal(value, panel) {
-    let c = dba.Exchange.getCurrency(this._currencyId);
+    let c = Exchange.getCurrency(this._currencyId);
     if (c) {
       panel.replaceContent("Total: " + Utilities.renderPrice(c, value));
     }

@@ -5,6 +5,9 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
+import { FSquareOnline } from '../../common/pay/FSquareOnline.js';
+import { api } from '../../common/plt/Api.js';
+import { R } from '../../common/constants/R.js';
 
 export class FvcDeposit extends FScrollViewContent {
   constructor() {
@@ -18,7 +21,7 @@ export class FvcDeposit extends FScrollViewContent {
       value : 0,
       title : "How much do you want to deposit?"
     });
-    this._fSquare = new pay.FSquareOnline();
+    this._fSquare = new FSquareOnline();
     this._fSquare.setDelegate(this);
     this.setChild("input", this._fInput);
     this.setChild("payment", this._fSquare);
@@ -60,7 +63,7 @@ export class FvcDeposit extends FScrollViewContent {
     fd.append("amount", amount);
     fd.append("currency", currency);
 
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onPayRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onPayRRR(d));
   }
 
   #onPayRRR(data) {

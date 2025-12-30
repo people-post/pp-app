@@ -3,11 +3,18 @@ import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { FEmail } from './FEmail.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { Timer } from '../../lib/ext/Timer.js';
+import { Mail } from '../../common/dba/Mail.js';
+import { Email } from '../../common/datatypes/Email.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
+import { R } from '../../common/constants/R.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FvcEmail extends FScrollViewContent {
   constructor() {
     super();
-    this._timer = new ext.Timer();
+    this._timer = new Timer();
 
     this._lc = new LContext();
     this._lc.setDelegate(this);
@@ -35,13 +42,13 @@ export class FvcEmail extends FScrollViewContent {
     this._lc.clearOptions();
     this._lc.addOption("Mark unread", "MARK_UNREAD");
     this._lc.addOption("Delete", "DELETE", null, Button.T_THEME.RISKY);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this._lc,
+    Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this._lc,
                                 "Context");
   }
 
   onEmailInfoClickedInEmailFragment(fEmail, emailId) {}
   onOptionClickedInContextLayer(lContext, value) {
-    let email = dba.Mail.get(this._fEmail.getEmailId());
+    let email = Mail.get(this._fEmail.getEmailId());
     if (!email) {
       return;
     }
@@ -59,10 +66,10 @@ export class FvcEmail extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
-    case plt.T_DATA.EMAIL:
+    case T_DATA.EMAIL:
       if (data.getId() == this._fEmail.getEmailId()) {
         this.render();
       }
@@ -74,7 +81,7 @@ export class FvcEmail extends FScrollViewContent {
   }
 
   _onContentDidAppear() {
-    let email = dba.Mail.get(this._fEmail.getEmailId());
+    let email = Mail.get(this._fEmail.getEmailId());
     if (email && !email.isRead()) {
       this._timer.set(() => this.#asyncMarkReadership(email), 5000);
     }
@@ -94,7 +101,7 @@ export class FvcEmail extends FScrollViewContent {
     if (isRead) {
       fd.append("is_read", 1);
     }
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onMarkReadershipRRR(d));
   }
 
@@ -102,19 +109,19 @@ export class FvcEmail extends FScrollViewContent {
     let url = "api/email/delete";
     let fd = new FormData();
     fd.append("email_id", email.getId());
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onDeleteRRR(d, email.getId()));
   }
 
   #onMarkReadershipRRR(data) {
     if (data.email) {
-      dba.Mail.update(new dat.Email(data.email));
+      Mail.update(new Email(data.email));
     }
   }
 
   #onDeleteRRR(data, emailId) {
     this._owner.onContentFragmentRequestPopView(this);
-    dba.Mail.remove(emailId);
+    Mail.remove(emailId);
   }
 };
 

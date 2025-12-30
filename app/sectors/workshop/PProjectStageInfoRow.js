@@ -6,7 +6,9 @@ _CPT_PROJECT_STAGE_INFO_ROW = {
   </div>`,
 }
 
-export class PProjectStageInfoRow extends wksp.PProjectStageInfoBase {
+import { PProjectStageInfoBase } from './PProjectStageInfoBase.js';
+
+export class PProjectStageInfoRow extends PProjectStageInfoBase {
   _renderFramework() {
     let s = _CPT_PROJECT_STAGE_INFO_ROW.MAIN;
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));

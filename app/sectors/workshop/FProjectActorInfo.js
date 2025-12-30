@@ -3,6 +3,13 @@ window.CF_PROJECT_ACTOR_INFO = {
   ON_CLICK : "CF_PROJECT_ACTOR_INFO_1",
 };
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FUserIcon } from '../../common/hr/FUserIcon.js';
+import { Users } from '../../common/dba/Users.js';
+import { ProjectActor } from '../../common/datatypes/ProjectActor.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
+import { Events } from '../../lib/framework/Events.js';
+import { PProjectActorInfo } from './PProjectActorInfo.js';
 
 export class FProjectActorInfo extends Fragment {
   static T_LAYOUT = {
@@ -11,7 +18,7 @@ export class FProjectActorInfo extends Fragment {
 
   constructor() {
     super();
-    this._fIcon = new S.hr.FUserIcon();
+    this._fIcon = new FUserIcon();
     this._fIcon.setDelegate(this);
     this.setChild("icon", this._fIcon);
 
@@ -42,7 +49,7 @@ export class FProjectActorInfo extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
     default:
@@ -52,7 +59,7 @@ export class FProjectActorInfo extends Fragment {
   }
 
   _renderOnRender(render) {
-    let u = dba.Users.get(this._fIcon.getUserId());
+    let u = Users.get(this._fIcon.getUserId());
     let p = this.#createPanel();
     p.setAttribute("onclick",
                    "javascript:G.action(CF_PROJECT_ACTOR_INFO.ON_CLICK)");
@@ -79,7 +86,7 @@ export class FProjectActorInfo extends Fragment {
     let p = null;
     switch (this._layoutType) {
     default:
-      p = new wksp.PProjectActorInfo();
+      p = new PProjectActorInfo();
       break;
     }
     return p;
@@ -101,13 +108,13 @@ export class FProjectActorInfo extends Fragment {
   #getColorClassName() {
     let name = "";
     switch (this._actor.getRoleId()) {
-    case dat.ProjectActor.T_ROLE.CLIENT:
+    case ProjectActor.T_ROLE.CLIENT:
       name = "bgpalegoldenrod";
       break;
-    case dat.ProjectActor.T_ROLE.FACILITATOR:
+    case ProjectActor.T_ROLE.FACILITATOR:
       name = "bglightblue";
       break;
-    case dat.ProjectActor.T_ROLE.AGENT:
+    case ProjectActor.T_ROLE.AGENT:
       name = "bgwhite";
       break;
     default:
@@ -122,7 +129,7 @@ export class FProjectActorInfo extends Fragment {
     if (this._delegate) {
       this._delegate.onClickInProjectActorInfoFragment(this, this._actor);
     } else {
-      fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO,
+      Events.triggerTopAction(PltT_ACTION.SHOW_USER_INFO,
                                this._actor.getUserId());
     }
   }

@@ -18,6 +18,17 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
+import { Cart } from '../../common/dba/Cart.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { Exchange } from '../../common/dba/Exchange.js';
+import { Account } from '../../common/dba/Account.js';
+import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Utilities } from '../../common/Utilities.js';
+import { PReservedItemInfo } from './PReservedItemInfo.js';
+import { PActiveItemInfo } from './PActiveItemInfo.js';
+import { FvcProduct } from '../shop/FvcProduct.js';
 
 export class FCartItem extends Fragment {
   static T_LAYOUT = {
@@ -27,7 +38,7 @@ export class FCartItem extends Fragment {
 
   constructor() {
     super();
-    this._fThumbnail = new gui.FilesThumbnailFragment();
+    this._fThumbnail = new FilesThumbnailFragment();
     this._fThumbnail.setDataSource(this);
     this._fThumbnail.setDelegate(this);
     this.setChild("thumbnail", this._fThumbnail);
@@ -75,10 +86,10 @@ export class FCartItem extends Fragment {
       this._delegate.onCartItemFragmentRequestRemoveItem(this, this._itemId);
       break;
     case this._fBtnMoveToCart:
-      dba.Cart.asyncMoveItem(this._itemId, dat.Cart.T_ID.ACTIVE);
+      Cart.asyncMoveItem(this._itemId, CartDataType.T_ID.ACTIVE);
       break;
     case this._fBtnSaveForLater:
-      dba.Cart.asyncMoveItem(this._itemId, dat.Cart.T_ID.RESERVE);
+      Cart.asyncMoveItem(this._itemId, CartDataType.T_ID.RESERVE);
       break;
     default:
       break;
@@ -94,14 +105,14 @@ export class FCartItem extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case cart.CF_CART_ITEM.SHOW_PRODUCT:
+    case CF_CART_ITEM.SHOW_PRODUCT:
       this.#onProductClicked(args[0]);
       break;
-    case cart.CF_CART_ITEM.INCREASE_ITEM:
+    case CF_CART_ITEM.INCREASE_ITEM:
       this._delegate.onCartItemFragmentRequestChangeItemQuantity(this, args[0],
                                                                  1);
       break;
-    case cart.CF_CART_ITEM.DESCREASE_ITEM:
+    case CF_CART_ITEM.DESCREASE_ITEM:
       this._delegate.onCartItemFragmentRequestChangeItemQuantity(this, args[0],
                                                                  -1);
       break;
@@ -113,8 +124,8 @@ export class FCartItem extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.CURRENCIES:
-    case plt.T_DATA.PRODUCT:
+    case T_DATA.CURRENCIES:
+    case T_DATA.PRODUCT:
       this.render();
       break;
     default:
@@ -152,7 +163,7 @@ export class FCartItem extends Fragment {
 
     if (this._isTransferButtonEnabled) {
       p = panel.getSaveForLaterBtnPanel();
-      if (p && dba.Account.isAuthenticated()) {
+      if (p && Account.isAuthenticated()) {
         this._fBtnSaveForLater.attachRender(p);
         this._fBtnSaveForLater.render();
       }
@@ -169,10 +180,10 @@ export class FCartItem extends Fragment {
     let p;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.RESERVE:
-      p = new cart.PReservedItemInfo();
+      p = new PReservedItemInfo();
       break;
     default:
-      p = new cart.PActiveItemInfo();
+      p = new PActiveItemInfo();
       break;
     }
     return p;
@@ -189,7 +200,7 @@ export class FCartItem extends Fragment {
   #renderTitle(item, panel) { panel.replaceContent(this.#renderName(item)); }
 
   #renderName(item) {
-    let product = dba.Shop.getProduct(item.getProductId());
+    let product = Shop.getProduct(item.getProductId());
     if (product) {
       let s = _CFT_CART_ITEM.NAME;
       s = s.replace("__NAME__", product.getName());
@@ -201,7 +212,7 @@ export class FCartItem extends Fragment {
 
   #renderUnitPrice(item, panel, currencyId) {
     let cid = currencyId ? currencyId : item.getPreferredCurrencyId();
-    let c = dba.Exchange.getCurrency(cid);
+    let c = Exchange.getCurrency(cid);
     let s = Utilities.renderPrice(c, item.getUnitPrice(cid));
     panel.replaceContent(s);
   }
@@ -220,7 +231,7 @@ export class FCartItem extends Fragment {
   #getThumbnialFile() {
     let item = this.#getItem();
     if (item) {
-      let product = dba.Shop.getProduct(item.getProductId());
+      let product = Shop.getProduct(item.getProductId());
       if (product) {
         return product.getFileForSpecs(item.getSpecs());
       }
@@ -230,7 +241,7 @@ export class FCartItem extends Fragment {
 
   #onProductClicked(productId) {
     let v = new View();
-    let f = new shop.FvcProduct();
+    let f = new FvcProduct();
     f.setProductId(productId);
     v.setContentFragment(f);
     this._delegate.onCartItemFragmentRequestShowView(this, v, "product");

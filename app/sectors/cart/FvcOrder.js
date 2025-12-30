@@ -1,9 +1,10 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FOrder } from './FOrder.js';
 
 export class FvcOrder extends FScrollViewContent {
   constructor() {
     super();
-    this._fOrder = new cart.FOrder();
+    this._fOrder = new FOrder();
     this._fOrder.setLayoutType(FOrder.T_LAYOUT.FULL);
     this.setChild("order", this._fOrder);
   }

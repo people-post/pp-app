@@ -4,6 +4,24 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { FUserInfo } from '../../common/hr/FUserInfo.js';
+import { FSocialBar } from '../../common/social/FSocialBar.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { FvcFilteredPostList } from './FvcFilteredPostList.js';
+import { Account } from '../../common/dba/Account.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { env } from '../../G.js';
+import { Utilities } from '../../common/Utilities.js';
+import { ICON } from '../../common/constants/Icons.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
+import { PPost } from './PPost.js';
+import { FArticle } from './FArticle.js';
+import { FFeedArticleInfo } from './FFeedArticleInfo.js';
+import { FJournalIssue } from './FJournalIssue.js';
+import { FEmptyPost } from './FEmptyPost.js';
 
 export const CF_POST = {
   TOGGLE_PIN : Symbol(),
@@ -30,15 +48,15 @@ export class FPost extends Fragment {
     this.#btnApply.setDelegate(this);
     this.setChild("btnApply", this.#btnApply);
 
-    this.#fAuthor = new S.hr.FUserInfo();
-    this.#fAuthor.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this.#fAuthor = new FUserInfo();
+    this.#fAuthor.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("author", this.#fAuthor);
 
-    this.#fReposter = new S.hr.FUserInfo();
-    this.#fReposter.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this.#fReposter = new FUserInfo();
+    this.#fReposter.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("reposter", this.#fReposter);
 
-    this.#fSocial = new socl.FSocialBar();
+    this.#fSocial = new FSocialBar();
     this.#fSocial.setDataSource(this);
     this.#fSocial.setDelegate(this);
     this.setChild("social", this.#fSocial);
@@ -50,7 +68,7 @@ export class FPost extends Fragment {
 
   onTagClickedInArticleFragment(fArticle, value) {
     let v = new View();
-    let f = new blog.FvcFilteredPostList();
+    let f = new FvcFilteredPostList();
     f.setTagId(value);
     v.setContentFragment(f);
     this.onFragmentRequestShowView(this, v, "Tag filter");
@@ -69,11 +87,11 @@ export class FPost extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PROFILE:
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PROFILE:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
-    case plt.T_DATA.POST:
+    case T_DATA.POST:
       this.#onPostUpdate(data);
       break;
     default:
@@ -84,7 +102,7 @@ export class FPost extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case blog.CF_POST.TOGGLE_PIN:
+    case CF_POST.TOGGLE_PIN:
       this.#onTogglePin();
       break;
     default:
@@ -94,16 +112,16 @@ export class FPost extends Fragment {
   }
 
   _renderOnRender(render) {
-    let post = dba.Blog.getPost(this.#postId);
+    let post = Blog.getPost(this.#postId);
     if (!post) {
       return;
     }
     let realPost =
-        post.isRepost() ? dba.Blog.getPost(post.getLinkToSocialId()) : post;
+        post.isRepost() ? Blog.getPost(post.getLinkToSocialId()) : post;
     if (!realPost) {
       return;
     }
-    let panel = new blog.PPost();
+    let panel = new PPost();
     render.wrapPanel(panel);
 
     let p = panel.getPinPanel();
@@ -117,7 +135,7 @@ export class FPost extends Fragment {
     }
 
     if (!post.getLinkTo() &&
-        this.#shouldShowApplyRoleAction(post, dba.Account.getId())) {
+        this.#shouldShowApplyRoleAction(post, Account.getId())) {
       p = panel.getJobAdPanel();
       this.#btnApply.attachRender(p);
       this.#btnApply.render();
@@ -129,7 +147,7 @@ export class FPost extends Fragment {
     this.#fItem.render();
 
     if (realPost.isSocialable()) {
-      if (dba.Blog.isSocialEnabled()) {
+      if (Blog.isSocialEnabled()) {
         p = panel.getSocialBarPanel();
         this.#fSocial.setItem(realPost);
         this.#fSocial.attachRender(p);
@@ -146,7 +164,7 @@ export class FPost extends Fragment {
     if (userId == post.getOwnerId()) {
       return false;
     }
-    let roles = dba.Blog.hackGetOpenRoles();
+    let roles = Blog.hackGetOpenRoles();
     if (roles.length) {
       // True if not a member of any role
       return roles.every(r => r.member_ids.indexOf(userId) < 0);
@@ -158,22 +176,22 @@ export class FPost extends Fragment {
     let f;
     let t = post.getSocialItemType();
     switch (t) {
-    case dat.SocialItem.TYPE.ARTICLE:
-      f = new blog.FArticle();
+    case SocialItem.TYPE.ARTICLE:
+      f = new FArticle();
       f.setArticleId(post.getId());
       f.setDelegate(this);
       break;
-    case dat.SocialItem.TYPE.FEED_ARTICLE:
-      f = new blog.FFeedArticle();
+    case SocialItem.TYPE.FEED_ARTICLE:
+      f = new FFeedArticleInfo();
       f.setArticleId(post.getId());
       f.setDelegate(this);
       break;
-    case dat.SocialItem.TYPE.JOURNAL_ISSUE:
-      f = new blog.FJournalIssue();
+    case SocialItem.TYPE.JOURNAL_ISSUE:
+      f = new FJournalIssue();
       f.setIssueId(post.getId());
       break;
-    case dat.SocialItem.TYPE.INVALID:
-      f = new blog.FEmptyPost();
+    case SocialItem.TYPE.INVALID:
+      f = new FEmptyPost();
       f.setPost(post);
       break;
     default:
@@ -189,24 +207,24 @@ export class FPost extends Fragment {
     }
 
     // TODO: Support pin in web3
-    if (glb.env.isWeb3()) {
+    if (env.isWeb3()) {
       return;
     }
 
     if (!post.isPinnable()) {
       return;
     }
-    if (!dba.Account.isWebOwner()) {
+    if (!Account.isWebOwner()) {
       // Only web owner can pin
       return;
     }
 
-    if (dba.Account.getId() != post.getOwnerId()) {
+    if (Account.getId() != post.getOwnerId()) {
       // Only pin owner's post
       return;
     }
 
-    let isSelected = dba.Blog.isPostPinned(post.getId());
+    let isSelected = Blog.isPostPinned(post.getId());
     let s = _CFT_POST.PIN;
     s = s.replace("__ICON__", this.#renderPinIcon(isSelected));
     if (isSelected) {
@@ -219,7 +237,7 @@ export class FPost extends Fragment {
   }
 
   #renderPinIcon(isSelected) {
-    return Utilities.renderSvgFuncIcon(C.ICON.PIN, isSelected);
+    return Utilities.renderSvgFuncIcon(ICON.PIN, isSelected);
   }
 
   #renderAuthor(panel, authorId, reposterId = null) {
@@ -253,17 +271,17 @@ export class FPost extends Fragment {
   }
 
   #onPostUpdate(updatePost) {
-    let post = dba.Blog.getPost(this.#postId);
+    let post = Blog.getPost(this.#postId);
     if (blog.Utilities.isPostRelated(updatePost, post)) {
       this.render();
     }
   }
 
-  #onApplyRole() { fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_BLOG_ROLES); }
+  #onApplyRole() { Events.triggerTopAction(PltT_ACTION.SHOW_BLOG_ROLES); }
 
   #onTogglePin() {
     let postId = this.#postId;
-    let isSelected = dba.Blog.isPostPinned(postId.getValue());
+    let isSelected = Blog.isPostPinned(postId.getValue());
     if (isSelected) {
       this.#asyncUnpinPost(postId);
     } else {
@@ -276,7 +294,7 @@ export class FPost extends Fragment {
     let fd = new FormData();
     fd.append("id", postId.getValue());
     fd.append("type", postId.getType());
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onTogglePinRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onTogglePinRRR(d));
   }
 
   #asyncUnpinPost(postId) {
@@ -284,11 +302,11 @@ export class FPost extends Fragment {
     let fd = new FormData();
     fd.append("id", postId.getValue());
     fd.append("type", postId.getType());
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onTogglePinRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onTogglePinRRR(d));
   }
 
   #onTogglePinRRR(data) {
-    dba.Blog.resetConfig(data.blog_config);
+    Blog.resetConfig(data.blog_config);
     this.render();
   }
 }

@@ -1,16 +1,22 @@
+import { FProjectList } from './FProjectList.js';
+import { FProjectInfo } from './FProjectInfo.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { Project } from '../../common/datatypes/Project.js';
+import { Workshop } from '../../common/dba/Workshop.js';
+import { api } from '../../common/plt/Api.js';
 
-export class FOwnerProjectList extends wksp.FProjectList {
+export class FOwnerProjectList extends FProjectList {
   #ownerId = null;
   #isBatchLoading = false;
 
   setOwnerId(ownerId) { this.#ownerId = ownerId; }
 
   _createInfoFragment(id) {
-    let f = new wksp.FProjectInfo();
+    let f = new FProjectInfo();
     f.setDataSource(this);
     f.setDelegate(this);
     f.setProjectId(id);
-    f.setSizeType(dat.SocialItem.T_LAYOUT.MEDIUM);
+    f.setSizeType(SocialItem.T_LAYOUT.MEDIUM);
     return f;
   }
 
@@ -34,7 +40,7 @@ export class FOwnerProjectList extends wksp.FProjectList {
     }
     url += params.join("&");
     this.#isBatchLoading = true;
-    plt.Api.asyncRawCall(url, r => this.#onProjectsRRR(r));
+    api.asyncRawCall(url, r => this.#onProjectsRRR(r));
   }
 
   #onProjectsRRR(responseText) {
@@ -46,8 +52,8 @@ export class FOwnerProjectList extends wksp.FProjectList {
       let ds = response.data.projects;
       if (ds.length) {
         for (let d of ds) {
-          let p = new dat.Project(d);
-          dba.Workshop.updateProject(p);
+          let p = new Project(d);
+          Workshop.updateProject(p);
           this._getIdRecord().appendId(p.getId());
         }
       } else {

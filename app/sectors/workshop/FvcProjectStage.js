@@ -3,6 +3,12 @@ import { ActionButton } from '../../common/gui/ActionButton.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { Account } from '../../common/dba/Account.js';
+import { Workshop } from '../../common/dba/Workshop.js';
+import { ProjectStage } from '../../common/datatypes/ProjectStage.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { FProjectStage } from './FProjectStage.js';
+import { FvcProjectStageEditor } from './FvcProjectStageEditor.js';
 
 export class FvcProjectStage extends FScrollViewContent {
   constructor() {
@@ -19,8 +25,8 @@ export class FvcProjectStage extends FScrollViewContent {
   }
 
   getActionButton() {
-    if (dba.Account.isAuthenticated()) {
-      if (this.#isEditableByUser(dba.Account.getId())) {
+    if (Account.isAuthenticated()) {
+      if (this.#isEditableByUser(Account.getId())) {
         return this._fBtnEdit;
       }
     }
@@ -33,7 +39,7 @@ export class FvcProjectStage extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.PROJECT:
+    case T_DATA.PROJECT:
       if (data.getId() == this._fStage.getStage().getProjectId()) {
         this._owner.onContentFragmentRequestUpdateHeader();
         this.render();
@@ -57,15 +63,15 @@ export class FvcProjectStage extends FScrollViewContent {
   #createStageFragment(stage) {
     let f;
     switch (stage.getType()) {
-    case dat.ProjectStage.TYPES.CHECK_IN:
+    case ProjectStage.TYPES.CHECK_IN:
       f = new CheckinStageFragment();
       break;
-    case dat.ProjectStage.TYPES.REFERENCE:
+    case ProjectStage.TYPES.REFERENCE:
       f = new ReferenceStageFragment();
       break;
     default:
-      f = new wksp.FProjectStage();
-      f.setLayoutType(wksp.FProjectStage.LT_FULL);
+      f = new FProjectStage();
+      f.setLayoutType(FProjectStage.LT_FULL);
       break;
     }
     f.setStage(stage);
@@ -75,7 +81,7 @@ export class FvcProjectStage extends FScrollViewContent {
 
   #onEdit() {
     let v = new View();
-    let f = new wksp.FvcProjectStageEditor();
+    let f = new FvcProjectStageEditor();
     f.setStage(this._fStage.getStage());
     v.setContentFragment(f);
     this._owner.onContentFragmentRequestReplaceView(this, v, "Stage editor");
@@ -88,7 +94,7 @@ export class FvcProjectStage extends FScrollViewContent {
     }
 
     let project =
-        dba.Workshop.getProject(this._fStage.getStage().getProjectId());
+        Workshop.getProject(this._fStage.getStage().getProjectId());
     return project && !project.isFinished() && project.isFacilitator(userId);
   }
 };

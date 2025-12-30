@@ -6,7 +6,14 @@ _CFCT_EMAIL_INFO = {
   READERSHIP_MARK : `<div class="colorable-info-cycle s-cfuncbg"></div>`,
 }
 
-export class FEmail extends gui.MajorSectorItem {
+import { MajorSectorItem } from '../../common/gui/MajorSectorItem.js';
+import { Mail } from '../../common/dba/Mail.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Utilities } from '../../common/Utilities.js';
+import { PEmail } from './PEmail.js';
+import { PEmailInfo } from './PEmailInfo.js';
+
+export class FEmail extends MajorSectorItem {
   static T_LAYOUT = {
     FULL : Symbol(),
     INFO: Symbol(),
@@ -36,7 +43,7 @@ export class FEmail extends gui.MajorSectorItem {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.EMAIL:
+    case T_DATA.EMAIL:
       if (data.getId() == this._emailId) {
         this.render();
       }
@@ -48,7 +55,7 @@ export class FEmail extends gui.MajorSectorItem {
   }
 
   _renderOnRender(render) {
-    let email = dba.Mail.get(this._emailId);
+    let email = Mail.get(this._emailId);
     if (!email) {
       return;
     }
@@ -95,7 +102,7 @@ export class FEmail extends gui.MajorSectorItem {
     let p;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.FULL:
-      p = new emal.PEmail();
+      p = new PEmail();
       break;
     default:
       p = this.#createInfoPanel();
@@ -105,7 +112,7 @@ export class FEmail extends gui.MajorSectorItem {
   }
 
   #createInfoPanel() {
-    let p = new emal.PEmailInfo();
+    let p = new PEmailInfo();
     p.setClassName("clickable");
     p.setAttribute("onclick", "javascript:G.action(CF_EMAIL_INFO.VIEW_EMAIL)");
     return p;

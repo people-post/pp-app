@@ -4,7 +4,21 @@ import { FvcOwner } from './FvcOwner.js';
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { C } from '../../lib/framework/Constants.js';
+import { ID, MAX } from '../../common/constants/Constants.js';
+import { Notifications } from '../../common/dba/Notifications.js';
+import { Workshop } from '../../common/dba/Workshop.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Account } from '../../common/dba/Account.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
+import { R } from '../../common/constants/R.js';
+import { ICON } from '../../common/constants/Icons.js';
+import { Project } from '../../common/datatypes/Project.js';
+import { FvcTeamEditor } from './FvcTeamEditor.js';
+import { FvcConfig } from './FvcConfig.js';
+import { FvcReport } from './FvcReport.js';
+import { FvcProjectEditor } from './FvcProjectEditor.js';
+import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 
 export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {
@@ -36,7 +50,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
     let n = 0;
     switch (v) {
     case "REPORT":
-      n = dba.Notifications.getNWorkshopNotifications();
+      n = Notifications.getNWorkshopNotifications();
       break;
     default:
       break;
@@ -52,13 +66,13 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   onWorkshopConfigFragmentRequestAddTeam(fConfig) {
     let v = new View();
-    v.setContentFragment(new wksp.FvcTeamEditor());
+    v.setContentFragment(new FvcTeamEditor());
     this._owner.onFragmentRequestShowView(this, v, "Workshop team");
   }
 
   onWorkshopConfigFragmentRequestEditTeam(fConfig, teamId) {
     let v = new View();
-    let f = new wksp.FvcTeamEditor();
+    let f = new FvcTeamEditor();
     f.setTeamId(teamId);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Workshop team");
@@ -82,8 +96,8 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PROFILE:
-    case fwk.T_DATA.WEB_CONFIG:
+    case T_DATA.USER_PROFILE:
+    case FwkT_DATA.WEB_CONFIG:
       this.#resetContents();
       this.render();
       break;
@@ -94,8 +108,8 @@ export class FvcMain extends FViewContentWithHeroBanner {
   }
 
   #getPageType() {
-    if (dba.Account.isWebOwner()) {
-      if (dba.Workshop.isOpen()) {
+    if (Account.isWebOwner()) {
+      if (Workshop.isOpen()) {
         return this.constructor.#T_PAGE.OWNER_OPEN;
       } else {
         return this.constructor.#T_PAGE.OWNER_CLOSED;
@@ -130,9 +144,9 @@ export class FvcMain extends FViewContentWithHeroBanner {
     this.#fMain.clearContents();
     this.setHeroBannerFragment(null);
 
-    this.#fvcOwner.setOwnerId(dba.WebConfig.getOwnerId());
+    this.#fvcOwner.setOwnerId(WebConfig.getOwnerId());
     this.#fMain.addTab(
-        {name : R.t("Projects"), value : "OWNER", icon : C.ICON.PROJECT},
+        {name : R.t("Projects"), value : "OWNER", icon : ICON.PROJECT},
         this.#fvcOwner);
     this.#fMain.switchTo("OWNER");
   }
@@ -146,7 +160,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
     this.setHeroBannerFragment(ff);
 
     this.#fMain.addTab(
-        {name : R.t("Activities"), value : "NEWS", icon : C.ICON.EXPLORER},
+        {name : R.t("Activities"), value : "NEWS", icon : ICON.EXPLORER},
         this.#fvcExplorer);
     this.#fMain.switchTo("NEWS");
   }
@@ -156,23 +170,23 @@ export class FvcMain extends FViewContentWithHeroBanner {
     this.setHeroBannerFragment(null);
 
     this.#fMain.addTab(
-        {name : R.t("Activities"), value : "NEWS", icon : C.ICON.EXPLORER},
+        {name : R.t("Activities"), value : "NEWS", icon : ICON.EXPLORER},
         this.#fvcExplorer);
 
-    this.#fvcOwner.setOwnerId(dba.WebConfig.getOwnerId());
+    this.#fvcOwner.setOwnerId(WebConfig.getOwnerId());
     this.#fMain.addTab(
-        {name : R.t("Mine"), value : "OWNER", icon : C.ICON.SMILEY},
+        {name : R.t("Mine"), value : "OWNER", icon : ICON.SMILEY},
         this.#fvcOwner);
 
-    let ff = new wksp.FvcConfig();
+    let ff = new FvcConfig();
     ff.setDelegate(this);
     this.#fMain.addTab(
-        {name : R.t("Config"), value : "CONFIG", icon : C.ICON.CONFIG}, ff);
+        {name : R.t("Config"), value : "CONFIG", icon : ICON.CONFIG}, ff);
 
-    ff = new wksp.FvcReport();
+    ff = new FvcReport();
     ff.setDelegate(this);
     this.#fMain.addTab(
-        {name : R.t("Report"), value : "REPORT", icon : C.ICON.REPORT}, ff);
+        {name : R.t("Report"), value : "REPORT", icon : ICON.REPORT}, ff);
 
     this.#fMain.switchTo("NEWS");
   }
@@ -180,7 +194,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
   #showDraftEditor(project) {
     project.setIsDraft();
     let v = new View();
-    let f = new wksp.FvcProjectEditor();
+    let f = new FvcProjectEditor();
     f.setDelegate(this);
     f.setProject(project);
     v.setContentFragment(f);
@@ -189,26 +203,26 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   #asyncCreateProject() {
     let url = "api/workshop/new_project";
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onDraftProjectRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onDraftProjectRRR(d));
   }
 
   #onDraftProjectRRR(data) {
-    this.#showDraftEditor(new dat.Project(data.project));
+    this.#showDraftEditor(new Project(data.project));
   }
 
   #asyncOpenWorkshop() {
     let url = "api/workshop/request_open";
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onOpenWorkshopRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onOpenWorkshopRRR(d));
   }
 
-  #onOpenWorkshopRRR(data) { dba.WebConfig.setWorkshopOpen(true); }
+  #onOpenWorkshopRRR(data) { WebConfig.setWorkshopOpen(true); }
 
   #asyncCloseWorkshop() {
     let url = "api/workshop/request_close";
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onCloseWorkshopRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onCloseWorkshopRRR(d));
   }
 
-  #onCloseWorkshopRRR(data) { dba.WebConfig.reset(data.web_config); }
+  #onCloseWorkshopRRR(data) { WebConfig.reset(data.web_config); }
 };
 
 

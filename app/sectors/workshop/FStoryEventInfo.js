@@ -12,6 +12,8 @@ const _CFT_STORY_EVENT_INFO = {
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { StoryEvent } from '../../common/datatypes/StoryEvent.js';
+import * as ExtUtilities from '../../lib/ext/Utilities.js';
 
 export class FStoryEventInfo extends Fragment {
   constructor() {
@@ -23,7 +25,7 @@ export class FStoryEventInfo extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case wksp.CF_STORY_EVENT_INFO.ONCLICK:
+    case CF_STORY_EVENT_INFO.ONCLICK:
       this._delegate.onStoryEventInfoClicked(this, this._id);
       break;
     default:
@@ -35,14 +37,14 @@ export class FStoryEventInfo extends Fragment {
   _renderOnRender(render) {
     let p = new Panel();
     p.setAttribute("onclick",
-                   "javascript:G.action(wksp.CF_STORY_EVENT_INFO.ONCLICK)");
+                   "javascript:G.action(CF_STORY_EVENT_INFO.ONCLICK)");
     render.wrapPanel(p)
     let s = "";
     switch (this._event.getType()) {
-    case dat.StoryEvent.T_TYPE.MODIFICATION:
+    case StoryEvent.T_TYPE.MODIFICATION:
       s = this.#renderModificationEvent();
       break;
-    case dat.StoryEvent.T_TYPE.STATUS:
+    case StoryEvent.T_TYPE.STATUS:
       s = this.#renderStatusEvent();
       break;
     default:
@@ -69,7 +71,7 @@ export class FStoryEventInfo extends Fragment {
     }
     if (e.getTime()) {
       s = s.replace("__TIME__",
-                    ext.Utilities.timestampToDateTimeString(e.getTime()));
+                    ExtUtilities.timestampToDateTimeString(e.getTime()));
     } else {
       s = s.replace("__TIME__", "");
     }

@@ -13,6 +13,9 @@ import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Workshop } from '../../common/dba/Workshop.js';
+import { Project } from '../../common/datatypes/Project.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcProjectStageEditor extends FScrollViewContent {
   constructor() {
@@ -86,11 +89,11 @@ export class FvcProjectStageEditor extends FScrollViewContent {
   #onSubmit() {
     let url = 'api/workshop/update_project_stage';
     let fd = this.#collectData();
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #onSubmitRRR(data) {
-    dba.Workshop.updateProject(new dat.Project(data.project));
+    Workshop.updateProject(new Project(data.project));
     this._owner.onContentFragmentRequestPopView(this);
   }
 };

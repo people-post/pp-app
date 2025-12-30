@@ -1,5 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { FOrderSupplierItem } from './FOrderSupplierItem.js';
 
 export class FOrderItem extends Fragment {
   constructor() {
@@ -14,7 +15,7 @@ export class FOrderItem extends Fragment {
   _renderOnRender(render) {
     this._fSubItems.clear();
     for (let item of this._item.getItems()) {
-      let f = new cart.FOrderSupplierItem();
+      let f = new FOrderSupplierItem();
       f.setCurrencyId(this._item.getCurrencyId());
       f.setItem(item);
       this._fSubItems.append(f);

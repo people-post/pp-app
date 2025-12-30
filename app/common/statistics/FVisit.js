@@ -7,6 +7,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FVisitInfo } from './FVisitInfo.js';
 import { VisitSummary } from '../datatypes/VisitSummary.js';
 import { api } from '../plt/Api.js';
+import { R } from '../constants/R.js';
 
 export class FVisit extends Fragment {
   constructor() {

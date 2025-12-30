@@ -5,14 +5,29 @@ window.CF_PROJECT_INFO = {
 import { RichProgress } from '../../lib/ui/controllers/fragments/RichProgress.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
+import { MajorSectorItem } from '../../common/gui/MajorSectorItem.js';
+import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
+import { FUserIcon } from '../../common/hr/FUserIcon.js';
+import { FUserInfo } from '../../common/hr/FUserInfo.js';
+import { FSocialBar } from '../../common/social/FSocialBar.js';
+import { Workshop } from '../../common/dba/Workshop.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { LGallery } from '../../common/gui/LGallery.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Utilities } from '../../common/Utilities.js';
+import { PProjectInfoLarge } from './PProjectInfoLarge.js';
+import { PProjectInfoSmallQuote } from './PProjectInfoSmallQuote.js';
+import { PProjectInfoLargeQuote } from './PProjectInfoLargeQuote.js';
+import { PProjectInfoMiddle } from './PProjectInfoMiddle.js';
 
-export class FProjectInfo extends gui.MajorSectorItem {
+export class FProjectInfo extends MajorSectorItem {
   constructor() {
     super();
     this._sizeType = null;
     this._projectId = null;
 
-    this._fThumbnail = new gui.FilesThumbnailFragment();
+    this._fThumbnail = new FilesThumbnailFragment();
     this._fThumbnail.setDataSource(this);
     this._fThumbnail.setDelegate(this);
     this.setChild("thumbnail", this._fThumbnail);
@@ -21,21 +36,21 @@ export class FProjectInfo extends gui.MajorSectorItem {
 
     this.setChild("progress", this._fProgress);
 
-    this._fUserIcon = new S.hr.FUserIcon();
+    this._fUserIcon = new FUserIcon();
     this.setChild("usericon", this._fUserIcon);
 
-    this._fUserName = new S.hr.FUserInfo();
-    this._fUserName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this._fUserName = new FUserInfo();
+    this._fUserName.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("username", this._fUserName);
 
-    this._fSocial = new socl.FSocialBar();
+    this._fSocial = new FSocialBar();
     this._fSocial.setDataSource(this);
     this._fSocial.setDelegate(this);
     this.setChild("social", this._fSocial);
   }
 
   getFilesForThumbnailFragment(fThumbnail) {
-    let project = dba.Workshop.getProject(this._projectId);
+    let project = Workshop.getProject(this._projectId);
     return project ? project.getFiles() : [];
   }
 
@@ -62,7 +77,7 @@ export class FProjectInfo extends gui.MajorSectorItem {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.PROJECT:
+    case T_DATA.PROJECT:
       if (data.getId() == this._projectId) {
         this.render();
       }
@@ -74,7 +89,7 @@ export class FProjectInfo extends gui.MajorSectorItem {
   }
 
   _renderOnRender(render) {
-    let project = dba.Workshop.getProject(this._projectId);
+    let project = Workshop.getProject(this._projectId);
     if (!project) {
       let p = new Panel();
       p.setClassName("center-align");
@@ -106,17 +121,17 @@ export class FProjectInfo extends gui.MajorSectorItem {
   #createPanel() {
     let p;
     switch (this._sizeType) {
-    case dat.SocialItem.T_LAYOUT.LARGE:
-      p = new wksp.PProjectInfoLarge();
+    case SocialItem.T_LAYOUT.LARGE:
+      p = new PProjectInfoLarge();
       break;
-    case dat.SocialItem.T_LAYOUT.EXT_QUOTE_SMALL:
-      p = new wksp.PProjectInfoSmallQuote();
+    case SocialItem.T_LAYOUT.EXT_QUOTE_SMALL:
+      p = new PProjectInfoSmallQuote();
       break;
-    case dat.SocialItem.T_LAYOUT.EXT_QUOTE_LARGE:
-      p = new wksp.PProjectInfoLargeQuote();
+    case SocialItem.T_LAYOUT.EXT_QUOTE_LARGE:
+      p = new PProjectInfoLargeQuote();
       break;
     default:
-      p = new wksp.PProjectInfoMiddle();
+      p = new PProjectInfoMiddle();
       break;
     }
     return p;
@@ -180,8 +195,8 @@ export class FProjectInfo extends gui.MajorSectorItem {
   }
 
   #isSquareImage() {
-    return this._sizeType == dat.SocialItem.T_LAYOUT.MEDIUM ||
-           this._sizeType == dat.SocialItem.T_LAYOUT.EXT_QUOTE_SMALL;
+    return this._sizeType == SocialItem.T_LAYOUT.MEDIUM ||
+           this._sizeType == SocialItem.T_LAYOUT.EXT_QUOTE_SMALL;
   }
 
   #renderTitle(project) {
@@ -208,21 +223,21 @@ export class FProjectInfo extends gui.MajorSectorItem {
           this._dataSource.isProjectSelectedInProjectInfoFragment(
               this, this._projectId));
     }
-    this._fSocial.setItem(dba.Workshop.getProject(this._projectId));
+    this._fSocial.setItem(Workshop.getProject(this._projectId));
     this._fSocial.attachRender(panel);
     this._fSocial.render();
   }
 
   #showThumbnail(idx) {
-    let project = dba.Workshop.getProject(this._projectId);
+    let project = Workshop.getProject(this._projectId);
     if (!project) {
       return;
     }
-    let lc = new gui.LGallery();
+    let lc = new LGallery();
     lc.setFiles(project.getFiles());
     lc.setSelection(idx);
     lc.setCommentThreadId(project.getId(), project.getSocialItemType());
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, lc, "Gallery");
+    Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, lc, "Gallery");
   }
 };
 

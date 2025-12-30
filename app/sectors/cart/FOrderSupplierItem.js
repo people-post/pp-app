@@ -12,6 +12,9 @@ const _CFT_CUSTOMER_ORDER_SUPPLIER_ITEM = {
 }
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Exchange } from '../../common/dba/Exchange.js';
+import { Utilities } from '../../common/Utilities.js';
 
 export class FOrderSupplierItem extends Fragment {
   constructor() {
@@ -37,7 +40,7 @@ export class FOrderSupplierItem extends Fragment {
     s = s.replace("__STATUS__",
                   Utilities.renderStatus(item.getState(), item.getStatus()));
     s = s.replace("__ACTION__", "");
-    let c = dba.Exchange.getCurrency(this._currencyId);
+    let c = Exchange.getCurrency(this._currencyId);
     let ss = Utilities.renderPrice(c, item.getUnitPrice());
     s = s.replace("__UNIT_PRICE__", ss);
     return s;

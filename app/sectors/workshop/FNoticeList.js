@@ -2,6 +2,10 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { Notifications } from '../../common/dba/Notifications.js';
+import { SectorNoticeInfoFragment } from '../../common/gui/SectorNoticeInfoFragment.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { FvcProject } from './FvcProject.js';
 
 export class FNoticeList extends Fragment {
   constructor() {
@@ -18,7 +22,7 @@ export class FNoticeList extends Fragment {
   }
 
   _renderOnRender(render) {
-    let notices = dba.Notifications.getWorkshopNotices();
+    let notices = Notifications.getWorkshopNotices();
     if (notices.length == 0) {
       render.replaceContent("");
       return;
@@ -28,7 +32,7 @@ export class FNoticeList extends Fragment {
     let p = new SectionPanel("Notifications");
     render.wrapPanel(p);
     for (let n of notices) {
-      let f = new gui.SectorNoticeInfoFragment();
+      let f = new SectorNoticeInfoFragment();
       f.setData(n);
       f.setDelegate(this);
       this._fNotices.append(f);
@@ -40,7 +44,7 @@ export class FNoticeList extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.PROJECT:
+    case T_DATA.PROJECT:
       this.render();
       break;
     default:
@@ -52,7 +56,7 @@ export class FNoticeList extends Fragment {
   #onViewProject(projectId) {
     this._selectedId = projectId;
     let v = new View();
-    let f = new wksp.FvcProject();
+    let f = new FvcProject();
     f.setProjectId(projectId);
     v.setContentFragment(f);
     this._delegate.onNoticeListFragmentRequestShowView(this, v,

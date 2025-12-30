@@ -16,7 +16,16 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { C } from '../../lib/framework/Constants.js';
+import { Account } from '../../common/dba/Account.js';
+import { Exchange } from '../../common/dba/Exchange.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { STATE } from '../../common/constants/Constants.js';
+import { Utilities } from '../../common/Utilities.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
+import { POrder } from './POrder.js';
+import { POrderInfo } from './POrderInfo.js';
+import { FOrderItem } from './FOrderItem.js';
 
 export class FOrder extends Fragment {
   static T_LAYOUT = {
@@ -38,10 +47,10 @@ export class FOrder extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case cart.CF_CUSTOMER_ORDER.ON_CLICK:
+    case CF_CUSTOMER_ORDER.ON_CLICK:
       this.#onClick();
       break;
-    case cart.CF_CUSTOMER_ORDER.USER_INFO:
+    case CF_CUSTOMER_ORDER.USER_INFO:
       this.#showUserInfo(args[0]);
       break;
     default:
@@ -52,9 +61,9 @@ export class FOrder extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
-    case plt.T_DATA.CURRENCIES:
-    case plt.T_DATA.CUSTOMER_ORDER:
+    case T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.CURRENCIES:
+    case T_DATA.CUSTOMER_ORDER:
       this.render();
       break;
     default:
@@ -64,7 +73,7 @@ export class FOrder extends Fragment {
   }
 
   _renderOnRender(render) {
-    let order = dba.Account.getOrder(this._orderId);
+    let order = Account.getOrder(this._orderId);
     if (!order) {
       return;
     }
@@ -98,7 +107,7 @@ export class FOrder extends Fragment {
       this.#renderItems(order, p);
     }
 
-    let c = dba.Exchange.getCurrency(order.getCurrencyId());
+    let c = Exchange.getCurrency(order.getCurrencyId());
     if (!c) {
       return;
     }
@@ -160,7 +169,7 @@ export class FOrder extends Fragment {
     let p;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.FULL:
-      p = new cart.POrder();
+      p = new POrder();
       break;
     default:
       p = this.#createInfoPanel();
@@ -169,11 +178,11 @@ export class FOrder extends Fragment {
     return p;
   }
 
-  #createInfoPanel() { return new cart.POrderInfo(); }
+  #createInfoPanel() { return new POrderInfo(); }
 
   #renderTimeInfo(order, panel) {
     let s = "";
-    if (order.getState() == C.STATE.ACTIVE) {
+    if (order.getState() == STATE.ACTIVE) {
       s = _CFT_CUSTOMER_ORDER.T_UPDATE;
       s = s.replace("__DT__", Utilities.renderTimeDiff(order.getUpdateTime()));
     } else {
@@ -193,7 +202,7 @@ export class FOrder extends Fragment {
 
   #renderShopNameInfo(order, panel) {
     let userId = order.getShopId();
-    let name = dba.Account.getUserShopName(userId, "...");
+    let name = Account.getUserShopName(userId, "...");
     let s =
         Utilities.renderSmallButton("cart.CF_CUSTOMER_ORDER.USER_INFO", userId,
                                     name, "low-profile s-cinfotext bold");
@@ -202,7 +211,7 @@ export class FOrder extends Fragment {
 
   #renderShopName(order, panel) {
     let userId = order.getShopId();
-    let name = dba.Account.getUserShopName(userId, "...");
+    let name = Account.getUserShopName(userId, "...");
     let s = "Shop: ";
     s += Utilities.renderSmallButton("cart.CF_CUSTOMER_ORDER.USER_INFO", userId,
                                      name, "low-profile s-cinfotext bold");
@@ -251,7 +260,7 @@ export class FOrder extends Fragment {
   #renderItems(order, panel) {
     this._fItems.clear();
     for (let item of order.getItems()) {
-      let f = new cart.FOrderItem();
+      let f = new FOrderItem();
       f.setItem(item);
       this._fItems.append(f);
     }
@@ -305,7 +314,7 @@ export class FOrder extends Fragment {
   }
 
   #showUserInfo(userId) {
-    fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO, userId);
+    Events.triggerTopAction(PltT_ACTION.SHOW_USER_INFO, userId);
   }
 };
 

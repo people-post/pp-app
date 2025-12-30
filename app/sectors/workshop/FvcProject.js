@@ -10,43 +10,74 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
+import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
+import { FSocialBar } from '../../common/social/FSocialBar.js';
+import { FRealTimeComments } from '../../common/social/FRealTimeComments.js';
+import { FProjectProgress } from './FProjectProgress.js';
+import { FProjectFlowChart } from './FProjectFlowChart.js';
+import { FUserInfo } from '../../common/hr/FUserInfo.js';
+import { FLocalUserSearch } from '../../common/search/FLocalUserSearch.js';
+import { Account } from '../../common/dba/Account.js';
+import { Workshop } from '../../common/dba/Workshop.js';
+import { User } from '../../common/datatypes/User.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { Project } from '../../common/datatypes/Project.js';
+import { ProjectActor } from '../../common/datatypes/ProjectActor.js';
+import { Utilities } from '../../common/Utilities.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Api } from '../../common/plt/Api.js';
+import { PProject } from './PProject.js';
+import { FProjectActorInfo } from './FProjectActorInfo.js';
+import { FProjectStage } from './FProjectStage.js';
+import { FvcProjectEditor } from './FvcProjectEditor.js';
+import { FvcProjectStage } from './FvcProjectStage.js';
+import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
+import { FGeneralSearch } from '../../common/search/FGeneralSearch.js';
+import { SearchConfig } from '../../common/datatypes/SearchConfig.js';
+import { LGallery } from '../../common/gui/LGallery.js';
+import { R } from '../../common/constants/R.js';
+import { MAX } from '../../common/constants/Constants.js';
+import { ICON } from '../../common/constants/Icons.js';
+import { URL_PARAM } from '../../common/constants/Constants.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
 
 export class FvcProject extends FScrollViewContent {
   constructor() {
     super();
-    this._fThumbnail = new gui.FilesThumbnailFragment();
+    this._fThumbnail = new FilesThumbnailFragment();
     this._fThumbnail.setDataSource(this);
     this._fThumbnail.setDelegate(this);
     this.setChild("thumbnail", this._fThumbnail);
 
-    this._fSocial = new socl.FSocialBar();
+    this._fSocial = new FSocialBar();
     this._fSocial.setDelegate(this);
     this.setChild("social", this._fSocial);
 
-    this._fProgress = new wksp.FProjectProgress();
+    this._fProgress = new FProjectProgress();
     this._fProgress.setDataSource(this);
     this._fProgress.setDelegate(this);
 
-    this._fFlow = new wksp.FProjectFlowChart();
+    this._fFlow = new FProjectFlowChart();
     this._fFlow.setDataSource(this);
     this._fFlow.setDelegate(this);
 
-    this._fComments = new socl.FRealTimeComments();
+    this._fComments = new FRealTimeComments();
 
     this._fTabs = new FTabbedPane();
     this._fTabs.addPane(
-        {name : "Comments", value : "COMMENTS", icon : C.ICON.COMMENT},
+        {name : "Comments", value : "COMMENTS", icon : ICON.COMMENT},
         this._fComments);
     this._fTabs.addPane(
-        {name : "Stages", value : "STAGES", icon : C.ICON.STAGE}, this._fFlow);
+        {name : "Stages", value : "STAGES", icon : ICON.STAGE}, this._fFlow);
     this._fTabs.addPane(
-        {name : "Activity", value : "ACTIVITY", icon : C.ICON.PROGRESS},
+        {name : "Activity", value : "ACTIVITY", icon : ICON.PROGRESS},
         this._fProgress);
     this._fTabs.setDefaultPane("COMMENTS");
     this.setChild("tabs", this._fTabs);
 
-    this._fCreatorName = new S.hr.FUserInfo();
-    this._fCreatorName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this._fCreatorName = new FUserInfo();
+    this._fCreatorName.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("creatorname", this._fCreatorName);
 
     this._fBtnEdit = new ActionButton();
@@ -64,17 +95,17 @@ export class FvcProject extends FScrollViewContent {
     this._lc.setDelegate(this);
     this._fOnUserSelect = null;
 
-    this._fAgentSearch = new srch.FLocalUserSearch();
+    this._fAgentSearch = new FLocalUserSearch();
     this._fAgentSearch.setDelegate(this);
 
-    this._fWorkerSearch = new srch.FLocalUserSearch();
+    this._fWorkerSearch = new FLocalUserSearch();
     this._fWorkerSearch.setDelegate(this);
 
     this._projectId = null;
   }
 
   getProjectId() { return this._projectId; }
-  getUrlParamString() { return C.URL_PARAM.ID + "=" + this._projectId; }
+  getUrlParamString() { return URL_PARAM.ID + "=" + this._projectId; }
 
   setProjectId(projectId) { this._projectId = projectId; }
 
@@ -86,10 +117,10 @@ export class FvcProject extends FScrollViewContent {
   }
 
   getActionButton() {
-    if (dba.Account.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       let project = this.#getProject();
       if (project && !project.isFinished() &&
-          project.isFacilitator(dba.Account.getId())) {
+          project.isFacilitator(Account.getId())) {
         return this._fBtnEdit;
       }
     }
@@ -118,7 +149,7 @@ export class FvcProject extends FScrollViewContent {
     this.#showThumbnail(idx);
   }
   onClickInProjectActorInfoFragment(fActorInfo, actor) {
-    if (actor.getUserId() == dat.User.C_ID.L_ADD_USER) {
+    if (actor.getUserId() == User.C_ID.L_ADD_USER) {
       this.#onAddAgent();
       return;
     }
@@ -126,7 +157,7 @@ export class FvcProject extends FScrollViewContent {
     let actions = [];
     let project = this.#getProject();
     if (project) {
-      actions = project.getActionsForUserOnActor(dba.Account.getId(), actor);
+      actions = project.getActionsForUserOnActor(Account.getId(), actor);
     }
 
     if (actions.length) {
@@ -135,10 +166,10 @@ export class FvcProject extends FScrollViewContent {
       for (let a of actions) {
         this._lc.addOption(a.name, {actionType : a.type, actor : actor});
       }
-      fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this._lc,
+      Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this._lc,
                                   "Context");
     } else {
-      fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO,
+      Events.triggerTopAction(PltT_ACTION.SHOW_USER_INFO,
                                   actor.getUserId());
     }
   }
@@ -150,11 +181,11 @@ export class FvcProject extends FScrollViewContent {
 
   onSearchResultClickedInSearchFragment(fSearch, itemType, itemId) {
     switch (itemType) {
-    case dat.SocialItem.TYPE.USER:
+    case SocialItem.TYPE.USER:
       if (this._fOnUserSelect) {
         this._fOnUserSelect(itemId);
       }
-      fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
+      Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
       break;
     default:
       break;
@@ -164,28 +195,28 @@ export class FvcProject extends FScrollViewContent {
   onOptionClickedInContextLayer(lContext, value) {
     let actor = value.actor;
     switch (value.actionType) {
-    case dat.Project.ACTIONS.ASSIGN.type:
+    case Project.ACTIONS.ASSIGN.type:
       this.#onAssign();
       break;
-    case dat.Project.ACTIONS.RESIGN.type:
+    case Project.ACTIONS.RESIGN.type:
       this.#onResign(actor);
       break;
-    case dat.Project.ACTIONS.ACCEPT.type:
+    case Project.ACTIONS.ACCEPT.type:
       this.#onAccept(actor);
       break;
-    case dat.Project.ACTIONS.REJECT.type:
+    case Project.ACTIONS.REJECT.type:
       this.#onReject(actor);
       break;
-    case dat.Project.ACTIONS.ADD_AGENT.type:
+    case Project.ACTIONS.ADD_AGENT.type:
       this.#onAddAgent();
       break;
-    case dat.Project.ACTIONS.INVITE_CLIENT.type:
+    case Project.ACTIONS.INVITE_CLIENT.type:
       this.#onInviteClient();
       break;
-    case dat.Project.ACTIONS.REPLACE_AGENT.type:
+    case Project.ACTIONS.REPLACE_AGENT.type:
       this.#onReplaceAgent(actor.getUserId());
       break;
-    case dat.Project.ACTIONS.DISMISS_AGENT.type:
+    case Project.ACTIONS.DISMISS_AGENT.type:
       this.#onDismissAgent(actor.getUserId());
       break;
     default:
@@ -195,22 +226,22 @@ export class FvcProject extends FScrollViewContent {
 
   onOptionClickedInContextButtonFragment(fBtn, value) {
     switch (value) {
-    case dat.Project.ACTIONS.ASSIGN.type:
+    case Project.ACTIONS.ASSIGN.type:
       this.#onAssign();
       break;
-    case dat.Project.ACTIONS.PAUSE.type:
+    case Project.ACTIONS.PAUSE.type:
       this.#onPause();
       break;
-    case dat.Project.ACTIONS.RESUME.type:
+    case Project.ACTIONS.RESUME.type:
       this.#asyncRequestResume();
       break;
-    case dat.Project.ACTIONS.CLOSE.type:
+    case Project.ACTIONS.CLOSE.type:
       this.#asyncRequestDone();
       break;
-    case dat.Project.ACTIONS.REOPEN.type:
+    case Project.ACTIONS.REOPEN.type:
       this.#onReopen();
       break;
-    case dat.Project.ACTIONS.CANCEL.type:
+    case Project.ACTIONS.CANCEL.type:
       this.#onCancel();
       break;
     default:
@@ -220,7 +251,7 @@ export class FvcProject extends FScrollViewContent {
 
   onGuiActionButtonClick(fActionButton) {
     let v = new View();
-    let f = new wksp.FvcProjectEditor();
+    let f = new FvcProjectEditor();
     f.setDelegate(this);
     f.setProject(this.#getProject());
     v.setContentFragment(f);
@@ -238,10 +269,10 @@ export class FvcProject extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
-    case plt.T_DATA.PROJECT:
+    case T_DATA.PROJECT:
       if (data.getId() == this._projectId) {
         this.render();
       }
@@ -259,13 +290,13 @@ export class FvcProject extends FScrollViewContent {
     if (!project) {
       return;
     }
-    let pp = new wksp.PProject();
+    let pp = new PProject();
     p.pushPanel(pp);
     this.#renderProject(project, pp);
 
     this._fComments.setThreadId(project.getId(), project.getSocialItemType());
     this._fComments.setIsAdmin(
-        this.#isUserProjectAdmin(dba.Account.getId(), project));
+        this.#isUserProjectAdmin(Account.getId(), project));
 
     pp = new PanelWrapper();
     p.pushPanel(pp);
@@ -280,7 +311,7 @@ export class FvcProject extends FScrollViewContent {
     return userId == project.getOwnerId();
   }
 
-  #getProject() { return dba.Workshop.getProject(this._projectId); }
+  #getProject() { return Workshop.getProject(this._projectId); }
 
   #renderProject(project, panel) {
     let p = panel.getTitlePanel();
@@ -299,7 +330,7 @@ export class FvcProject extends FScrollViewContent {
         Utilities.renderStatus(project.getState(), project.getStatus()));
 
     p = panel.getProjectActionPanel();
-    let actions = project.getActionsForUser(dba.Account.getId());
+    let actions = project.getActionsForUser(Account.getId());
     if (actions.length) {
       this._fProjectActions.clearOptions();
       for (let a of actions) {
@@ -309,16 +340,16 @@ export class FvcProject extends FScrollViewContent {
       this._fProjectActions.render();
     }
 
-    let stages = project.getActionableStagesForUser(dba.Account.getId());
+    let stages = project.getActionableStagesForUser(Account.getId());
     if (stages.length == 0) {
       stages = project.getActiveStages();
     }
     p = panel.getQuickStagesPanel();
     this._fQuickStages.clear();
     for (let stage of stages) {
-      let f = new wksp.FProjectStage();
+      let f = new FProjectStage();
       f.setStage(stage);
-      f.setLayoutType(wksp.FProjectStage.LTR_COMPACT);
+      f.setLayoutType(FProjectStage.LTR_COMPACT);
       f.setDelegate(this);
       this._fQuickStages.append(f);
     }
@@ -349,7 +380,7 @@ export class FvcProject extends FScrollViewContent {
     panel.pushPanel(p);
 
     let facilitator = project.getFacilitator();
-    let f = new wksp.FProjectActorInfo();
+    let f = new FProjectActorInfo();
     f.setActor(facilitator);
     f.setDelegate(this);
     this.setChild("rfacilitator", f);
@@ -363,7 +394,7 @@ export class FvcProject extends FScrollViewContent {
       p.setClassName("left-pad5px");
       panel.pushPanel(p);
 
-      f = new wksp.FProjectActorInfo();
+      f = new FProjectActorInfo();
       f.setActor(client);
       f.setDelegate(this);
     }
@@ -378,7 +409,7 @@ export class FvcProject extends FScrollViewContent {
       p.setClassName("left-pad5px");
       panel.pushPanel(p);
 
-      f = new wksp.FProjectActorInfo();
+      f = new FProjectActorInfo();
       f.setActor(agent);
       f.setDelegate(this);
       this.setChild("ragents" + i, f);
@@ -386,17 +417,17 @@ export class FvcProject extends FScrollViewContent {
       f.render();
     }
 
-    if (!project.isFinished() && project.getAgents().length < C.MAX.N_AGENTS &&
-        project.isFacilitator(dba.Account.getId())) {
+    if (!project.isFinished() && project.getAgents().length < MAX.N_AGENTS &&
+        project.isFacilitator(Account.getId())) {
       p = new PanelWrapper();
       p.setClassName("left-pad5px");
       panel.pushPanel(p);
-      f = new wksp.FProjectActorInfo();
-      f.setActor(new dat.ProjectActor({
-        "user_id" : dat.User.C_ID.L_ADD_USER,
-        "status" : dat.ProjectActor.S_PENDING
+      f = new FProjectActorInfo();
+      f.setActor(new ProjectActor({
+        "user_id" : User.C_ID.L_ADD_USER,
+        "status" : ProjectActor.S_PENDING
       },
-                                      dat.ProjectActor.T_ROLE.AGENT));
+                                      ProjectActor.T_ROLE.AGENT));
       f.setDelegate(this);
       this.setChild("rnewagent", f);
       f.attachRender(p);
@@ -409,16 +440,16 @@ export class FvcProject extends FScrollViewContent {
     if (!project) {
       return;
     }
-    let lc = new gui.LGallery();
+    let lc = new LGallery();
     lc.setFiles(project.getFiles());
     lc.setSelection(idx);
     lc.setCommentThreadId(project.getId(), project.getSocialItemType());
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, lc, "Gallery");
+    Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, lc, "Gallery");
   }
 
   #onRequestShowStage(stage) {
     let v = new View();
-    let f = new wksp.FvcProjectStage();
+    let f = new FvcProjectStage();
     f.setStage(stage);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Stage");
@@ -431,24 +462,24 @@ export class FvcProject extends FScrollViewContent {
     v.setContentFragment(f);
 
     this._fOnUserSelect = uid =>
-        this.#asyncRequestAssign(uid, dat.ProjectActor.T_ROLE.FACILITATOR);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Assign");
+        this.#asyncRequestAssign(uid, ProjectActor.T_ROLE.FACILITATOR);
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Assign");
   }
 
   #onInviteClient() {
     let v = new View();
     let fvc = new FvcSimpleFragmentList();
-    let f = new srch.FGeneralSearch();
+    let f = new FGeneralSearch();
     f.setDelegate(this);
-    let c = new dat.SearchConfig();
-    c.setCategories([ dat.SocialItem.TYPE.USER ]);
+    let c = new SearchConfig();
+    c.setCategories([ SocialItem.TYPE.USER ]);
     f.setConfig(c);
     fvc.append(f);
     v.setContentFragment(fvc);
 
     this._fOnUserSelect = uid =>
-        this.#asyncRequestAdd(uid, dat.ProjectActor.T_ROLE.CLIENT);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+        this.#asyncRequestAdd(uid, ProjectActor.T_ROLE.CLIENT);
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                 "Invite client");
   }
 
@@ -459,8 +490,8 @@ export class FvcProject extends FScrollViewContent {
     v.setContentFragment(f);
 
     this._fOnUserSelect = uid =>
-        this.#asyncRequestAdd(uid, dat.ProjectActor.T_ROLE.AGENT);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Add agent");
+        this.#asyncRequestAdd(uid, ProjectActor.T_ROLE.AGENT);
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Add agent");
   }
 
   #onReplaceAgent(userId) {
@@ -470,8 +501,8 @@ export class FvcProject extends FScrollViewContent {
     v.setContentFragment(f);
 
     this._fOnUserSelect = uid =>
-        this.#asyncRequestReplace(userId, uid, dat.ProjectActor.T_ROLE.AGENT);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+        this.#asyncRequestReplace(userId, uid, ProjectActor.T_ROLE.AGENT);
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                 "Replace agent");
   }
 
@@ -496,12 +527,12 @@ export class FvcProject extends FScrollViewContent {
   #onDismissAgent(userId) {
     this._confirmDangerousOperation(
         R.get("CONFIRM_DISMISS_ROLE"),
-        () => this.#asyncRequestDismiss(userId, dat.ProjectActor.T_ROLE.AGENT));
+        () => this.#asyncRequestDismiss(userId, ProjectActor.T_ROLE.AGENT));
   }
 
   #onPause() {
     let v = new View();
-    let fvc = new S.hr.FvcUserInput();
+    let fvc = new FvcUserInput();
     let f = new TextInput();
     f.setConfig({
       title : R.get("CONFIRM_PAUSE_PROJECT"),
@@ -515,13 +546,13 @@ export class FvcProject extends FScrollViewContent {
       fcnOK : () => this.#asyncRequestPause(f.getValue()),
     });
     v.setContentFragment(fvc);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Comments",
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Comments",
                                 false);
   }
 
   #onCancel() {
     let v = new View();
-    let fvc = new S.hr.FvcUserInput();
+    let fvc = new FvcUserInput();
     let f = new TextInput();
     f.setConfig({
       title : R.get("CONFIRM_CANCEL_PROJECT"),
@@ -535,13 +566,13 @@ export class FvcProject extends FScrollViewContent {
       fcnOK : () => this.#asyncRequestCancel(f.getValue()),
     });
     v.setContentFragment(fvc);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Comments",
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Comments",
                                 false);
   }
 
   #onReopen() {
     let v = new View();
-    let fvc = new S.hr.FvcUserInput();
+    let fvc = new FvcUserInput();
     let f = new TextInput();
     f.setConfig({
       title : R.get("CONFIRM_REOPEN_PROJECT"),
@@ -555,7 +586,7 @@ export class FvcProject extends FScrollViewContent {
       fcnOK : () => this.#asyncRequestReopen(f.getValue()),
     });
     v.setContentFragment(fvc);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Comments",
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Comments",
                                 false);
   }
 
@@ -565,7 +596,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("to_user_id", userId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    Api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -575,7 +606,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("to_user_id", userId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    Api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -589,7 +620,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("to_user_id", toUserId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    Api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -599,7 +630,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("from_user_id", userId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    Api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -608,7 +639,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("project_id", this._projectId);
     fd.append("role_id", roleId);
     let url = "api/workshop/project_actor_accept";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    Api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -617,7 +648,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("project_id", this._projectId);
     fd.append("role_id", roleId);
     let url = "api/workshop/project_actor_reject";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    Api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -627,7 +658,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("from_user_id", userId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    Api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -636,7 +667,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("project_id", this._projectId);
     fd.append("comment", comment);
     let url = "api/workshop/pause_project";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    Api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -645,7 +676,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("project_id", this._projectId);
     fd.append("comment", comment);
     let url = "api/workshop/cancel_project";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    Api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -654,7 +685,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("project_id", this._projectId);
     fd.append("comment", comment);
     let url = "api/workshop/reopen_project";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    Api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -662,7 +693,7 @@ export class FvcProject extends FScrollViewContent {
     let fd = new FormData();
     fd.append("project_id", this._projectId);
     let url = "api/workshop/resume_project";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    Api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -670,17 +701,17 @@ export class FvcProject extends FScrollViewContent {
     let fd = new FormData();
     fd.append("project_id", this._projectId);
     let url = "api/workshop/mark_project_done";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    Api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
   #onProjectDataReceived(data) {
-    dba.Workshop.updateProject(new dat.Project(data.project));
+    Workshop.updateProject(new Project(data.project));
   }
 
   #asyncGetFollowerIds(ownerId) {
     let url = "api/user/followers?user_id=" + ownerId;
-    plt.Api.asyncFragmentCall(this, url).then(d =>
+    Api.asyncFragmentCall(this, url).then(d =>
                                                   this.#onGetFollowerIdsRRR(d));
   }
 
@@ -691,7 +722,7 @@ export class FvcProject extends FScrollViewContent {
 
   #asyncGetWorkerIds(ownerId) {
     let url = "api/workshop/workers?owner_id=" + ownerId;
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onGetWorkerIdsRRR(d));
+    Api.asyncFragmentCall(this, url).then(d => this.#onGetWorkerIdsRRR(d));
   }
 
   #onGetWorkerIdsRRR(data) {

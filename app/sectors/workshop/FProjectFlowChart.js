@@ -10,7 +10,15 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { C } from '../../lib/framework/Constants.js';
+import { ProjectStage } from '../../common/datatypes/ProjectStage.js';
+import { FvcCreateProjectStageChoice } from './FvcCreateProjectStageChoice.js';
+import { PProjectFlowChart } from './PProjectFlowChart.js';
+import { FProjectStage } from './FProjectStage.js';
+import { Account } from '../../common/dba/Account.js';
+import { Utilities } from '../../common/Utilities.js';
+import { R } from '../../common/constants/R.js';
+import { STATE } from '../../common/constants/Constants.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FProjectFlowChart extends Fragment {
   constructor() {
@@ -31,10 +39,10 @@ export class FProjectFlowChart extends Fragment {
 
   onOptionClickedInContextLayer(lContext, value) {
     switch (value) {
-    case dat.ProjectStage.ACTIONS.PREPEND.type:
+    case ProjectStage.ACTIONS.PREPEND.type:
       this.#onPrependBeforeEnd();
       break;
-    case dat.ProjectStage.ACTIONS.APPEND.type:
+    case ProjectStage.ACTIONS.APPEND.type:
       this.#onAppendAfterBegin();
       break;
     default:
@@ -44,10 +52,10 @@ export class FProjectFlowChart extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case wksp.CF_PROJECT_FLOW_CHART.ONCLICK_AT_BEGIN:
+    case CF_PROJECT_FLOW_CHART.ONCLICK_AT_BEGIN:
       this.#onClickAtBegin();
       break;
-    case wksp.CF_PROJECT_FLOW_CHART.ONCLICK_AT_END:
+    case CF_PROJECT_FLOW_CHART.ONCLICK_AT_END:
       this.#onClickAtEnd();
       break;
     default:
@@ -100,7 +108,7 @@ export class FProjectFlowChart extends Fragment {
     }
     sc.x = Math.max(400, sc.x);
 
-    let pFlow = new wksp.PProjectFlowChart();
+    let pFlow = new PProjectFlowChart();
     p.wrapPanel(pFlow);
     pFlow.setSize(sc.x, sc.y);
 
@@ -124,7 +132,7 @@ export class FProjectFlowChart extends Fragment {
     p.wrapPanel(pp);
     p.setThemeClassName(this.#getBeginTerminalClassName());
     p.setMainElementAttribute(
-        "onclick", "G.action(wksp.CF_PROJECT_FLOW_CHART.ONCLICK_AT_BEGIN)");
+        "onclick", "G.action(CF_PROJECT_FLOW_CHART.ONCLICK_AT_BEGIN)");
     pp.setClassName("small-info-text");
     pp.replaceContent("Start");
 
@@ -132,9 +140,9 @@ export class FProjectFlowChart extends Fragment {
     this._fItems.clear();
     for (let [i, stages] of stageLists.entries()) {
       for (let [j, stage] of stages.entries()) {
-        let f = new wksp.FProjectStage();
+        let f = new FProjectStage();
         f.setStage(stage);
-        f.setLayoutType(wksp.FProjectStage.LTC_MID);
+        f.setLayoutType(FProjectStage.LTC_MID);
         f.setDelegate(this);
         this._fItems.append(f);
         if (isHorizontal) {
@@ -180,7 +188,7 @@ export class FProjectFlowChart extends Fragment {
     p.wrapPanel(pp);
     p.setThemeClassName(this.#getEndTerminalClassName());
     p.setMainElementAttribute(
-        "onclick", "G.action(wksp.CF_PROJECT_FLOW_CHART.ONCLICK_AT_END)");
+        "onclick", "G.action(CF_PROJECT_FLOW_CHART.ONCLICK_AT_END)");
     pp.setClassName("small-info-text");
     pp.replaceContent("End");
 
@@ -196,9 +204,9 @@ export class FProjectFlowChart extends Fragment {
 
   #getBeginTerminalClassName() {
     let project = this._dataSource.getProjectForFlowChartFragment(this);
-    if (project && project.getState() != C.STATE.NEW) {
-      return Utilities.getStateClassName(C.STATE.FINISHED,
-                                         C.STATE.STATUS.F_DONE);
+    if (project && project.getState() != STATE.NEW) {
+      return Utilities.getStateClassName(STATE.FINISHED,
+                                         STATE.STATUS.F_DONE);
     }
     return "";
   }
@@ -216,7 +224,7 @@ export class FProjectFlowChart extends Fragment {
     let project = this._dataSource.getProjectForFlowChartFragment(this);
     if (project) {
       let actions =
-          project.getActionsForUserInBeginTerminal(dba.Account.getId());
+          project.getActionsForUserInBeginTerminal(Account.getId());
       if (actions.length) {
         this.#showContextMenu(R.get("begin terminal"), actions);
       }
@@ -226,7 +234,7 @@ export class FProjectFlowChart extends Fragment {
   #onClickAtEnd() {
     let project = this._dataSource.getProjectForFlowChartFragment(this);
     if (project) {
-      let actions = project.getActionsForUserInEndTerminal(dba.Account.getId());
+      let actions = project.getActionsForUserInEndTerminal(Account.getId());
       if (actions.length) {
         this.#showContextMenu(R.get("end terminal"), actions);
       }
@@ -240,7 +248,7 @@ export class FProjectFlowChart extends Fragment {
     for (let a of actions) {
       this._lc.addOption(a.name, a.type);
     }
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this._lc,
+    Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this._lc,
                                 "Context");
   }
 
@@ -248,7 +256,7 @@ export class FProjectFlowChart extends Fragment {
     let project = this._dataSource.getProjectForFlowChartFragment(this);
     if (project) {
       let v = new View();
-      let f = new wksp.FvcCreateProjectStageChoice();
+      let f = new FvcCreateProjectStageChoice();
       f.setProjectId(project.getId());
       f.setBeforeStage("");
       v.setContentFragment(f);
@@ -260,7 +268,7 @@ export class FProjectFlowChart extends Fragment {
     let project = this._dataSource.getProjectForFlowChartFragment(this);
     if (project) {
       let v = new View();
-      let f = new wksp.FvcCreateProjectStageChoice();
+      let f = new FvcCreateProjectStageChoice();
       f.setProjectId(project.getId());
       f.setAfterStage("");
       v.setContentFragment(f);

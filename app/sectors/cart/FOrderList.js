@@ -1,6 +1,12 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { DefaultLongList } from '../../common/gui/DefaultLongList.js';
+import { FOrder } from './FOrder.js';
+import { FvcOrder } from './FvcOrder.js';
+import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
+import { Account } from '../../common/dba/Account.js';
+import { Api } from '../../common/plt/Api.js';
 
-export class FOrderList extends gui.DefaultLongList {
+export class FOrderList extends DefaultLongList {
   isOrderSelected(orderId) { return this._currentId == orderId; }
 
   onCustomerOrderInfoFragmentRequestShowOrder(fOrderInfo, orderId) {
@@ -8,7 +14,7 @@ export class FOrderList extends gui.DefaultLongList {
   }
 
   _createInfoFragment(id) {
-    let f = new cart.FOrder();
+    let f = new FOrder();
     f.setDataSource(this);
     f.setDelegate(this);
     f.setOrderId(id);
@@ -17,7 +23,7 @@ export class FOrderList extends gui.DefaultLongList {
 
   _createItemView(itemId) {
     let v = new View();
-    let f = new cart.FvcOrder();
+    let f = new FvcOrder();
     f.setOrderId(itemId);
     v.setContentFragment(f);
     return v;
@@ -32,7 +38,7 @@ export class FOrderList extends gui.DefaultLongList {
     if (this._ids.length) {
       url += "?before_id=" + this._ids[this._ids.length - 1];
     }
-    plt.Api.asyncRawCall(url, r => this.#onOrdersRRR(r));
+    Api.asyncRawCall(url, r => this.#onOrdersRRR(r));
   }
 
   #onOrdersRRR(responseText) {
@@ -43,12 +49,12 @@ export class FOrderList extends gui.DefaultLongList {
     } else {
       let orders = [];
       for (let o of response.data.orders) {
-        orders.push(new dat.CustomerOrder(o));
+        orders.push(new CustomerOrder(o));
       }
 
       if (orders.length) {
         for (let o of orders) {
-          dba.Account.updateOrder(o);
+          Account.updateOrder(o);
           this._ids.push(o.getId());
         }
       } else {

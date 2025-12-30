@@ -18,7 +18,17 @@ const _CFT_PROPOSAL = {
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcConfirmAction } from '../../lib/ui/controllers/fragments/FvcConfirmAction.js';
-import { C } from '../../lib/framework/Constants.js';
+import { FProposalTitle } from './FProposalTitle.js';
+import { VotingSummaryFragment } from '../../common/gui/VotingSummaryFragment.js';
+import { Communities } from '../../common/dba/Communities.js';
+import { Account } from '../../common/dba/Account.js';
+import { Votes } from '../../common/dba/Votes.js';
+import { Proposal } from '../../common/datatypes/Proposal.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { STATE } from '../../common/constants/Constants.js';
+import { Utilities } from '../../common/Utilities.js';
+import { PProposal } from './PProposal.js';
+import { PProposalInfo } from './PProposalInfo.js';
 
 export class FProposal extends Fragment {
   static T_LAYOUT = {
@@ -28,11 +38,11 @@ export class FProposal extends Fragment {
 
   constructor() {
     super();
-    this._fTitle = new cmut.FProposalTitle();
+    this._fTitle = new FProposalTitle();
     this._fTitle.setDataSource(this);
     this.setChild("title", this._fTitle);
 
-    this._fVotingSummary = new gui.VotingSummaryFragment();
+    this._fVotingSummary = new VotingSummaryFragment();
     this.setChild("voting_summary", this._fVotingSummary);
 
     this._proposalId = null;
@@ -43,18 +53,18 @@ export class FProposal extends Fragment {
   setLayoutType(t) { this._tLayout = t; }
 
   getProposalForProposalTitleFragment(fTitle) {
-    return dba.Communities.getProposal(this._proposalId);
+    return Communities.getProposal(this._proposalId);
   }
 
   action(type, ...args) {
     switch (type) {
-    case cmut.CF_PROPOSAL.VIEW_PROPOSAL:
+    case CF_PROPOSAL.VIEW_PROPOSAL:
       this.#onViewProposal();
       break;
-    case cmut.CF_PROPOSAL.VOTE:
+    case CF_PROPOSAL.VOTE:
       this.#onShowVote();
       break;
-    case cmut.CF_PROPOSAL.USER_INFO:
+    case CF_PROPOSAL.USER_INFO:
       this.#onShowUserInfo(args[0]);
       break;
     default:
@@ -65,16 +75,16 @@ export class FProposal extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.COMMUNITY_PROFILE:
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.COMMUNITY_PROFILE:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
-    case plt.T_DATA.PROPOSAL:
+    case T_DATA.PROPOSAL:
       if (data.getId() == this._proposalId) {
         this.render();
       }
       break;
-    case plt.T_DATA.VOTE:
+    case T_DATA.VOTE:
       if (data.getItemId() == this._proposalId) {
         this.render();
       }
@@ -86,7 +96,7 @@ export class FProposal extends Fragment {
   }
 
   _renderOnRender(render) {
-    let proposal = dba.Communities.getProposal(this._proposalId);
+    let proposal = Communities.getProposal(this._proposalId);
     if (!proposal) {
       return;
     }
@@ -136,7 +146,7 @@ export class FProposal extends Fragment {
     let p;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.FULL:
-      p = new cmut.PProposal();
+      p = new PProposal();
       break;
     default:
       p = this.#createInfoPanel()
@@ -146,7 +156,7 @@ export class FProposal extends Fragment {
   }
 
   #createInfoPanel() {
-    let p = new cmut.PProposalInfo();
+    let p = new PProposalInfo();
     p.setAttribute("onclick",
                    "javascript:G.action(cmut.CF_PROPOSAL.VIEW_PROPOSAL)");
     return p;
@@ -179,18 +189,18 @@ export class FProposal extends Fragment {
 
   #renderVote(proposal, panel) {
     let s;
-    let v = dba.Votes.get(dba.Account.getId(), proposal.getId());
+    let v = Votes.get(Account.getId(), proposal.getId());
     if (v) {
       s = this.#renderUserVoteStatus(v.getValue());
     } else {
-      let rId = dba.Account.getRepresentativeId();
+      let rId = Account.getRepresentativeId();
       if (rId) {
-        v = dba.Votes.get(rId, proposal.getId());
+        v = Votes.get(rId, proposal.getId());
       }
       if (v) {
         s = this.#renderRepresentativeVoteStatus(v.getValue());
       } else {
-        if (proposal.getState() == C.STATE.FINISHED) {
+        if (proposal.getState() == STATE.FINISHED) {
           s = this.#renderUserVoteStatus("N/A");
         } else {
           s = this.#renderUserVoteAction();
@@ -229,7 +239,7 @@ export class FProposal extends Fragment {
   #renderSubtitle(proposal, panel) {
     let s = _CFT_PROPOSAL.SUBTITLE;
     let userId = proposal.getAuthorId();
-    let nickname = dba.Account.getUserNickname(userId);
+    let nickname = Account.getUserNickname(userId);
     s = s.replace("__AUTHOR__", Utilities.renderSmallButton(
                                     "cmut.CF_PROPOSAL.USER_INFO", userId,
                                     nickname, "low-profile s-cinfotext bold"));
@@ -246,14 +256,14 @@ export class FProposal extends Fragment {
     let s = proposal.getAbstract();
     if (!s) {
       switch (proposal.getType()) {
-      case dat.Proposal.T_TYPE.ISSUE_COINS:
+      case Proposal.T_TYPE.ISSUE_COINS:
         s = this.#makeIssueCoinContent(proposal.getData());
         break;
-      case dat.Proposal.T_TYPE.CONFIG_CHANGE:
+      case Proposal.T_TYPE.CONFIG_CHANGE:
         s = this.#makeChangeConfigContent(proposal.getCommunityId(),
                                           proposal.getData());
         break;
-      case dat.Proposal.T_TYPE.NEW_MEMBER:
+      case Proposal.T_TYPE.NEW_MEMBER:
         s = this.#makeMemberApplicationContent(proposal.getData());
         break;
       default:

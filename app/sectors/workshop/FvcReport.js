@@ -3,6 +3,9 @@ import { FNoticeList } from './FNoticeList.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Notifications } from '../../common/dba/Notifications.js';
+import { FRequestInfo } from '../../common/hr/FRequestInfo.js';
+import { T_DATA } from '../../lib/framework/Events.js';
 
 export class FvcReport extends FScrollViewContent {
   constructor() {
@@ -21,7 +24,7 @@ export class FvcReport extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case fwk.T_DATA.NOTIFICATIONS:
+    case T_DATA.NOTIFICATIONS:
       this.render();
       break;
     default:
@@ -39,13 +42,13 @@ export class FvcReport extends FScrollViewContent {
     this._fNoticeList.attachRender(p.getContentPanel());
     this._fNoticeList.render();
 
-    let ids = dba.Notifications.getWorkshopRequestIds();
+    let ids = Notifications.getWorkshopRequestIds();
     if (ids.length) {
       p = new SectionPanel("Requests");
       panel.pushPanel(p);
       this._fRequestList.clear();
       for (let id of ids) {
-        let f = new S.hr.FRequestInfo();
+        let f = new FRequestInfo();
         f.setRequestId(id);
         f.setDelegate(this);
         this._fRequestList.append(f);

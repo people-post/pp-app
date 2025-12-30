@@ -3,6 +3,7 @@ export const CF_TEAM = {
 };
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { PTeamInfo } from './PTeamInfo.js';
 
 export class FTeam extends Fragment {
   constructor() {
@@ -15,7 +16,7 @@ export class FTeam extends Fragment {
 
   action(type, data) {
     switch (type) {
-    case wksp.CF_TEAM.ON_CLICK:
+    case CF_TEAM.ON_CLICK:
       this._delegate.onClickInTeamFragment(this);
       break;
     default:
@@ -30,11 +31,11 @@ export class FTeam extends Fragment {
       return;
     }
 
-    let panel = new wksp.PTeamInfo();
+    let panel = new PTeamInfo();
     render.wrapPanel(panel);
 
     if (panel.isHighlightable()) {
-      panel.setAttribute("onclick", "G.action(wksp.CF_TEAM.ON_CLICK)");
+      panel.setAttribute("onclick", "G.action(CF_TEAM.ON_CLICK)");
       if (this._dataSource.shouldHighlightInTeamFragment(this, this._teamId)) {
         panel.highlight();
       }

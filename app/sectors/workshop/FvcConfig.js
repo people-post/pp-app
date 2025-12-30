@@ -2,6 +2,15 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { MenuConfig } from '../../common/menu/MenuConfig.js';
+import { Workshop } from '../../common/dba/Workshop.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Account } from '../../common/dba/Account.js';
+import { Menus } from '../../common/dba/Menus.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { R } from '../../common/constants/R.js';
+import { ID, MAX } from '../../common/constants/Constants.js';
+import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 
 export class FvcConfig extends FScrollViewContent {
   constructor() {
@@ -14,10 +23,10 @@ export class FvcConfig extends FScrollViewContent {
     this._fOptions.setDelegate(this);
     this.setChild("options", this._fOptions);
 
-    this._fMenuConfig = new gui.MenuConfig();
+    this._fMenuConfig = new MenuConfig();
     this._fMenuConfig.setDataSource(this);
     this._fMenuConfig.setDelegate(this);
-    this._fMenuConfig.setSectorId(C.ID.SECTOR.WORKSHOP);
+    this._fMenuConfig.setSectorId(ID.SECTOR.WORKSHOP);
     this.setChild("mainMenu", this._fMenuConfig);
 
     this._fBtnAddTeam = new Button();
@@ -37,7 +46,7 @@ export class FvcConfig extends FScrollViewContent {
   shouldHighlightInTeamFragment(fTeam, teamId) {
     return teamId && (teamId == this._selectedTeamId);
   }
-  getTeamForTeamFragment(fTeam, teamId) { return dba.Workshop.getTeam(teamId); }
+  getTeamForTeamFragment(fTeam, teamId) { return Workshop.getTeam(teamId); }
   onClickInTeamFragment(fTeam) {
     let teamId = fTeam.getTeamId();
     this._selectedTeamId = teamId;
@@ -58,22 +67,22 @@ export class FvcConfig extends FScrollViewContent {
   }
 
   getMenuForGuiMenuConfig(fMenuConfig) {
-    let menus = dba.Menus.get(C.ID.SECTOR.WORKSHOP, dba.Account.getId());
+    let menus = Menus.get(ID.SECTOR.WORKSHOP, Account.getId());
     return menus.length ? menus[0] : null;
   }
 
   onOptionChangeInOptionsFragment(fOptions, value, isChecked) {
     if (value == "HOME") {
-      dba.WebConfig.asyncSetHomeSector(isChecked ? C.ID.SECTOR.WORKSHOP
-                                                 : C.ID.SECTOR.BLOG);
+      WebConfig.asyncSetHomeSector(isChecked ? ID.SECTOR.WORKSHOP
+                                                 : ID.SECTOR.BLOG);
     }
   }
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.GROUPS:
-    case fwk.T_DATA.WEB_CONFIG:
-    case plt.T_DATA.WORKSHOP_CONFIG:
+    case T_DATA.GROUPS:
+    case FwkT_DATA.WEB_CONFIG:
+    case T_DATA.WORKSHOP_CONFIG:
       this.render();
       break;
     default:
@@ -94,8 +103,8 @@ import { FTeam } from './FTeam.js';
 
     let pp = new SectionPanel("Options");
     p.pushPanel(pp);
-    this._fOptions.setOption("HOME", dba.WebConfig.getHomeSector() ==
-                                         C.ID.SECTOR.WORKSHOP);
+    this._fOptions.setOption("HOME", WebConfig.getHomeSector() ==
+                                         ID.SECTOR.WORKSHOP);
     this._fOptions.attachRender(pp.getContentPanel());
     this._fOptions.render();
 
@@ -107,7 +116,7 @@ import { FTeam } from './FTeam.js';
     pp = new SectionPanel("Teams");
     p.pushPanel(pp);
     this._fTeams.clear();
-    for (let id of dba.Workshop.getTeamIds()) {
+    for (let id of Workshop.getTeamIds()) {
       let f = new FTeam();
       f.setTeamId(id);
       f.setDataSource(this);
@@ -118,7 +127,7 @@ import { FTeam } from './FTeam.js';
     this._fTeams.render();
 
     p.pushSpace(1);
-    if (dba.Workshop.getTeamIds().length < C.MAX.N_TEAMS) {
+    if (Workshop.getTeamIds().length < MAX.N_TEAMS) {
       pp = new PanelWrapper();
       p.pushPanel(pp);
       this._fBtnAddTeam.attachRender(pp);

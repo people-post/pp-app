@@ -2,7 +2,16 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
-import { C } from '../../lib/framework/Constants.js';
+import { Account } from '../../common/dba/Account.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { MainMenu } from '../../common/menu/MainMenu.js';
+import { FSearchMenu } from '../../common/search/FSearchMenu.js';
+import { FOwnerProjectList } from './FOwnerProjectList.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { ID, URL_PARAM } from '../../common/constants/Constants.js';
+import { ICON } from '../../common/constants/Icons.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FvcOwner extends FScrollViewContent {
   #fmMain;
@@ -14,21 +23,21 @@ export class FvcOwner extends FScrollViewContent {
   constructor() {
     super();
     this.#fmMain = new FHeaderMenu();
-    this.#fmMain.setIcon(C.ICON.M_MENU, new MainIconOperator());
-    let f = new gui.MainMenu();
-    f.setSector(C.ID.SECTOR.WORKSHOP);
+    this.#fmMain.setIcon(ICON.M_MENU, new MainIconOperator());
+    let f = new MainMenu();
+    f.setSector(ID.SECTOR.WORKSHOP);
     f.setDelegate(this);
     this.#fmMain.setContentFragment(f);
     this.#fmMain.setExpansionPriority(0);
 
     this.#fmSearch = new FHeaderMenu();
-    this.#fmSearch.setIcon(C.ICON.M_SEARCH, new SearchIconOperator());
-    f = new srch.FSearchMenu();
+    this.#fmSearch.setIcon(ICON.M_SEARCH, new SearchIconOperator());
+    f = new FSearchMenu();
     f.setDelegate(this);
     this.#fmSearch.setContentFragment(f);
     this.#fmSearch.setExpansionPriority(1);
 
-    this.#fList = new wksp.FOwnerProjectList();
+    this.#fList = new FOwnerProjectList();
     this.#fList.setDataSource(this);
     this.#fList.setDelegate(this);
     this.setChild("list", this.#fList);
@@ -39,9 +48,9 @@ export class FvcOwner extends FScrollViewContent {
   }
 
   initFromUrl(urlParam) {
-    let id = urlParam.get(C.URL_PARAM.ID);
+    let id = urlParam.get(URL_PARAM.ID);
     if (id) {
-      let sid = dat.SocialItemId.fromEncodedStr(id);
+      let sid = SocialItemId.fromEncodedStr(id);
       if (sid) {
         this.#fList.switchToItem(sid.getValue());
       }
@@ -51,8 +60,8 @@ export class FvcOwner extends FScrollViewContent {
   getUrlParamString() {
     let id = this.#fList.getCurrentId();
     if (id) {
-      let sid = new dat.SocialItemId(id, dat.SocialItem.TYPE.PROJECT);
-      return C.URL_PARAM.ID + "=" + sid.toEncodedStr();
+      let sid = new SocialItemId(id, SocialItem.TYPE.PROJECT);
+      return URL_PARAM.ID + "=" + sid.toEncodedStr();
     }
     return "";
   }
@@ -63,7 +72,7 @@ export class FvcOwner extends FScrollViewContent {
   getMenuFragments() { return [ this.#fmMain, this.#fmSearch ]; }
 
   getActionButton() {
-    if (dba.Account.isAuthenticated() && dba.Account.isWebOwner()) {
+    if (Account.isAuthenticated() && Account.isWebOwner()) {
       return this.#fBtnNew;
     }
     return null;
@@ -89,7 +98,7 @@ export class FvcOwner extends FScrollViewContent {
     this.#applyTheme();
 
     this.#fmMain.close();
-    fwk.Events.triggerTopAction(fwk.T_ACTION.REPLACE_STATE, {}, "Projects");
+    Events.triggerTopAction(T_ACTION.REPLACE_STATE, {}, "Projects");
   }
 
   _onRenderAttached(render) {
@@ -110,7 +119,7 @@ export class FvcOwner extends FScrollViewContent {
   }
 
   #applyTheme() {
-    dba.WebConfig.setThemeId(
+    WebConfig.setThemeId(
         this.#currentMenuItem ? this.#currentMenuItem.getId() : null);
   }
 };

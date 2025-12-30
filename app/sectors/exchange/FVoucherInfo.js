@@ -22,7 +22,9 @@ const _CVF_VOUCHER_INFO = {
       `<span class="button-like small disabled">Available in __DT__.</span>`
 }
 
-export class FVoucherInfo extends xchg.FExchangeItemInfo {
+import { FExchangeItemInfo } from './FExchangeItemInfo.js';
+
+export class FVoucherInfo extends FExchangeItemInfo {
   action(type, ...args) {
     switch (type) {
     case CF_VOUCHER_INFO.DONATE:

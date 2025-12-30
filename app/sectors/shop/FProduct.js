@@ -10,8 +10,27 @@ const _CFT_PRODUCT = {
 };
 
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
+import { MajorSectorItem } from '../../common/gui/MajorSectorItem.js';
+import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
+import { FGallery } from '../../common/gui/FGallery.js';
+import { FUserIcon } from '../../common/hr/FUserIcon.js';
+import { FUserInfo } from '../../common/hr/FUserInfo.js';
+import { FProductDeliveryManager } from './FProductDeliveryManager.js';
+import { PriceFragment } from '../../common/gui/PriceFragment.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { Account } from '../../common/dba/Account.js';
+import { Cart } from '../../common/dba/Cart.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Utilities } from '../../common/Utilities.js';
+import { PProduct } from './PProduct.js';
+import { PProductInfoLarge } from './PProductInfoLarge.js';
+import { PProductInfoSmallQuote } from './PProductInfoSmallQuote.js';
+import { PProductInfoLargeQuote } from './PProductInfoLargeQuote.js';
+import { PProductInfoMiddle } from './PProductInfoMiddle.js';
+import { FProductDelivery } from './FProductDelivery.js';
 
-export class FProduct extends gui.MajorSectorItem {
+export class FProduct extends MajorSectorItem {
   static T_LAYOUT = {
     INFO : Symbol(),
     FULL: Symbol(),
@@ -19,29 +38,29 @@ export class FProduct extends gui.MajorSectorItem {
 
   constructor() {
     super();
-    this._fThumbnail = new gui.FilesThumbnailFragment();
+    this._fThumbnail = new FilesThumbnailFragment();
     this._fThumbnail.setDataSource(this);
     this._fThumbnail.setDelegate(this);
     this.setChild("thumbnail", this._fThumbnail);
 
-    this._fGallery = new gui.FGallery();
+    this._fGallery = new FGallery();
     this._fGallery.setDataSource(this);
     this._fGallery.setDelegate(this);
     this.setChild("gallery", this._fGallery);
 
-    this._fUserIcon = new S.hr.FUserIcon();
+    this._fUserIcon = new FUserIcon();
     this.setChild("usericon", this._fUserIcon);
 
-    this._fUserName = new S.hr.FUserInfo();
-    this._fUserName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this._fUserName = new FUserInfo();
+    this._fUserName.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("username", this._fUserName);
 
-    this._fDelivery = new shop.FProductDeliveryManager();
+    this._fDelivery = new FProductDeliveryManager();
     this._fDelivery.setDataSource(this);
     this._fDelivery.setDelegate(this);
     this.setChild("delivery", this._fDelivery);
 
-    this._fPrice = new gui.PriceFragment();
+    this._fPrice = new PriceFragment();
     this.setChild("price", this._fPrice);
 
     this._tLayout = null;
@@ -53,10 +72,10 @@ export class FProduct extends gui.MajorSectorItem {
   getSizeType() { return this._tInfoSize; }
 
   getProductForDeliveryManagerFragment(fDelivery) {
-    return dba.Shop.getProduct(this._productId);
+    return Shop.getProduct(this._productId);
   }
   getFilesForThumbnailFragment(fThumbnail) {
-    let product = dba.Shop.getProduct(this._productId);
+    let product = Shop.getProduct(this._productId);
     return product ? product.getFiles() : [];
   }
 
@@ -73,10 +92,10 @@ export class FProduct extends gui.MajorSectorItem {
 
   action(type, ...args) {
     switch (type) {
-    case shop.CF_PRODUCT.VIEW:
+    case CF_PRODUCT.VIEW:
       this._delegate.onClickInProductInfoFragment(this, this._productId);
       break;
-    case shop.CF_PRODUCT.EDIT:
+    case CF_PRODUCT.EDIT:
       this._delegate.onRequestEditProduct(this._productId);
       break;
     default:
@@ -87,12 +106,12 @@ export class FProduct extends gui.MajorSectorItem {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.PRODUCT:
+    case T_DATA.PRODUCT:
       if (data.getId() == this._productId) {
         this.render();
       }
       break;
-    case plt.T_DATA.DRAFT_ORDERS:
+    case T_DATA.DRAFT_ORDERS:
       this.render();
       break;
     default:
@@ -105,7 +124,7 @@ export class FProduct extends gui.MajorSectorItem {
     let pMain = this.#createPanel();
     render.wrapPanel(pMain);
 
-    let product = dba.Shop.getProduct(this._productId);
+    let product = Shop.getProduct(this._productId);
     if (!product) {
       return;
     }
@@ -156,7 +175,7 @@ export class FProduct extends gui.MajorSectorItem {
     let p;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.FULL:
-      p = new shop.PProduct();
+      p = new PProduct();
       break;
     default:
       p = this.#createInfoPanel();
@@ -167,17 +186,17 @@ export class FProduct extends gui.MajorSectorItem {
   #createInfoPanel() {
     let p;
     switch (this._tInfoSize) {
-    case dat.SocialItem.T_LAYOUT.LARGE:
-      p = new shop.PProductInfoLarge();
+    case SocialItem.T_LAYOUT.LARGE:
+      p = new PProductInfoLarge();
       break;
-    case dat.SocialItem.T_LAYOUT.EXT_QUOTE_SMALL:
-      p = new shop.PProductInfoSmallQuote();
+    case SocialItem.T_LAYOUT.EXT_QUOTE_SMALL:
+      p = new PProductInfoSmallQuote();
       break;
-    case dat.SocialItem.T_LAYOUT.EXT_QUOTE_LARGE:
-      p = new shop.PProductInfoLargeQuote();
+    case SocialItem.T_LAYOUT.EXT_QUOTE_LARGE:
+      p = new PProductInfoLargeQuote();
       break;
     default:
-      p = new shop.PProductInfoMiddle();
+      p = new PProductInfoMiddle();
       break;
     }
     p.setClassName("clickable");
@@ -220,21 +239,21 @@ export class FProduct extends gui.MajorSectorItem {
     }
 
     if (this._tLayout != this.constructor.T_LAYOUT.FULL &&
-        product.isEditableByUser(dba.Account.getId())) {
+        product.isEditableByUser(Account.getId())) {
       panel.replaceContent(_CFT_PRODUCT.EDIT_BUTTON);
       return;
     }
 
     if (this._tLayout != this.constructor.T_LAYOUT.FULL) {
-      this._fDelivery.setLayoutType(shop.FProductDelivery.T_LAYOUT.COMPACT);
+      this._fDelivery.setLayoutType(FProductDelivery.T_LAYOUT.COMPACT);
     }
     this._fDelivery.attachRender(panel);
     this._fDelivery.render();
   }
 
-import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
-
-export class FProduct extends gui.MajorSectorItem {
+  #createThumbnailPanel() {
+    let p = new ThumbnailPanelWrapper();
+    p.setClassName("thumbnail small");
     if (this.#isSquareThumbnail()) {
       p.setClassName("aspect-1-1-frame");
     }
@@ -242,11 +261,11 @@ export class FProduct extends gui.MajorSectorItem {
   }
 
   #isSquareThumbnail() {
-    return this._tInfoSize == dat.SocialItem.T_LAYOUT.MEDIUM;
+    return this._tInfoSize == SocialItem.T_LAYOUT.MEDIUM;
   }
 
   #onAddToCart() {
-    dba.Cart.asyncAddItem(this._productId, this._fPrice.getSelectedCurrencyId(),
+    Cart.asyncAddItem(this._productId, this._fPrice.getSelectedCurrencyId(),
                           [], 1);
   }
 };

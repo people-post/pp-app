@@ -1,9 +1,10 @@
 import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
-import { C } from '../../lib/framework/Constants.js';
+import { URL_PARAM } from '../../common/constants/Constants.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FEmailList extends FLongListLegacy {
   initFromUrl(urlParam) {
-    let id = urlParam.get(C.URL_PARAM.ID);
+    let id = urlParam.get(URL_PARAM.ID);
     if (id) {
       this.switchToItem(id);
     }
@@ -11,7 +12,7 @@ export class FEmailList extends FLongListLegacy {
 
   getUrlParamString() {
     if (this._currentId) {
-      return C.URL_PARAM.ID + "=" + this._currentId;
+      return URL_PARAM.ID + "=" + this._currentId;
     }
     return "";
   }
@@ -30,7 +31,7 @@ export class FEmailList extends FLongListLegacy {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.EMAIL_IDS:
+    case T_DATA.EMAIL_IDS:
       this._fItems.reload();
       break;
     default:
