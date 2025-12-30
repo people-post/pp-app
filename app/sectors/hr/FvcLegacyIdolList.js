@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { SimpleLongListFragment } from '../../common/gui/SimpleLongListFragment.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class FvcLegacyIdolList extends FScrollViewContent {
   constructor() {
@@ -61,7 +62,7 @@ export class FvcLegacyIdolList extends FScrollViewContent {
   }
 
   #onAddIdol() {
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(new hr.FvcAddIdol());
     this._owner.onFragmentRequestShowView(this, v, "Add idol");
   }

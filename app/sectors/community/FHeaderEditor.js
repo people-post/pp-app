@@ -16,7 +16,9 @@ const _CFT_COMMUNITY_HEADER_EDITOR = {
     <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action(CF_COMMUNITY_HEADER_EDITOR.ON_INFO_IMAGE_CHANGE, this.files[0])">`,
 };
 
-export class FHeaderEditor extends ui.Fragment {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+export class FHeaderEditor extends Fragment {
   constructor() {
     super();
     this._iconUploader = new plt.FileUploader();

@@ -5,6 +5,10 @@ const _CFT_CART_CONTENT = {
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { FCart } from './FCart.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { C } from '../../lib/framework/Constants.js';
 
 export class FvcCurrent extends FScrollViewContent {
   constructor() {
@@ -23,7 +27,7 @@ export class FvcCurrent extends FScrollViewContent {
   }
 
   getUrlParamString() {
-    return ui.C.URL_PARAM.ADDON + "=" + C.URL_PARAM_ADDON_VALUE.CART;
+    return C.URL_PARAM.ADDON + "=" + C.URL_PARAM_ADDON_VALUE.CART;
   }
 
   getCartForCartFragment(fCart, cartId) { return dba.Cart.getCart(cartId); }
@@ -57,10 +61,10 @@ export class FvcCurrent extends FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     p.pushPanel(pp);
 
     this._fPayables.clear();
@@ -82,7 +86,7 @@ export class FvcCurrent extends FScrollViewContent {
       pp.replaceContent(_CFT_CART_CONTENT.EMPTY);
     }
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fReserved.attachRender(pp);
     this._fReserved.render();
@@ -113,7 +117,7 @@ export class FvcCurrent extends FScrollViewContent {
 
   #goCheckout(order) {
     if (dba.Account.isAuthenticated()) {
-      let v = new ui.View();
+      let v = new View();
       let f = new cart.FvcCheckout();
       f.setOrder(order);
       v.setContentFragment(f);

@@ -81,7 +81,7 @@ export class FvcChatThreadList extends FScrollViewContent {
   }
 
   #startChatWith(target) {
-    let v = new ui.View();
+    let v = new View();
     let f = new msgr.FvcChat();
     f.setTarget(target);
     v.setContentFragment(f);

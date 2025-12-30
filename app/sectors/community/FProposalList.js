@@ -1,3 +1,5 @@
+import { View } from '../../lib/ui/controllers/views/View.js';
+
 export class FProposalList extends gui.DefaultLongList {
   constructor() {
     super();
@@ -37,7 +39,7 @@ export class FProposalList extends gui.DefaultLongList {
   }
 
   _createItemView(id) {
-    let v = new ui.View();
+    let v = new View();
     let f = new cmut.FvcProposal();
     f.setProposalId(id);
     v.setContentFragment(f);

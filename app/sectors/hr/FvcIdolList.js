@@ -1,4 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class FvcIdolList extends FScrollViewContent {
   #fUsers;
@@ -19,8 +21,8 @@ export class FvcIdolList extends FScrollViewContent {
     this.#fUsers.setDataSource(this);
     this.setChild("users", this.#fUsers);
 
-    this.#fBtnAdd = new gui.ActionButton();
-    this.#fBtnAdd.setIcon(gui.ActionButton.T_ICON.NEW);
+    this.#fBtnAdd = new ActionButton();
+    this.#fBtnAdd.setIcon(ActionButton.T_ICON.NEW);
     this.#fBtnAdd.setDelegate(this);
   }
 
@@ -51,7 +53,7 @@ export class FvcIdolList extends FScrollViewContent {
   }
 
   #onAddIdol() {
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(new hr.FvcAddIdol());
     this._owner.onFragmentRequestShowView(this, v, "Add idol");
   }

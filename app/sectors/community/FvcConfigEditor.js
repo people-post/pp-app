@@ -3,6 +3,10 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
 import { FTributetInput } from '../../common/gui/FTributeInput.js';
 import { ButtonList } from '../../lib/ui/controllers/fragments/ButtonList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { SplitPanel } from '../../lib/ui/renders/panels/SplitPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 export class FvcConfigEditor extends FScrollViewContent {
   constructor() {
@@ -57,17 +61,17 @@ export class FvcConfigEditor extends FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let pMain = new ui.ListPanel();
+    let pMain = new ListPanel();
     render.wrapPanel(pMain);
 
-    let p = new ui.SectionPanel("Captain");
+    let p = new SectionPanel("Captain");
     pMain.pushPanel(p);
     this._fCaptain.attachRender(p.getContentPanel());
     this._fCaptain.render();
 
-    p = new ui.SectionPanel("Admission");
+    p = new SectionPanel("Admission");
     pMain.pushPanel(p);
-    let pSplit = new ui.SplitPanel();
+    let pSplit = new SplitPanel();
     p.getContentPanel().wrapPanel(pSplit);
     p = pSplit.getLeftPanel();
     p.setClassName("small-info-text");
@@ -75,11 +79,11 @@ export class FvcConfigEditor extends FScrollViewContent {
     this._fNJoinApprovals.attachRender(pSplit.getRightPanel());
     this._fNJoinApprovals.render();
 
-    p = new ui.SectionPanel("Voting");
+    p = new SectionPanel("Voting");
     pMain.pushPanel(p);
-    let pList = new ui.ListPanel();
+    let pList = new ListPanel();
     p.getContentPanel().wrapPanel(pList);
-    pSplit = new ui.SplitPanel();
+    pSplit = new SplitPanel();
     pList.pushPanel(pSplit);
     p = pSplit.getLeftPanel();
     p.setClassName("small-info-text");
@@ -87,7 +91,7 @@ export class FvcConfigEditor extends FScrollViewContent {
     this._fVotingThreshold.attachRender(pSplit.getRightPanel());
     this._fVotingThreshold.render();
 
-    pSplit = new ui.SplitPanel();
+    pSplit = new SplitPanel();
     pList.pushPanel(pSplit);
     p = pSplit.getLeftPanel();
     p.setClassName("small-info-text");
@@ -96,14 +100,14 @@ export class FvcConfigEditor extends FScrollViewContent {
     this._fDaysToExpire.render();
 
     if (dba.WebConfig.isDevSite()) {
-      p = new ui.SectionPanel("Contribution");
+      p = new SectionPanel("Contribution");
       pMain.pushPanel(p);
       this._fTribute.attachRender(p.getContentPanel());
       this._fTribute.render();
 
-      p = new ui.SectionPanel("Destribution");
+      p = new SectionPanel("Destribution");
       pMain.pushPanel(p);
-      pSplit = new ui.SplitPanel();
+      pSplit = new SplitPanel();
       p.getContentPanel().wrapPanel(pSplit);
       p = pSplit.getLeftPanel();
       p.setClassName("small-info-text");
@@ -113,7 +117,7 @@ export class FvcConfigEditor extends FScrollViewContent {
     }
 
     pMain.pushSpace(1);
-    p = new ui.Panel();
+    p = new Panel();
     pMain.pushPanel(p);
     this._fActions.attachRender(p);
     this._fActions.render();

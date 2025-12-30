@@ -1,6 +1,10 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
 import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 
 export class FvcDeposit extends FScrollViewContent {
   constructor() {
@@ -35,14 +39,14 @@ export class FvcDeposit extends FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fInput.attachRender(pp);
     this._fInput.render();
 
-    pp = new ui.PanelWrapper();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fSquare.attachRender(pp);
     this._fSquare.render();
@@ -60,8 +64,8 @@ export class FvcDeposit extends FScrollViewContent {
   }
 
   #onPayRRR(data) {
-    let v = new ui.View();
-    let f = new ui.FvcNotice();
+    let v = new View();
+    let f = new FvcNotice();
     f.setMessage(R.get("ACK_DEPOSIT"));
     v.setContentFragment(f);
     this._owner.onContentFragmentRequestReplaceView(this, v, "Notice");

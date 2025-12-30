@@ -16,6 +16,9 @@ const _CFT_PROPOSAL = {
 };
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FvcConfirmAction } from '../../lib/ui/controllers/fragments/FvcConfirmAction.js';
+import { C } from '../../lib/framework/Constants.js';
 
 export class FProposal extends Fragment {
   static T_LAYOUT = {
@@ -329,8 +332,8 @@ export class FProposal extends Fragment {
   }
 
   #onShowVote() {
-    let v = new ui.View();
-    let f = new ui.FvcConfirmAction();
+    let v = new View();
+    let f = new FvcConfirmAction();
     f.setMessage(R.get("PROMPT_VOTE"));
     f.addOption("YEA", () => this.#onVote(dat.Vote.T_VALUE.YEA));
     f.addOption("NAY", () => this.#onVote(dat.Vote.T_VALUE.NAY));

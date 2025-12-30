@@ -17,11 +17,15 @@ const _CPT_ACTIVE_ITEM_INFO = {
   </div>`,
 }
 
-export class PActiveItemInfo extends cart.PCartItemInfo {
+import { PCartItemInfo } from './PCartItemInfo.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PActiveItemInfo extends PCartItemInfo {
   constructor() {
     super();
-    this._pQuantity = new ui.Panel();
-    this._pBtnSaveForLater = new ui.PanelWrapper();
+    this._pQuantity = new Panel();
+    this._pBtnSaveForLater = new PanelWrapper();
   }
 
   getQuantityPanel() { return this._pQuantity; }

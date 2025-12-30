@@ -24,7 +24,7 @@ export class FOrderSupplierItem extends Fragment {
   setItem(item) { this._item = item; }
 
   _renderOnRender(render) {
-    let p = new ui.Panel();
+    let p = new Panel();
     p.setClassName("flex space-between");
     render.wrapPanel(p);
     p.replaceContent(this.#renderItem(this._item));

@@ -108,7 +108,7 @@ export class FvcWeb3Wallet extends FScrollViewContent {
     pList.pushPanel(p);
     p.replaceContent("Address: " + this.#input_addr);
 
-    p = new ui.Panel();
+    p = new Panel();
     pList.pushPanel(p);
     this.#pBalance = p;
     p.replaceContent("Balance: " + 0);

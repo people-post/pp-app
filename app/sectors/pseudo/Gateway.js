@@ -1,3 +1,5 @@
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { C } from '../../lib/framework/Constants.js';
 
 export class Gateway extends plt.SectorGateway {
   static T_CONFIG = {
@@ -60,11 +62,11 @@ export class Gateway extends plt.SectorGateway {
     let vs = [];
     switch (pageId) {
     case this.constructor.T_CONFIG.QUEUE.ID:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       vs[0].setContentFragment(new shop.FvcQueueMain());
       break;
     case this.constructor.T_CONFIG.COUNTER.ID:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       vs[0].setContentFragment(new shop.FvcCounterMain());
       break;
     default:
@@ -77,7 +79,7 @@ export class Gateway extends plt.SectorGateway {
     let vs = [];
     switch (pageId) {
     case this.constructor.T_CONFIG.QUEUE.ID:
-      vs = [ new ui.View() ];
+      vs = [ new View() ];
       vs[0].setContentFragment(new shop.FvcQueueSide());
       break;
     default:

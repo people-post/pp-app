@@ -30,12 +30,12 @@ export class FPreviewOrder extends Fragment {
       f.setItem(item);
       this._fItems.append(f);
     }
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fItems.attachRender(pp);
     this._fItems.render();
 
-    pp = new ui.Panel();
+    pp = new Panel();
     pp.setClassName("right-align");
     let c = dba.Exchange.getCurrency(order.getCurrencyId());
     p.pushPanel(pp);

@@ -1,6 +1,8 @@
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
 
 export class FvcChat extends FViewContentBase {
   #fHeader;
@@ -25,12 +27,12 @@ export class FvcChat extends FViewContentBase {
     this.#fConsole.setMenuFragment(new msgr.FChatInputMenu());
     this.setChild("console", this.#fConsole);
 
-    this.#btnInfo = new gui.ActionButton();
-    this.#btnInfo.setIcon(gui.ActionButton.T_ICON.INFO);
+    this.#btnInfo = new ActionButton();
+    this.#btnInfo.setIcon(ActionButton.T_ICON.INFO);
     this.#btnInfo.setDelegate(this);
 
-    this.#btnMore = new gui.ActionButton();
-    this.#btnMore.setIcon(gui.ActionButton.T_ICON.MORE);
+    this.#btnMore = new ActionButton();
+    this.#btnMore.setIcon(ActionButton.T_ICON.MORE);
     this.#btnMore.setDelegate(this);
   }
 
@@ -145,7 +147,7 @@ export class FvcChat extends FViewContentBase {
   }
 
   #onP2PMore() {
-    let v = new ui.View();
+    let v = new View();
     let f = new msgr.FvcConversationOptions();
     f.setTarget(this.#target);
     f.setDelegate(this);

@@ -1,3 +1,4 @@
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class FOrderList extends gui.DefaultLongList {
   isOrderSelected(orderId) { return this._currentId == orderId; }
@@ -15,7 +16,7 @@ export class FOrderList extends gui.DefaultLongList {
   }
 
   _createItemView(itemId) {
-    let v = new ui.View();
+    let v = new View();
     let f = new cart.FvcOrder();
     f.setOrderId(itemId);
     v.setContentFragment(f);

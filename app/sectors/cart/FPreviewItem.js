@@ -5,6 +5,9 @@ const _CFT_PREVIEW_ORDER_ITEM = {
     <div>__UNIT_PRICE__</div>`,
 }
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class FPreviewItem extends Fragment {
 
 export class FPreviewItem extends Fragment {
   constructor() {
@@ -17,7 +20,7 @@ export class FPreviewItem extends Fragment {
   setItem(item) { this._item = item; }
 
   _renderOnRender(render) {
-    let p = new ui.Panel();
+    let p = new Panel();
     p.setClassName("flex space-between");
     render.wrapPanel(p);
     p.replaceContent(this.#renderItem(this._item));

@@ -1,4 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 window.CF_CHAT_THREAD_INFO = {
   ON_CLICK : "CF_CHAT_THREAD_INFO_1",
@@ -43,17 +46,17 @@ export class FChatThreadInfo extends Fragment {
   _getIconInfos() { return []; }
 
   _renderOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     p.setClassName("flex flex-start clickable chat-thread-info");
     p.setAttribute("onclick",
                    "javascript:G.action(CF_CHAT_THREAD_INFO.ON_CLICK)");
     render.wrapPanel(p);
 
-    let pp = new ui.ListPanel();
+    let pp = new ListPanel();
     pp.setClassName("chat-thread-cover-icon");
     p.pushPanel(pp);
 
-    let pThumbnail = new ui.PanelWrapper();
+    let pThumbnail = new PanelWrapper();
     pThumbnail.setClassName("thumbnail s-icon1");
     pp.pushPanel(pThumbnail);
     this._fThumbnail.attachRender(pThumbnail);
@@ -62,21 +65,21 @@ export class FChatThreadInfo extends Fragment {
     let info = dba.Notifications.getMessageThreadInfo(this._threadId);
 
     if (info && info.getNUnread() > 0) {
-      let ppp = new ui.Panel();
+      let ppp = new Panel();
       ppp.setClassName("notification-badge");
       pp.pushPanel(ppp);
       ppp.replaceContent(info.getNUnread().toString());
     }
 
-    pp = new ui.ListPanel();
+    pp = new ListPanel();
     pp.setClassName("chat-thread-cover-content");
     p.pushPanel(pp);
-    let ppp = new ui.Panel();
+    let ppp = new Panel();
     ppp.setClassName("chat-thread-cover-nickname");
     pp.pushPanel(ppp);
     ppp.replaceContent(this._renderTitle());
 
-    ppp = new ui.Panel();
+    ppp = new Panel();
     ppp.setClassName("s-font5 chat-thread-cover-message");
     pp.pushPanel(ppp);
 

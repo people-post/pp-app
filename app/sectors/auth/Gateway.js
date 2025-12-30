@@ -1,10 +1,11 @@
 import { FvcWeb3Login } from './FvcWeb3Login.js';
 import { FvcLogin } from './FvcLogin.js';
 import { FvcLoginProxy } from './FvcLoginProxy.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class Gateway extends plt.SectorGateway {
   createLoginView(nextView) {
-    let v = new ui.View();
+    let v = new View();
     let f = this.#createLoginViewContentFragment();
     f.setNextView(nextView);
     v.setContentFragment(f);
@@ -12,7 +13,7 @@ export class Gateway extends plt.SectorGateway {
   }
 
   createWeb3LoginView() {
-    let v = new ui.View();
+    let v = new View();
     let f = new FvcWeb3Login();
     v.setContentFragment(f);
     return v;

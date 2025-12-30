@@ -6,6 +6,10 @@ const _CFT_CART = {
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FCart extends Fragment {
   static T_LAYOUT = {
@@ -69,7 +73,7 @@ export class FCart extends Fragment {
   }
 
   _renderOnRender(render) {
-    let pMain = new ui.ListPanel();
+    let pMain = new ListPanel();
     render.wrapPanel(pMain);
 
     let p;
@@ -77,7 +81,7 @@ export class FCart extends Fragment {
     this._fItems.clear();
     let items = this.#getItems();
     if (items.length) {
-      p = new ui.SectionPanel(this.#renderTitle());
+      p = new SectionPanel(this.#renderTitle());
       pMain.pushPanel(p);
       for (let item of items) {
         let f = new cart.FCartItem();
@@ -101,13 +105,13 @@ export class FCart extends Fragment {
       }
 
       if (total > 0) {
-        p = new ui.Panel();
+        p = new Panel();
         p.setClassName("right-align");
         pMain.pushPanel(p);
         this.#renderTotal(total, p);
         pMain.pushSpace(1);
 
-        p = new ui.PanelWrapper();
+        p = new PanelWrapper();
         pMain.pushPanel(p);
         this._fBtnCheckout.attachRender(p);
         this._fBtnCheckout.render();

@@ -15,6 +15,8 @@ window._CFT_CHAT_INPUT_MENU = {
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { C } from '../../lib/framework/Constants.js';
 
 export class FChatInputMenu extends Fragment {
   _renderOnRender(render) {
@@ -22,7 +24,7 @@ export class FChatInputMenu extends Fragment {
     p.setClassName("flex flex-start");
     render.wrapPanel(p);
 
-    let pp = new ui.Panel();
+    let pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderSendFileButton());
 

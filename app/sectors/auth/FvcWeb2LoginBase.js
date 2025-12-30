@@ -1,4 +1,6 @@
 import { FvcLoginBase } from './FvcLoginBase.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { C } from '../../lib/framework/Constants.js';
 
 export class FvcWeb2LoginBase extends FvcLoginBase {
   constructor() {
@@ -20,7 +22,7 @@ export class FvcWeb2LoginBase extends FvcLoginBase {
 
   getActionButton() {
     // Return empty fragment to avoid being assigned with default action button
-    return new ui.Fragment();
+    return new Fragment();
   }
 
   setNextView(v) { this._nextView = v; }

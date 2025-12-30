@@ -2,6 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { FEmail } from './FEmail.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 
 export class FvcEmail extends FScrollViewContent {
   constructor() {
@@ -33,7 +34,7 @@ export class FvcEmail extends FScrollViewContent {
     this._lc.setDescription(null);
     this._lc.clearOptions();
     this._lc.addOption("Mark unread", "MARK_UNREAD");
-    this._lc.addOption("Delete", "DELETE", null, ui.Button.T_THEME.RISKY);
+    this._lc.addOption("Delete", "DELETE", null, Button.T_THEME.RISKY);
     fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this._lc,
                                 "Context");
   }

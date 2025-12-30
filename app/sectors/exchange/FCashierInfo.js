@@ -10,6 +10,7 @@ const _CVF_CASHIER_INFO = {
   BTN_WITHDRAW :
       `<span class="button-like small danger" onclick="javascript:G.action(CF_CASHIER_INFO.WITHDRAW)">Withdraw...</span>`,
 }
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class FCashierInfo extends xchg.FExchangeItemInfo {
   action(type, ...args) {
@@ -42,7 +43,7 @@ export class FCashierInfo extends xchg.FExchangeItemInfo {
   }
 
   #onDepositClicked() {
-    let v = new ui.View();
+    let v = new View();
     v.setContentFragment(new xchg.FvcDeposit());
     fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Deposit",
                                 true);

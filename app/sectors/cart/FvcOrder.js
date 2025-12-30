@@ -1,4 +1,6 @@
-export class FvcOrder extends ui.FScrollViewContent {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+
+export class FvcOrder extends FScrollViewContent {
   constructor() {
     super();
     this._fOrder = new cart.FOrder();

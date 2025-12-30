@@ -25,9 +25,9 @@ export class FvcConversationOptions extends FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let p = new ui.ListPanel();
+    let p = new ListPanel();
     render.wrapPanel(p);
-    let pp = new ui.PanelWrapper();
+    let pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fDelete.attachRender(pp);
     this._fDelete.render();

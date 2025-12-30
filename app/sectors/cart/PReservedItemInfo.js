@@ -16,10 +16,13 @@ const _CPT_RESERVED_ITEM_INFO = {
   </div>`,
 }
 
-export class PReservedItemInfo extends cart.PCartItemInfo {
+import { PCartItemInfo } from './PCartItemInfo.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PReservedItemInfo extends PCartItemInfo {
   constructor() {
     super();
-    this._pBtnMoveToCart = new ui.PanelWrapper();
+    this._pBtnMoveToCart = new PanelWrapper();
   }
 
   getMoveToCartBtnPanel() { return this._pBtnMoveToCart; }
