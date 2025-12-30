@@ -1,5 +1,4 @@
-(function(hr) {
-class FvcUserInfo extends ui.FViewContentWithHeroBanner {
+export class FvcUserInfo extends ui.FViewContentWithHeroBanner {
   #fBanner;
   #fBlog;
   #fWorkshop;
@@ -114,7 +113,10 @@ class FvcUserInfo extends ui.FViewContentWithHeroBanner {
     }
     this.#fMain.switchTo("BLOG");
   }
-};
+}
 
-hr.FvcUserInfo = FvcUserInfo;
-}(window.hr = window.hr || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.hr = window.hr || {};
+  window.hr.FvcUserInfo = FvcUserInfo;
+}

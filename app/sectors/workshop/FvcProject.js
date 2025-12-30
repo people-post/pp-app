@@ -1,5 +1,4 @@
-(function(wksp) {
-class FvcProject extends ui.FScrollViewContent {
+export class FvcProject extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fThumbnail = new gui.FilesThumbnailFragment();
@@ -686,7 +685,10 @@ class FvcProject extends ui.FScrollViewContent {
     this._fWorkerSearch.setUserIds(data.ids);
     this.render();
   }
-};
+}
 
-wksp.FvcProject = FvcProject;
-}(window.wksp = window.wksp || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.wksp = window.wksp || {};
+  window.wksp.FvcProject = FvcProject;
+}

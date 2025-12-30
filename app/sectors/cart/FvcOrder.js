@@ -1,5 +1,4 @@
-(function(cart) {
-class FvcOrder extends ui.FScrollViewContent {
+export class FvcOrder extends ui.FScrollViewContent {
   constructor() {
     super();
     this._fOrder = new cart.FOrder();
@@ -13,7 +12,10 @@ class FvcOrder extends ui.FScrollViewContent {
     this._fOrder.attachRender(render);
     this._fOrder.render();
   }
-};
+}
 
-cart.FvcOrder = FvcOrder;
-}(window.cart = window.cart || {}));
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.cart = window.cart || {};
+  window.cart.FvcOrder = FvcOrder;
+}

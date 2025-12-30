@@ -1,4 +1,3 @@
-(function(blog) {
 const _CPT_POST = {
   MAIN : `<div id="__ID_POST__"></div>
   <div class="pad5px flex space-between">
@@ -375,7 +374,12 @@ class FvcPost extends ui.FScrollViewContent {
   #onUntagCommentRRR(data) {
     dba.Blog.updateArticle(new dat.Article(data.article));
   }
-};
+}
 
-blog.FvcPost = FvcPost;
-}(window.blog = window.blog || {}));
+export { FvcPost };
+
+// Backward compatibility
+if (typeof window !== 'undefined') {
+  window.blog = window.blog || {};
+  window.blog.FvcPost = FvcPost;
+}
