@@ -1,3 +1,6 @@
+import { PUserInfoBase } from './PUserInfoBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
 /*
  * +----------+---------+
  * | TYPEICON | NAME@ID |
@@ -12,11 +15,11 @@ const _CPT_USER_INFO_COMPACT_CELL = {
   </span>`,
 }
 
-export class PUserInfoCompactCell extends S.hr.PUserInfoBase {
+export class PUserInfoCompactCell extends PUserInfoBase {
   constructor() {
     super();
-    this._pTypeIcon = new ui.Panel();
-    this._pUserId = new ui.Panel();
+    this._pTypeIcon = new Panel();
+    this._pUserId = new Panel();
   }
 
   getUserIdPanel() { return this._pUserId; }

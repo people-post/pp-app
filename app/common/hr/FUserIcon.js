@@ -1,3 +1,7 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { T_DATA } from '../plt/Events.js';
+import { Users } from '../dba/Users.js';
+
 export const CF_USER_ICON = {
   USER_INFO : "CF_USER_ICON_1",
 };
@@ -9,7 +13,7 @@ const _CFT_USER_ICON = {
   </span>`,
 };
 
-export class FUserIcon extends ui.Fragment {
+export class FUserIcon extends Fragment {
   static ST_SMALL = "SMALL";
   static ST_MIDDLE = "MIDDLE";
   static ST_LARGE = "LARGE";
@@ -35,10 +39,10 @@ export class FUserIcon extends ui.Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
-    case plt.T_DATA.USER_PUBLIC_PROFILE:
+    case T_DATA.USER_PUBLIC_PROFILE:
       if (this.#userId == data) {
         this.render();
       }
@@ -50,7 +54,7 @@ export class FUserIcon extends ui.Fragment {
   }
 
   _renderContent() {
-    let user = dba.Users.get(this.#userId);
+    let user = Users.get(this.#userId);
     let s = _CFT_USER_ICON.ICON;
     if (user) {
       s = s.replace("__ICON_URL__", user.getIconUrl());

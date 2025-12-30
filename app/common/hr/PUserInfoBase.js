@@ -1,7 +1,9 @@
-export class PUserInfoBase extends ui.Panel {
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+export class PUserInfoBase extends Panel {
   constructor() {
     super();
-    this._pName = new ui.Panel();
+    this._pName = new Panel();
   }
 
   getNamePanel() { return this._pName; }
