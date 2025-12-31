@@ -8,6 +8,15 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ID, MAX } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { MenuConfig } from '../../common/menu/MenuConfig.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { Menus } from '../../common/dba/Menus.js';
+import { Account } from '../../common/dba/Account.js';
+import { FRoleList } from './FRoleList.js';
+import { FPostInfo } from './FPostInfo.js';
+import { FPostInfoLayoutPreview } from './FPostInfoLayoutPreview.js';
+import { FvcRoleEditor } from './FvcRoleEditor.js';
+import { api } from '../../common/plt/Api.js';
 
 window.CF_BLOG_CONFIG = {
   ADD_ROLE : "CF_BLOG_CONFIG_1",
@@ -23,10 +32,10 @@ const _CFT_BLOG_CONFIG_CONTENT = {
 export class FvcConfig extends FScrollViewContent {
   constructor() {
     super();
-    this._fInsiders = new blog.FRoleList();
+    this._fInsiders = new FRoleList();
     this._fInsiders.setRoleType(BlogRole.T_ROLE.EXCLUSIVE);
     this._fInsiders.setDelegate(this);
-    this._fPartnerships = new blog.FRoleList();
+    this._fPartnerships = new FRoleList();
     this._fPartnerships.setRoleType(BlogRole.T_ROLE.PARTNERSHIP);
     this._fPartnerships.setDelegate(this);
     this._fRoles = new FTabbedPane();
@@ -42,7 +51,7 @@ export class FvcConfig extends FScrollViewContent {
     this._fRoles.setDefaultPane("INSIDER");
     this.setChild("roles", this._fRoles);
 
-    this._fMenuConfig = new gui.MenuConfig();
+    this._fMenuConfig = new MenuConfig();
     this._fMenuConfig.setDataSource(this);
     this._fMenuConfig.setDelegate(this);
     this._fMenuConfig.setSectorId(ID.SECTOR.BLOG);
@@ -55,10 +64,10 @@ export class FvcConfig extends FScrollViewContent {
     this._fOptions.setDelegate(this);
     this.setChild("options", this._fOptions);
 
-    let f = new blog.FPostInfoLayoutPreview();
+    let f = new FPostInfoLayoutPreview();
     f.setDelegate(this);
     f.setDescription(R.get("INTRO_COMPACT_SIZE"));
-    let fInfo = new blog.FPostInfo()
+    let fInfo = new FPostInfo()
     fInfo.setSizeType(SocialItem.T_LAYOUT.COMPACT);
     f.setInfoFragment(fInfo);
     this._fLayout = new ButtonGroup();
@@ -107,7 +116,7 @@ export class FvcConfig extends FScrollViewContent {
   }
 
   getMenuForGuiMenuConfig(fMenuConfig) {
-    let menus = dba.Menus.get(ID.SECTOR.BLOG, dba.Account.getId());
+    let menus = Menus.get(ID.SECTOR.BLOG, Account.getId());
     return menus.length ? menus[0] : null;
   }
 
@@ -158,7 +167,7 @@ export class FvcConfig extends FScrollViewContent {
 
     let pp = new SectionPanel("Layout");
     p.pushPanel(pp);
-    this._fLayout.setSelectedValue(dba.Blog.getItemLayoutType());
+    this._fLayout.setSelectedValue(Blog.getItemLayoutType());
     this._fLayout.attachRender(pp);
     this._fLayout.render();
 
@@ -169,9 +178,9 @@ export class FvcConfig extends FScrollViewContent {
 
     pp = new SectionPanel("Options");
     p.pushPanel(pp);
-    this._fOptions.setOption("SOCIAL", dba.Blog.isSocialEnabled());
+    this._fOptions.setOption("SOCIAL", Blog.isSocialEnabled());
     this._fOptions.setOption("PIN_BIG_HEAD",
-                             dba.Blog.getPinnedItemLayoutType() ==
+                             Blog.getPinnedItemLayoutType() ==
                                  SocialItem.T_LAYOUT.BIG_HEAD);
     this._fOptions.attachRender(pp.getContentPanel());
     this._fOptions.render();
@@ -180,7 +189,7 @@ export class FvcConfig extends FScrollViewContent {
     p.pushPanel(pp);
     this._fRoles.attachRender(pp.getContentPanel());
     this._fRoles.render();
-    if (dba.Blog.getRoleIds().length < MAX.N_ROLES) {
+    if (Blog.getRoleIds().length < MAX.N_ROLES) {
       pp = new Panel();
       p.pushPanel(pp);
       pp.replaceContent(_CFT_BLOG_CONFIG_CONTENT.BTN_NEW_ROLE);
@@ -189,7 +198,7 @@ export class FvcConfig extends FScrollViewContent {
 
   #onAddRole() {
     let v = new View();
-    v.setContentFragment(new blog.FvcRoleEditor());
+      v.setContentFragment(new FvcRoleEditor());
     this._owner.onFragmentRequestShowView(this, v, "Blog role");
   }
 
@@ -208,7 +217,7 @@ export class FvcConfig extends FScrollViewContent {
   }
 
   #fillItemLayoutType(fd, sType = null) {
-    fd.append("item_layout_type", sType ? sType : dba.Blog.getItemLayoutType());
+    fd.append("item_layout_type", sType ? sType : Blog.getItemLayoutType());
   }
 
   #fillOptionsData(fd) {
@@ -224,12 +233,12 @@ export class FvcConfig extends FScrollViewContent {
 
   #asyncUpdateConfig(fd) {
     let url = "api/blog/update_config";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onUpdateConfigRRR(d));
   }
 
   #onUpdateConfigRRR(data) {
-    dba.Blog.resetConfig(data.config);
+    Blog.resetConfig(data.config);
     this.render();
   }
 };

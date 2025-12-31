@@ -43,6 +43,11 @@ import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { Journal } from '../../common/datatypes/Journal.js';
 import { Tag } from '../../common/datatypes/Tag.js';
 import { JournalIssue } from '../../common/datatypes/JournalIssue.js';
+import { FTag } from '../../common/gui/FTag.js';
+import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
+import { FGeneralSearch } from '../../common/search/FGeneralSearch.js';
+import { FSearchResultInfo } from '../../common/search/FSearchResultInfo.js';
+import { FPostInfo } from './FPostInfo.js';
 
 export class PEditor extends Panel {
   #pIssueId;
@@ -123,10 +128,10 @@ class FPostSelector extends Fragment {
 
   constructor() {
     super();
-    this.#fSearch = new srch.FGeneralSearch();
+    this.#fSearch = new FGeneralSearch();
     this.#fSearch.setDelegate(this);
     this.#fSearch.setResultLayoutType(
-        srch.FSearchResultInfo.T_LAYOUT.TITLE_ONLY);
+        FSearchResultInfo.T_LAYOUT.TITLE_ONLY);
     let c = new SearchConfig();
     c.setCategories([ SocialItem.TYPE.ARTICLE ]);
     this.#fSearch.setKey(".*");
@@ -167,7 +172,7 @@ class FPostSelectorHandle extends Fragment {
     this.#lc.setDelegate(this);
     this.#lc.setTargetName("section");
 
-    this.#fPost = new blog.FPostInfo();
+    this.#fPost = new FPostInfo();
     this.#fPost.setSizeType(SocialItem.T_LAYOUT.EXT_EMBED);
     this.#fPost.setDataSource(this);
     this.#fPost.setDelegate(this);
@@ -238,7 +243,7 @@ class FSectionTagged extends Fragment {
 
   constructor() {
     super();
-    this.#fTag = new gui.FTag();
+    this.#fTag = new FTag();
     this.setChild("tag", this.#fTag);
 
     this.#fSelectors = new FFragmentList();
@@ -336,7 +341,7 @@ class FJournalIssueEditor extends Fragment {
     this.#fSummary.setDelegate(this);
     this.setChild("summary", this.#fSummary);
 
-    this.#fTags = new gui.TagsEditorFragment();
+    this.#fTags = new TagsEditorFragment();
     this.#fTags.setDataSource(this);
     this.#fTags.setDelegate(this);
     this.setChild("tags", this.#fTags);

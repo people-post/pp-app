@@ -3,6 +3,10 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { SectorNoticeInfoFragment } from '../../common/gui/SectorNoticeInfoFragment.js';
+import { FvcPost } from './FvcPost.js';
+import { Notifications } from '../../common/dba/Notifications.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FWeb3NoticeList extends Fragment {
   #selectedPostId = null;
@@ -19,7 +23,7 @@ export class FWeb3NoticeList extends Fragment {
   }
 
   _renderOnRender(render) {
-    let notices = dba.Notifications.getBlogNotices();
+    let notices = Notifications.getBlogNotices();
     if (notices.length == 0) {
       render.replaceContent("");
       return;
@@ -29,7 +33,7 @@ export class FWeb3NoticeList extends Fragment {
     let p = new SectionPanel("Notifications");
     render.wrapPanel(p);
     for (let n of notices) {
-      let f = new gui.SectorNoticeInfoFragment();
+      let f = new SectorNoticeInfoFragment();
       f.setData(n);
       f.setDelegate(this);
       this.#fNotices.append(f);
@@ -41,7 +45,7 @@ export class FWeb3NoticeList extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.POST:
+    case T_DATA.POST:
       this.render();
       break;
     default:
@@ -53,7 +57,7 @@ export class FWeb3NoticeList extends Fragment {
   #onViewPost(postId, idType) {
     this.#selectedPostId = postId;
     let v = new View();
-    let f = new blog.FvcPost();
+    let f = new FvcPost();
     f.setPostId(new SocialItemId(postId, idType));
     v.setContentFragment(f);
     this._delegate.onBlogNoticeListFragmentRequestShowView(this, v,

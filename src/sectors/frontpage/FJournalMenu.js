@@ -1,6 +1,9 @@
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { MenuContent } from '../../common/menu/MenuContent.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Blog } from '../../common/dba/Blog.js';
 
-export class FJournalMenu extends gui.MenuContent {
+export class FJournalMenu extends MenuContent {
   #journalIds;
   #currentJournalId = null;
   #currentIssueId = null;
@@ -11,7 +14,7 @@ export class FJournalMenu extends gui.MenuContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.JOURNAL:
+    case T_DATA.JOURNAL:
       this.render();
       break;
     default:
@@ -31,7 +34,7 @@ export class FJournalMenu extends gui.MenuContent {
       return;
     }
 
-    let j = dba.Blog.getJournal(this.#currentJournalId);
+    let j = Blog.getJournal(this.#currentJournalId);
     if (j) {
       p.replaceContent(j.getName());
     }

@@ -5,6 +5,12 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { FGallery } from '../../common/gui/FGallery.js';
+import { FQuoteElement } from './FQuoteElement.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { Groups } from '../../common/dba/Groups.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
 
 export class FArticle extends Fragment {
   #fQuote;
@@ -15,12 +21,12 @@ export class FArticle extends Fragment {
 
   constructor() {
     super();
-    this.#fGallery = new gui.FGallery();
+    this.#fGallery = new FGallery();
     this.#fGallery.setDataSource(this);
     this.#fGallery.setDelegate(this);
     this.setChild("gallery", this.#fGallery);
 
-    this.#fQuote = new blog.FQuoteElement();
+    this.#fQuote = new FQuoteElement();
     this.#fQuote.setDelegate(this);
     this.setChild("quote", this.#fQuote);
 
@@ -48,7 +54,7 @@ export class FArticle extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.GROUPS:
+    case T_DATA.GROUPS:
       this.#onGroupsUpdate(data);
       break;
     default:
@@ -58,7 +64,7 @@ export class FArticle extends Fragment {
   }
 
   _renderOnRender(postPanel) {
-    let article = dba.Blog.getArticle(this.#articleId);
+    let article = Blog.getArticle(this.#articleId);
     if (!article) {
       return;
     }
@@ -69,14 +75,14 @@ export class FArticle extends Fragment {
     p.replaceContent("Created at");
 
     p = postPanel.getCreationDateTimePanel();
-    p.replaceContent(ext.Utilities.timestampToDateTimeString(
+    p.replaceContent(UtilitiesExt.timestampToDateTimeString(
         article.getCreationTime() / 1000));
 
     p = postPanel.getTUpdateDecorPanel();
     p.replaceContent("Updated at");
 
     p = postPanel.getUpdateDateTimePanel();
-    p.replaceContent(ext.Utilities.timestampToDateTimeString(
+    p.replaceContent(UtilitiesExt.timestampToDateTimeString(
         article.getUpdateTime() / 1000));
 
     this.#renderTags(postPanel.getTagsPanel(), article.getTagIds());
@@ -105,7 +111,7 @@ export class FArticle extends Fragment {
   }
 
   #onGroupsUpdate(groups) {
-    let a = dba.Blog.getArticle(this.#articleId);
+      let a = Blog.getArticle(this.#articleId);
     if (!a) {
       return;
     }
@@ -140,7 +146,7 @@ export class FArticle extends Fragment {
     for (let id of tagIds) {
       let f = new Button();
       f.setDelegate(this);
-      let t = dba.Groups.getTag(id);
+      let t = Groups.getTag(id);
       f.setName(t ? t.getName() : "...");
       f.setValue(id);
       f.setLayoutType(Button.LAYOUT_TYPE.SMALL);

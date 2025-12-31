@@ -1,7 +1,12 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { FSocialItemList } from '../../common/gui/FSocialItemList.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { FPostInfo } from './FPostInfo.js';
+import { FvcPost } from './FvcPost.js';
 
-export class FPostList extends gui.FSocialItemList {
+export class FPostList extends FSocialItemList {
   #loader;
 
   isPostSelectedInPostInfoFragment(fPostInfo, postId) {
@@ -17,7 +22,7 @@ export class FPostList extends gui.FSocialItemList {
     return sid ? SocialItemId.fromEncodedStr(sid) : null;
   }
   getContextOptionsForPostInfoFragment(fPostInfo, article) {
-    return ext.Utilities.optCall(
+    return UtilitiesExt.optCall(
         this._dataSource, "getContextOptionsForArticleInPostListFragment", this,
         article);
   }
@@ -28,7 +33,7 @@ export class FPostList extends gui.FSocialItemList {
   }
 
   isUserAdminOfCommentTargetInPostInfoFragment(fPostInfo, targetId) {
-    return ext.Utilities.optCall(this._dataSource,
+    return UtilitiesExt.optCall(this._dataSource,
                                  "isUserAdminOfCommentTargetInPostListFragment",
                                  this, targetId);
   }
@@ -43,14 +48,14 @@ export class FPostList extends gui.FSocialItemList {
   }
 
   onContextOptionClickedInPostInfoFragment(fvcPost, value, articleId) {
-    ext.Utilities.optCall(this._delegate,
+    UtilitiesExt.optCall(this._delegate,
                           "onArticleContextOptionClickedInPostListFragment",
                           this, value, articleId);
   }
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.POST_IDS:
+    case T_DATA.POST_IDS:
       this.reload();
       break;
     default:
@@ -66,7 +71,7 @@ export class FPostList extends gui.FSocialItemList {
 
   _createInfoFragment(id) {
     let sid = SocialItemId.fromEncodedStr(id);
-    let f = new blog.FPostInfo();
+    let f = new FPostInfo();
     f.setDataSource(this);
     f.setDelegate(this);
     f.setPostId(sid);
@@ -88,7 +93,7 @@ export class FPostList extends gui.FSocialItemList {
     }
 
     let v = new View();
-    let f = new blog.FvcPost();
+    let f = new FvcPost();
     f.setPostId(sid);
     f.setDataSource(this);
     f.setDelegate(this);

@@ -6,6 +6,10 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { ThemeEditorFragment } from '../../common/gui/ThemeEditorFragment.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { PTagEditor } from './PTagEditor.js';
+import { PTagEditorInfo } from './PTagEditorInfo.js';
 
 export class FTagEditor extends Fragment {
   static T_LAYOUT = {
@@ -20,7 +24,7 @@ export class FTagEditor extends Fragment {
     this._fBtnQuick.setDelegate(this);
     this.setChild("btnQuick", this._fBtnQuick);
 
-    this._fTheme = new gui.ThemeEditorFragment();
+    this._fTheme = new ThemeEditorFragment();
     this._fTheme.setDelegate(this);
     this.setChild("theme", this._fTheme);
 
@@ -35,12 +39,12 @@ export class FTagEditor extends Fragment {
 
   onSimpleButtonClicked(fBtn) { this.#onRename(); }
   onGuiThemeEditorFragmentRequestChangeColor(fThemeEditor, key, color) {
-    dba.WebConfig.asyncUpdateGroupConfig(this._tagId, null, key, color);
+    WebConfig.asyncUpdateGroupConfig(this._tagId, null, key, color);
   }
 
   action(type, ...args) {
     switch (type) {
-    case hstn.CF_TAG_EDITOR.ON_CLICK:
+    case CF_TAG_EDITOR.ON_CLICK:
       this._delegate.onClickInTagEditorFragment(this);
       break;
     default:
@@ -50,7 +54,7 @@ export class FTagEditor extends Fragment {
   }
 
   _renderOnRender(render) {
-    let tag = dba.WebConfig.getTag(this._tagId);
+    let tag = WebConfig.getTag(this._tagId);
     if (!tag) {
       return;
     }
@@ -61,10 +65,10 @@ export class FTagEditor extends Fragment {
 
     p = panel.getThemePanel();
     if (p) {
-      let owner = dba.WebConfig.getOwner();
+      let owner = WebConfig.getOwner();
       let iconUrl = owner ? owner.getIconUrl() : "";
       this._fTheme.setIconUrl(iconUrl);
-      this._fTheme.setTheme(tag.getTheme() || dba.WebConfig.getDefaultTheme());
+      this._fTheme.setTheme(tag.getTheme() || WebConfig.getDefaultTheme());
       this._fTheme.attachRender(p);
       this._fTheme.render();
     }
@@ -80,18 +84,18 @@ export class FTagEditor extends Fragment {
     let p = null;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.INFO:
-      p = new hstn.PTagEditorInfo();
-      p.setAttribute("onclick", "G.action(hstn.CF_TAG_EDITOR.ON_CLICK)");
+      p = new PTagEditorInfo();
+      p.setAttribute("onclick", "G.action(CF_TAG_EDITOR.ON_CLICK)");
       break;
     default:
-      p = new hstn.PTagEditor();
+      p = new PTagEditor();
       break;
     }
     return p;
   }
 
   #onRename() {
-    let tag = dba.WebConfig.getTag(this._tagId);
+    let tag = WebConfig.getTag(this._tagId);
     if (!tag) {
       return;
     }
@@ -108,7 +112,7 @@ export class FTagEditor extends Fragment {
     fvc.setConfig({
       fcnValidate : () => f.validate(),
       fcnOK : () =>
-          dba.WebConfig.asyncUpdateGroupConfig(this._tagId, f.getValue()),
+          WebConfig.asyncUpdateGroupConfig(this._tagId, f.getValue()),
     });
     v.setContentFragment(fvc);
     fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Rename",

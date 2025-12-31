@@ -3,6 +3,14 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
+import { InputConsoleFragment } from '../../common/gui/InputConsoleFragment.js';
+import { FChatHeader } from './FChatHeader.js';
+import { FChatInputMenu } from './FChatInputMenu.js';
+import { PChatContent } from './PChatContent.js';
+import { FvcConversationOptions } from './FvcConversationOptions.js';
+import { FChatMessage } from './FChatMessage.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Notifications } from '../../common/dba/Notifications.js';
 
 export class FvcChat extends FViewContentBase {
   #fHeader;
@@ -15,16 +23,16 @@ export class FvcChat extends FViewContentBase {
 
   constructor() {
     super();
-    this.#fHeader = new msgr.FChatHeader();
+    this.#fHeader = new FChatHeader();
     this.setChild("header", this.#fHeader);
 
     this.#fMessages = new FSimpleFragmentList();
     this.setChild("messages", this.#fMessages);
 
-    this.#fConsole = new gui.InputConsoleFragment();
+    this.#fConsole = new InputConsoleFragment();
     this.#fConsole.setPlaceholder("Message");
     this.#fConsole.setDelegate(this);
-    this.#fConsole.setMenuFragment(new msgr.FChatInputMenu());
+    this.#fConsole.setMenuFragment(new FChatInputMenu());
     this.setChild("console", this.#fConsole);
 
     this.#btnInfo = new ActionButton();
@@ -85,19 +93,19 @@ export class FvcChat extends FViewContentBase {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
-    case plt.T_DATA.GROUPS:
+    case T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.GROUPS:
       this.render();
       break;
-    case plt.T_DATA.USER_INBOX_SIGNAL:
+    case T_DATA.USER_INBOX_SIGNAL:
       this.#msgHandler.onUserInboxSignal(data);
       break;
-    case plt.T_DATA.ADDON_SCRIPT:
+    case T_DATA.ADDON_SCRIPT:
       if (data == glb.env.SCRIPT.SIGNAL.id) {
         this.#msgHandler.activate();
       }
       break;
-    case plt.T_DATA.MESSAGES:
+    case T_DATA.MESSAGES:
       if (data.target.getId() == this.#msgHandler.getTarget().getId()) {
         this.#updateChatPanel(data.messages);
       }
@@ -119,7 +127,7 @@ export class FvcChat extends FViewContentBase {
   }
 
   _renderOnRender(render) {
-    let panel = new msgr.PChatContent();
+    let panel = new PChatContent();
     render.wrapPanel(panel);
 
     let p = panel.getStickyHeaderPanel();
@@ -148,7 +156,7 @@ export class FvcChat extends FViewContentBase {
 
   #onP2PMore() {
     let v = new View();
-    let f = new msgr.FvcConversationOptions();
+      let f = new FvcConversationOptions();
     f.setTarget(this.#target);
     f.setDelegate(this);
     v.setContentFragment(f);
@@ -161,7 +169,7 @@ export class FvcChat extends FViewContentBase {
 
   #updateChatPanel(messages) {
     for (let m of messages) {
-      let f = new msgr.FChatMessage();
+      let f = new FChatMessage();
       f.setMessage(m);
       f.setTarget(this.#target);
       this.#fMessages.append(f);

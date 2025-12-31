@@ -3,6 +3,11 @@ import { LMultiChoice } from '../../lib/ui/controllers/layers/LMultiChoice.js';
 import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { DraftArticle } from '../../common/datatypes/DraftArticle.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
+import { FvcWeb3PostEditor } from './FvcWeb3PostEditor.js';
+import { FvcWeb3ServerRegistration } from '../../sectors/hosting/FvcWeb3ServerRegistration.js';
+import { Account } from '../../common/dba/Account.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 // ActionButton needs some redesign
 export class AbWeb3New extends Fragment {
@@ -20,8 +25,8 @@ export class AbWeb3New extends Fragment {
     this.#lcStorage.setTargetName("storage");
     this.#lcStorage.setDelegate(this);
 
-    this.#fBtn = new gui.ActionButton();
-    this.#fBtn.setIcon(gui.ActionButton.T_ICON.NEW);
+    this.#fBtn = new ActionButton();
+    this.#fBtn.setIcon(ActionButton.T_ICON.NEW);
     this.#fBtn.setDelegate(this);
     this.setChild('btn', this.#fBtn);
   }
@@ -30,10 +35,10 @@ export class AbWeb3New extends Fragment {
 
   onGuiActionButtonClick(fButton) { this.#onActionClick(); }
   onRegistrationCanceledInServerRegistrationContentFragment(fvc) {
-    fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
+    Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
   }
   onRegistrationSuccessInServerRegistrationContentFragment(fvc) {
-    fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
+    Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
   }
   onOptionClickedInContextLayer(lc, value) {
     if (value) {
@@ -88,13 +93,13 @@ export class AbWeb3New extends Fragment {
     if (!glb.env.hasHost()) {
       this.#lmcPublisher.addAlternative("Add new...", null, null, null, false);
     }
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this,
+    Events.triggerTopAction(T_ACTION.SHOW_LAYER, this,
                                 this.#lmcPublisher, "Choices");
   }
 
   #onPublisherAgentsChosen(agents) {
     for (let a of agents) {
-      if (a.getInitUserId() != dba.Account.getId()) {
+      if (a.getInitUserId() != Account.getId()) {
         // Should not happen, but need to be handled
         console.error("Account id not match record in publisher agent");
         return;
@@ -104,12 +109,12 @@ export class AbWeb3New extends Fragment {
         return;
       }
     }
-    dba.Account.setPublishers(agents);
+    Account.setPublishers(agents);
     this.#evaluateStorageAgents();
   }
 
   #evaluateStorageAgents() {
-    const agents = glb.web3Storage.getAgents(dba.Account.getId());
+    const agents = glb.web3Storage.getAgents(Account.getId());
     if (agents.length > 0) {
       this.#onChooseStorageAgent(agents);
     } else {
@@ -127,18 +132,18 @@ export class AbWeb3New extends Fragment {
     if (!glb.env.hasHost()) {
       this.#lcStorage.addOption("Add new...", null, null, null, false);
     }
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lcStorage,
+    Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lcStorage,
                                 "Choices");
   }
 
   #onStorageAgentChosen(agent) {
-    dba.Account.setStorage(agent);
+    Account.setStorage(agent);
     this.#showDraftEditor();
   }
 
   #showDraftEditor() {
     let v = new View();
-    let f = new blog.FvcWeb3PostEditor();
+    let f = new FvcWeb3PostEditor();
     f.setPost(new DraftArticle({}));
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Draft post");
@@ -146,11 +151,11 @@ export class AbWeb3New extends Fragment {
 
   #showPublisherRegistration(agent) {
     let v = new View();
-    let f = new hstn.FvcWeb3ServerRegistration();
+    let f = new FvcWeb3ServerRegistration();
     f.setAgent(agent);
     v.setContentFragment(f);
     f.setDelegate(this);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                 "Publisher registration");
   }
 

@@ -7,6 +7,18 @@ import { ICON } from '../../common/constants/Icons.js';
 import { BlogRole } from '../../common/datatypes/BlogRole.js';
 import { DraftArticle } from '../../common/datatypes/DraftArticle.js';
 import { DraftJournalIssue } from '../../common/datatypes/DraftJournalIssue.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
+import { FLocalUserSearch } from '../../common/search/FLocalUserSearch.js';
+import { FJournal } from './FJournal.js';
+import { FvcPostEditor } from './FvcPostEditor.js';
+import { Account } from '../../common/dba/Account.js';
+import { Groups } from '../../common/dba/Groups.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { api } from '../../common/plt/Api.js';
+import { FJournal } from './FJournal.js';
 
 // ActionButton needs some redesign
 export class AbNew extends Fragment {
@@ -20,17 +32,17 @@ export class AbNew extends Fragment {
     this.#lc.setDelegate(this);
     this.#lc.setTargetName("adding post");
 
-    this.#fBtn = new gui.ActionButton();
-    this.#fBtn.setIcon(gui.ActionButton.T_ICON.NEW);
+    this.#fBtn = new ActionButton();
+    this.#fBtn.setIcon(ActionButton.T_ICON.NEW);
     this.#fBtn.setDelegate(this);
     this.setChild('btn', this.#fBtn);
   }
 
   isAvailable() {
-    if (dba.Account.isAuthenticated()) {
-      if (dba.Account.isWebOwner() ||
-          dba.Blog.getRoleIdsByType(BlogRole.T_ROLE.EXCLUSIVE)
-              .some(id => dba.Account.isInGroup(id))) {
+    if (Account.isAuthenticated()) {
+      if (Account.isWebOwner() ||
+          Blog.getRoleIdsByType(BlogRole.T_ROLE.EXCLUSIVE)
+              .some(id => Account.isInGroup(id))) {
         return true;
       }
     }
@@ -56,7 +68,7 @@ export class AbNew extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.GROUPS:
+    case T_DATA.GROUPS:
       this.#onGroupDataReceived();
       break;
     default:
@@ -71,38 +83,38 @@ export class AbNew extends Fragment {
   }
 
   #onClick() {
-    if (dba.Account.isWebOwner()) {
-      let gIds = dba.Account.getGroupIds();
-      if (!dba.Groups.loadMissing(gIds)) {
+    if (Account.isWebOwner()) {
+      let gIds = Account.getGroupIds();
+      if (!Groups.loadMissing(gIds)) {
         this.#showCreateOptions(gIds);
       } else {
         this.#isPendingChoices = true;
       }
     } else {
       // Visitor can only create article for owner
-      this.#asyncCreateArticle(dba.WebConfig.getOwnerId());
+      this.#asyncCreateArticle(WebConfig.getOwnerId());
     }
   }
 
   #onGroupDataReceived() {
     if (this.#isPendingChoices) {
       this.#isPendingChoices = false;
-      let gIds = dba.Account.getGroupIds();
+      let gIds = Account.getGroupIds();
       this.#showCreateOptions(gIds);
     }
   }
 
   #showCreateOptions(groupIds) {
-    let ids = [ dba.WebConfig.getOwnerId() ];
+    let ids = [ WebConfig.getOwnerId() ];
     for (let id of groupIds) {
-      let g = dba.Groups.get(id);
+      let g = Groups.get(id);
       if (g && g.isWriterGroup()) {
         ids.push(g.getOwnerId());
       }
     }
 
     let ownerIds = Array.from(new Set(ids));
-    let journalIds = dba.Account.getJournalIds();
+    let journalIds = Account.getJournalIds();
     if (journalIds.length > 0) {
       // With journal
       if (ownerIds.length > 1) {
@@ -116,14 +128,14 @@ export class AbNew extends Fragment {
                        this.#createJournalChoiceList(journalIds));
 
         this.#lc.addOptionFragment(fTPane);
-        fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lc,
+        Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lc,
                                     "Context");
       } else {
         // Single owner
         this.#lc.clearOptions();
         this.#lc.addOption("Article", ownerIds[0], ICON.ARTICLE);
         this.#lc.addOptionFragment(this.#createJournalChoiceList(journalIds));
-        fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lc,
+        Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lc,
                                     "Context");
       }
     } else {
@@ -132,7 +144,7 @@ export class AbNew extends Fragment {
         // Multi owners
         this.#lc.clearOptions();
         this.#lc.addOptionFragment(this.#createUserChoiceList(ownerIds));
-        fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lc,
+        Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lc,
                                     "Context");
       } else {
         // Single owner
@@ -142,7 +154,7 @@ export class AbNew extends Fragment {
   }
 
   #createUserChoiceList(userIds) {
-    let f = new srch.FLocalUserSearch();
+    let f = new FLocalUserSearch();
     f.setUserIds(userIds);
     f.setDelegate(this);
     return f;
@@ -151,9 +163,9 @@ export class AbNew extends Fragment {
   #createJournalChoiceList(journalIds) {
     let f = new FSimpleFragmentList();
     for (let jId of journalIds) {
-      let ff = new blog.FJournal();
+      let ff = new FJournal();
       ff.setJournalId(jId);
-      ff.setLayoutType(blog.FJournal.T_LAYOUT.BUTTON_BAR);
+      ff.setLayoutType(FJournal.T_LAYOUT.BUTTON_BAR);
       ff.setDelegate(this);
       f.append(ff);
     }
@@ -162,7 +174,7 @@ export class AbNew extends Fragment {
 
   #asyncCreateArticle(forOwnerId) {
     let url = "api/blog/new_draft?for=" + forOwnerId;
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onDraftArticleRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onDraftArticleRRR(d));
   }
 
   #onDraftArticleRRR(data) {
@@ -171,7 +183,7 @@ export class AbNew extends Fragment {
 
   #showDraftEditor(draftArticle) {
     let v = new View();
-    let f = new blog.FvcPostEditor();
+    let f = new FvcPostEditor();
     f.setPost(draftArticle);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Draft post");
@@ -179,7 +191,7 @@ export class AbNew extends Fragment {
 
   #asyncCreateJournalIssue(journalId) {
     let url = "api/blog/new_issue?for=" + journalId;
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onDraftIssueRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onDraftIssueRRR(d));
   }
 
   #onDraftIssueRRR(data) {
@@ -188,7 +200,7 @@ export class AbNew extends Fragment {
 
   #showDraftIssueEditor(draftIssue) {
     let v = new View();
-    let f = new blog.FvcPostEditor();
+    let f = new FvcPostEditor();
     f.setPost(draftIssue);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Draft issue");

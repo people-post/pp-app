@@ -7,6 +7,17 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Article } from '../../common/datatypes/Article.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
+import { FPost } from './FPost.js';
+import { FPostList } from './FPostList.js';
+import { FvcPostEditor } from './FvcPostEditor.js';
+import { FTaggedCommentList } from './FTaggedCommentList.js';
+import { CommentIdLoader } from '../../common/social/CommentIdLoader.js';
+import { Web3CommentIdLoader } from '../../common/social/Web3CommentIdLoader.js';
+import { FCommentInput } from '../../common/social/FCommentInput.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { api } from '../../common/plt/Api.js';
+import * as blogUtilities from './Utilities.js';
 
 const _CPT_POST = {
   MAIN : `<div id="__ID_POST__"></div>
@@ -73,7 +84,7 @@ class FvcPost extends FScrollViewContent {
 
   constructor() {
     super();
-    this.#fPost = new blog.FPost();
+    this.#fPost = new FPost();
     this.#fPost.setDelegate(this);
     this.setChild("post", this.#fPost);
 
@@ -92,28 +103,28 @@ class FvcPost extends FScrollViewContent {
     this.setChild("btnPrev", this.#btnPrev);
 
     if (glb.env.isWeb3()) {
-      this.#cIdLoader = new socl.Web3CommentIdLoader();
+      this.#cIdLoader = new Web3CommentIdLoader();
     } else {
-      this.#cIdLoader = new socl.CommentIdLoader();
+      this.#cIdLoader = new CommentIdLoader();
     }
     this.#cIdLoader.setDelegate(this);
-    this.#fAllComments = new blog.FPostList();
+    this.#fAllComments = new FPostList();
     this.#fAllComments.setEnableTopBuffer(false);
     this.#fAllComments.setLoader(this.#cIdLoader);
     this.#fAllComments.setDataSource(this);
     this.#fAllComments.setDelegate(this);
 
-    this.#fBtnEdit = new gui.ActionButton();
-    this.#fBtnEdit.setIcon(gui.ActionButton.T_ICON.EDIT);
+    this.#fBtnEdit = new ActionButton();
+    this.#fBtnEdit.setIcon(ActionButton.T_ICON.EDIT);
     this.#fBtnEdit.setDelegate(this);
 
-    this.#fInput = new socl.FCommentInput();
+    this.#fInput = new FCommentInput();
     this.#fInput.setDelegate(this);
     this.setChild("input", this.#fInput);
   }
 
   getActionButton() {
-    let post = dba.Blog.getPost(this.#postId);
+    let post = Blog.getPost(this.#postId);
     if (this.#isPostEditable(post)) {
       return this.#fBtnEdit;
     }
@@ -133,7 +144,7 @@ class FvcPost extends FScrollViewContent {
       return false;
     }
 
-    let post = dba.Blog.getPost(this.#postId);
+    let post = Blog.getPost(this.#postId);
     let uid = dba.Account.getId();
     return uid && uid == post.getOwnerId();
   }
@@ -239,8 +250,8 @@ class FvcPost extends FScrollViewContent {
   }
 
   #getRealPost() {
-    let post = dba.Blog.getPost(this.#postId);
-    return post && post.isRepost() ? dba.Blog.getPost(post.getLinkToSocialId())
+    let post = Blog.getPost(this.#postId);
+      return post && post.isRepost() ? Blog.getPost(post.getLinkToSocialId())
                                    : post;
   }
 
@@ -266,17 +277,17 @@ class FvcPost extends FScrollViewContent {
   }
 
   #onPostUpdate(updatedPost) {
-    let post = dba.Blog.getPost(this.#postId);
+    let post = Blog.getPost(this.#postId);
     if (blog.Utilities.isPostRelated(updatedPost, post)) {
       this.render();
     }
   }
 
   #onEdit() {
-    let post = dba.Blog.getPost(this.#postId);
+    let post = Blog.getPost(this.#postId);
     if (post) {
       let v = new View();
-      let f = new blog.FvcPostEditor();
+      let f = new FvcPostEditor();
       f.setPost(post);
       v.setContentFragment(f);
       this.onFragmentRequestShowView(this, v, "Edit post " + post.getId());
@@ -297,7 +308,7 @@ class FvcPost extends FScrollViewContent {
       this.#fTabbedComments.addPane({name : "All", value : "ALL"},
                                     this.#fAllComments);
       for (let tid of tagIds) {
-        let f = new blog.FTaggedCommentList();
+        let f = new FTaggedCommentList();
         f.setIsAdmin(isAdmin);
         f.setTagId(tid);
         f.setCommentIds(post.getTaggedCommentIds(tid));
@@ -326,7 +337,7 @@ class FvcPost extends FScrollViewContent {
       return ops;
     }
 
-    let post = dba.Blog.getPost(this.#postId);
+    let post = Blog.getPost(this.#postId);
     if (!post) {
       return ops;
     }
@@ -367,7 +378,7 @@ class FvcPost extends FScrollViewContent {
   }
 
   #onTagCommentRRR(data) {
-    dba.Blog.updateArticle(new Article(data.article));
+        Blog.updateArticle(new Article(data.article));
   }
 
   #asyncUntagCommentArticle(tagId, articleId) {
@@ -382,7 +393,7 @@ class FvcPost extends FScrollViewContent {
   }
 
   #onUntagCommentRRR(data) {
-    dba.Blog.updateArticle(new Article(data.article));
+        Blog.updateArticle(new Article(data.article));
   }
 }
 

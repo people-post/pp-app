@@ -27,11 +27,19 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
 import { Product } from '../../common/datatypes/Product.js';
+import { RichContentEditor } from '../../common/gui/RichContentEditor.js';
+import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
+import { PriceEditorFragment } from '../../common/gui/PriceEditorFragment.js';
+import { FProductDeliveryEditorManager } from './FProductDeliveryEditorManager.js';
+import { PProductEditor } from './PProductEditor.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcProductEditor extends FScrollViewContent {
   constructor() {
     super();
-    this._fContent = new gui.RichContentEditor();
+    this._fContent = new RichContentEditor();
     this.setChild("content", this._fContent);
 
     this._fFiles = new FMultiMediaFileUploader();
@@ -40,15 +48,15 @@ export class FvcProductEditor extends FScrollViewContent {
     this._fFiles.setDelegate(this);
     this.setChild("files", this._fFiles);
 
-    this._fteOwner = new gui.TagsEditorFragment();
+    this._fteOwner = new TagsEditorFragment();
     this._fteOwner.setDataSource(this);
     this._fteOwner.setDelegate(this);
     this.setChild("ownerTags", this._fteOwner);
 
-    this._fPrice = new gui.PriceEditorFragment();
+    this._fPrice = new PriceEditorFragment();
     this.setChild("price", this._fPrice);
 
-    this._fDelivery = new shop.FProductDeliveryEditorManager();
+    this._fDelivery = new FProductDeliveryEditorManager();
     this.setChild("delivery", this._fDelivery);
 
     this._product = null;
@@ -56,7 +64,7 @@ export class FvcProductEditor extends FScrollViewContent {
 
   setProduct(product) { this._product = product; }
 
-  getTagsForTagsEditorFragment(fEditor) { return dba.WebConfig.getTags(); }
+  getTagsForTagsEditorFragment(fEditor) { return WebConfig.getTags(); }
   getInitialCheckedIdsForTagsEditorFragment(fEditor) {
     return this._product ? this._product.getTagIds() : [];
   }
@@ -66,7 +74,7 @@ export class FvcProductEditor extends FScrollViewContent {
 
   action(type, ...args) {
     switch (type) {
-    case shop.CF_PRODUCT_EDITOR.SUBMIT:
+    case CF_PRODUCT_EDITOR.SUBMIT:
       this.#onSubmit();
       break;
     default:
@@ -76,7 +84,7 @@ export class FvcProductEditor extends FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let panel = new shop.PProductEditor();
+    let panel = new PProductEditor();
     render.wrapPanel(panel);
 
     let product = this._product;
@@ -188,7 +196,7 @@ export class FvcProductEditor extends FScrollViewContent {
     this._fFiles.saveDataToForm(fd);
 
     let url = "/api/shop/update_product";
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #validateData() { return this._fPrice.validate(); }
@@ -220,7 +228,7 @@ export class FvcProductEditor extends FScrollViewContent {
     if (this._product.isDraft()) {
       this._delegate.onNewProductAddedInProductEditorContentFragment(this);
     } else {
-      dba.Shop.updateProduct(new Product(data.product));
+      Shop.updateProduct(new Product(data.product));
     }
     this._owner.onContentFragmentRequestPopView(this);
   }

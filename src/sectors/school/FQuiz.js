@@ -1,8 +1,15 @@
+import { MajorSectorItem } from '../../common/gui/MajorSectorItem.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Quiz } from '../../common/dba/Quiz.js';
+import { PQuiz } from './PQuiz.js';
+import { PQuizInfo } from './PQuizInfo.js';
+import { Utilities } from '../../common/Utilities.js';
+
 export const CF_QUIZ_INFO = {
   VIEW_QUIZ : Symbol(),
 };
 
-export class FQuiz extends gui.MajorSectorItem {
+export class FQuiz extends MajorSectorItem {
   static T_LAYOUT = {
     FULL : Symbol(),
     INFO: Symbol(),
@@ -19,7 +26,7 @@ export class FQuiz extends gui.MajorSectorItem {
 
   action(type, ...args) {
     switch (type) {
-    case scol.CF_QUIZ_INFO.VIEW_QUIZ:
+    case CF_QUIZ_INFO.VIEW_QUIZ:
       this._delegate.onQuizInfoClickedInQuizFragment(this, this._quizId);
       break;
     default:
@@ -30,7 +37,7 @@ export class FQuiz extends gui.MajorSectorItem {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.QUIZ:
+    case T_DATA.QUIZ:
       if (data.getId() == this._quizId) {
         this.render();
       }
@@ -47,7 +54,7 @@ export class FQuiz extends gui.MajorSectorItem {
     let panel = this.#createPanel();
     render.wrapPanel(panel);
 
-    let quiz = dba.Quiz.get(this._quizId);
+    let quiz = Quiz.get(this._quizId);
     if (!quiz) {
       return;
     }
@@ -71,7 +78,7 @@ export class FQuiz extends gui.MajorSectorItem {
     let p;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.FULL:
-      p = new scol.PQuiz();
+      p = new PQuiz();
       break;
     default:
       p = this.#createInfoPanel();
@@ -81,7 +88,7 @@ export class FQuiz extends gui.MajorSectorItem {
   }
 
   #createInfoPanel() {
-    let p = new scol.PQuizInfo();
+    let p = new PQuizInfo();
     p.setClassName("clickable");
     p.setAttribute("onclick",
                    "javascript:G.action(scol.CF_QUIZ_INFO.VIEW_QUIZ)");

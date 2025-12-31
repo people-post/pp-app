@@ -1,4 +1,6 @@
 import { FBanner } from '../common/gui/FBanner.js';
+import { FvcSearchResult } from '../common/search/FvcSearchResult.js';
+import { Factory, T_CATEGORY, T_OBJ } from '../lib/framework/Factory.js';
 import { WindowController } from '../lib/ui/controllers/WindowController.js';
 import { PanelWrapper } from '../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../lib/ui/controllers/views/View.js';
@@ -57,11 +59,11 @@ export class WcSession extends WindowController {
 
   init(userId, primaryColor, secondaryColor) {
     // Grand entry for the whole program
-    fwk.Factory.registerClass(fwk.T_CATEGORY.UI, fwk.T_OBJ.BANNER_FRAGMENT,
-                              gui.FBanner);
-    fwk.Factory.registerClass(fwk.T_CATEGORY.UI,
-                              fwk.T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT,
-                              srch.FvcSearchResult);
+    Factory.registerClass(T_CATEGORY.UI, T_OBJ.BANNER_FRAGMENT,
+                              FBanner);
+    Factory.registerClass(T_CATEGORY.UI,
+                              T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT,
+                              FvcSearchResult);
     if (glb.env.isWeb3()) {
       fwk.Factory.registerClass(fwk.T_CATEGORY.UI, fwk.T_OBJ.FILE_UPLOADER,
                                 dba.Web3FileUploader);

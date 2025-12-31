@@ -1,5 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FAttachmentFile } from '../../lib/ui/controllers/fragments/FAttachmentFile.js';
+import { FGallery } from '../../common/gui/FGallery.js';
 
 export class FFeedArticle extends Fragment {
   #fGallery;
@@ -8,7 +9,7 @@ export class FFeedArticle extends Fragment {
 
   constructor() {
     super();
-    this.#fGallery = new gui.FGallery();
+    this.#fGallery = new FGallery();
     this.#fGallery.setDataSource(this);
     this.#fGallery.setDelegate(this);
     this.setChild("gallery", this.#fGallery);

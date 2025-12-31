@@ -18,6 +18,19 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { STATE } from '../../common/constants/Constants.js';
+import { Address } from '../../common/gui/Address.js';
+import { PSupplierOrder } from './PSupplierOrder.js';
+import { PSupplierOrderInfo } from './PSupplierOrderInfo.js';
+import { FSupplierOrderItem } from './FSupplierOrderItem.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { Address } from '../../common/dba/Address.js';
+import { Exchange } from '../../common/dba/Exchange.js';
+import { Account } from '../../common/dba/Account.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { T_ACTION } from '../../common/plt/Events.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
+import { Utilities } from '../../common/Utilities.js';
+import { Events } from '../../lib/framework/Events.js';
 export class FSupplierOrder extends Fragment {
   static T_LAYOUT = {
     FULL : Symbol(),
@@ -29,7 +42,7 @@ export class FSupplierOrder extends Fragment {
     this._fItems = new FSimpleFragmentList();
     this.setChild("items", this._fItems);
 
-    this._fAddress = new gui.Address();
+    this._fAddress = new Address();
     this._fAddress.setDataSource(this);
     this.setChild("address", this._fAddress);
 
@@ -41,17 +54,17 @@ export class FSupplierOrder extends Fragment {
   setLayoutType(t) { this._tLayout = t; }
 
   getDataForGuiAddress(fAddress, addressId) {
-    return dba.Address.get(addressId);
+    return Address.get(addressId);
   }
 
   action(type, ...args) {
     switch (type) {
-    case shop.CF_SUPPLIER_ORDER.SHOW_ADDRESS:
+    case CF_SUPPLIER_ORDER.SHOW_ADDRESS:
       break;
-    case shop.CF_SUPPLIER_ORDER.ON_CLICK:
+    case CF_SUPPLIER_ORDER.ON_CLICK:
       this.#onClick();
       break;
-    case shop.CF_SUPPLIER_ORDER.USER_INFO:
+    case CF_SUPPLIER_ORDER.USER_INFO:
       this.#showUserInfo(args[0]);
       break;
     default:
@@ -62,9 +75,9 @@ export class FSupplierOrder extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
-    case plt.T_DATA.CURRENCIES:
-    case plt.T_DATA.SUPPLIER_ORDER:
+    case T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.CURRENCIES:
+    case T_DATA.SUPPLIER_ORDER:
       this.render();
       break;
     default:
@@ -74,7 +87,7 @@ export class FSupplierOrder extends Fragment {
   }
 
   _renderOnRender(render) {
-    let order = dba.Shop.getOrder(this._orderId);
+    let order = Shop.getOrder(this._orderId);
     if (!order) {
       return;
     }
@@ -134,7 +147,7 @@ export class FSupplierOrder extends Fragment {
     }
 
     // Price Summary
-    let c = dba.Exchange.getCurrency(order.getCurrencyId());
+    let c = Exchange.getCurrency(order.getCurrencyId());
     if (!c) {
       return;
     }
@@ -184,7 +197,7 @@ export class FSupplierOrder extends Fragment {
     let p;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.FULL:
-      p = new shop.PSupplierOrder();
+      p = new PSupplierOrder();
       break;
     default:
       p = this.#createInfoPanel();
@@ -193,7 +206,7 @@ export class FSupplierOrder extends Fragment {
     return p;
   }
 
-  #createInfoPanel() { return new shop.PSupplierOrderInfo(); }
+  #createInfoPanel() { return new PSupplierOrderInfo(); }
 
   #renderShippingAddressBtn(order, panel) {
     let addr = order.getShippingAddress();
@@ -232,7 +245,7 @@ export class FSupplierOrder extends Fragment {
   #renderItems(order, panel) {
     this._fItems.clear();
     for (let item of order.getItems()) {
-      let f = new shop.FSupplierOrderItem();
+      let f = new FSupplierOrderItem();
       f.setCurrencyId(order.getCurrencyId());
       f.setItem(item);
       this._fItems.append(f);
@@ -250,7 +263,7 @@ export class FSupplierOrder extends Fragment {
   #renderCreationTime(order, panel) {
     let s = "Placed at: ";
     s +=
-        ext.Utilities.timestampToDateTimeString(order.getCreationTime() / 1000);
+        UtilitiesExt.timestampToDateTimeString(order.getCreationTime() / 1000);
     panel.replaceContent(s);
   }
 
@@ -266,7 +279,7 @@ export class FSupplierOrder extends Fragment {
 
   #renderUpdateTime(order, panel) {
     let s = "Last update: ";
-    s += ext.Utilities.timestampToDateTimeString(order.getUpdateTime() / 1000);
+    s += UtilitiesExt.timestampToDateTimeString(order.getUpdateTime() / 1000);
     panel.replaceContent(s);
   }
 
@@ -282,7 +295,7 @@ export class FSupplierOrder extends Fragment {
   }
 
   #renderUserName(userId) {
-    let nickname = dba.Account.getUserNickname(userId, "...");
+    let nickname = Account.getUserNickname(userId, "...");
     return Utilities.renderSmallButton(
         "shop.CF_SUPPLIER_ORDER_CONTENT.USER_INFO", userId, nickname,
         "low-profile s-cinfotext bold");
@@ -343,7 +356,7 @@ export class FSupplierOrder extends Fragment {
   }
 
   #showUserInfo(userId) {
-    fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO, userId);
+    Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 };
 
