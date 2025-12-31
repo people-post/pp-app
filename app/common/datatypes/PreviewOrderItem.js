@@ -6,8 +6,4 @@ export class PreviewOrderItem {
   getUnitPrice() { return this._data.unit_price; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.PreviewOrderItem = PreviewOrderItem;
-}
+

@@ -60,8 +60,4 @@ export class SocialItemId {
   setType(t) { this.#type = t; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.SocialItemId = SocialItemId;
-}
+

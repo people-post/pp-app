@@ -10,8 +10,4 @@ export class Menu extends MenuItem {
   _createSubItem(data) { return new MenuEntryItem(data, this); }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Menu = Menu;
-}
+

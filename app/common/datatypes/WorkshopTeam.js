@@ -17,8 +17,4 @@ export class WorkshopTeam extends UserRole {
   hasPermission(id) { return this._data.data.permissions.indexOf(id) >= 0; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.WorkshopTeam = WorkshopTeam;
-}
+

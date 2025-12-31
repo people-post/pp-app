@@ -49,8 +49,4 @@ export class Cart {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Cart = Cart;
-}
+

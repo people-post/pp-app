@@ -4,6 +4,7 @@ import { LvMain } from './LvMain.js';
 import { AbAccount } from './AbAccount.js';
 import { View } from '../lib/ui/controllers/views/View.js';
 import { FvcQuotaLimit } from '../common/gui/FvcQuotaLimit.js';
+import { Tag } from '../common/datatypes/Tag.js';
 
 export class WcMain extends WcSession {
   onLoginClickInAccountActionButtonFragment(fAbAccount) {
@@ -82,7 +83,7 @@ export class WcMain extends WcSession {
     let v = new View();
     let gw = new hr.Gateway();
     let f = gw.createMainViewContentFragment();
-    f.switchTo(dat.Tag.T_ID.BLOG);
+    f.switchTo(Tag.T_ID.BLOG);
     v.setContentFragment(f);
     this._pushDialog(v, "Blog open roles");
   }

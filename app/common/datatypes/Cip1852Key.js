@@ -12,8 +12,4 @@ export class Cip1852Key {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Cip1852Key = Cip1852Key;
-}
+

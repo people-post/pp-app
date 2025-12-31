@@ -6,8 +6,4 @@ export class TriplePanelConfig extends FrontPageLayoutConfig {
   getBottomValue() { return this._getData("bottom"); }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.TriplePanelConfig = TriplePanelConfig;
-}
+

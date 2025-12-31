@@ -39,8 +39,4 @@ export class RepostItemNotice extends Notice {
   addData(d) { this._elements.push(d); }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.RepostItemNotice = RepostItemNotice;
-}
+

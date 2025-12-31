@@ -9,8 +9,4 @@ export class SocialInfo extends ServerDataObject {
   getNComments() { return this._data.n_comments; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.SocialInfo = SocialInfo;
-}
+

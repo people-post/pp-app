@@ -11,8 +11,4 @@ export class Address extends ServerDataObject {
   getLine(idx) { return this._data.lines[idx]; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Address = Address;
-}
+

@@ -4,6 +4,7 @@ import { Account } from './Account.js';
 import { ColorTheme } from '../datatypes/ColorTheme.js';
 import { FrontPageConfig } from '../datatypes/FrontPageConfig.js';
 import { Tag } from '../datatypes/Tag.js';
+import { User } from '../datatypes/User.js';
 import { Menus } from './Menus.js';
 import { api } from '../plt/Api.js';
 
@@ -59,12 +60,7 @@ export const WebConfig = function() {
       if (!_data) {
         return null;
       }
-      // Use global namespace to avoid circular dependency with User.js
-      // User.js sets window.dat.User for backward compatibility
-      const UserClass = (typeof window !== 'undefined' && window.dat && window.dat.User) 
-        ? window.dat.User 
-        : null;
-      return UserClass ? new UserClass(_data.owner) : null;
+      return new User(_data.owner);
     }
   }
   function _getHomeUrl() {

@@ -43,8 +43,4 @@ export class PaymentTerminal extends ServerDataObject {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.PaymentTerminal = PaymentTerminal;
-}
+

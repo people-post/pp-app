@@ -7,8 +7,4 @@ export class MenuEntryItem extends MenuItem {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.MenuEntryItem = MenuEntryItem;
-}
+

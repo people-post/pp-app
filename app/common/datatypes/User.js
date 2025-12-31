@@ -112,8 +112,4 @@ export class User extends UserBase {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.User = User;
-}
+

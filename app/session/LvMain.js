@@ -1,6 +1,8 @@
 import { LvTabbedPage } from './LvTabbedPage.js';
 import { FHomeBtn } from './FHomeBtn.js';
 import { URL_PARAM } from '../lib/ui/Constants.js';
+import { SocialItemId } from '../common/datatypes/SocialItemId.js';
+import { SocialItem } from '../common/datatypes/SocialItem.js';
 
 export class LvMain extends LvTabbedPage {
   init() {
@@ -16,7 +18,7 @@ export class LvMain extends LvTabbedPage {
       // Try to decode from id
       let id = urlParam.get(URL_PARAM.ID);
       if (id) {
-        let sid = dat.SocialItemId.fromEncodedStr(id);
+        let sid = SocialItemId.fromEncodedStr(id);
         if (sid) {
           sectorId = this.#getSectorId(sid.getType());
         }
@@ -46,15 +48,15 @@ export class LvMain extends LvTabbedPage {
   #getSectorId(type) {
     let id = null;
     switch (type) {
-    case dat.SocialItem.TYPE.ARTICLE:
-    case dat.SocialItem.TYPE.FEED_ARTICLE:
-    case dat.SocialItem.TYPE.JOURNAL_ARTICLE:
+    case SocialItem.TYPE.ARTICLE:
+    case SocialItem.TYPE.FEED_ARTICLE:
+    case SocialItem.TYPE.JOURNAL_ARTICLE:
       id = C.ID.SECTOR.BLOG;
       break;
-    case dat.SocialItem.TYPE.PROJECT:
+    case SocialItem.TYPE.PROJECT:
       id = C.ID.SECTOR.WORKSHOP;
       break;
-    case dat.SocialItem.TYPE.PRODUCT:
+    case SocialItem.TYPE.PRODUCT:
       id = C.ID.SECTOR.SHOP;
       break;
     default:

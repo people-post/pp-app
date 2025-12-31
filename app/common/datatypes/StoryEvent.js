@@ -13,8 +13,4 @@ export class StoryEvent extends ServerDataObject {
   getTime() { return this._data.time; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.StoryEvent = StoryEvent;
-}
+

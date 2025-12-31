@@ -34,8 +34,4 @@ export class BlogConfig {
   #getLayoutType(d) { return d ? d.type : SocialItem.T_LAYOUT.MEDIUM; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.BlogConfig = BlogConfig;
-}
+

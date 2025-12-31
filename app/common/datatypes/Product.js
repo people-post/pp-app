@@ -65,8 +65,4 @@ export class Product extends SocialItem {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Product = Product;
-}
+

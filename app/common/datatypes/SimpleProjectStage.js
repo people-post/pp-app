@@ -29,8 +29,4 @@ export class SimpleProjectStage extends ProjectStage {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.SimpleProjectStage = SimpleProjectStage;
-}
+

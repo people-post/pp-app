@@ -20,8 +20,4 @@ export class Post extends SocialItem {
   getTaggedCommentIds(tagId) { return []; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Post = Post;
-}
+

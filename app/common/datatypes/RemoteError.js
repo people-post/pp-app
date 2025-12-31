@@ -53,8 +53,4 @@ export class RemoteError {
   static T_CONN = "Failed to receive response from server";
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.RemoteError = RemoteError;
-}
+

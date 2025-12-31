@@ -11,8 +11,4 @@ export class Notice {
   getNUnread() { return 0; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Notice = Notice;
-}
+

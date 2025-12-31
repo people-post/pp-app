@@ -14,8 +14,4 @@ export class Quiz extends ServerDataObject {
   getChoices() { return this._choices; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Quiz = Quiz;
-}
+

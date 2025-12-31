@@ -16,8 +16,4 @@ export class GeneralGroup extends ServerDataObject {
     return this._data.theme ? new ColorTheme(this._data.theme) : null;
   }
 };
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.GeneralGroup = GeneralGroup;
-}
+

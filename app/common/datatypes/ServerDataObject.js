@@ -10,8 +10,3 @@ export class ServerDataObject {
   getCreationTime() { return this._data.created_at; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.ServerDataObject = ServerDataObject;
-}

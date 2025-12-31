@@ -62,8 +62,4 @@ export class ArticleBase extends Post {
   #isEmpty() { return this._data.title == null && this._data.content == null; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.ArticleBase = ArticleBase;
-}
+

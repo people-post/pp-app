@@ -21,8 +21,4 @@ export class JournalIssue extends JournalIssueBase {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.JournalIssue = JournalIssue;
-}
+

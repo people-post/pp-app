@@ -6,8 +6,4 @@ export class ShopBranch extends ServerDataObject {
   getAddressId() { return this._data.address_id; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.ShopBranch = ShopBranch;
-}
+
