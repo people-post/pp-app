@@ -27,11 +27,14 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
 import { Product } from '../../common/datatypes/Product.js';
+import { RichContentEditor } from '../../common/gui/RichContentEditor.js';
+import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
+import { PriceEditorFragment } from '../../common/gui/PriceEditorFragment.js';
 
 export class FvcProductEditor extends FScrollViewContent {
   constructor() {
     super();
-    this._fContent = new gui.RichContentEditor();
+    this._fContent = new RichContentEditor();
     this.setChild("content", this._fContent);
 
     this._fFiles = new FMultiMediaFileUploader();
@@ -40,12 +43,12 @@ export class FvcProductEditor extends FScrollViewContent {
     this._fFiles.setDelegate(this);
     this.setChild("files", this._fFiles);
 
-    this._fteOwner = new gui.TagsEditorFragment();
+    this._fteOwner = new TagsEditorFragment();
     this._fteOwner.setDataSource(this);
     this._fteOwner.setDelegate(this);
     this.setChild("ownerTags", this._fteOwner);
 
-    this._fPrice = new gui.PriceEditorFragment();
+    this._fPrice = new PriceEditorFragment();
     this.setChild("price", this._fPrice);
 
     this._fDelivery = new shop.FProductDeliveryEditorManager();

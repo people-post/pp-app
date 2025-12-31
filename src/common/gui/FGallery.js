@@ -378,9 +378,3 @@ export class FGallery extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.CF_GALLERY = CF_GALLERY;
-  window.gui.FGallery = FGallery;
-}

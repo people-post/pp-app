@@ -15,7 +15,7 @@ export class FArticle extends Fragment {
 
   constructor() {
     super();
-    this.#fGallery = new gui.FGallery();
+    this.#fGallery = new FGallery();
     this.#fGallery.setDataSource(this);
     this.#fGallery.setDelegate(this);
     this.setChild("gallery", this.#fGallery);

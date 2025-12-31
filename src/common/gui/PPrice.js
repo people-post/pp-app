@@ -34,8 +34,3 @@ export class PPrice extends PPriceBase {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.PPrice = PPrice;
-}

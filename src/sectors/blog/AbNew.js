@@ -7,6 +7,7 @@ import { ICON } from '../../common/constants/Icons.js';
 import { BlogRole } from '../../common/datatypes/BlogRole.js';
 import { DraftArticle } from '../../common/datatypes/DraftArticle.js';
 import { DraftJournalIssue } from '../../common/datatypes/DraftJournalIssue.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
 
 // ActionButton needs some redesign
 export class AbNew extends Fragment {
@@ -20,8 +21,8 @@ export class AbNew extends Fragment {
     this.#lc.setDelegate(this);
     this.#lc.setTargetName("adding post");
 
-    this.#fBtn = new gui.ActionButton();
-    this.#fBtn.setIcon(gui.ActionButton.T_ICON.NEW);
+    this.#fBtn = new ActionButton();
+    this.#fBtn.setIcon(ActionButton.T_ICON.NEW);
     this.#fBtn.setDelegate(this);
     this.setChild('btn', this.#fBtn);
   }

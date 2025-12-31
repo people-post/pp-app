@@ -43,6 +43,8 @@ import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { Journal } from '../../common/datatypes/Journal.js';
 import { Tag } from '../../common/datatypes/Tag.js';
 import { JournalIssue } from '../../common/datatypes/JournalIssue.js';
+import { FTag } from '../../common/gui/FTag.js';
+import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
 
 export class PEditor extends Panel {
   #pIssueId;
@@ -238,7 +240,7 @@ class FSectionTagged extends Fragment {
 
   constructor() {
     super();
-    this.#fTag = new gui.FTag();
+    this.#fTag = new FTag();
     this.setChild("tag", this.#fTag);
 
     this.#fSelectors = new FFragmentList();
@@ -336,7 +338,7 @@ class FJournalIssueEditor extends Fragment {
     this.#fSummary.setDelegate(this);
     this.setChild("summary", this.#fSummary);
 
-    this.#fTags = new gui.TagsEditorFragment();
+    this.#fTags = new TagsEditorFragment();
     this.#fTags.setDataSource(this);
     this.#fTags.setDelegate(this);
     this.setChild("tags", this.#fTags);

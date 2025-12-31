@@ -6,6 +6,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { ThemeEditorFragment } from '../../common/gui/ThemeEditorFragment.js';
 
 export class FTagEditor extends Fragment {
   static T_LAYOUT = {
@@ -20,7 +21,7 @@ export class FTagEditor extends Fragment {
     this._fBtnQuick.setDelegate(this);
     this.setChild("btnQuick", this._fBtnQuick);
 
-    this._fTheme = new gui.ThemeEditorFragment();
+    this._fTheme = new ThemeEditorFragment();
     this._fTheme.setDelegate(this);
     this.setChild("theme", this._fTheme);
 

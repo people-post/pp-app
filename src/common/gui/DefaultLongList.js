@@ -50,8 +50,3 @@ export class DefaultLongList extends FLongListLegacy {
   _asyncLoadItems() {}
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.DefaultLongList = DefaultLongList;
-}

@@ -83,6 +83,7 @@ import { ICON } from '../../common/constants/Icons.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { ActionButtonGroup } from '../../common/gui/ActionButtonGroup.js';
 import { MenuItem } from '../../common/datatypes/MenuItem.js';
+import { MainMenu } from '../../common/menu/MainMenu.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
@@ -240,7 +241,7 @@ class FvcBrief extends FViewContentBase {
     this.#fmMain.setIcon(ICON.M_MENU, new MainIconOperator());
     this.#fmMain.setExpansionPriority(0);
 
-    this.#mMain = new gui.MainMenu();
+    this.#mMain = new MainMenu();
     // right-pad120px is a hack because of the icon is too wide, needs better
     // fix
     this.#mMain.setMaxWidthClass("wmax800px right-pad120px");

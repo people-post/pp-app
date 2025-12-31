@@ -3,6 +3,7 @@ import { LMultiChoice } from '../../lib/ui/controllers/layers/LMultiChoice.js';
 import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { DraftArticle } from '../../common/datatypes/DraftArticle.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
 
 // ActionButton needs some redesign
 export class AbWeb3New extends Fragment {
@@ -20,8 +21,8 @@ export class AbWeb3New extends Fragment {
     this.#lcStorage.setTargetName("storage");
     this.#lcStorage.setDelegate(this);
 
-    this.#fBtn = new gui.ActionButton();
-    this.#fBtn.setIcon(gui.ActionButton.T_ICON.NEW);
+    this.#fBtn = new ActionButton();
+    this.#fBtn.setIcon(ActionButton.T_ICON.NEW);
     this.#fBtn.setDelegate(this);
     this.setChild('btn', this.#fBtn);
   }

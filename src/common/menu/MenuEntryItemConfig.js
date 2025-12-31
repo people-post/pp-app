@@ -173,7 +173,4 @@ export class MenuEntryItemConfig extends DirFragment {
 
 // Backward compatibility
 if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.CF_MENU_ENTRY_ITEM_CONFIG = CF_MENU_ENTRY_ITEM_CONFIG;
-  window.gui.MenuEntryItemConfig = MenuEntryItemConfig;
 }

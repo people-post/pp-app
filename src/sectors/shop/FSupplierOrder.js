@@ -18,6 +18,7 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { STATE } from '../../common/constants/Constants.js';
+import { Address } from '../../common/gui/Address.js';
 export class FSupplierOrder extends Fragment {
   static T_LAYOUT = {
     FULL : Symbol(),
@@ -29,7 +30,7 @@ export class FSupplierOrder extends Fragment {
     this._fItems = new FSimpleFragmentList();
     this.setChild("items", this._fItems);
 
-    this._fAddress = new gui.Address();
+    this._fAddress = new Address();
     this._fAddress.setDataSource(this);
     this.setChild("address", this._fAddress);
 

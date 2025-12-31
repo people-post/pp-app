@@ -54,8 +54,3 @@ export class SectorNoticeInfoFragment extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.SectorNoticeInfoFragment = SectorNoticeInfoFragment;
-}

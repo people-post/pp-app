@@ -147,9 +147,3 @@ export class FvcExtras extends FScrollViewContent {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.CF_EXTRAS_CONTENT = CF_EXTRAS_CONTENT;
-  window.gui.FvcExtras = FvcExtras;
-}

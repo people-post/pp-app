@@ -13,7 +13,7 @@ const _CFT_THEME_EDITOR = {
     </span>`,
   COLOR : `<span class="menu-item-config-name">__NAME__:</span>
     <span class="menu-item-config-text-input">
-      <input type="text" class="tight-label-like" value="__VALUE__" style="color: __COLOR__;background-color: __BG_COLOR__;" onchange="javascript:G.action(gui.CF_THEME_EDITOR.ON_COLOR_CHANGE, '__KEY__', this.value)">
+      <input type="text" class="tight-label-like" value="__VALUE__" style="color: __COLOR__;background-color: __BG_COLOR__;" onchange="javascript:G.action('CF_GUI_THEME_EDITOR_1', '__KEY__', this.value)">
     </span>`,
 };
 
@@ -87,9 +87,3 @@ export class ThemeEditorFragment extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.CF_THEME_EDITOR = CF_THEME_EDITOR;
-  window.gui.ThemeEditorFragment = ThemeEditorFragment;
-}

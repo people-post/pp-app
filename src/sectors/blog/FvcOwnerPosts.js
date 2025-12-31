@@ -2,6 +2,8 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { ID, URL_PARAM } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { MainMenu } from '../../common/menu/MainMenu.js';
+import { MCDateFilter } from '../../common/menu/MCDateFilter.js';
 export class FvcOwnerPosts extends FScrollViewContent {
   #currentMenuItem = null;
   #mMain;
@@ -14,7 +16,7 @@ export class FvcOwnerPosts extends FScrollViewContent {
 
   constructor() {
     super();
-    this.#mMain = new gui.MainMenu();
+    this.#mMain = new MainMenu();
     this.#mMain.setSector(ID.SECTOR.BLOG);
     this.#mMain.setDelegate(this);
 
@@ -23,7 +25,7 @@ export class FvcOwnerPosts extends FScrollViewContent {
     this.#fmMain.setContentFragment(this.#mMain);
     this.#fmMain.setExpansionPriority(0);
 
-    this.#mTime = new gui.MCDateFilter();
+    this.#mTime = new MCDateFilter();
     this.#mTime.setDataSource(this);
     this.#mTime.setDelegate(this);
 

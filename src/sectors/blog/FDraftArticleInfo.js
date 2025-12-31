@@ -4,6 +4,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ICONS } from '../../lib/ui/Icons.js';
+import { FTag } from '../../common/gui/FTag.js';
 
 export const CF_DRAFT_ARTICLE_INFO = {
   ON_CLICK : Symbol(),
@@ -113,7 +114,7 @@ export class FDraftArticleInfo extends Fragment {
 
     this._fTags.clear();
     for (let id of tagIds) {
-      let f = new gui.FTag();
+      let f = new FTag();
       f.setTagId(id);
       this._fTags.append(f);
       let p = new PanelWrapper();

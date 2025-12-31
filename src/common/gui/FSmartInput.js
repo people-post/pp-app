@@ -101,9 +101,3 @@ export class FSmartInput extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.CF_SMART_INPUT = CF_SMART_INPUT;
-  window.gui.FSmartInput = FSmartInput;
-}

@@ -4,6 +4,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { FTag } from '../../common/gui/FTag.js';
 
 const _CPT_JOURNAL_ISSUE_SECTION_TAGGED = {
   MAIN : `<div class="flex flex-start">
@@ -48,7 +49,7 @@ class FJournalIssueSectionTagged extends Fragment {
 
   constructor() {
     super();
-    this.#fTag = new gui.FTag();
+    this.#fTag = new FTag();
     this.setChild("tag", this.#fTag);
 
     this.#fPosts = new FFragmentList();

@@ -162,9 +162,3 @@ export class Address extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.CF_ADDRESS = CF_ADDRESS;
-  window.gui.Address = Address;
-}

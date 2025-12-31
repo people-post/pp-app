@@ -64,8 +64,3 @@ export class DirFragment extends Fragment {
   _getSubItems() { return []; }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.DirFragment = DirFragment;
-}

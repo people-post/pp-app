@@ -29,7 +29,7 @@ export class FWeb3NoticeList extends Fragment {
     let p = new SectionPanel("Notifications");
     render.wrapPanel(p);
     for (let n of notices) {
-      let f = new gui.SectorNoticeInfoFragment();
+      let f = new SectorNoticeInfoFragment();
       f.setData(n);
       f.setDelegate(this);
       this.#fNotices.append(f);

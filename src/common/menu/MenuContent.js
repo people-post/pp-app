@@ -14,6 +14,4 @@ export class MenuContent extends Fragment {
 
 // Backward compatibility
 if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.MenuContent = MenuContent;
 }

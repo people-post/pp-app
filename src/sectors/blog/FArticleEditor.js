@@ -12,6 +12,9 @@ import { ICON } from '../../common/constants/Icons.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Tag } from '../../common/datatypes/Tag.js';
 import { Article } from '../../common/datatypes/Article.js';
+import { RichContentEditor } from '../../common/gui/RichContentEditor.js';
+import { LiveStreamConfigFragment } from '../../common/gui/LiveStreamConfigFragment.js';
+import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
 
 export class FArticleEditor extends Fragment {
   #fTitle;
@@ -37,7 +40,7 @@ export class FArticleEditor extends Fragment {
     this.#fTitle.setDelegate(this);
     this.setChild("title", this.#fTitle);
 
-    this.#fContent = new gui.RichContentEditor();
+    this.#fContent = new RichContentEditor();
     this.setChild("content", this.#fContent);
 
     this.#fFiles = new FMultiMediaFileUploader();
@@ -46,7 +49,7 @@ export class FArticleEditor extends Fragment {
     this.#fFiles.setDelegate(this);
     this.setChild("files", this.#fFiles);
 
-    this.#fLiveStream = new gui.LiveStreamConfigFragment();
+    this.#fLiveStream = new LiveStreamConfigFragment();
     this.#fLiveStream.setDataSource(this);
     this.#fLiveStream.setDelegate(this);
     this.setChild("liveStream", this.#fLiveStream);
@@ -74,7 +77,7 @@ export class FArticleEditor extends Fragment {
     this.#fAttachment.setDelegate(this);
     this.setChild("attachment", this.#fAttachment);
 
-    this.#fTags = new gui.TagsEditorFragment();
+    this.#fTags = new TagsEditorFragment();
     this.#fTags.setDataSource(this);
     this.#fTags.setDelegate(this);
     this.setChild("tags", this.#fTags);

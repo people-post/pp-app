@@ -1,7 +1,8 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Proposal } from '../../common/datatypes/Proposal.js';
+import { DefaultLongList } from '../../common/gui/DefaultLongList.js';
 
-export class FProposalList extends gui.DefaultLongList {
+export class FProposalList extends DefaultLongList {
   constructor() {
     super();
     this._communityId;
