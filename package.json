@@ -20,7 +20,6 @@
   "scripts": {
     "build": "node build.js",
     "clean": "rm -rf obj src",
-    "generate-entry": "node scripts/generate-entry.js",
     "package": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

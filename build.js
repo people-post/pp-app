@@ -17,18 +17,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const WORK_DIR = 'obj';
-const ENTRY_APP_JS = 'src/index.js';
-const ENTRY_SW_JS = 'src/sw.js';
+const ENTRY_APP_JS = 'app/G.js';
+const ENTRY_SW_JS = 'sw/main.js';
 const BUNDLE_JS_PATH = path.join(WORK_DIR, 'app-min.js');
 const BUNDLE_SW_PATH = path.join(WORK_DIR, 'sw-min.js');
-
-/**
- * Generate entry point files from file lists
- */
-function generateEntryPoints() {
-  console.log('Generating entry points...');
-  execSync('node scripts/generate-entry.js', { stdio: 'inherit' });
-}
 
 /**
  * Bundle JavaScript using esbuild
@@ -79,9 +71,6 @@ function minifyCss(inputFile, outputFile) {
  */
 async function build() {
   console.log('Starting build process...');
-
-  // 0. Generate entry points from file lists
-  generateEntryPoints();
 
   // 1. Reset workdir
   if (fs.existsSync(WORK_DIR)) {
