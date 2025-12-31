@@ -1,6 +1,8 @@
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export const CF_JOURNAL = {
   ON_CLICK : Symbol(),
@@ -37,7 +39,7 @@ class FJournal extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.JOURNAL:
+    case T_DATA.JOURNAL:
       if (data.getId() == this.#journalId) {
         this.render();
       }
@@ -50,7 +52,7 @@ class FJournal extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case blog.CF_JOURNAL.ON_CLICK:
+    case CF_JOURNAL.ON_CLICK:
       this.#onClick();
       break;
     default:
@@ -60,7 +62,7 @@ class FJournal extends Fragment {
   }
 
   _renderOnRender(render) {
-    let j = dba.Blog.getJournal(this.#journalId);
+    let j = Blog.getJournal(this.#journalId);
     if (!j) {
       return;
     }

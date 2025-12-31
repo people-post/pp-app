@@ -1,5 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { FArticleEditor } from './FArticleEditor.js';
+import { FJournalIssueEditor } from './FJournalIssueEditor.js';
 
 export class FvcPostEditor extends FScrollViewContent {
   #fEditor = null;
@@ -7,12 +9,12 @@ export class FvcPostEditor extends FScrollViewContent {
   setPost(post) {
     switch (post.getSocialItemType()) {
     case SocialItem.TYPE.ARTICLE:
-      this.#fEditor = new blog.FArticleEditor();
+      this.#fEditor = new FArticleEditor();
       this.#fEditor.setArticle(post);
       this.#fEditor.setDelegate(this);
       break;
     case SocialItem.TYPE.JOURNAL_ISSUE:
-      this.#fEditor = new blog.FJournalIssueEditor();
+      this.#fEditor = new FJournalIssueEditor();
       this.#fEditor.setJournalIssue(post);
       this.#fEditor.setDelegate(this);
       break;

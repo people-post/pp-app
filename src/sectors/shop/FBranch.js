@@ -8,6 +8,13 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ShopBranch } from '../../common/datatypes/ShopBranch.js';
 import { Address } from '../../common/gui/Address.js';
+import { FRegisterList } from './FRegisterList.js';
+import { FvcRegister } from './FvcRegister.js';
+import { PBranch } from './PBranch.js';
+import { PBranchSmall } from './PBranchSmall.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { Address } from '../../common/dba/Address.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FBranch extends Fragment {
   static T_LAYOUT = {
@@ -17,7 +24,7 @@ export class FBranch extends Fragment {
 
   constructor() {
     super();
-    this._fRegisters = new shop.FRegisterList();
+    this._fRegisters = new FRegisterList();
     this._fRegisters.setDelegate(this);
     this.setChild("registers", this._fRegisters);
 
@@ -41,7 +48,7 @@ export class FBranch extends Fragment {
   setEnableEdit(b) { this._isEditEnabled = b; }
 
   getDataForGuiAddress(fAddress, addressId) {
-    return dba.Address.get(addressId);
+    return Address.get(addressId);
   }
 
   onInputChangeInTextInputFragment(fTextInput, value) { this.#asyncUpdate(); }
@@ -63,7 +70,7 @@ export class FBranch extends Fragment {
   }
   onRegisterSelectedInRegisterListFragment(fRegisterList, registerId) {
     let v = new View();
-    let f = new shop.FvcRegister();
+      let f = new FvcRegister();
     f.setRegisterId(registerId);
     f.setEnableEdit(this._isEditEnabled);
     v.setContentFragment(f);
@@ -72,7 +79,7 @@ export class FBranch extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case shop.CF_BRANCH.ON_CLICK:
+    case CF_BRANCH.ON_CLICK:
       this._delegate.onClickInBranchFragment(this, this._branchId);
       break;
     default:
@@ -83,7 +90,7 @@ export class FBranch extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.SHOP_BRANCH:
+    case T_DATA.SHOP_BRANCH:
       if (data.getId() == this._branchId) {
         this.render();
       }
@@ -95,7 +102,7 @@ export class FBranch extends Fragment {
   }
 
   _renderOnRender(render) {
-    let branch = dba.Shop.getBranch(this._branchId);
+    let branch = Shop.getBranch(this._branchId);
     if (!branch) {
       return;
     }
@@ -149,11 +156,11 @@ export class FBranch extends Fragment {
     let p;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.SMALL:
-      p = new shop.PBranchSmall();
+      p = new PBranchSmall();
       p.setAttribute("onclick", "javascript:G.action(shop.CF_BRANCH.ON_CLICK)");
       break;
     default:
-      p = new shop.PBranch();
+      p = new PBranch();
       break;
     }
     return p;
@@ -189,7 +196,7 @@ export class FBranch extends Fragment {
     plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
   }
 
-  #onUpdateRRR(data) { dba.Shop.updateBranch(new ShopBranch(data.branch)); }
+  #onUpdateRRR(data) { Shop.updateBranch(new ShopBranch(data.branch)); }
 };
 
 

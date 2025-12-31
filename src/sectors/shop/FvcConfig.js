@@ -20,6 +20,17 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { ID, MAX } from '../../common/constants/Constants.js';
 import { MenuConfig } from '../../common/menu/MenuConfig.js';
+import { FBranchList } from './FBranchList.js';
+import { FProductInfoLayoutPreview } from './FProductInfoLayoutPreview.js';
+import { FProduct } from './FProduct.js';
+import { FvcBranch } from './FvcBranch.js';
+import { FTeam } from './FTeam.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { Menus } from '../../common/dba/Menus.js';
+import { Account } from '../../common/dba/Account.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 
 export class FvcConfig extends FScrollViewContent {
   #fTeams;
@@ -47,7 +58,7 @@ export class FvcConfig extends FScrollViewContent {
     this.#fMenuConfig.setSectorId(ID.SECTOR.SHOP);
     this.setChild("mainMenu", this.#fMenuConfig);
 
-    this.#fBranches = new shop.FBranchList();
+    this.#fBranches = new FBranchList();
     this.#fBranches.setEnableEdit(true);
     this.#fBranches.setDelegate(this);
     this.setChild("branches", this.#fBranches);
@@ -65,18 +76,18 @@ export class FvcConfig extends FScrollViewContent {
 
     this.#fLayout = new ButtonGroup();
     this.#fLayout.setDelegate(this);
-    let f = new shop.FProductInfoLayoutPreview();
+    let f = new FProductInfoLayoutPreview();
     f.setDelegate(this);
     f.setDescription(R.get("INTRO_MEDIUM_SIZE"));
-    let fInfo = new shop.FProduct()
+    let fInfo = new FProduct()
     fInfo.setSizeType(SocialItem.T_LAYOUT.MEDIUM);
     f.setInfoFragment(fInfo);
     this.#fLayout.addChoice(
         {name : "Medium", value : SocialItem.T_LAYOUT.MEDIUM, fDetail : f});
-    f = new shop.FProductInfoLayoutPreview();
+    f = new FProductInfoLayoutPreview();
     f.setDelegate(this);
     f.setDescription(R.get("INTRO_LARGE_SIZE"));
-    fInfo = new shop.FProduct()
+    fInfo = new FProduct()
     fInfo.setSizeType(SocialItem.T_LAYOUT.LARGE);
     f.setInfoFragment(fInfo);
     this.#fLayout.addChoice(
@@ -87,9 +98,9 @@ export class FvcConfig extends FScrollViewContent {
   shouldHighlightInTeamFragment(fTeam, teamId) {
     return teamId && (teamId == this.#selectedTeamId);
   }
-  getTeamForTeamFragment(fTeam, teamId) { return dba.Shop.getTeam(teamId); }
+  getTeamForTeamFragment(fTeam, teamId) { return Shop.getTeam(teamId); }
   getMenuForGuiMenuConfig(fMenuConfig) {
-    let menus = dba.Menus.get(ID.SECTOR.SHOP, dba.Account.getId());
+    let menus = Menus.get(ID.SECTOR.SHOP, Account.getId());
     return menus.length ? menus[0] : null;
   }
 
@@ -124,7 +135,7 @@ export class FvcConfig extends FScrollViewContent {
 
   onBranchSelectedInBranchListFragment(fBranchList, branchId) {
     let v = new View();
-    let f = new shop.FvcBranch();
+      let f = new FvcBranch();
     f.setBranchId(branchId);
     f.setEnableEdit(true);
     v.setContentFragment(f);
@@ -133,7 +144,7 @@ export class FvcConfig extends FScrollViewContent {
 
   onOptionChangeInOptionsFragment(fOptions, value, isChecked) {
     if (value == "HOME") {
-      dba.WebConfig.asyncSetHomeSector(isChecked ? ID.SECTOR.SHOP
+      WebConfig.asyncSetHomeSector(isChecked ? ID.SECTOR.SHOP
                                                  : ID.SECTOR.BLOG);
     }
   }
@@ -151,9 +162,9 @@ export class FvcConfig extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case fwk.T_DATA.WEB_CONFIG:
-    case plt.T_DATA.GROUPS:
-    case plt.T_DATA.SHOP_CONFIG:
+    case FwkT_DATA.WEB_CONFIG:
+    case T_DATA.GROUPS:
+    case T_DATA.SHOP_CONFIG:
       this.render();
       break;
     default:
@@ -166,12 +177,12 @@ export class FvcConfig extends FScrollViewContent {
     let p = new ListPanel();
     render.wrapPanel(p);
 
-    let config = dba.Shop.getConfig();
+    let config = Shop.getConfig();
 
     let pp = new SectionPanel("Options");
     p.pushPanel(pp);
     this.#fOptions.setOption("HOME",
-                             dba.WebConfig.getHomeSector() == ID.SECTOR.SHOP);
+                             WebConfig.getHomeSector() == ID.SECTOR.SHOP);
     this.#fOptions.attachRender(pp.getContentPanel());
     this.#fOptions.render();
 
@@ -190,7 +201,7 @@ export class FvcConfig extends FScrollViewContent {
 
     pp = new SectionPanel("Layout");
     p.pushPanel(pp);
-    this.#fLayout.setSelectedValue(dba.Shop.getItemLayoutType());
+    this.#fLayout.setSelectedValue(Shop.getItemLayoutType());
     this.#fLayout.attachRender(pp);
     this.#fLayout.render();
 
@@ -199,8 +210,8 @@ export class FvcConfig extends FScrollViewContent {
     pp = new SectionPanel("Teams");
     p.pushPanel(pp);
     this.#fTeams.clear();
-    for (let id of dba.Shop.getTeamIds()) {
-      let f = new shop.FTeam();
+    for (let id of Shop.getTeamIds()) {
+      let f = new FTeam();
       f.setTeamId(id);
       f.setDataSource(this);
       f.setDelegate(this);
@@ -210,7 +221,7 @@ export class FvcConfig extends FScrollViewContent {
     this.#fTeams.render();
     p.pushSpace(1);
 
-    if (dba.Shop.getTeamIds().length < MAX.N_TEAMS) {
+    if (Shop.getTeamIds().length < MAX.N_TEAMS) {
       pp = new PanelWrapper();
       p.pushPanel(pp);
       this.#btnAddTeam.attachRender(pp);
@@ -238,10 +249,10 @@ export class FvcConfig extends FScrollViewContent {
   }
 
   #onNameChange(newName) {
-    let c = dba.Shop.getConfig();
+    let c = Shop.getConfig();
     if (c) {
       c.name = newName;
-      dba.Shop.asyncUpdateConfig(c);
+      Shop.asyncUpdateConfig(c);
     }
   }
 

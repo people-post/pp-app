@@ -5,6 +5,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FTag } from '../../common/gui/FTag.js';
+import { FPostInfo } from './FPostInfo.js';
 
 const _CPT_JOURNAL_ISSUE_SECTION_TAGGED = {
   MAIN : `<div class="flex flex-start">
@@ -77,7 +78,7 @@ class FJournalIssueSectionTagged extends Fragment {
         let pp = new PanelWrapper();
         p.pushPanel(pp);
 
-        let f = new blog.FPostInfo();
+        let f = new FPostInfo();
         f.setPostId(id);
         f.setSizeType(SocialItem.T_LAYOUT.EXT_EMBED);
         f.setDataSource(this);

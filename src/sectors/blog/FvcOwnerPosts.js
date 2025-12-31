@@ -4,6 +4,15 @@ import { ID, URL_PARAM } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { MainMenu } from '../../common/menu/MainMenu.js';
 import { MCDateFilter } from '../../common/menu/MCDateFilter.js';
+import { OwnerPostIdLoader } from './OwnerPostIdLoader.js';
+import { FPostList } from './FPostList.js';
+import { AbNew } from './AbNew.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Users } from '../../common/dba/Users.js';
+import { Account } from '../../common/dba/Account.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 export class FvcOwnerPosts extends FScrollViewContent {
   #currentMenuItem = null;
   #mMain;
@@ -34,9 +43,9 @@ export class FvcOwnerPosts extends FScrollViewContent {
     this.#fmTimeFilter.setContentFragment(this.#mTime);
     this.#fmTimeFilter.setExpansionPriority(1);
 
-    this.#loader = new blog.OwnerPostIdLoader();
+    this.#loader = new OwnerPostIdLoader();
     this.#loader.setDelegate(this);
-    this.#fPosts = new blog.FPostList();
+    this.#fPosts = new FPostList();
     this.#fPosts.setDataSource(this);
     this.#fPosts.setDelegate(this);
     this.#fPosts.setLoader(this.#loader);
@@ -44,14 +53,14 @@ export class FvcOwnerPosts extends FScrollViewContent {
 
     this.setPreferredWidth({"min" : 320, "best" : 800, "max" : 0});
 
-    this.#fBtnNew = new blog.AbNew();
+    this.#fBtnNew = new AbNew();
   }
 
   initFromUrl(urlParam) {
     let id = urlParam.get(URL_PARAM.ID);
     if (!id && urlParam.get(URL_PARAM.N_NAV_FRAME) > 1) {
       // For multiple frames only
-      let sid = dba.Blog.getDefaultPostId();
+      let sid = Blog.getDefaultPostId();
       if (sid) {
         id = sid.toEncodedStr()
       }
@@ -97,7 +106,7 @@ export class FvcOwnerPosts extends FScrollViewContent {
     this.#applyTheme();
 
     this.#fmMain.close();
-    fwk.Events.triggerTopAction(fwk.T_ACTION.REPLACE_STATE, {}, "Posts");
+      Events.triggerTopAction(T_ACTION.REPLACE_STATE, {}, "Posts");
   }
 
   onTimeRangeSelectedInDateTimeFilterFragment(fDateFilter, tFrom, tTo) {
@@ -112,14 +121,14 @@ export class FvcOwnerPosts extends FScrollViewContent {
     let ownerId = this.#loader.getOwnerId();
     if (dba.WebConfig.isWebOwner(ownerId)) {
       // Owner
-      if (dba.Blog.isPostPinned(fInfo.getPostId().getValue())) {
-        fInfo.setSizeType(dba.Blog.getPinnedItemLayoutType());
+      if (Blog.isPostPinned(fInfo.getPostId().getValue())) {
+        fInfo.setSizeType(Blog.getPinnedItemLayoutType());
       } else {
-        fInfo.setSizeType(dba.Blog.getItemLayoutType());
+        fInfo.setSizeType(Blog.getItemLayoutType());
       }
     } else {
       // Other user
-      let u = dba.Users.get(ownerId);
+      let u = Users.get(ownerId);
       if (u) {
         let c = u.getBlogConfig();
         if (c) {
@@ -131,12 +140,12 @@ export class FvcOwnerPosts extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.NEW_OWNER_POST:
-      if (this.#loader.getOwnerId() == dba.Account.getId()) {
+    case T_DATA.NEW_OWNER_POST:
+      if (this.#loader.getOwnerId() == Account.getId()) {
         this.#fPosts.reset();
       }
       break;
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PROFILE:
       this._owner.onContentFragmentRequestUpdateHeader(this);
       this.render();
       break;
@@ -169,8 +178,8 @@ export class FvcOwnerPosts extends FScrollViewContent {
   }
 
   #applyTheme() {
-    if (dba.WebConfig.isWebOwner(this.#loader.getOwnerId())) {
-      dba.WebConfig.setThemeId(
+    if (WebConfig.isWebOwner(this.#loader.getOwnerId())) {
+      WebConfig.setThemeId(
           this.#currentMenuItem ? this.#currentMenuItem.getId() : null);
     }
   }

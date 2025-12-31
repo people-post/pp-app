@@ -1,6 +1,11 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Proposal } from '../../common/datatypes/Proposal.js';
 import { DefaultLongList } from '../../common/gui/DefaultLongList.js';
+import { Communities } from '../../common/dba/Communities.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
+import { api } from '../../common/plt/Api.js';
+import { FProposal } from './FProposal.js';
+import { FvcProposal } from './FvcProposal.js';
 
 export class FProposalList extends DefaultLongList {
   constructor() {
@@ -12,12 +17,12 @@ export class FProposalList extends DefaultLongList {
     return this._currentId == proposalId;
   }
 
-  getCurrentProposal() { return dba.Communities.getProposal(this._currentId); }
+  getCurrentProposal() { return Communities.getProposal(this._currentId); }
   getPreviousProposalId() {
-    return ext.Utilities.findItemBefore(this._ids, this._currentId);
+    return UtilitiesExt.findItemBefore(this._ids, this._currentId);
   }
   getNextProposalId() {
-    return ext.Utilities.findItemAfter(this._ids, this._currentId);
+    return UtilitiesExt.findItemAfter(this._ids, this._currentId);
   }
 
   setCommunityId(id) { this._communityId = id; }
@@ -33,7 +38,7 @@ export class FProposalList extends DefaultLongList {
   }
 
   _createInfoFragment(id) {
-    let f = new cmut.FProposal();
+    let f = new FProposal();
     f.setProposalId(id);
     f.setDataSource(this);
     f.setDelegate(this);
@@ -42,7 +47,7 @@ export class FProposalList extends DefaultLongList {
 
   _createItemView(id) {
     let v = new View();
-    let f = new cmut.FvcProposal();
+    let f = new FvcProposal();
     f.setProposalId(id);
     v.setContentFragment(f);
     return v;
@@ -57,7 +62,7 @@ export class FProposalList extends DefaultLongList {
     if (this._ids.length) {
       url += "&before_id=" + this._ids[this._ids.length - 1];
     }
-    plt.Api.asyncRawCall(url, r => this.#onProposalsRRR(r));
+    api.asyncRawCall(url, r => this.#onProposalsRRR(r));
   }
 
   #onProposalsRRR(responseText) {
@@ -72,7 +77,7 @@ export class FProposalList extends DefaultLongList {
       }
       if (proposals.length) {
         for (let p of proposals) {
-          dba.Communities.updateProposal(new Proposal(p));
+          Communities.updateProposal(new Proposal(p));
           this._ids.push(p.getId());
         }
       } else {

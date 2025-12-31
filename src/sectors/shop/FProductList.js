@@ -1,6 +1,7 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
 import { FSocialItemList } from '../../common/gui/FSocialItemList.js';
+import { FvcProduct } from './FvcProduct.js';
 
 export class FProductList extends FSocialItemList {
   // TODO: Swith id to SocialItemId
@@ -23,7 +24,7 @@ export class FProductList extends FSocialItemList {
 
   _createItemView(itemId) {
     let v = new View();
-    let f = new shop.FvcProduct();
+    let f = new FvcProduct();
     f.setProductId(itemId);
     v.setContentFragment(f);
     return v;

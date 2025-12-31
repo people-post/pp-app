@@ -86,6 +86,20 @@ import { MainMenu } from '../../common/menu/MainMenu.js';
 import { MenuItem } from '../../common/datatypes/MenuItem.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { FHomeBtn } from './FHomeBtn.js';
+import { FvcInsights } from './FvcInsights.js';
+import { FvcBriefDonation } from './FvcBriefDonation.js';
+import { OwnerPostIdLoader } from '../blog/OwnerPostIdLoader.js';
+import { FPostList } from '../blog/FPostList.js';
+import { FPostInfo } from '../blog/FPostInfo.js';
+import { FvcOwnerPostScroller } from '../blog/FvcOwnerPostScroller.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Utilities } from '../../common/Utilities.js';
+import { FSearchMenu } from '../../common/search/FSearchMenu.js';
+import { FSearchResultInfo } from '../../common/search/FSearchResultInfo.js';
 
 export class PBriefBase extends Panel {
   getBannerPanel() { return null; }
@@ -234,8 +248,8 @@ class FvcBrief extends FViewContentBase {
 
   constructor() {
     super();
-    this.#fHome = new main.FHomeBtn();
-    this.#fHome.setUrl(dba.WebConfig.getHomeUrl());
+    this.#fHome = new FHomeBtn();
+    this.#fHome.setUrl(WebConfig.getHomeUrl());
 
     this.#fmMain = new FHeaderMenu();
     this.#fmMain.setIcon(ICON.M_MENU, new MainIconOperator());
@@ -249,14 +263,14 @@ class FvcBrief extends FViewContentBase {
     this.#mMain.setExtraItems(
         [ new MenuItem({"id" : "ZHUANTI", "name" : "专题"}) ]);
     this.#mMain.setSearchResultLayoutType(
-        srch.FSearchResultInfo.T_LAYOUT.BRIEF);
+        FSearchResultInfo.T_LAYOUT.BRIEF);
     this.#mMain.setDelegate(this);
     this.#fmMain.setContentFragment(this.#mMain);
 
     this.#fmSearch = new FHeaderMenu();
     this.#fmSearch.setIcon(ICON.M_SEARCH, new SearchIconOperator());
-    let f = new srch.FSearchMenu();
-    f.setResultLayoutType(srch.FSearchResultInfo.T_LAYOUT.BRIEF);
+    let f = new FSearchMenu();
+    f.setResultLayoutType(FSearchResultInfo.T_LAYOUT.BRIEF);
     f.setDelegate(this);
     this.#fmSearch.setContentFragment(f);
     this.#fmSearch.setExpansionPriority(1);
@@ -268,9 +282,9 @@ class FvcBrief extends FViewContentBase {
     this.#lc = new LContext();
     this.#lc.setDelegate(this);
 
-    this.#loader = new blog.OwnerPostIdLoader();
+    this.#loader = new OwnerPostIdLoader();
     this.#loader.setDelegate(this);
-    this.#fPosts = new blog.FPostList();
+    this.#fPosts = new FPostList();
     this.#fPosts.setDataSource(this);
     this.#fPosts.setDelegate(this);
     this.#fPosts.setLoader(this.#loader);
@@ -334,7 +348,7 @@ class FvcBrief extends FViewContentBase {
       this.#lc.clearOptions();
       this.#lc.addOption("English", "en-us");
       this.#lc.addOption("中文", "zh-cn");
-      fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lc,
+      Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lc,
                                   "Context");
     }
   }
@@ -351,7 +365,7 @@ class FvcBrief extends FViewContentBase {
   onItemSelectedInGuiMainMenu(fMainMenu, menuItem) {
     if (menuItem.getId() == "ZHUANTI") {
       let v = new View();
-      let f = new ftpg.FvcInsights();
+      let f = new FvcInsights();
       v.setContentFragment(f);
       this._owner.onFragmentRequestShowView(this, v, "insights");
     } else {
@@ -359,7 +373,7 @@ class FvcBrief extends FViewContentBase {
       this.#applyTheme();
 
       this.#fmMain.close();
-      fwk.Events.triggerTopAction(fwk.T_ACTION.REPLACE_STATE, {}, "posts");
+      Events.triggerTopAction(T_ACTION.REPLACE_STATE, {}, "posts");
     }
   }
   onOptionClickedInContextLayer(lc, value) { this.#setLanguage(value); }
@@ -380,7 +394,7 @@ class FvcBrief extends FViewContentBase {
 
   action(type, ...args) {
     switch (type) {
-    case ftpg.CF_BRIEF.SHOW_CALENDAR:
+    case CF_BRIEF.SHOW_CALENDAR:
       this.#onShowCalendar();
       break;
     default:
@@ -391,7 +405,7 @@ class FvcBrief extends FViewContentBase {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PROFILE:
       this._owner.onContentFragmentRequestUpdateHeader(this);
       this.render();
       break;
@@ -439,7 +453,7 @@ class FvcBrief extends FViewContentBase {
         pp.setClassName(
             "w90 s-csecondarydecorbg flex-noshrink scroll-snap-start h200px y-scroll no-scrollbar");
         p.pushPanel(pp);
-        let f = new blog.FPostInfo();
+        let f = new FPostInfo();
         f.setPostId(id);
         f.setSizeType(SocialItem.T_LAYOUT.EXT_CARD);
         this.#fPinnedPosts.append(f);
@@ -455,7 +469,7 @@ class FvcBrief extends FViewContentBase {
       for (let id of ids) {
         let pp = new PanelWrapper();
         p.pushPanel(pp);
-        let f = new blog.FPostInfo();
+        let f = new FPostInfo();
         f.setPostId(id);
         f.setSizeType(SocialItem.T_LAYOUT.EXT_BRIEF);
         this.#fPinnedPosts.append(f);
@@ -510,20 +524,20 @@ class FvcBrief extends FViewContentBase {
   }
 
   #applyTheme() {
-    dba.WebConfig.setThemeId(
+    WebConfig.setThemeId(
         this.#currentMenuItem ? this.#currentMenuItem.getId() : null);
   }
 
   #showBriefArticle(sid) {
     let v = new View();
-    let f = new blog.FvcOwnerPostScroller();
-    let a = dba.Blog.getArticle(sid.getValue());
+    let f = new FvcOwnerPostScroller();
+    let a = Blog.getArticle(sid.getValue());
     if (a) {
       f.setOwnerId(a.getOwnerId());
     }
     f.setAnchorPostId(sid);
     v.setContentFragment(f);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Article");
+      Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Article");
   }
 
   #renderBanner(panel) {
@@ -603,13 +617,13 @@ class FvcBrief extends FViewContentBase {
     this.#lc.setTargetName("date");
     this.#lc.clearOptions();
     this.#lc.addOptionFragment(this.#fCalendar);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lc,
+    Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lc,
                                 "Context");
   }
 
   #onShowDonation() {
     let v = new View();
-    let f = new ftpg.FvcBriefDonation();
+    let f = new FvcBriefDonation();
     v.setContentFragment(f);
     this.onFragmentRequestShowView(this, v, "donation");
   }

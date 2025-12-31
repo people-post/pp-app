@@ -1,5 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { ConstListIdLoader } from '../../common/plt/ConstListIdLoader.js';
+import { FPostList } from './FPostList.js';
 
 export class FTaggedCommentList extends Fragment {
   #idLoader;
@@ -9,8 +11,8 @@ export class FTaggedCommentList extends Fragment {
 
   constructor() {
     super();
-    this.#idLoader = new plt.ConstListIdLoader();
-    this.#fComments = new blog.FPostList();
+    this.#idLoader = new ConstListIdLoader();
+    this.#fComments = new FPostList();
     this.#fComments.setEnableTopBuffer(false);
     this.#fComments.setLoader(this.#idLoader);
     this.#fComments.setDataSource(this);

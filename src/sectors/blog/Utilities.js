@@ -21,7 +21,7 @@ export const Utilities = function() {
     }
     if (cascade && toPost.isRepost()) {
       // Only cascade one level
-      return _isPostRelated(post, dba.Blog.getPost(toPost.getLinkToSocialId()),
+      return _isPostRelated(post, Blog.getPost(toPost.getLinkToSocialId()),
                             false);
     }
     return false;

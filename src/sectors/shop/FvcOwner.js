@@ -9,6 +9,17 @@ import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
 import { ID, URL_PARAM } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { MainMenu } from '../../common/menu/MainMenu.js';
+import { FSearchMenu } from '../../common/search/FSearchMenu.js';
+import { FOwnerProductList } from './FOwnerProductList.js';
+import { FCartButton } from './FCartButton.js';
+import { FvcProductEditor } from './FvcProductEditor.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { Cart } from '../../common/dba/Cart.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Account } from '../../common/dba/Account.js';
+import { FSearchMenu } from '../../common/search/FSearchMenu.js';
 
 export class FvcOwner extends FScrollViewContent {
   #fmMain;
@@ -31,12 +42,12 @@ export class FvcOwner extends FScrollViewContent {
 
     this.#fmSearch = new FHeaderMenu();
     this.#fmSearch.setIcon(ICON.M_SEARCH, new SearchIconOperator());
-    f = new srch.FSearchMenu();
+    f = new FSearchMenu();
     f.setDelegate(this);
     this.#fmSearch.setContentFragment(f);
     this.#fmSearch.setExpansionPriority(1);
 
-    this.#fList = new shop.FOwnerProductList();
+    this.#fList = new FOwnerProductList();
     this.#fList.setDataSource(this);
     this.#fList.setDelegate(this);
     this.setChild("list", this.#fList);
@@ -45,7 +56,7 @@ export class FvcOwner extends FScrollViewContent {
     this.#fBtnNew.setIcon(ActionButton.T_ICON.NEW);
     this.#fBtnNew.setDelegate(this);
 
-    this.#fBtnCart = new shop.FCartButton();
+    this.#fBtnCart = new FCartButton();
     this.#fBtnCart.setDelegate(this);
   }
 
@@ -74,14 +85,14 @@ export class FvcOwner extends FScrollViewContent {
   getMenuFragments() { return [ this.#fmMain, this.#fmSearch ]; }
 
   getActionButton() {
-    if (dba.Account.isAuthenticated()) {
-      if (dba.Account.isWebOwner()) {
+    if (Account.isAuthenticated()) {
+      if (Account.isWebOwner()) {
         return this.#fBtnNew;
       } else {
         return this.#fBtnCart;
       }
     } else {
-      let c = dba.Cart.getCart(CartDataType.T_ID.ACTIVE);
+      let c = Cart.getCart(CartDataType.T_ID.ACTIVE);
       if (c && cart.getItems().length) {
         return this.#fBtnCart;
       }
@@ -127,7 +138,7 @@ export class FvcOwner extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.DRAFT_ORDERS:
+    case T_DATA.DRAFT_ORDERS:
       this._owner.onContentFragmentRequestUpdateHeader(this);
       break;
     default:
@@ -148,7 +159,7 @@ export class FvcOwner extends FScrollViewContent {
 
   #onNewProduct() {
     let url = "api/shop/new_product";
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onDraftProductRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onDraftProductRRR(d));
   }
 
   #onDraftProductRRR(data) {
@@ -165,7 +176,7 @@ export class FvcOwner extends FScrollViewContent {
   #showDraftEditor(product) {
     product.setIsDraft();
     let v = new View();
-    let f = new shop.FvcProductEditor();
+      let f = new FvcProductEditor();
     f.setDelegate(this);
     f.setProduct(product);
     v.setContentFragment(f);
@@ -180,7 +191,7 @@ export class FvcOwner extends FScrollViewContent {
   }
 
   #applyTheme() {
-    dba.WebConfig.setThemeId(
+    WebConfig.setThemeId(
         this.#currentMenuItem ? this.#currentMenuItem.getId() : null);
   }
 };

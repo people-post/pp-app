@@ -20,6 +20,10 @@ import { BlogRole } from '../../common/datatypes/BlogRole.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Groups } from '../../common/dba/Groups.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcRoleEditor extends FScrollViewContent {
   constructor() {
@@ -57,7 +61,7 @@ export class FvcRoleEditor extends FScrollViewContent {
 
   setRoleId(id) { this._roleId = id; }
 
-  getTagsForTagsEditorFragment(fEditor) { return dba.WebConfig.getTags(); }
+  getTagsForTagsEditorFragment(fEditor) { return WebConfig.getTags(); }
   getInitialCheckedIdsForTagsEditorFragment(fEditor) {
     let role = this.#getRole();
     return role ? role.getAllowedTagIds() : [];
@@ -111,7 +115,7 @@ export class FvcRoleEditor extends FScrollViewContent {
     this._fOptions.render();
   }
 
-  #getRole() { return dba.Blog.getRole(this._roleId); }
+  #getRole() { return Blog.getRole(this._roleId); }
 
   #renderNameInputs() {
     let s = _CFT_BLOG_ROLE_EDITOR.SEC_NAME;
@@ -170,20 +174,20 @@ export class FvcRoleEditor extends FScrollViewContent {
   #asyncRequestAddRole(role) {
     let url = "api/blog/add_role";
     let fd = this.#makeForm(role);
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onNewRoleRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onNewRoleRRR(d));
   }
 
   #asyncRequestEditRole(role) {
     let url = "api/blog/update_role";
     let fd = this.#makeForm(role);
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onEditRoleRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onEditRoleRRR(d));
   }
 
   #asyncRequestDeleteRole(id) {
     let url = "api/blog/delete_role";
     let fd = FormData();
     fd.append("id", id);
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onDeleteRoleRRR(d));
   }
 
@@ -192,9 +196,9 @@ export class FvcRoleEditor extends FScrollViewContent {
   #onDeleteRoleRRR(data) { this.#onEditRoleFinished(data.groups); }
 
   #onEditRoleFinished(groups) {
-    dba.WebConfig.resetRoles(groups);
+    WebConfig.resetRoles(groups);
     for (let d of groups) {
-      dba.Groups.update(new UserGroup(d));
+      Groups.update(new UserGroup(d));
     }
     this._owner.onContentFragmentRequestPopView(this);
   }
