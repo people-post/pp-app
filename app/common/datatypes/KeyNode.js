@@ -29,8 +29,4 @@ export class KeyNode {
   #harden(num) { return 0x80000000 + num; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.KeyNode = KeyNode;
-}
+

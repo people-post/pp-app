@@ -15,8 +15,4 @@ export class CommunityProfile extends ServerDataObject {
   getConfig() { return this._data.config; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.CommunityProfile = CommunityProfile;
-}
+

@@ -37,8 +37,4 @@ export class CardanoAccount {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.CardanoAccount = CardanoAccount;
-}
+

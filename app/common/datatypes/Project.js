@@ -425,8 +425,4 @@ export class Project extends SocialItem {
   #createStage(data) { return new SimpleProjectStage(data, this.getId()); }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Project = Project;
-}
+

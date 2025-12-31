@@ -30,8 +30,4 @@ export class Email extends ServerDataObject {
   getUpdateTime() { return new Date(this._data.updated_at * 1000); }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Email = Email;
-}
+

@@ -13,8 +13,4 @@ export class Wallet extends DataObject {
   };
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Wallet = Wallet;
-}
+

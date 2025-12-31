@@ -37,8 +37,4 @@ export class Comment extends Post {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Comment = Comment;
-}
+

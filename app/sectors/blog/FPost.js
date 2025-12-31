@@ -38,7 +38,7 @@ export class FPost extends Fragment {
   #fItem;
   #fSocial;
   #btnApply;
-  #postId = null; // dat.SocialItemId
+  #postId = null; // SocialItemId
 
   constructor() {
     super();

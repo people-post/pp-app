@@ -12,8 +12,4 @@ export class VotingSummary extends ServerDataObject {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.VotingSummary = VotingSummary;
-}
+

@@ -8,8 +8,4 @@ export class SquareTerminal extends ServerDataObject {
   getPairedAt() { return this._data.paired_at; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.SquareTerminal = SquareTerminal;
-}
+

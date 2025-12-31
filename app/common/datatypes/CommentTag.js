@@ -15,8 +15,4 @@ export class CommentTag {
   getCommentSocialIds() { return this.#sidComments; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.CommentTag = CommentTag;
-}
+

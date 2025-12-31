@@ -37,8 +37,4 @@ export class ProjectStage {
   getActionsForFacilitator() { return []; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.ProjectStage = ProjectStage;
-}
+

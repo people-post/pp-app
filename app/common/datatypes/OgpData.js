@@ -32,8 +32,4 @@ export class OgpData {
   setFiles(files) { this._files = files; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.OgpData = OgpData;
-}
+

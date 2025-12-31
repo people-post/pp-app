@@ -60,7 +60,7 @@ export class ButtonList extends Fragment {
 };
 
 // Export to window for string template access
-if (typeof window !== '''undefined''') {
+if (typeof window !== 'undefined') {
   window.CF_BUTTON_LIST = CF_BUTTON_LIST;
 }
 

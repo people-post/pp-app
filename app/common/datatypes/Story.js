@@ -13,8 +13,4 @@ export class Story extends ServerDataObject {
   getEvents() { return this._events; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Story = Story;
-}
+

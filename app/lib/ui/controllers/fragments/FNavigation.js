@@ -7,7 +7,7 @@ export const CF_NAVIGATION = {
 };
 
 // Export to window for string template access
-if (typeof window !== '''undefined''') {
+if (typeof window !== 'undefined') {
   window.CF_NAVIGATION = CF_NAVIGATION;
 }
 

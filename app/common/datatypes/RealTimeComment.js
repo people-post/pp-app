@@ -28,8 +28,4 @@ export class RealTimeComment extends ChatMessage {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.RealTimeComment = RealTimeComment;
-}
+

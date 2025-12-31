@@ -14,9 +14,3 @@ export class DataObject {
 
   _setData(name, value) { this.#data[name] = value; }
 }
-
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.DataObject = DataObject;
-}

@@ -47,8 +47,4 @@ export class ProductServiceLocation extends ServerDataObject {
   #initTimeslot(data) { return new ProductServiceTimeslot(data); }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.ProductServiceLocation = ProductServiceLocation;
-}
+

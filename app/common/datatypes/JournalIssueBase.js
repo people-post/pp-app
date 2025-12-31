@@ -28,8 +28,4 @@ export class JournalIssueBase extends Post {
   getSections() { return this.#sections; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.JournalIssueBase = JournalIssueBase;
-}
+

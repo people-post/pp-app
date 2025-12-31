@@ -16,8 +16,4 @@ export class MlDsa44Key {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.MlDsa44Key = MlDsa44Key;
-}
+

@@ -24,8 +24,4 @@ export class ClientSignal {
   toEncodedString() { return JSON.stringify(this._data); }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.ClientSignal = ClientSignal;
-}
+

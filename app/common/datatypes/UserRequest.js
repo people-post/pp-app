@@ -18,8 +18,4 @@ export class UserRequest extends ServerDataObject {
   getMessage() { return this._data.message; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.UserRequest = UserRequest;
-}
+

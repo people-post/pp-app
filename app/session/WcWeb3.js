@@ -3,10 +3,11 @@ import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
 import { LvMain } from './LvMain.js';
 import { AbAccount } from './AbAccount.js';
 import { View } from '../lib/ui/controllers/views/View.js';
+import { Wallet } from '../common/datatypes/Wallet.js';
 
 export class WcWeb3 extends WcSession {
   #postingKeyPath =
-      [ dat.Wallet.T_PURPOSE.NFSC001, dat.Wallet.T_COIN.NFSC001, 0, 0, 0 ];
+      [ Wallet.T_PURPOSE.NFSC001, Wallet.T_COIN.NFSC001, 0, 0, 0 ];
 
   onWeb3UserIdolsLoaded(user) {
     fwk.Events.trigger(plt.T_DATA.USER_IDOLS, user.getId())

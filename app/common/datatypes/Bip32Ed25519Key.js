@@ -39,8 +39,4 @@ export class Bip32Ed25519Key {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Bip32Ed25519Key = Bip32Ed25519Key;
-}
+

@@ -20,8 +20,4 @@ export class SearchConfig {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.SearchConfig = SearchConfig;
-}
+

@@ -9,8 +9,4 @@ export class LongListIdRecord {
   clear() { throw "clear() is required in LongListIdRecord"; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.LongListIdRecord = LongListIdRecord;
-}
+

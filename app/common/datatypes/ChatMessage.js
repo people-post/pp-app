@@ -30,8 +30,4 @@ export class ChatMessage extends ServerDataObject {
   getData() { return this._data.data; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.ChatMessage = ChatMessage;
-}
+

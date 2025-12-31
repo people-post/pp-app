@@ -14,8 +14,4 @@ export class UniSegmentedLongListIdRecord extends UniLongListIdRecord {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.UniSegmentedLongListIdRecord = UniSegmentedLongListIdRecord;
-}
+

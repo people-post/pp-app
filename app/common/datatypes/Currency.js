@@ -7,8 +7,4 @@ export class Currency extends ServerDataObject {
   getIcon() { return this._data.icon; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Currency = Currency;
-}
+

@@ -13,8 +13,4 @@ export class UserGroup extends GeneralGroup {
   getTagIds() { return this._data.tag_ids; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.UserGroup = UserGroup;
-}
+

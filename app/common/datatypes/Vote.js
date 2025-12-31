@@ -9,8 +9,4 @@ export class Vote extends ServerDataObject {
   getValue() { return this._data.value; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.Vote = Vote;
-}
+

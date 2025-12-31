@@ -18,8 +18,4 @@ export class JournalIssueSection {
   getPostSocialIds() { return this.#ids; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.JournalIssueSection = JournalIssueSection;
-}
+

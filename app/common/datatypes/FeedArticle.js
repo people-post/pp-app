@@ -25,8 +25,4 @@ export class FeedArticle extends Post {
   getSourceUrl() { return this._data.url; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.FeedArticle = FeedArticle;
-}
+

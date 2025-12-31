@@ -54,8 +54,4 @@ export class RemoteFile extends ServerDataObject {
   #getCoverImageUrl() { return this._data.cover_image_url; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.RemoteFile = RemoteFile;
-}
+

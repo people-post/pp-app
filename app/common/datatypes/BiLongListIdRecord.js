@@ -62,8 +62,4 @@ export class BiLongListIdRecord extends LongListIdRecord {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.BiLongListIdRecord = BiLongListIdRecord;
-}
+

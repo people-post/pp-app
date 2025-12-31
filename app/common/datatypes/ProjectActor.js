@@ -40,8 +40,4 @@ export class ProjectActor {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.ProjectActor = ProjectActor;
-}
+

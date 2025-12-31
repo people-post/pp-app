@@ -17,8 +17,4 @@ export class BlogRole extends UserRole {
   getAllowedTagIds() { return this._data.data.allowed_tag_ids; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.BlogRole = BlogRole;
-}
+

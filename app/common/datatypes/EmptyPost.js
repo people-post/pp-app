@@ -10,8 +10,4 @@ export class EmptyPost extends Post {
   getErrorCode() { return this._data.err_code; }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.EmptyPost = EmptyPost;
-}
+

@@ -9,8 +9,4 @@ export class UserRole extends ServerDataObject {
 
   getStatus() { return this._data.status; }
 };
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.UserRole = UserRole;
-}
+

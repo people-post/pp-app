@@ -33,8 +33,4 @@ export class UniLongListIdRecord extends LongListIdRecord {
   clear() { this.#record.clear(); }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dat = window.dat || {};
-  window.dat.UniLongListIdRecord = UniLongListIdRecord;
-}
+
