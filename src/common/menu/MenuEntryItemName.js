@@ -34,4 +34,6 @@ export class MenuEntryItemName extends MenuItemName {
 
 // Backward compatibility
 if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.MenuEntryItemName = MenuEntryItemName;
 }

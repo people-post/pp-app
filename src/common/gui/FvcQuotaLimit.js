@@ -51,3 +51,10 @@ export class FvcQuotaLimit extends FScrollViewContent {
   }
 };
 
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_QUOTA_LIMIT = CF_QUOTA_LIMIT;
+  window.gui.FvcQuotaLimit = FvcQuotaLimit;
+}
+

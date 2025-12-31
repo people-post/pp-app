@@ -134,3 +134,10 @@ export class LiveStreamConfigFragment extends Fragment {
   }
 };
 
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_LIVE_STREAM_CONFIG = CF_LIVE_STREAM_CONFIG;
+  window.gui.LiveStreamConfigFragment = LiveStreamConfigFragment;
+}
+

@@ -86,4 +86,10 @@ export class FSimpleList extends Fragment {
     return s;
   }
 };
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_SIMPLE_LIST = CF_SIMPLE_LIST;
+  window.gui.FSimpleList = FSimpleList;
+}
 

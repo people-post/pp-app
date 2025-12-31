@@ -15,14 +15,14 @@ export const CF_INPUT_CONSOLE = {
 
 const _CFT_INPUT_CONSOLE = {
   TEXT_INPUT_NORMAL :
-      `<textarea id="ID_INPUT_CONSOLE___FID__" class="console-text" onkeydown="javascript:G.action('CF_GUI_INPUT_CONSOLE_1')" onkeyup="javascript:G.action('CF_GUI_INPUT_CONSOLE_2')" placeholder="__TEXT_PLACE_HOLDER__">__VALUE__</textarea>`,
+      `<textarea id="ID_INPUT_CONSOLE___FID__" class="console-text" onkeydown="javascript:G.action(gui.CF_INPUT_CONSOLE.ON_KEY_DOWN)" onkeyup="javascript:G.action(gui.CF_INPUT_CONSOLE.ON_KEY_UP)" placeholder="__TEXT_PLACE_HOLDER__">__VALUE__</textarea>`,
   TEXT_INPUT_DISABLED :
       `<textarea class="console-text" placeholder="__TEXT_PLACE_HOLDER__" disabled></textarea>`,
   ICON : `<span class="inline-block s-icon6 clickable">__ICON__</span>`,
   BTN_IMG : `<label class="s-font5" for="_ID_INPUT_CONSOLE_IMG_INPUT">
       <span class="inline-block s-icon3 clickable">__IMG_ICON__</span>
     </label>
-    <input id="_ID_INPUT_CONSOLE_IMG_INPUT" type="file" style="display:none" onchange="javascript:G.action('CF_GUI_INPUT_CONSOLE_5', this)">`,
+    <input id="_ID_INPUT_CONSOLE_IMG_INPUT" type="file" style="display:none" onchange="javascript:G.action(gui.CF_INPUT_CONSOLE.ON_POST_FILE, this)">`,
   BTN_IMG_DISABLED : `<label class="s-font5">
     <span class="inline-block s-icon3 clickable">__IMG_ICON__</span>
    </label>`,
@@ -105,7 +105,7 @@ export class InputConsoleFragment extends Fragment {
     pp = new Panel();
     if (this._isEnabled) {
       pp.setAttribute("onclick",
-                      "javascript:G.action('CF_GUI_INPUT_CONSOLE_3')");
+                      "javascript:G.action(gui.CF_INPUT_CONSOLE.ON_POST)");
     }
     p.pushPanel(pp);
     pp.setClassName("input-console-icon");
@@ -122,7 +122,7 @@ export class InputConsoleFragment extends Fragment {
       }
       if (this._isEnabled) {
         pp.setAttribute(
-            "onclick", "javascript:G.action('CF_GUI_INPUT_CONSOLE_4')");
+            "onclick", "javascript:G.action(gui.CF_INPUT_CONSOLE.TOGGLE_MORE)");
       }
       p.pushPanel(pp);
       pp.replaceContent(this.#renderMoreButton());
@@ -205,3 +205,9 @@ export class InputConsoleFragment extends Fragment {
   }
 };
 
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_INPUT_CONSOLE = CF_INPUT_CONSOLE;
+  window.gui.InputConsoleFragment = InputConsoleFragment;
+}

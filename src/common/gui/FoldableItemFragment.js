@@ -103,4 +103,10 @@ export class FoldableItemFragment extends Fragment {
     this.render();
   }
 };
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_FOLDABLE_ITEM = CF_FOLDABLE_ITEM;
+  window.gui.FoldableItemFragment = FoldableItemFragment;
+}
 

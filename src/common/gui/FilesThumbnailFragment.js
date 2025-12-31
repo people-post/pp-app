@@ -96,4 +96,10 @@ export class FilesThumbnailFragment extends Fragment {
     return s;
   }
 };
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_FILES_THUMBNAIL = CF_FILES_THUMBNAIL;
+  window.gui.FilesThumbnailFragment = FilesThumbnailFragment;
+}
 

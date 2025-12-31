@@ -121,3 +121,10 @@ export class FvcUpgradeChoices extends FScrollViewContent {
   }
 };
 
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_UPGRADE_CHOICES = CF_UPGRADE_CHOICES;
+  window.gui.FvcUpgradeChoices = FvcUpgradeChoices;
+}
+

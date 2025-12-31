@@ -77,4 +77,7 @@ export class MenuItemName extends Fragment {
 
 // Backward compatibility
 if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_MENU_ITEM_NAME = CF_MENU_ITEM_NAME;
+  window.gui.MenuItemName = MenuItemName;
 }

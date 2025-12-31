@@ -34,4 +34,9 @@ export class FMediaFile extends Fragment {
     panel.replaceContent(s);
   }
 };
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.FMediaFile = FMediaFile;
+}
 

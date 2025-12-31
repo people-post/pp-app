@@ -96,3 +96,9 @@ export class FSocialItemList extends FScrollable {
   }
 };
 
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.FSocialItemList = FSocialItemList;
+}
+

@@ -58,3 +58,9 @@ export class PPostBase extends Panel {
   getContextPanel() { return null; }
 };
 
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PPostBase = PPostBase;
+}
+

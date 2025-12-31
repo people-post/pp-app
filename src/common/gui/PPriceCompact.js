@@ -33,3 +33,9 @@ export class PPriceCompact extends PPriceBase {
   }
 };
 
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PPriceCompact = PPriceCompact;
+}
+

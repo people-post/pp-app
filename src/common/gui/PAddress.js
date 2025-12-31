@@ -103,3 +103,9 @@ export class PAddress extends PAddressBase {
   }
 };
 
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PAddress = PAddress;
+}
+

@@ -17,3 +17,9 @@ export class PPostInfoBase extends PPostBase {
   invertColor() {}
 };
 
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PPostInfoBase = PPostInfoBase;
+}
+

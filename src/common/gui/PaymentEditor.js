@@ -37,3 +37,9 @@ export class PaymentEditor extends Fragment {
   _renderOnRender(render) { render.replaceContent(_CFT_PAYMENT_EDITOR.MAIN); }
 }
 
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.PaymentEditor = PaymentEditor;
+}
+

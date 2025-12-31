@@ -194,3 +194,10 @@ export class TagsEditorFragment extends Fragment {
   }
 };
 
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_TAGS_EDITOR = CF_TAGS_EDITOR;
+  window.gui.TagsEditorFragment = TagsEditorFragment;
+}
+

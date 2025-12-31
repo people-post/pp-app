@@ -136,4 +136,9 @@ export class AddressEditor extends Fragment {
     return new Address(data);
   }
 };
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.AddressEditor = AddressEditor;
+}
 

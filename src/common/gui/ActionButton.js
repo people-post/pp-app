@@ -60,3 +60,10 @@ export class ActionButton extends Fragment {
   _getIcon() { return this._icon; }
 };
 
+// Maintain backward compatibility with global namespace
+if (typeof window !== 'undefined') {
+  window.gui = window.gui || {};
+  window.gui.CF_ACTION_BUTTON = CF_ACTION_BUTTON;
+  window.gui.ActionButton = ActionButton;
+}
+
