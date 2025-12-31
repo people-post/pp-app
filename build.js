@@ -18,7 +18,7 @@ const __dirname = dirname(__filename);
 
 const WORK_DIR = 'obj';
 const ENTRY_APP_JS = 'app/G.js';
-const ENTRY_SW_JS = 'sw/main.js';
+const ENTRY_SW_JS = 'src/index_sw.js';
 const BUNDLE_JS_PATH = path.join(WORK_DIR, 'app-min.js');
 const BUNDLE_SW_PATH = path.join(WORK_DIR, 'sw-min.js');
 
