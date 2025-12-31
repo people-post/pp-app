@@ -1,7 +1,8 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { FSocialItemList } from '../../common/gui/FSocialItemList.js';
 
-export class FPostList extends gui.FSocialItemList {
+export class FPostList extends FSocialItemList {
   #loader;
 
   isPostSelectedInPostInfoFragment(fPostInfo, postId) {

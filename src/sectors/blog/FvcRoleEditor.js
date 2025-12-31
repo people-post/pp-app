@@ -19,6 +19,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { BlogRole } from '../../common/datatypes/BlogRole.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
 
 export class FvcRoleEditor extends FScrollViewContent {
   constructor() {
@@ -47,7 +48,7 @@ export class FvcRoleEditor extends FScrollViewContent {
     this._fOptions.addOption("Recruiting", "OPEN", true);
     this.setChild("options", this._fOptions);
 
-    this._fTagsEditor = new gui.TagsEditorFragment();
+    this._fTagsEditor = new TagsEditorFragment();
     this._fTagsEditor.setDataSource(this);
     this.setChild("tags", this._fTagsEditor);
 

@@ -3,6 +3,7 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { SectorNoticeInfoFragment } from '../../common/gui/SectorNoticeInfoFragment.js';
 
 export class FWeb3NoticeList extends Fragment {
   #selectedPostId = null;
@@ -29,7 +30,7 @@ export class FWeb3NoticeList extends Fragment {
     let p = new SectionPanel("Notifications");
     render.wrapPanel(p);
     for (let n of notices) {
-      let f = new gui.SectorNoticeInfoFragment();
+      let f = new SectorNoticeInfoFragment();
       f.setData(n);
       f.setDelegate(this);
       this.#fNotices.append(f);

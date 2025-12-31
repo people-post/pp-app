@@ -8,6 +8,7 @@ import { Product } from '../../common/datatypes/Product.js';
 import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
 import { ID, URL_PARAM } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { MainMenu } from '../../common/menu/MainMenu.js';
 
 export class FvcOwner extends FScrollViewContent {
   #fmMain;
@@ -22,7 +23,7 @@ export class FvcOwner extends FScrollViewContent {
     this.#fmMain = new FHeaderMenu();
     this.#fmMain.setIcon(ICON.M_MENU, new MainIconOperator());
 
-    let f = new gui.MainMenu();
+    let f = new MainMenu();
     f.setSector(ID.SECTOR.SHOP);
     f.setDelegate(this);
     this.#fmMain.setContentFragment(f);

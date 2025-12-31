@@ -31,6 +31,7 @@ const _CPT_PRODUCT_INFO_LARGE = {
 
 import { PProductInfoBase } from './PProductInfoBase.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { PPrice } from '../../common/gui/PPrice.js';
 
 export class PProductInfoLarge extends PProductInfoBase {
   constructor() {
@@ -38,7 +39,7 @@ export class PProductInfoLarge extends PProductInfoBase {
     this._pSellerIcon = new PanelWrapper();
     this._pSellerName = new PanelWrapper();
     this._pReference = new PanelWrapper();
-    this._pPrice = new gui.PPrice();
+    this._pPrice = new PPrice();
     this._pAction = new PanelWrapper();
   }
 

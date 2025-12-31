@@ -3,6 +3,7 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
+import { InputConsoleFragment } from '../../common/gui/InputConsoleFragment.js';
 
 export class FvcChat extends FViewContentBase {
   #fHeader;
@@ -21,7 +22,7 @@ export class FvcChat extends FViewContentBase {
     this.#fMessages = new FSimpleFragmentList();
     this.setChild("messages", this.#fMessages);
 
-    this.#fConsole = new gui.InputConsoleFragment();
+    this.#fConsole = new InputConsoleFragment();
     this.#fConsole.setPlaceholder("Message");
     this.#fConsole.setDelegate(this);
     this.#fConsole.setMenuFragment(new msgr.FChatInputMenu());

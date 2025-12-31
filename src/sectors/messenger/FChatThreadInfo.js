@@ -4,6 +4,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { RemoteFile } from '../../common/datatypes/RemoteFile.js';
 import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
+import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
 
 window.CF_CHAT_THREAD_INFO = {
   ON_CLICK : "CF_CHAT_THREAD_INFO_1",
@@ -12,7 +13,7 @@ window.CF_CHAT_THREAD_INFO = {
 export class FChatThreadInfo extends Fragment {
   constructor() {
     super();
-    this._fThumbnail = new gui.FilesThumbnailFragment();
+    this._fThumbnail = new FilesThumbnailFragment();
     this._fThumbnail.setDataSource(this);
     this._fThumbnail.setDelegate(this);
 

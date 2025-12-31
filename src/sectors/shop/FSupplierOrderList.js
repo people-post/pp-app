@@ -1,7 +1,8 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SupplierOrderPrivate } from '../../common/datatypes/SupplierOrderPrivate.js';
+import { DefaultLongList } from '../../common/gui/DefaultLongList.js';
 
-export class FSupplierOrderList extends gui.DefaultLongList {
+export class FSupplierOrderList extends DefaultLongList {
   isOrderSelected(orderId) { return this._currentId == orderId; }
 
   onSupplierOrderFragmentRequestShowOrder(fOrderInfo, orderId) {

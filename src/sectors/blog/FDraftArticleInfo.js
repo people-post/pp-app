@@ -113,7 +113,7 @@ export class FDraftArticleInfo extends Fragment {
 
     this._fTags.clear();
     for (let id of tagIds) {
-      let f = new gui.FTag();
+      let f = new FTag();
       f.setTagId(id);
       this._fTags.append(f);
       let p = new PanelWrapper();

@@ -58,7 +58,7 @@ export class WcSession extends WindowController {
   init(userId, primaryColor, secondaryColor) {
     // Grand entry for the whole program
     fwk.Factory.registerClass(fwk.T_CATEGORY.UI, fwk.T_OBJ.BANNER_FRAGMENT,
-                              gui.FBanner);
+                              FBanner);
     fwk.Factory.registerClass(fwk.T_CATEGORY.UI,
                               fwk.T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT,
                               srch.FvcSearchResult);

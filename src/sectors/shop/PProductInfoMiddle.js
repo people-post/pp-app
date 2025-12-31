@@ -29,11 +29,12 @@ const _CPT_PRODUCT_INFO_MIDDLE = {
 
 import { PProductInfoBase } from './PProductInfoBase.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { PPriceCompact } from '../../common/gui/PPriceCompact.js';
 
 export class PProductInfoMiddle extends PProductInfoBase {
   constructor() {
     super();
-    this._pPrice = new gui.PPriceCompact();
+    this._pPrice = new PPriceCompact();
     this._pAction = new PanelWrapper();
   }
 

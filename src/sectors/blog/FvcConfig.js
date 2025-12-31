@@ -8,6 +8,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ID, MAX } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { MenuConfig } from '../../common/menu/MenuConfig.js';
 
 window.CF_BLOG_CONFIG = {
   ADD_ROLE : "CF_BLOG_CONFIG_1",
@@ -42,7 +43,7 @@ export class FvcConfig extends FScrollViewContent {
     this._fRoles.setDefaultPane("INSIDER");
     this.setChild("roles", this._fRoles);
 
-    this._fMenuConfig = new gui.MenuConfig();
+    this._fMenuConfig = new MenuConfig();
     this._fMenuConfig.setDataSource(this);
     this._fMenuConfig.setDelegate(this);
     this._fMenuConfig.setSectorId(ID.SECTOR.BLOG);

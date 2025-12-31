@@ -5,6 +5,9 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
+import { FTag } from '../../common/gui/FTag.js';
+import { LGallery } from '../../common/gui/LGallery.js';
 
 export class FArticleInfo extends blog.FPostBase {
   #fAttachment;
@@ -23,7 +26,7 @@ export class FArticleInfo extends blog.FPostBase {
     this.#fAttachment = new FAttachmentFile();
     this.setChild("attachment", this.#fAttachment);
 
-    this.#fThumbnail = new gui.FilesThumbnailFragment();
+    this.#fThumbnail = new FilesThumbnailFragment();
     this.#fThumbnail.setDataSource(this);
     this.#fThumbnail.setDelegate(this);
     this.setChild("thumbnail", this.#fThumbnail);
@@ -128,7 +131,7 @@ export class FArticleInfo extends blog.FPostBase {
 
     this.#fTags.clear();
     for (let id of tagIds) {
-      let f = new gui.FTag();
+      let f = new FTag();
       f.setTagId(id);
       this.#fTags.append(f);
       let p = new PanelWrapper();
@@ -279,7 +282,7 @@ export class FArticleInfo extends blog.FPostBase {
     if (!a) {
       return;
     }
-    let lc = new gui.LGallery();
+    let lc = new LGallery();
     lc.setFiles(a.getFiles());
     lc.setSelection(idx);
     lc.setCommentThreadId(a.getId(), a.getSocialItemType());

@@ -7,6 +7,7 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ShopBranch } from '../../common/datatypes/ShopBranch.js';
+import { Address } from '../../common/gui/Address.js';
 
 export class FBranch extends Fragment {
   static T_LAYOUT = {
@@ -20,10 +21,10 @@ export class FBranch extends Fragment {
     this._fRegisters.setDelegate(this);
     this.setChild("registers", this._fRegisters);
 
-    this._fAddress = new gui.Address();
+    this._fAddress = new Address();
     this._fAddress.setDataSource(this);
     this._fAddress.setDelegate(this);
-    this._fAddress.setLayoutType(gui.Address.T_LAYOUT.SMALL);
+    this._fAddress.setLayoutType(Address.T_LAYOUT.SMALL);
     this.setChild("address", this._fAddress);
 
     this._fNameInput = new TextInput();

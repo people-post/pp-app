@@ -1,6 +1,7 @@
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { MenuContent } from '../../common/menu/MenuContent.js';
 
-export class FJournalMenu extends gui.MenuContent {
+export class FJournalMenu extends MenuContent {
   #journalIds;
   #currentJournalId = null;
   #currentIssueId = null;

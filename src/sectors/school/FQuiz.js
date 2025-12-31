@@ -1,8 +1,10 @@
+import { MajorSectorItem } from '../../common/gui/MajorSectorItem.js';
+
 export const CF_QUIZ_INFO = {
   VIEW_QUIZ : Symbol(),
 };
 
-export class FQuiz extends gui.MajorSectorItem {
+export class FQuiz extends MajorSectorItem {
   static T_LAYOUT = {
     FULL : Symbol(),
     INFO: Symbol(),

@@ -2,6 +2,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ICONS } from '../../lib/ui/Icons.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { MajorSectorItem } from '../../common/gui/MajorSectorItem.js';
 
 export const CF_POST_INFO = {
   ON_CLICK : Symbol(),
@@ -12,7 +13,7 @@ const _CFT_POST_INFO = {
       `<span class="pin-icon inline-block s-icon5 v-middle-align">__ICON__</span>`,
 };
 
-export class FPostInfo extends gui.MajorSectorItem {
+export class FPostInfo extends MajorSectorItem {
   #fPost;
   #fRefOwnerName;
   #fOwnerName;

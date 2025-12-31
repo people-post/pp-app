@@ -7,6 +7,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Article } from '../../common/datatypes/Article.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
 
 const _CPT_POST = {
   MAIN : `<div id="__ID_POST__"></div>
@@ -103,8 +104,8 @@ class FvcPost extends FScrollViewContent {
     this.#fAllComments.setDataSource(this);
     this.#fAllComments.setDelegate(this);
 
-    this.#fBtnEdit = new gui.ActionButton();
-    this.#fBtnEdit.setIcon(gui.ActionButton.T_ICON.EDIT);
+    this.#fBtnEdit = new ActionButton();
+    this.#fBtnEdit.setIcon(ActionButton.T_ICON.EDIT);
     this.#fBtnEdit.setDelegate(this);
 
     this.#fInput = new socl.FCommentInput();

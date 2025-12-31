@@ -20,12 +20,13 @@ const _CPT_PRODUCT = {
 
 import { PProductBase } from './PProductBase.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { PPrice } from '../../common/gui/PPrice.js';
 
 export class PProduct extends PProductBase {
   constructor() {
     super();
     this._pGallery = new PanelWrapper();
-    this._pPrice = new gui.PPrice();
+    this._pPrice = new PPrice();
     this._pAction = new PanelWrapper();
   }
 

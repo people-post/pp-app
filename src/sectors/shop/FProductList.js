@@ -1,7 +1,8 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
+import { FSocialItemList } from '../../common/gui/FSocialItemList.js';
 
-export class FProductList extends gui.FSocialItemList {
+export class FProductList extends FSocialItemList {
   // TODO: Swith id to SocialItemId
   #idRecord;
 

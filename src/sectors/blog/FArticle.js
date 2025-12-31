@@ -5,6 +5,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { FGallery } from '../../common/gui/FGallery.js';
 
 export class FArticle extends Fragment {
   #fQuote;
@@ -15,7 +16,7 @@ export class FArticle extends Fragment {
 
   constructor() {
     super();
-    this.#fGallery = new gui.FGallery();
+    this.#fGallery = new FGallery();
     this.#fGallery.setDataSource(this);
     this.#fGallery.setDelegate(this);
     this.setChild("gallery", this.#fGallery);

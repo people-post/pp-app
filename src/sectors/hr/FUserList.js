@@ -1,5 +1,6 @@
+import { FSocialItemList } from '../../common/gui/FSocialItemList.js';
 
-export class FUserList extends gui.FSocialItemList {
+export class FUserList extends FSocialItemList {
   #loader;
 
   setIdLoader(loader) { this.#loader = loader; }

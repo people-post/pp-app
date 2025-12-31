@@ -19,6 +19,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { ID, MAX } from '../../common/constants/Constants.js';
+import { MenuConfig } from '../../common/menu/MenuConfig.js';
 
 export class FvcConfig extends FScrollViewContent {
   #fTeams;
@@ -40,7 +41,7 @@ export class FvcConfig extends FScrollViewContent {
     this.#fOptions.setDelegate(this);
     this.setChild("options", this.#fOptions);
 
-    this.#fMenuConfig = new gui.MenuConfig();
+    this.#fMenuConfig = new MenuConfig();
     this.#fMenuConfig.setDataSource(this);
     this.#fMenuConfig.setDelegate(this);
     this.#fMenuConfig.setSectorId(ID.SECTOR.SHOP);
