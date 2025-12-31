@@ -2,7 +2,6 @@
 obj/*
 web2.tar.gz
 web3.tar.gz
-src/
 
 # Dependencies
 node_modules/
