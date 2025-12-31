@@ -18,7 +18,7 @@ if (typeof window !== 'undefined') {
 }
 
 // Export to window for string template access
-if (typeof window !== '''undefined''') {
+if (typeof window !== 'undefined') {
   window.CR_VIEW_FRAME = CR_VIEW_FRAME;
 }
 
