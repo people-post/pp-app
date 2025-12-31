@@ -18,13 +18,13 @@ const _CFT_LOGIN = {
   FORM : `<div class="flex flex-column center-align-items">
   <div>
     <div><label class="s-font5" for="username">__R_U_NAME__:</label></div>
-    <div><input id="username" name="username" type="text" autocomplete="username" placeholder="__R_U_NAME_HINT__" onkeydown="javascript:G.action(auth.CF_LOGIN.ON_USERNAME_KEY_DOWN)"></div>
+    <div><input id="username" name="username" type="text" autocomplete="username" placeholder="__R_U_NAME_HINT__" data-action-keydown="ON_USERNAME_KEY_DOWN"></div>
     <div><label class="s-font5" for="password">__R_PASS__:</label></div>
-    <div><input id="password" name="password" type="password" autocomplete="current-password" placeholder="__R_PASS_HINT__" onkeydown="javascript:G.action(auth.CF_LOGIN.ON_PASSWD_KEY_DOWN, this)"></div>
+    <div><input id="password" name="password" type="password" autocomplete="current-password" placeholder="__R_PASS_HINT__" data-action-keydown="ON_PASSWD_KEY_DOWN"></div>
     <div>
-      <a class="s-font7" href="javascript:void(0)" onclick="javascript:G.action(auth.CF_LOGIN.RETRIEVE_PASSWORD)">__R_FORGET_PASS__?</a>
+      <a class="s-font7" href="javascript:void(0)" data-action="RETRIEVE_PASSWORD">__R_FORGET_PASS__?</a>
       <span class="s-font7">__R_NO_ACCOUNT__?</span>
-      <a class="s-font7" href="javascript:void(0)" onclick="javascript:G.action(auth.CF_LOGIN.REGISTER)">__R_REGISTER__.</a>
+      <a class="s-font7" href="javascript:void(0)" data-action="REGISTER">__R_REGISTER__.</a>
     </div>
   </div>
   </div>`,
@@ -116,6 +116,34 @@ export class FvcLogin extends FvcWeb2LoginBase {
     pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(this.#renderForm());
+    // Attach event listeners after form is rendered
+    setTimeout(() => {
+      const panelEl = pp.getDomElement();
+      if (panelEl) {
+        // Attach keydown listeners for inputs
+        const usernameInput = panelEl.querySelector('input[data-action-keydown="ON_USERNAME_KEY_DOWN"]');
+        const passwordInput = panelEl.querySelector('input[data-action-keydown="ON_PASSWD_KEY_DOWN"]');
+        if (usernameInput) {
+          usernameInput.addEventListener('keydown', () => {
+            if (this.isActive()) {
+              this.action(CF_LOGIN.ON_USERNAME_KEY_DOWN);
+            }
+          });
+        }
+        if (passwordInput) {
+          passwordInput.addEventListener('keydown', (e) => {
+            if (this.isActive()) {
+              this.action(CF_LOGIN.ON_PASSWD_KEY_DOWN, e.target);
+            }
+          });
+        }
+        // Attach click listeners for links
+        this._attachActionListeners('[data-action]', {
+          'RETRIEVE_PASSWORD': CF_LOGIN.RETRIEVE_PASSWORD,
+          'REGISTER': CF_LOGIN.REGISTER
+        });
+      }
+    }, 0);
     p.pushSpace(1);
 
     pp = new Panel();
@@ -202,9 +230,8 @@ export class FvcLogin extends FvcWeb2LoginBase {
   #isEnterEvt(evt) { return !evt.shiftKey && evt.key === "Enter";   }
 }
 
-// Backward compatibility
+// Backward compatibility (reduced - constants no longer needed for onclick)
 if (typeof window !== 'undefined') {
   window.auth = window.auth || {};
-  window.auth.CF_LOGIN = CF_LOGIN;
   window.auth.FvcLogin = FvcLogin;
 }

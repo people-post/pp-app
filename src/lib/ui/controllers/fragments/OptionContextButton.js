@@ -11,7 +11,7 @@ export const CF_OPTION_CONTEXT_BUTTON = {
 
 const _CFT_OPTION_CONTEXT_BUTTON = {
   BTN :
-      `<span class="clickable" onclick="javascript:G.action(window.CF_OPTION_CONTEXT_BUTTON.ONCLICK)">__ICON__</span>`,
+      `<span class="clickable" data-action="ONCLICK">__ICON__</span>`,
 };
 
 export class OptionContextButton extends Fragment {
@@ -52,6 +52,12 @@ export class OptionContextButton extends Fragment {
 
   _renderOnRender(render) {
     render.replaceContent(this.#renderIcon(this.#icon));
+  }
+
+  _onContentDidAppear() {
+    this._attachActionListeners('[data-action]', {
+      'ONCLICK': CF_OPTION_CONTEXT_BUTTON.ONCLICK
+    });
   }
 
   #renderIcon(icon) {

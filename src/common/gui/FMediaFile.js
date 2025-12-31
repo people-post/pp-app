@@ -2,7 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 const _CFT_MEDIA_FILE = {
   IMAGE :
-      `<img class="hmax100 wmax100 clickable" src="__URL__" onclick="window.open('__DOWNLOAD_URL__', '_blank')"/>`,
+      `<img class="hmax100 wmax100 clickable" src="__URL__" data-action="open-download" data-download-url="__DOWNLOAD_URL__"/>`,
   VIDEO :
       `<video class="hls" playsinline controls manifest-url="__URL__"></video>`,
 };
@@ -32,6 +32,23 @@ export class FMediaFile extends Fragment {
       s = s.replace("__URL__", file.getVideoManifestUrl());
     }
     panel.replaceContent(s);
+    // Attach event listener for download action
+    if (file.isImage()) {
+      setTimeout(() => {
+        const element = panel.getDomElement();
+        if (element) {
+          const imgEl = element.querySelector('[data-action="open-download"]');
+          if (imgEl) {
+            imgEl.addEventListener('click', () => {
+              const url = imgEl.getAttribute('data-download-url');
+              if (url) {
+                window.open(url, '_blank');
+              }
+            });
+          }
+        }
+      }, 0);
+    }
   }
 };
 

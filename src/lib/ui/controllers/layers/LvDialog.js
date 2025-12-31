@@ -10,7 +10,7 @@ export const CRC_DIALOG = {
 
 const _CRCT_DIALOG = {
   CLOSE_BTN :
-      `<span onclick="javascript:G.action(window.CRC_DIALOG.CLOSE)">x</span>`,
+      `<span data-action="CLOSE">x</span>`,
 }
 
 export class LvDialog extends ViewLayer {
@@ -32,8 +32,7 @@ export class LvDialog extends ViewLayer {
 
     let pWrapper = new PanelWrapper();
     pWrapper.setClassName("dialog");
-    pWrapper.setAttribute("onclick",
-                          "javascript:G.action(window.CRC_DIALOG.CLOSE)");
+    pWrapper.setAttribute("data-action", "CLOSE");
     render.wrapPanel(pWrapper);
     let pMain = new ListPanel();
     pMain.setClassName("dialog-content relative");
@@ -49,6 +48,33 @@ export class LvDialog extends ViewLayer {
     // Extra panel for close button
     pMain.pushPanel(this._pClose);
     this._pClose.replaceContent(_CRCT_DIALOG.CLOSE_BTN);
+    // Attach event listeners after content is replaced
+    setTimeout(() => {
+      const wrapperEl = pWrapper.getDomElement();
+      const closeBtnEl = this._pClose.getDomElement();
+      if (wrapperEl) {
+        wrapperEl.addEventListener('click', (e) => {
+          // Only close if clicking the wrapper itself, not its children
+          if (e.target === wrapperEl) {
+            if (this.isActive()) {
+              this.action(CRC_DIALOG.CLOSE);
+            }
+          }
+        });
+      }
+      if (closeBtnEl) {
+        const actionEl = closeBtnEl.querySelector('[data-action]');
+        if (actionEl) {
+          actionEl.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (this.isActive()) {
+              this.action(CRC_DIALOG.CLOSE);
+            }
+          });
+        }
+      }
+    }, 0);
 
     if (shouldAnimate) {
       pMain.animate([ {top : "100%"}, {top : "10%"} ],

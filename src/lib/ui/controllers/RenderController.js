@@ -177,6 +177,49 @@ export class RenderController extends Controller {
   _onRenderAttached(render) {}
   _onBeforeRenderDetach() {}
 
+  /**
+   * Attach event listeners for elements with data-action attributes.
+   * This replaces onclick attributes to reduce global namespace pollution.
+   * @param {string} selector - CSS selector for elements (default: '[data-action]')
+   * @param {Object} actionMap - Map of action identifiers to action constants/values
+   */
+  _attachActionListeners(selector = '[data-action]', actionMap = {}) {
+    const render = this.getRender();
+    if (!render) return;
+    
+    const element = render.getDomElement();
+    if (!element) return;
+
+    const elements = element.querySelectorAll(selector);
+    for (const el of elements) {
+      const actionId = el.getAttribute('data-action');
+      if (!actionId) continue;
+
+      // Get the actual action value from the map, or use the string directly
+      const actionValue = actionMap[actionId] !== undefined ? actionMap[actionId] : actionId;
+      
+      // Get additional arguments from data-action-args (JSON string)
+      let args = [];
+      const argsAttr = el.getAttribute('data-action-args');
+      if (argsAttr) {
+        try {
+          args = JSON.parse(argsAttr);
+          if (!Array.isArray(args)) args = [args];
+        } catch (e) {
+          // If parsing fails, treat as single argument
+          args = [argsAttr];
+        }
+      }
+
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (this.isActive()) {
+          this.action(actionValue, ...args);
+        }
+      });
+    }
+  }
+
   _isEventSource(evt) {
     if (this.#render && this.#render.isEventSource(evt)) {
       return true;

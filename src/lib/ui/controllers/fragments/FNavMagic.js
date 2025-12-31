@@ -6,7 +6,7 @@ export const CF_UI_NAV_MAGIC = {
 
 const _CFT_UI_NAV_MAGIC = {
   MAIN :
-      `<span class="w100 h40px inline-block cursornresize" onclick="javascript:G.action(window.CF_UI_NAV_MAGIC.ON_CLICK)"></span>`,
+      `<span class="w100 h40px inline-block cursornresize" data-action="ON_CLICK"></span>`,
 };
 
 export class FNavMagic extends Fragment {
@@ -22,5 +22,11 @@ export class FNavMagic extends Fragment {
   }
 
   _renderContent() { return _CFT_UI_NAV_MAGIC.MAIN; }
+
+  _onContentDidAppear() {
+    this._attachActionListeners('[data-action]', {
+      'ON_CLICK': CF_UI_NAV_MAGIC.ON_CLICK
+    });
+  }
 };
 

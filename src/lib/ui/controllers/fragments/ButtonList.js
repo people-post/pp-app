@@ -6,7 +6,7 @@ export const CF_BUTTON_LIST = {
 
 const _CVT_BUTTON_LIST = {
   BTN :
-      `<a class="button-bar __STYLE__" href="javascript:void(0)" onclick="javascript:G.action('${CF_BUTTON_LIST.ONCLICK}', __ID__)">__TEXT__</a>
+      `<a class="button-bar __STYLE__" href="javascript:void(0)" data-action="ONCLICK" data-action-args="[__ID__]">__TEXT__</a>
   <br>`,
 }
 
@@ -35,6 +35,12 @@ export class ButtonList extends Fragment {
     return btns.join("");
   }
 
+  _onContentDidAppear() {
+    this._attachActionListeners('[data-action]', {
+      'ONCLICK': CF_BUTTON_LIST.ONCLICK
+    });
+  }
+
   action(type, ...args) {
     switch (type) {
     case CF_BUTTON_LIST.ONCLICK:
@@ -59,8 +65,5 @@ export class ButtonList extends Fragment {
   }
 };
 
-// Export to window for string template access
-if (typeof window !== 'undefined') {
-  window.CF_BUTTON_LIST = CF_BUTTON_LIST;
-}
+// Export to window for string template access (reduced - constants no longer needed for onclick)
 

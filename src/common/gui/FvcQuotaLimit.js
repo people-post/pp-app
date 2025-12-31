@@ -9,7 +9,7 @@ export const CF_QUOTA_LIMIT = {
 
 const _CFT_QUOTA_LIMIT = {
   UPGRADE_BTN :
-      `<a class="internal-page-link" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_QUOTA_LIMIT.UPGRADE)">upgrade</a>`,
+      `<a class="internal-page-link" href="javascript:void(0)" data-action="UPGRADE">upgrade</a>`,
 };
 
 export class FvcQuotaLimit extends FScrollViewContent {
@@ -34,6 +34,12 @@ export class FvcQuotaLimit extends FScrollViewContent {
     render.replaceContent(s);
   }
 
+  _onContentDidAppear() {
+    this._attachActionListeners('[data-action]', {
+      'UPGRADE': CF_QUOTA_LIMIT.UPGRADE
+    });
+  }
+
   #onUpgradeClicked() {
     let v = new View();
     v.setContentFragment(new FvcUpgradeChoices());
@@ -51,9 +57,8 @@ export class FvcQuotaLimit extends FScrollViewContent {
   }
 };
 
-// Maintain backward compatibility with global namespace
+// Maintain backward compatibility with global namespace (reduced - constants no longer needed for onclick)
 if (typeof window !== 'undefined') {
   window.gui = window.gui || {};
-  window.gui.CF_QUOTA_LIMIT = CF_QUOTA_LIMIT;
   window.gui.FvcQuotaLimit = FvcQuotaLimit;
 }

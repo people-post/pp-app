@@ -19,10 +19,10 @@ const _CFT_GALLERY = {
   PREPROC :
       `<div class="info-message">Preprocessing files, please wait...__PROGRESS__</div>`,
   SLIDE_SHOW : `<div class="center-align h100">
-      <div id="__ID_SLIDES__" class="h100 relative x-scroll x-scroll-snap no-wrap flex flex-start" onscroll="javascript:G.action(gui.CF_GALLERY.ON_SCROLL, this)">
+      <div id="__ID_SLIDES__" class="h100 relative x-scroll x-scroll-snap no-wrap flex flex-start" data-action-scroll="ON_SCROLL">
       </div>
-      <div class="slide-show-nav slide-show-prev" onclick="javascript:G.action(gui.CF_GALLERY.PREV_IMAGE_SLIDE)">&#10094;</div>
-      <div class="slide-show-nav slide-show-next" onclick="javascript:G.action(gui.CF_GALLERY.NEXT_IMAGE_SLIDE)">&#10095;</div>
+      <div class="slide-show-nav slide-show-prev" data-action="PREV_IMAGE_SLIDE">&#10094;</div>
+      <div class="slide-show-nav slide-show-next" data-action="NEXT_IMAGE_SLIDE">&#10095;</div>
       <div id="__ID_DOTS__" class="absolute w100 bottom0px center-align"></div>
     </div>`,
   SLIDE_SHOW_SLIDE : `<div id="__ID_LABEL__" class="slide-show-label"></div>
@@ -170,6 +170,27 @@ export class FGallery extends Fragment {
       this.#pGallery = p;
       this.#renderSlideShow(p, this.#fFiles);
       this.#switchToSlide(this.#slideIndex);
+      // Attach event listeners after slide show is rendered
+      setTimeout(() => {
+        const galleryEl = p.getDomElement();
+        if (galleryEl) {
+          // Attach scroll listener
+          const slidesEl = galleryEl.querySelector('[data-action-scroll]');
+          if (slidesEl) {
+            slidesEl.addEventListener('scroll', (e) => {
+              if (this.isActive()) {
+                this.action(CF_GALLERY.ON_SCROLL, e.target);
+              }
+            });
+          }
+          // Attach click listeners for navigation
+          this._attachActionListeners('[data-action]', {
+            'PREV_IMAGE_SLIDE': CF_GALLERY.PREV_IMAGE_SLIDE,
+            'NEXT_IMAGE_SLIDE': CF_GALLERY.NEXT_IMAGE_SLIDE,
+            'SHOW_IMAGE_SLIDE': CF_GALLERY.SHOW_IMAGE_SLIDE
+          });
+        }
+      }, 0);
     } else {
       let p = new PanelWrapper();
       p.setClassName("media-frame");
@@ -317,9 +338,8 @@ export class FGallery extends Fragment {
       fFile.render();
 
       p = new Panel();
-      p.setAttribute("onclick",
-                     "javascript:G.action(gui.CF_GALLERY.SHOW_IMAGE_SLIDE, " +
-                         i + ")");
+      p.setAttribute("data-action", "SHOW_IMAGE_SLIDE");
+      p.setAttribute("data-action-args", `[${i}]`);
       className = "slide-show-dot";
       if (i == 0) {
         className += " s-cfuncbg";
@@ -378,9 +398,8 @@ export class FGallery extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
+// Maintain backward compatibility with global namespace (reduced - constants no longer needed for onclick)
 if (typeof window !== 'undefined') {
   window.gui = window.gui || {};
-  window.gui.CF_GALLERY = CF_GALLERY;
   window.gui.FGallery = FGallery;
 }

@@ -9,9 +9,9 @@ export const CF_COUNTDOWN_ACTION = {
 const _CFT_COUNTDOWN_ACTION = {
   MAIN : `__TEXT__ in <span id="ID_INTERVAL_VALUE">__TIME__</span> seconds...
     <br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_COUNTDOWN_ACTION.ACTION)">__ACTION_TITLE__</a>
+    <a class="button-bar s-primary" href="javascript:void(0)" data-action="ACTION">__ACTION_TITLE__</a>
     <br>
-    <a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_COUNTDOWN_ACTION.CANCEL)">Cancel</a>`,
+    <a class="button-bar danger" href="javascript:void(0)" data-action="CANCEL">Cancel</a>`,
 };
 
 export class FvcCountdownAction extends FScrollViewContent {
@@ -22,7 +22,13 @@ export class FvcCountdownAction extends FScrollViewContent {
     this._tRemaining = tTotal;
   }
 
-  onContentDidAppear() { this._timer.reset(() => this.#onInterval(), 1000); }
+  onContentDidAppear() { 
+    this._timer.reset(() => this.#onInterval(), 1000);
+    this._attachActionListeners('[data-action]', {
+      'ACTION': CF_COUNTDOWN_ACTION.ACTION,
+      'CANCEL': CF_COUNTDOWN_ACTION.CANCEL
+    });
+  }
 
   action(type, ...args) {
     switch (type) {
@@ -74,9 +80,8 @@ export class FvcCountdownAction extends FScrollViewContent {
   }
 };
 
-// Maintain backward compatibility with global namespace
+// Maintain backward compatibility with global namespace (reduced - constants no longer needed for onclick)
 if (typeof window !== 'undefined') {
   window.gui = window.gui || {};
-  window.gui.CF_COUNTDOWN_ACTION = CF_COUNTDOWN_ACTION;
   window.gui.FvcCountdownAction = FvcCountdownAction;
 }

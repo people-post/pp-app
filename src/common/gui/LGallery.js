@@ -15,8 +15,8 @@ export const CLC_GALLERY = {
 
 const _CLCT_GALLERY = {
   CONTROL_BAR :
-      `<span class="inline-block s-icon3 clickable" onclick="javascript:G.action(CLC_GALLERY.TOGGLE_COMMENT)">__COMMENT_ICON__</span>
-    <span class="inline-block s-icon3 clickable" onclick="javascript:G.action(CLC_GALLERY.CLOSE)">__CLOSE_ICON__</span>`,
+      `<span class="inline-block s-icon3 clickable" data-action="TOGGLE_COMMENT">__COMMENT_ICON__</span>
+    <span class="inline-block s-icon3 clickable" data-action="CLOSE">__CLOSE_ICON__</span>`,
 }
 
 export class LGallery extends Layer {
@@ -64,7 +64,7 @@ export class LGallery extends Layer {
   _renderOnRender(render) {
     let p = new ListPanel();
     p.setClassName("f-simple flex flex-column flex-center");
-    p.setAttribute("onclick", "javascript:G.action(CLC_GALLERY.CLOSE)");
+    p.setAttribute("data-action", "CLOSE");
     render.wrapPanel(p);
     let e = p.getDomElement();
     e.addEventListener("touchstart", evt => this.#onTouchStart(evt));
@@ -92,6 +92,38 @@ export class LGallery extends Layer {
     this._rControl.setClassName("gallery-layer-control");
     p.pushPanel(this._rControl);
     this._rControl.replaceContent(this.#renderControlBar());
+    // Attach event listeners after content is replaced
+    setTimeout(() => {
+      const panelEl = p.getDomElement();
+      const controlEl = this._rControl.getDomElement();
+      if (panelEl) {
+        // Handle click on panel background (close)
+        panelEl.addEventListener('click', (e) => {
+          if (e.target === panelEl || e.target.classList.contains('f-simple')) {
+            if (this.isActive()) {
+              this.action(CLC_GALLERY.CLOSE);
+            }
+          }
+        });
+      }
+      if (controlEl) {
+        const actionEls = controlEl.querySelectorAll('[data-action]');
+        for (const el of actionEls) {
+          el.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const actionId = el.getAttribute('data-action');
+            if (this.isActive()) {
+              if (actionId === 'TOGGLE_COMMENT') {
+                this.action(CLC_GALLERY.TOGGLE_COMMENT);
+              } else if (actionId === 'CLOSE') {
+                this.action(CLC_GALLERY.CLOSE);
+              }
+            }
+          });
+        }
+      }
+    }, 0);
   }
 
   #toggleComment() {
@@ -115,6 +147,27 @@ export class LGallery extends Layer {
     s = s.replace(
         "__CLOSE_ICON__",
         Utilities.renderSvgIcon(ICONS.CLOSE, "stkdimgray", "filldimgray"));
+    // Re-attach event listeners after control bar is re-rendered
+    setTimeout(() => {
+      const controlEl = this._rControl.getDomElement();
+      if (controlEl) {
+        const actionEls = controlEl.querySelectorAll('[data-action]');
+        for (const el of actionEls) {
+          el.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const actionId = el.getAttribute('data-action');
+            if (this.isActive()) {
+              if (actionId === 'TOGGLE_COMMENT') {
+                this.action(CLC_GALLERY.TOGGLE_COMMENT);
+              } else if (actionId === 'CLOSE') {
+                this.action(CLC_GALLERY.CLOSE);
+              }
+            }
+          });
+        }
+      }
+    }, 0);
     return s;
   }
 
@@ -166,9 +219,8 @@ export class LGallery extends Layer {
   #onClose() { this._owner.onRequestPopLayer(this); }
 };
 
-// Maintain backward compatibility with global namespace
+// Maintain backward compatibility with global namespace (reduced - constants no longer needed for onclick)
 if (typeof window !== 'undefined') {
-  window.CLC_GALLERY = CLC_GALLERY;
   window.gui = window.gui || {};
   window.gui.LGallery = LGallery;
 }

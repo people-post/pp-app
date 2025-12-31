@@ -23,7 +23,7 @@ const _CFC_FILES_THUMBNAIL = {
 
 const _CFT_FILES_THUMBNAIL = {
   ITEM :
-      `<span class="thumbnail-grid thumbnail-grid-__THUMBNAIL_GRID_TYPE__" onclick="javascript:G.action(gui.CF_FILES_THUMBNAIL.ON_CLICK, __IDX__)" style="background-image:url('__URL__');__BG_COLOR__">__CONTENT__</span>
+      `<span class="thumbnail-grid thumbnail-grid-__THUMBNAIL_GRID_TYPE__" data-action="ON_CLICK" data-action-args="[__IDX__]" style="background-image:url('__URL__');__BG_COLOR__">__CONTENT__</span>
     `,
   LIVE_ICON_MASK : `
     <div class="live-thumbnail-mask top0px"></div>
@@ -71,6 +71,12 @@ export class FilesThumbnailFragment extends Fragment {
       items.push(this.#renderFile(file, gridTypes[i], i, w));
     }
     panel.replaceContent(items.join(""));
+    // Attach event listeners after content is replaced
+    setTimeout(() => {
+      this._attachActionListeners('[data-action]', {
+        'ON_CLICK': CF_FILES_THUMBNAIL.ON_CLICK
+      });
+    }, 0);
   }
 
   #renderFile(file, gridType, idx, forWidth) {
@@ -97,9 +103,8 @@ export class FilesThumbnailFragment extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
+// Maintain backward compatibility with global namespace (reduced - constants no longer needed for onclick)
 if (typeof window !== 'undefined') {
   window.gui = window.gui || {};
-  window.gui.CF_FILES_THUMBNAIL = CF_FILES_THUMBNAIL;
   window.gui.FilesThumbnailFragment = FilesThumbnailFragment;
 }

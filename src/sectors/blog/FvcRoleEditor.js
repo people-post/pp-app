@@ -1,5 +1,5 @@
 
-window.CF_BLOG_ROLE_EDITOR = {
+export const CF_BLOG_ROLE_EDITOR = {
   SUBMIT : "CF_BLOG_ROLE_EDITOR_1",
 }
 
@@ -7,7 +7,7 @@ const _CFT_BLOG_ROLE_EDITOR = {
   SEC_NAME :
       `<input id="ID_BLOG_ROLE_NAME" type="text" placeholder="Name" value="__NAME__">`,
   SEC_SUBMIT : `<br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_BLOG_ROLE_EDITOR.SUBMIT)">Submit<a>`,
+    <a class="button-bar s-primary" href="javascript:void(0)" data-action="SUBMIT">Submit<a>`,
 }
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
@@ -103,6 +103,21 @@ export class FvcRoleEditor extends FScrollViewContent {
     pp = new Panel();
     p.pushPanel(pp);
     pp.replaceContent(_CFT_BLOG_ROLE_EDITOR.SEC_SUBMIT);
+    // Attach event listener after content is replaced
+    setTimeout(() => {
+      const panelEl = pp.getDomElement();
+      if (panelEl) {
+        const actionEl = panelEl.querySelector('[data-action]');
+        if (actionEl) {
+          actionEl.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (this.isActive()) {
+              this.action(CF_BLOG_ROLE_EDITOR.SUBMIT);
+            }
+          });
+        }
+      }
+    }, 0);
   }
 
   #renderOptions(panel) {

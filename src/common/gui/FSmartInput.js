@@ -14,10 +14,10 @@ export const CF_SMART_INPUT = {
 
 const _CFT_SMART_INPUT = {
   INPUT : `<span class="menu-item-config-text-input">
-    <input type="text" class="tight-label-like" oninput="javascript:G.action(gui.CF_SMART_INPUT.ON_CHANGE, this.value)" onblur="javascript:G.action(gui.CF_SMART_INPUT.ON_BLUR)" placeholder="__PLACEHOLDER__">
+    <input type="text" class="tight-label-like" data-action-input="ON_CHANGE" data-action-blur="ON_BLUR" placeholder="__PLACEHOLDER__">
   </span>`,
   HINT_TAG :
-      `<span class="clickable bd1px bdsolid bdlightblue bdradius5px pad2px" onclick="javascript:G.action(gui.CF_SMART_INPUT.ON_HINT_ITEM_CHOSEN, '__ITEM_ID__')">__VALUE__</span>`,
+      `<span class="clickable bd1px bdsolid bdlightblue bdradius5px pad2px" data-action="ON_HINT_ITEM_CHOSEN" data-action-args="['__ITEM_ID__']">__VALUE__</span>`,
 };
 
 export class FSmartInput extends Fragment {
@@ -60,6 +60,25 @@ export class FSmartInput extends Fragment {
     let s = _CFT_SMART_INPUT.INPUT;
     s = s.replace("__PLACEHOLDER__", this.#hintText);
     p.replaceContent(s);
+    // Attach event listeners for input and blur
+    setTimeout(() => {
+      const element = p.getDomElement();
+      if (element) {
+        const inputEl = element.querySelector('input[data-action-input]');
+        if (inputEl) {
+          inputEl.addEventListener('input', (e) => {
+            if (this.isActive()) {
+              this.action(CF_SMART_INPUT.ON_CHANGE, e.target.value);
+            }
+          });
+          inputEl.addEventListener('blur', (e) => {
+            if (this.isActive()) {
+              this.action(CF_SMART_INPUT.ON_BLUR);
+            }
+          });
+        }
+      }
+    }, 0);
 
     p = new PanelWrapper();
     panel.pushPanel(p);
@@ -79,6 +98,36 @@ export class FSmartInput extends Fragment {
     }
     this.#fChoices.setText(sItems.join(""));
     this.#fChoices.render();
+    // Attach event listeners for hint items after rendering
+    setTimeout(() => {
+      const choicesRender = this.#fChoices.getRender();
+      if (choicesRender) {
+        const element = choicesRender.getDomElement();
+        if (element) {
+          const hintItems = element.querySelectorAll('[data-action="ON_HINT_ITEM_CHOSEN"]');
+          for (const hintEl of hintItems) {
+            hintEl.addEventListener('click', (e) => {
+              e.preventDefault();
+              if (this.isActive()) {
+                const argsAttr = hintEl.getAttribute('data-action-args');
+                if (argsAttr) {
+                  try {
+                    const args = JSON.parse(argsAttr);
+                    this.action(CF_SMART_INPUT.ON_HINT_ITEM_CHOSEN, ...args);
+                  } catch (e) {
+                    // Fallback: extract item ID from args string
+                    const match = argsAttr.match(/'([^']+)'/);
+                    if (match) {
+                      this.action(CF_SMART_INPUT.ON_HINT_ITEM_CHOSEN, match[1]);
+                    }
+                  }
+                }
+              }
+            });
+          }
+        }
+      }
+    }, 0);
   }
 
   #clearChoices() {
@@ -101,9 +150,8 @@ export class FSmartInput extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
+// Maintain backward compatibility with global namespace (reduced - constants no longer needed for onclick)
 if (typeof window !== 'undefined') {
   window.gui = window.gui || {};
-  window.gui.CF_SMART_INPUT = CF_SMART_INPUT;
   window.gui.FSmartInput = FSmartInput;
 }

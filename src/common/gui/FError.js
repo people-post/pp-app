@@ -12,7 +12,7 @@ export const CF_ERROR = {
 
 const _CFT_ERROR = {
   BTN :
-      `<a class="button-like bgdanger cwhite" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_ERROR.DISMISS_ERROR)">Dismiss</a>`,
+      `<a class="button-like bgdanger cwhite" href="javascript:void(0)" data-action="DISMISS_ERROR">Dismiss</a>`,
 }
 
 export class FError extends Fragment {
@@ -69,6 +69,21 @@ export class FError extends Fragment {
 
       let p = panel.getBtnPanel();
       p.replaceContent(_CFT_ERROR.BTN);
+      // Attach event listener after content is replaced
+      setTimeout(() => {
+        const btnElement = p.getDomElement();
+        if (btnElement) {
+          const actionEl = btnElement.querySelector('[data-action]');
+          if (actionEl) {
+            actionEl.addEventListener('click', (e) => {
+              e.preventDefault();
+              if (this.isActive()) {
+                this.action(CF_ERROR.DISMISS_ERROR);
+              }
+            });
+          }
+        }
+      }, 0);
       p = panel.getTextPanel();
       p.replaceContent(msg);
       this.#counter = 100;
@@ -156,9 +171,8 @@ export class FError extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
+// Maintain backward compatibility with global namespace (reduced - constants no longer needed for onclick)
 if (typeof window !== 'undefined') {
   window.gui = window.gui || {};
-  window.gui.CF_ERROR = CF_ERROR;
   window.gui.FError = FError;
 }

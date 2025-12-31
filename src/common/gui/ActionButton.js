@@ -10,7 +10,7 @@ export const CF_ACTION_BUTTON = {
 // TODO: Relative is for badge, needs improvement
 const _CFT_ACTION_BUTTON = {
   MAIN : `<div class="menu-slot-icon-wrapper pad5px relative">
-      <a class="menu" href="javascript:void(0)" onclick="G.action(gui.CF_ACTION_BUTTON.ONCLICK)">__ICON__</a>
+      <a class="menu" href="javascript:void(0)" data-action="ONCLICK">__ICON__</a>
   </div>`,
 };
 
@@ -57,12 +57,17 @@ export class ActionButton extends Fragment {
     return s;
   }
 
+  _onContentDidAppear() {
+    this._attachActionListeners('[data-action]', {
+      'ONCLICK': CF_ACTION_BUTTON.ONCLICK
+    });
+  }
+
   _getIcon() { return this._icon; }
 };
 
-// Maintain backward compatibility with global namespace
+// Maintain backward compatibility with global namespace (reduced - constants no longer needed for onclick)
 if (typeof window !== 'undefined') {
   window.gui = window.gui || {};
-  window.gui.CF_ACTION_BUTTON = CF_ACTION_BUTTON;
   window.gui.ActionButton = ActionButton;
 }

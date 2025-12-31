@@ -14,7 +14,7 @@ export const CF_EXTRAS_CONTENT = {
 const _CFT_EXTRAS_CONTENT = {
   BADGE : `<span class="inline-notification-badge">__BADGE__</span>`,
   BTN_TEST :
-      `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_EXTRAS_CONTENT.TEST)">Test</a>`,
+      `<a class="button-bar s-primary" href="javascript:void(0)" data-action="TEST">Test</a>`,
 }
 
 export class FvcExtras extends FScrollViewContent {
@@ -87,6 +87,21 @@ export class FvcExtras extends FScrollViewContent {
       pp = new Panel();
       p.pushPanel(pp);
       pp.replaceContent(this.#renderTest());
+      // Attach event listener after content is replaced
+      setTimeout(() => {
+        const panelElement = pp.getDomElement();
+        if (panelElement) {
+          const actionEl = panelElement.querySelector('[data-action]');
+          if (actionEl) {
+            actionEl.addEventListener('click', (e) => {
+              e.preventDefault();
+              if (this.isActive()) {
+                this.action(CF_EXTRAS_CONTENT.TEST);
+              }
+            });
+          }
+        }
+      }, 0);
     }
   }
 
@@ -147,9 +162,8 @@ export class FvcExtras extends FScrollViewContent {
   }
 };
 
-// Maintain backward compatibility with global namespace
+// Maintain backward compatibility with global namespace (reduced - constants no longer needed for onclick)
 if (typeof window !== 'undefined') {
   window.gui = window.gui || {};
-  window.gui.CF_EXTRAS_CONTENT = CF_EXTRAS_CONTENT;
   window.gui.FvcExtras = FvcExtras;
 }

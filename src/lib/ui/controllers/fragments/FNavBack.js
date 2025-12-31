@@ -5,14 +5,11 @@ export const CF_UI_NAV_BACK = {
   ON_CLICK : Symbol(),
 };
 
-// Export to window for string template access
-if (typeof window !== 'undefined') {
-  window.CF_UI_NAV_BACK = CF_UI_NAV_BACK;
-}
+// Export to window for string template access (reduced - constants no longer needed for onclick)
 
 const _CFT_UI_NAV_BACK = {
   MAIN :
-      `<a href="javascript:void(0)" onclick="javascript:G.action(window.CF_UI_NAV_BACK.ON_CLICK)">__ICON__</a>`,
+      `<a href="javascript:void(0)" data-action="ON_CLICK">__ICON__</a>`,
 };
 
 export class FNavBack extends Fragment {
@@ -31,6 +28,12 @@ export class FNavBack extends Fragment {
     let s = _CFT_UI_NAV_BACK.MAIN;
     s = s.replace("__ICON__", ICONS.BACK);
     return s;
+  }
+
+  _onContentDidAppear() {
+    this._attachActionListeners('[data-action]', {
+      'ON_CLICK': CF_UI_NAV_BACK.ON_CLICK
+    });
   }
 }
 

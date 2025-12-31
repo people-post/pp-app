@@ -7,7 +7,7 @@ export const CF_NOTICE = {
 const _CFT_NOTICE = {
   MAIN : `<div class="info-message">__MESSAGE__</div>
   <br>
-  <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(window.CF_NOTICE.CLOSE)">Close</a>`,
+  <a class="button-bar s-primary" href="javascript:void(0)" data-action="CLOSE">Close</a>`,
 };
 
 export class FvcNotice extends FScrollViewContent {
@@ -34,6 +34,12 @@ export class FvcNotice extends FScrollViewContent {
   _renderContentOnRender(render) {
     let s = _CFT_NOTICE.MAIN.replace("__MESSAGE__", this._msg);
     render.replaceContent(s);
+  }
+
+  _onContentDidAppear() {
+    this._attachActionListeners('[data-action]', {
+      'CLOSE': CF_NOTICE.CLOSE
+    });
   }
 
   #onClose() {
