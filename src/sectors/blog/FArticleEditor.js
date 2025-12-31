@@ -15,6 +15,10 @@ import { Article } from '../../common/datatypes/Article.js';
 import { RichContentEditor } from '../../common/gui/RichContentEditor.js';
 import { LiveStreamConfigFragment } from '../../common/gui/LiveStreamConfigFragment.js';
 import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
+import { Account } from '../../common/dba/Account.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FArticleEditor extends Fragment {
   #fTitle;
@@ -158,8 +162,8 @@ export class FArticleEditor extends Fragment {
     }
 
     let ownerId = this.#baseArticle.getOwnerId();
-    if (dba.Account.getId() == ownerId && dba.Account.isWebOwner()) {
-      this.#tags = dba.WebConfig.getTags();
+    if (Account.getId() == ownerId && Account.isWebOwner()) {
+      this.#tags = WebConfig.getTags();
       return this.#tags;
     } else {
       this.#asyncGetTags(ownerId);
@@ -175,7 +179,7 @@ export class FArticleEditor extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.GROUPS:
+    case T_DATA.GROUPS:
       this.render();
       break;
     default:
@@ -219,7 +223,7 @@ export class FArticleEditor extends Fragment {
     this.#fContent.render();
 
     p = panel.getTagsPanel();
-    if (dba.Account.isWebOwner()) {
+    if (Account.isWebOwner()) {
       this.#fTags.setEnableNewTags(true);
     }
     this.#fTags.attachRender(p.getContentPanel());
@@ -351,7 +355,7 @@ export class FArticleEditor extends Fragment {
     } else {
       url = "api/blog/update_article";
     }
-    plt.Api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r),
+    api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r),
                          r => this.#onAsyncPostError(r));
     return true;
   }
@@ -381,7 +385,7 @@ export class FArticleEditor extends Fragment {
 
   #asyncGetTags(ownerId) {
     let url = "api/blog/available_tags?from=" + ownerId;
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onTagsRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onTagsRRR(d));
   }
 
   #onTagsRRR(data) {
@@ -401,7 +405,7 @@ export class FArticleEditor extends Fragment {
       if (this.#baseArticle.isDraft()) {
         this._delegate.onNewArticlePostedInArticleEditorFragment(this);
       } else {
-        dba.WebConfig.setGroups(response.data.groups);
+        WebConfig.setGroups(response.data.groups);
         this._delegate.onArticleUpdatedInArticleEditorFragment(
             this, new Article(response.data.article));
       }
@@ -410,10 +414,10 @@ export class FArticleEditor extends Fragment {
 
   #asyncDelete() {
     let url = "/api/blog/delete_article?id=" + this.#baseArticle.getId();
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onDeleteRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onDeleteRRR(d));
   }
 
-  #onDeleteRRR(data) { location.replace(dba.WebConfig.getHomeUrl()); }
+  #onDeleteRRR(data) { location.replace(WebConfig.getHomeUrl()); }
 
   #onAsyncPostError(dummy) {
     this.onLocalErrorInFragment(this, R.get("EL_API_POST"));

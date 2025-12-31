@@ -3,6 +3,11 @@ import { ICONS } from '../../lib/ui/Icons.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { MajorSectorItem } from '../../common/gui/MajorSectorItem.js';
+import { FUserInfo } from '../../common/hr/FUserInfo.js';
+import { FSocialBar } from '../../common/social/FSocialBar.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
 
 export const CF_POST_INFO = {
   ON_CLICK : Symbol(),
@@ -23,15 +28,15 @@ export class FPostInfo extends MajorSectorItem {
 
   constructor() {
     super();
-    this.#fRefOwnerName = new S.hr.FUserInfo();
-    this.#fRefOwnerName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this.#fRefOwnerName = new FUserInfo();
+    this.#fRefOwnerName.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("refOwnerName", this.#fRefOwnerName);
 
-    this.#fOwnerName = new S.hr.FUserInfo();
-    this.#fOwnerName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this.#fOwnerName = new FUserInfo();
+    this.#fOwnerName.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("ownerName", this.#fOwnerName);
 
-    this.#fSocial = new socl.FSocialBar();
+    this.#fSocial = new FSocialBar();
     this.#fSocial.setDataSource(this);
     this.#fSocial.setDelegate(this);
     this.setChild("social", this.#fSocial);
@@ -48,32 +53,32 @@ export class FPostInfo extends MajorSectorItem {
   setSizeType(t) { this.#sizeType = t; }
 
   isUserAdminOfCommentTargetInCommentFragment(fComment, targetId) {
-    return ext.Utilities.optCall(this._dataSource,
+    return UtilitiesExt.optCall(this._dataSource,
                                  "isUserAdminOfCommentTargetInPostInfoFragment",
                                  this, targetId);
   }
 
   getContextOptionsForArticleInfoFragment(fArticle, article) {
-    return ext.Utilities.optCall(this._dataSource,
+    return UtilitiesExt.optCall(this._dataSource,
                                  "getContextOptionsForPostInfoFragment", this,
                                  article);
   }
 
   onClickInArticleInfoFragment(fArticle, articleId) { this.#onClick(); }
   onContextOptionClickedInArticleInfoFragment(fArticle, value) {
-    ext.Utilities.optCall(this._delegate,
+    UtilitiesExt.optCall(this._delegate,
                           "onContextOptionClickedInPostInfoFragment", this,
                           value, fArticle.getArticleId());
   }
   onGuestCommentStatusChangeInCommentFragment(fComment) {
-    ext.Utilities.optCall(this._delegate,
+    UtilitiesExt.optCall(this._delegate,
                           "onVisibilityChangeInPostInfoFragment", this);
   }
   onCommentClickedInSocialBar(fSocial) { this.#onClick(); }
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.POST:
+    case T_DATA.POST:
       if (this.#isPostRelated(data)) {
         this.render();
       }
@@ -96,7 +101,7 @@ export class FPostInfo extends MajorSectorItem {
   }
 
   _renderOnRender(render) {
-    let post = dba.Blog.getPost(this.#postId);
+    let post = Blog.getPost(this.#postId);
     let realPost = this.#getRealPost(post);
     if (!realPost) {
       let p = new Panel();
@@ -161,7 +166,7 @@ export class FPostInfo extends MajorSectorItem {
 
   #getRealPost(post) {
     if (post && post.isRepost()) {
-      return dba.Blog.getPost(post.getLinkToSocialId());
+      return Blog.getPost(post.getLinkToSocialId());
     }
     return post;
   }
@@ -250,7 +255,7 @@ export class FPostInfo extends MajorSectorItem {
   }
 
   #onClick() {
-    ext.Utilities.optCall(this._delegate, "onClickInPostInfoFragment", this,
+    UtilitiesExt.optCall(this._delegate, "onClickInPostInfoFragment", this,
                           this.#postId);
   }
 
@@ -259,7 +264,7 @@ export class FPostInfo extends MajorSectorItem {
       return;
     }
 
-    if (!dba.Blog.isPostPinned(postId)) {
+    if (!Blog.isPostPinned(postId)) {
       return;
     }
     // Pin at upper left corner
@@ -305,7 +310,7 @@ export class FPostInfo extends MajorSectorItem {
     if (!realPost.isSocialable()) {
       return;
     }
-    if (!dba.Blog.isSocialEnabled()) {
+    if (!Blog.isSocialEnabled()) {
       return;
     }
 

@@ -4,6 +4,12 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ICONS } from '../../lib/ui/Icons.js';
+import { FUserInfo } from '../../common/hr/FUserInfo.js';
+import { FUserIcon } from '../../common/hr/FUserIcon.js';
+import { FTag } from '../../common/gui/FTag.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
 
 export const CF_DRAFT_ARTICLE_INFO = {
   ON_CLICK : Symbol(),
@@ -14,15 +20,15 @@ export class FDraftArticleInfo extends Fragment {
 
   constructor() {
     super();
-    this._fOwnerName = new S.hr.FUserInfo();
-    this._fOwnerName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this._fOwnerName = new FUserInfo();
+    this._fOwnerName.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("ownerName", this._fOwnerName);
 
-    this._fAuthorName = new S.hr.FUserInfo();
-    this._fAuthorName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this._fAuthorName = new FUserInfo();
+    this._fAuthorName.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("authorName", this._fAuthorName);
 
-    this._fOwnerIcon = new S.hr.FUserIcon();
+    this._fOwnerIcon = new FUserIcon();
     this.setChild("ownerIcon", this._fOwnerIcon);
 
     this._fTags = new FFragmentList();
@@ -44,7 +50,7 @@ export class FDraftArticleInfo extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.DRAFT_ARTICLE:
+    case T_DATA.DRAFT_ARTICLE:
       if (this.#draftId == data.getId()) {
         this.render();
       }
@@ -56,7 +62,7 @@ export class FDraftArticleInfo extends Fragment {
   }
 
   _renderOnRender(render) {
-    let draft = dba.Blog.getDraftArticle(this.#draftId);
+    let draft = Blog.getDraftArticle(this.#draftId);
     if (!draft) {
       let p = new Panel();
       p.setClassName("center-align");
@@ -130,8 +136,8 @@ export class FDraftArticleInfo extends Fragment {
 
     if (pContent) {
       let s = draft.getContent();
-      if (ext.Utilities.isEmptyString(s)) {
-        s = ext.Utilities.timestampToDateString(draft.getCreationTime() / 1000);
+      if (UtilitiesExt.isEmptyString(s)) {
+        s = UtilitiesExt.timestampToDateString(draft.getCreationTime() / 1000);
       } else {
         s = blog.Utilities.stripSimpleTag(s, "p");
       }
@@ -140,11 +146,11 @@ export class FDraftArticleInfo extends Fragment {
 
     if (pTitle) {
       let s = draft.getTitle();
-      if (ext.Utilities.isEmptyString(s) && !pContent) {
+      if (UtilitiesExt.isEmptyString(s) && !pContent) {
         // Use content if no title and no content panel
         s = draft.getContent();
       }
-      if (!ext.Utilities.isEmptyString(s)) {
+      if (!UtilitiesExt.isEmptyString(s)) {
         s = blog.Utilities.stripSimpleTag(s, "p");
         pTitle.replaceContent(Utilities.renderContent(s));
       }
@@ -168,7 +174,7 @@ export class FDraftArticleInfo extends Fragment {
     if (!draft) {
       return;
     }
-    panel.replaceContent(ext.Utilities.timestampToDateTimeString(
+    panel.replaceContent(UtilitiesExt.timestampToDateTimeString(
         draft.getCreationTime() / 1000));
   }
 

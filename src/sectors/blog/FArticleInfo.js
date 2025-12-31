@@ -8,8 +8,14 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
 import { FTag } from '../../common/gui/FTag.js';
 import { LGallery } from '../../common/gui/LGallery.js';
+import { FPostBase } from './FPostBase.js';
+import { FQuoteElement } from './FQuoteElement.js';
+import { FUserInfo } from '../../common/hr/FUserInfo.js';
+import { FUserIcon } from '../../common/hr/FUserIcon.js';
+import { Blog } from '../../common/dba/Blog.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
 
-export class FArticleInfo extends blog.FPostBase {
+export class FArticleInfo extends FPostBase {
   #fAttachment;
   #fThumbnail;
   #fQuote;
@@ -31,20 +37,20 @@ export class FArticleInfo extends blog.FPostBase {
     this.#fThumbnail.setDelegate(this);
     this.setChild("thumbnail", this.#fThumbnail);
 
-    this.#fQuote = new blog.FQuoteElement();
+    this.#fQuote = new FQuoteElement();
     this.#fQuote.setDelegate(this);
     this.setChild("quote", this.#fQuote);
 
     // Original article owner
-    this.#fOwnerName = new S.hr.FUserInfo();
-    this.#fOwnerName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this.#fOwnerName = new FUserInfo();
+    this.#fOwnerName.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("ownerName", this.#fOwnerName);
 
-    this.#fOwnerIcon = new S.hr.FUserIcon();
+    this.#fOwnerIcon = new FUserIcon();
     this.setChild("ownerIcon", this.#fOwnerIcon);
 
-    this.#fAuthorName = new S.hr.FUserInfo();
-    this.#fAuthorName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this.#fAuthorName = new FUserInfo();
+    this.#fAuthorName.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("authorName", this.#fAuthorName);
 
     this.#fTags = new FFragmentList();
@@ -62,7 +68,7 @@ export class FArticleInfo extends blog.FPostBase {
   setSizeType(st) { this.#sizeType = st; }
 
   getFilesForThumbnailFragment(fThumbnail) {
-    let a = dba.Blog.getArticle(this.#articleId);
+    let a = Blog.getArticle(this.#articleId);
     return a ? a.getFiles() : [];
   }
 
@@ -144,8 +150,8 @@ export class FArticleInfo extends blog.FPostBase {
   #renderArticleText(pTitle, pContent, article) {
     if (pContent) {
       let s = article.getContent();
-      if (ext.Utilities.isEmptyString(s)) {
-        s = ext.Utilities.timestampToDateString(article.getCreationTime() /
+      if (UtilitiesExt.isEmptyString(s)) {
+        s = UtilitiesExt.timestampToDateString(article.getCreationTime() /
                                                 1000);
       } else {
         s = blog.Utilities.stripSimpleTag(s, "p");
@@ -155,11 +161,11 @@ export class FArticleInfo extends blog.FPostBase {
 
     if (pTitle) {
       let s = article.getTitle();
-      if (ext.Utilities.isEmptyString(s) && !pContent) {
+      if (UtilitiesExt.isEmptyString(s) && !pContent) {
         // Use content if no title and no content panel
         s = article.getContent();
       }
-      if (!ext.Utilities.isEmptyString(s)) {
+      if (!UtilitiesExt.isEmptyString(s)) {
         s = blog.Utilities.stripSimpleTag(s, "p");
         pTitle.replaceContent(Utilities.renderContent(s));
       }
@@ -246,7 +252,7 @@ export class FArticleInfo extends blog.FPostBase {
     if (!panel) {
       return;
     }
-    panel.replaceContent(ext.Utilities.timestampToDateTimeString(
+    panel.replaceContent(UtilitiesExt.timestampToDateTimeString(
         article.getCreationTime() / 1000));
   }
 
@@ -278,7 +284,7 @@ export class FArticleInfo extends blog.FPostBase {
   }
 
   #showThumbnail(idx) {
-    let a = dba.Blog.getArticle(this.#articleId);
+    let a = Blog.getArticle(this.#articleId);
     if (!a) {
       return;
     }
