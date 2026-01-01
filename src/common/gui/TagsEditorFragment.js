@@ -4,6 +4,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcUserInput } from '../hr/FvcUserInput.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { MAX } from '../constants/Constants.js';
 
 export const CF_TAGS_EDITOR = {
   TOGGLE : Symbol(),
@@ -28,7 +29,7 @@ export class TagsEditorFragment extends Fragment {
   #elementName;
   #extraTagNames = [];
   #shouldEnableNewTags = false;
-  #nMax = C.MAX.N_TAGS;
+  #nMax = MAX.N_TAGS;
 
   constructor(elementId) {
     super();
@@ -63,7 +64,7 @@ export class TagsEditorFragment extends Fragment {
     if (this.#shouldEnableNewTags) {
       n = this.#nMax - allTags.length - this.#extraTagNames.length;
       if (n > 0) {
-        n = C.MAX.N_TAGS_PER_ITEM - checkedTagIds.length -
+        n = MAX.N_TAGS_PER_ITEM - checkedTagIds.length -
             this.#extraTagNames.length;
       }
     }
@@ -141,7 +142,7 @@ export class TagsEditorFragment extends Fragment {
       if (this.#shouldEnableNewTags) {
         n = this.#nMax - this.#countTags();
         if (n > 0) {
-          n = C.MAX.N_TAGS_PER_ITEM - this.#countSelectedTags();
+          n = MAX.N_TAGS_PER_ITEM - this.#countSelectedTags();
         }
       }
       e.innerHTML = this.#renderExtraTags(this.#extraTagNames, n > 0);
@@ -152,12 +153,12 @@ export class TagsEditorFragment extends Fragment {
     if (this.#isTagSelected(eTag)) {
       eTag.className = "tag";
     } else {
-      if (this.#countSelectedTags() < C.MAX.N_TAGS_PER_ITEM) {
+      if (this.#countSelectedTags() < MAX.N_TAGS_PER_ITEM) {
         eTag.className = "tag selected";
       } else {
         this.onLocalErrorInFragment(
             this,
-            R.get("EL_N_MAX_TAG").replace("__N_MAX__", C.MAX.N_TAGS_PER_ITEM));
+            R.get("EL_N_MAX_TAG").replace("__N_MAX__", MAX.N_TAGS_PER_ITEM));
       }
     }
     this.#updateExtraTags();

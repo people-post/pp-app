@@ -3,6 +3,7 @@ import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Account } from './Account.js';
 import { User } from '../datatypes/User.js';
 import { api } from '../plt/Api.js';
+import { PATH } from '../constants/Constants.js';
 
 // Public users' information
 export class UserLib {
@@ -86,7 +87,7 @@ export class UserLib {
         new User({nickname : "G-Cabin", icon_url : "file/gcabin_favicon"}));
     this.#mUsers.set(User.C_ID.L_ADD_USER, new User({
       nickname : "Add",
-      icon_url : C.PATH.STATIC + "/img/circle_add.svg"
+      icon_url : PATH.STATIC + "/img/circle_add.svg"
     }));
   }
 

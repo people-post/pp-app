@@ -1,4 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
+import { STATE } from '../constants/Constants.js';
 
 export class RemoteFile extends ServerDataObject {
   // Synced with backend
@@ -7,8 +8,8 @@ export class RemoteFile extends ServerDataObject {
     PREPROC: "PROC",
   };
 
-  isFinished() { return this._data.state == C.STATE.FINISHED; }
-  isActive() { return this._data.state == C.STATE.ACTIVE; }
+  isFinished() { return this._data.state == STATE.FINISHED; }
+  isActive() { return this._data.state == STATE.ACTIVE; }
   isImage() { return this._data.type.startsWith("image"); }
   isVideo() { return this._data.type.startsWith("video"); }
   isLivestreaming() {

@@ -7,6 +7,7 @@ import { Tag } from '../datatypes/Tag.js';
 import { User } from '../datatypes/User.js';
 import { Menus } from './Menus.js';
 import { api } from '../plt/Api.js';
+import { ID, URL_PARAM } from '../constants/Constants.js';
 
 export const WebConfig = function() {
   let _data = null;
@@ -39,7 +40,7 @@ export const WebConfig = function() {
   function _getIceUrl() { return _data ? _data.ice_url : null; }
   function _getMaxNFrames() { return _data ? _data.max_n_frames : 2; }
   function _getHomeSector() {
-    let sectorId = C.ID.SECTOR.BLOG;
+    let sectorId = ID.SECTOR.BLOG;
     if (_data && _data.home_sector) {
       sectorId = _data.home_sector;
     }
@@ -67,12 +68,12 @@ export const WebConfig = function() {
     if (glb.env.isWeb3()) {
       return "?";
     } else {
-      return "/?" + C.URL_PARAM.USER + "=" + _getOwnerId();
+      return "/?" + URL_PARAM.USER + "=" + _getOwnerId();
     }
   }
   function _getSubUrl(sectorId) {
-    return "/sub?" + C.URL_PARAM.USER + "=" + _getOwnerId() + "&" +
-           C.URL_PARAM.SECTOR + "=" + sectorId;
+    return "/sub?" + URL_PARAM.USER + "=" + _getOwnerId() + "&" +
+           URL_PARAM.SECTOR + "=" + sectorId;
   }
   function _getDefaultTheme() {
     return _data && _data.default_theme

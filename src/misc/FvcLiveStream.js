@@ -2,6 +2,7 @@ import { FScrollViewContent } from '../lib/ui/controllers/fragments/FScrollViewC
 import { ButtonGroup } from '../lib/ui/controllers/fragments/ButtonGroup.js';
 import { HintText } from '../lib/ui/controllers/fragments/HintText.js';
 import { api } from '../common/plt/Api.js';
+import { VIS } from '../common/constants/Constants.js';
 
 window.C_LIVE_STREAM = {
   START_RECORD : "C_LIVE_STREAM_1",
@@ -60,17 +61,17 @@ class FvcLiveStream extends FScrollViewContent {
     this._visView.setDelegate(this);
     this._visView.addChoice({
       name : "Public",
-      value : C.VIS.PUBLIC,
+      value : VIS.PUBLIC,
       fDetail : new HintText("Visible to all.")
     });
     this._visView.addChoice({
       name : "Protected",
-      value : C.VIS.PROTECTED,
+      value : VIS.PROTECTED,
       fDetail : new HintText("Visible to friends only.")
     });
     this._visView.addChoice({
       name : "Private",
-      value : C.VIS.PRIVATE,
+      value : VIS.PRIVATE,
       fDetail : new HintText("Only visible to yourself.")
     });
   }

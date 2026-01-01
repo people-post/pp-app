@@ -13,6 +13,7 @@ import { FvcPost } from '../../sectors/blog/FvcPost.js';
 import { FvcProject } from '../../sectors/workshop/FvcProject.js';
 import { FvcProduct } from '../../sectors/shop/FvcProduct.js';
 import { FvcOrder } from '../../sectors/cart/FvcOrder.js';
+import { URL_PARAM } from '../constants/Constants.js';
 
 export class FvcSearchResult extends FScrollViewContent {
   #fSearch;
@@ -29,7 +30,7 @@ export class FvcSearchResult extends FScrollViewContent {
     // is not a registered sector in session gateway
     let k = this.#fSearch.getKey();
     if (k) {
-      return C.URL_PARAM.KEY + "=" + encodeURIComponent(k);
+      return URL_PARAM.KEY + "=" + encodeURIComponent(k);
     } else {
       return "";
     }
@@ -38,7 +39,7 @@ export class FvcSearchResult extends FScrollViewContent {
   initFromUrl(urlParam) {
     // TODO: Currently there is no entry to here because srch
     // is not a registered sector in session gateway
-    this.#fSearch.setKey(urlParam.get(C.URL_PARAM.KEY));
+    this.#fSearch.setKey(urlParam.get(URL_PARAM.KEY));
     this.render();
   }
 

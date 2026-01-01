@@ -1,5 +1,7 @@
 import { Country } from './datatypes/Country.js';
 import UtilitiesExt from '../lib/ext/Utilities.js';
+import { VIS, STATE, PATH } from './constants/Constants.js';
+import { COUNTRIES } from './constants/CountryCodes.js';
 
 export const Utilities = function() {
   function _isOrderReferenceId(key) {
@@ -16,11 +18,11 @@ export const Utilities = function() {
 
   function _getVisibilityClassName(visibility) {
     switch (visibility) {
-    case C.VIS.PRIVATE:
+    case VIS.PRIVATE:
       return "private";
-    case C.VIS.PROTECTED:
+    case VIS.PROTECTED:
       return "protected";
-    case C.VIS.CONFIDENTIAL:
+    case VIS.CONFIDENTIAL:
       return "restricted";
     default:
       return "public";
@@ -181,20 +183,20 @@ export const Utilities = function() {
   function _getStateClassName(state, status = null) {
     let name = "unknown";
     switch (state) {
-    case C.STATE.NEW:
+    case STATE.NEW:
       name = "new";
       break;
-    case C.STATE.ACTIVE:
+    case STATE.ACTIVE:
       name = "active";
       break;
-    case C.STATE.ONHOLD:
+    case STATE.ONHOLD:
       name = "onhold";
       break;
-    case C.STATE.FINISHED:
+    case STATE.FINISHED:
       name = "finished";
-      if (status == C.STATE.STATUS.F_DONE) {
+      if (status == STATE.STATUS.F_DONE) {
         name += " done";
-      } else if (status == C.STATE.STATUS.F_FAILED) {
+      } else if (status == STATE.STATUS.F_FAILED) {
         name += "failed";
       }
       break;
@@ -205,11 +207,11 @@ export const Utilities = function() {
   }
 
   function _getCountryByCode(code) {
-    let idx2 = C.COUNTRIES.IDX.A2CODE;
-    let idx3 = C.COUNTRIES.IDX.A3CODE;
-    let i = C.COUNTRIES.DATA.find(i => i[idx2] == code || i[idx3] == code);
+    let idx2 = COUNTRIES.IDX.A2CODE;
+    let idx3 = COUNTRIES.IDX.A3CODE;
+    let i = COUNTRIES.DATA.find(i => i[idx2] == code || i[idx3] == code);
     if (i) {
-      return new Country({name : i[C.COUNTRIES.IDX.NAME]});
+      return new Country({name : i[COUNTRIES.IDX.NAME]});
     }
     return null;
   }
@@ -218,7 +220,7 @@ export const Utilities = function() {
     let s =
         `<span class="flag-icon" style="background-image:url(__FLAGS_PATH__/__DIR__/__CODE__.svg);"></span>`;
     let dir = ratio == "1x1" ? ratio : "4x3";
-    s = s.replace("__FLAGS_PATH__", C.PATH.FLAGS);
+    s = s.replace("__FLAGS_PATH__", PATH.FLAGS);
     s = s.replace("__DIR__", dir);
     s = s.replace("__CODE__", countryCode.toLowerCase());
     return s;

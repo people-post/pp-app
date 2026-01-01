@@ -10,6 +10,7 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import Utilities from '../Utilities.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { api } from '../plt/Api.js';
+import { URL_PARAM } from '../constants/Constants.js';
 
 export const CF_SOCIAL_BAR = {
   ON_COMMENT_CLICK : Symbol(),
@@ -412,7 +413,7 @@ export class FSocialBar extends Fragment {
   #onShareToFacebook() {
     let ogp = this.#itemOgpData;
     let items = [ "https://www.facebook.com/share.php?" ];
-    items.push(C.URL_PARAM.USER + "=" + encodeURI(ogp.getUrl()));
+    items.push(URL_PARAM.USER + "=" + encodeURI(ogp.getUrl()));
     let url = items.join("&");
     window.open(url, '_blank').focus();
   }

@@ -1,6 +1,7 @@
 import { CronJob } from '../../lib/ext/CronJob.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { api } from '../plt/Api.js';
+import { TYPE } from '../constants/Constants.js';
 
 function createAuth() {
   let _targetInfo = null;
@@ -19,7 +20,7 @@ function createAuth() {
     let fd = new FormData();
     fd.append("domain", _targetInfo.toDomain);
     fd.append("token", _targetInfo.token);
-    fd.append("type", C.TYPE.TOKEN.LOGIN);
+    fd.append("type", TYPE.TOKEN.LOGIN);
     api.asyncRawPost(url, fd, r => __onRefreshTokenRRR(r));
   }
 

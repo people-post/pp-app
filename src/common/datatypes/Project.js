@@ -6,6 +6,7 @@ import { SimpleProjectStage } from './SimpleProjectStage.js';
 import { ProjectStage } from './ProjectStage.js';
 import { SocialItemId } from './SocialItemId.js';
 import { OgpData } from './OgpData.js';
+import { STATE } from '../constants/Constants.js';
 
 export class Project extends SocialItem {
   static ACTIONS = {
@@ -49,7 +50,7 @@ export class Project extends SocialItem {
   }
 
   isDraft() { return this._data.is_draft; }
-  isFinished() { return this.getState() == C.STATE.FINISHED; }
+  isFinished() { return this.getState() == STATE.FINISHED; }
   isFacilitator(userId) {
     if (!userId) {
       return false;
@@ -115,7 +116,7 @@ export class Project extends SocialItem {
   getFinishedStages() { return this.getStages().filter(s => s.isDone()); }
   getUnfinishedStages() { return this.getStages().filter(s => !s.isDone()); }
   getActiveStages() {
-    if (this.getState() == C.STATE.ACTIVE) {
+    if (this.getState() == STATE.ACTIVE) {
       // TODO:
       return [];
     } else {
@@ -159,7 +160,7 @@ export class Project extends SocialItem {
   }
 
   getProgress() {
-    if (this._data.state == C.STATE.FINISHED) {
+    if (this._data.state == STATE.FINISHED) {
       return 100;
     }
     if (this._data.stages.length == 0) {
@@ -194,13 +195,13 @@ export class Project extends SocialItem {
 
     let stages = [];
     switch (this.getState()) {
-    case C.STATE.ONHOLD:
+    case STATE.ONHOLD:
       if (this.isFacilitator(userId)) {
         stages = this.getFinishedStagesOnEdge();
       }
       break;
-    case C.STATE.NEW:
-    case C.STATE.ACTIVE:
+    case STATE.NEW:
+    case STATE.ACTIVE:
       stages = this.getUnfinishedStagesOnEdge();
       stages = stages.filter(s => this.isStageActor(userId, s));
       break;
@@ -270,13 +271,13 @@ export class Project extends SocialItem {
 
     let actions = [];
     switch (this.getState()) {
-    case C.STATE.ONHOLD:
+    case STATE.ONHOLD:
       if (this.isFacilitator(userId)) {
         actions = stage.getActionsForFacilitator();
       }
       break;
-    case C.STATE.NEW:
-    case C.STATE.ACTIVE:
+    case STATE.NEW:
+    case STATE.ACTIVE:
       if (this.isStageReadyForActorAction(stage) &&
           this.isStageActor(userId, stage)) {
         actions = stage.getActionsForActor();
@@ -295,8 +296,8 @@ export class Project extends SocialItem {
 
     let actions = [];
     switch (this.getState()) {
-    case C.STATE.NEW:
-    case C.STATE.ONHOLD:
+    case STATE.NEW:
+    case STATE.ONHOLD:
       actions.push(ProjectStage.ACTIONS.APPEND);
       break;
     default:
@@ -313,8 +314,8 @@ export class Project extends SocialItem {
 
     let actions = [];
     switch (this.getState()) {
-    case C.STATE.NEW:
-    case C.STATE.ONHOLD:
+    case STATE.NEW:
+    case STATE.ONHOLD:
       actions.push(ProjectStage.ACTIONS.PREPEND);
       break;
     default:
@@ -327,17 +328,17 @@ export class Project extends SocialItem {
   getActionsForFacilitator() {
     let actions = [ this.constructor.ACTIONS.ASSIGN ];
     switch (this.getState()) {
-    case C.STATE.ACTIVE:
+    case STATE.ACTIVE:
       actions.push(this.constructor.ACTIONS.PAUSE);
       if (this.getStages().every(s => s.isDone())) {
         actions.push(this.constructor.ACTIONS.CLOSE);
       }
       break;
-    case C.STATE.ONHOLD:
+    case STATE.ONHOLD:
       actions.push(this.constructor.ACTIONS.RESUME);
       actions.push(this.constructor.ACTIONS.CANCEL);
       break;
-    case C.STATE.FINISHED:
+    case STATE.FINISHED:
       actions.push(this.constructor.ACTIONS.REOPEN);
       break;
     default:

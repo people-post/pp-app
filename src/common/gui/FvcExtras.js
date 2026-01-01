@@ -6,6 +6,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { T_DATA } from '../../lib/framework/Events.js';
 import { WebConfig } from '../dba/WebConfig.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
+import { URL_PARAM } from '../constants/Constants.js';
 
 export const CF_EXTRAS_CONTENT = {
   TEST : Symbol(),
@@ -30,14 +31,14 @@ export class FvcExtras extends FScrollViewContent {
 
   getUrlParamString() {
     if (this._subPageId) {
-      return C.URL_PARAM.PAGE + "=" + this._subPageId;
+      return URL_PARAM.PAGE + "=" + this._subPageId;
     } else {
       return "";
     }
   }
 
   initFromUrl(urlParam) {
-    this.#onSubPageSelected(urlParam.get(C.URL_PARAM.PAGE), urlParam);
+    this.#onSubPageSelected(urlParam.get(URL_PARAM.PAGE), urlParam);
   }
 
   getListItemsForListFragment(fList) { return this.#getListItems(); }
