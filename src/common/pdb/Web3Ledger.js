@@ -1,3 +1,5 @@
+import { RemoteServer } from 'pp-api';
+
 export class Web3Ledger {
   #agents = [];
 
@@ -19,7 +21,7 @@ export class Web3Ledger {
   }
 
   async #asCreateAgent(sAddr) {
-    let server = new pp.RemoteServer();
+    let server = new RemoteServer();
     if (await server.asInit(sAddr)) {
       return new pdb.Web3BlockchainAgent(server);
     }

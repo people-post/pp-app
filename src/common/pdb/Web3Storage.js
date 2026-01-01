@@ -1,6 +1,8 @@
-export class Web3PeerStorageAgent extends pdb.Web3PeerServerMixin
-(pp.StorageAgent) {};
-export class Web3GroupStorageAgent extends pp.StorageAgent {};
+import { StorageAgent, RemoteServer } from 'pp-api';
+import { Web3PeerServerMixin } from './Web3PeerServerMixin.js';
+
+export class Web3PeerStorageAgent extends Web3PeerServerMixin(StorageAgent) {};
+export class Web3GroupStorageAgent extends StorageAgent {};
 
 export class Web3Storage {
   #agents = [];
@@ -37,12 +39,12 @@ export class Web3Storage {
   }
 
   async #asCreateAgent(sAddr) {
-    let server = new pp.RemoteServer();
+    let server = new RemoteServer();
     if (await server.asInit(sAddr)) {
       switch (server.getRegisterType()) {
-      case pp.RemoteServer.T_REGISTER.PEER:
+      case RemoteServer.T_REGISTER.PEER:
         return new Web3PeerStorageAgent(server);
-      case pp.RemoteServer.T_REGISTER.GROUP:
+      case RemoteServer.T_REGISTER.GROUP:
         return new Web3GroupStorageAgent(server);
       default:
         break;

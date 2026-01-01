@@ -1,3 +1,5 @@
+import { sys } from 'pp-api';
+
 export class MlDsa44Key {
   #buffer = null;
 
@@ -12,6 +14,6 @@ export class MlDsa44Key {
   }
 
   signUint8Array(msg) {
-    return pp.sys.utl.mlDsa44Sign(msg, this.#buffer.secretKey);
+    return sys.utl.mlDsa44Sign(msg, this.#buffer.secretKey);
   }
 };

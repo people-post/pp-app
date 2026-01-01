@@ -11,6 +11,7 @@ import { Events, T_ACTION as FwkT_ACTION } from '../../lib/framework/Events.js';
 import { Keys } from '../../common/dba/Keys.js';
 import { Web3Resolver } from '../../common/pdb/Web3Resolver.js';
 import { Web3Publisher } from '../../common/pdb/Web3Publisher.js';
+import { sys } from 'pp-api';
 
 export class FvcWeb3Login extends FvcLoginBase {
   #fMnemonic;
@@ -120,7 +121,7 @@ export class FvcWeb3Login extends FvcLoginBase {
   }
 
   #onAccountKeyReady(fvcProgress, key, isNew) {
-    let peerId = pp.sys.utl.peerIdFromPublicKey(key);
+    let peerId = sys.utl.peerIdFromPublicKey(key);
     let userId = peerId.toString();
     if (isNew) {
       // TODO: Default profile should share the same code as the one inside

@@ -39,6 +39,11 @@ async function bundleJs(entryPoint, outputFile, options = {}) {
     format: 'iife',
     globalName: 'window',
     outfile: outputFile,
+    // Enable TypeScript support for node_modules (pp-api uses TypeScript)
+    loader: {
+      '.ts': 'ts',
+      '.tsx': 'tsx'
+    },
     ...options
   });
 
@@ -90,7 +95,7 @@ async function build() {
   fs.mkdirSync(WORK_DIR, { recursive: true });
 
   // 2. Bundle JavaScript using esbuild
-  // Bundle app js
+  // Bundle app js (pp-api will be imported directly via compatibility layer)
   await bundleJs(ENTRY_APP_JS, BUNDLE_JS_PATH);
 
   // Bundle service worker js

@@ -1,5 +1,6 @@
 import PerishableObject from '../../lib/ext/PerishableObject.js';
 import { Web3ResolverAgent } from './Web3ResolverAgent.js';
+import { RemoteServer, sys } from 'pp-api';
 
 export class Web3Resolver {
   #agents = [];
@@ -12,7 +13,7 @@ export class Web3Resolver {
     this.#agents = [];
     if (addrs) {
       for (let s of addrs) {
-        let server = new pp.RemoteServer();
+        let server = new RemoteServer();
         if (await server.asInit(s)) {
           let agent = new Web3ResolverAgent(server);
           this.#agents.push(agent);
@@ -25,7 +26,7 @@ export class Web3Resolver {
     // TODO: Multi thread calls cause data mess up when AbortSignal
     let d = null;
     try {
-      d = await pp.sys.ipfs.asFetchCidJson(cid);
+      d = await sys.ipfs.asFetchCidJson(cid);
     } catch (e) {
       console.debug(e);
     }
@@ -62,7 +63,7 @@ export class Web3Resolver {
     if (!cid) {
       // 2. Try direct IPNS
       try {
-        cid = await pp.sys.ipfs.asResolve(this.#getIpnsName(userId),
+        cid = await sys.ipfs.asResolve(this.#getIpnsName(userId),
                                           {signal : AbortSignal.timeout(5000)});
       } catch (e) {
         // It's OK to fail
@@ -98,7 +99,7 @@ export class Web3Resolver {
     let options = {method : "GET"};
     let cid;
     try {
-      let res = await pp.sys.ipfs.asFetch(url, options);
+      let res = await sys.ipfs.asFetch(url, options);
       let d = await res.json();
       if (d.error) {
         throw d.error;
@@ -130,7 +131,7 @@ export class Web3Resolver {
 
   #getIpnsName(userId) {
     // TODO: Maybe we should use customized id system
-    let peerId = pp.sys.utl.peerIdFromString(userId);
+    let peerId = sys.utl.peerIdFromString(userId);
     return peerId.toMultihash();
   }
 

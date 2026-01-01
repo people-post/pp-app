@@ -1,6 +1,8 @@
-export class Web3PeerPublisherAgent extends pdb.Web3PeerServerMixin
-(pp.PublisherAgent) {};
-export class Web3GroupPublisherAgent extends pp.PublisherAgent {};
+import { PublisherAgent, RemoteServer } from 'pp-api';
+import { Web3PeerServerMixin } from './Web3PeerServerMixin.js';
+
+export class Web3PeerPublisherAgent extends Web3PeerServerMixin(PublisherAgent) {};
+export class Web3GroupPublisherAgent extends PublisherAgent {};
 
 export class Web3Publisher {
   #agents = [];
@@ -57,13 +59,13 @@ export class Web3Publisher {
   getAgents() { return this.#agents; }
 
   async #asCreateAgent(sAddr) {
-    let server = new pp.RemoteServer();
+    let server = new RemoteServer();
     if (await server.asInit(sAddr)) {
       switch (server.getRegisterType()) {
-      case pp.RemoteServer.T_REGISTER.PEER:
+      case RemoteServer.T_REGISTER.PEER:
         console.log("peer");
         return new Web3PeerPublisherAgent(server);
-      case pp.RemoteServer.T_REGISTER.GROUP:
+      case RemoteServer.T_REGISTER.GROUP:
         console.log("Gruop");
         return new Web3GroupPublisherAgent(server);
       default:

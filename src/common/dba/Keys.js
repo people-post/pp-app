@@ -8,6 +8,7 @@ import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import Utilities from '../../lib/ext/Utilities.js';
 import * as bip39 from '../../lib/3rd/bip39.js';
 import * as scureBip32 from '../../lib/3rd/bip32.js';
+import { sys } from 'pp-api';
 
 export const Keys = function() {
   let _entropy = null;
@@ -26,7 +27,7 @@ export const Keys = function() {
     let k = __getBip32Ed25519Impl(dPath);
 
     let seed = k.deriveSeed();
-    let kp = await pp.sys.utl.asEd25519KeyGen(seed);
+    let kp = await sys.utl.asEd25519KeyGen(seed);
     return kp.publicKey;
   }
 
@@ -119,7 +120,7 @@ export const Keys = function() {
   function __getMlDsa44Impl(path) {
     let k = __getBip32Ed25519Impl(path);
     let seed = k.deriveSeed();
-    return new MlDsa44Key(pp.sys.utl.mlDsa44KeyGen(seed));
+    return new MlDsa44Key(sys.utl.mlDsa44KeyGen(seed));
   }
 
   async function __asyncDeriveBip44Ed25519RootKey(entropy) {

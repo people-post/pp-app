@@ -18,6 +18,7 @@ import { Web3Publisher } from '../common/pdb/Web3Publisher.js';
 import { Web3Ledger } from '../common/pdb/Web3Ledger.js';
 import { Web3Storage } from '../common/pdb/Web3Storage.js';
 import { env } from '../common/plt/Env.js';
+import { asInit, Owner } from 'pp-api';
 
 export class WcWeb3 extends WcSession {
   #postingKeyPath =
@@ -97,7 +98,7 @@ export class WcWeb3 extends WcSession {
 
   async #asMain(dConfig) {
     console.info("Init global...");
-    await pp.asInit();
+    await asInit();
 
     console.info("Load local data...");
     let sData = sessionStorage.getItem(STORAGE.KEY.KEYS);
@@ -109,7 +110,7 @@ export class WcWeb3 extends WcSession {
     if (!window.dba) {
       window.dba = {};
     }
-    window.dba.Account = new pp.Owner();
+    window.dba.Account = new Owner();
     window.dba.Account.setDataSource(this);
     window.dba.Account.setDelegate(this);
     window.dba.Account.loadCheckPoint();
