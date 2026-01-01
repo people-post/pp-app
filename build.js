@@ -11,7 +11,6 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { execSync } from 'child_process';
 import * as esbuild from 'esbuild';
-import uglifycss from 'uglifycss';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -51,15 +50,27 @@ async function bundleJs(entryPoint, outputFile, options = {}) {
 }
 
 /**
- * Minify CSS file
+ * Minify CSS file using esbuild
  * @param {string} inputFile - Input CSS file
  * @param {string} outputFile - Output minified CSS file
  */
-function minifyCss(inputFile, outputFile) {
+async function minifyCss(inputFile, outputFile) {
   try {
-    const cssContent = fs.readFileSync(inputFile, 'utf-8');
-    const minified = uglifycss.processString(cssContent);
-    fs.writeFileSync(outputFile, minified);
+    const result = await esbuild.build({
+      entryPoints: [inputFile],
+      bundle: false,
+      minify: true,
+      loader: {
+        '.css': 'css'
+      },
+      outfile: outputFile
+    });
+
+    if (result.errors.length > 0) {
+      throw new Error(`esbuild errors: ${result.errors.map(e => e.text).join(', ')}`);
+    }
+
+    console.log(`[SUCCESS] Minified CSS: ${inputFile} -> ${outputFile}`);
   } catch (error) {
     console.error(`Error minifying CSS: ${error.message}`);
     throw error;
@@ -92,7 +103,7 @@ async function build() {
   console.log('Minifying CSS...');
   const cssInputFile = 'css/hst.css';
   const cssOutputFile = path.join(WORK_DIR, 'hst-min.css');
-  minifyCss(cssInputFile, cssOutputFile);
+  await minifyCss(cssInputFile, cssOutputFile);
 
   // 4. Packaging
   const WEB3_PACKAGE = 'web3.tar';
