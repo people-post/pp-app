@@ -121,8 +121,3 @@ export const Social = function() {
   };
 }();
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Social = Social;
-}

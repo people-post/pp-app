@@ -12,8 +12,3 @@ export class MenuContent extends Fragment {
   resetStatus() { this.setQuickLinkRenderMode(false); }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.MenuContent = MenuContent;
-}

@@ -44,8 +44,3 @@ function createWalkinQueue() {
 
 export const WalkinQueue = createWalkinQueue();
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.WalkinQueue = WalkinQueue;
-}

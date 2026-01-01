@@ -57,8 +57,3 @@ function createAddress() {
 
 export const Address = createAddress();
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Address = Address;
-}

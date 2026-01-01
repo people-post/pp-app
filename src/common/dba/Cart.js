@@ -123,8 +123,3 @@ export const Cart = function() {
   };
 }();
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Cart = Cart;
-}

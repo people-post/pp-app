@@ -109,8 +109,3 @@ export class PriceFragment extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.PriceFragment = PriceFragment;
-}

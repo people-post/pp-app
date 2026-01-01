@@ -94,9 +94,3 @@ export const Exchange = function() {
     loadMissingCurrencies : _loadMissingCurrencies
   };
 }();
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Exchange = Exchange;
-}

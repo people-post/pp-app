@@ -57,8 +57,3 @@ function createOgp() {
 
 export const Ogp = createOgp();
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Ogp = Ogp;
-}

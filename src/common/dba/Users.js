@@ -149,8 +149,3 @@ export class UserLib {
 
 export const Users = new UserLib();
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Users = Users;
-}

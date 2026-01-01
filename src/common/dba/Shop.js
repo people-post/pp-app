@@ -361,8 +361,3 @@ export const Shop = function() {
   };
 }();
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Shop = Shop;
-}

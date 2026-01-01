@@ -2,6 +2,20 @@ import { UserBase } from './UserBase.js';
 import { BlogConfig } from './BlogConfig.js';
 import { ColorTheme } from './ColorTheme.js';
 
+// Lazy import to avoid circular dependency
+// Use dynamic import with caching for synchronous access pattern
+let _WebConfigCache = null;
+const _WebConfigPromise = import('../dba/WebConfig.js').then(module => {
+  _WebConfigCache = module.WebConfig;
+  return module.WebConfig;
+});
+
+function getWebConfig() {
+  // Return cached value if available, otherwise return null
+  // In practice, WebConfig should be loaded before User methods are called
+  return _WebConfigCache;
+}
+
 export class User extends UserBase {
   static C_ID = {
     SYSTEM : "SYSTEM",        // Synced with backend
@@ -76,9 +90,7 @@ export class User extends UserBase {
   #generateUrl(sub = null, paramStrs = null) {
     let allParamStrs = paramStrs ? paramStrs : [];
     // Lazy access to WebConfig to avoid circular dependency
-    const WebConfig = (typeof window !== 'undefined' && window.dba && window.dba.WebConfig) 
-      ? window.dba.WebConfig 
-      : null;
+    const WebConfig = getWebConfig();
     const isDevSite = WebConfig ? WebConfig.isDevSite() : false;
     
     if (isDevSite || !this._data.domain) {

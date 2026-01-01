@@ -76,9 +76,3 @@ function createBadge() {
 }
 
 export const Badge = createBadge();
-
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Badge = Badge;
-}

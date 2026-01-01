@@ -17,9 +17,3 @@ export class PerishableObject {
 }
 
 export default PerishableObject;
-
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ext = window.ext || {};
-  window.ext.PerishableObject = PerishableObject;
-}

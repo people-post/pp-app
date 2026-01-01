@@ -253,8 +253,3 @@ export const WebConfig = function() {
   };
 }();
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.WebConfig = WebConfig;
-}

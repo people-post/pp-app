@@ -121,8 +121,3 @@ export class MenuConfig extends DirFragment {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.MenuConfig = MenuConfig;
-}

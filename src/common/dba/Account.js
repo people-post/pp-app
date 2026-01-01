@@ -224,8 +224,3 @@ export class Web2Account {
 
 export const Account = new Web2Account();
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Account = Account;
-}

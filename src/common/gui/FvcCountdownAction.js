@@ -74,9 +74,3 @@ export class FvcCountdownAction extends FScrollViewContent {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.CF_COUNTDOWN_ACTION = CF_COUNTDOWN_ACTION;
-  window.gui.FvcCountdownAction = FvcCountdownAction;
-}

@@ -205,9 +205,3 @@ export class InputConsoleFragment extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.CF_INPUT_CONSOLE = CF_INPUT_CONSOLE;
-  window.gui.InputConsoleFragment = InputConsoleFragment;
-}

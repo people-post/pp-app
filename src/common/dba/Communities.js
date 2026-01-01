@@ -150,9 +150,3 @@ export const Communities = function() {
     reload : _reload,
   };
 }();
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Communities = Communities;
-}

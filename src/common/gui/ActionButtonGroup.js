@@ -15,8 +15,3 @@ export class ActionButtonGroup extends FFragmentList {
   }
 }
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.ActionButtonGroup = ActionButtonGroup;
-}

@@ -225,8 +225,3 @@ export const Notifications = function() {
   };
 }();
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Notifications = Notifications;
-}

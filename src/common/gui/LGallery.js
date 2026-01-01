@@ -166,9 +166,3 @@ export class LGallery extends Layer {
   #onClose() { this._owner.onRequestPopLayer(this); }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.CLC_GALLERY = CLC_GALLERY;
-  window.gui = window.gui || {};
-  window.gui.LGallery = LGallery;
-}
