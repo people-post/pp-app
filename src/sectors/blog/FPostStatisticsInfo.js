@@ -1,5 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Utilities as blogUtilities } from './Utilities.js';
 
 window.CF_POST_STATISTICS_INFO = {
   ONCLICK : "CF_POST_STATISTICS_INFO_1",
@@ -44,7 +45,7 @@ export class FPostStatisticsInfo extends Fragment {
     let s = _CFT_POST_STATISTICS_INFO.MAIN;
     let name = this._data.title;
     if (name && name.length) {
-      name = blog.Utilities.stripSimpleTag(name, "p");
+      name = blogUtilities.stripSimpleTag(name, "p");
     } else {
       name = "[empty]";
     }

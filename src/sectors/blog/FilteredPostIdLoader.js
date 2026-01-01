@@ -2,6 +2,8 @@ import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import { api } from '../../common/plt/Api.js';
+import { Groups } from '../../common/dba/Groups.js';
+import { Blog } from '../../common/dba/Blog.js';
 
 export class FilteredPostIdLoader extends LongListIdLoader {
   #isBatchLoading = false;
@@ -28,7 +30,7 @@ export class FilteredPostIdLoader extends LongListIdLoader {
     if (fromId) {
       url += "&before_id=" + SocialItemId.fromEncodedStr(fromId).getValue();
     }
-    let t = dba.Groups.getTag(this.#tagId);
+    let t = Groups.getTag(this.#tagId);
     if (t) {
       url += "&owner_id=" + t.getOwnerId();
     }
@@ -44,7 +46,7 @@ export class FilteredPostIdLoader extends LongListIdLoader {
       let ds = response.data.articles;
       if (ds.length) {
         for (let d of ds) {
-          let p = dba.Blog.updatePostData(d);
+          let p = Blog.updatePostData(d);
           this.#idRecord.appendId(p.getSocialId().toEncodedStr());
         }
       } else {

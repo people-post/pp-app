@@ -2,6 +2,10 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { FInsiderAuthorDraftList } from './FInsiderAuthorDraftList.js';
+import { FInsiderTaskDraftList } from './FInsiderTaskDraftList.js';
+import { FOwnerDraftList } from './FOwnerDraftList.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcDrafts extends FScrollViewContent {
   #fInsiderAuthored;
@@ -10,13 +14,13 @@ export class FvcDrafts extends FScrollViewContent {
 
   constructor() {
     super();
-    this.#fInsiderAuthored = new blog.FInsiderAuthorDraftList();
+    this.#fInsiderAuthored = new FInsiderAuthorDraftList();
     this.setChild("insiderAuthored", this.#fInsiderAuthored);
 
-    this.#fInsiderTasks = new blog.FInsiderTaskDraftList();
+    this.#fInsiderTasks = new FInsiderTaskDraftList();
     this.setChild("insiderTasks", this.#fInsiderTasks);
 
-    this.#fTasks = new blog.FOwnerDraftList();
+    this.#fTasks = new FOwnerDraftList();
     this.setChild("tasks", this.#fTasks);
   }
 
@@ -34,7 +38,7 @@ export class FvcDrafts extends FScrollViewContent {
     this.#fInsiderTasks.attachRender(p);
     this.#fInsiderTasks.render();
 
-    if (dba.Account.isWebOwner()) {
+    if (Account.isWebOwner()) {
       p = new SectionPanel("Tasks");
       pList.pushPanel(p);
       this.#fTasks.attachRender(p.getContentPanel());

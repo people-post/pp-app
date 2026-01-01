@@ -48,6 +48,10 @@ import { FTag } from '../../common/gui/FTag.js';
 import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
 import { FGeneralSearch } from '../../common/search/FGeneralSearch.js';
 import { FSearchResultInfo } from '../../common/search/FSearchResultInfo.js';
+import { Account } from '../../common/dba/Account.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { R } from '../../common/constants/R.js';
 import { FPostInfo } from './FPostInfo.js';
 import { api } from '../../common/plt/Api.js';
 import { T_DATA } from '../../common/plt/Events.js';
@@ -205,7 +209,7 @@ class FPostSelectorHandle extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case blog.CF_JOURNAL_ISSUE_EDITOR.ON_CHOOSE:
+    case CF_JOURNAL_ISSUE_EDITOR.ON_CHOOSE:
       this.#onChoose();
       break;
     default:
@@ -372,8 +376,8 @@ export class FJournalIssueEditor extends Fragment {
     }
 
     let ownerId = this.#journalIssue.getOwnerId();
-    if (dba.Account.getId() == ownerId && dba.Account.isWebOwner()) {
-      this.#tags = dba.WebConfig.getTags();
+    if (Account.getId() == ownerId && Account.isWebOwner()) {
+      this.#tags = WebConfig.getTags();
       return this.#tags;
     } else {
       this.#asyncGetTags(ownerId);
@@ -420,7 +424,7 @@ export class FJournalIssueEditor extends Fragment {
     this.#renderContent(panel.getSectionListPanel(), this.#journalIssue);
 
     p = panel.getTagsPanel();
-    if (dba.Account.isWebOwner()) {
+    if (Account.isWebOwner()) {
       this.#fTags.setEnableNewTags(true);
     }
     this.#fTags.attachRender(p.getContentPanel());
@@ -438,7 +442,7 @@ export class FJournalIssueEditor extends Fragment {
       return;
     }
 
-    let journal = dba.Blog.getJournal(issue.getJournalId());
+    let journal = Blog.getJournal(issue.getJournalId());
     if (!journal) {
       return;
     }
@@ -551,7 +555,7 @@ export class FJournalIssueEditor extends Fragment {
       this.onRemoteErrorInFragment(this, response.error);
       this.#unlockActionBtns();
     } else {
-      dba.WebConfig.setGroups(response.data.groups);
+      WebConfig.setGroups(response.data.groups);
       this._delegate.onJournalIssueUpdatedInJournalIssueEditorFragment(
           this, new JournalIssue(response.data.journal_issue));
     }
@@ -563,7 +567,6 @@ export class FJournalIssueEditor extends Fragment {
   }
 };
 
-blog.FJournalIssueEditor = FJournalIssueEditor;
 
 
 // Backward compatibility

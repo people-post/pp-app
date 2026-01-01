@@ -3,6 +3,9 @@ import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPane
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { Ogp } from '../../common/dba/Ogp.js';
+import { POgpSmall } from './POgpSmall.js';
+import { POgpLarge } from './POgpLarge.js';
 
 window.CF_OGP = {
   ON_CLICK : "CF_OGP_1",
@@ -50,7 +53,7 @@ export class FOgp extends Fragment {
   }
 
   _renderOnRender(render) {
-    let ogp = dba.Ogp.get(this._url);
+    let ogp = Ogp.get(this._url);
     if (!ogp) {
       return;
     }
@@ -93,10 +96,10 @@ export class FOgp extends Fragment {
     let p;
     switch (this._sizeType) {
     case SocialItem.T_LAYOUT.EXT_QUOTE_SMALL:
-      p = new blog.POgpSmall();
+      p = new POgpSmall();
       break;
     default:
-      p = new blog.POgpLarge();
+      p = new POgpLarge();
       break;
     }
     return p;

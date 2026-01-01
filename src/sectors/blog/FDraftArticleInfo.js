@@ -10,6 +10,9 @@ import { FTag } from '../../common/gui/FTag.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
+import { CF_DRAFT_ARTICLE_INFO } from './FDraftArticleInfo.js';
+import { PDraftArticleInfo } from './PDraftArticleInfo.js';
+import { Utilities as blogUtilities } from './Utilities.js';
 
 export const CF_DRAFT_ARTICLE_INFO = {
   ON_CLICK : Symbol(),
@@ -39,7 +42,7 @@ export class FDraftArticleInfo extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case blog.CF_DRAFT_ARTICLE_INFO.ON_CLICK:
+    case CF_DRAFT_ARTICLE_INFO.ON_CLICK:
       this.#onClick();
       break;
     default:
@@ -71,7 +74,7 @@ export class FDraftArticleInfo extends Fragment {
       return;
     }
 
-    let panel = new blog.PDraftArticleInfo();
+    let panel = new PDraftArticleInfo();
     panel.setClassName("clickable");
     panel.setAttribute(
         "onclick", "javascript:G.action(blog.CF_DRAFT_ARTICLE_INFO.ON_CLICK)");
@@ -139,7 +142,7 @@ export class FDraftArticleInfo extends Fragment {
       if (UtilitiesExt.isEmptyString(s)) {
         s = UtilitiesExt.timestampToDateString(draft.getCreationTime() / 1000);
       } else {
-        s = blog.Utilities.stripSimpleTag(s, "p");
+        s = blogUtilities.stripSimpleTag(s, "p");
       }
       pContent.replaceContent(Utilities.renderContent(s));
     }
@@ -151,7 +154,7 @@ export class FDraftArticleInfo extends Fragment {
         s = draft.getContent();
       }
       if (!UtilitiesExt.isEmptyString(s)) {
-        s = blog.Utilities.stripSimpleTag(s, "p");
+        s = blogUtilities.stripSimpleTag(s, "p");
         pTitle.replaceContent(Utilities.renderContent(s));
       }
     }

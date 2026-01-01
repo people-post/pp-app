@@ -1,3 +1,4 @@
+import { POgp } from './POgp.js';
 
 const _CPT_OGP_SMALL = {
   MAIN : `<div class="aspect-3-1-frame">
@@ -15,7 +16,7 @@ const _CPT_OGP_SMALL = {
   </div>`,
 }
 
-export class POgpSmall extends blog.POgp {
+export class POgpSmall extends POgp {
   _getTemplate() { return _CPT_OGP_SMALL.MAIN; }
 };
 

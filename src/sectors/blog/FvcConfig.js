@@ -18,6 +18,7 @@ import { FPostInfoLayoutPreview } from './FPostInfoLayoutPreview.js';
 import { FvcRoleEditor } from './FvcRoleEditor.js';
 import { api } from '../../common/plt/Api.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { R } from '../../common/constants/R.js';
 
 window.CF_BLOG_CONFIG = {
   ADD_ROLE : "CF_BLOG_CONFIG_1",
@@ -77,34 +78,34 @@ export class FvcConfig extends FScrollViewContent {
       value : SocialItem.T_LAYOUT.COMPACT,
       fDetail : f
     });
-    f = new blog.FPostInfoLayoutPreview();
+    f = new FPostInfoLayoutPreview();
     f.setDelegate(this);
     f.setDescription(R.get("INTRO_SMALL_SIZE"));
-    fInfo = new blog.FPostInfo()
+    fInfo = new FPostInfo()
     fInfo.setSizeType(SocialItem.T_LAYOUT.SMALL);
     f.setInfoFragment(fInfo);
     this._fLayout.addChoice(
         {name : "Small", value : SocialItem.T_LAYOUT.SMALL, fDetail : f});
-    f = new blog.FPostInfoLayoutPreview();
+    f = new FPostInfoLayoutPreview();
     f.setDelegate(this);
     f.setDescription(R.get("INTRO_MEDIUM_SIZE"));
-    fInfo = new blog.FPostInfo()
+    fInfo = new FPostInfo()
     fInfo.setSizeType(SocialItem.T_LAYOUT.MEDIUM);
     f.setInfoFragment(fInfo);
     this._fLayout.addChoice(
         {name : "Medium", value : SocialItem.T_LAYOUT.MEDIUM, fDetail : f});
-    f = new blog.FPostInfoLayoutPreview();
+    f = new FPostInfoLayoutPreview();
     f.setDelegate(this);
     f.setDescription(R.get("INTRO_LARGE_SIZE"));
-    fInfo = new blog.FPostInfo()
+    fInfo = new FPostInfo()
     fInfo.setSizeType(SocialItem.T_LAYOUT.LARGE);
     f.setInfoFragment(fInfo);
     this._fLayout.addChoice(
         {name : "Large", value : SocialItem.T_LAYOUT.LARGE, fDetail : f});
-    f = new blog.FPostInfoLayoutPreview();
+    f = new FPostInfoLayoutPreview();
     f.setDelegate(this);
     f.setDescription(R.get("INTRO_BIG_HEAD_SIZE"));
-    fInfo = new blog.FPostInfo()
+    fInfo = new FPostInfo()
     fInfo.setSizeType(SocialItem.T_LAYOUT.BIG_HEAD);
     f.setInfoFragment(fInfo);
     this._fLayout.addChoice({
@@ -130,7 +131,7 @@ export class FvcConfig extends FScrollViewContent {
   }
   onRoleListFragmentRequestEditRole(fRoleList, roleId) {
     let v = new View();
-    let f = new blog.FvcRoleEditor();
+    let f = new FvcRoleEditor();
     f.setRoleId(roleId);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Blog role");

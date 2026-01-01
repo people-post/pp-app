@@ -36,6 +36,7 @@ const _CPT_POST_INFO_MIDDLE = {
 import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PUserReference } from '../../common/hr/PUserReference.js';
 
 export class PPostInfoMiddle extends PPostInfoBase {
   constructor() {
@@ -44,7 +45,7 @@ export class PPostInfoMiddle extends PPostInfoBase {
     this._pTitle = new Panel();
     this._pContent = new PanelWrapper();
     this._pQuote = new PanelWrapper();
-    this._pCrossRef = new S.hr.PUserReference();
+    this._pCrossRef = new PUserReference();
     this._pSocial = new PanelWrapper();
     this._pPin = new Panel();
   }

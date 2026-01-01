@@ -1,3 +1,5 @@
+import { Blog } from '../../common/dba/Blog.js';
+
 export const Utilities = function() {
   function _isPostRelated(post, toPost, cascade = true) {
     // Related if:

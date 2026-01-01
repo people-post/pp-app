@@ -9,6 +9,7 @@ import { FUserIcon } from '../../common/hr/FUserIcon.js';
 import { Blog } from '../../common/dba/Blog.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Utilities as blogUtilities } from './Utilities.js';
 
 export class FFeedArticleInfo extends FPostBase {
   #fAttachment;
@@ -55,7 +56,7 @@ export class FFeedArticleInfo extends FPostBase {
   }
 
   _renderOnRender(postInfoPanel) {
-    let article = dba.Blog.getArticle(this.#articleId);
+    let article = Blog.getArticle(this.#articleId);
     if (!article) {
       return;
     }
@@ -83,7 +84,7 @@ export class FFeedArticleInfo extends FPostBase {
         s = UtilitiesExt.timestampToDateString(article.getCreationTime() /
                                                 1000);
       } else {
-        s = blog.Utilities.stripSimpleTag(s, "p");
+        s = blogUtilities.stripSimpleTag(s, "p");
       }
       pContent.replaceContent(Utilities.renderContent(s));
     }
@@ -95,7 +96,7 @@ export class FFeedArticleInfo extends FPostBase {
         s = article.getContent();
       }
       if (!UtilitiesExt.isEmptyString(s)) {
-        s = blog.Utilities.stripSimpleTag(s, "p");
+        s = blogUtilities.stripSimpleTag(s, "p");
         pTitle.replaceContent(Utilities.renderContent(s));
       }
     }
