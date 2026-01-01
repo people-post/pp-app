@@ -25,7 +25,7 @@ import { Account } from '../../common/dba/Account.js';
 import { Votes } from '../../common/dba/Votes.js';
 import { Proposal } from '../../common/datatypes/Proposal.js';
 import { Vote } from '../../common/datatypes/Vote.js';
-import { T_DATA } from '../../common/plt/Events.js';
+import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
 import { STATE } from '../../common/constants/Constants.js';
 import { Utilities } from '../../common/Utilities.js';
 import { PProposal } from './PProposal.js';
@@ -334,7 +334,7 @@ export class FProposal extends Fragment {
   #makeMemberApplicationContent(data) { return data.message; }
 
   #onShowUserInfo(userId) {
-    fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO, userId);
+    fwk.Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 
   #onViewProposal() {

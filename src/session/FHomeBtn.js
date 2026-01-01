@@ -1,4 +1,5 @@
 import { FHeaderMenu } from '../lib/ui/controllers/fragments/FHeaderMenu.js';
+import { T_DATA } from '../common/plt/Events.js';
 
 const _CFT_HOME_BTN = {
   ICON : `<div class="pad5px">
@@ -22,7 +23,7 @@ export class FHomeBtn extends FHeaderMenu {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILE:
+    case T_DATA.USER_PUBLIC_PROFILE:
       if (data == dba.WebConfig.getOwnerId() || data == dba.Account.getId()) {
         this.render();
       }

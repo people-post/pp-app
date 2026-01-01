@@ -5,6 +5,8 @@ import { AbAccount } from './AbAccount.js';
 import { View } from '../lib/ui/controllers/views/View.js';
 import { FvcQuotaLimit } from '../common/gui/FvcQuotaLimit.js';
 import { Tag } from '../common/datatypes/Tag.js';
+import { api } from '../common/plt/Api.js';
+import { T_ACTION } from '../common/plt/Events.js';
 
 export class WcMain extends WcSession {
   onLoginClickInAccountActionButtonFragment(fAbAccount) {
@@ -14,18 +16,18 @@ export class WcMain extends WcSession {
   }
 
   onLogoutClickInActionButtonFragment(fAbAccount) {
-    plt.Api.asyncRawCall("/api/auth/logout", r => this.#onLogoutRRR(r));
+    api.asyncRawCall("/api/auth/logout", r => this.#onLogoutRRR(r));
   }
 
   topAction(type, ...args) {
     switch (type) {
-    case plt.T_ACTION.ACCOUNT_UPGRADE:
+    case T_ACTION.ACCOUNT_UPGRADE:
       this.#showUpgradeView(args[0]);
       break;
-    case plt.T_ACTION.SHOW_BLOG_ROLES:
+    case T_ACTION.SHOW_BLOG_ROLES:
       this.#showBlogRolesView();
       break;
-    case plt.T_ACTION.LOGIN_SUCCESS:
+    case T_ACTION.LOGIN_SUCCESS:
       this.#onLoginSuccess(args[0], args[1]);
       break;
     default:

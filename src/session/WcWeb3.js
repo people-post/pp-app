@@ -4,17 +4,18 @@ import { LvMain } from './LvMain.js';
 import { AbAccount } from './AbAccount.js';
 import { View } from '../lib/ui/controllers/views/View.js';
 import { Wallet } from '../common/datatypes/Wallet.js';
+import { T_DATA, T_ACTION } from '../common/plt/Events.js';
 
 export class WcWeb3 extends WcSession {
   #postingKeyPath =
       [ Wallet.T_PURPOSE.NFSC001, Wallet.T_COIN.NFSC001, 0, 0, 0 ];
 
   onWeb3UserIdolsLoaded(user) {
-    fwk.Events.trigger(plt.T_DATA.USER_IDOLS, user.getId())
+    fwk.Events.trigger(T_DATA.USER_IDOLS, user.getId())
   }
 
   onWeb3UserProfileLoaded(user) {
-    fwk.Events.trigger(plt.T_DATA.USER_PUBLIC_PROFILE, user.getId());
+    fwk.Events.trigger(T_DATA.USER_PUBLIC_PROFILE, user.getId());
   }
 
   onWeb3OwnerRequestGetPublicKey(owner) {
@@ -35,7 +36,7 @@ export class WcWeb3 extends WcSession {
   }
 
   onWeb3OwnerProfileUpdated(owner) {
-    fwk.Events.trigger(plt.T_DATA.USER_PROFILE);
+    fwk.Events.trigger(T_DATA.USER_PROFILE);
   }
 
   onLoginClickInAccountActionButtonFragment(fAbAccount) {
@@ -53,10 +54,10 @@ export class WcWeb3 extends WcSession {
 
   topAction(type, ...args) {
     switch (type) {
-    case plt.T_ACTION.LOGIN_SUCCESS:
+    case T_ACTION.LOGIN_SUCCESS:
       this.#onLoginSuccess(args[0]);
       break;
-    case plt.T_ACTION.SHOW_USER_INFO:
+    case T_ACTION.SHOW_USER_INFO:
       this.#showUserInfoView(args[0]);
       break;
     default:

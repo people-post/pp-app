@@ -58,6 +58,7 @@ import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FrontPageLayoutConfig } from '../../common/datatypes/FrontPageLayoutConfig.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class PJournal extends Panel {
   #pMain;
@@ -174,7 +175,7 @@ class FvcJournal extends FViewContentBase {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.POST:
+    case T_DATA.POST:
       this.#onPostUpdate(data);
       break;
     default:

@@ -1,5 +1,6 @@
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
 const _CG_BLOG = {
   NEWS : {ID : "NEWS", NAME : "News", ICON : ICON.EXPLORER},
   OWNER_PUBLIC : {ID : "BLOG", NAME : "Blog", ICON : ICON.EXPLORER},
@@ -9,7 +10,7 @@ const _CG_BLOG = {
   REPORT : {ID : "REPORT", NAME : "Report", ICON : ICON.REPORT},
 };
 
-export class Gateway extends plt.SectorGateway {
+export class Gateway extends SectorGateway {
   getNTabNoticesForViewContentMuxFragment(fMux, v) {
     let n = 0;
     switch (v) {

@@ -1,7 +1,8 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
 
-export class Gateway extends plt.SectorGateway {
+export class Gateway extends SectorGateway {
   static T_CONFIG = {
     LIBRARY : {ID : "LIBRARY", NAME: "Library", ICON: ICON.LIBRARY},
     INTERACTIVE: {ID: "INTERACTIVE", NAME: "Interactive", ICON: ICON.TEST},

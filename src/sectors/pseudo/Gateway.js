@@ -1,7 +1,9 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ID } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
-export class Gateway extends plt.SectorGateway {
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
+
+export class Gateway extends SectorGateway {
   static T_CONFIG = {
     QUEUE : {ID : ID.SECTOR.QUEUE, NAME: "Queue", ICON: ICON.QUEUE},
     COUNTER: {ID: ID.SECTOR.COUNTER, NAME: "Counter", ICON: ICON.INFO},

@@ -1,4 +1,5 @@
 import { LvTabbedPage } from './LvTabbedPage.js';
+import { api } from '../common/plt/Api.js';
 
 export class LvSub extends LvTabbedPage {
   initFromUrl(urlParam) {
@@ -53,7 +54,7 @@ export class LvSub extends LvTabbedPage {
   onLoginClickInAccountActionButtonFragment(fAbAccount) { this.#onLogin(); }
 
   onLogoutClickInActionButtonFragment(fAbAccount) {
-    plt.Api.asyncFragmentCall(this, "/api/auth/logout")
+    api.asyncFragmentCall(this, "/api/auth/logout")
         .then(d => this.#onLogoutRRR(d));
   }
 

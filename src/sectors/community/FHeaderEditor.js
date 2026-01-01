@@ -17,14 +17,15 @@ const _CFT_COMMUNITY_HEADER_EDITOR = {
 };
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FileUploader } from '../../common/plt/FileUploader.js';
 
 export class FHeaderEditor extends Fragment {
   constructor() {
     super();
-    this._iconUploader = new plt.FileUploader();
+    this._iconUploader = new FileUploader();
     this._iconUploader.setCacheId(1);
     this._iconUploader.setDelegate(this);
-    this._imageUploader = new plt.FileUploader();
+    this._imageUploader = new FileUploader();
     this._imageUploader.setCacheId(2);
     this._imageUploader.setDelegate(this);
 

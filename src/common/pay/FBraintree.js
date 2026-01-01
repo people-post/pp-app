@@ -113,7 +113,7 @@ export class FBraintree extends Fragment {
     this.#payload = await this.#braintree.requestPaymentMethod();
     console.log("Payload:", this.#payload);
 
-    let r = await plt.Api.asyncFragmentJsonPost(
+    let r = await api.asyncFragmentJsonPost(
         this, "api/charity/braintree_donate", {
           amount : this.#amount,
           nonce : this.#payload.nonce,

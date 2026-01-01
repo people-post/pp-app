@@ -1,10 +1,11 @@
 import { WcSession } from './WcSession.js';
 import { LvSub } from './LvSub.js';
+import { T_ACTION } from '../common/plt/Events.js';
 
 export class WcSub extends WcSession {
   topAction(type, ...args) {
     switch (type) {
-    case plt.T_ACTION.LOGIN_SUCCESS:
+    case T_ACTION.LOGIN_SUCCESS:
       this.#onLoginSuccess(args[0], args[1]);
       break;
     default:

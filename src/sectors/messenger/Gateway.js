@@ -3,8 +3,9 @@ import { FvcContactList } from './FvcContactList.js';
 import { FvcChatGroupList } from './FvcChatGroupList.js';
 import { FvcMessengerNoticeList } from './FvcMessengerNoticeList.js';
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
 
-export class Gateway extends plt.SectorGateway {
+export class Gateway extends SectorGateway {
   getNTabNoticesForViewContentMuxFragment(fMux, v) {
     let n = 0;
     switch (v) {

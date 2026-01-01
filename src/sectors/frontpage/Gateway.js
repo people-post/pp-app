@@ -1,5 +1,6 @@
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
 
-export class Gateway extends plt.SectorGateway {
+export class Gateway extends SectorGateway {
   createMainViewContentFragment() {
     if (dba.Account.isAuthenticated()) {
       if (dba.Account.isWebOwner()) {

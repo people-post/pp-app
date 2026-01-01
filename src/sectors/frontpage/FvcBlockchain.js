@@ -1,5 +1,6 @@
 
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcBlockchain extends FViewContentBase {
   #blockHead;
@@ -20,7 +21,7 @@ export class FvcBlockchain extends FViewContentBase {
 
   #asyncLoadBlockHead() {
     let url = "api/blockchain/latest_header";
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onBlockHeadRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onBlockHeadRRR(d));
   }
 
   #onBlockHeadRRR(data) {
