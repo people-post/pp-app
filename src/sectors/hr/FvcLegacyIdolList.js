@@ -6,6 +6,7 @@ import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 import { Account } from '../../common/dba/Account.js';
 import { FUserInfo } from './FUserInfo.js';
+import { FvcAddIdol } from './FvcAddIdol.js';
 
 export class FvcLegacyIdolList extends FScrollViewContent {
   constructor() {
@@ -67,7 +68,7 @@ export class FvcLegacyIdolList extends FScrollViewContent {
 
   #onAddIdol() {
     let v = new View();
-    v.setContentFragment(new hr.FvcAddIdol());
+    v.setContentFragment(new FvcAddIdol());
     this._owner.onFragmentRequestShowView(this, v, "Add idol");
   }
 };

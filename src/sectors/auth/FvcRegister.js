@@ -6,6 +6,8 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { api } from '../../common/plt/Api.js';
+import { Auth } from '../../common/dba/Auth.js';
+import { R } from '../../common/constants/R.js';
 
 export const CF_REGISTER_CONTENT = {
   VALIDATE_EMAIL : "CF_REGISTER_CONTENT_1",
@@ -144,7 +146,7 @@ export class FvcRegister extends FScrollViewContent {
     let email = document.getElementById("ID_EMAIL").value;
     let password = document.getElementById("ID_PASSWORD").value;
 
-    dba.Auth.asyncRegisterUser(email, password,
+    Auth.asyncRegisterUser(email, password,
                                () => this.#onRegisterSuccess());
   }
 

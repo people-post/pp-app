@@ -4,6 +4,11 @@ import { Account } from '../../common/dba/Account.js';
 import { Users } from '../../common/dba/Users.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { User } from '../../common/datatypes/User.js';
+import { PUserOverview } from './PUserOverview.js';
+import { FvcFollowerList } from './FvcFollowerList.js';
+import { FvcLegacyFollowerList } from './FvcLegacyFollowerList.js';
+import { FvcIdolList } from './FvcIdolList.js';
+import { FvcLegacyIdolList } from './FvcLegacyIdolList.js';
 
 export const CF_USER_INFO_HERO_BANNER = {
   FOLLOW : Symbol(),
@@ -131,7 +136,7 @@ export class FUserInfoHeroBanner extends Fragment {
     let user = Users.get(this._dataSource.getUserId());
 
     // Top
-    let pp = new hr.PUserOverview();
+    let pp = new PUserOverview();
     p.pushPanel(pp);
     let ppp = pp.getBackgroundImagePanel();
     ppp.replaceContent(this.#renderBackgroundImage(user));
@@ -327,10 +332,10 @@ export class FUserInfoHeroBanner extends Fragment {
     let v = new View();
     let f;
     if (glb.env.isWeb3()) {
-      f = new hr.FvcFollowerList();
+      f = new FvcFollowerList();
     } else {
       // TODO: Merge into above version
-      f = new hr.FvcLegacyFollowerList();
+      f = new FvcLegacyFollowerList();
     }
     f.setUserId(userId);
     v.setContentFragment(f);
@@ -341,10 +346,10 @@ export class FUserInfoHeroBanner extends Fragment {
     let v = new View();
     let f;
     if (glb.env.isWeb3()) {
-      f = new hr.FvcIdolList();
+      f = new FvcIdolList();
     } else {
       // TODO: Merge into above version
-      f = new hr.FvcLegacyIdolList();
+      f = new FvcLegacyIdolList();
     }
     f.setUserId(userId);
     v.setContentFragment(f);

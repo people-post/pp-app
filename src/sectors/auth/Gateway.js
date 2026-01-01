@@ -3,6 +3,7 @@ import { FvcLogin } from './FvcLogin.js';
 import { FvcLoginProxy } from './FvcLoginProxy.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
 
 export class Gateway extends SectorGateway {
   createLoginView(nextView) {
@@ -22,7 +23,7 @@ export class Gateway extends SectorGateway {
 
   #createLoginViewContentFragment() {
     let f;
-    if (glb.env.isTrustedSite() || dba.WebConfig.isDevSite()) {
+    if (glb.env.isTrustedSite() || WebConfig.isDevSite()) {
       f = new FvcLogin();
     } else {
       f = new FvcLoginProxy();

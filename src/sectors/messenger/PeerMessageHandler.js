@@ -1,6 +1,10 @@
 import { ClientSignal } from '../../common/datatypes/ClientSignal.js';
+import { MessageHandler } from './MessageHandler.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Signal } from '../../common/dba/Signal.js';
+import { Account } from '../../common/dba/Account.js';
 
-export class PeerMessageHandler extends msgr.MessageHandler {
+export class PeerMessageHandler extends MessageHandler {
   constructor() {
     super();
     this._peerConnection = null;
@@ -45,7 +49,7 @@ export class PeerMessageHandler extends msgr.MessageHandler {
     let config = {
       iceServers : [
         {urls : C.STUN_URLS}, {
-          urls : [ dba.WebConfig.getIceUrl() ],
+          urls : [ WebConfig.getIceUrl() ],
           username : "myuser",
           credential : "mypass"
         }
@@ -61,7 +65,7 @@ export class PeerMessageHandler extends msgr.MessageHandler {
         this.#onIceGatheringStageChange(conn, e);
     conn.createOffer({offerToReceiveAudio : true}).then(offer => {
       conn.setLocalDescription(offer);
-      dba.Signal.sendPeerConnectionOffer(dba.Account.getId(), toUserId, offer);
+      Signal.sendPeerConnectionOffer(Account.getId(), toUserId, offer);
     });
     return conn;
   }
@@ -76,7 +80,7 @@ export class PeerMessageHandler extends msgr.MessageHandler {
   #onIceConnectionStageChange(conn, e) {}
   #onIceCandidate(conn, e) {
     if (e.candidate) {
-      dba.Signal.sendIceCandidate(dba.Account.getId(), this._target.getId(),
+      Signal.sendIceCandidate(Account.getId(), this._target.getId(),
                                   e.candidate);
     }
   }
@@ -86,7 +90,7 @@ export class PeerMessageHandler extends msgr.MessageHandler {
       this._peerConnection.setRemoteDescription(offer);
       this._peerConnection.createAnswer().then(answer => {
         this._peerConnection.setLocalDescription(answer);
-        dba.Signal.sendPeerConnectionAnswer(dba.Account.getId(),
+        Signal.sendPeerConnectionAnswer(Account.getId(),
                                             this._target.getId(), answer)
       });
     }

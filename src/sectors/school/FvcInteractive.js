@@ -5,6 +5,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { FvcQuizFilter } from './FvcQuizFilter.js';
 
 export class FvcInteractive extends FScrollViewContent {
   constructor() {
@@ -87,7 +88,7 @@ export class FvcInteractive extends FScrollViewContent {
 
   #showQuizFilter() {
     let v = new View();
-    let f = new scol.FvcQuizFilter();
+    let f = new FvcQuizFilter();
     f.setDelegate(this);
     v.setContentFragment(f);
     Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,

@@ -1,6 +1,10 @@
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
 import { Account } from '../../common/dba/Account.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
+import { FrontPageConfig } from '../../common/datatypes/FrontPageConfig.js';
+import { FvcJournal } from './FvcJournal.js';
+import { FvcBrief } from './FvcBrief.js';
+import { FvcBlockchain } from './FvcBlockchain.js';
 
 export class Gateway extends SectorGateway {
   createMainViewContentFragment() {
@@ -20,23 +24,23 @@ export class Gateway extends SectorGateway {
     let c = WebConfig.getFrontPageConfig();
     switch (c.getTemplateId()) {
     case FrontPageConfig.T_TEMPLATE.JOURNAL:
-      f = new ftpg.FvcJournal();
+      f = new FvcJournal();
       f.setConfig(c.getTemplateConfig(), c.getLayoutConfig());
       break;
     case FrontPageConfig.T_TEMPLATE.BRIEF:
       // Hack
       glb.env.setSmartTimeDiffThreshold(24 * 3600);
 
-      f = new ftpg.FvcBrief();
+      f = new FvcBrief();
       f.setOwnerId(WebConfig.getOwnerId());
       f.setConfig(c.getTemplateConfig());
       break;
     case FrontPageConfig.T_TEMPLATE.BLOCKCHAIN:
-      f = new ftpg.FvcBlockchain();
+      f = new FvcBlockchain();
       break;
     default:
       // Default to brief
-      f = new ftpg.FvcBrief();
+      f = new FvcBrief();
       f.setOwnerId(WebConfig.getOwnerId());
       break;
     }

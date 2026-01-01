@@ -9,6 +9,9 @@ import { api } from '../../common/plt/Api.js';
 import { Events, T_ACTION, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Utilities } from '../../common/Utilities.js';
+import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
+import { FvcTagEditor } from './FvcTagEditor.js';
+import { FTagEditor } from './FTagEditor.js';
 
 export class FvcTagEditorList extends FScrollViewContent {
   constructor() {
@@ -25,7 +28,7 @@ export class FvcTagEditorList extends FScrollViewContent {
 
   onGuiActionButtonClick(fActionButton) {
     let v = new View();
-    let fvc = new S.hr.FvcUserInput();
+    let fvc = new FvcUserInput();
     let f = new TextInput();
     f.setConfig({
       title : "Tag name",
@@ -45,7 +48,7 @@ export class FvcTagEditorList extends FScrollViewContent {
 
   onClickInTagEditorFragment(fTagEditor) {
     let v = new View();
-    let f = new hstn.FvcTagEditor();
+    let f = new FvcTagEditor();
     f.setTagId(fTagEditor.getTagId());
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Tag editor");
@@ -77,9 +80,9 @@ export class FvcTagEditorList extends FScrollViewContent {
     });
 
     for (let t of tags) {
-      let f = new hstn.FTagEditor();
+      let f = new FTagEditor();
       f.setDelegate(this);
-      f.setLayoutType(hstn.FTagEditor.T_LAYOUT.INFO);
+      f.setLayoutType(FTagEditor.T_LAYOUT.INFO);
       f.setTagId(t.getId());
       this._fList.append(f);
     }

@@ -1,10 +1,11 @@
 
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FQuizList } from './FQuizList.js';
 
 export class FvcQuizList extends FScrollViewContent {
   constructor() {
     super();
-    this._fQuizzes = new scol.FQuizList();
+    this._fQuizzes = new FQuizList();
     this.setChild("quizzes", this._fQuizzes);
   }
 

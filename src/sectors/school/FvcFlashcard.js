@@ -2,14 +2,16 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { FFlashcard } from './FFlashcard.js';
+import { FListNavigationBar } from './FListNavigationBar.js';
 
 export class FvcFlashcard extends FScrollViewContent {
   constructor() {
     super();
-    this._fCard = new scol.FFlashcard();
+    this._fCard = new FFlashcard();
     this.setChild("card", this._fCard);
 
-    this._fNavBar = new scol.FListNavigationBar();
+    this._fNavBar = new FListNavigationBar();
     this._fNavBar.setDelegate(this);
     this.setChild("navBar", this._fNavBar);
 

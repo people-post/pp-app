@@ -5,6 +5,10 @@ import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { FPostInfo } from './FPostInfo.js';
 import { FOgp } from './FOgp.js';
 import { FvcPost } from './FvcPost.js';
+import { FProjectInfo } from '../workshop/FProjectInfo.js';
+import { FProduct } from '../shop/FProduct.js';
+import { FvcProject } from '../workshop/FvcProject.js';
+import { FvcProduct } from '../shop/FvcProduct.js';
 
 export class FQuoteElement extends Fragment {
   #fItem = null;
@@ -61,13 +65,13 @@ export class FQuoteElement extends Fragment {
       f.setDelegate(this);
       break;
     case SocialItem.TYPE.PROJECT:
-      f = new wksp.FProjectInfo();
+      f = new FProjectInfo();
       f.setProjectId(this.#item);
       f.setDataSource(this);
       f.setDelegate(this);
       break;
     case SocialItem.TYPE.PRODUCT:
-      f = new shop.FProduct();
+      f = new FProduct();
       f.setProductId(this.#item);
       f.setDataSource(this);
       f.setDelegate(this);
@@ -95,7 +99,7 @@ export class FQuoteElement extends Fragment {
 
   #showProject(id) {
     let v = new View();
-    let f = new wksp.FvcProject();
+    let f = new FvcProject();
     f.setProjectId(id);
     v.setContentFragment(f);
     this._delegate.onQuotedElementRequestShowView(this, v, "Project " + id);
@@ -103,7 +107,7 @@ export class FQuoteElement extends Fragment {
 
   #showProduct(id) {
     let v = new View();
-    let f = new shop.FvcProduct();
+    let f = new FvcProduct();
     f.setProductId(id);
     v.setContentFragment(f);
     this._delegate.onQuotedElementRequestShowView(this, v, "Product" + id);

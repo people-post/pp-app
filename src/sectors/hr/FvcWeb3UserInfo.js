@@ -7,6 +7,7 @@ import { FUserInfoHeroBanner } from './FUserInfoHeroBanner.js';
 import { FvcWeb3OwnerPosts } from '../blog/FvcWeb3OwnerPosts.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Users } from '../../common/dba/Users.js';
+import { FvcChat } from '../messenger/FvcChat.js';
 export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
   #fBanner;
   #fBlog;
@@ -50,7 +51,7 @@ export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
 
   onUserInfoHeroBannerFragmentRequestStartChat(fBanner, target) {
     let v = new View();
-    let f = new msgr.FvcChat();
+    let f = new FvcChat();
     f.setTarget(target);
     v.setContentFragment(f);
     this.onFragmentRequestShowView(this, v, "Chat");

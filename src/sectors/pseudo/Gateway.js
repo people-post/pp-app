@@ -2,6 +2,9 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { ID } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import { FvcQueueMain } from '../shop/FvcQueueMain.js';
+import { FvcCounterMain } from '../shop/FvcCounterMain.js';
+import { FvcQueueSide } from '../shop/FvcQueueSide.js';
 
 export class Gateway extends SectorGateway {
   static T_CONFIG = {
@@ -65,11 +68,11 @@ export class Gateway extends SectorGateway {
     switch (pageId) {
     case this.constructor.T_CONFIG.QUEUE.ID:
       vs = [ new View() ];
-      vs[0].setContentFragment(new shop.FvcQueueMain());
+      vs[0].setContentFragment(new FvcQueueMain());
       break;
     case this.constructor.T_CONFIG.COUNTER.ID:
       vs = [ new View() ];
-      vs[0].setContentFragment(new shop.FvcCounterMain());
+      vs[0].setContentFragment(new FvcCounterMain());
       break;
     default:
       break;
@@ -82,7 +85,7 @@ export class Gateway extends SectorGateway {
     switch (pageId) {
     case this.constructor.T_CONFIG.QUEUE.ID:
       vs = [ new View() ];
-      vs[0].setContentFragment(new shop.FvcQueueSide());
+      vs[0].setContentFragment(new FvcQueueSide());
       break;
     default:
       break;

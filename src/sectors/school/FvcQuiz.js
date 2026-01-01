@@ -2,17 +2,19 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { FQuiz } from './FQuiz.js';
+import { FListNavigationBar } from './FListNavigationBar.js';
 
 export class FvcQuiz extends FScrollViewContent {
   constructor() {
     super();
-    this._fQuiz = new scol.FQuiz();
-    this._fQuiz.setLayoutType(scol.FQuiz.T_LAYOUT.FULL);
+    this._fQuiz = new FQuiz();
+    this._fQuiz.setLayoutType(FQuiz.T_LAYOUT.FULL);
     this._fQuiz.setDataSource(this);
     this._fQuiz.setDelegate(this);
     this.setChild("quiz", this._fQuiz);
 
-    this._fNavBar = new scol.FListNavigationBar();
+    this._fNavBar = new FListNavigationBar();
     this._fNavBar.setDataSource(this);
     this._fNavBar.setDelegate(this);
     this.setChild("navBar", this._fNavBar);

@@ -1,6 +1,9 @@
+import { Groups } from '../../common/dba/Groups.js';
+import { Account } from '../../common/dba/Account.js';
+
 export const Utilities = function() {
   function _getGroupName(groupId) {
-    let g = dba.Groups.get(groupId);
+    let g = Groups.get(groupId);
     if (!g) {
       return "Unknown group";
     }
@@ -12,10 +15,10 @@ export const Utilities = function() {
 
     let items = [];
     for (let id of g.getMemberIds()) {
-      if (id == dba.Account.getId()) {
+      if (id == Account.getId()) {
         continue;
       }
-      let nn = dba.Account.getUserNickname(id, null);
+      let nn = Account.getUserNickname(id, null);
       if (nn && nn.length) {
         if (items.length > 3) {
           items.push("...");

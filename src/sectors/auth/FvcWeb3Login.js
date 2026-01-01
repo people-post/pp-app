@@ -8,6 +8,7 @@ import { FvcProgress } from '../../lib/ui/controllers/views/FvcProgress.js';
 import * as bip39 from '../../lib/3rd/bip39.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events, T_ACTION as FwkT_ACTION } from '../../lib/framework/Events.js';
+import { Keys } from '../../common/dba/Keys.js';
 
 export class FvcWeb3Login extends FvcLoginBase {
   #fMnemonic;
@@ -105,8 +106,8 @@ export class FvcWeb3Login extends FvcLoginBase {
     Events.triggerTopAction(FwkT_ACTION.SHOW_DIALOG, this, v, "Progress");
 
     f.addProgress("Initializing account...");
-    dba.Keys.setMnemonic(w);
-    dba.Keys.asyncGetAccount()
+    Keys.setMnemonic(w);
+    Keys.asyncGetAccount()
         .then(k => this.#onAccountKeyReady(f, k, w == this.#newMnemonic))
         .catch(e => this.#onGetAccountError(e));
   }

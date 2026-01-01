@@ -1,26 +1,33 @@
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import { Tag } from '../../common/datatypes/Tag.js';
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import { FvcCareerList as BlogFvcCareerList } from '../blog/FvcCareerList.js';
+import { FvcCareerList as WorkshopFvcCareerList } from '../workshop/FvcCareerList.js';
+import { FvcCareerList as ShopFvcCareerList } from '../shop/FvcCareerList.js';
+import { Workshop } from '../../common/dba/Workshop.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { R } from '../../common/constants/R.js';
+import { ICON } from '../../common/constants/Icons.js';
 
 export class Gateway extends SectorGateway {
   createMainViewContentFragment() {
     let f = new FViewContentMux();
 
-    let ff = new blog.FvcCareerList();
+    let ff = new BlogFvcCareerList();
     f.addTab(
-        {name : R.t("Blog"), value : Tag.T_ID.BLOG, icon : C.ICON.BLOG},
+        {name : R.t("Blog"), value : Tag.T_ID.BLOG, icon : ICON.BLOG},
         ff);
 
-    if (dba.Workshop.isOpen()) {
-      ff = new wksp.FvcCareerList();
+    if (Workshop.isOpen()) {
+      ff = new WorkshopFvcCareerList();
       f.addTab(
-          {name : R.t("Workshop"), value : "WORKSHOP", icon : C.ICON.WORKSHOP},
+          {name : R.t("Workshop"), value : "WORKSHOP", icon : ICON.WORKSHOP},
           ff);
     }
 
-    if (dba.Shop.isOpen()) {
-      ff = new shop.FvcCareerList();
-      f.addTab({name : R.t("Shop"), value : "SHOP", icon : C.ICON.SHOP}, ff);
+    if (Shop.isOpen()) {
+      ff = new ShopFvcCareerList();
+      f.addTab({name : R.t("Shop"), value : "SHOP", icon : ICON.SHOP}, ff);
     }
 
     f.switchTo(Tag.T_ID.BLOG);
