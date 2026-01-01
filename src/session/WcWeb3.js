@@ -18,6 +18,7 @@ import { Web3Publisher } from '../common/pdb/Web3Publisher.js';
 import { Web3Ledger } from '../common/pdb/Web3Ledger.js';
 import { Web3Storage } from '../common/pdb/Web3Storage.js';
 import { env } from '../common/plt/Env.js';
+import { asInit, Owner } from 'pp-api';
 
 export class WcWeb3 extends WcSession {
   #postingKeyPath =
