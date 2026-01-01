@@ -2,6 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { SimpleLongListFragment } from '../../common/gui/SimpleLongListFragment.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
+import { FUserInfo } from '../../common/hr/FUserInfo.js';
 
 export class FvcMemberList extends FScrollViewContent {
   constructor() {
@@ -25,7 +26,7 @@ export class FvcMemberList extends FScrollViewContent {
   }
 
   createInfoFragmentForLongListFragment(fGrid, id) {
-    let f = new S.hr.FUserInfo();
+    let f = new FUserInfo();
     f.setDelegate(this);
     f.setUserId(id);
     return f;

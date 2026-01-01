@@ -12,6 +12,10 @@ import { FOverview } from './FOverview.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { Users } from '../../common/dba/Users.js';
+import { Account } from '../../common/dba/Account.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { FvcCreateCommunity } from './FvcCreateCommunity.js';
 
 export class FvcUserCommunity extends FScrollViewContent {
   constructor() {
@@ -61,7 +65,7 @@ export class FvcUserCommunity extends FScrollViewContent {
     let p = new PanelWrapper();
     render.wrapPanel(p);
 
-    let user = dba.Users.get(this._userId);
+    let user = Users.get(this._userId);
     if (user) {
       let id = user.getCommunityId();
       if (id) {
@@ -69,9 +73,9 @@ export class FvcUserCommunity extends FScrollViewContent {
         this._fOverview.attachRender(p);
         this._fOverview.render();
       } else {
-        if (dba.Account.isAuthenticated() &&
-            dba.Account.getId() == user.getId() &&
-            user.getId() == dba.WebConfig.getOwnerId()) {
+        if (Account.isAuthenticated() &&
+            Account.getId() == user.getId() &&
+            user.getId() == WebConfig.getOwnerId()) {
           p.replaceContent(_CFT_USER_COMMUNITY_CONTENT.BTN_CREATE);
         }
       }
@@ -80,7 +84,7 @@ export class FvcUserCommunity extends FScrollViewContent {
 
   #onCreateCommunity() {
     let v = new View();
-    v.setContentFragment(new cmut.FvcCreateCommunity());
+    v.setContentFragment(new FvcCreateCommunity());
     this._owner.onFragmentRequestShowView(this, v, "Create community");
   }
 };

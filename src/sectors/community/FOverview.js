@@ -13,6 +13,18 @@ import { CommunityProfile } from '../../common/datatypes/CommunityProfile.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { FHeaderEditor } from './FHeaderEditor.js';
+import { POverview } from './POverview.js';
+import { FvcCoinHistory } from './FvcCoinHistory.js';
+import { FvcFinanceHistory } from './FvcFinanceHistory.js';
+import { FvcConfigEditor } from './FvcConfigEditor.js';
+import { FvcProposalEditor } from './FvcProposalEditor.js';
+import { FUserInfo } from '../../common/hr/FUserInfo.js';
+import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
+import { Communities } from '../../common/dba/Communities.js';
+import { Account } from '../../common/dba/Account.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { R } from '../../common/constants/R.js';
 
 export class FOverview extends Fragment {
   #fHeaderEditor;
@@ -30,16 +42,16 @@ export class FOverview extends Fragment {
 
   constructor() {
     super();
-    this.#fHeaderEditor = new cmut.FHeaderEditor();
+    this.#fHeaderEditor = new FHeaderEditor();
     this.#fHeaderEditor.setDelegate(this);
     this.setChild("header", this.#fHeaderEditor);
 
-    this.#fCreator = new S.hr.FUserInfo();
-    this.#fCreator.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this.#fCreator = new FUserInfo();
+    this.#fCreator.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("creator", this.#fCreator);
 
-    this.#fCaptain = new S.hr.FUserInfo();
-    this.#fCaptain.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this.#fCaptain = new FUserInfo();
+    this.#fCaptain.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("captain", this.#fCaptain);
 
     this.#fNameEditor = new TextInput();
@@ -155,12 +167,12 @@ export class FOverview extends Fragment {
   }
 
   _renderOnRender(render) {
-    let profile = dba.Communities.get(this.#communityId);
+    let profile = Communities.get(this.#communityId);
     if (!profile) {
       return;
     }
 
-    let pMain = new cmut.POverview();
+    let pMain = new POverview();
     render.wrapPanel(pMain);
 
     let isEditor = this.#isEditor(profile);
@@ -211,7 +223,7 @@ export class FOverview extends Fragment {
     p = pMain.getNMembersPanel();
     p.replaceContent(profile.getNMembers());
 
-    if (dba.Account.isBetaTester()) {
+    if (Account.isBetaTester()) {
       p = pMain.getNCoinsDescriptionPanel();
       p.replaceContent("Coins:");
 
@@ -219,7 +231,7 @@ export class FOverview extends Fragment {
       p.replaceContent(this.#renderNCoins(profile));
 
       p = pMain.getCoinBtnPanel();
-      if (dba.Account.isInCommunity(this.#communityId)) {
+      if (Account.isInCommunity(this.#communityId)) {
         this.#btnCoinInfo.attachRender(p);
         this.#btnCoinInfo.render();
       }
@@ -231,7 +243,7 @@ export class FOverview extends Fragment {
       p.replaceContent(profile.getCashBalance());
 
       p = pMain.getBalanceBtnPanel();
-      if (dba.Account.isInCommunity(this.#communityId)) {
+      if (Account.isInCommunity(this.#communityId)) {
         this.#btnCashInfo.attachRender(p);
         this.#btnCashInfo.render();
       }
@@ -240,14 +252,14 @@ export class FOverview extends Fragment {
     p = pMain.getNProposalsPanel();
     p.replaceContent(profile.getNProposals());
 
-    if (dba.Account.isAuthenticated() && !dba.Account.getCommunityId() &&
-        !dba.Account.isCommunityApplicationPending()) {
+    if (Account.isAuthenticated() && !Account.getCommunityId() &&
+        !Account.isCommunityApplicationPending()) {
       p = pMain.getBtnJoinPanel();
       this.#btnJoin.attachRender(p);
       this.#btnJoin.render();
     }
 
-    if (profile.getCreatorId() == dba.Account.getId()) {
+    if (profile.getCreatorId() == Account.getId()) {
       // Management actions
       p = pMain.getBtnProposePanel();
       this.#btnPropose.attachRender(p);
@@ -257,7 +269,7 @@ export class FOverview extends Fragment {
       this.#btnConfig.attachRender(p);
       this.#btnConfig.render();
 
-      if (dba.WebConfig.isDevSite()) {
+      if (WebConfig.isDevSite()) {
         p = pMain.getBtnIssueCoinPanel();
         this.#btnIssue.attachRender(p);
         this.#btnIssue.render();
@@ -267,8 +279,8 @@ export class FOverview extends Fragment {
 
   #isEditor(profile) {
     let captainId = profile.getCaptainId();
-    return dba.Account.getId() == captainId &&
-           dba.WebConfig.getOwnerId() == captainId;
+    return Account.getId() == captainId &&
+           WebConfig.getOwnerId() == captainId;
   }
 
   #renderName(name) { return name ? name : "Unnamed community"; }
@@ -286,7 +298,7 @@ export class FOverview extends Fragment {
 
   #onShowCoins() {
     let v = new View();
-    let f = new cmut.FvcCoinHistory();
+    let f = new FvcCoinHistory();
     f.setCommunityId(this.#communityId);
     v.setContentFragment(f);
     this._delegate.onCommunityOverviewFragmentRequestShowView(this, v, "Coins");
@@ -294,7 +306,7 @@ export class FOverview extends Fragment {
 
   #onShowFinance() {
     let v = new View();
-    let f = new cmut.FvcFinanceHistory();
+    let f = new FvcFinanceHistory();
     f.setCommunityId(this.#communityId);
     v.setContentFragment(f);
     this._delegate.onCommunityOverviewFragmentRequestShowView(this, v,
@@ -303,7 +315,7 @@ export class FOverview extends Fragment {
 
   #onConfigClicked() {
     let v = new View();
-    let f = new cmut.FvcConfigEditor();
+    let f = new FvcConfigEditor();
     f.setCommunityId(this.#communityId);
     f.setDelegate(this);
     v.setContentFragment(f);
@@ -313,14 +325,14 @@ export class FOverview extends Fragment {
 
   #onProposeClicked() {
     let v = new View();
-    v.setContentFragment(new cmut.FvcProposalEditor());
+    v.setContentFragment(new FvcProposalEditor());
     this._delegate.onCommunityOverviewFragmentRequestShowView(this, v,
                                                               "Proposal");
   }
 
   #onApplyClicked() {
     let v = new View();
-    let fvc = new S.hr.FvcUserInput();
+    let fvc = new FvcUserInput();
     let f = new TextArea();
     f.setDelegate(this);
     f.setClassName("w100 h120px");
@@ -342,7 +354,7 @@ export class FOverview extends Fragment {
 
   #onIssueCoinClicked() {
     let v = new View();
-    let fvc = new S.hr.FvcUserInput();
+    let fvc = new FvcUserInput();
     let f = new NumberInput();
     f.setConfig({
       title : R.get("CONFIRM_ISSUE_COINS"),
@@ -371,7 +383,7 @@ export class FOverview extends Fragment {
   }
 
   #onApplyRRR(data) {
-    dba.Account.reset(data.profile);
+    Account.reset(data.profile);
     this._delegate.onNewProposalRequestAcceptedInOverviewFragment(this);
   }
 
@@ -383,7 +395,7 @@ export class FOverview extends Fragment {
   }
 
   #onIssueCoinRRR(data) {
-    dba.Communities.reload(this.#communityId);
+    Communities.reload(this.#communityId);
     this._delegate.onNewProposalRequestAcceptedInOverviewFragment(this);
   }
 
@@ -417,7 +429,7 @@ export class FOverview extends Fragment {
   }
 
   #onUpdateProfileRRR(data) {
-    dba.Communities.updateProfile(new CommunityProfile(data.profile));
+    Communities.updateProfile(new CommunityProfile(data.profile));
   }
 };
 

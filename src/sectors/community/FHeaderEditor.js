@@ -18,6 +18,7 @@ const _CFT_COMMUNITY_HEADER_EDITOR = {
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FileUploader } from '../../common/plt/FileUploader.js';
+import { PHeaderEditor } from './PHeaderEditor.js';
 
 export class FHeaderEditor extends Fragment {
   constructor() {
@@ -81,7 +82,7 @@ export class FHeaderEditor extends Fragment {
   }
 
   _renderOnRender(render) {
-    let p = new cmut.PHeaderEditor();
+    let p = new PHeaderEditor();
     render.wrapPanel(p);
 
     p.setClassName("community-overview");

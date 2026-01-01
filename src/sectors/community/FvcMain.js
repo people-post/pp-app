@@ -1,5 +1,13 @@
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { FvcProposalList } from './FvcProposalList.js';
+import { FvcMemberList } from './FvcMemberList.js';
+import { FvcGlobalCommunity } from './FvcGlobalCommunity.js';
+import { FvcUserCommunity } from './FvcUserCommunity.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Account } from '../../common/dba/Account.js';
+import { R } from '../../common/constants/R.js';
+import { ICON } from '../../common/constants/Icons.js';
 
 export class FvcMain extends FViewContentMux {
   #fProposals;
@@ -9,10 +17,10 @@ export class FvcMain extends FViewContentMux {
 
   constructor() {
     super();
-    this.#fProposals = new cmut.FvcProposalList();
-    this.#fMemberList = new cmut.FvcMemberList();
-    this.#fGlobal = new cmut.FvcGlobalCommunity();
-    this.#fOverview = new cmut.FvcUserCommunity();
+    this.#fProposals = new FvcProposalList();
+    this.#fMemberList = new FvcMemberList();
+    this.#fGlobal = new FvcGlobalCommunity();
+    this.#fOverview = new FvcUserCommunity();
     this.#fOverview.setDelegate(this);
 
     this.#resetTabs();
@@ -35,26 +43,26 @@ export class FvcMain extends FViewContentMux {
 
   #resetTabs() {
     this.clearContents();
-    this.#fOverview.setUserId(dba.WebConfig.getOwnerId());
-    this.#fProposals.setCommunityId(dba.Account.getCommunityId());
-    this.#fMemberList.setCommunityId(dba.Account.getCommunityId());
-    this.#fGlobal.setUserId(dba.Account.getId());
+    this.#fOverview.setUserId(WebConfig.getOwnerId());
+    this.#fProposals.setCommunityId(Account.getCommunityId());
+    this.#fMemberList.setCommunityId(Account.getCommunityId());
+    this.#fGlobal.setUserId(Account.getId());
 
     this.addTab(
-        {name : R.t("Overview"), value : "OVERVIEW", icon : C.ICON.COMMUNITY},
+        {name : R.t("Overview"), value : "OVERVIEW", icon : ICON.COMMUNITY},
         this.#fOverview);
 
-    if (dba.Account.isInCommunity(dba.WebConfig.getOwner().getCommunityId())) {
+    if (Account.isInCommunity(WebConfig.getOwner().getCommunityId())) {
       this.addTab(
-          {name : R.t("Proposals"), value : "PROPOSALS", icon : C.ICON.ARTICLE},
+          {name : R.t("Proposals"), value : "PROPOSALS", icon : ICON.ARTICLE},
           this.#fProposals);
       this.addTab(
-          {name : R.t("Members"), value : "MEMBERS", icon : C.ICON.GROUP},
+          {name : R.t("Members"), value : "MEMBERS", icon : ICON.GROUP},
           this.#fMemberList);
     }
 
     this.addTab(
-        {name : R.t("Global"), value : "GLOBAL", icon : C.ICON.EXPLORER},
+        {name : R.t("Global"), value : "GLOBAL", icon : ICON.EXPLORER},
         this.#fGlobal);
 
     this.switchTo("OVERVIEW");
