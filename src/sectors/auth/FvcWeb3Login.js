@@ -9,6 +9,8 @@ import * as bip39 from '../../lib/3rd/bip39.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events, T_ACTION as FwkT_ACTION } from '../../lib/framework/Events.js';
 import { Keys } from '../../common/dba/Keys.js';
+import { Web3Resolver } from '../../common/pdb/Web3Resolver.js';
+import { Web3Publisher } from '../../common/pdb/Web3Publisher.js';
 
 export class FvcWeb3Login extends FvcLoginBase {
   #fMnemonic;
@@ -133,14 +135,23 @@ export class FvcWeb3Login extends FvcLoginBase {
   }
 
   async #asInitAccount(userId) {
-    await glb.web3Publisher.asInitForUser(userId);
-    let cid = glb.web3Publisher.getInitUserRootCid();
+    const web3Publisher = (typeof window !== 'undefined' && window.glb && window.glb.web3Publisher) 
+      ? window.glb.web3Publisher 
+      : null;
+    const web3Resolver = (typeof window !== 'undefined' && window.glb && window.glb.web3Resolver) 
+      ? window.glb.web3Resolver 
+      : null;
+    if (!web3Publisher || !web3Resolver) {
+      throw new Error("Web3 services not initialized");
+    }
+    await web3Publisher.asInitForUser(userId);
+    let cid = web3Publisher.getInitUserRootCid();
     let d;
     if (cid) {
-      d = await glb.web3Resolver.asResolveFromCid(cid);
+      d = await web3Resolver.asResolveFromCid(cid);
     }
     if (!d) {
-      d = await glb.web3Resolver.asResolve(userId);
+      d = await web3Resolver.asResolve(userId);
     }
     return d;
   }

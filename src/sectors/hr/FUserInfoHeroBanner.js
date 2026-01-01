@@ -15,6 +15,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { env } from '../../common/plt/Env.js';
 
 export const CF_USER_INFO_HERO_BANNER = {
   FOLLOW : Symbol(),
@@ -25,6 +26,14 @@ export const CF_USER_INFO_HERO_BANNER = {
   SHOW_FOLLOWERS : Symbol(),
   SHOW_IDOLS : Symbol(),
 };
+
+// Make available on window for HTML string templates
+if (typeof window !== 'undefined') {
+  if (!window.hr) {
+    window.hr = {};
+  }
+  window.hr.CF_USER_INFO_HERO_BANNER = CF_USER_INFO_HERO_BANNER;
+}
 
 const _CFT_USER_INFO_HERO_BANNER = {
   BG_IMAGE : `<img class="overview-header" src="__BG_URL__" alt=""></img>`,
@@ -81,25 +90,25 @@ export class FUserInfoHeroBanner extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case hr.CF_USER_INFO_HERO_BANNER.FOLLOW:
+    case CF_USER_INFO_HERO_BANNER.FOLLOW:
       Account.asyncFollow(args[0]);
       break;
-    case hr.CF_USER_INFO_HERO_BANNER.UNFOLLOW:
+    case CF_USER_INFO_HERO_BANNER.UNFOLLOW:
       this.#onUnfollow(args[0]);
       break;
-    case hr.CF_USER_INFO_HERO_BANNER.SEND_MESSAGE:
+    case CF_USER_INFO_HERO_BANNER.SEND_MESSAGE:
       this.#onSendMessage(args[0]);
       break;
-    case hr.CF_USER_INFO_HERO_BANNER.SEND_FUND:
+    case CF_USER_INFO_HERO_BANNER.SEND_FUND:
       this.#onSendFund(args[0]);
       break;
-    case hr.CF_USER_INFO_HERO_BANNER.ON_INFO_IMAGE_CHANGE:
+    case CF_USER_INFO_HERO_BANNER.ON_INFO_IMAGE_CHANGE:
       this.#onUpdateInfoImage(args[0]);
       break;
-    case hr.CF_USER_INFO_HERO_BANNER.SHOW_FOLLOWERS:
+    case CF_USER_INFO_HERO_BANNER.SHOW_FOLLOWERS:
       this.#onShowFollowers(args[0]);
       break;
-    case hr.CF_USER_INFO_HERO_BANNER.SHOW_IDOLS:
+    case CF_USER_INFO_HERO_BANNER.SHOW_IDOLS:
       this.#onShowIdols(args[0]);
       break;
     default:
@@ -329,7 +338,7 @@ export class FUserInfoHeroBanner extends Fragment {
   #onShowFollowers(userId) {
     let v = new View();
     let f;
-    if (glb.env.isWeb3()) {
+    if (env.isWeb3()) {
       f = new FvcFollowerList();
     } else {
       // TODO: Merge into above version
@@ -343,7 +352,7 @@ export class FUserInfoHeroBanner extends Fragment {
   #onShowIdols(userId) {
     let v = new View();
     let f;
-    if (glb.env.isWeb3()) {
+    if (env.isWeb3()) {
       f = new FvcIdolList();
     } else {
       // TODO: Merge into above version

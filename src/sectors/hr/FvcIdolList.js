@@ -5,6 +5,7 @@ import { Account } from '../../common/dba/Account.js';
 import { Web3UserIdolIdListLoader } from './Web3UserIdolIdListLoader.js';
 import { FUserList } from './FUserList.js';
 import { FvcAddIdol } from './FvcAddIdol.js';
+import { env } from '../../common/plt/Env.js';
 
 export class FvcIdolList extends FScrollViewContent {
   #fUsers;
@@ -13,7 +14,7 @@ export class FvcIdolList extends FScrollViewContent {
 
   constructor() {
     super();
-    if (glb.env.isWeb3()) {
+    if (env.isWeb3()) {
       this.#idLoader = new Web3UserIdolIdListLoader();
       this.#idLoader.setDelegate(this);
     } else {

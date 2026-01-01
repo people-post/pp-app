@@ -2,6 +2,11 @@ export const CF_BRIEF = {
   SHOW_CALENDAR : Symbol(),
 };
 
+// Make available on window for HTML string templates
+if (typeof window !== 'undefined') {
+  window.CF_BRIEF = CF_BRIEF;
+}
+
 const _CPT_BRIEF = {
   TITLE :
       `<span class="inline-block s-icon5 v-bottom-align">__ICON__</span><span class="v-bottom-align">__TEXT__</span>`,
@@ -552,7 +557,7 @@ export class FvcBrief extends FViewContentBase {
       return;
     }
     panel.setAttribute("onclick",
-                       `javascript:G.action(ftpg.CF_BRIEF.SHOW_CALENDAR)`);
+                       `javascript:G.action(window.CF_BRIEF.SHOW_CALENDAR)`);
     let title = "选择日期查看简讯";
     if (this.#selectedDate != "")
       title = this.#selectedDate;

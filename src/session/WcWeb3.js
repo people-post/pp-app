@@ -13,6 +13,11 @@ import { Web3Config } from '../common/dba/Web3Config.js';
 import { Account } from '../common/dba/Account.js';
 import { STORAGE } from '../common/constants/Constants.js';
 import { FvcWeb3UserInfo } from '../sectors/hr/FvcWeb3UserInfo.js';
+import { Web3Resolver } from '../common/pdb/Web3Resolver.js';
+import { Web3Publisher } from '../common/pdb/Web3Publisher.js';
+import { Web3Ledger } from '../common/pdb/Web3Ledger.js';
+import { Web3Storage } from '../common/pdb/Web3Storage.js';
+import { env } from '../common/plt/Env.js';
 
 export class WcWeb3 extends WcSession {
   #postingKeyPath =
@@ -110,26 +115,31 @@ export class WcWeb3 extends WcSession {
     window.dba.Account.loadCheckPoint();
 
     console.info("Load config...");
-    Web3Config.load(glb.env.WEB3);
+    // glb.env.WEB3 is set by backend HTML, keep global access for now
+    Web3Config.load(typeof window !== 'undefined' && window.glb && window.glb.env ? window.glb.env.WEB3 : null);
     const c = Web3Config.getNetworkConfig();
 
     console.info("Init resolver...");
-    glb.web3Resolver = new pdb.Web3Resolver();
-    await glb.web3Resolver.asInit(c ? c.resolvers : null);
+    // Store in window.glb for runtime access by other modules
+    if (!window.glb) {
+      window.glb = {};
+    }
+    window.glb.web3Resolver = new Web3Resolver();
+    await window.glb.web3Resolver.asInit(c ? c.resolvers : null);
 
     console.info("Init publisher...");
-    glb.web3Publisher = new pdb.Web3Publisher();
-    await glb.web3Publisher.asInit(c ? c.publishers : null);
-    await glb.web3Publisher.asInitForUser(window.dba.Account.getId());
+    window.glb.web3Publisher = new Web3Publisher();
+    await window.glb.web3Publisher.asInit(c ? c.publishers : null);
+    await window.glb.web3Publisher.asInitForUser(window.dba.Account.getId());
 
     console.info("Init ledger...");
-    glb.web3Ledger = new pdb.Web3Ledger();
-    await glb.web3Ledger.asInit(c ? c.blockchains : null);
+    window.glb.web3Ledger = new Web3Ledger();
+    await window.glb.web3Ledger.asInit(c ? c.blockchains : null);
 
     console.info("Init storage...");
-    glb.web3Storage = new pdb.Web3Storage();
-    await glb.web3Storage.asInit(c ? c.storages : null);
-    await glb.web3Storage.asInitForUser(window.dba.Account.getId());
+    window.glb.web3Storage = new Web3Storage();
+    await window.glb.web3Storage.asInit(c ? c.storages : null);
+    await window.glb.web3Storage.asInitForUser(window.dba.Account.getId());
 
     console.info("Init layout...");
     this.init(null, dConfig.default_theme.primary_color,

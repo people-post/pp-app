@@ -8,6 +8,7 @@ import { FvcWeb3PostEditor } from './FvcWeb3PostEditor.js';
 import { FvcWeb3ServerRegistration } from '../../sectors/hosting/FvcWeb3ServerRegistration.js';
 import { Account } from '../../common/dba/Account.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { env } from '../../common/plt/Env.js';
 
 // ActionButton needs some redesign
 export class AbWeb3New extends Fragment {
@@ -75,7 +76,9 @@ export class AbWeb3New extends Fragment {
   }
 
   #onActionClick() {
-    const agents = glb.web3Publisher.getAgents();
+    const agents = (typeof window !== 'undefined' && window.glb && window.glb.web3Publisher) 
+      ? window.glb.web3Publisher.getAgents() 
+      : [];
     if (agents.length > 0) {
       this.#onChoosePublisherAgents(agents);
     } else {
@@ -90,7 +93,7 @@ export class AbWeb3New extends Fragment {
                                    a.isInitUserUsable());
     }
 
-    if (!glb.env.hasHost()) {
+    if (!env.hasHost()) {
       this.#lmcPublisher.addAlternative("Add new...", null, null, null, false);
     }
     Events.triggerTopAction(T_ACTION.SHOW_LAYER, this,
@@ -114,7 +117,10 @@ export class AbWeb3New extends Fragment {
   }
 
   #evaluateStorageAgents() {
-    const agents = glb.web3Storage.getAgents(Account.getId());
+    const web3Storage = (typeof window !== 'undefined' && window.glb && window.glb.web3Storage) 
+      ? window.glb.web3Storage 
+      : null;
+    const agents = web3Storage ? web3Storage.getAgents(Account.getId()) : [];
     if (agents.length > 0) {
       this.#onChooseStorageAgent(agents);
     } else {
@@ -129,7 +135,7 @@ export class AbWeb3New extends Fragment {
                                 a.isInitUserUsable());
     }
 
-    if (!glb.env.hasHost()) {
+    if (!env.hasHost()) {
       this.#lcStorage.addOption("Add new...", null, null, null, false);
     }
     Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lcStorage,
