@@ -1,5 +1,6 @@
 import { Fragment } from '../lib/ui/controllers/fragments/Fragment.js';
 import { ActionButton } from '../common/gui/ActionButton.js';
+import { Account } from '../common/dba/Account.js';
 
 // ActionButton needs some redesign
 export class AbClose extends Fragment {
@@ -22,7 +23,7 @@ export class AbClose extends Fragment {
 
   _renderOnRender(render) {
     let f = null;
-    if (dba.Account.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       f = this._fClose;
     } else {
       return null;

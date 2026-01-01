@@ -6,6 +6,12 @@ import { View } from '../lib/ui/controllers/views/View.js';
 import { Wallet } from '../common/datatypes/Wallet.js';
 import { T_DATA, T_ACTION } from '../common/plt/Events.js';
 import { Events } from '../lib/framework/Events.js';
+import UtilitiesExt from '../lib/ext/Utilities.js';
+import { Keys } from '../common/dba/Keys.js';
+import { WebConfig } from '../common/dba/WebConfig.js';
+import { Web3Config } from '../common/dba/Web3Config.js';
+import { STORAGE } from '../common/constants/Constants.js';
+import { FvcWeb3UserInfo } from '../sectors/hr/FvcWeb3UserInfo.js';
 
 export class WcWeb3 extends WcSession {
   #postingKeyPath =
@@ -20,20 +26,20 @@ export class WcWeb3 extends WcSession {
   }
 
   onWeb3OwnerRequestGetPublicKey(owner) {
-    return ext.Utilities.uint8ArrayToHex(
-        dba.Keys.getMlDsa44(this.#postingKeyPath));
+    return UtilitiesExt.uint8ArrayToHex(
+        Keys.getMlDsa44(this.#postingKeyPath));
   }
 
   onWeb3OwnerRequestLoadCheckPoint(owner) {
-    return sessionStorage.getItem(C.STORAGE.KEY.PROFILE);
+    return sessionStorage.getItem(STORAGE.KEY.PROFILE);
   }
 
   onWeb3OwnerRequestSaveCheckPoint(owner, data) {
-    sessionStorage.setItem(C.STORAGE.KEY.PROFILE, data);
+    sessionStorage.setItem(STORAGE.KEY.PROFILE, data);
   }
 
   async asOnWeb3OwnerRequestSign(owner, msg) {
-    return await dba.Keys.sign(this.#postingKeyPath, msg);
+    return await Keys.sign(this.#postingKeyPath, msg);
   }
 
   onWeb3OwnerProfileUpdated(owner) {
@@ -75,7 +81,7 @@ export class WcWeb3 extends WcSession {
     let fAb = new AbAccount();
     fAb.setDelegate(this);
     lc.setDefaultActionButton(fAb);
-    lc.setDefaultPageId(dba.WebConfig.getHomeSector());
+    lc.setDefaultPageId(WebConfig.getHomeSector());
     super._initLayer(lc);
   }
 
@@ -84,7 +90,7 @@ export class WcWeb3 extends WcSession {
     await pp.asInit();
 
     console.info("Load local data...");
-    let sData = sessionStorage.getItem(C.STORAGE.KEY.KEYS);
+    let sData = sessionStorage.getItem(STORAGE.KEY.KEYS);
     if (sData) {
       dba.Keys.fromEncodedStr(sData);
     }
@@ -94,8 +100,8 @@ export class WcWeb3 extends WcSession {
     dba.Account.loadCheckPoint();
 
     console.info("Load config...");
-    dba.Web3Config.load(C.WEB3);
-    const c = dba.Web3Config.getNetworkConfig();
+    Web3Config.load(glb.env.WEB3);
+    const c = Web3Config.getNetworkConfig();
 
     console.info("Init resolver...");
     glb.web3Resolver = new pdb.Web3Resolver();
@@ -127,7 +133,7 @@ export class WcWeb3 extends WcSession {
     let urlParam = new URLSearchParams(window.location.search);
     dba.Account.reset(profile);
     dba.Account.saveCheckPoint();
-    sessionStorage.setItem(C.STORAGE.KEY.KEYS, dba.Keys.toEncodedStr());
+    sessionStorage.setItem(STORAGE.KEY.KEYS, dba.Keys.toEncodedStr());
 
     this._clearDbAgents();
 
@@ -138,7 +144,7 @@ export class WcWeb3 extends WcSession {
 
   #showUserInfoView(userId) {
     let v = new View();
-    let f = new hr.FvcWeb3UserInfo();
+    let f = new FvcWeb3UserInfo();
     f.setUserId(userId);
     v.setContentFragment(f);
     this._pushDialog(v, "User info");

@@ -1,5 +1,8 @@
 import { FHeaderMenu } from '../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { T_DATA } from '../common/plt/Events.js';
+import { WebConfig } from '../common/dba/WebConfig.js';
+import { Account } from '../common/dba/Account.js';
+import { Utilities } from '../common/Utilities.js';
 
 const _CFT_HOME_BTN = {
   ICON : `<div class="pad5px">
@@ -24,7 +27,7 @@ export class FHomeBtn extends FHeaderMenu {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILE:
-      if (data == dba.WebConfig.getOwnerId() || data == dba.Account.getId()) {
+      if (data == WebConfig.getOwnerId() || data == Account.getId()) {
         this.render();
       }
       break;
@@ -52,7 +55,7 @@ export class FHomeBtn extends FHeaderMenu {
   #renderIconUrl(panel) {
     let s = _CFT_HOME_BTN.ICON_URL;
     s = s.replace("__URL__", this.#url);
-    let owner = dba.WebConfig.getOwner();
+    let owner = WebConfig.getOwner();
     let iconUrl = owner ? owner.getLogoUrl() : "";
     s = s.replace("__ICON_URL__", iconUrl);
     panel.replaceContent(s);

@@ -10,7 +10,6 @@ import { FTag } from '../../common/gui/FTag.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
-import { CF_DRAFT_ARTICLE_INFO } from './FDraftArticleInfo.js';
 import { PDraftArticleInfo } from './PDraftArticleInfo.js';
 import { Utilities as blogUtilities } from './Utilities.js';
 

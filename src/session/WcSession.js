@@ -12,6 +12,20 @@ import { T_ACTION } from '../common/plt/Events.js';
 import { Web2FileUploader } from '../common/plt/Web2FileUploader.js';
 import { Events as FwkEvents, T_ACTION as FwkT_ACTION, T_DATA } from '../lib/framework/Events.js';
 import { PWindow } from './PWindow.js';
+import { Web3FileUploader } from '../common/dba/Web3FileUploader.js';
+import { WebConfig } from '../common/dba/WebConfig.js';
+import { Account } from '../common/dba/Account.js';
+import { Blog } from '../common/dba/Blog.js';
+import { Users } from '../common/dba/Users.js';
+import { Cart } from '../common/dba/Cart.js';
+import { Notifications } from '../common/dba/Notifications.js';
+import { Social } from '../common/dba/Social.js';
+import { URL_PARAM } from '../common/constants/Constants.js';
+import { R } from '../common/constants/R.js';
+import { Logger } from '../lib/ext/Logger.js';
+import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
+import { FvcUserInfo } from '../sectors/hr/FvcUserInfo.js';
+import { FvcUserGroup } from '../common/hr/FvcUserGroup.js';
 
 const _CRCT_SESSION = {
   // Prime, secondary: User defined
@@ -59,7 +73,7 @@ export class WcSession extends WindowController {
     this.#fBanner = new FBanner();
     this.setChild("banner", this.#fBanner);
 
-    this.#logger = new ext.Logger("WcSession");
+    this.#logger = new Logger("WcSession");
   }
 
   init(userId, primaryColor, secondaryColor) {
@@ -71,16 +85,16 @@ export class WcSession extends WindowController {
                               FvcSearchResult);
     if (glb.env.isWeb3()) {
       Factory.registerClass(T_CATEGORY.UI, T_OBJ.FILE_UPLOADER,
-                                dba.Web3FileUploader);
+                                Web3FileUploader);
     } else {
       Factory.registerClass(T_CATEGORY.UI, T_OBJ.FILE_UPLOADER,
                                 Web2FileUploader);
     }
 
-    dba.WebConfig.setBootTheme(
+    WebConfig.setBootTheme(
         {primary_color : primaryColor, secondary_color : secondaryColor});
     if (userId && userId.length > 0) {
-      dba.Account.setUserId(userId);
+      Account.setUserId(userId);
     }
     let w = new PWindow();
     // ID value is synced with backend
@@ -183,11 +197,11 @@ export class WcSession extends WindowController {
 
   _main(dConfig) {
     this._clearDbAgents();
-    dba.WebConfig.reset(dConfig.web_config);
+    WebConfig.reset(dConfig.web_config);
     if (dConfig.blog_config) {
-      dba.Blog.resetConfig(dConfig.blog_config);
+      Blog.resetConfig(dConfig.blog_config);
     }
-    ext.Logger.setEnable(dba.WebConfig.isDevSite());
+    Logger.setEnable(WebConfig.isDevSite());
     this._initEventHandlers();
     this.#applyTheme();
 
@@ -208,10 +222,10 @@ export class WcSession extends WindowController {
 
   _initLanguage() {
     let urlParam = new URLSearchParams(window.location.search);
-    if (urlParam.has(C.URL_PARAM.LANGUAGE)) {
-      glb.env.setPreferredLanguage(urlParam.get(C.URL_PARAM.LANGUAGE));
+    if (urlParam.has(URL_PARAM.LANGUAGE)) {
+      glb.env.setPreferredLanguage(urlParam.get(URL_PARAM.LANGUAGE));
     }
-    let lang = dba.Account.getPreferredLanguage();
+    let lang = Account.getPreferredLanguage();
     if (!lang) {
       lang = glb.env.getLanguage();
     }
@@ -244,11 +258,11 @@ export class WcSession extends WindowController {
   _pushDialog(view, title) { this.#pushDialog(view, title, true); }
 
   _clearDbAgents() {
-    dba.Blog.clear();
-    dba.Users.clear();
-    dba.Cart.clear();
-    dba.Notifications.reload();
-    dba.Social.clear();
+    Blog.clear();
+    Users.clear();
+    Cart.clear();
+    Notifications.reload();
+    Social.clear();
   }
 
   #getState(data, title) {
@@ -257,7 +271,7 @@ export class WcSession extends WindowController {
     if (s && s.length) {
       items.push(s);
     }
-    items.push(C.URL_PARAM.USER + "=" + dba.WebConfig.getOwnerId());
+    items.push(URL_PARAM.USER + "=" + WebConfig.getOwnerId());
     if (glb.env.getPreferredLanguage()) {
       items.push("lang=" + glb.env.getPreferredLanguage());
     }
@@ -297,7 +311,7 @@ export class WcSession extends WindowController {
   }
 
   #applyTheme() {
-    let t = dba.WebConfig.getCurrentTheme();
+    let t = WebConfig.getCurrentTheme();
     let e = document.getElementById("ID_STYLE_THEME");
     if (t && e) {
       let eTest = document.getElementById("ID_COLOR_TEST");
@@ -353,14 +367,14 @@ export class WcSession extends WindowController {
   }
 
   #showLoginView(nextView) {
-    let gw = new auth.Gateway();
+    let gw = new AuthGateway();
     let v = gw.createLoginView(nextView);
     this._pushView(v, "Login");
   }
 
   #showUserInfoView(userId) {
     let v = new View();
-    let f = new hr.FvcUserInfo();
+    let f = new FvcUserInfo();
     f.setUserId(userId);
     v.setContentFragment(f);
     this._pushDialog(v, "User info");
@@ -368,7 +382,7 @@ export class WcSession extends WindowController {
 
   #showUserGroupView(groupId) {
     let v = new View();
-    let f = new S.hr.FvcUserGroup();
+    let f = new FvcUserGroup();
     f.setGroupId(groupId);
     v.setContentFragment(f);
     this._pushDialog(v, "Group info");

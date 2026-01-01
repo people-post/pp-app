@@ -2,11 +2,15 @@ import { LvTabbedPage } from './LvTabbedPage.js';
 import { api } from '../common/plt/Api.js';
 import { AbAccount } from './AbAccount.js';
 import { FHomeBtn } from './FHomeBtn.js';
+import { URL_PARAM } from '../common/constants/Constants.js';
+import { Account } from '../common/dba/Account.js';
+import { WebConfig } from '../common/dba/WebConfig.js';
+import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
 
 export class LvSub extends LvTabbedPage {
   initFromUrl(urlParam) {
-    this.setSectorId(urlParam.get(C.URL_PARAM.SECTOR));
-    let pageId = urlParam.get(C.URL_PARAM.PAGE);
+    this.setSectorId(urlParam.get(URL_PARAM.SECTOR));
+    let pageId = urlParam.get(URL_PARAM.PAGE);
 
     if (this._gateway.isLoginRequired()) {
       let fAb = new AbAccount();
@@ -36,15 +40,15 @@ export class LvSub extends LvTabbedPage {
     this._vc.switchToPage(pageId);
     this._vc.initFromUrl(urlParam);
 
-    if (this._gateway.isLoginRequired() && !dba.Account.isAuthenticated()) {
+    if (this._gateway.isLoginRequired() && !Account.isAuthenticated()) {
       this.#onLogin();
     }
   }
 
   getUrlParamString() {
     let params = [
-      C.URL_PARAM.SECTOR + "=" + this.getSectorId(),
-      C.URL_PARAM.PAGE + "=" + this._vc.getActivePageId()
+      URL_PARAM.SECTOR + "=" + this.getSectorId(),
+      URL_PARAM.PAGE + "=" + this._vc.getActivePageId()
     ];
     let s = this._vc.getUrlParamString();
     if (s.length > 0) {
@@ -61,19 +65,19 @@ export class LvSub extends LvTabbedPage {
   }
 
   #onLogin() {
-    let gw = new auth.Gateway();
+    let gw = new AuthGateway();
     let v = gw.createLoginView();
     this._owner.onFragmentRequestShowView(this, v, "Login");
   }
 
   #onLogoutRRR(data) {
-    location.replace(dba.WebConfig.getSubUrl(this.getSectorId()));
+      location.replace(WebConfig.getSubUrl(this.getSectorId()));
   }
 
   #initHomeBtn(icon) {
     let f = new FHomeBtn();
     f.setIcon(icon);
-    f.setUrl(dba.WebConfig.getSubUrl(this.getSectorId()));
+    f.setUrl(WebConfig.getSubUrl(this.getSectorId()));
     this.setHomeBtnFragment(f);
   }
 };

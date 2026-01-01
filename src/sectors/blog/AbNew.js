@@ -18,7 +18,6 @@ import { Blog } from '../../common/dba/Blog.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { api } from '../../common/plt/Api.js';
-import { FJournal } from './FJournal.js';
 
 // ActionButton needs some redesign
 export class AbNew extends Fragment {
