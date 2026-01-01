@@ -18,6 +18,12 @@ import { FvcConfirmAction } from '../../lib/ui/controllers/views/FvcConfirmActio
 import { RemoteError } from '../../common/datatypes/RemoteError.js';
 import { api } from '../../common/plt/Api.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Hosting } from '../../common/dba/Hosting.js';
+import { FvcNsHowto } from './FvcNsHowto.js';
+import { FvcDsHowto } from './FvcDsHowto.js';
+import { FHostingStatus } from './FHostingStatus.js';
+import { FNsSetup } from './FNsSetup.js';
+import { FvcClaimDomain } from './FvcClaimDomain.js';
 
 export class FvcMemberHosting extends FScrollViewContent {
   constructor() {
@@ -26,7 +32,7 @@ export class FvcMemberHosting extends FScrollViewContent {
   }
 
   getContentForWaitingFragment(wf) {
-    let s = dba.Hosting.getStatus();
+    let s = Hosting.getStatus();
     if (s) {
       if (s.ds_record) {
         if (s.is_tls_ready) {
@@ -54,7 +60,7 @@ export class FvcMemberHosting extends FScrollViewContent {
   }
 
   onWaitingFragmentRequestUpdate(wf) {
-    let s = dba.Hosting.getStatus();
+    let s = Hosting.getStatus();
     let fSetup = this.#createSetupFragment(s);
     if (fSetup) {
       this.#resetContentFragment(fSetup);
@@ -65,13 +71,13 @@ export class FvcMemberHosting extends FScrollViewContent {
 
   onNsHowtoClicked() {
     let v = new View();
-    v.setContentFragment(new hstn.FvcNsHowto());
+    v.setContentFragment(new FvcNsHowto());
     this._owner.onFragmentRequestShowView(this, v, "NS howto");
   }
 
   onDsHowtoClicked() {
     let v = new View();
-    v.setContentFragment(new hstn.FvcDsHowto());
+    v.setContentFragment(new FvcDsHowto());
     this._owner.onFragmentRequestShowView(this, v, "DS howto");
   }
 
@@ -91,7 +97,7 @@ export class FvcMemberHosting extends FScrollViewContent {
   }
 
   #initContentFragment() {
-    let s = dba.Hosting.getStatus();
+    let s = Hosting.getStatus();
     let f = this.#createSetupFragment(s);
     if (!f) {
       f = new FWaiting(1000);
@@ -105,13 +111,13 @@ export class FvcMemberHosting extends FScrollViewContent {
     if (stat) {
       if (stat.ds_record) {
         if (stat.is_tls_ready) {
-          let f = new hstn.FHostingStatus();
+          let f = new FHostingStatus();
           f.setDomainName(stat.domain_name);
           f.setDelegate(this);
           return f;
         } else {
           if (!stat.is_tls_pending) {
-            let f = new hstn.FNsSetup();
+            let f = new FNsSetup();
             f.setDelegate(this);
             return f;
           }
@@ -150,7 +156,7 @@ export class FvcMemberHosting extends FScrollViewContent {
 
   #onClaimDomain() {
     let v = new View();
-    v.setContentFragment(new hstn.FvcClaimDomain());
+    v.setContentFragment(new FvcClaimDomain());
     this._owner.onFragmentRequestShowView(this, v, "Claim domain");
   }
 
@@ -176,7 +182,7 @@ export class FvcMemberHosting extends FScrollViewContent {
     if (response.error) {
       this.#handleRemoteError(response.error);
     } else {
-      dba.Hosting.setStatus(response.data);
+      Hosting.setStatus(response.data);
       this.#onNsSetupFinished();
     }
   }
@@ -191,7 +197,7 @@ export class FvcMemberHosting extends FScrollViewContent {
     if (response.error) {
       this.#handleRemoteError(response.error);
     } else {
-      dba.Hosting.setStatus(response.data);
+      Hosting.setStatus(response.data);
       this.#onUnregisterFinished();
     }
   }

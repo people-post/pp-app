@@ -1,13 +1,14 @@
 
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 import { api } from '../../common/plt/Api.js';
+import { PerishableObject } from '../../lib/ext/PerishableObject.js';
 
 export class FvcBlockchain extends FViewContentBase {
   #blockHead;
 
   constructor() {
     super();
-    this.#blockHead = new ext.PerishableObject(60000);
+    this.#blockHead = new PerishableObject(60000);
   }
 
   _renderOnRender(render) {

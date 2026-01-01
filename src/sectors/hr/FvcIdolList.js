@@ -1,6 +1,11 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { Account } from '../../common/dba/Account.js';
+import { Web3UserIdolIdListLoader } from './Web3UserIdolIdListLoader.js';
+import { FUserList } from './FUserList.js';
+import { FvcAddIdol } from './FvcAddIdol.js';
+import { env } from '../../common/plt/Env.js';
 
 export class FvcIdolList extends FScrollViewContent {
   #fUsers;
@@ -9,14 +14,14 @@ export class FvcIdolList extends FScrollViewContent {
 
   constructor() {
     super();
-    if (glb.env.isWeb3()) {
-      this.#idLoader = new hr.Web3UserIdolIdListLoader();
+    if (env.isWeb3()) {
+      this.#idLoader = new Web3UserIdolIdListLoader();
       this.#idLoader.setDelegate(this);
     } else {
       // TODO: Port FvcLegacyIdolList to here
     }
 
-    this.#fUsers = new hr.FUserList();
+    this.#fUsers = new FUserList();
     this.#fUsers.setIdLoader(this.#idLoader);
     this.#fUsers.setDataSource(this);
     this.setChild("users", this.#fUsers);
@@ -27,7 +32,7 @@ export class FvcIdolList extends FScrollViewContent {
   }
 
   getActionButton() {
-    if (dba.Account.getId() == this.#idLoader.getUserId()) {
+    if (Account.getId() == this.#idLoader.getUserId()) {
       return this.#fBtnAdd;
     }
     return null;
@@ -54,7 +59,7 @@ export class FvcIdolList extends FScrollViewContent {
 
   #onAddIdol() {
     let v = new View();
-    v.setContentFragment(new hr.FvcAddIdol());
+    v.setContentFragment(new FvcAddIdol());
     this._owner.onFragmentRequestShowView(this, v, "Add idol");
   }
 };

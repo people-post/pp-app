@@ -7,6 +7,11 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { api } from '../../common/plt/Api.js';
+import { Account } from '../../common/dba/Account.js';
+import { Groups } from '../../common/dba/Groups.js';
+import { FUserIcon } from '../../common/hr/FUserIcon.js';
+import { UserGroup } from '../../common/datatypes/UserGroup.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FvcCreateChatTarget extends FScrollViewContent {
   constructor() {
@@ -37,7 +42,7 @@ export class FvcCreateChatTarget extends FScrollViewContent {
 
   getFilteredItemsForSmartInputFragment(fSmartInput, filterStr) { return []; }
   getUrlForLongListFragment(fGrid, fromId) {
-    let url = "api/user/followers?user_id=" + dba.Account.getId();
+    let url = "api/user/followers?user_id=" + Account.getId();
     if (fromId) {
       url += "&before_id=" + fromId;
     }
@@ -111,7 +116,7 @@ export class FvcCreateChatTarget extends FScrollViewContent {
   }
 
   #createUserIconFragment(userId) {
-    let f = new S.hr.FUserIcon();
+    let f = new FUserIcon();
     f.setUserId(userId);
     f.setDelegate(this);
     return f;
@@ -129,7 +134,7 @@ export class FvcCreateChatTarget extends FScrollViewContent {
 
   #onCreateGroupRRR(data) {
     let g = new UserGroup(data.group);
-    dba.Groups.update(g);
+    Groups.update(g);
     let target = new ChatTarget();
     target.setId(g.getId());
     target.setIdType(SocialItem.TYPE.GROUP);

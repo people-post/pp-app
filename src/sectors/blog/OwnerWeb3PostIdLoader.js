@@ -2,6 +2,7 @@ import { UniSegmentedLongListIdRecord } from '../../common/datatypes/UniSegmente
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
+import { Users } from '../../common/dba/Users.js';
 
 export class OwnerWeb3PostIdLoader extends LongListIdLoader {
   #idRecord = new UniSegmentedLongListIdRecord();
@@ -25,7 +26,7 @@ export class OwnerWeb3PostIdLoader extends LongListIdLoader {
     this.#isBusy = true;
     // Note onInfosRRR may trigger another round of asyncLoadBackItems
     // so that isBusy cannot be done in "finally"
-    dba.Users.asyncGet(this.#ownerId)
+    Users.asyncGet(this.#ownerId)
         .then(u => u.asyncLoadMorePostInfos(this.#idRecord))
         .then(d => this.#onInfosRRR(d))
         .catch(e => this.#onInfosRRE(e));

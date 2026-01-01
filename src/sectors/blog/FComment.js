@@ -9,6 +9,7 @@ import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Utilities } from './Utilities.js';
+import { Utilities as CommonUtilities } from '../../common/Utilities.js';
 
 const _CFT_COMMENT = {
   ICON : `<span class="inline-block s-icon6">__ICON__</span>`,
@@ -125,7 +126,7 @@ export class FComment extends FPostBase {
       p.setClassName("italic");
     }
     panel.wrapPanel(p);
-    p.replaceContent(Utilities.escapeHtml(comment.getContent()));
+    p.replaceContent(CommonUtilities.escapeHtml(comment.getContent()));
   }
 
   #renderContext(panel, comment) {
@@ -136,7 +137,7 @@ export class FComment extends FPostBase {
     if (comment.isPending() && this.#isCommentAdmin(comment)) {
       let s = _CFT_COMMENT.ICON;
       s = s.replace("__ICON__",
-                    Utilities.renderSvgIcon(ICON.INFO, "stkred", "fillred"));
+                    CommonUtilities.renderSvgIcon(ICON.INFO, "stkred", "fillred"));
       this.#fAction.setIcon(s);
       this.#fAction.attachRender(panel);
       this.#fAction.render();
@@ -146,7 +147,7 @@ export class FComment extends FPostBase {
   }
 
   #renderTime(comment) {
-    return Utilities.renderSmartTime(comment.getCreationTime());
+    return CommonUtilities.renderSmartTime(comment.getCreationTime());
   }
 
   #asyncKeep(comment) {

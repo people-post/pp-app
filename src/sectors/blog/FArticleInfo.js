@@ -16,6 +16,7 @@ import { Blog } from '../../common/dba/Blog.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Utilities as blogUtilities } from './Utilities.js';
+import { Utilities } from '../../common/Utilities.js';
 import { R } from '../../common/constants/R.js';
 
 export class FArticleInfo extends FPostBase {

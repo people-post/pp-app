@@ -1,4 +1,6 @@
 import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
+import { Web3Config } from '../../common/dba/Web3Config.js';
+import { OwnerWeb3PostIdLoader } from './OwnerWeb3PostIdLoader.js';
 
 export class IdolWeb3PostIdLoader extends LongListIdLoader {
   #loaders = [];
@@ -6,8 +8,8 @@ export class IdolWeb3PostIdLoader extends LongListIdLoader {
   constructor() {
     super();
     // TODO: Replace by user followed user ids
-    let loader = new blog.OwnerWeb3PostIdLoader();
-    loader.setOwnerId(dba.Web3Config.getGuestIdolId());
+    let loader = new OwnerWeb3PostIdLoader();
+    loader.setOwnerId(Web3Config.getGuestIdolId());
     loader.setDelegate(this);
     this.#loaders.push(loader);
   }

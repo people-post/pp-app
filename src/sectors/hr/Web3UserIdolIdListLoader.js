@@ -1,5 +1,6 @@
 import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
 import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
+import { Users } from '../../common/dba/Users.js';
 
 export class Web3UserIdolIdListLoader extends LongListIdLoader {
   #idRecord = new UniLongListIdRecord();
@@ -24,7 +25,7 @@ export class Web3UserIdolIdListLoader extends LongListIdLoader {
   }
 
   async #asyncLoadIdols() {
-    let u = await dba.Users.asyncGet(this.#userId);
+    let u = await Users.asyncGet(this.#userId);
     if (u) {
       let ids = await u.asyncGetIdolIds();
       for (let id of ids) {

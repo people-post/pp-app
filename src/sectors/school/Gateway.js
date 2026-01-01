@@ -1,6 +1,14 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import { FTimeClock } from './FTimeClock.js';
+import { FvcLibrary } from './FvcLibrary.js';
+import { FvcInteractive } from './FvcInteractive.js';
+import { FvcReport } from './FvcReport.js';
+import { FvcConfig } from './FvcConfig.js';
+import { FvcInstructor } from './FvcInstructor.js';
+import { FvcResultShow } from './FvcResultShow.js';
+import { R } from '../../common/constants/R.js';
 
 export class Gateway extends SectorGateway {
   static T_CONFIG = {
@@ -16,12 +24,12 @@ export class Gateway extends SectorGateway {
 
   getIcon() { return ICON.SCHOOL; }
   getDefaultPageId() { return this.constructor.T_CONFIG.LIBRARY.ID; }
-  getBannerFragment() { return new scol.FTimeClock(); }
+  getBannerFragment() { return new FTimeClock(); }
   getPageConfigs() {
     return [
-      scol.Gateway.T_CONFIG.LIBRARY, scol.Gateway.T_CONFIG.INTERACTIVE,
-      scol.Gateway.T_CONFIG.RESULT_SHOW, scol.Gateway.T_CONFIG.REPORT,
-      scol.Gateway.T_CONFIG.CONFIG
+      Gateway.T_CONFIG.LIBRARY, Gateway.T_CONFIG.INTERACTIVE,
+      Gateway.T_CONFIG.RESULT_SHOW, Gateway.T_CONFIG.REPORT,
+      Gateway.T_CONFIG.CONFIG
     ];
   }
 
@@ -29,22 +37,22 @@ export class Gateway extends SectorGateway {
     let fs = [];
     switch (pageId) {
     case this.constructor.T_CONFIG.LIBRARY.ID:
-      fs = [ new scol.FvcLibrary() ];
+      fs = [ new FvcLibrary() ];
       break;
     case this.constructor.T_CONFIG.INTERACTIVE.ID:
-      fs = [ new scol.FvcInteractive() ];
+      fs = [ new FvcInteractive() ];
       break;
     case this.constructor.T_CONFIG.REPORT.ID:
-      fs = [ new scol.FvcReport() ];
+      fs = [ new FvcReport() ];
       break;
     case this.constructor.T_CONFIG.CONFIG.ID:
-      fs = [ new scol.FvcConfig() ];
+      fs = [ new FvcConfig() ];
       break;
     case this.constructor.T_CONFIG.INSTRUCTOR.ID:
-      fs = [ new scol.FvcInstructor() ];
+      fs = [ new FvcInstructor() ];
       break;
     case this.constructor.T_CONFIG.RESULT_SHOW.ID:
-      fs = [ new scol.FvcResultShow() ];
+      fs = [ new FvcResultShow() ];
       break;
     default:
       break;

@@ -10,6 +10,7 @@ import { Blog } from '../../common/dba/Blog.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Utilities as blogUtilities } from './Utilities.js';
+import { Utilities } from '../../common/Utilities.js';
 
 export class FFeedArticleInfo extends FPostBase {
   #fAttachment;

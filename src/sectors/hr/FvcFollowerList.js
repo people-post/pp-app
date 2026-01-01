@@ -1,4 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { Web3UserFollowerIdListLoader } from './Web3UserFollowerIdListLoader.js';
+import { FUserList } from './FUserList.js';
 
 export class FvcFollowerList extends FScrollViewContent {
   #fUsers;
@@ -6,10 +8,10 @@ export class FvcFollowerList extends FScrollViewContent {
 
   constructor() {
     super();
-    this.#idLoader = new hr.Web3UserFollowerIdListLoader();
+    this.#idLoader = new Web3UserFollowerIdListLoader();
     this.#idLoader.setDelegate(this);
 
-    this.#fUsers = new hr.FUserList();
+    this.#fUsers = new FUserList();
     this.#fUsers.setIdLoader(this.#idLoader);
     this.#fUsers.setDataSource(this);
     this.setChild("users", this.#fUsers);

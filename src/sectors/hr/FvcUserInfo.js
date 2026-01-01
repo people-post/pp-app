@@ -4,6 +4,14 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { FUserInfoHeroBanner } from './FUserInfoHeroBanner.js';
+import { FvcOwnerPosts } from '../blog/FvcOwnerPosts.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Users } from '../../common/dba/Users.js';
+import { FvcOwner as WorkshopFvcOwner } from '../workshop/FvcOwner.js';
+import { FvcOwner as ShopFvcOwner } from '../shop/FvcOwner.js';
+import { FvcUserCommunity } from '../community/FvcUserCommunity.js';
+import { FvcChat } from '../messenger/FvcChat.js';
 export class FvcUserInfo extends FViewContentWithHeroBanner {
   #fBanner;
   #fBlog;
@@ -15,23 +23,23 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
 
   constructor() {
     super();
-    this.#fBanner = new hr.FUserInfoHeroBanner();
+    this.#fBanner = new FUserInfoHeroBanner();
     this.#fBanner.setDataSource(this);
     this.#fBanner.setDelegate(this);
     this.setHeroBannerFragment(this.#fBanner);
     this.setEnableAutoHide(true);
 
-    this.#fBlog = new blog.FvcOwnerPosts();
+    this.#fBlog = new FvcOwnerPosts();
     this.#fBlog.setDataSource(this);
     this.#fBlog.setDelegate(this);
 
-    this.#fWorkshop = new wksp.FvcOwner();
+    this.#fWorkshop = new WorkshopFvcOwner();
     this.#fWorkshop.setDelegate(this);
 
-    this.#fShop = new shop.FvcOwner();
+    this.#fShop = new ShopFvcOwner();
     this.#fShop.setDelegate(this);
 
-    this.#fCommunity = new cmut.FvcUserCommunity();
+    this.#fCommunity = new FvcUserCommunity();
     this.#fCommunity.setDelegate(this);
 
     this.#fMain = new FViewContentMux();
@@ -42,8 +50,8 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
   getTagIdsForPostListFragment(fPostList) { return []; }
 
   getCustomTheme() {
-    if (!dba.WebConfig.isWebOwner(this.#userId)) {
-      let u = dba.Users.get(this.#userId);
+    if (!WebConfig.isWebOwner(this.#userId)) {
+      let u = Users.get(this.#userId);
       if (u) {
         return u.getColorTheme();
       }
@@ -62,7 +70,7 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
 
   onUserInfoHeroBannerFragmentRequestStartChat(fBanner, target) {
     let v = new View();
-    let f = new msgr.FvcChat();
+    let f = new FvcChat();
     f.setTarget(target);
     v.setContentFragment(f);
     this.onFragmentRequestShowView(this, v, "Chat");
@@ -98,14 +106,14 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
 
     this.#fMain.addTab({name : "Blog", value : "BLOG", icon : ICON.BLOG},
                        this.#fBlog);
-    let user = dba.Users.get(this.#userId);
+    let user = Users.get(this.#userId);
     if (user && user.isWorkshopOpen()) {
       this.#fMain.addTab(
           {name : "Workshop", value : "WORKSHOP", icon : ICON.WORKSHOP},
           this.#fWorkshop);
     }
 
-    if (dba.WebConfig.isDevSite()) {
+    if (WebConfig.isDevSite()) {
       if (user && user.isShopOpen()) {
         this.#fMain.addTab({name : "Shop", value : "SHOP", icon : ICON.SHOP},
                            this.#fShop);

@@ -1,10 +1,11 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { T_DATA } from '../../lib/framework/Events.js';
+import { FTagEditor } from './FTagEditor.js';
 
 export class FvcTagEditor extends FScrollViewContent {
   constructor() {
     super();
-    this._fTagEditor = new hstn.FTagEditor();
+    this._fTagEditor = new FTagEditor();
     this._fTagEditor.setDelegate(this);
     this.setChild("editor", this._fTagEditor);
   }

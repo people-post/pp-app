@@ -1,5 +1,21 @@
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { Account } from '../../common/dba/Account.js';
+import { Users } from '../../common/dba/Users.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { User } from '../../common/datatypes/User.js';
+import { PUserOverview } from './PUserOverview.js';
+import { FvcFollowerList } from './FvcFollowerList.js';
+import { FvcLegacyFollowerList } from './FvcLegacyFollowerList.js';
+import { FvcIdolList } from './FvcIdolList.js';
+import { FvcLegacyIdolList } from './FvcLegacyIdolList.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { env } from '../../common/plt/Env.js';
 
 export const CF_USER_INFO_HERO_BANNER = {
   FOLLOW : Symbol(),
@@ -10,6 +26,14 @@ export const CF_USER_INFO_HERO_BANNER = {
   SHOW_FOLLOWERS : Symbol(),
   SHOW_IDOLS : Symbol(),
 };
+
+// Make available on window for HTML string templates
+if (typeof window !== 'undefined') {
+  if (!window.hr) {
+    window.hr = {};
+  }
+  window.hr.CF_USER_INFO_HERO_BANNER = CF_USER_INFO_HERO_BANNER;
+}
 
 const _CFT_USER_INFO_HERO_BANNER = {
   BG_IMAGE : `<img class="overview-header" src="__BG_URL__" alt=""></img>`,
@@ -51,14 +75,6 @@ const _CFT_USER_INFO_HERO_BANNER = {
   </table>`,
 };
 
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
-import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { View } from '../../lib/ui/controllers/views/View.js';
-import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
-import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { User } from '../../common/datatypes/User.js';
 
 export class FUserInfoHeroBanner extends Fragment {
   constructor() {
@@ -74,25 +90,25 @@ export class FUserInfoHeroBanner extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case hr.CF_USER_INFO_HERO_BANNER.FOLLOW:
-      dba.Account.asyncFollow(args[0]);
+    case CF_USER_INFO_HERO_BANNER.FOLLOW:
+      Account.asyncFollow(args[0]);
       break;
-    case hr.CF_USER_INFO_HERO_BANNER.UNFOLLOW:
+    case CF_USER_INFO_HERO_BANNER.UNFOLLOW:
       this.#onUnfollow(args[0]);
       break;
-    case hr.CF_USER_INFO_HERO_BANNER.SEND_MESSAGE:
+    case CF_USER_INFO_HERO_BANNER.SEND_MESSAGE:
       this.#onSendMessage(args[0]);
       break;
-    case hr.CF_USER_INFO_HERO_BANNER.SEND_FUND:
+    case CF_USER_INFO_HERO_BANNER.SEND_FUND:
       this.#onSendFund(args[0]);
       break;
-    case hr.CF_USER_INFO_HERO_BANNER.ON_INFO_IMAGE_CHANGE:
+    case CF_USER_INFO_HERO_BANNER.ON_INFO_IMAGE_CHANGE:
       this.#onUpdateInfoImage(args[0]);
       break;
-    case hr.CF_USER_INFO_HERO_BANNER.SHOW_FOLLOWERS:
+    case CF_USER_INFO_HERO_BANNER.SHOW_FOLLOWERS:
       this.#onShowFollowers(args[0]);
       break;
-    case hr.CF_USER_INFO_HERO_BANNER.SHOW_IDOLS:
+    case CF_USER_INFO_HERO_BANNER.SHOW_IDOLS:
       this.#onShowIdols(args[0]);
       break;
     default:
@@ -109,7 +125,7 @@ export class FUserInfoHeroBanner extends Fragment {
       break;
     case T_DATA.USER_IDOLS:
     case T_DATA.USER_PUBLIC_PROFILE:
-      if (data == dba.Account.getId() || data == this._dataSource.getUserId()) {
+      if (data == Account.getId() || data == this._dataSource.getUserId()) {
         this.render();
       }
       break;
@@ -124,10 +140,10 @@ export class FUserInfoHeroBanner extends Fragment {
     p.setClassName("sticky-bottom-header");
     render.wrapPanel(p);
 
-    let user = dba.Users.get(this._dataSource.getUserId());
+    let user = Users.get(this._dataSource.getUserId());
 
     // Top
-    let pp = new hr.PUserOverview();
+    let pp = new PUserOverview();
     p.pushPanel(pp);
     let ppp = pp.getBackgroundImagePanel();
     ppp.replaceContent(this.#renderBackgroundImage(user));
@@ -155,8 +171,8 @@ export class FUserInfoHeroBanner extends Fragment {
     if (user) {
       pp = new Panel();
       p.pushPanel(pp);
-      if (dba.Account.getId() == user.getId()) {
-        if (dba.WebConfig.getOwnerId() == user.getId()) {
+      if (Account.getId() == user.getId()) {
+        if (WebConfig.getOwnerId() == user.getId()) {
           pp.replaceContent(this.#renderOwnerPrivateInfo());
         } else {
           pp.setClassName("small-info-text center-align");
@@ -164,7 +180,7 @@ export class FUserInfoHeroBanner extends Fragment {
         }
       } else {
         pp.setClassName("small-info-text center-align");
-        if (dba.WebConfig.getOwnerId() == user.getId()) {
+        if (WebConfig.getOwnerId() == user.getId()) {
           pp.replaceContent("Current website");
         } else {
           pp.replaceContent(this.#renderDomain(user));
@@ -178,8 +194,8 @@ export class FUserInfoHeroBanner extends Fragment {
     if (user) {
       let bio = user.getBriefBio();
       bio = bio ? bio : "";
-      if (user.getId() == dba.Account.getId() &&
-          dba.WebConfig.getOwnerId() == user.getId()) {
+      if (user.getId() == Account.getId() &&
+          WebConfig.getOwnerId() == user.getId()) {
         this._fBioEditor.setConfig(
             {value : bio, hint : "Your short description"});
         this._fBioEditor.attachRender(pp);
@@ -213,8 +229,8 @@ export class FUserInfoHeroBanner extends Fragment {
   }
 
   #renderUploadButton(panel, user) {
-    if (user && dba.WebConfig.getOwnerId() == user.getId() &&
-        dba.Account.getId() == user.getId()) {
+    if (user && WebConfig.getOwnerId() == user.getId() &&
+        Account.getId() == user.getId()) {
 
       panel.replaceContent(_CFT_USER_INFO_HERO_BANNER.INFO_IMAGE_UPLOAD);
     } else {
@@ -229,14 +245,14 @@ export class FUserInfoHeroBanner extends Fragment {
     } else {
       s = s.replace("__ICON__", "");
     }
-    s = s.replace("__NAME__", dba.Account.getUserNickname(user.getId(),
+    s = s.replace("__NAME__", Account.getUserNickname(user.getId(),
                                                           user.getNickname()));
 
     let sMsg = "";
     let sSendFund = "";
-    if (dba.Account.isIdolOf(user)) {
+    if (Account.isIdolOf(user)) {
       sMsg = this.#renderMessageBtn(user.getId());
-      if (dba.WebConfig.isDevSite()) {
+      if (WebConfig.isDevSite()) {
         sSendFund = this.#renderSendFundBtn(user.getId());
       }
     }
@@ -244,8 +260,8 @@ export class FUserInfoHeroBanner extends Fragment {
     s = s.replace("__SEND_FUND_BTN__", sSendFund);
 
     let sAction = "";
-    if (dba.Account.isAuthenticated() && dba.Account.getId() != user.getId()) {
-      if (dba.Account.isFollowing(user.getId())) {
+    if (Account.isAuthenticated() && Account.getId() != user.getId()) {
+      if (Account.isFollowing(user.getId())) {
         sAction = _CFT_USER_INFO_HERO_BANNER.UNFOLLOW_BTN;
       } else {
         sAction = _CFT_USER_INFO_HERO_BANNER.FOLLOW_BTN;
@@ -275,7 +291,7 @@ export class FUserInfoHeroBanner extends Fragment {
   }
 
   #renderOwnerPrivateInfo() {
-    if (!dba.WebConfig.isDevSite()) {
+    if (!WebConfig.isDevSite()) {
       return "";
     }
     let s = _CFT_USER_INFO_HERO_BANNER.OWNER_PRIVATE_INFO;
@@ -313,8 +329,8 @@ export class FUserInfoHeroBanner extends Fragment {
 
   #onUnfollow(userId) {
     let s = R.get("CONFIRM_UNFOLLOW");
-    s = s.replace("__NAME__", dba.Account.getUserNickname(userId, userId));
-    this._confirmDangerousOperation(s, () => dba.Account.asyncUnfollow(userId));
+    s = s.replace("__NAME__", Account.getUserNickname(userId, userId));
+    this._confirmDangerousOperation(s, () => Account.asyncUnfollow(userId));
   }
 
   #onUpdateInfoImage(file) { this.#asyncUpdateInfoImage(file); }
@@ -322,11 +338,11 @@ export class FUserInfoHeroBanner extends Fragment {
   #onShowFollowers(userId) {
     let v = new View();
     let f;
-    if (glb.env.isWeb3()) {
-      f = new hr.FvcFollowerList();
+    if (env.isWeb3()) {
+      f = new FvcFollowerList();
     } else {
       // TODO: Merge into above version
-      f = new hr.FvcLegacyFollowerList();
+      f = new FvcLegacyFollowerList();
     }
     f.setUserId(userId);
     v.setContentFragment(f);
@@ -336,11 +352,11 @@ export class FUserInfoHeroBanner extends Fragment {
   #onShowIdols(userId) {
     let v = new View();
     let f;
-    if (glb.env.isWeb3()) {
-      f = new hr.FvcIdolList();
+    if (env.isWeb3()) {
+      f = new FvcIdolList();
     } else {
       // TODO: Merge into above version
-      f = new hr.FvcLegacyIdolList();
+      f = new FvcLegacyIdolList();
     }
     f.setUserId(userId);
     v.setContentFragment(f);
@@ -367,7 +383,7 @@ export class FUserInfoHeroBanner extends Fragment {
   }
 
   #onBriefBioUpdateRRR(data) {
-    dba.Users.update(new User(data.profile));
+    Users.update(new User(data.profile));
     this.render();
   }
 };

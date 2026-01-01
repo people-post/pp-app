@@ -1,6 +1,9 @@
 import { T_DATA } from '../../common/plt/Events.js';
+import { FChatThreadInfo } from './FChatThreadInfo.js';
+import { Users } from '../../common/dba/Users.js';
+import { Account } from '../../common/dba/Account.js';
 
-export class FConversationInfo extends msgr.FChatThreadInfo {
+export class FConversationInfo extends FChatThreadInfo {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case T_DATA.USER_PROFILE:
@@ -15,7 +18,7 @@ export class FConversationInfo extends msgr.FChatThreadInfo {
 
   _getIconInfos() {
     let infos = [];
-    let u = dba.Users.get(this._threadId);
+    let u = Users.get(this._threadId);
     if (u) {
       infos.push({url : u.getIconUrl(), bg : u.getBackgroundColor()});
     }
@@ -23,7 +26,7 @@ export class FConversationInfo extends msgr.FChatThreadInfo {
   }
 
   _renderTitle() {
-    return name = dba.Account.getUserNickname(this._threadId, "Unknown user");
+    return Account.getUserNickname(this._threadId, "Unknown user");
   }
 
   _onClick() {

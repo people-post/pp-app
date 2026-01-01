@@ -7,6 +7,8 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { Auth } from '../../common/dba/Auth.js';
+import { R } from '../../common/constants/R.js';
 
 export const CF_LOGIN = {
   REGISTER : Symbol(),
@@ -105,7 +107,7 @@ export class FvcLogin extends FvcWeb2LoginBase {
     pp.setClassName("center-align");
     p.pushPanel(pp);
 
-    let targetInfo = dba.Auth.getProxyTarget();
+    let targetInfo = Auth.getProxyTarget();
     let title = R.t("Sign-In");
     if (targetInfo) {
       title = R.t("Sign-In to") + ": " + targetInfo.toDomain;
@@ -157,7 +159,7 @@ export class FvcLogin extends FvcWeb2LoginBase {
     let username = e.value;
     e = this.#getPasswordInputElement();
     let password = e.value;
-    dba.Auth.asyncLogin(username, password, r => this._onLoginSuccess(r));
+    Auth.asyncLogin(username, password, r => this._onLoginSuccess(r));
   }
 
   #onRegister() {

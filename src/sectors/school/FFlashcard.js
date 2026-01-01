@@ -4,6 +4,9 @@ export const CF_FLASHCARD = {
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { PFlashcard } from './PFlashcard.js';
+import { Quiz } from '../../common/dba/Quiz.js';
+import { Utilities } from '../../common/Utilities.js';
 
 export class FFlashcard extends Fragment {
   constructor() {
@@ -20,7 +23,7 @@ export class FFlashcard extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case scol.CF_FLASHCARD.ON_CLICK:
+    case CF_FLASHCARD.ON_CLICK:
       this.#onToggle();
       break;
     default:
@@ -46,11 +49,11 @@ export class FFlashcard extends Fragment {
     // TODO: Add option to mark item as "learned/unlearned" and optionally
     // update list immediately.
     let panel = this.#createPanel();
-    panel.setAttribute("onclick", `G.action(scol.CF_FLASHCARD.ON_CLICK)`);
+    panel.setAttribute("onclick", `G.action(CF_FLASHCARD.ON_CLICK)`);
     render.wrapPanel(panel);
     this._panel = panel;
 
-    let quiz = dba.Quiz.get(this._quizId);
+    let quiz = Quiz.get(this._quizId);
     if (!quiz) {
       return;
     }
@@ -72,7 +75,7 @@ export class FFlashcard extends Fragment {
     }
   }
 
-  #createPanel() { return new scol.PFlashcard(); }
+  #createPanel() { return new PFlashcard(); }
 
   #onToggle() {
     this._isToggled = !this._isToggled;

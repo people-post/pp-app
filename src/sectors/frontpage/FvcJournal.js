@@ -68,6 +68,7 @@ import { FSearchMenu } from '../../common/search/FSearchMenu.js';
 import { OwnerJournalIssueIdLoader } from '../blog/OwnerJournalIssueIdLoader.js';
 import { FPostInfo } from '../blog/FPostInfo.js';
 import { FTaggedCommentList } from '../blog/FTaggedCommentList.js';
+import { Blog } from '../../common/dba/Blog.js';
 
 export class PJournal extends Panel {
   #pMain;
@@ -109,7 +110,7 @@ export class PJournal extends Panel {
   }
 };
 
-class FvcJournal extends FViewContentBase {
+export class FvcJournal extends FViewContentBase {
   static #T_WIDTH = {
     NARROW : Symbol(),
     MIDDLE: Symbol(),
@@ -218,7 +219,7 @@ class FvcJournal extends FViewContentBase {
     this.#resizeObserver.observe(e);
 
     // let jid = this.#cData.getJournalId();
-    let issue = dba.Blog.getJournalIssue(this.#issueId);
+    let issue = Blog.getJournalIssue(this.#issueId);
     if (!issue) {
       return;
     }
@@ -254,7 +255,7 @@ class FvcJournal extends FViewContentBase {
   }
 
   #updateComments() {
-    let issue = dba.Blog.getJournalIssue(this.#issueId);
+    let issue = Blog.getJournalIssue(this.#issueId);
     if (!issue) {
       return;
     }
@@ -277,7 +278,7 @@ class FvcJournal extends FViewContentBase {
     if (id == this.#issueId) {
       this.render();
     } else {
-      let issue = dba.Blog.getJournalIssue(this.#issueId);
+      let issue = Blog.getJournalIssue(this.#issueId);
       if (!issue) {
         return;
       }
@@ -306,7 +307,7 @@ class FvcJournal extends FViewContentBase {
     let ids = issue.getTaggedCommentIds(tagId);
     for (let s of issue.getSections()) {
       for (let sid of s.getPostSocialIds()) {
-        let post = dba.Blog.getPost(sid);
+        let post = Blog.getPost(sid);
         if (post) {
           for (let id of post.getTaggedCommentIds(tagId)) {
             ids.push(id);
@@ -347,4 +348,3 @@ class FvcJournal extends FViewContentBase {
   }
 };
 
-ftpg.FvcJournal = FvcJournal;

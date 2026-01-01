@@ -2,6 +2,8 @@ import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLeg
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
+import { FvcQuiz } from './FvcQuiz.js';
+import { FQuiz } from './FQuiz.js';
 
 export class FQuizList extends FLongListLegacy {
   constructor() {
@@ -58,7 +60,7 @@ export class FQuizList extends FLongListLegacy {
 
   _createItemView(id) {
     let v = new View();
-    let f = new scol.FvcQuiz();
+    let f = new FvcQuiz();
     f.setDelegate(this);
     f.setQuizIds(this._idRecord.getIds());
     v.setContentFragment(f);
@@ -66,7 +68,7 @@ export class FQuizList extends FLongListLegacy {
   }
 
   _createInfoFragment(id) {
-    let f = new scol.FQuiz();
+    let f = new FQuiz();
     f.setDataSource(this);
     f.setDelegate(this);
     f.setQuizId(id);

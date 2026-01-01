@@ -1,6 +1,10 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FAttachmentFile } from '../../lib/ui/controllers/fragments/FAttachmentFile.js';
 import { FGallery } from '../../common/gui/FGallery.js';
+import { Blog } from '../../common/dba/Blog.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
+import { Utilities } from '../../common/Utilities.js';
+import { R } from '../../common/constants/R.js';
 
 export class FFeedArticle extends Fragment {
   #fGallery;
@@ -21,7 +25,7 @@ export class FFeedArticle extends Fragment {
   setArticleId(id) { this.#articleId = id; }
 
   _renderOnRender(postPanel) {
-    let article = dba.Blog.getArticle(this.#articleId);
+    let article = Blog.getArticle(this.#articleId);
     if (!article) {
       return;
     }
@@ -32,14 +36,14 @@ export class FFeedArticle extends Fragment {
     p.replaceContent("Created at");
 
     p = postPanel.getCreationDateTimePanel();
-    p.replaceContent(ext.Utilities.timestampToDateTimeString(
+    p.replaceContent(UtilitiesExt.timestampToDateTimeString(
         article.getCreationTime() / 1000));
 
     p = postPanel.getTUpdateDecorPanel();
     p.replaceContent("Updated at");
 
     p = postPanel.getUpdateDateTimePanel();
-    p.replaceContent(ext.Utilities.timestampToDateTimeString(
+    p.replaceContent(UtilitiesExt.timestampToDateTimeString(
         article.getUpdateTime() / 1000));
 
     p = postPanel.getContentPanel();

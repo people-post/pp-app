@@ -27,6 +27,10 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
+import { Account } from '../../common/dba/Account.js';
+import { Users } from '../../common/dba/Users.js';
+import { Groups } from '../../common/dba/Groups.js';
+import { Utilities } from '../../common/Utilities.js';
 
 export class FChatMessage extends Fragment {
   constructor() {
@@ -53,7 +57,7 @@ export class FChatMessage extends Fragment {
   }
 
   _renderContent() {
-    if (this._message.getFromUserId() == dba.Account.getId()) {
+    if (this._message.getFromUserId() == Account.getId()) {
       return this.#renderOwnerMessage();
     } else {
       return this.#renderSenderMessage();
@@ -61,7 +65,7 @@ export class FChatMessage extends Fragment {
   }
 
   #renderSenderMessage() {
-    let fromUser = dba.Users.get(this._message.getFromUserId());
+    let fromUser = Users.get(this._message.getFromUserId());
     let s = _CFT_CHAT_MESSAGE.SENDER_MAIN;
     if (fromUser) {
       s = s.replace("__SENDER__", this.#renderUserLink(fromUser));
@@ -87,7 +91,7 @@ export class FChatMessage extends Fragment {
   #renderMessageContentWithUserName(message) {
     let s = _CFT_CHAT_MESSAGE.GROUP_MSG_BODY;
     s = s.replace("__FROM_USER_NAME__",
-                  dba.Account.getUserNickname(message.getFromUserId()));
+                  Account.getUserNickname(message.getFromUserId()));
     s = s.replace("__TEXT__", this.#renderMessageContent(message));
     return s;
   }
@@ -131,7 +135,7 @@ export class FChatMessage extends Fragment {
   }
 
   #getGroupName(groupId) {
-    let g = dba.Groups.get(groupId);
+    let g = Groups.get(groupId);
     if (g) {
       return g.getName();
     }
@@ -139,7 +143,7 @@ export class FChatMessage extends Fragment {
   }
 
   #renderGroupLink(groupId) {
-    let g = dba.Groups.get(groupId);
+    let g = Groups.get(groupId);
     let name = "...";
     if (g) {
       name = g.getName();

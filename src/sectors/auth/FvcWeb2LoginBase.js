@@ -4,6 +4,7 @@ import { URL_PARAM } from '../../common/constants/Constants.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
 import { Events } from '../../lib/framework/Events.js';
+import { Auth } from '../../common/dba/Auth.js';
 export class FvcWeb2LoginBase extends FvcLoginBase {
   constructor() {
     super();
@@ -18,7 +19,7 @@ export class FvcWeb2LoginBase extends FvcLoginBase {
     };
     console.log(urlParam);
     console.log(target);
-    dba.Auth.setProxyTarget(target);
+    Auth.setProxyTarget(target);
     this.render();
   }
 
@@ -30,7 +31,7 @@ export class FvcWeb2LoginBase extends FvcLoginBase {
   setNextView(v) { this._nextView = v; }
 
   _onLoginSuccess(profile) {
-    if (dba.Auth.getProxyTarget()) {
+    if (Auth.getProxyTarget()) {
       Events.triggerTopAction(T_ACTION.PROXY_LOGIN_SUCCESS, profile);
     } else {
       Events.triggerTopAction(T_ACTION.LOGIN_SUCCESS, profile,

@@ -2,6 +2,8 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { T_DATA } from '../../lib/framework/Events.js';
+import { Notifications } from '../../common/dba/Notifications.js';
+import { FRequestInfo } from '../../common/hr/FRequestInfo.js';
 
 export class FvcMessengerNoticeList extends FScrollViewContent {
   constructor() {
@@ -11,7 +13,7 @@ export class FvcMessengerNoticeList extends FScrollViewContent {
   }
 
   _renderOnRender(render) {
-    let ids = dba.Notifications.getMessengerRequestIds();
+    let ids = Notifications.getMessengerRequestIds();
     if (ids.length == 0) {
       return;
     }
@@ -21,7 +23,7 @@ export class FvcMessengerNoticeList extends FScrollViewContent {
     render.wrapPanel(p);
 
     for (let id of ids) {
-      let f = new S.hr.FRequestInfo();
+      let f = new FRequestInfo();
       f.setRequestId(id);
       f.setDelegate(this);
       this._fRequestList.append(f);

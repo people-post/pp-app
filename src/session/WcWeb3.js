@@ -10,8 +10,14 @@ import UtilitiesExt from '../lib/ext/Utilities.js';
 import { Keys } from '../common/dba/Keys.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
 import { Web3Config } from '../common/dba/Web3Config.js';
+import { Account } from '../common/dba/Account.js';
 import { STORAGE } from '../common/constants/Constants.js';
 import { FvcWeb3UserInfo } from '../sectors/hr/FvcWeb3UserInfo.js';
+import { Web3Resolver } from '../common/pdb/Web3Resolver.js';
+import { Web3Publisher } from '../common/pdb/Web3Publisher.js';
+import { Web3Ledger } from '../common/pdb/Web3Ledger.js';
+import { Web3Storage } from '../common/pdb/Web3Storage.js';
+import { env } from '../common/plt/Env.js';
 
 export class WcWeb3 extends WcSession {
   #postingKeyPath =
@@ -54,8 +60,12 @@ export class WcWeb3 extends WcSession {
 
   onLogoutClickInActionButtonFragment(fAbAccount) {
     sessionStorage.clear();
-    dba.Account.reset();
-    dba.Keys.reset();
+    if (window.dba && window.dba.Account) {
+      window.dba.Account.reset();
+    } else {
+      Account.reset();
+    }
+    Keys.reset();
     location.reload();
   }
 
@@ -92,34 +102,44 @@ export class WcWeb3 extends WcSession {
     console.info("Load local data...");
     let sData = sessionStorage.getItem(STORAGE.KEY.KEYS);
     if (sData) {
-      dba.Keys.fromEncodedStr(sData);
+      Keys.fromEncodedStr(sData);
     }
-    dba.Account = new pp.Owner();
-    dba.Account.setDataSource(this);
-    dba.Account.setDelegate(this);
-    dba.Account.loadCheckPoint();
+    // Special case: Replace Account instance for Web3 mode
+    // Account is exported as const, so we use window.dba for this replacement
+    if (!window.dba) {
+      window.dba = {};
+    }
+    window.dba.Account = new pp.Owner();
+    window.dba.Account.setDataSource(this);
+    window.dba.Account.setDelegate(this);
+    window.dba.Account.loadCheckPoint();
 
     console.info("Load config...");
-    Web3Config.load(glb.env.WEB3);
+    // glb.env.WEB3 is set by backend HTML, keep global access for now
+    Web3Config.load(typeof window !== 'undefined' && window.glb && window.glb.env ? window.glb.env.WEB3 : null);
     const c = Web3Config.getNetworkConfig();
 
     console.info("Init resolver...");
-    glb.web3Resolver = new pdb.Web3Resolver();
-    await glb.web3Resolver.asInit(c ? c.resolvers : null);
+    // Store in window.glb for runtime access by other modules
+    if (!window.glb) {
+      window.glb = {};
+    }
+    window.glb.web3Resolver = new Web3Resolver();
+    await window.glb.web3Resolver.asInit(c ? c.resolvers : null);
 
     console.info("Init publisher...");
-    glb.web3Publisher = new pdb.Web3Publisher();
-    await glb.web3Publisher.asInit(c ? c.publishers : null);
-    await glb.web3Publisher.asInitForUser(dba.Account.getId());
+    window.glb.web3Publisher = new Web3Publisher();
+    await window.glb.web3Publisher.asInit(c ? c.publishers : null);
+    await window.glb.web3Publisher.asInitForUser(window.dba.Account.getId());
 
     console.info("Init ledger...");
-    glb.web3Ledger = new pdb.Web3Ledger();
-    await glb.web3Ledger.asInit(c ? c.blockchains : null);
+    window.glb.web3Ledger = new Web3Ledger();
+    await window.glb.web3Ledger.asInit(c ? c.blockchains : null);
 
     console.info("Init storage...");
-    glb.web3Storage = new pdb.Web3Storage();
-    await glb.web3Storage.asInit(c ? c.storages : null);
-    await glb.web3Storage.asInitForUser(dba.Account.getId());
+    window.glb.web3Storage = new Web3Storage();
+    await window.glb.web3Storage.asInit(c ? c.storages : null);
+    await window.glb.web3Storage.asInitForUser(window.dba.Account.getId());
 
     console.info("Init layout...");
     this.init(null, dConfig.default_theme.primary_color,
@@ -131,9 +151,9 @@ export class WcWeb3 extends WcSession {
 
   #onLoginSuccess(profile) {
     let urlParam = new URLSearchParams(window.location.search);
-    dba.Account.reset(profile);
-    dba.Account.saveCheckPoint();
-    sessionStorage.setItem(STORAGE.KEY.KEYS, dba.Keys.toEncodedStr());
+    window.dba.Account.reset(profile);
+    window.dba.Account.saveCheckPoint();
+    sessionStorage.setItem(STORAGE.KEY.KEYS, Keys.toEncodedStr());
 
     this._clearDbAgents();
 

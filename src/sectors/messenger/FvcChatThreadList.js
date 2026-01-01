@@ -6,6 +6,11 @@ import { FvcCreateChatTarget } from './FvcCreateChatTarget.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Events, T_ACTION, T_DATA } from '../../lib/framework/Events.js';
+import { Users } from '../../common/dba/Users.js';
+import { Notifications } from '../../common/dba/Notifications.js';
+import { FConversationInfo } from './FConversationInfo.js';
+import { FChatGroupInfo } from './FChatGroupInfo.js';
+import { FvcChat } from './FvcChat.js';
 
 export class FvcChatThreadList extends FScrollViewContent {
   constructor() {
@@ -44,7 +49,7 @@ export class FvcChatThreadList extends FScrollViewContent {
     let t = new ChatTarget();
     t.setId(targetId);
     t.setIdType(SocialItem.TYPE.USER);
-    let u = dba.Users.get(targetId);
+    let u = Users.get(targetId);
     if (!u) {
       return;
     }
@@ -68,11 +73,11 @@ export class FvcChatThreadList extends FScrollViewContent {
   _renderContentOnRender(render) {
     this._fThreads.clear();
     let f;
-    for (let info of dba.Notifications.getMessageThreadInfos()) {
+    for (let info of Notifications.getMessageThreadInfos()) {
       if (info.isFromUser()) {
-        f = new msgr.FConversationInfo();
+        f = new FConversationInfo();
       } else {
-        f = new msgr.FChatGroupInfo();
+        f = new FChatGroupInfo();
       }
       f.setThreadId(info.getFromId());
       f.setDelegate(this);
@@ -85,7 +90,7 @@ export class FvcChatThreadList extends FScrollViewContent {
 
   #startChatWith(target) {
     let v = new View();
-    let f = new msgr.FvcChat();
+    let f = new FvcChat();
     f.setTarget(target);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Chat");

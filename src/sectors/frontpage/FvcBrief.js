@@ -2,6 +2,11 @@ export const CF_BRIEF = {
   SHOW_CALENDAR : Symbol(),
 };
 
+// Make available on window for HTML string templates
+if (typeof window !== 'undefined') {
+  window.CF_BRIEF = CF_BRIEF;
+}
+
 const _CPT_BRIEF = {
   TITLE :
       `<span class="inline-block s-icon5 v-bottom-align">__ICON__</span><span class="v-bottom-align">__TEXT__</span>`,
@@ -86,7 +91,7 @@ import { MainMenu } from '../../common/menu/MainMenu.js';
 import { MenuItem } from '../../common/datatypes/MenuItem.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { FHomeBtn } from './FHomeBtn.js';
+import { FHomeBtn } from '../../session/FHomeBtn.js';
 import { FvcInsights } from './FvcInsights.js';
 import { FvcBriefDonation } from './FvcBriefDonation.js';
 import { OwnerPostIdLoader } from '../blog/OwnerPostIdLoader.js';
@@ -221,7 +226,7 @@ class PBriefWide extends PBriefBase {
   }
 };
 
-class FvcBrief extends FViewContentBase {
+export class FvcBrief extends FViewContentBase {
   static #T_WIDTH = {
     NARROW : Symbol(),
     WIDE: Symbol(),
@@ -552,7 +557,7 @@ class FvcBrief extends FViewContentBase {
       return;
     }
     panel.setAttribute("onclick",
-                       `javascript:G.action(ftpg.CF_BRIEF.SHOW_CALENDAR)`);
+                       `javascript:G.action(window.CF_BRIEF.SHOW_CALENDAR)`);
     let title = "选择日期查看简讯";
     if (this.#selectedDate != "")
       title = this.#selectedDate;
@@ -629,4 +634,3 @@ class FvcBrief extends FViewContentBase {
   }
 };
 
-ftpg.FvcBrief = FvcBrief;

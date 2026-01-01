@@ -12,6 +12,7 @@ import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { api } from '../plt/Api.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import { env } from '../plt/Env.js';
+import { FvcQuoteEditor } from '../../sectors/blog/FvcQuoteEditor.js';
 
 export const CF_SOCIAL_BAR = {
   ON_COMMENT_CLICK : Symbol(),
@@ -427,7 +428,7 @@ export class FSocialBar extends Fragment {
     let itemId = this.#itemId;
     let itemType = this.#itemType;
     let v = new View();
-    let f = new blog.FvcQuoteEditor();
+    let f = new FvcQuoteEditor();
     f.setDelegate(this);
     f.setItem(itemId, itemType);
     v.setContentFragment(f);

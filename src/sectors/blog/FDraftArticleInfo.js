@@ -12,6 +12,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { PDraftArticleInfo } from './PDraftArticleInfo.js';
 import { Utilities as blogUtilities } from './Utilities.js';
+import { Utilities } from '../../common/Utilities.js';
 
 export const CF_DRAFT_ARTICLE_INFO = {
   ON_CLICK : Symbol(),

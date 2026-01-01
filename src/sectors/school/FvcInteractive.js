@@ -5,6 +5,9 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { FvcQuizFilter } from './FvcQuizFilter.js';
+import { FvcQuizList } from './FvcQuizList.js';
+import { FvcFlashcard } from './FvcFlashcard.js';
 
 export class FvcInteractive extends FScrollViewContent {
   constructor() {
@@ -36,10 +39,10 @@ export class FvcInteractive extends FScrollViewContent {
                                                    displayMethod) {
     Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
     switch (displayMethod) {
-    case scol.FvcQuizFilter.T_PRESENTATION.FLASHCARD:
+    case FvcQuizFilter.T_PRESENTATION.FLASHCARD:
       this.#showFlashcards(ids);
       break;
-    case scol.FvcQuizFilter.T_PRESENTATION.QUIZ:
+    case FvcQuizFilter.T_PRESENTATION.QUIZ:
       this.#showQuizzes(ids);
       break;
     default:
@@ -87,7 +90,7 @@ export class FvcInteractive extends FScrollViewContent {
 
   #showQuizFilter() {
     let v = new View();
-    let f = new scol.FvcQuizFilter();
+    let f = new FvcQuizFilter();
     f.setDelegate(this);
     v.setContentFragment(f);
     Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
@@ -96,7 +99,7 @@ export class FvcInteractive extends FScrollViewContent {
 
   #showQuizzes(ids) {
     let v = new View();
-    let f = new scol.FvcQuizList();
+    let f = new FvcQuizList();
     f.setQuizIds(ids);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Quizzes");
@@ -104,7 +107,7 @@ export class FvcInteractive extends FScrollViewContent {
 
   #showFlashcards(ids) {
     let v = new View();
-    let f = new scol.FvcFlashcard();
+    let f = new FvcFlashcard();
     f.setQuizIds(ids);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Flashcard");

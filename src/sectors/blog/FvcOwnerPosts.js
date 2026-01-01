@@ -86,7 +86,7 @@ export class FvcOwnerPosts extends FScrollViewContent {
   getMenuFragments() { return [ this.#fmMain, this.#fmTimeFilter ]; }
 
   getActionButton() {
-    if (!dba.WebConfig.isWebOwner(this.#loader.getOwnerId())) {
+    if (!WebConfig.isWebOwner(this.#loader.getOwnerId())) {
       return false;
     }
     return this.#fBtnNew.isAvailable() ? this.#fBtnNew : null;
@@ -119,7 +119,7 @@ export class FvcOwnerPosts extends FScrollViewContent {
 
   onInfoFragmentCreatedInPostListFragment(fPosts, fInfo) {
     let ownerId = this.#loader.getOwnerId();
-    if (dba.WebConfig.isWebOwner(ownerId)) {
+    if (WebConfig.isWebOwner(ownerId)) {
       // Owner
       if (Blog.isPostPinned(fInfo.getPostId().getValue())) {
         fInfo.setSizeType(Blog.getPinnedItemLayoutType());

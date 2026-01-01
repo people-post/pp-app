@@ -21,6 +21,7 @@ import { Exchange } from '../../common/dba/Exchange.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { STATE } from '../../common/constants/Constants.js';
 import { Utilities } from '../../common/Utilities.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
 import { POrder } from './POrder.js';
@@ -227,7 +228,7 @@ export class FOrder extends Fragment {
   #renderCreationTime(order, panel) {
     let s = "Created at: ";
     s +=
-        ext.Utilities.timestampToDateTimeString(order.getCreationTime() / 1000);
+        UtilitiesExt.timestampToDateTimeString(order.getCreationTime() / 1000);
     panel.replaceContent(s);
   }
 

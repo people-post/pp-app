@@ -1,5 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { FRole } from './FRole.js';
 
 export class FRoleList extends Fragment {
   constructor() {
@@ -13,7 +15,7 @@ export class FRoleList extends Fragment {
 
   setRoleType(t) { this._roleType = t; }
 
-  getRoleForRoleFragment(fRole, roleId) { return dba.Blog.getRole(roleId); }
+  getRoleForRoleFragment(fRole, roleId) { return Blog.getRole(roleId); }
 
   shouldHighlightInRoleFragment(fRole, roleId) {
     return this._selectedRoleId == roleId;
@@ -27,8 +29,8 @@ export class FRoleList extends Fragment {
 
   _renderOnRender(render) {
     this._fList.clear();
-    for (let id of dba.Blog.getRoleIdsByType(this._roleType)) {
-      let f = new blog.FRole();
+    for (let id of Blog.getRoleIdsByType(this._roleType)) {
+      let f = new FRole();
       f.setRoleId(id);
       f.setDataSource(this);
       f.setDelegate(this);
