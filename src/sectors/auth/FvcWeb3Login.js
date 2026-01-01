@@ -5,6 +5,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcProgress } from '../../lib/ui/controllers/views/FvcProgress.js';
+import * as bip39 from '../../lib/3rd/bip39.js';
 
 export class FvcWeb3Login extends FvcLoginBase {
   #fMnemonic;

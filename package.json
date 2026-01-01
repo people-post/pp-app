@@ -23,8 +23,9 @@
     "package": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {},
   "devDependencies": {
+    "@scure/bip32": "^2.0.1",
+    "bip39": "^3.1.0",
     "esbuild": "^0.19.0"
   },
   "engines": {
