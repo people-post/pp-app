@@ -3,6 +3,7 @@ export const CF_FLASHCARD = {
 };
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FFlashcard extends Fragment {
   constructor() {
@@ -30,7 +31,7 @@ export class FFlashcard extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.QUIZ:
+    case T_DATA.QUIZ:
       if (data.getId() == this._quizId) {
         this.render();
       }

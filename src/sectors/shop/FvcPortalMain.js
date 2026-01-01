@@ -2,6 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
+import { T_DATA } from '../../common/plt/Events.js';
 export class FvcPortalMain extends FScrollViewContent {
   #branchId = null;
 
@@ -20,7 +21,7 @@ export class FvcPortalMain extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.ADDON_SCRIPT:
+    case T_DATA.ADDON_SCRIPT:
       if (data == glb.env.SCRIPT.QR_CODE.id) {
         this.render();
       }

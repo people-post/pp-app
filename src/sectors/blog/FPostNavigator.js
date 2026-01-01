@@ -3,6 +3,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 const _CPT_POST_NAVIGATOR = {
   MAIN : `<div id="__ID_POST__"></div>
@@ -90,11 +91,11 @@ class FPostNavigator extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.POST_IDS:
+    case T_DATA.POST_IDS:
       // For nav
       this.render();
       break;
-    case plt.T_DATA.POST:
+    case T_DATA.POST:
       this.#onPostUpdate(data);
       break;
     default:

@@ -4,6 +4,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcQuoteEditor extends FScrollViewContent {
   constructor() {
@@ -65,7 +66,7 @@ export class FvcQuoteEditor extends FScrollViewContent {
       fd.append("link_type", t);
     }
     let url = "api/blog/post_article";
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #onSubmitRRR(data) {

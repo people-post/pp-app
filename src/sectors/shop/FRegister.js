@@ -7,6 +7,8 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ShopRegister } from '../../common/datatypes/ShopRegister.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FRegister extends Fragment {
   static T_LAYOUT = {
@@ -61,7 +63,7 @@ export class FRegister extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.SHOP_REGISTER:
+    case T_DATA.SHOP_REGISTER:
       if (data.getId() == this._registerId) {
         this.render();
       }
@@ -149,7 +151,7 @@ export class FRegister extends Fragment {
   #asyncUpdate() {
     let url = "api/shop/update_register";
     let fd = this.#collectData();
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
   }
 
   #onUpdateRRR(data) {

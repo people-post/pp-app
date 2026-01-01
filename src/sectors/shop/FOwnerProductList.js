@@ -1,5 +1,6 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Product } from '../../common/datatypes/Product.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FOwnerProductList extends shop.FProductList {
   #ownerId = null;
@@ -49,7 +50,7 @@ export class FOwnerProductList extends shop.FProductList {
     }
     url += params.join("&");
     this.#isBatchLoading = true;
-    plt.Api.asyncRawCall(url, r => this.#onProductsRRR(r));
+    api.asyncRawCall(url, r => this.#onProductsRRR(r));
   }
 
   #onProductsRRR(responseText) {

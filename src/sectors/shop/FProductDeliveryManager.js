@@ -1,6 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
 import { ProductDeliveryChoice } from '../../common/datatypes/ProductDeliveryChoice.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FProductDeliveryManager extends Fragment {
   constructor() {
@@ -23,7 +24,7 @@ export class FProductDeliveryManager extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.DRAFT_ORDERS:
+    case T_DATA.DRAFT_ORDERS:
       this.render();
       break;
     default:

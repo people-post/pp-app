@@ -17,6 +17,7 @@ import { FPostInfo } from './FPostInfo.js';
 import { FPostInfoLayoutPreview } from './FPostInfoLayoutPreview.js';
 import { FvcRoleEditor } from './FvcRoleEditor.js';
 import { api } from '../../common/plt/Api.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 window.CF_BLOG_CONFIG = {
   ADD_ROLE : "CF_BLOG_CONFIG_1",
@@ -137,11 +138,11 @@ export class FvcConfig extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PROFILE:
       this._owner.onContentFragmentRequestUpdateHeader(this);
       this.render();
       break;
-    case plt.T_DATA.GROUPS:
+    case T_DATA.GROUPS:
       this.render();
       break;
     default:

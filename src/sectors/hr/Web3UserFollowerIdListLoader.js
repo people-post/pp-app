@@ -1,6 +1,7 @@
 import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
+import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 
-export class Web3UserFollowerIdListLoader extends plt.LongListIdLoader {
+export class Web3UserFollowerIdListLoader extends LongListIdLoader {
   #idRecord = new UniLongListIdRecord();
   #userId;
 

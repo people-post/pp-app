@@ -4,6 +4,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ShopBranch } from '../../common/datatypes/ShopBranch.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FBranchList extends Fragment {
   #fItems;
@@ -80,7 +81,7 @@ export class FBranchList extends Fragment {
     }
     this.#isBranchIdsLoading = true;
     let url = "api/shop/branch_ids";
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onBranchIdsRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onBranchIdsRRR(d));
   }
 
   #onBranchIdsRRR(data) {
@@ -92,7 +93,7 @@ export class FBranchList extends Fragment {
   #asyncAdd() {
     let url = "api/shop/add_branch";
     let fd = new FormData();
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onAddBranchRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onAddBranchRRR(d));
   }
 
   #onAddBranchRRR(data) {

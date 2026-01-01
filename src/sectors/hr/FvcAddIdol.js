@@ -4,6 +4,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SearchConfig } from '../../common/datatypes/SearchConfig.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { T_ACTION } from '../../common/plt/Events.js';
 
 export class FvcAddIdol extends FScrollViewContent {
   #fSearch;
@@ -53,7 +54,7 @@ export class FvcAddIdol extends FScrollViewContent {
   }
 
   #showUser(userId) {
-    fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO, userId);
+    fwk.Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 };
 

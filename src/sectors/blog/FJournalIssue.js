@@ -2,6 +2,7 @@ import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Journal } from '../../common/datatypes/Journal.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FJournalIssue extends blog.FPostBase {
   #issueId = null;
@@ -17,7 +18,7 @@ export class FJournalIssue extends blog.FPostBase {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.JOURNAL:
+    case T_DATA.JOURNAL:
       this.render();
       break;
     default:

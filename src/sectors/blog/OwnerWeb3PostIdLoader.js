@@ -1,8 +1,9 @@
 import { UniSegmentedLongListIdRecord } from '../../common/datatypes/UniSegmentedLongListIdRecord.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 
-export class OwnerWeb3PostIdLoader extends plt.LongListIdLoader {
+export class OwnerWeb3PostIdLoader extends LongListIdLoader {
   #idRecord = new UniSegmentedLongListIdRecord();
   #ownerId = null;
   #isBusy = false;

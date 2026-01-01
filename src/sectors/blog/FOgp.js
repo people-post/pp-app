@@ -2,6 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 window.CF_OGP = {
   ON_CLICK : "CF_OGP_1",
@@ -37,7 +38,7 @@ export class FOgp extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.OGP:
+    case T_DATA.OGP:
       if (data.getId() == this._url) {
         this.render();
       }

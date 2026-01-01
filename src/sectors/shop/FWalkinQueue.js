@@ -2,6 +2,8 @@ import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLeg
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { WalkinQueueItem } from '../../common/datatypes/WalkinQueueItem.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FWalkinQueue extends FLongListLegacy {
   constructor() {
@@ -50,7 +52,7 @@ export class FWalkinQueue extends FLongListLegacy {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.WALKIN_QUEUE_ITEMS:
+    case T_DATA.WALKIN_QUEUE_ITEMS:
       this.render();
       break;
     default:
@@ -110,7 +112,7 @@ export class FWalkinQueue extends FLongListLegacy {
       fd.append("before_id", fromId);
     }
     this._isBatchLoading = true;
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onQueueItemsRRR(d));
   }
 

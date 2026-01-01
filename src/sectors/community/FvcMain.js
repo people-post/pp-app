@@ -1,4 +1,5 @@
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FvcMain extends FViewContentMux {
   #fProposals;
@@ -23,7 +24,7 @@ export class FvcMain extends FViewContentMux {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PROFILE:
       this.#resetTabs();
       break;
     default:

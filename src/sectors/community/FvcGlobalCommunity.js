@@ -24,6 +24,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FGlobalCommunityInfo } from './FGlobalCommunityInfo.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
 
 export class FvcGlobalCommunity extends FScrollViewContent {
   constructor() {
@@ -48,8 +49,8 @@ export class FvcGlobalCommunity extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PROFILE:
       this.render();
       break;
     default:
@@ -96,7 +97,7 @@ export class FvcGlobalCommunity extends FScrollViewContent {
   }
 
   #onViewUser(userId) {
-    fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO, userId);
+    fwk.Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 };
 

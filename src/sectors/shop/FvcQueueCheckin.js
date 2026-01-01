@@ -4,6 +4,8 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcQueueCheckin extends FScrollViewContent {
   constructor() {
@@ -41,7 +43,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.SERVICE_QUEUE_SIZE:
+    case T_DATA.SERVICE_QUEUE_SIZE:
       this.#onQueueSizeUpdate(data);
       break;
     default:
@@ -129,7 +131,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
     if (contact && contact.length) {
       fd.append("customer_contact", contact);
     }
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onCheckinRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onCheckinRRR(d));
   }
 
   #onCheckinRRR(data) { this._owner.onContentFragmentRequestPopView(this); }

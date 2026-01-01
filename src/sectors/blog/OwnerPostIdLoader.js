@@ -1,7 +1,9 @@
 import { BiLongListIdRecord } from '../../common/datatypes/BiLongListIdRecord.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
+import { api } from '../../common/plt/Api.js';
 
-export class OwnerPostIdLoader extends plt.LongListIdLoader {
+export class OwnerPostIdLoader extends LongListIdLoader {
   #idRecord = new BiLongListIdRecord();
   #ownerId = null;
   #isBatchLoadingFront = false;
@@ -52,7 +54,7 @@ export class OwnerPostIdLoader extends plt.LongListIdLoader {
       params.push("to=" + Math.round(this.#tTo.getTime() / 1000));
     }
     url += params.join("&");
-    plt.Api.asyncRawCall(url, r => this.#onFrontPostsRRR(r));
+    api.asyncRawCall(url, r => this.#onFrontPostsRRR(r));
   }
 
   asyncLoadBackItems() {
@@ -80,7 +82,7 @@ export class OwnerPostIdLoader extends plt.LongListIdLoader {
       params.push("to=" + Math.round(this.#tTo.getTime() / 1000));
     }
     url += params.join("&");
-    plt.Api.asyncRawCall(url, r => this.#onBackPostsRRR(r));
+    api.asyncRawCall(url, r => this.#onBackPostsRRR(r));
   }
 
   #addPinnedPostIds() {

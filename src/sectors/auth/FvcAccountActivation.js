@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
+import { api } from '../../common/plt/Api.js';
 
 const _CFT_ACCOUNT_ACTIVATION = {
   MAIN : `
@@ -41,7 +42,7 @@ export class FvcAccountActivation extends FScrollViewContent {
     let url = "/api/auth/activate";
     let fd = new FormData();
     fd.append("code", activationCode);
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onActivateRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onActivateRRR(d));
   }
 
   #onActivateRRR(data) {

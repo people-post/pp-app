@@ -3,6 +3,7 @@ import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FvcExplorer extends FScrollViewContent {
   #fmSearch;
@@ -61,10 +62,10 @@ export class FvcExplorer extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.NEW_OWNER_POST:
+    case T_DATA.NEW_OWNER_POST:
       this.#fPosts.reset();
       break;
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PROFILE:
       this._owner.onContentFragmentRequestUpdateHeader(this);
       this.render();
       break;

@@ -5,6 +5,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
+import { api } from '../../common/plt/Api.js';
 
 export const CF_REGISTER_CONTENT = {
   VALIDATE_EMAIL : "CF_REGISTER_CONTENT_1",
@@ -169,7 +170,7 @@ export class FvcRegister extends FScrollViewContent {
   #asyncValidateEmail() {
     let email = document.getElementById("ID_EMAIL").value;
     let url = "/api/auth/test_email?email=" + encodeURIComponent(email);
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onValidateEmailRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onValidateEmailRRR(d));
   }
 
   #onValidateEmailRRR(data) {  }

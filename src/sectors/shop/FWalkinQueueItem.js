@@ -13,6 +13,8 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
 import { CartItem } from '../../common/datatypes/CartItem.js';
 import { WalkinQueueItem } from '../../common/datatypes/WalkinQueueItem.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FWalkinQueueItem extends Fragment {
   static T_LAYOUT = {INFO : "INFO", FULL: "FULL"};
@@ -92,8 +94,8 @@ export class FWalkinQueueItem extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
-    case plt.T_DATA.WALKIN_QUEUE_ITEM:
+    case T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.WALKIN_QUEUE_ITEM:
       this.render();
       break;
     default:
@@ -234,7 +236,7 @@ export class FWalkinQueueItem extends Fragment {
     let fd = new FormData();
     fd.append("product_id", qItem.getProductId());
     fd.append("quantity", 1);
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onPrepareCartItemRRR(d));
   }
 
@@ -264,7 +266,7 @@ export class FWalkinQueueItem extends Fragment {
     let fd = new FormData();
     fd.append("id", this._itemId);
     fd.append("agent_id", userId);
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onServeRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onServeRRR(d));
   }
 
   #onServeRRR(data) {
@@ -275,7 +277,7 @@ export class FWalkinQueueItem extends Fragment {
     let url = "api/shop/queue_dismiss_item";
     let fd = new FormData();
     fd.append("id", this._itemId);
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onDismissRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onDismissRRR(d));
   }
 
   #onDismissRRR(data) {

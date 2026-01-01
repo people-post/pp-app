@@ -16,6 +16,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FWaiting } from '../../lib/ui/controllers/fragments/FWaiting.js';
 import { FvcConfirmAction } from '../../lib/ui/controllers/views/FvcConfirmAction.js';
 import { RemoteError } from '../../common/datatypes/RemoteError.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcMemberHosting extends FScrollViewContent {
   constructor() {
@@ -77,7 +78,7 @@ export class FvcMemberHosting extends FScrollViewContent {
     let url = "api/hosting/register";
     let fd = new FormData();
     fd.append("name", name);
-    plt.Api.asyncRawPost(url, fd, r => this.#onRegisterDomainRRR(r));
+    api.asyncRawPost(url, fd, r => this.#onRegisterDomainRRR(r));
   }
 
   onRequestRemoveDomain() { this.#asyncUnregisterDomain() }
@@ -181,7 +182,7 @@ export class FvcMemberHosting extends FScrollViewContent {
 
   #asyncUnregisterDomain() {
     let url = "api/hosting/unregister";
-    plt.Api.asyncRawCall(url, r => this.#onUnregisterRRR(r));
+    api.asyncRawCall(url, r => this.#onUnregisterRRR(r));
   }
 
   #onUnregisterRRR(responseText) {

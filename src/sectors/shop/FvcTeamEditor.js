@@ -15,6 +15,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcTeamEditor extends FScrollViewContent {
   constructor() {
@@ -135,20 +136,20 @@ export class FvcTeamEditor extends FScrollViewContent {
   #asyncRequestAddTeam(data) {
     let url = "api/shop/add_team";
     let fd = this.#makeForm(data);
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onNewTeamRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onNewTeamRRR(d));
   }
 
   #asyncRequestEditTeam(data) {
     let url = "api/shop/update_team";
     let fd = this.#makeForm(data);
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onEditTeamRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onEditTeamRRR(d));
   }
 
   #asyncRequestDeleteTeam(id) {
     let url = "api/shop/delete_team";
     let fd = FormData();
     fd.append("id", id);
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onDeleteTeamRRR(d));
   }
 

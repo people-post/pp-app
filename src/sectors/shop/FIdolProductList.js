@@ -1,5 +1,6 @@
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Product } from '../../common/datatypes/Product.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FIdolProductList extends shop.FProductList {
   #isBatchLoading = false;
@@ -24,7 +25,7 @@ export class FIdolProductList extends shop.FProductList {
     if (fromId) {
       url += "?before_id=" + fromId;
     }
-    plt.Api.asyncRawCall(url, r => this.#onProductsRRR(r));
+    api.asyncRawCall(url, r => this.#onProductsRRR(r));
   }
 
   #onProductsRRR(responseText) {

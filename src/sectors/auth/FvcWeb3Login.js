@@ -6,6 +6,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcProgress } from '../../lib/ui/controllers/views/FvcProgress.js';
 import * as bip39 from '../../lib/3rd/bip39.js';
+import { T_ACTION } from '../../common/plt/Events.js';
 
 export class FvcWeb3Login extends FvcLoginBase {
   #fMnemonic;
@@ -150,7 +151,7 @@ export class FvcWeb3Login extends FvcLoginBase {
   #onAccountProfileReady(fvcProgress, profile) {
     fvcProgress.addProgress("Account ready");
     fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
-    fwk.Events.triggerTopAction(plt.T_ACTION.LOGIN_SUCCESS, profile);
+    fwk.Events.triggerTopAction(T_ACTION.LOGIN_SUCCESS, profile);
   }
 
   #onAccountInitError(e) {

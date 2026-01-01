@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FvcProduct extends FScrollViewContent {
   constructor() {
@@ -34,7 +35,7 @@ export class FvcProduct extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.PRODUCT:
+    case T_DATA.PRODUCT:
       if (data.getId() == this._fProduct.getProductId()) {
         this._owner.onContentFragmentRequestUpdateHeader(this);
       }

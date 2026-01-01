@@ -1,9 +1,10 @@
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FConversationInfo extends msgr.FChatThreadInfo {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PROFILE:
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PROFILE:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
     default:

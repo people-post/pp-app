@@ -1,5 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FvcWeb3PostEditor extends FScrollViewContent {
   #fEditor = null;
@@ -20,7 +21,7 @@ export class FvcWeb3PostEditor extends FScrollViewContent {
 
   onNewArticlePostedInArticleEditorFragment(fArticleEditor) {
     this._owner.onContentFragmentRequestPopView(this);
-    fwk.Events.trigger(plt.T_DATA.NEW_OWNER_POST);
+    fwk.Events.trigger(T_DATA.NEW_OWNER_POST);
   }
 
   _renderContentOnRender(render) {

@@ -20,12 +20,13 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ICONS } from '../../lib/ui/Icons.js';
+import { T_ACTION } from '../../common/plt/Events.js';
 
 export class FvcGuestHosting extends FScrollViewContent {
   action(type, ...args) {
     switch (type) {
     case CF_GUEST_HOSTING_CONTENT.REGISTER:
-      fwk.Events.triggerTopAction(plt.T_ACTION.LOGIN);
+      fwk.Events.triggerTopAction(T_ACTION.LOGIN);
       break;
     case CF_GUEST_HOSTING_CONTENT.SHOW_TIP:
       this._displayMessage(args[0]);
