@@ -20,6 +20,8 @@ const ENTRY_APP_JS = 'src/index_app.js';
 const ENTRY_SW_JS = 'src/index_sw.js';
 const BUNDLE_JS_PATH = path.join(WORK_DIR, 'app-min.js');
 const BUNDLE_SW_PATH = path.join(WORK_DIR, 'sw-min.js');
+const PP_API_BUNDLE_PATH = path.join('node_modules', 'pp-api', 'bundle.js');
+const PP_API_MIN_PATH = path.join(WORK_DIR, 'pp-api-min.js');
 
 /**
  * Bundle JavaScript using esbuild
@@ -78,6 +80,42 @@ async function minifyCss(inputFile, outputFile) {
 }
 
 /**
+ * Build pp-api bundle
+ */
+async function buildPpApi() {
+  console.log('Building pp-api bundle...');
+  
+  const ppApiPath = path.resolve('node_modules', 'pp-api');
+  const ppApiSrc = path.join(ppApiPath, 'src', 'index.ts');
+  const ppApiBundle = path.join(ppApiPath, 'bundle.js');
+  
+  // Check if pp-api is installed
+  if (!fs.existsSync(ppApiPath)) {
+    throw new Error('pp-api dependency not found. Please run: npm install');
+  }
+  
+  // Build pp-api bundle using esbuild
+  const result = await esbuild.build({
+    entryPoints: [ppApiSrc],
+    bundle: true,
+    minify: true,
+    platform: 'browser',
+    format: 'iife',
+    globalName: 'pp',
+    outfile: ppApiBundle
+  });
+
+  if (result.errors.length > 0) {
+    throw new Error(`pp-api build errors: ${result.errors.map(e => e.text).join(', ')}`);
+  }
+
+  console.log(`[SUCCESS] Built pp-api bundle -> ${ppApiBundle}`);
+  
+  // Copy to work directory for reference
+  fs.copyFileSync(ppApiBundle, PP_API_MIN_PATH);
+}
+
+/**
  * Main build function
  */
 async function build() {
@@ -89,8 +127,11 @@ async function build() {
   }
   fs.mkdirSync(WORK_DIR, { recursive: true });
 
+  // 1.5. Build pp-api bundle
+  await buildPpApi();
+
   // 2. Bundle JavaScript using esbuild
-  // Bundle app js
+  // Bundle app js (pp-api will be imported in the entry point)
   await bundleJs(ENTRY_APP_JS, BUNDLE_JS_PATH);
 
   // Bundle service worker js

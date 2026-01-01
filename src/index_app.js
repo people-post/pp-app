@@ -1,3 +1,7 @@
+// Import pp-api bundle first to ensure global 'pp' variable is available
+// This will be built during the build process and creates the global 'pp' variable
+import 'pp-api/bundle.js';
+
 import { WcWeb3 } from './session/WcWeb3.js';
 import { WcMain } from './session/WcMain.js';
 import { WcGadget } from './session/WcGadget.js';

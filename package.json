@@ -23,6 +23,9 @@
     "package": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "pp-api": "git+https://github.com/people-post/pp-api.git"
+  },
   "devDependencies": {
     "@scure/bip32": "^2.0.1",
     "bip39": "^3.1.0",
