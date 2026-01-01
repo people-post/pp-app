@@ -20,6 +20,7 @@ import { api } from '../../common/plt/Api.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Account } from '../../common/dba/Account.js';
 import { FSearchMenu } from '../../common/search/FSearchMenu.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FvcOwner extends FScrollViewContent {
   #fmMain;
@@ -133,7 +134,7 @@ export class FvcOwner extends FScrollViewContent {
     this.#applyTheme();
 
     this.#fmMain.close();
-    fwk.Events.triggerTopAction(fwk.T_ACTION.REPLACE_STATE, {}, "Products");
+    Events.triggerTopAction(T_ACTION.REPLACE_STATE, {}, "Products");
   }
 
   handleSessionDataUpdate(dataType, data) {

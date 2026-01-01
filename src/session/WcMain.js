@@ -7,6 +7,7 @@ import { FvcQuotaLimit } from '../common/gui/FvcQuotaLimit.js';
 import { Tag } from '../common/datatypes/Tag.js';
 import { api } from '../common/plt/Api.js';
 import { T_ACTION } from '../common/plt/Events.js';
+import { Events, T_DATA } from '../lib/framework/Events.js';
 
 export class WcMain extends WcSession {
   onLoginClickInAccountActionButtonFragment(fAbAccount) {
@@ -93,15 +94,10 @@ export class WcMain extends WcSession {
   #onLogoutRRR(responseText) {
     let response = JSON.parse(responseText);
     if (response.error) {
-      fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, response.error);
+      Events.trigger(T_DATA.REMOTE_ERROR, response.error);
     } else {
       location.replace(dba.WebConfig.getHomeUrl());
     }
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.main = window.main || {};
-  window.main.WcMain = WcMain;
-}

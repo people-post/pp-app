@@ -1,6 +1,7 @@
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FAppointmentDelivery extends shop.FServiceDelivery {
   #btnAdd;
@@ -44,7 +45,7 @@ export class FAppointmentDelivery extends shop.FServiceDelivery {
   #onBook() {
     let v = new View();
     v.setContentFragment(new shop.FvcBookAppointment());
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Book",
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Book",
                                 false);
   }
 };

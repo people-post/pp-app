@@ -5,17 +5,18 @@ import { AbAccount } from './AbAccount.js';
 import { View } from '../lib/ui/controllers/views/View.js';
 import { Wallet } from '../common/datatypes/Wallet.js';
 import { T_DATA, T_ACTION } from '../common/plt/Events.js';
+import { Events } from '../lib/framework/Events.js';
 
 export class WcWeb3 extends WcSession {
   #postingKeyPath =
       [ Wallet.T_PURPOSE.NFSC001, Wallet.T_COIN.NFSC001, 0, 0, 0 ];
 
   onWeb3UserIdolsLoaded(user) {
-    fwk.Events.trigger(T_DATA.USER_IDOLS, user.getId())
+    Events.trigger(T_DATA.USER_IDOLS, user.getId())
   }
 
   onWeb3UserProfileLoaded(user) {
-    fwk.Events.trigger(T_DATA.USER_PUBLIC_PROFILE, user.getId());
+    Events.trigger(T_DATA.USER_PUBLIC_PROFILE, user.getId());
   }
 
   onWeb3OwnerRequestGetPublicKey(owner) {
@@ -36,7 +37,7 @@ export class WcWeb3 extends WcSession {
   }
 
   onWeb3OwnerProfileUpdated(owner) {
-    fwk.Events.trigger(T_DATA.USER_PROFILE);
+    Events.trigger(T_DATA.USER_PROFILE);
   }
 
   onLoginClickInAccountActionButtonFragment(fAbAccount) {
@@ -144,8 +145,3 @@ export class WcWeb3 extends WcSession {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.main = window.main || {};
-  window.main.WcWeb3 = WcWeb3;
-}

@@ -11,6 +11,7 @@ import { FvcConversationOptions } from './FvcConversationOptions.js';
 import { FChatMessage } from './FChatMessage.js';
 import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
 import { Notifications } from '../../common/dba/Notifications.js';
+import { Events } from '../../lib/framework/Events.js';
 
 export class FvcChat extends FViewContentBase {
   #fHeader;
@@ -164,7 +165,7 @@ export class FvcChat extends FViewContentBase {
   }
 
   #onShowGroupInfo(groupId) {
-    fwk.Events.triggerTopAction(T_ACTION.SHOW_GROUP_INFO, groupId);
+    Events.triggerTopAction(T_ACTION.SHOW_GROUP_INFO, groupId);
   }
 
   #updateChatPanel(messages) {

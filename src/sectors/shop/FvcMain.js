@@ -8,6 +8,7 @@ import { URL_PARAM, URL_PARAM_ADDON_VALUE } from '../../common/constants/Constan
 import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 
 export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {
@@ -85,7 +86,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
       this.render();
       break;
     case T_DATA.USER_PROFILE:
-    case fwk.T_DATA.WEB_CONFIG:
+    case FwkT_DATA.WEB_CONFIG:
       this.#resetContents();
       this.render();
       break;

@@ -40,8 +40,3 @@ export class PGadget extends Panel {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.main = window.main || {};
-  window.main.PGadget = PGadget;
-}

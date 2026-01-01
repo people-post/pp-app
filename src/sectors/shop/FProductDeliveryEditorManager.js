@@ -2,6 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
 import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { ProductDeliveryChoice } from '../../common/datatypes/ProductDeliveryChoice.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FProductDeliveryEditorManager extends Fragment {
   constructor() {
@@ -95,7 +96,7 @@ export class FProductDeliveryEditorManager extends Fragment {
         this._lc.addOption(d.name, v);
       }
     }
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this._lc,
+    Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this._lc,
                              "Context");
   }
 };

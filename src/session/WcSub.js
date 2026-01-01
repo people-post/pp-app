@@ -41,8 +41,3 @@ export class WcSub extends WcSession {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.main = window.main || {};
-  window.main.WcSub = WcSub;
-}

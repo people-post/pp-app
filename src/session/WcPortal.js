@@ -16,8 +16,3 @@ export class WcPortal extends WcSession {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.main = window.main || {};
-  window.main.WcPortal = WcPortal;
-}

@@ -8,6 +8,7 @@ import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FUserIcon } from '../../common/hr/FUserIcon.js';
 import { Blog } from '../../common/dba/Blog.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FFeedArticleInfo extends FPostBase {
   #fAttachment;
@@ -175,7 +176,7 @@ export class FFeedArticleInfo extends FPostBase {
     lc.setFiles(a.getFiles());
     lc.setSelection(idx);
     lc.setCommentThreadId(a.getId(), a.getSocialItemType());
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, lc, "Gallery");
+    Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, lc, "Gallery");
   }
 };
 

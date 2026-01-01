@@ -46,8 +46,3 @@ export class LvGadget extends LvMultiPage {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.main = window.main || {};
-  window.main.LvGadget = LvGadget;
-}

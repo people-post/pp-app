@@ -15,6 +15,7 @@ import { CartItem } from '../../common/datatypes/CartItem.js';
 import { WalkinQueueItem } from '../../common/datatypes/WalkinQueueItem.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FWalkinQueueItem extends Fragment {
   static T_LAYOUT = {INFO : "INFO", FULL: "FULL"};
@@ -70,7 +71,7 @@ export class FWalkinQueueItem extends Fragment {
       if (this._fOnUserSelect) {
         this._fOnUserSelect(itemId);
       }
-      fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
+      Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
       break;
     default:
       break;
@@ -221,7 +222,7 @@ export class FWalkinQueueItem extends Fragment {
     v.setContentFragment(f);
 
     this._fOnUserSelect = uid => this.#asyncServe(uid);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Set agent");
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Set agent");
   }
 
   #onCheckout() {
@@ -252,7 +253,7 @@ export class FWalkinQueueItem extends Fragment {
     let f = new shop.FvcPreCheckout();
     f.setCart(cart);
     v.setContentFragment(f);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                 "Pre checkout");
   }
 

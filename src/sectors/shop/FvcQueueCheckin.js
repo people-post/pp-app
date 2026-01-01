@@ -6,6 +6,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FvcQueueCheckin extends FScrollViewContent {
   constructor() {
@@ -115,7 +116,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
         fcnOK : () => this.#asyncCheckin(fName.getValue(), fContact.getValue()),
       });
       v.setContentFragment(fvc);
-      fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+      Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                   "Guest info", false);
     }
   }

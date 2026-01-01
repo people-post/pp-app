@@ -82,8 +82,3 @@ export class PMain extends Panel {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.main = window.main || {};
-  window.main.PMain = PMain;
-}

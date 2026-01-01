@@ -29,10 +29,3 @@ export const Factory = function() {
   };
 }();
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.fwk = window.fwk || {};
-  window.fwk.T_CATEGORY = T_CATEGORY;
-  window.fwk.T_OBJ = T_OBJ;
-  window.fwk.Factory = Factory;
-}

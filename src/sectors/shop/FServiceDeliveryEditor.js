@@ -5,6 +5,7 @@ import { FvcSimpleFragmentList } from '../../lib/ui/controllers/fragments/FvcSim
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ProductDeliveryChoice } from '../../common/datatypes/ProductDeliveryChoice.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FServiceDeliveryEditor extends shop.FProductDeliveryEditor {
   constructor() {
@@ -94,7 +95,7 @@ export class FServiceDeliveryEditor extends shop.FProductDeliveryEditor {
   #onEditLocation(l) {
     this._fLocationEditor.setData(l);
 
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, this._vLocation,
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, this._vLocation,
                                 "Add location");
   }
 
@@ -107,7 +108,7 @@ export class FServiceDeliveryEditor extends shop.FProductDeliveryEditor {
       this.#addLocation(l);
     }
 
-    fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
+    Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
     this._fLocations.render();
   }
 

@@ -3,6 +3,7 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FArticleEditor } from './FArticleEditor.js';
 import { FJournalIssueEditor } from './FJournalIssueEditor.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { Events } from '../../lib/framework/Events.js';
 
 export class FvcPostEditor extends FScrollViewContent {
   #fEditor = null;
@@ -28,7 +29,7 @@ export class FvcPostEditor extends FScrollViewContent {
 
   onNewArticlePostedInArticleEditorFragment(fArticleEditor) {
     this._owner.onContentFragmentRequestPopView(this);
-    fwk.Events.trigger(T_DATA.NEW_OWNER_POST);
+    Events.trigger(T_DATA.NEW_OWNER_POST);
   }
   onArticleUpdatedInArticleEditorFragment(fEditor, article) {
     dba.Blog.updateArticle(article);

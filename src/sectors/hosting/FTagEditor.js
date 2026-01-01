@@ -10,6 +10,7 @@ import { ThemeEditorFragment } from '../../common/gui/ThemeEditorFragment.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { PTagEditor } from './PTagEditor.js';
 import { PTagEditorInfo } from './PTagEditorInfo.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FTagEditor extends Fragment {
   static T_LAYOUT = {
@@ -115,7 +116,7 @@ export class FTagEditor extends Fragment {
           WebConfig.asyncUpdateGroupConfig(this._tagId, f.getValue()),
     });
     v.setContentFragment(fvc);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Rename",
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Rename",
                                 false);
   }
 };

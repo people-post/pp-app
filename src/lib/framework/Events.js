@@ -68,11 +68,3 @@ export const Events = function() {
         scheduleAction : _scheduleAction
     };
 }();
-
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.fwk = window.fwk || {};
-  window.fwk.T_DATA = T_DATA;
-  window.fwk.T_ACTION = T_ACTION;
-  window.fwk.Events = Events;
-}

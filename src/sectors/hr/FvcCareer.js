@@ -13,6 +13,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { UserRole } from '../../common/datatypes/UserRole.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FvcCareer extends FScrollViewContent {
   constructor() {
@@ -135,7 +136,7 @@ export class FvcCareer extends FScrollViewContent {
 
   #onApplyRoleRRR(data) {
     dba.Account.reset(data.profile);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_NOTICE, this,
+    Events.triggerTopAction(T_ACTION.SHOW_NOTICE, this,
                                 R.get("ROLE_APPLICATION_SENT"));
   }
 

@@ -3,6 +3,7 @@ import { SimpleLongListFragment } from '../../common/gui/SimpleLongListFragment.
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_ACTION } from '../../common/plt/Events.js';
+import { Events } from '../../lib/framework/Events.js';
 
 export class FvcLegacyIdolList extends FScrollViewContent {
   constructor() {
@@ -44,7 +45,7 @@ export class FvcLegacyIdolList extends FScrollViewContent {
   }
 
   onClickInUserInfoFragment(fUserInfo, userId) {
-    fwk.Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
+    Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 
   onGuiActionButtonClick(fBtnAction) {

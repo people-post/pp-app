@@ -153,8 +153,3 @@ export class LvMultiPage extends ViewLayer {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.main = window.main || {};
-  window.main.LvMultiPage = LvMultiPage;
-}

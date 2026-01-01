@@ -17,6 +17,7 @@ import { FWaiting } from '../../lib/ui/controllers/fragments/FWaiting.js';
 import { FvcConfirmAction } from '../../lib/ui/controllers/views/FvcConfirmAction.js';
 import { RemoteError } from '../../common/datatypes/RemoteError.js';
 import { api } from '../../common/plt/Api.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FvcMemberHosting extends FScrollViewContent {
   constructor() {
@@ -134,7 +135,7 @@ export class FvcMemberHosting extends FScrollViewContent {
     f.addOption("Yes", () => this.#onClaimDomain());
     f.addOption("No", null);
     v.setContentFragment(f);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Claim",
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Claim",
                                 false);
   }
 

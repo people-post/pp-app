@@ -59,6 +59,7 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FrontPageLayoutConfig } from '../../common/datatypes/FrontPageLayoutConfig.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { FHomeBtn } from '../../session/FHomeBtn.js';
 
 export class PJournal extends Panel {
   #pMain;
@@ -126,7 +127,7 @@ class FvcJournal extends FViewContentBase {
 
   constructor() {
     super();
-    this.#fHome = new main.FHomeBtn();
+    this.#fHome = new FHomeBtn();
     this.#fHome.setUrl(dba.WebConfig.getHomeUrl());
 
     this.#fmJournal = new FHeaderMenu();

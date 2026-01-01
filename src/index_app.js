@@ -4,19 +4,20 @@ import { WcGadget } from './session/WcGadget.js';
 import { WcSub } from './session/WcSub.js';
 import { WcPortal } from './session/WcPortal.js';
 import { env } from './common/plt/Env.js';
+import { Events } from './lib/framework/Events.js';
 
 const G = function() {
   let _session = null;
 
   function _initLoader(userId, primaryColor, secondaryColor) {
-    fwk.Events.setOnLoadHandler(
+    Events.setOnLoadHandler(
         "init", () => _session.init(userId, primaryColor, secondaryColor));
   }
 
   function _initWeb3(dConfig) {
     env.setWindowType(C.TYPE.WINDOW.WEB3);
     _session = new WcWeb3();
-    fwk.Events.setOnLoadHandler("init", () => _session.main(dConfig));
+    Events.setOnLoadHandler("init", () => _session.main(dConfig));
   }
 
   function _initMain(userId, primaryColor, secondaryColor, lang) {
