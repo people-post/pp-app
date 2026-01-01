@@ -39,7 +39,7 @@ export class FvcTeamEditor extends FScrollViewContent {
 
   action(type, ...args) {
     switch (type) {
-    case shop.CF_SHOP_TEAM_EDITOR.SUBMIT:
+    case CF_SHOP_TEAM_EDITOR.SUBMIT:
       this.#onSubmit();
       break;
     default:

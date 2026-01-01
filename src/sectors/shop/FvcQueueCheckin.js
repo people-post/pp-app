@@ -7,11 +7,13 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { FServiceLocationFilter } from './FServiceLocationFilter.js';
+import { FQueueStatusMessage } from './FQueueStatusMessage.js';
 
 export class FvcQueueCheckin extends FScrollViewContent {
   constructor() {
     super();
-    this._fFilter = new shop.FServiceLocationFilter();
+    this._fFilter = new FServiceLocationFilter();
     this._fFilter.setUseCurrentTime(true);
     this._fFilter.setDelegate(this);
     this.setChild("filter", this._fFilter);
@@ -22,7 +24,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
     this._fBtn.setEnabled(false);
     this.setChild("btn", this._fBtn);
 
-    this._fMsg = new shop.FQueueStatusMessage();
+    this._fMsg = new FQueueStatusMessage();
     this.setChild("hint", this._fMsg);
 
     this._selectedLocation = null;

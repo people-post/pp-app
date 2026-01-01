@@ -5,6 +5,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ShopBranch } from '../../common/datatypes/ShopBranch.js';
 import { api } from '../../common/plt/Api.js';
+import { FBranch } from './FBranch.js';
 
 export class FBranchList extends Fragment {
   #fItems;
@@ -54,8 +55,8 @@ export class FBranchList extends Fragment {
 
     this.#fItems.clear();
     for (let id of this.#ids) {
-      let f = new shop.FBranch();
-      f.setLayoutType(shop.FBranch.T_LAYOUT.SMALL);
+      let f = new FBranch();
+      f.setLayoutType(FBranch.T_LAYOUT.SMALL);
       f.setBranchId(id);
       f.setEnableEdit(this.#isEditEnabled);
       f.setDataSource(this);

@@ -1,12 +1,14 @@
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Product } from '../../common/datatypes/Product.js';
 import { api } from '../../common/plt/Api.js';
+import { FProductList } from './FProductList.js';
+import { FProduct } from './FProduct.js';
 
-export class FIdolProductList extends shop.FProductList {
+export class FIdolProductList extends FProductList {
   #isBatchLoading = false;
 
   _createInfoFragment(id) {
-    let f = new shop.FProduct();
+    let f = new FProduct();
     f.setDataSource(this);
     f.setDelegate(this);
     f.setProductId(id);

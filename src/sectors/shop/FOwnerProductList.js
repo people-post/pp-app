@@ -1,8 +1,11 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Product } from '../../common/datatypes/Product.js';
 import { api } from '../../common/plt/Api.js';
+import { FProductList } from './FProductList.js';
+import { FvcProductEditor } from './FvcProductEditor.js';
+import { FProduct } from './FProduct.js';
 
-export class FOwnerProductList extends shop.FProductList {
+export class FOwnerProductList extends FProductList {
   #ownerId = null;
   #isBatchLoading = false;
 
@@ -14,7 +17,7 @@ export class FOwnerProductList extends shop.FProductList {
 
   onRequestEditProduct(productId) {
     let v = new View();
-    let f = new shop.FvcProductEditor();
+    let f = new FvcProductEditor();
     f.setDelegate(this);
     f.setProduct(dba.Shop.getProduct(productId));
     v.setContentFragment(f);
@@ -22,7 +25,7 @@ export class FOwnerProductList extends shop.FProductList {
   }
 
   _createInfoFragment(id) {
-    let f = new shop.FProduct();
+    let f = new FProduct();
     f.setDataSource(this);
     f.setDelegate(this);
     f.setProductId(id);

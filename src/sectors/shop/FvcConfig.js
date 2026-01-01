@@ -151,7 +151,7 @@ export class FvcConfig extends FScrollViewContent {
 
   action(type, ...args) {
     switch (type) {
-    case shop.CF_SHOP_CONFIG.ON_NAME_CHANGE:
+    case CF_SHOP_CONFIG.ON_NAME_CHANGE:
       this.#onNameChange(args[0]);
       break;
     default:

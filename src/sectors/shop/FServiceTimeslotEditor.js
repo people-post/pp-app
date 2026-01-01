@@ -4,6 +4,7 @@ import { FDateTimeSelector } from '../../lib/ui/controllers/fragments/FDateTimeS
 import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ProductServiceTimeslot } from '../../common/datatypes/ProductServiceTimeslot.js';
+import { PServiceTimeslotEditor } from './PServiceTimeslotEditor.js';
 
 export class FServiceTimeslotEditor extends Fragment {
   constructor() {
@@ -83,7 +84,7 @@ export class FServiceTimeslotEditor extends Fragment {
   }
 
   _renderOnRender(render) {
-    let panel = new shop.PServiceTimeslotEditor();
+    let panel = new PServiceTimeslotEditor();
     render.wrapPanel(panel);
     let p = panel.getFromPanel();
     this._fFrom.attachRender(p);

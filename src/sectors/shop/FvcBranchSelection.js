@@ -1,9 +1,10 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FBranchList } from './FBranchList.js';
 
 export class FvcBranchSelection extends FScrollViewContent {
   constructor() {
     super();
-    this._fBranches = new shop.FBranchList();
+    this._fBranches = new FBranchList();
     this._fBranches.setDelegate(this);
     this.setChild("branches", this._fBranches);
   }

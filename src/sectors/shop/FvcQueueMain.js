@@ -2,10 +2,12 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { FWalkinQueue } from './FWalkinQueue.js';
+import { FvcBranchSelection } from './FvcBranchSelection.js';
 export class FvcQueueMain extends FScrollViewContent {
   constructor() {
     super();
-    this._fQueue = new shop.FWalkinQueue();
+    this._fQueue = new FWalkinQueue();
     this._fQueue.setReadOnly(true);
     this.setChild("queue", this._fQueue);
   }
@@ -45,7 +47,7 @@ export class FvcQueueMain extends FScrollViewContent {
     super._onContentDidAppear();
     if (!this._fQueue.getBranchId()) {
       let v = new View();
-      let f = new shop.FvcBranchSelection();
+      let f = new FvcBranchSelection();
       f.setDelegate(this);
       v.setContentFragment(f);
       Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,

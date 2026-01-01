@@ -1,10 +1,11 @@
+import { PGoodDeliveryBase } from './PGoodDeliveryBase.js';
 
 const _CPT_PRODUCT = {
   MAIN : `<div id="__ID_BTN_ADD__"></div>
   <div id="__ID_COUNT__" class="small-info-text"></div>`,
 }
 
-export class PGoodDelivery extends shop.PGoodDeliveryBase {
+export class PGoodDelivery extends PGoodDeliveryBase {
   _renderFramework() {
     let s = _CPT_PRODUCT.MAIN;
     s = s.replace("__ID_BTN_ADD__", this._getSubElementId("BA"));

@@ -9,6 +9,8 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { ShopRegister } from '../../common/datatypes/ShopRegister.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { PRegisterSmall } from './PRegisterSmall.js';
+import { PRegister } from './PRegister.js';
 
 export class FRegister extends Fragment {
   static T_LAYOUT = {
@@ -52,7 +54,7 @@ export class FRegister extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case shop.CF_REGISTER.ON_CLICK:
+    case CF_REGISTER.ON_CLICK:
       this._delegate.onClickInRegisterFragment(this, this._registerId);
       break;
     default:
@@ -122,12 +124,12 @@ export class FRegister extends Fragment {
     let p;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.SMALL:
-      p = new shop.PRegisterSmall();
+      p = new PRegisterSmall();
       p.setAttribute("onclick",
                      "javascript:G.action(shop.CF_REGISTER.ON_CLICK)");
       break;
     default:
-      p = new shop.PRegister();
+      p = new PRegister();
       break;
     }
     return p;

@@ -1,6 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { FServiceLocation } from './FServiceLocation.js';
 
 export class FServiceLocationFilter extends Fragment {
   constructor() {
@@ -22,7 +23,7 @@ export class FServiceLocationFilter extends Fragment {
   setLocations(ls) {
     this._fAllLocations = [];
     for (let lc of ls) {
-      let f = new shop.FServiceLocation();
+      let f = new FServiceLocation();
       f.setDataSource(this);
       f.setDelegate(this);
       f.setData(lc);

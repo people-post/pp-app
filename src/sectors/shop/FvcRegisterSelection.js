@@ -1,11 +1,12 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FRegisterList } from './FRegisterList.js';
 
 export class FvcRegisterSelection extends FScrollViewContent {
   #fRegisters;
   
   constructor() {
     super();
-    this.#fRegisters = new shop.FRegisterList();
+    this.#fRegisters = new FRegisterList();
     this.#fRegisters.setDelegate(this);
     this.setChild("registers", this.#fRegisters);
   }

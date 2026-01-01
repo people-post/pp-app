@@ -4,6 +4,8 @@ import { WalkinQueueItem } from '../../common/datatypes/WalkinQueueItem.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { FvcWalkinQueueItem } from './FvcWalkinQueueItem.js';
+import { FWalkinQueueItem } from './FWalkinQueueItem.js';
 
 export class FWalkinQueue extends FLongListLegacy {
   constructor() {
@@ -81,16 +83,16 @@ export class FWalkinQueue extends FLongListLegacy {
 
   _createItemView(id) {
     let v = new View();
-    let f = new shop.FvcWalkinQueueItem();
+    let f = new FvcWalkinQueueItem();
     f.setItemId(id);
     v.setContentFragment(f);
     return v;
   }
 
   _createInfoFragment(id) {
-    let f = new shop.FWalkinQueueItem();
+    let f = new FWalkinQueueItem();
     f.setItemId(id);
-    f.setLayoutType(shop.FWalkinQueueItem.T_LAYOUT.INFO);
+    f.setLayoutType(FWalkinQueueItem.T_LAYOUT.INFO);
     f.setEnableAction(!this._isReadOnly);
     f.setDataSource(this);
     f.setDelegate(this);

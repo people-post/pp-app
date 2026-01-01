@@ -2,6 +2,11 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
 import { ProductDeliveryChoice } from '../../common/datatypes/ProductDeliveryChoice.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { FProductDelivery } from './FProductDelivery.js';
+import { FPhysicalGoodDelivery } from './FPhysicalGoodDelivery.js';
+import { FDigitalGoodDelivery } from './FDigitalGoodDelivery.js';
+import { FAppointmentDelivery } from './FAppointmentDelivery.js';
+import { FQueueDelivery } from './FQueueDelivery.js';
 
 export class FProductDeliveryManager extends Fragment {
   constructor() {
@@ -10,7 +15,7 @@ export class FProductDeliveryManager extends Fragment {
     this._fChoices.setDelegate(this);
 
     this._mChoices = this.#initChoiceMap();
-    this._tLayout = null; // shop.FProductDelivery.T_LAYOUT
+    this._tLayout = null; // FProductDelivery.T_LAYOUT
   }
 
   getProductForProductDeliveryFragment(fDelivery) {
@@ -41,7 +46,7 @@ export class FProductDeliveryManager extends Fragment {
 
     let choices = product.getDeliveryChoices();
     switch (this._tLayout) {
-    case shop.FProductDelivery.T_LAYOUT.COMPACT:
+    case FProductDelivery.T_LAYOUT.COMPACT:
       this.#renderCompact(choices, render);
       break;
     default:
@@ -58,7 +63,7 @@ export class FProductDeliveryManager extends Fragment {
     let f = this.#getDeliveryFragment(c);
     if (f) {
       this.setChild("choice", f);
-      f.setLayoutType(shop.FProductDelivery.T_LAYOUT.COMPACT);
+      f.setLayoutType(FProductDelivery.T_LAYOUT.COMPACT);
       f.attachRender(panel);
       f.render();
     }
@@ -108,22 +113,22 @@ export class FProductDeliveryManager extends Fragment {
   #initChoiceMap() {
     let m = new Map();
     let t = ProductDeliveryChoice.TYPE;
-    let f = new shop.FPhysicalGoodDelivery();
+    let f = new FPhysicalGoodDelivery();
     f.setDataSource(this);
     f.setDelegate(this);
     m.set(t.GOOD, {name : "Physical delivery", fDetail : f});
 
-    f = new shop.FDigitalGoodDelivery();
+    f = new FDigitalGoodDelivery();
     f.setDataSource(this);
     f.setDelegate(this);
     m.set(t.DIGITAL, {name : "Digital delivery", fDetail : f});
 
-    f = new shop.FAppointmentDelivery();
+    f = new FAppointmentDelivery();
     f.setDataSource(this);
     f.setDelegate(this);
     m.set(t.SCHEDULE, {name : "Appointment", fDetail : f});
 
-    f = new shop.FQueueDelivery();
+    f = new FQueueDelivery();
     f.setDataSource(this);
     f.setDelegate(this);
     m.set(t.QUEUE, {name : "Walk in", fDetail : f});

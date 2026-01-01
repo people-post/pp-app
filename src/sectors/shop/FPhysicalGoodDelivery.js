@@ -1,5 +1,6 @@
+import { FGoodDelivery } from './FGoodDelivery.js';
 
-export class FPhysicalGoodDelivery extends shop.FGoodDelivery {};
+export class FPhysicalGoodDelivery extends FGoodDelivery {};
 
 
 

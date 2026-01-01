@@ -1,9 +1,10 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FSupplierOrderList } from './FSupplierOrderList.js';
 
 export class FvcOrderHistory extends FScrollViewContent {
   constructor() {
     super();
-    this._fList = new shop.FSupplierOrderList();
+    this._fList = new FSupplierOrderList();
     this._fList.setDelegate(this);
     this.setChild("list", this._fList);
   }

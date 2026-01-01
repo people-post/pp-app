@@ -2,6 +2,8 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { FProduct } from './FProduct.js';
+import { FvcProductEditor } from './FvcProductEditor.js';
 
 export class FvcProduct extends FScrollViewContent {
   constructor() {
@@ -10,8 +12,8 @@ export class FvcProduct extends FScrollViewContent {
     this._fBtnEdit.setIcon(ActionButton.T_ICON.EDIT);
     this._fBtnEdit.setDelegate(this);
 
-    this._fProduct = new shop.FProduct();
-    this._fProduct.setLayoutType(shop.FProduct.T_LAYOUT.FULL);
+    this._fProduct = new FProduct();
+    this._fProduct.setLayoutType(FProduct.T_LAYOUT.FULL);
     this.setChild("product", this._fProduct);
   }
 
@@ -55,7 +57,7 @@ export class FvcProduct extends FScrollViewContent {
     let p = dba.Shop.getProduct(this._fProduct.getProductId());
     if (p) {
       let v = new View();
-      let f = new shop.FvcProductEditor();
+      let f = new FvcProductEditor();
       f.setDelegate(this);
       f.setProduct(p);
       v.setContentFragment(f);

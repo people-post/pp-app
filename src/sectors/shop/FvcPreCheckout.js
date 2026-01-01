@@ -4,12 +4,13 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { PreviewOrder } from '../../common/datatypes/PreviewOrder.js';
 import { api } from '../../common/plt/Api.js';
+import { FChooseCheckoutItem } from './FChooseCheckoutItem.js';
 
 export class FvcPreCheckout extends FScrollViewContent {
   // Serves as checkout register
   constructor() {
     super();
-    this._fChoose = new shop.FChooseCheckoutItem();
+    this._fChoose = new FChooseCheckoutItem();
     this.setChild("choose", this._fChoose);
 
     this._fCart = new cart.FCart();

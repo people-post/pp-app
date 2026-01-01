@@ -16,6 +16,10 @@ import { WalkinQueueItem } from '../../common/datatypes/WalkinQueueItem.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { PWalkinQueueItem } from './PWalkinQueueItem.js';
+import { PWalkinQueueItemInfo } from './PWalkinQueueItemInfo.js';
+import { PWalkinQueueItemInfoPublic } from './PWalkinQueueItemInfoPublic.js';
+import { FvcPreCheckout } from './FvcPreCheckout.js';
 
 export class FWalkinQueueItem extends Fragment {
   static T_LAYOUT = {INFO : "INFO", FULL: "FULL"};
@@ -84,7 +88,7 @@ export class FWalkinQueueItem extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case shop.CF_SHOP_WALKIN_QUEUE_ITEM.ON_CLICK:
+    case CF_SHOP_WALKIN_QUEUE_ITEM.ON_CLICK:
       this._delegate.onClickInWalkinQueueItemFragment(this, this._itemId);
       break;
     default:
@@ -170,17 +174,17 @@ export class FWalkinQueueItem extends Fragment {
     let p = null;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.FULL:
-      p = new shop.PWalkinQueueItem();
+      p = new PWalkinQueueItem();
       this._fAction1.setLayoutType(Button.LAYOUT_TYPE.LARGE_CYCLE);
       break;
     default:
       this._fAction1.setLayoutType(Button.LAYOUT_TYPE.SMALL);
       if (this._isActionEnabled) {
-        p = new shop.PWalkinQueueItemInfo();
+        p = new PWalkinQueueItemInfo();
         p.setAttribute("onclick",
                        "G.action(shop.CF_SHOP_WALKIN_QUEUE_ITEM.ON_CLICK)");
       } else {
-        p = new shop.PWalkinQueueItemInfoPublic();
+        p = new PWalkinQueueItemInfoPublic();
       }
       break;
     }
@@ -250,7 +254,7 @@ export class FWalkinQueueItem extends Fragment {
 
   #goCheckout(cart) {
     let v = new View();
-    let f = new shop.FvcPreCheckout();
+    let f = new FvcPreCheckout();
     f.setCart(cart);
     v.setContentFragment(f);
     Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,

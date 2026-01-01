@@ -9,6 +9,10 @@ import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
 import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { FvcTeamEditor } from './FvcTeamEditor.js';
+import { FvcOrderHistory } from './FvcOrderHistory.js';
+import { FvcConfig } from './FvcConfig.js';
+import { FvcReport } from './FvcReport.js';
 
 export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {
@@ -67,12 +71,12 @@ export class FvcMain extends FViewContentWithHeroBanner {
   }
   onShopConfigFragmentRequestAddTeam(fConfig) {
     let v = new View();
-    v.setContentFragment(new shop.FvcTeamEditor());
+    v.setContentFragment(new FvcTeamEditor());
     this._owner.onFragmentRequestShowView(this, v, "Shop team");
   }
   onShopConfigFragmentRequestEditTeam(fConfig, teamId) {
     let v = new View();
-    let f = new shop.FvcTeamEditor();
+    let f = new FvcTeamEditor();
     f.setTeamId(teamId);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Shop team");
@@ -142,17 +146,17 @@ export class FvcMain extends FViewContentWithHeroBanner {
         {name : R.t("Mine"), value : "OWNER", icon : ICON.SMILEY},
         this.#fvcOwner);
 
-    let ff = new shop.FvcOrderHistory();
+    let ff = new FvcOrderHistory();
     ff.setDelegate(this);
     this.#fMain.addTab(
         {name : R.t("Orders"), value : "ORDERS", icon : ICON.RECEIPT}, ff);
 
-    ff = new shop.FvcConfig();
+    ff = new FvcConfig();
     ff.setDelegate(this);
     this.#fMain.addTab(
         {name : R.t("Config"), value : "CONFIG", icon : ICON.CONFIG}, ff);
 
-    ff = new shop.FvcReport();
+    ff = new FvcReport();
     ff.setDelegate(this);
     this.#fMain.addTab(
         {name : R.t("Report"), value : "REPORT", icon : ICON.REPORT}, ff);

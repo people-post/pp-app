@@ -6,6 +6,8 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { FIdolProductList } from './FIdolProductList.js';
+import { FCartButton } from './FCartButton.js';
 
 export class FvcExplorer extends FScrollViewContent {
   #fmSearch;
@@ -20,11 +22,11 @@ export class FvcExplorer extends FScrollViewContent {
     f.setDelegate(this);
     this.#fmSearch.setContentFragment(f);
 
-    this.#fList = new shop.FIdolProductList();
+    this.#fList = new FIdolProductList();
     this.#fList.setDelegate(this);
     this.setChild("list", this.#fList);
 
-    this.#fBtnCart = new shop.FCartButton();
+    this.#fBtnCart = new FCartButton();
     this.#fBtnCart.setDelegate(this);
   }
 
