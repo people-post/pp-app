@@ -37,8 +37,3 @@ export class FChatGroupInfo extends msgr.FChatThreadInfo {
 
 
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.msgr = window.msgr || {};
-  window.msgr.FChatGroupInfo = FChatGroupInfo;
-}

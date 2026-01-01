@@ -11,6 +11,7 @@ import Utilities from '../Utilities.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { api } from '../plt/Api.js';
 import { URL_PARAM } from '../constants/Constants.js';
+import { env } from '../plt/Env.js';
 
 export const CF_SOCIAL_BAR = {
   ON_COMMENT_CLICK : Symbol(),
@@ -88,7 +89,7 @@ export class FSocialBar extends Fragment {
     this.#lc.setDelegate(this);
 
     // Default actions
-    if (glb.env.isWeb3()) {
+    if (env.isWeb3()) {
       this.#actions = [
         this.constructor.T_ACTION.COMMENT, this.constructor.T_ACTION.LIKE,
         this.constructor.T_ACTION.LINK, this.constructor.T_ACTION.CONTEXT
@@ -437,7 +438,7 @@ export class FSocialBar extends Fragment {
   #handleShareError(err) { console.log("Share error", err); }
 
   #asyncLike(itemId, itemType) {
-    if (glb.env.isWeb3()) {
+    if (env.isWeb3()) {
       this.#asyncWeb3Like(itemId).then(() => this.#onSocialRRR());
     } else {
       this.#asyncWeb2Like(itemId, itemType);
@@ -455,7 +456,7 @@ export class FSocialBar extends Fragment {
   }
 
   #asyncUnlike(itemId) {
-    if (glb.env.isWeb3()) {
+    if (env.isWeb3()) {
       this.#asyncWeb3Unlike(itemId).then(() => this.#onSocialRRR());
     } else {
       this.#asyncWeb2Unlike(itemId);

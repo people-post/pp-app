@@ -2,6 +2,7 @@ import { Country } from './datatypes/Country.js';
 import UtilitiesExt from '../lib/ext/Utilities.js';
 import { VIS, STATE, PATH } from './constants/Constants.js';
 import { COUNTRIES } from './constants/CountryCodes.js';
+import { env } from './plt/Env.js';
 
 export const Utilities = function() {
   function _isOrderReferenceId(key) {
@@ -55,7 +56,7 @@ export const Utilities = function() {
   function _renderSmartTime(t) {
     let dt = Math.abs(t - Date.now()) / 1000;
     // Unit is seconds
-    if (dt > glb.env.getSmartTimeDiffThreshold()) {
+    if (dt > env.getSmartTimeDiffThreshold()) {
       return t.toLocaleString(
           [], {month : "numeric", day : "numeric", year : "2-digit"})
     } else {

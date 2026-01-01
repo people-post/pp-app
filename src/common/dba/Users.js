@@ -4,6 +4,7 @@ import { Account } from './Account.js';
 import { User } from '../datatypes/User.js';
 import { api } from '../plt/Api.js';
 import { PATH } from '../constants/Constants.js';
+import { env } from '../plt/Env.js';
 
 // Public users' information
 export class UserLib {
@@ -25,7 +26,7 @@ export class UserLib {
       return null;
     }
 
-    if (glb.env.isWeb3() && Account.isAuthenticated() &&
+    if (env.isWeb3() && Account.isAuthenticated() &&
         Account.getId() == id) {
       return Account;
     }
@@ -39,13 +40,17 @@ export class UserLib {
   }
 
   async asyncGet(id) {
-    if (glb.env.isWeb3() && Account.isAuthenticated() &&
+    if (env.isWeb3() && Account.isAuthenticated() &&
         Account.getId() == id) {
       return Account;
     }
 
     if (!this.#mUsers.has(id)) {
-      let d = await glb.web3Resolver.asResolve(id);
+      // Lazy access to web3Resolver to avoid circular dependency
+      const web3Resolver = (typeof window !== 'undefined' && window.glb && window.glb.web3Resolver) 
+        ? window.glb.web3Resolver 
+        : null;
+      let d = web3Resolver ? await web3Resolver.asResolve(id) : null;
       let u = new pp.User(d);
       u.setDataSource(this);
       u.setDelegate(this);
@@ -92,7 +97,7 @@ export class UserLib {
   }
 
   #load(ids) {
-    if (glb.env.isWeb3()) {
+    if (env.isWeb3()) {
       this.#web3Load(ids);
     } else {
       this.#web2Load(ids);
@@ -115,8 +120,13 @@ export class UserLib {
   }
 
   #web3Load(ids) {
+    // Lazy access to web3Resolver to avoid circular dependency
+    const web3Resolver = (typeof window !== 'undefined' && window.glb && window.glb.web3Resolver) 
+      ? window.glb.web3Resolver 
+      : null;
+    if (!web3Resolver) return;
     for (let id of ids) {
-      glb.web3Resolver.asResolve(id)
+      web3Resolver.asResolve(id)
           .then(d => this.#onWeb3LoadRRR(id, d))
           .catch(e => console.error(e));
     }

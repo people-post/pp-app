@@ -2,6 +2,7 @@ import { RenderController } from './RenderController.js';
 import { FNavigation } from './fragments/FNavigation.js';
 import { Page } from './Page.js';
 import { T_DATA, T_ACTION, Events } from '../../framework/Events.js';
+import { WebConfig } from '../../../common/dba/WebConfig.js';
 
 export class PageViewController extends RenderController {
   #mPageConfig;
@@ -143,7 +144,7 @@ export class PageViewController extends RenderController {
     let page = this.#getOrInitPage(pageId);
     if (page) {
       // Clear theme set by page
-      dba.WebConfig.setThemeId(null);
+      WebConfig.setThemeId(null);
       page.setOwner(this);
       this.#currentPage = page;
       this.#currentPage.setActive(true);

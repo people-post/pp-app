@@ -38,8 +38,3 @@ export const Utilities = function() {
   };
 }();
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.msgr = window.msgr || {};
-  window.msgr.Utilities = Utilities;
-}

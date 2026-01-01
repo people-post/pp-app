@@ -46,8 +46,3 @@ export class FvcContactList extends FScrollViewContent {
 
 
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.msgr = window.msgr || {};
-  window.msgr.FvcContactList = FvcContactList;
-}

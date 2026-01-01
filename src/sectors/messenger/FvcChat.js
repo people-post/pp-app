@@ -185,8 +185,3 @@ export class FvcChat extends FViewContentBase {
 
 
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.msgr = window.msgr || {};
-  window.msgr.FvcChat = FvcChat;
-}

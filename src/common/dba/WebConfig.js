@@ -8,6 +8,7 @@ import { User } from '../datatypes/User.js';
 import { Menus } from './Menus.js';
 import { api } from '../plt/Api.js';
 import { ID, URL_PARAM } from '../constants/Constants.js';
+import { env } from '../plt/Env.js';
 
 export const WebConfig = function() {
   let _data = null;
@@ -48,14 +49,14 @@ export const WebConfig = function() {
   }
   function _getHomePageTitle() { return _data ? _data.home_page_title : null; }
   function _getOwnerId() {
-    if (glb.env.isWeb3()) {
+    if (env.isWeb3()) {
       return Account.getId();
     }
 
     return _data ? _data.owner.uuid : null;
   }
   function _getOwner() {
-    if (glb.env.isWeb3()) {
+    if (env.isWeb3()) {
       return Account;
     } else {
       if (!_data) {
@@ -65,7 +66,7 @@ export const WebConfig = function() {
     }
   }
   function _getHomeUrl() {
-    if (glb.env.isWeb3()) {
+    if (env.isWeb3()) {
       return "?";
     } else {
       return "/?" + URL_PARAM.USER + "=" + _getOwnerId();

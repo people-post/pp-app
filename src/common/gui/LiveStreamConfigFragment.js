@@ -5,6 +5,8 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FMediaFileUploader } from '../../lib/ui/controllers/fragments/FMediaFileUploader.js';
 import { ICONS } from '../../lib/ui/Icons.js';
 import { api } from '../plt/Api.js';
+import { WebConfig } from '../dba/WebConfig.js';
+import { Account } from '../dba/Account.js';
 
 export const CF_LIVE_STREAM_CONFIG = {
   ADD_FILE : "CF_GUI_LIVE_STREAM_CONFIG_1",
@@ -115,8 +117,8 @@ export class LiveStreamConfigFragment extends Fragment {
 
   #renderInstructions() {
     let s = _CFT_LIVE_STREAM_CONFIG.INSTRUCTION;
-    s = s.replace("__RTMP_URL__", dba.WebConfig.getRtmpUrl());
-    s = s.replace("__KEY__", dba.Account.getLiveStreamKey());
+    s = s.replace("__RTMP_URL__", WebConfig.getRtmpUrl());
+    s = s.replace("__KEY__", Account.getLiveStreamKey());
     s = s.replace("__TIP_LINK__",
                   this._renderTipLink("gui.CF_LIVE_STREAM_CONFIG.SHOW_TIP",
                                       "how to", "TIP_LIVE_STREAM"));
@@ -130,7 +132,7 @@ export class LiveStreamConfigFragment extends Fragment {
   }
 
   #onRegenerateStreamKeyRRR(data) {
-    dba.Account.setLiveStreamKey(data.live_stream_key);
+    Account.setLiveStreamKey(data.live_stream_key);
     this.render();
   }
 };

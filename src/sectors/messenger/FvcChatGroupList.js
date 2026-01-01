@@ -41,8 +41,3 @@ export class FvcChatGroupList extends FScrollViewContent {
 
 
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.msgr = window.msgr || {};
-  window.msgr.FvcChatGroupList = FvcChatGroupList;
-}

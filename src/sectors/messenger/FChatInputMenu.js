@@ -77,8 +77,3 @@ export class FChatInputMenu extends Fragment {
 
 
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.msgr = window.msgr || {};
-  window.msgr.FChatInputMenu = FChatInputMenu;
-}
