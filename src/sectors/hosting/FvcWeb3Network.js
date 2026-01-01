@@ -60,7 +60,7 @@ export class PWeb3Network extends Panel {
   }
 };
 
-class FvcWeb3Network extends FScrollViewContent {
+export class FvcWeb3Network extends FScrollViewContent {
   constructor() { super(); }
 
   _renderContentOnRender(render) {
@@ -108,4 +108,3 @@ class FvcWeb3Network extends FScrollViewContent {
   }
 };
 
-hstn.FvcWeb3Network = FvcWeb3Network;

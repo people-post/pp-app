@@ -9,7 +9,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
 import { Groups } from '../../common/dba/Groups.js';
-import { FUserIcon } from '../../sectors/hr/FUserIcon.js';
+import { FUserIcon } from '../../common/hr/FUserIcon.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 

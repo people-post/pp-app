@@ -110,7 +110,7 @@ export class PJournal extends Panel {
   }
 };
 
-class FvcJournal extends FViewContentBase {
+export class FvcJournal extends FViewContentBase {
   static #T_WIDTH = {
     NARROW : Symbol(),
     MIDDLE: Symbol(),
@@ -348,4 +348,3 @@ class FvcJournal extends FViewContentBase {
   }
 };
 
-ftpg.FvcJournal = FvcJournal;

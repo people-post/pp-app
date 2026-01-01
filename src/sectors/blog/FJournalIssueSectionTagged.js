@@ -42,7 +42,7 @@ export class PJournalIssueSectionTagged extends Panel {
   }
 };
 
-class FJournalIssueSectionTagged extends Fragment {
+export class FJournalIssueSectionTagged extends Fragment {
   #data = null;
   #placeholder = null;
   #fPosts;

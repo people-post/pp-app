@@ -9,6 +9,12 @@ import { FvcFollowerList } from './FvcFollowerList.js';
 import { FvcLegacyFollowerList } from './FvcLegacyFollowerList.js';
 import { FvcIdolList } from './FvcIdolList.js';
 import { FvcLegacyIdolList } from './FvcLegacyIdolList.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export const CF_USER_INFO_HERO_BANNER = {
   FOLLOW : Symbol(),
@@ -60,14 +66,6 @@ const _CFT_USER_INFO_HERO_BANNER = {
   </table>`,
 };
 
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
-import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { View } from '../../lib/ui/controllers/views/View.js';
-import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
-import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { User } from '../../common/datatypes/User.js';
 
 export class FUserInfoHeroBanner extends Fragment {
   constructor() {

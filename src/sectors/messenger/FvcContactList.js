@@ -4,7 +4,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Account } from '../../common/dba/Account.js';
-import { FUserInfo } from '../../sectors/hr/FUserInfo.js';
+import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FvcChat } from './FvcChat.js';
 
 export class FvcContactList extends FScrollViewContent {

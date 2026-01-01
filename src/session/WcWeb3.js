@@ -55,7 +55,11 @@ export class WcWeb3 extends WcSession {
 
   onLogoutClickInActionButtonFragment(fAbAccount) {
     sessionStorage.clear();
-    Account.reset();
+    if (window.dba && window.dba.Account) {
+      window.dba.Account.reset();
+    } else {
+      Account.reset();
+    }
     Keys.reset();
     location.reload();
   }
@@ -95,10 +99,15 @@ export class WcWeb3 extends WcSession {
     if (sData) {
       Keys.fromEncodedStr(sData);
     }
-    Account = new pp.Owner();
-    Account.setDataSource(this);
-    Account.setDelegate(this);
-    Account.loadCheckPoint();
+    // Special case: Replace Account instance for Web3 mode
+    // Account is exported as const, so we use window.dba for this replacement
+    if (!window.dba) {
+      window.dba = {};
+    }
+    window.dba.Account = new pp.Owner();
+    window.dba.Account.setDataSource(this);
+    window.dba.Account.setDelegate(this);
+    window.dba.Account.loadCheckPoint();
 
     console.info("Load config...");
     Web3Config.load(glb.env.WEB3);
@@ -111,7 +120,7 @@ export class WcWeb3 extends WcSession {
     console.info("Init publisher...");
     glb.web3Publisher = new pdb.Web3Publisher();
     await glb.web3Publisher.asInit(c ? c.publishers : null);
-    await glb.web3Publisher.asInitForUser(Account.getId());
+    await glb.web3Publisher.asInitForUser(window.dba.Account.getId());
 
     console.info("Init ledger...");
     glb.web3Ledger = new pdb.Web3Ledger();
@@ -120,7 +129,7 @@ export class WcWeb3 extends WcSession {
     console.info("Init storage...");
     glb.web3Storage = new pdb.Web3Storage();
     await glb.web3Storage.asInit(c ? c.storages : null);
-    await glb.web3Storage.asInitForUser(Account.getId());
+    await glb.web3Storage.asInitForUser(window.dba.Account.getId());
 
     console.info("Init layout...");
     this.init(null, dConfig.default_theme.primary_color,
@@ -132,8 +141,8 @@ export class WcWeb3 extends WcSession {
 
   #onLoginSuccess(profile) {
     let urlParam = new URLSearchParams(window.location.search);
-    Account.reset(profile);
-    Account.saveCheckPoint();
+    window.dba.Account.reset(profile);
+    window.dba.Account.saveCheckPoint();
     sessionStorage.setItem(STORAGE.KEY.KEYS, Keys.toEncodedStr());
 
     this._clearDbAgents();

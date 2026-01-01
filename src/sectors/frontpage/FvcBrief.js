@@ -86,7 +86,7 @@ import { MainMenu } from '../../common/menu/MainMenu.js';
 import { MenuItem } from '../../common/datatypes/MenuItem.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { FHomeBtn } from './FHomeBtn.js';
+import { FHomeBtn } from '../../session/FHomeBtn.js';
 import { FvcInsights } from './FvcInsights.js';
 import { FvcBriefDonation } from './FvcBriefDonation.js';
 import { OwnerPostIdLoader } from '../blog/OwnerPostIdLoader.js';
@@ -221,7 +221,7 @@ class PBriefWide extends PBriefBase {
   }
 };
 
-class FvcBrief extends FViewContentBase {
+export class FvcBrief extends FViewContentBase {
   static #T_WIDTH = {
     NARROW : Symbol(),
     WIDE: Symbol(),
@@ -629,4 +629,3 @@ class FvcBrief extends FViewContentBase {
   }
 };
 
-ftpg.FvcBrief = FvcBrief;
