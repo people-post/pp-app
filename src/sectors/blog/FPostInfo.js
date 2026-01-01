@@ -8,6 +8,24 @@ import { FSocialBar } from '../../common/social/FSocialBar.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
+import { Utilities } from './Utilities.js';
+import { FArticleInfo } from './FArticleInfo.js';
+import { FFeedArticleInfo } from './FFeedArticleInfo.js';
+import { FJournalIssue } from './FJournalIssue.js';
+import { FComment } from './FComment.js';
+import { FEmptyPost } from './FEmptyPost.js';
+import { PPostInfoBigHead } from './PPostInfoBigHead.js';
+import { PPostInfoLarge } from './PPostInfoLarge.js';
+import { PPostInfoMiddle } from './PPostInfoMiddle.js';
+import { PPostInfoSmall } from './PPostInfoSmall.js';
+import { PPostInfoComment } from './PPostInfoComment.js';
+import { PPostInfoSmallQuote } from './PPostInfoSmallQuote.js';
+import { PPostInfoLargeQuote } from './PPostInfoLargeQuote.js';
+import { PPostInfoBrief } from './PPostInfoBrief.js';
+import { PPostInfoCard } from './PPostInfoCard.js';
+import { PPostInfoHuge } from './PPostInfoHuge.js';
+import { PPostInfoEmbed } from './PPostInfoEmbed.js';
+import { PPostInfoFullPage } from './PPostInfoFullPage.js';
 
 export const CF_POST_INFO = {
   ON_CLICK : Symbol(),
@@ -91,7 +109,7 @@ export class FPostInfo extends MajorSectorItem {
 
   action(type, ...args) {
     switch (type) {
-    case blog.CF_POST_INFO.ON_CLICK:
+    case CF_POST_INFO.ON_CLICK:
       this.#onClick();
       break;
     default:
@@ -123,7 +141,7 @@ export class FPostInfo extends MajorSectorItem {
     if (this.#fPost.isInfoClickable() && panel.isClickable()) {
       panel.setClassName("clickable");
       panel.setAttribute("onclick",
-                         "javascript:G.action(blog.CF_POST_INFO.ON_CLICK)");
+                         "javascript:G.action(CF_POST_INFO.ON_CLICK)");
     }
 
     render.wrapPanel(panel);
@@ -160,8 +178,8 @@ export class FPostInfo extends MajorSectorItem {
     if (post.getId() == this.#postId.getValue()) {
       return true;
     }
-    let p = dba.Blog.getPost(this.#postId);
-    return blog.Utilities.isPostRelated(post, p);
+    let p = Blog.getPost(this.#postId);
+    return Utilities.isPostRelated(post, p);
   }
 
   #getRealPost(post) {
@@ -176,29 +194,29 @@ export class FPostInfo extends MajorSectorItem {
     let t = post.getSocialItemType();
     switch (t) {
     case SocialItem.TYPE.ARTICLE:
-      f = new blog.FArticleInfo();
+      f = new FArticleInfo();
       f.setArticleId(post.getId());
       f.setSizeType(this.#sizeType);
       f.setDelegate(this);
       f.setDataSource(this);
       break;
     case SocialItem.TYPE.FEED_ARTICLE:
-      f = new blog.FFeedArticleInfo();
+      f = new FFeedArticleInfo();
       f.setArticleId(post.getId());
       f.setSizeType(this.#sizeType);
       break;
     case SocialItem.TYPE.JOURNAL_ISSUE:
-      f = new blog.FJournalIssue();
+      f = new FJournalIssue();
       f.setIssueId(post.getId());
       break;
     case SocialItem.TYPE.COMMENT:
-      f = new blog.FComment();
+      f = new FComment();
       f.setCommentId(post.getId());
       f.setDataSource(this);
       f.setDelegate(this);
       break;
     case SocialItem.TYPE.INVALID:
-      f = new blog.FEmptyPost();
+      f = new FEmptyPost();
       f.setPost(post);
       break;
     default:
@@ -212,40 +230,40 @@ export class FPostInfo extends MajorSectorItem {
     let p;
     switch (this.#sizeType) {
     case SocialItem.T_LAYOUT.BIG_HEAD:
-      p = new blog.PPostInfoBigHead()
+      p = new PPostInfoBigHead()
       break;
     case SocialItem.T_LAYOUT.LARGE:
-      p = new blog.PPostInfoLarge();
+      p = new PPostInfoLarge();
       break;
     case SocialItem.T_LAYOUT.MEDIUM:
-      p = new blog.PPostInfoMiddle();
+      p = new PPostInfoMiddle();
       break;
     case SocialItem.T_LAYOUT.SMALL:
-      p = new blog.PPostInfoSmall();
+      p = new PPostInfoSmall();
       break;
     case SocialItem.T_LAYOUT.EXT_COMMENT:
-      p = new blog.PPostInfoComment()
+      p = new PPostInfoComment()
       break;
     case SocialItem.T_LAYOUT.EXT_QUOTE_SMALL:
-      p = new blog.PPostInfoSmallQuote();
+      p = new PPostInfoSmallQuote();
       break;
     case SocialItem.T_LAYOUT.EXT_QUOTE_LARGE:
-      p = new blog.PPostInfoLargeQuote();
+      p = new PPostInfoLargeQuote();
       break;
     case SocialItem.T_LAYOUT.EXT_BRIEF:
-      p = new blog.PPostInfoBrief();
+      p = new PPostInfoBrief();
       break;
     case SocialItem.T_LAYOUT.EXT_CARD:
-      p = new blog.PPostInfoCard();
+      p = new PPostInfoCard();
       break;
     case SocialItem.T_LAYOUT.EXT_HUGE:
-      p = new blog.PPostInfoHuge();
+      p = new PPostInfoHuge();
       break;
     case SocialItem.T_LAYOUT.EXT_EMBED:
-      p = new blog.PPostInfoEmbed();
+      p = new PPostInfoEmbed();
       break;
     case SocialItem.T_LAYOUT.EXT_FULL_PAGE:
-      p = new blog.PPostInfoFullPage();
+      p = new PPostInfoFullPage();
       break;
     default:
       p = new blog.PPostInfoCompact();
@@ -323,11 +341,3 @@ export class FPostInfo extends MajorSectorItem {
     this.#fSocial.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.CF_POST_INFO = CF_POST_INFO;
-}

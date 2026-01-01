@@ -57,4 +57,3 @@ export class PPostBase extends Panel {
   // Initially added to support comment actions
   getContextPanel() { return null; }
 };
-

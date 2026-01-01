@@ -301,11 +301,3 @@ export class FWalkinQueueItem extends Fragment {
     this._fAgentSearch.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.CF_SHOP_WALKIN_QUEUE_ITEM = CF_SHOP_WALKIN_QUEUE_ITEM;
-}

@@ -71,4 +71,3 @@ export class SectorConfigBar extends Fragment {
 
   #onSetHome(v) { this._delegate.onRequestSetHomeInConfigBar(this, v); }
 };
-

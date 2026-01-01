@@ -58,11 +58,3 @@ export class FvcReport extends FScrollViewContent {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FvcReport = FvcReport;
-}

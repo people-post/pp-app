@@ -199,4 +199,3 @@ export class FElasticRefresh extends Fragment {
     }
   }
 };
-

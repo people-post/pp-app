@@ -204,11 +204,3 @@ export class FvcRoleEditor extends FScrollViewContent {
     this._owner.onContentFragmentRequestPopView(this);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FvcRoleEditor = FvcRoleEditor;
-}

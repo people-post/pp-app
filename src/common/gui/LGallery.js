@@ -165,4 +165,3 @@ export class LGallery extends Layer {
 
   #onClose() { this._owner.onRequestPopLayer(this); }
 };
-

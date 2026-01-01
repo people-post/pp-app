@@ -26,4 +26,3 @@ export class FViewContentBase extends Fragment {
 
   knockKnock() {}
 };
-

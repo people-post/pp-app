@@ -81,4 +81,3 @@ export class PMain extends Panel {
                                   : this.#pConsoleColumn;
   }
 };
-

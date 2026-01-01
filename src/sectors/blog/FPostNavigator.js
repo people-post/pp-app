@@ -4,6 +4,11 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { FPost } from './FPost.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { Account } from '../../common/dba/Account.js';
+import { Utilities } from './Utilities.js';
+import { FRealTimeComments } from '../../common/social/FRealTimeComments.js';
 
 const _CPT_POST_NAVIGATOR = {
   MAIN : `<div id="__ID_POST__"></div>
@@ -61,7 +66,7 @@ class FPostNavigator extends Fragment {
 
   constructor() {
     super();
-    this.#fPost = new blog.FPost();
+    this.#fPost = new FPost();
     this.#fPost.setDelegate(this);
     this.setChild("post", this.#fPost);
 
@@ -79,7 +84,7 @@ class FPostNavigator extends Fragment {
     this.#btnPrev.setDelegate(this);
     this.setChild("btnPrev", this.#btnPrev);
 
-    this.#fComments = new socl.FRealTimeComments();
+    this.#fComments = new FRealTimeComments();
     this.setChild("comment", this.#fComments);
   }
 
@@ -152,19 +157,19 @@ class FPostNavigator extends Fragment {
   }
 
   #onPostUpdate(updatePost) {
-    let post = dba.Blog.getPost(this.#postId);
-    if (blog.Utilities.isPostRelated(updatePost, post)) {
+    let post = Blog.getPost(this.#postId);
+    if (Utilities.isPostRelated(updatePost, post)) {
       this.render();
     }
   }
 
   #renderComments(panel) {
-    let post = dba.Blog.getPost(this.#postId);
+    let post = Blog.getPost(this.#postId);
     if (!post) {
       return;
     }
     let realPost =
-        post.isRepost() ? dba.Blog.getPost(post.getLinkToSocialId()) : post;
+        post.isRepost() ? Blog.getPost(post.getLinkToSocialId()) : post;
     if (!realPost) {
       return;
     }
@@ -174,17 +179,8 @@ class FPostNavigator extends Fragment {
     }
     this.#fComments.setThreadId(realPost.getId(), realPost.getSocialItemType());
     this.#fComments.setIsAdmin(
-        this.#isUserPostAdmin(dba.Account.getId(), realPost));
+        this.#isUserPostAdmin(Account.getId(), realPost));
     this.#fComments.attachRender(panel);
     this.#fComments.render();
   }
 };
-
-blog.FPostNavigator = FPostNavigator;
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.PPostNavigator = PPostNavigator;
-}

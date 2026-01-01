@@ -53,4 +53,3 @@ export class SectorNoticeInfoFragment extends Fragment {
     }
   }
 };
-

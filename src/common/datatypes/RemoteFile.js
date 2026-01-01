@@ -54,5 +54,3 @@ export class RemoteFile extends ServerDataObject {
 
   #getCoverImageUrl() { return this._data.cover_image_url; }
 };
-
-

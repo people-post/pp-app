@@ -135,9 +135,3 @@ export class FBraintree extends Fragment {
     this.#braintree.clearSelectedPaymentMethod();
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.pay = window.pay || {};
-  window.pay.FBraintree = FBraintree;
-}

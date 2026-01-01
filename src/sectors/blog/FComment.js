@@ -2,12 +2,19 @@ import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionCo
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { api } from '../../common/plt/Api.js';
+import { FPostBase } from './FPostBase.js';
+import { R } from '../../common/constants/R.js';
+import { FUserIcon } from '../../common/hr/FUserIcon.js';
+import { FUserInfo } from '../../common/hr/FUserInfo.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { ICON } from '../../common/constants/Icons.js';
+import { Utilities } from './Utilities.js';
 
 const _CFT_COMMENT = {
   ICON : `<span class="inline-block s-icon6">__ICON__</span>`,
 };
 
-export class FComment extends blog.FPostBase {
+export class FComment extends FPostBase {
   #fAction;
   #fUserIcon;
   #fUserName;
@@ -23,11 +30,11 @@ export class FComment extends blog.FPostBase {
     this.#fAction.setDelegate(this);
     this.setChild("action", this.#fAction);
 
-    this.#fUserIcon = new S.hr.FUserIcon();
+    this.#fUserIcon = new FUserIcon();
     this.setChild("usericon", this.#fUserIcon);
 
-    this.#fUserName = new S.hr.FUserInfo();
-    this.#fUserName.setLayoutType(S.hr.FUserInfo.T_LAYOUT.COMPACT);
+    this.#fUserName = new FUserInfo();
+    this.#fUserName.setLayoutType(FUserInfo.T_LAYOUT.COMPACT);
     this.setChild("username", this.#fUserName);
   }
 
@@ -50,7 +57,7 @@ export class FComment extends blog.FPostBase {
   }
 
   _renderOnRender(postInfoPanel) {
-    let c = dba.Blog.getComment(this.#commentId);
+    let c = Blog.getComment(this.#commentId);
     if (!c) {
       return;
     }
@@ -61,14 +68,14 @@ export class FComment extends blog.FPostBase {
   }
 
   #onKeep() {
-    let c = dba.Blog.getComment(this.#commentId);
+    let c = Blog.getComment(this.#commentId);
     if (c) {
       this.#asyncKeep(c);
     }
   }
 
   #onDiscard() {
-    let c = dba.Blog.getComment(this.#commentId);
+    let c = Blog.getComment(this.#commentId);
     if (c) {
       this.#asyncDiscard(c);
     }
@@ -129,7 +136,7 @@ export class FComment extends blog.FPostBase {
     if (comment.isPending() && this.#isCommentAdmin(comment)) {
       let s = _CFT_COMMENT.ICON;
       s = s.replace("__ICON__",
-                    Utilities.renderSvgIcon(C.ICON.INFO, "stkred", "fillred"));
+                    Utilities.renderSvgIcon(ICON.INFO, "stkred", "fillred"));
       this.#fAction.setIcon(s);
       this.#fAction.attachRender(panel);
       this.#fAction.render();
@@ -168,11 +175,3 @@ export class FComment extends blog.FPostBase {
     this._delegate.onGuestCommentStatusChangeInCommentFragment(this);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FComment = FComment;
-}

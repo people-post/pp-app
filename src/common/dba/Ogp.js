@@ -56,4 +56,3 @@ function createOgp() {
 }
 
 export const Ogp = createOgp();
-

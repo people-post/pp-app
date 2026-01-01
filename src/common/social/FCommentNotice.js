@@ -86,10 +86,3 @@ export class FCommentNotice extends Fragment {
     return project ? project.getTitle() : projectId;
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.socl = window.socl || {};
-  window.socl.CF_COMMENT_NOTICE_INFO = CF_COMMENT_NOTICE_INFO;
-  window.socl.FCommentNotice = FCommentNotice;
-}

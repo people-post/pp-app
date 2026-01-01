@@ -155,4 +155,3 @@ export class FError extends Fragment {
     this.show(msg);
   }
 };
-

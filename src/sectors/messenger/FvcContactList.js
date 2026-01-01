@@ -43,6 +43,3 @@ export class FvcContactList extends FScrollViewContent {
     this._fList.render();
   }
 };
-
-
-

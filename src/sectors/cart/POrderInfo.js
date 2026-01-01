@@ -45,11 +45,3 @@ export class POrderInfo extends POrderBase {
     this._pItemInfos.attach(this._getSubElementId("I"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cart = window.cart || {};
-  window.cart.POrderInfo = POrderInfo;
-}

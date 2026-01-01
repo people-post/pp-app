@@ -28,11 +28,3 @@ export class PTagEditor extends PTagEditorBase {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hstn = window.hstn || {};
-  window.hstn.PTagEditor = PTagEditor;
-}

@@ -3,8 +3,12 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Journal } from '../../common/datatypes/Journal.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { FPostBase } from './FPostBase.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { FJournalIssueSection } from './FJournalIssueSection.js';
+import { FJournalIssueSectionTagged } from './FJournalIssueSectionTagged.js';
 
-export class FJournalIssue extends blog.FPostBase {
+export class FJournalIssue extends FPostBase {
   #issueId = null;
   #fSections;
 
@@ -28,12 +32,12 @@ export class FJournalIssue extends blog.FPostBase {
   }
 
   _renderOnRender(postPanel) {
-    let issue = dba.Blog.getJournalIssue(this.#issueId);
+    let issue = Blog.getJournalIssue(this.#issueId);
     if (!issue) {
       return;
     }
 
-    let journal = dba.Blog.getJournal(issue.getJournalId());
+    let journal = Blog.getJournal(issue.getJournalId());
     this.#renderTitle(postPanel.getTitlePanel(), journal, issue);
     this.#renderAbstract(postPanel.getAbstractPanel(), issue);
     this.#renderSections(postPanel.getContentPanel(), journal,
@@ -99,7 +103,7 @@ export class FJournalIssue extends blog.FPostBase {
     for (let s of sections) {
       let p = new PanelWrapper();
       pList.pushPanel(p);
-      let f = new blog.FJournalIssueSection();
+      let f = new FJournalIssueSection();
       f.setData(s);
       f.attachRender(p);
       f.render();
@@ -117,7 +121,7 @@ export class FJournalIssue extends blog.FPostBase {
       let p = new PanelWrapper();
       pList.pushPanel(p);
 
-      let f = new blog.FJournalIssueSectionTagged();
+      let f = new FJournalIssueSectionTagged();
       f.setTagId(tId);
       f.setPlaceholder(config.getPlaceholder());
       f.setData(m.get(tId));
@@ -127,11 +131,3 @@ export class FJournalIssue extends blog.FPostBase {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FJournalIssue = FJournalIssue;
-}

@@ -146,11 +146,3 @@ export class POverview extends Panel {
     this.#pBtnIssue.attach(this._getSubElementId("I"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.POverview = POverview;
-}

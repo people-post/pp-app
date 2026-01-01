@@ -154,9 +154,3 @@ export class RealTimeCommentAgent extends Controller {
     }
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.socl = window.socl || {};
-  window.socl.RealTimeCommentAgent = RealTimeCommentAgent;
-}

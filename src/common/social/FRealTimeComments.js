@@ -210,11 +210,3 @@ export class FRealTimeComments extends Fragment {
     this.#hComments.asyncPost(message, guestName);
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.socl = window.socl || {};
-  window.socl.PRealTimeComments = PRealTimeComments;
-  window.socl.CF_COMMENTS = CF_COMMENTS;
-  window.socl.FRealTimeComments = FRealTimeComments;
-}

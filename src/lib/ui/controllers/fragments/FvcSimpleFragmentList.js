@@ -19,4 +19,3 @@ export class FvcSimpleFragmentList extends FScrollViewContent {
     this.#fList.render();
   }
 };
-

@@ -23,11 +23,3 @@ export class FvcQuizList extends FScrollViewContent {
     this._fQuizzes.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.FvcQuizList = FvcQuizList;
-}

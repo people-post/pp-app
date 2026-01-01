@@ -95,11 +95,3 @@ export class FJournal extends Fragment {
 
   #onClick() { this._delegate.onClickInJournalFragment(this); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.CF_JOURNAL = CF_JOURNAL;
-}

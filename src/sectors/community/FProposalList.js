@@ -87,9 +87,3 @@ export class FProposalList extends DefaultLongList {
     }
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.FProposalList = FProposalList;
-}

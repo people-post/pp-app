@@ -24,5 +24,3 @@ export class FeedArticle extends Post {
   getUpdateTime() { return new Date(this._data.created_at * 1000); }
   getSourceUrl() { return this._data.url; }
 };
-
-

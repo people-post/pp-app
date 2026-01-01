@@ -14,11 +14,3 @@ export class FvcBookAppointment extends FScrollViewContent {
     this._fFilter.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FvcBookAppointment = FvcBookAppointment;
-}

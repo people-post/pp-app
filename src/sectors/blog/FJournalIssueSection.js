@@ -1,5 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { FPostInfo } from './FPostInfo.js';
 
 export class FJournalIssueSection extends Fragment {
   #data = null;
@@ -7,7 +8,7 @@ export class FJournalIssueSection extends Fragment {
 
   constructor() {
     super();
-    this.#fPost = new blog.FPostInfo();
+    this.#fPost = new FPostInfo();
     this.#fPost.setSizeType(SocialItem.T_LAYOUT.EXT_EMBED);
     this.#fPost.setDataSource(this);
     this.#fPost.setDelegate(this);
@@ -25,11 +26,3 @@ export class FJournalIssueSection extends Fragment {
     this.#fPost.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FJournalIssueSection = FJournalIssueSection;
-}

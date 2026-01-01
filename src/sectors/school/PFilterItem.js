@@ -34,11 +34,3 @@ export class PFilterItem extends Panel {
     this._pHint.attach(this._getSubElementId("H"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.PFilterItem = PFilterItem;
-}

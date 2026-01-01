@@ -48,12 +48,3 @@ export class PServiceTimeslotEditor extends Panel {
     this._pBtnDelete.attach(this._getSubElementId("B"));
   }
 };
-
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PServiceTimeslotEditor = PServiceTimeslotEditor;
-}

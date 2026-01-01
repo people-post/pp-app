@@ -120,9 +120,3 @@ export class FRealTimeComment extends Fragment {
     return Utilities.renderSmartTime(comment.getCreationTime());
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.socl = window.socl || {};
-  window.socl.FRealTimeComment = FRealTimeComment;
-}

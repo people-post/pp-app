@@ -45,11 +45,3 @@ export class FGlobalCommunityInfo extends Fragment {
     cell.innerHTML = col2;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.FGlobalCommunityInfo = FGlobalCommunityInfo;
-}

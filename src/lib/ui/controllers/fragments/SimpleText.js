@@ -8,4 +8,3 @@ export class SimpleText extends Fragment {
 
   _renderContent() { return this._text; }
 };
-

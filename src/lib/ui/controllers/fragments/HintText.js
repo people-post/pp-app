@@ -6,4 +6,3 @@ export class HintText extends Label {
     this.setClassName("hint-text");
   }
 }
-

@@ -21,11 +21,3 @@ export class PEmailBase extends Panel {
 
   invertColor() {}
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.emal = window.emal || {};
-  window.emal.PEmailBase = PEmailBase;
-}

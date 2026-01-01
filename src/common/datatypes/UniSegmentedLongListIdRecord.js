@@ -13,5 +13,3 @@ export class UniSegmentedLongListIdRecord extends UniLongListIdRecord {
     this.#nextSegmentId = 0;
   }
 };
-
-

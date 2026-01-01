@@ -124,11 +124,3 @@ export class FvcEmail extends FScrollViewContent {
     Mail.remove(emailId);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.emal = window.emal || {};
-  window.emal.FvcEmail = FvcEmail;
-}

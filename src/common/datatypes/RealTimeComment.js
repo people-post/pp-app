@@ -27,5 +27,3 @@ export class RealTimeComment extends ChatMessage {
     return text;
   }
 };
-
-

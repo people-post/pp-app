@@ -74,4 +74,3 @@ export class MenuItemName extends Fragment {
     this._delegate.onGuiMenuItemNameRequestDeleteItem(this, this._itemId);
   }
 };
-

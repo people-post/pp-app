@@ -10,5 +10,3 @@ export class Notice {
   getFromIdType() { return null; }
   getNUnread() { return 0; }
 };
-
-

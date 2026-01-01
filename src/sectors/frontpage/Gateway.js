@@ -49,11 +49,3 @@ export class Gateway extends SectorGateway {
     return this._createMainViewContentFragmentForGuest();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.ftpg = window.ftpg || {};
-  window.ftpg.Gateway = Gateway;
-}

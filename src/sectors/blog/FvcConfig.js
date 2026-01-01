@@ -244,11 +244,3 @@ export class FvcConfig extends FScrollViewContent {
     this.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FvcConfig = FvcConfig;
-}

@@ -94,4 +94,3 @@ function createAuth() {
 }
 
 export const Auth = createAuth();
-

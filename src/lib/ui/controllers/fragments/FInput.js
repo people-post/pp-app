@@ -14,4 +14,3 @@ export class FInput extends Fragment {
     return document.getElementById(this._getInputElementId());
   }
 }
-

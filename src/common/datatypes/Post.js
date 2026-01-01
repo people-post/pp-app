@@ -19,5 +19,3 @@ export class Post extends SocialItem {
   getHashtagIds() { return []; }
   getTaggedCommentIds(tagId) { return []; }
 };
-
-

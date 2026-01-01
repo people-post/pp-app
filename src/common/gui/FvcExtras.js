@@ -147,4 +147,3 @@ export class FvcExtras extends FScrollViewContent {
     //  fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, e);
   }
 };
-

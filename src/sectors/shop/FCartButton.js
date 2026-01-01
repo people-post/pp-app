@@ -15,11 +15,3 @@ export class FCartButton extends ActionButton {
     return ActionButton.T_ICON.ORDER + s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FCartButton = FCartButton;
-}

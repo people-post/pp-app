@@ -22,9 +22,3 @@ export class FvcPaymentTerminal extends FScrollViewContent {
     this._fTerminal.render();
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.pay = window.pay || {};
-  window.pay.FvcPaymentTerminal = FvcPaymentTerminal;
-}

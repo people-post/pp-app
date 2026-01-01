@@ -66,9 +66,3 @@ export class FGeneralSearch extends FSearch {
     this._updateResult(key, r);
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.srch = window.srch || {};
-  window.srch.FGeneralSearch = FGeneralSearch;
-}

@@ -51,9 +51,3 @@ export class FvcAccountActivation extends FScrollViewContent {
     this._isActivating = false;
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.auth = window.auth || {};
-  window.auth.FvcAccountActivation = FvcAccountActivation;
-}

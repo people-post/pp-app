@@ -68,11 +68,3 @@ export class FServiceLocationFilter extends Fragment {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FServiceLocationFilter = FServiceLocationFilter;
-}

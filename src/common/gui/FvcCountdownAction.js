@@ -73,4 +73,3 @@ export class FvcCountdownAction extends FScrollViewContent {
     this._owner.onContentFragmentRequestPopView(this);
   }
 };
-

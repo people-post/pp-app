@@ -432,11 +432,3 @@ export class FOverview extends Fragment {
     Communities.updateProfile(new CommunityProfile(data.profile));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.FOverview = FOverview;
-}

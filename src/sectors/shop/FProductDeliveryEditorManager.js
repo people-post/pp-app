@@ -104,11 +104,3 @@ export class FProductDeliveryEditorManager extends Fragment {
                              "Context");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FProductDeliveryEditorManager = FProductDeliveryEditorManager;
-}

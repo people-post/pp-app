@@ -49,11 +49,3 @@ export class FTaggedCommentList extends Fragment {
     this.#fComments.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FTaggedCommentList = FTaggedCommentList;
-}

@@ -72,4 +72,3 @@ export class FFileUploader extends Fragment {
     return this._uploader;
   }
 }
-

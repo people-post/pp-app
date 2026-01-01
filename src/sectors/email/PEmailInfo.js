@@ -58,11 +58,3 @@ export class PEmailInfo extends PEmailBase {
     this._pSender.attach(this._getSubElementId("S"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.emal = window.emal || {};
-  window.emal.PEmailInfo = PEmailInfo;
-}

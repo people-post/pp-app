@@ -26,4 +26,3 @@ export class Fragment extends RenderController {
     this._owner.onContentTopResizeEndInFragment(this);
   }
 };
-

@@ -42,9 +42,3 @@ export class PPaymentTerminalSmall extends PPaymentTerminalBase {
     this._pStatus.attach(this._getSubElementId("S"));
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.pay = window.pay || {};
-  window.pay.PPaymentTerminalSmall = PPaymentTerminalSmall;
-}

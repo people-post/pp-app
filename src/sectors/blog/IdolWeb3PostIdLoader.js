@@ -24,11 +24,3 @@ export class IdolWeb3PostIdLoader extends LongListIdLoader {
   asyncLoadFrontItems() {}
   asyncLoadBackItems() { this.#loaders[0].asyncLoadBackItems(); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.IdolWeb3PostIdLoader = IdolWeb3PostIdLoader;
-}

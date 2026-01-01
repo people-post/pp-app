@@ -205,11 +205,3 @@ export class AbNew extends Fragment {
     this._owner.onFragmentRequestShowView(this, v, "Draft issue");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.AbNew = AbNew;
-}

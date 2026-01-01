@@ -136,4 +136,3 @@ export class AddressEditor extends Fragment {
     return new Address(data);
   }
 };
-

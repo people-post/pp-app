@@ -77,4 +77,3 @@ export class NumberInput extends SimpleInput {
     return true;
   }
 };
-

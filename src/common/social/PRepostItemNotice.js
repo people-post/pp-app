@@ -29,9 +29,3 @@ export class PRepostItemNotice extends Panel {
     this._pTitle.attach(this._getSubElementId("T"));
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.socl = window.socl || {};
-  window.socl.PRepostItemNotice = PRepostItemNotice;
-}

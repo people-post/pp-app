@@ -210,12 +210,3 @@ export class FEmail extends MajorSectorItem {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.CF_EMAIL_INFO = CF_EMAIL_INFO;
-  window.emal = window.emal || {};
-  window.emal.FEmail = FEmail;
-}

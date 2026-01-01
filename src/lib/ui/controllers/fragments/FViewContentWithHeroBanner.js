@@ -146,4 +146,3 @@ export class FViewContentWithHeroBanner extends FViewContentWrapper {
     }
   }
 };
-

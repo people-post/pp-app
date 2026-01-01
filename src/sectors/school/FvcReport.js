@@ -9,11 +9,3 @@ export class FvcReport extends FScrollViewContent {
     render.replaceContent("Report");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.FvcReport = FvcReport;
-}

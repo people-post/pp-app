@@ -53,11 +53,3 @@ export class FvcCheckoutSuccess extends FScrollViewContent {
     this._owner.onContentFragmentRequestReplaceView(this, v, "Order");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cart = window.cart || {};
-  window.cart.CF_CHECKOUT_SUCCESS = CF_CHECKOUT_SUCCESS;
-}

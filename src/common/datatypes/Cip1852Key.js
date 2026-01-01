@@ -11,5 +11,3 @@ export class Cip1852Key {
     return Cardano.make_vkey_witness(msg, this.#key.to_raw_key());
   }
 };
-
-

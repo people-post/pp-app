@@ -8,5 +8,3 @@ export class Vote extends ServerDataObject {
   getItemId() { return this._data.item_id; }
   getValue() { return this._data.value; }
 };
-
-

@@ -12,11 +12,3 @@ export class PTagEditorBase extends Panel {
   getQuickButtonPanel() { return null; }
   getThemePanel() { return null; }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hstn = window.hstn || {};
-  window.hstn.PTagEditorBase = PTagEditorBase;
-}

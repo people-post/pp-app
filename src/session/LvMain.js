@@ -67,4 +67,3 @@ export class LvMain extends LvTabbedPage {
     return id;
   }
 };
-

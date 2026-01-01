@@ -61,11 +61,3 @@ export class PWeb3ArticleEditor extends PArticleBase {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.PWeb3ArticleEditor = PWeb3ArticleEditor;
-}

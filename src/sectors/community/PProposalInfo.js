@@ -64,11 +64,3 @@ export class PProposalInfo extends PProposalBase {
     this._pVotingSummary.attach(this._getSubElementId("VS"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.PProposalInfo = PProposalInfo;
-}

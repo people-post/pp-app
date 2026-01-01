@@ -138,11 +138,3 @@ export class FTimeClock extends Fragment {
     this.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.FTimeClock = FTimeClock;
-}

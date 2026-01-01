@@ -75,11 +75,3 @@ export class Web3Publisher {
     return null;
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.pdb = window.pdb || {};
-  window.pdb.Web3PeerPublisherAgent = Web3PeerPublisherAgent;
-  window.pdb.Web3GroupPublisherAgent = Web3GroupPublisherAgent;
-  window.pdb.Web3Publisher = Web3Publisher;
-}

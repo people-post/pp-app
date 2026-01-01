@@ -48,5 +48,3 @@ export class Cart {
     return count;
   }
 };
-
-

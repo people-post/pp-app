@@ -9,4 +9,3 @@ export class FScrollable extends Fragment {
   scrollToTop() {}
   reload() {}
 };
-

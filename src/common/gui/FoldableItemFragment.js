@@ -103,4 +103,3 @@ export class FoldableItemFragment extends Fragment {
     this.render();
   }
 };
-

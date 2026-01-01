@@ -61,11 +61,3 @@ export class OwnerWeb3PostIdLoader extends LongListIdLoader {
     this._delegate.onIdUpdatedInLongListIdLoader(this);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.OwnerWeb3PostIdLoader = OwnerWeb3PostIdLoader;
-}

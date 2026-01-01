@@ -12,4 +12,3 @@ export class FScrollViewContent extends FViewContentBase {
   _renderOnRender(render) { this._renderContentOnRender(render); }
   _renderContentOnRender(render) {}
 };
-

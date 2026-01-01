@@ -86,9 +86,3 @@ export class FvcAddressList extends FScrollViewContent {
 
   #onDeleteRRR(data) { Account.resetAddressIds(data.address_ids);   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.acnt = window.acnt || {};
-  window.acnt.FvcAddressList = FvcAddressList;
-}

@@ -29,5 +29,3 @@ export class ChatMessage extends ServerDataObject {
   getType() { return this._data.type; }
   getData() { return this._data.data; }
 };
-
-

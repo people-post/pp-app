@@ -88,4 +88,3 @@ export class FViewContentContainer extends FViewContentBase {
 
   _getContentFragment() { return null; }
 };
-

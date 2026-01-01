@@ -42,6 +42,3 @@ export class FvcMessengerNoticeList extends FScrollViewContent {
     super.handleSessionDataUpdate.apply(this, arguments);
   }
 };
-
-
-

@@ -55,4 +55,3 @@ export class PanelListPanel extends Panel {
 
   _getPanelRootElement() { return this.getDomElement(); }
 }
-

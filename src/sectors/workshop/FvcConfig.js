@@ -150,11 +150,3 @@ export class FvcConfig extends FScrollViewContent {
             this._delegate.onWorkshopConfigFragmentRequestCloseWorkshop(this));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FvcConfig = FvcConfig;
-}

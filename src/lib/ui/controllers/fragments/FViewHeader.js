@@ -240,4 +240,3 @@ export class FViewHeader extends Fragment {
     };
   }
 };
-

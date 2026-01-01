@@ -18,11 +18,3 @@ export class FvcSupplierOrder extends FScrollViewContent {
     this.#fOrder.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FvcSupplierOrder = FvcSupplierOrder;
-}

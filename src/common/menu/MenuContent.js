@@ -11,4 +11,3 @@ export class MenuContent extends Fragment {
   setQuickLinkRenderMode(b) { this._isQuickLinkRenderMode = b; }
   resetStatus() { this.setQuickLinkRenderMode(false); }
 };
-

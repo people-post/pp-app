@@ -91,11 +91,3 @@ export class FvcPreCheckout extends FScrollViewContent {
     this._owner.onFragmentRequestShowView(this, v, "Checkout");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FvcPreCheckout = FvcPreCheckout;
-}

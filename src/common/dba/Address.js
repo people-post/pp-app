@@ -56,4 +56,3 @@ function createAddress() {
 }
 
 export const Address = createAddress();
-

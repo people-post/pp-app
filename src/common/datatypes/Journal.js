@@ -30,5 +30,3 @@ export class Journal {
     return c;
   }
 };
-
-

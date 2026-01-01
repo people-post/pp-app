@@ -61,9 +61,3 @@ export class Web3CommentIdLoader extends LongListIdLoader {
     }
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.socl = window.socl || {};
-  window.socl.Web3CommentIdLoader = Web3CommentIdLoader;
-}

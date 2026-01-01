@@ -188,10 +188,3 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
     }
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.auth = window.auth || {};
-  window.auth.CF_LOGIN_PROXY = CF_LOGIN_PROXY;
-  window.auth.FvcLoginProxy = FvcLoginProxy;
-}

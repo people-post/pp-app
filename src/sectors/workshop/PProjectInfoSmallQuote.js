@@ -66,11 +66,3 @@ export class PProjectInfoSmallQuote extends PProjectInfoBase {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.PProjectInfoSmallQuote = PProjectInfoSmallQuote;
-}

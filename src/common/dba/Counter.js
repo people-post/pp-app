@@ -11,4 +11,3 @@ function createCounter() {
 }
 
 export const Counter = createCounter();
-

@@ -19,4 +19,3 @@ export const GMessenger = function() {
     getOrInitHandler : _getOrInitHandler,
   };
 }();
-

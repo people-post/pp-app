@@ -102,4 +102,3 @@ export class PAddress extends PAddressBase {
     this._pBtnDelete.attach(this._getSubElementId("D"));
   }
 };
-

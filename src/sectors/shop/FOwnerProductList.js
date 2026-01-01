@@ -77,11 +77,3 @@ export class FOwnerProductList extends FProductList {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FOwnerProductList = FOwnerProductList;
-}

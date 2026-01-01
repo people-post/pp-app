@@ -244,4 +244,3 @@ export class LMultiChoice extends Layer {
   }
   #onClose() { this.dismiss(); }
 }
-

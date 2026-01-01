@@ -90,11 +90,3 @@ export class Gateway extends SectorGateway {
     return vs;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.psud = window.psud || {};
-  window.psud.Gateway = Gateway;
-}

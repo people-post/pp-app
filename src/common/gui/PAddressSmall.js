@@ -56,4 +56,3 @@ export class PAddressSmall extends PAddressBase {
     this._pLine2.attach(this._getSubElementId("L2"));
   }
 };
-

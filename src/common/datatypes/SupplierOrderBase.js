@@ -34,5 +34,3 @@ export class SupplierOrderBase extends ServerDataObject {
     return items;
   }
 };
-
-

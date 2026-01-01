@@ -31,4 +31,3 @@ export class MenuEntryItemName extends MenuItemName {
     return "";
   }
 };
-

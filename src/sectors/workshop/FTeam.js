@@ -63,11 +63,3 @@ export class FTeam extends Fragment {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.CF_TEAM = CF_TEAM;
-}

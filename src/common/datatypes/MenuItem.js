@@ -14,5 +14,3 @@ export class MenuItem extends DirItem {
   _getPathItem() { return this.getTagId(); }
   _createSubItem(data) { return new MenuItem(data, this); }
 };
-
-

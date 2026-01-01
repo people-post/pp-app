@@ -15,11 +15,3 @@ export class FvcCareerList extends FScrollViewContent {
     this.#fList.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FvcCareerList = FvcCareerList;
-}

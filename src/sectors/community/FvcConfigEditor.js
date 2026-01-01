@@ -184,11 +184,3 @@ export class FvcConfigEditor extends FScrollViewContent {
     });
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.FvcConfigEditor = FvcConfigEditor;
-}

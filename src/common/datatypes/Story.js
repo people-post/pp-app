@@ -12,5 +12,3 @@ export class Story extends ServerDataObject {
 
   getEvents() { return this._events; }
 };
-
-

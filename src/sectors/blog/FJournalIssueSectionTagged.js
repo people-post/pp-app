@@ -94,12 +94,3 @@ class FJournalIssueSectionTagged extends Fragment {
     }
   }
 };
-
-blog.FJournalIssueSectionTagged = FJournalIssueSectionTagged;
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.PJournalIssueSectionTagged = PJournalIssueSectionTagged;
-}

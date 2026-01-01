@@ -162,11 +162,3 @@ export class FWeb3ArticleEditor extends Fragment {
     this.onLocalErrorInFragment(this, R.get("EL_API_POST"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FWeb3ArticleEditor = FWeb3ArticleEditor;
-}

@@ -91,10 +91,3 @@ export class FvcResetPassword extends FScrollViewContent {
 
   #onResetPasswordRRR(data) { this.#onResetSuccess();   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.auth = window.auth || {};
-  window.auth.CF_RESET_PASSWORD = CF_RESET_PASSWORD;
-  window.auth.FvcResetPassword = FvcResetPassword;
-}

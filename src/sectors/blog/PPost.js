@@ -133,11 +133,3 @@ export class PPost extends PPostBase {
     this.#pSourceLink.attach(this._getSubElementId("SL"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.PPost = PPost;
-}

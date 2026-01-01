@@ -31,4 +31,3 @@ export class ConsoleColPanel extends ConsolePanel {
     super._onFrameworkDidAppear();
   }
 };
-

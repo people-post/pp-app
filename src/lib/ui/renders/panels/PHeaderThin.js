@@ -63,4 +63,3 @@ export class PHeaderThin extends PHeader {
     this._initMenuContentAnimationHandler(this._getSubElementId("C"));
   }
 };
-

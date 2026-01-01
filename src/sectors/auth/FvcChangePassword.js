@@ -96,10 +96,3 @@ export class FvcChangePassword extends FScrollViewContent {
 
   #onChangePasswordRRR(data) { this.#onChangeSuccess();   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.auth = window.auth || {};
-  window.auth.CF_CHANGE_PASSWORD = CF_CHANGE_PASSWORD;
-  window.auth.FvcChangePassword = FvcChangePassword;
-}

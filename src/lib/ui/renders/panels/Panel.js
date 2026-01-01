@@ -187,4 +187,3 @@ export class Panel extends Render {
     }
   }
 }
-

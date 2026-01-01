@@ -24,11 +24,3 @@ export class FOrderItem extends Fragment {
     this._fSubItems.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cart = window.cart || {};
-  window.cart.FOrderItem = FOrderItem;
-}

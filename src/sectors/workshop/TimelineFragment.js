@@ -55,11 +55,3 @@ export class TimelineFragment extends Fragment {
     return p;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.TimelineFragment = TimelineFragment;
-}

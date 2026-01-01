@@ -163,6 +163,3 @@ export class FChatMessage extends Fragment {
     Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 };
-
-
-

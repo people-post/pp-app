@@ -37,4 +37,3 @@ export class FTag extends Fragment {
     }
   }
 };
-

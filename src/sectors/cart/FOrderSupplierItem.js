@@ -46,11 +46,3 @@ export class FOrderSupplierItem extends Fragment {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cart = window.cart || {};
-  window.cart.FOrderSupplierItem = FOrderSupplierItem;
-}

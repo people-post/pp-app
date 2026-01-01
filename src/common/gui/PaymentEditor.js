@@ -36,4 +36,3 @@ const _CFT_PAYMENT_EDITOR = {
 export class PaymentEditor extends Fragment {
   _renderOnRender(render) { render.replaceContent(_CFT_PAYMENT_EDITOR.MAIN); }
 }
-

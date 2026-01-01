@@ -34,11 +34,3 @@ export class PPostInfoEmbed extends PPostInfoBase {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.PPostInfoEmbed = PPostInfoEmbed;
-}

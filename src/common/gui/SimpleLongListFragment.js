@@ -56,4 +56,3 @@ export class SimpleLongListFragment extends FLongListLegacy {
     }
   }
 };
-

@@ -108,4 +108,3 @@ export class PriceFragment extends Fragment {
     this._prices = ps;
   }
 };
-

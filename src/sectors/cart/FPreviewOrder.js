@@ -48,11 +48,3 @@ export class FPreviewOrder extends Fragment {
     pp.replaceContent("Total: " + Utilities.renderPrice(c, order.getTotal()));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cart = window.cart || {};
-  window.cart.FPreviewOrder = FPreviewOrder;
-}

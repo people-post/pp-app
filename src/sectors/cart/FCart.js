@@ -185,11 +185,3 @@ export class FCart extends Fragment {
                                                  this._currencyId);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cart = window.cart || {};
-  window.cart.FCart = FCart;
-}

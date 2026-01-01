@@ -72,4 +72,3 @@ export class OptionSwitch extends Fragment {
     this._delegate.onOptionChangeInOptionsFragment(this, value, isChecked);
   }
 }
-

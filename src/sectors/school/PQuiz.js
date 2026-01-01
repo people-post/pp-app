@@ -31,11 +31,3 @@ export class PQuiz extends PQuizBase {
     this._pChoices.attach(this._getSubElementId("C"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.PQuiz = PQuiz;
-}

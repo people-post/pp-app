@@ -175,9 +175,3 @@ export class OwnerPostIdLoader extends LongListIdLoader {
     return ids.map(id => id.toEncodedStr());
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.OwnerPostIdLoader = OwnerPostIdLoader;
-}

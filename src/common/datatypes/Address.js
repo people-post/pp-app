@@ -10,5 +10,3 @@ export class Address extends ServerDataObject {
   getZipcode() { return this._data.zipcode; }
   getLine(idx) { return this._data.lines[idx]; }
 };
-
-

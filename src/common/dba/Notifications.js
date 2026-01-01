@@ -225,4 +225,3 @@ export const Notifications = function() {
     getMessageThreadInfo : _getMessageThreadInfo,
   };
 }();
-

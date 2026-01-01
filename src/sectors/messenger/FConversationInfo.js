@@ -30,7 +30,3 @@ export class FConversationInfo extends msgr.FChatThreadInfo {
     this._delegate.onClickInConversationInfoFragment(this, this._threadId);
   }
 };
-
-
-
-

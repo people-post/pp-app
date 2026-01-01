@@ -432,7 +432,6 @@ function shimGetStats(window) {
     // If selector is a function then we are in the old style stats so just
     // pass back the original getStats format to avoid breaking old users.
 
-
     if (arguments.length > 0 && typeof selector === 'function') {
       return origGetStats.apply(this, arguments);
     }
@@ -2617,7 +2616,6 @@ function detectBrowser(window) {
   }
 
   var navigator = window.navigator;
-
 
   if (navigator.mozGetUserMedia) {
     // Firefox.

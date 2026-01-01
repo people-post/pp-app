@@ -60,6 +60,14 @@ import { FrontPageLayoutConfig } from '../../common/datatypes/FrontPageLayoutCon
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FHomeBtn } from '../../session/FHomeBtn.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { FJournalMenu } from './FJournalMenu.js';
+import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
+import { ICON } from '../../common/constants/Icons.js';
+import { FSearchMenu } from '../../common/search/FSearchMenu.js';
+import { OwnerJournalIssueIdLoader } from '../blog/OwnerJournalIssueIdLoader.js';
+import { FPostInfo } from '../blog/FPostInfo.js';
+import { FTaggedCommentList } from '../blog/FTaggedCommentList.js';
 
 export class PJournal extends Panel {
   #pMain;
@@ -128,31 +136,31 @@ class FvcJournal extends FViewContentBase {
   constructor() {
     super();
     this.#fHome = new FHomeBtn();
-    this.#fHome.setUrl(dba.WebConfig.getHomeUrl());
+    this.#fHome.setUrl(WebConfig.getHomeUrl());
 
     this.#fmJournal = new FHeaderMenu();
-    this.#mJournal = new ftpg.FJournalMenu();
+    this.#mJournal = new FJournalMenu();
     this.#mJournal.setDelegate(this);
     this.#fmJournal.setContentFragment(this.#mJournal);
     this.#fmJournal.setExpandableInNarrowHeader(true);
 
     this.#fmSearch = new FHeaderMenu();
-    this.#fmSearch.setIcon(C.ICON.M_SEARCH, new SearchIconOperator());
-    let f = new srch.FSearchMenu();
+    this.#fmSearch.setIcon(ICON.M_SEARCH, new SearchIconOperator());
+    let f = new FSearchMenu();
     f.setDelegate(this);
     this.#fmSearch.setContentFragment(f);
     this.#fmSearch.setExpansionPriority(1);
 
-    this.#idLoader = new blog.OwnerJournalIssueIdLoader();
+    this.#idLoader = new OwnerJournalIssueIdLoader();
     this.#idLoader.setDelegate(this);
 
-    this.#fIssue = new blog.FPostInfo();
+    this.#fIssue = new FPostInfo();
     this.#fIssue.setSizeType(SocialItem.T_LAYOUT.EXT_FULL_PAGE);
     this.setChild("issue", this.#fIssue);
 
-    this.#fLeft = new blog.FTaggedCommentList();
-    this.#fRight = new blog.FTaggedCommentList();
-    this.#fBottom = new blog.FTaggedCommentList();
+    this.#fLeft = new FTaggedCommentList();
+    this.#fRight = new FTaggedCommentList();
+    this.#fBottom = new FTaggedCommentList();
 
     this.#fcPanels = new FFragmentList();
     this.setChild("commentPanelFragments", this.#fcPanels);
@@ -340,10 +348,3 @@ class FvcJournal extends FViewContentBase {
 };
 
 ftpg.FvcJournal = FvcJournal;
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.ftpg = window.ftpg || {};
-  window.ftpg.PJournal = PJournal;
-}

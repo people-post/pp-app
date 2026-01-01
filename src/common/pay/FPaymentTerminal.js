@@ -164,10 +164,3 @@ export class FPaymentTerminal extends Fragment {
     Shop.updatePaymentTerminal(new PaymentTerminal(data.terminal));
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.pay = window.pay || {};
-  window.pay.CF_PAYMENT_TERMINAL = CF_PAYMENT_TERMINAL;
-  window.pay.FPaymentTerminal = FPaymentTerminal;
-}

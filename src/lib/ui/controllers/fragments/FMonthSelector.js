@@ -157,4 +157,3 @@ export class FMonthSelector extends Fragment {
     this.render();
   }
 };
-

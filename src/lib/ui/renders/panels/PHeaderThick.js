@@ -46,4 +46,3 @@ export class PHeaderThick extends PHeader {
     this._initMenuContentAnimationHandler(this._getSubElementId("C"));
   }
 };
-

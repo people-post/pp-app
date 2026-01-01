@@ -91,11 +91,3 @@ export class PArticleEditor extends PArticleBase {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.PArticleEditor = PArticleEditor;
-}

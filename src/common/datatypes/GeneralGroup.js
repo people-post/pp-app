@@ -16,4 +16,3 @@ export class GeneralGroup extends ServerDataObject {
     return this._data.theme ? new ColorTheme(this._data.theme) : null;
   }
 };
-

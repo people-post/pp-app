@@ -215,4 +215,3 @@ export class PriceEditorFragment extends Fragment {
     return s;
   }
 };
-

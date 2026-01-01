@@ -69,11 +69,3 @@ export class FvcLegacyIdolList extends FScrollViewContent {
     this._owner.onFragmentRequestShowView(this, v, "Add idol");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hr = window.hr || {};
-  window.hr.FvcLegacyIdolList = FvcLegacyIdolList;
-}

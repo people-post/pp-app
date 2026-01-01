@@ -47,12 +47,3 @@ export class PServiceLocationEditor extends Panel {
     this._pBtnAdd.attach(this._getSubElementId("B"));
   }
 };
-
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PServiceLocationEditor = PServiceLocationEditor;
-}

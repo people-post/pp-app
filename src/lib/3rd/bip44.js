@@ -1253,9 +1253,3 @@ export const bip44 = [
   [ 0xc655456b, 'RWA', 'Asset Chain' ],
   [ 0xc6554575, 'HXC', 'HuaXia Chain' ]
 ];
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.C = window.C || {};
-  window.C.bip44 = bip44;
-}

@@ -170,9 +170,3 @@ export class FCommentInput extends Fragment {
     this.onRemoteErrorInFragment(this, e);
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.socl = window.socl || {};
-  window.socl.FCommentInput = FCommentInput;
-}

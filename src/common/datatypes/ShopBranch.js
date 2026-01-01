@@ -5,5 +5,3 @@ export class ShopBranch extends ServerDataObject {
   getOwnerId() { return this._data.owner_id; }
   getAddressId() { return this._data.address_id; }
 };
-
-

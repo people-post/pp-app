@@ -3,5 +3,3 @@ export class SearchResult {
   size() { return this._items.length; }
   getItems() { return this._items; }
 };
-
-

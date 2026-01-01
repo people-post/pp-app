@@ -12,5 +12,3 @@ export class StoryEvent extends ServerDataObject {
   getType() { return this._data.type; }
   getTime() { return this._data.time; }
 };
-
-

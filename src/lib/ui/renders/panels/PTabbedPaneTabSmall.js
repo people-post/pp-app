@@ -53,4 +53,3 @@ export class PTabbedPaneTabSmall extends PTabbedPaneTabBase {
     this._pBtnClose.attach(this._getSubElementId("C"));
   }
 };
-

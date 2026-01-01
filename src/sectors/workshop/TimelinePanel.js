@@ -89,11 +89,3 @@ export class TimelinePanel extends PanelListPanel {
     return p;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.TimelinePanel = TimelinePanel;
-}

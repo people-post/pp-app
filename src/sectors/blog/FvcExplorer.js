@@ -4,6 +4,11 @@ import { URL_PARAM } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
+import { FSearchMenu } from '../../common/search/FSearchMenu.js';
+import { IdolPostIdLoader } from './IdolPostIdLoader.js';
+import { FPostList } from './FPostList.js';
+import { AbNew } from './AbNew.js';
 
 export class FvcExplorer extends FScrollViewContent {
   #fmSearch;
@@ -14,18 +19,18 @@ export class FvcExplorer extends FScrollViewContent {
     super();
     this.#fmSearch = new FHeaderMenu();
     this.#fmSearch.setIcon(ICON.M_SEARCH, new SearchIconOperator());
-    let f = new srch.FSearchMenu();
+    let f = new FSearchMenu();
     f.setDelegate(this);
     this.#fmSearch.setContentFragment(f);
 
-    let loader = new blog.IdolPostIdLoader();
+    let loader = new IdolPostIdLoader();
     loader.setDelegate(this);
-    this.#fPosts = new blog.FPostList();
+    this.#fPosts = new FPostList();
     this.#fPosts.setDelegate(this);
     this.#fPosts.setLoader(loader);
     this.setChild("posts", this.#fPosts);
 
-    this.#fBtnNew = new blog.AbNew();
+    this.#fBtnNew = new AbNew();
   }
 
   initFromUrl(urlParam) {
@@ -80,11 +85,3 @@ export class FvcExplorer extends FScrollViewContent {
     this.#fPosts.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FvcExplorer = FvcExplorer;
-}

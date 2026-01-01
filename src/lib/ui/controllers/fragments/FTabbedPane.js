@@ -87,4 +87,3 @@ export class FTabbedPane extends Fragment {
     this.render();
   }
 };
-

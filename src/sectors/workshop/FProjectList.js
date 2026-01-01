@@ -30,11 +30,3 @@ export class FProjectList extends FSocialItemList {
     return v;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FProjectList = FProjectList;
-}

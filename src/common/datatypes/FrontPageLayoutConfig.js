@@ -12,5 +12,3 @@ export class FrontPageLayoutConfig {
 
   _getData(name) { return this.#data[name]; }
 };
-
-

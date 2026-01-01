@@ -12,5 +12,3 @@ export class Wallet extends DataObject {
     NFSC001: 777,   //
   };
 };
-
-

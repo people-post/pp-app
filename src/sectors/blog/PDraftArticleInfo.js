@@ -63,11 +63,3 @@ export class PDraftArticleInfo extends PArticleBase {
     this._pContent.attach(this._getSubElementId("C"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.PDraftArticleInfo = PDraftArticleInfo;
-}

@@ -53,11 +53,3 @@ export class PProduct extends PProductBase {
     this._pAction.attach(this._getSubElementId("A"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PProduct = PProduct;
-}

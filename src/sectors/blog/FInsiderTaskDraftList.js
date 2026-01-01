@@ -10,11 +10,3 @@ export class FInsiderTaskDraftList extends FDraftList {
     this._renderDrafts(pMain.getContentPanel(), []);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FInsiderTaskDraftList = FInsiderTaskDraftList;
-}

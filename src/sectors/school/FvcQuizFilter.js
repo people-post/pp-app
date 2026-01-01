@@ -115,11 +115,3 @@ export class FvcQuizFilter extends FScrollViewContent {
         this, ids, this._fMethod.getSelectedValue());
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.FvcQuizFilter = FvcQuizFilter;
-}

@@ -32,4 +32,3 @@ export class ListPanel extends PanelListPanel {
     e.removeChild(e.firstChild);
   }
 };
-

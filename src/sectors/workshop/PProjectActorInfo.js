@@ -59,11 +59,3 @@ export class PProjectActorInfo extends Panel {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.PProjectActorInfo = PProjectActorInfo;
-}

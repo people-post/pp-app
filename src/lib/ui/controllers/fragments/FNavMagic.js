@@ -23,4 +23,3 @@ export class FNavMagic extends Fragment {
 
   _renderContent() { return _CFT_UI_NAV_MAGIC.MAIN; }
 };
-

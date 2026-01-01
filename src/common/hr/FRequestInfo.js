@@ -170,11 +170,3 @@ export class FRequestInfo extends Fragment {
     Events.triggerTopAction(T_ACTION.SHOW_GROUP_INFO, groupId);
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.S = window.S || {};
-  window.S.hr = window.S.hr || {};
-  window.S.hr.CF_REQUEST_INFO = CF_REQUEST_INFO;
-  window.S.hr.FRequestInfo = FRequestInfo;
-}

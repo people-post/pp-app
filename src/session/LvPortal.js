@@ -64,4 +64,3 @@ export class LvPortal extends ViewLayer {
     }
   }
 };
-

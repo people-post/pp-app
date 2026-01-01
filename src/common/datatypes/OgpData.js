@@ -31,5 +31,3 @@ export class OgpData {
   setUserId(id) { this._userId = id; }
   setFiles(files) { this._files = files; }
 };
-
-

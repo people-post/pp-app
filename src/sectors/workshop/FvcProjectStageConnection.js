@@ -112,11 +112,3 @@ export class FvcProjectStageConnection extends FScrollViewContent {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FvcProjectStageConnection = FvcProjectStageConnection;
-}

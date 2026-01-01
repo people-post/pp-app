@@ -42,4 +42,3 @@ export class WcSub extends WcSession {
     }
   }
 };
-

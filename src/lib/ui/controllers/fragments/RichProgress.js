@@ -145,4 +145,3 @@ export class RichProgress extends Fragment {
     return "bgyellow";
   }
 };
-

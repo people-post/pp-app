@@ -107,12 +107,3 @@ export class FServiceTimeslotEditor extends Fragment {
     this._fDelete.render();
   }
 };
-
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FServiceTimeslotEditor = FServiceTimeslotEditor;
-}

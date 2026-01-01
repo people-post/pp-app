@@ -175,10 +175,3 @@ export class FvcRegister extends FScrollViewContent {
 
   #onValidateEmailRRR(data) {  }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.CF_REGISTER_CONTENT = CF_REGISTER_CONTENT;
-  window.auth = window.auth || {};
-  window.auth.FvcRegister = FvcRegister;
-}

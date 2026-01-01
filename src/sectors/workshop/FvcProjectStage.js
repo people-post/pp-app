@@ -98,11 +98,3 @@ export class FvcProjectStage extends FScrollViewContent {
     return project && !project.isFinished() && project.isFacilitator(userId);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FvcProjectStage = FvcProjectStage;
-}

@@ -8,5 +8,3 @@ export class SocialInfo extends ServerDataObject {
   getNLinks() { return this._data.n_links; }
   getNComments() { return this._data.n_comments; }
 };
-
-

@@ -68,11 +68,3 @@ export class TimelineVerticalNodePanel extends PanelWrapper {
     this._pLowerFlow.attach(this._getSubElementId("LF"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.TimelineVerticalNodePanel = TimelineVerticalNodePanel;
-}

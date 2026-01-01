@@ -12,10 +12,3 @@ export class PUserInfoBase extends Panel {
   getIconPanel() { return null; }
   getDescriptionPanel() { return null; }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.S = window.S || {};
-  window.S.hr = window.S.hr || {};
-  window.S.hr.PUserInfoBase = PUserInfoBase;
-}

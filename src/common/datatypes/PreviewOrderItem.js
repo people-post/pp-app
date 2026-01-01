@@ -5,5 +5,3 @@ export class PreviewOrderItem {
   getQuantity() { return this._data.quantity; }
   getUnitPrice() { return this._data.unit_price; }
 };
-
-

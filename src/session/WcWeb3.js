@@ -150,4 +150,3 @@ export class WcWeb3 extends WcSession {
     this._pushDialog(v, "User info");
   }
 };
-

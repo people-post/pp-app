@@ -20,11 +20,3 @@ export class PSupplierOrderBase extends Panel {
   getShippingAddressBtnPanel() { return null; }
   getShippingAddressPanel() { return null; }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PSupplierOrderBase = PSupplierOrderBase;
-}

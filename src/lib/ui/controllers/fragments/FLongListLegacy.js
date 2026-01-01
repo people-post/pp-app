@@ -62,4 +62,3 @@ export class FLongListLegacy extends Fragment {
   _createItemView(id) { return null; }
   _resetList() { throw "_resetList is required"; }
 };
-

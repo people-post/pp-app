@@ -46,5 +46,3 @@ export class ProductServiceLocation extends ServerDataObject {
 
   #initTimeslot(data) { return new ProductServiceTimeslot(data); }
 };
-
-

@@ -48,6 +48,3 @@ export class FvcConversationOptions extends FScrollViewContent {
         this);
   }
 };
-
-
-

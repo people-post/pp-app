@@ -38,9 +38,3 @@ export const Utilities = function() {
     stripSimpleTag : _stripSimpleTag,
   };
 }();
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.Utilities = Utilities;
-}

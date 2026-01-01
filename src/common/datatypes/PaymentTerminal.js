@@ -42,5 +42,3 @@ export class PaymentTerminal extends ServerDataObject {
     return obj;
   }
 };
-
-

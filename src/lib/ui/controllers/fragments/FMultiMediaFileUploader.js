@@ -126,4 +126,3 @@ export class FMultiMediaFileUploader extends Fragment {
     this.render();
   }
 }
-

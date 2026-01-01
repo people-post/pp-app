@@ -2,6 +2,10 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { OwnerWeb3PostIdLoader } from './OwnerWeb3PostIdLoader.js';
+import { FPostList } from './FPostList.js';
+import { AbWeb3New } from './AbWeb3New.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcWeb3OwnerPosts extends FScrollViewContent {
   #loader;
@@ -10,9 +14,9 @@ export class FvcWeb3OwnerPosts extends FScrollViewContent {
 
   constructor() {
     super();
-    this.#loader = new blog.OwnerWeb3PostIdLoader();
+    this.#loader = new OwnerWeb3PostIdLoader();
     this.#loader.setDelegate(this);
-    this.#fPosts = new blog.FPostList();
+    this.#fPosts = new FPostList();
     this.#fPosts.setDataSource(this);
     this.#fPosts.setDelegate(this);
     this.#fPosts.setLoader(this.#loader);
@@ -20,7 +24,7 @@ export class FvcWeb3OwnerPosts extends FScrollViewContent {
 
     this.setPreferredWidth({"min" : 320, "best" : 2048, "max" : 0});
 
-    this.#fBtnNew = new blog.AbWeb3New();
+    this.#fBtnNew = new AbWeb3New();
   }
 
   isReloadable() { return true; }
@@ -45,7 +49,7 @@ export class FvcWeb3OwnerPosts extends FScrollViewContent {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case T_DATA.NEW_OWNER_POST:
-      if (this.#loader.getOwnerId() == dba.Account.getId()) {
+      if (this.#loader.getOwnerId() == Account.getId()) {
         this.#fPosts.reset();
       }
       break;
@@ -64,11 +68,3 @@ export class FvcWeb3OwnerPosts extends FScrollViewContent {
     this.#fPosts.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FvcWeb3OwnerPosts = FvcWeb3OwnerPosts;
-}

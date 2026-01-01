@@ -26,11 +26,3 @@ export class FUserList extends FSocialItemList {
 
   _createItemView(id) { return null; }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hr = window.hr || {};
-  window.hr.FUserList = FUserList;
-}

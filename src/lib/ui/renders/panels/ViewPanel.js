@@ -35,4 +35,3 @@ export class ViewPanel extends Panel {
     return s;
   }
 };
-

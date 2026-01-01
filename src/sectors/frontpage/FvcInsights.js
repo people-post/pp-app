@@ -10,11 +10,3 @@ export class FvcInsights extends FViewContentBase {
     panel.replaceContent("Insights");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.ftpg = window.ftpg || {};
-  window.ftpg.FvcInsights = FvcInsights;
-}

@@ -355,11 +355,3 @@ export class FvcWeb3Wallet extends FScrollViewContent {
     return t;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.xchg = window.xchg || {};
-  window.xchg.FvcWeb3Wallet = FvcWeb3Wallet;
-}

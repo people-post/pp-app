@@ -223,4 +223,3 @@ export class Web2Account {
 };
 
 export const Account = new Web2Account();
-

@@ -216,4 +216,3 @@ export class PageViewController extends RenderController {
         this, this.#isOverlayAllowed());
   }
 };
-

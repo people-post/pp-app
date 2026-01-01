@@ -18,11 +18,3 @@ export class FvcProposalList extends FScrollViewContent {
     this._fList.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.FvcProposalList = FvcProposalList;
-}

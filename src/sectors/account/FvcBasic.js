@@ -108,9 +108,3 @@ export class FvcBasic extends FScrollViewContent {
 
   #onUpdateConfigRRR(data) { Account.asyncReload(); }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.acnt = window.acnt || {};
-  window.acnt.FvcBasic = FvcBasic;
-}

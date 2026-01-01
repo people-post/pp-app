@@ -276,11 +276,3 @@ export class FProjectFlowChart extends Fragment {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.CF_PROJECT_FLOW_CHART = CF_PROJECT_FLOW_CHART;
-}

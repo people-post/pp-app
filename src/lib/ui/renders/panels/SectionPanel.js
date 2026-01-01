@@ -21,4 +21,3 @@ export class SectionPanel extends PanelWrapper {
 
   _onFrameworkDidAppear() { this.wrapPanel(this._content); }
 }
-

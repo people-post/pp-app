@@ -67,11 +67,3 @@ export class FProductInfoLayoutPreview extends Fragment {
     this._fInfo.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FProductInfoLayoutPreview = FProductInfoLayoutPreview;
-}

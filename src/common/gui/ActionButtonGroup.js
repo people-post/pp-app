@@ -14,4 +14,3 @@ export class ActionButtonGroup extends FFragmentList {
     }
   }
 }
-

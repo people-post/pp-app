@@ -16,4 +16,3 @@ export class WcPortal extends WcSession {
     glb.env.checkLoadAddonScript(glb.env.SCRIPT.QR_CODE);
   }
 };
-

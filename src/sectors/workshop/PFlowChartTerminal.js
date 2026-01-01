@@ -38,11 +38,3 @@ export class PFlowChartTerminal extends PanelWrapper {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.PFlowChartTerminal = PFlowChartTerminal;
-}

@@ -60,11 +60,3 @@ export class FGoodDelivery extends FProductDelivery {
     return c ? Cart.countProduct(productId) : 0;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FGoodDelivery = FGoodDelivery;
-}

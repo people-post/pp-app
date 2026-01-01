@@ -62,11 +62,3 @@ export class FRole extends Fragment {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.CF_ROLE = CF_ROLE;
-}

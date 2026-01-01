@@ -359,11 +359,3 @@ export class FSupplierOrder extends Fragment {
     Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.CF_SUPPLIER_ORDER = CF_SUPPLIER_ORDER;
-}

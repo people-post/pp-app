@@ -38,4 +38,3 @@ export class LikedItemNotice extends Notice {
 
   addData(d) { this._elements.push(d); }
 };
-

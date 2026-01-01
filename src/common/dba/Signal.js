@@ -134,4 +134,3 @@ export const Signal = function() {
     unsubscribe : _unsubscribe,
   };
 }();
-

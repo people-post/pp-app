@@ -63,4 +63,3 @@ export class ButtonList extends Fragment {
 if (typeof window !== 'undefined') {
   window.CF_BUTTON_LIST = CF_BUTTON_LIST;
 }
-

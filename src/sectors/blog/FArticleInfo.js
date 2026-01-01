@@ -322,11 +322,3 @@ export class FArticleInfo extends FPostBase {
     this.#fBtnContext.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FArticleInfo = FArticleInfo;
-}

@@ -28,4 +28,3 @@ export class PanelWrapper extends Panel {
 
   _onWrapperFrameworkDidAppear() {}
 };
-

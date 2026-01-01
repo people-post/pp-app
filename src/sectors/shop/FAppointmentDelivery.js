@@ -51,11 +51,3 @@ export class FAppointmentDelivery extends FServiceDelivery {
                                 false);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FAppointmentDelivery = FAppointmentDelivery;
-}

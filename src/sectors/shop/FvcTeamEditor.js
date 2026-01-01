@@ -168,11 +168,3 @@ export class FvcTeamEditor extends FScrollViewContent {
     this._owner.onContentFragmentRequestPopView(this);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.CF_SHOP_TEAM_EDITOR = CF_SHOP_TEAM_EDITOR;
-}

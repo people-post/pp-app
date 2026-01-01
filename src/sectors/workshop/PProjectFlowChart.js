@@ -122,11 +122,3 @@ export class PProjectFlowChart extends Panel {
     this._nextChildPanelId += 1;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.PProjectFlowChart = PProjectFlowChart;
-}

@@ -33,4 +33,3 @@ export class PPrice extends PPriceBase {
     this._pSalesPrice.attach(this._getSubElementId("SP"));
   }
 };
-

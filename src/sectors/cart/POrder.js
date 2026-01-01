@@ -81,11 +81,3 @@ export class POrder extends POrderBase {
     this._pShippingAddress.attach(this._getSubElementId("A"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cart = window.cart || {};
-  window.cart.POrder = POrder;
-}

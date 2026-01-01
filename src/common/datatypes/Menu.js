@@ -9,5 +9,3 @@ export class Menu extends MenuItem {
   _getPathItem() { return null; }
   _createSubItem(data) { return new MenuEntryItem(data, this); }
 };
-
-

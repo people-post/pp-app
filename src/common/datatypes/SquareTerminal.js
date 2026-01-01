@@ -7,5 +7,3 @@ export class SquareTerminal extends ServerDataObject {
   getStatus() { return this._data.status; }
   getPairedAt() { return this._data.paired_at; }
 };
-
-

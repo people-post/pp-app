@@ -255,9 +255,3 @@ export const COUNTRIES = {
     [ "Åland Islands", "AX", "ALA", "248" ]
   ],
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.C = window.C || {};
-  window.C.COUNTRIES = COUNTRIES;
-}

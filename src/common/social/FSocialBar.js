@@ -490,12 +490,3 @@ export class FSocialBar extends Fragment {
 
   #onSocialRRR(data) { Social.reload(this.#itemId); }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.socl = window.socl || {};
-  window.socl.CF_SOCIAL_BAR = CF_SOCIAL_BAR;
-  window.socl.PSocialBarItem = PSocialBarItem;
-  window.socl.PSocialBar = PSocialBar;
-  window.socl.FSocialBar = FSocialBar;
-}

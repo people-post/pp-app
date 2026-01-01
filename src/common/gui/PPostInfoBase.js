@@ -16,4 +16,3 @@ export class PPostInfoBase extends PPostBase {
   enableQuote() {}
   invertColor() {}
 };
-

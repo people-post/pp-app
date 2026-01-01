@@ -14,11 +14,3 @@ export class PQuizBase extends Panel {
 
   invertColor() {}
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.PQuizBase = PQuizBase;
-}

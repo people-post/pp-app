@@ -425,5 +425,3 @@ export class Project extends SocialItem {
 
   #createStage(data) { return new SimpleProjectStage(data, this.getId()); }
 };
-
-

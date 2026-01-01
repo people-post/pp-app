@@ -7,4 +7,3 @@ export class AspectPanel extends PanelWrapper {
     return s;
   }
 }
-

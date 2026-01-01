@@ -145,9 +145,3 @@ export class Web3Resolver {
     return a.getServer().getApiUrl(path);
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.pdb = window.pdb || {};
-  window.pdb.Web3Resolver = Web3Resolver;
-}

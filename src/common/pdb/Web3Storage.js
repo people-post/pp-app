@@ -51,11 +51,3 @@ export class Web3Storage {
     return null;
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.pdb = window.pdb || {};
-  window.pdb.Web3PeerStorageAgent = Web3PeerStorageAgent;
-  window.pdb.Web3GroupStorageAgent = Web3GroupStorageAgent;
-  window.pdb.Web3Storage = Web3Storage;
-}

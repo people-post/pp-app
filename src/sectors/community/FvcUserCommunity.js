@@ -88,11 +88,3 @@ export class FvcUserCommunity extends FScrollViewContent {
     this._owner.onFragmentRequestShowView(this, v, "Create community");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.FvcUserCommunity = FvcUserCommunity;
-}

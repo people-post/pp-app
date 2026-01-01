@@ -33,5 +33,3 @@ export class BlogConfig {
 
   #getLayoutType(d) { return d ? d.type : SocialItem.T_LAYOUT.MEDIUM; }
 };
-
-

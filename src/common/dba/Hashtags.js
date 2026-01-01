@@ -67,4 +67,3 @@ function createHashtags() {
 }
 
 export const Hashtags = createHashtags();
-

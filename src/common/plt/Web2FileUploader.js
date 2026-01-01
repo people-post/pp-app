@@ -69,4 +69,3 @@ export class Web2FileUploader extends FileUploader {
     }
   }
 };
-

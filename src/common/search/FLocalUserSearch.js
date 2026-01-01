@@ -80,9 +80,3 @@ export class FLocalUserSearch extends FSearch {
     return false;
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.srch = window.srch || {};
-  window.srch.FLocalUserSearch = FLocalUserSearch;
-}

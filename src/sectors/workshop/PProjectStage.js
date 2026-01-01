@@ -31,11 +31,3 @@ export class PProjectStage extends PProjectStageBase {
     this._pComment.attach(this._getSubElementId("C"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.PProjectStage = PProjectStage;
-}

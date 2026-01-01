@@ -36,5 +36,3 @@ export class SingleLongListIdRecord {
     this.#isComplete = false;
   }
 };
-
-

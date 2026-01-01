@@ -15,5 +15,3 @@ export class MlDsa44Key {
     return pp.sys.utl.mlDsa44Sign(msg, this.#buffer.secretKey);
   }
 };
-
-

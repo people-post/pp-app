@@ -64,5 +64,3 @@ export class Product extends SocialItem {
            "/?id=" + this.getSocialId().toEncodedStr();
   }
 };
-
-

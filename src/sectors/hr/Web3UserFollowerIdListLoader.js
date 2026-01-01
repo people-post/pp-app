@@ -13,11 +13,3 @@ export class Web3UserFollowerIdListLoader extends LongListIdLoader {
   asyncLoadFrontItems() {}
   asyncLoadBackItems() { this.#idRecord.markComplete(); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hr = window.hr || {};
-  window.hr.Web3UserFollowerIdListLoader = Web3UserFollowerIdListLoader;
-}

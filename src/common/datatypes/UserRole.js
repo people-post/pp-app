@@ -9,4 +9,3 @@ export class UserRole extends ServerDataObject {
 
   getStatus() { return this._data.status; }
 };
-

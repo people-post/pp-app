@@ -284,11 +284,3 @@ export class FvcConfig extends FScrollViewContent {
     fd.append("item_layout_type", sType ? sType : Shop.getItemLayoutType());
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.CF_SHOP_CONFIG = CF_SHOP_CONFIG;
-}

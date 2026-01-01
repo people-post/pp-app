@@ -16,5 +16,3 @@ export class ChatTarget {
   setIdType(t) { this.#sId.setType(t); }
   setIsReadOnly(b) { this.#isReadOnly = b; }
 };
-
-

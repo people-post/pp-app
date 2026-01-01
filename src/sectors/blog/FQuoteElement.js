@@ -2,6 +2,9 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { FPostInfo } from './FPostInfo.js';
+import { FOgp } from './FOgp.js';
+import { FvcPost } from './FvcPost.js';
 
 export class FQuoteElement extends Fragment {
   #fItem = null;
@@ -52,7 +55,7 @@ export class FQuoteElement extends Fragment {
     switch (this.#type) {
     case SocialItem.TYPE.ARTICLE:
     case SocialItem.TYPE.FEED_ARTICLE:
-      f = new blog.FPostInfo();
+      f = new FPostInfo();
       f.setPostId(new SocialItemId(this.#item, this.#type));
       f.setDataSource(this);
       f.setDelegate(this);
@@ -70,7 +73,7 @@ export class FQuoteElement extends Fragment {
       f.setDelegate(this);
       break;
     case SocialItem.TYPE.URL:
-      f = new blog.FOgp();
+      f = new FOgp();
       f.setUrl(this.#item);
       f.setDelegate(this);
       break;
@@ -83,7 +86,7 @@ export class FQuoteElement extends Fragment {
   #showPost(id) {
     // id is SocialItemId
     let v = new View();
-    let f = new blog.FvcPost();
+    let f = new FvcPost();
     f.setPostId(id);
     v.setContentFragment(f);
     this._delegate.onQuotedElementRequestShowView(this, v,
@@ -106,11 +109,3 @@ export class FQuoteElement extends Fragment {
     this._delegate.onQuotedElementRequestShowView(this, v, "Product" + id);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FQuoteElement = FQuoteElement;
-}

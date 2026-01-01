@@ -12,4 +12,3 @@ export class PAddressBase extends Panel {
   getEditBtnPanel() { return null; }
   getDeleteBtnPanel() { return null; }
 }
-

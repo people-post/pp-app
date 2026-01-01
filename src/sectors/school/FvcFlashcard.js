@@ -47,11 +47,3 @@ export class FvcFlashcard extends FScrollViewContent {
     this._fNavBar.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.FvcFlashcard = FvcFlashcard;
-}

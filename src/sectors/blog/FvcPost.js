@@ -402,9 +402,3 @@ class FvcPost extends FScrollViewContent {
 }
 
 export { FvcPost };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FvcPost = FvcPost;
-}

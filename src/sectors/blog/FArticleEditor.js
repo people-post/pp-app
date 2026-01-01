@@ -18,6 +18,8 @@ import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
 import { Account } from '../../common/dba/Account.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { FQuoteElement } from './FQuoteElement.js';
+import { PArticleEditor } from './PArticleEditor.js';
 import { api } from '../../common/plt/Api.js';
 
 export class FArticleEditor extends Fragment {
@@ -95,7 +97,7 @@ export class FArticleEditor extends Fragment {
     this.#fQuote.setDelegate(this);
     this.setChild("quote", this.#fQuote);
 
-    this.#fQuotePreview = new blog.FQuoteElement();
+    this.#fQuotePreview = new FQuoteElement();
     this.#fQuotePreview.setDelegate(this);
     this.setChild("quotePreview", this.#fQuotePreview);
 
@@ -189,7 +191,7 @@ export class FArticleEditor extends Fragment {
   }
 
   _renderOnRender(render) {
-    let panel = new blog.PArticleEditor();
+    let panel = new PArticleEditor();
     render.wrapPanel(panel);
     let p = panel.getTitlePanel();
     this.#fTitle.setConfig({
@@ -424,11 +426,3 @@ export class FArticleEditor extends Fragment {
     this.#unlockActionBtns();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FArticleEditor = FArticleEditor;
-}

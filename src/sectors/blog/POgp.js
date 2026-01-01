@@ -37,11 +37,3 @@ export class POgp extends Panel {
 
   _getTemplate() { return ""; }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.POgp = POgp;
-}

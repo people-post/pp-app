@@ -163,4 +163,3 @@ export class FTabbedPaneTabBar extends Fragment {
     }
   }
 };
-

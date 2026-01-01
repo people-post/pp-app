@@ -93,11 +93,3 @@ export class FStoryEventInfo extends Fragment {
     return s.replace("__NAME_CELL_CLASS__", "bglightgreen");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.CF_STORY_EVENT_INFO = CF_STORY_EVENT_INFO;
-}

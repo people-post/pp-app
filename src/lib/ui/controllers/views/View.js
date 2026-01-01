@@ -208,4 +208,3 @@ export class View extends RenderController {
     fContent.attachRender(panel);
   }
 }
-

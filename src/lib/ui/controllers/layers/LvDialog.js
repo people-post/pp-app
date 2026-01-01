@@ -106,4 +106,3 @@ export class LvDialog extends ViewLayer {
 
   #hideCloseBtn() { this._pClose.setVisible(false); }
 };
-

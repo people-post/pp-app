@@ -44,4 +44,3 @@ export class PTabbedPaneTabLarge extends PTabbedPaneTabBase {
     this._pBadge.attach(this._getSubElementId("B"));
   }
 };
-

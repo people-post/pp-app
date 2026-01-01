@@ -28,11 +28,3 @@ export class FvcWalkinQueueItem extends FScrollViewContent {
     this.#fItem.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FvcWalkinQueueItem = FvcWalkinQueueItem;
-}

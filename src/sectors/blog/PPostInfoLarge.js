@@ -94,11 +94,3 @@ export class PPostInfoLarge extends PPostInfoBase {
     this._pQuote.attach(this._getSubElementId("Q"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.PPostInfoLarge = PPostInfoLarge;
-}

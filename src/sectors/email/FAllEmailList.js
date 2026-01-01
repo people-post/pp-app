@@ -55,11 +55,3 @@ export class FAllEmailList extends FEmailList {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.emal = window.emal || {};
-  window.emal.FAllEmailList = FAllEmailList;
-}

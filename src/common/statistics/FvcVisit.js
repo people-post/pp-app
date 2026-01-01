@@ -20,9 +20,3 @@ export class FvcVisit extends FScrollViewContent {
     this._fVisit.render();
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.stat = window.stat || {};
-  window.stat.FvcVisit = FvcVisit;
-}

@@ -28,5 +28,3 @@ export class KeyNode {
 
   #harden(num) { return 0x80000000 + num; }
 };
-
-

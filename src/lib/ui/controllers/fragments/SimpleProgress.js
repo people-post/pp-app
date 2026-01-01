@@ -51,4 +51,3 @@ export class SimpleProgress extends Fragment {
     return "bgyellow";
   }
 };
-

@@ -86,4 +86,3 @@ export class FSimpleList extends Fragment {
     return s;
   }
 };
-

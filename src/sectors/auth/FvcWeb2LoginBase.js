@@ -44,9 +44,3 @@ export class FvcWeb2LoginBase extends FvcLoginBase {
     api.asyncFragmentCall(this, url).then(d => {});
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.auth = window.auth || {};
-  window.auth.FvcWeb2LoginBase = FvcWeb2LoginBase;
-}

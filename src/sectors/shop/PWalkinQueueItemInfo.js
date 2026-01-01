@@ -44,11 +44,3 @@ export class PWalkinQueueItemInfo extends PWalkinQueueItemBase {
     this._pActions[0].attach(this._getSubElementId("A"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PWalkinQueueItemInfo = PWalkinQueueItemInfo;
-}

@@ -66,4 +66,3 @@ export class OptionContextButton extends Fragment {
                                 "Context");
   }
 }
-

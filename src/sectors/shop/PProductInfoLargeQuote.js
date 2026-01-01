@@ -37,11 +37,3 @@ export class PProductInfoLargeQuote extends PProductInfoBase {
     this._pThumbnail.attach(this._getSubElementId("I"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PProductInfoLargeQuote = PProductInfoLargeQuote;
-}

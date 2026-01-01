@@ -46,11 +46,3 @@ export class FSupplierOrderItem extends Fragment {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FSupplierOrderItem = FSupplierOrderItem;
-}

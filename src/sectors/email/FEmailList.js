@@ -74,11 +74,3 @@ export class FEmailList extends FLongListLegacy {
 
   _asyncLoadItems() {}
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.emal = window.emal || {};
-  window.emal.FEmailList = FEmailList;
-}

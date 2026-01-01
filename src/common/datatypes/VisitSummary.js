@@ -6,5 +6,3 @@ export class VisitSummary extends ServerDataObject {
   getName() { return this._data.name; }
   getTotal() { return this._data.total; }
 };
-
-

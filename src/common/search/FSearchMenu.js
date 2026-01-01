@@ -35,9 +35,3 @@ export class FSearchMenu extends MenuContent {
     this.#fBar.render();
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.srch = window.srch || {};
-  window.srch.FSearchMenu = FSearchMenu;
-}

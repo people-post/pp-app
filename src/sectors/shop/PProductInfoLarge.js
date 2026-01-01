@@ -74,11 +74,3 @@ export class PProductInfoLarge extends PProductInfoBase {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PProductInfoLarge = PProductInfoLarge;
-}

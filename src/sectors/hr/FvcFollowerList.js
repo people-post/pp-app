@@ -24,11 +24,3 @@ export class FvcFollowerList extends FScrollViewContent {
     this.#fUsers.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hr = window.hr || {};
-  window.hr.FvcFollowerList = FvcFollowerList;
-}

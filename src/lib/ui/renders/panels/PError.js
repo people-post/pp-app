@@ -40,4 +40,3 @@ export class PError extends Panel {
     this._pBtn.attach(this._getSubElementId("B"));
   }
 }
-

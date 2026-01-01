@@ -51,11 +51,3 @@ export class FIdolProjectList extends FProjectList {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FIdolProjectList = FIdolProjectList;
-}

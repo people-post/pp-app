@@ -14,5 +14,3 @@ export class QueueServiceDelivery extends ProductDelivery {
 
   #initLocation(data) { return new ProductServiceLocation(data); }
 };
-
-

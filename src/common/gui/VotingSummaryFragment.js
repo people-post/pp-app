@@ -54,4 +54,3 @@ export class VotingSummaryFragment extends Fragment {
     this._fWealth.render();
   }
 };
-

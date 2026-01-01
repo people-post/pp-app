@@ -66,5 +66,3 @@ export class SocialItem extends ServerDataObject {
   getSocialItemType() { throw "getSocialItemType() is required"; }
   getOgpData() { return null; }
 };
-
-

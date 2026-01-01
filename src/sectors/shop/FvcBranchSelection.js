@@ -23,11 +23,3 @@ export class FvcBranchSelection extends FScrollViewContent {
     this._fBranches.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FvcBranchSelection = FvcBranchSelection;
-}

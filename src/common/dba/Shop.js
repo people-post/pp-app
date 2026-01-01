@@ -360,4 +360,3 @@ export const Shop = function() {
     asyncUpdateConfig : _asyncUpdateConfig,
   };
 }();
-

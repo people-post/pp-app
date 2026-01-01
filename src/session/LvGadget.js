@@ -47,4 +47,3 @@ export class LvGadget extends LvMultiPage {
     this._vc.render();
   }
 };
-

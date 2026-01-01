@@ -38,5 +38,3 @@ export class Bip32Ed25519Key {
     return hashHex;
   }
 };
-
-

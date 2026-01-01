@@ -83,11 +83,3 @@ export class FvcExchange extends FScrollViewContent {
     this._fAmusement.setItem(dZest);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.xchg = window.xchg || {};
-  window.xchg.FvcExchange = FvcExchange;
-}

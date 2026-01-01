@@ -120,9 +120,3 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
     this.#fMain.switchTo("BLOG");
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hr = window.hr || {};
-  window.hr.FvcUserInfo = FvcUserInfo;
-}

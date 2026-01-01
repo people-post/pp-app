@@ -64,4 +64,3 @@ export class FHashtag extends Fragment {
     this.#fContent.render();
   }
 };
-

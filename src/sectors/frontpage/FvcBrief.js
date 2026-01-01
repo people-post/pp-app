@@ -630,10 +630,3 @@ class FvcBrief extends FViewContentBase {
 };
 
 ftpg.FvcBrief = FvcBrief;
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.ftpg = window.ftpg || {};
-  window.ftpg.CF_BRIEF = CF_BRIEF;
-}

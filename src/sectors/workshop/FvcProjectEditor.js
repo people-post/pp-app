@@ -225,11 +225,3 @@ export class FvcProjectEditor extends FScrollViewContent {
 
   #onDeleteRRR(data) { location.replace(WebConfig.getHomeUrl()); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FvcProjectEditor = FvcProjectEditor;
-}

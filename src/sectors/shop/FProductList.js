@@ -30,11 +30,3 @@ export class FProductList extends FSocialItemList {
     return v;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FProductList = FProductList;
-}

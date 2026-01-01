@@ -45,4 +45,3 @@ export class WindowController extends RenderController {
 
   _onPushState(stateData, title) {}
 }
-

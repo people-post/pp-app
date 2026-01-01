@@ -86,11 +86,3 @@ export class FHostingStatus extends Fragment {
                                         this._delegate.onRequestRemoveDomain());
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hstn = window.hstn || {};
-  window.hstn.FHostingStatus = FHostingStatus;
-}

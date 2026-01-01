@@ -119,11 +119,3 @@ export class FDsSetup extends Fragment {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hstn = window.hstn || {};
-  window.hstn.FDsSetup = FDsSetup;
-}

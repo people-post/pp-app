@@ -29,11 +29,3 @@ export class FvcBlockchain extends FViewContentBase {
     this.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.ftpg = window.ftpg || {};
-  window.ftpg.FvcBlockchain = FvcBlockchain;
-}

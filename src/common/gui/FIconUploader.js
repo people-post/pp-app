@@ -33,4 +33,3 @@ export class FIconUploader extends Fragment {
     render.replaceContent(s);
   }
 };
-

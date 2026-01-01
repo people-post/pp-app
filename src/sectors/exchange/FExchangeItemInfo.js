@@ -107,11 +107,3 @@ export class FExchangeItemInfo extends Fragment {
   #onBuyClicked() { console.log("Buy"); }
   #onSellClicked() { console.log("Sell"); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.xchg = window.xchg || {};
-  window.xchg.FExchangeItemInfo = FExchangeItemInfo;
-}

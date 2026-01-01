@@ -12,5 +12,3 @@ export class UserGroup extends GeneralGroup {
   getMemberIds() { return this._data.member_ids; }
   getTagIds() { return this._data.tag_ids; }
 };
-
-

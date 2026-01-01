@@ -32,4 +32,3 @@ export class FvcConfirmAction extends FScrollViewContent {
     this._fItems.render();
   }
 };
-

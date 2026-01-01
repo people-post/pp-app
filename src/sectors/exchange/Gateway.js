@@ -39,11 +39,3 @@ export class Gateway extends SectorGateway {
     return f;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.xchg = window.xchg || {};
-  window.xchg.Gateway = Gateway;
-}

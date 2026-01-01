@@ -49,11 +49,3 @@ export class FDraftList extends Fragment {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FDraftList = FDraftList;
-}

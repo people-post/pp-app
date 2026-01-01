@@ -29,5 +29,3 @@ export class SimpleProjectStage extends ProjectStage {
     return items;
   }
 };
-
-

@@ -201,11 +201,3 @@ export class FBranch extends Fragment {
 
   #onUpdateRRR(data) { Shop.updateBranch(new ShopBranch(data.branch)); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.CF_BRANCH = CF_BRANCH;
-}

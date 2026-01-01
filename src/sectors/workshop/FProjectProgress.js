@@ -104,11 +104,3 @@ export class FProjectProgress extends Fragment {
     return events;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FProjectProgress = FProjectProgress;
-}

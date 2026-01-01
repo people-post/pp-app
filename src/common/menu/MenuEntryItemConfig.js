@@ -171,4 +171,3 @@ export class MenuEntryItemConfig extends DirFragment {
     this.render();
   }
 };
-

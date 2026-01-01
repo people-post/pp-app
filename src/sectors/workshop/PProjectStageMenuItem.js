@@ -38,11 +38,3 @@ export class PProjectStageMenuItem extends PProjectStageBase {
     this._pChecked.attach(this._getSubElementId("CK"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.PProjectStageMenuItem = PProjectStageMenuItem;
-}

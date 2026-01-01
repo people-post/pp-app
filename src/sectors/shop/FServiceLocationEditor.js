@@ -134,11 +134,3 @@ export class FServiceLocationEditor extends Fragment {
     this._fTimeslots.append(f);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FServiceLocationEditor = FServiceLocationEditor;
-}

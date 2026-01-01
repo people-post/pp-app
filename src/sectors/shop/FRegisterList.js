@@ -103,11 +103,3 @@ export class FRegisterList extends Fragment {
     this.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FRegisterList = FRegisterList;
-}
