@@ -8,6 +8,8 @@ import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FIdolProductList } from './FIdolProductList.js';
 import { FCartButton } from './FCartButton.js';
+import { FSearchMenu } from '../../common/search/FSearchMenu.js';
+import { FvcCurrent } from '../../sectors/cart/FvcCurrent.js';
 
 export class FvcExplorer extends FScrollViewContent {
   #fmSearch;
@@ -18,7 +20,7 @@ export class FvcExplorer extends FScrollViewContent {
     super();
     this.#fmSearch = new FHeaderMenu();
     this.#fmSearch.setIcon(ICON.M_SEARCH, new SearchIconOperator());
-    let f = new srch.FSearchMenu();
+    let f = new FSearchMenu();
     f.setDelegate(this);
     this.#fmSearch.setContentFragment(f);
 
@@ -64,7 +66,7 @@ export class FvcExplorer extends FScrollViewContent {
 
   onGuiActionButtonClick(fAction) {
     let v = new View();
-    let f = new cart.FvcCurrent();
+    let f = new FvcCurrent();
     v.setContentFragment(f);
     this.onFragmentRequestShowView(this, v, "Cart");
   }

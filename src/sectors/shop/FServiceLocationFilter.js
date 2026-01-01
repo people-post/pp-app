@@ -2,6 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FServiceLocation } from './FServiceLocation.js';
+import { R } from '../../common/constants/R.js';
 
 export class FServiceLocationFilter extends Fragment {
   constructor() {

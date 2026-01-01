@@ -1,5 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FWalkinQueueItem } from './FWalkinQueueItem.js';
+import { WalkinQueue } from '../../common/dba/WalkinQueue.js';
 
 export class FvcWalkinQueueItem extends FScrollViewContent {
   #fItem;
@@ -17,7 +18,7 @@ export class FvcWalkinQueueItem extends FScrollViewContent {
   isItemSelectedInWalkinQueueItemFragment(fItem, itemId) { return false; }
   onItemDeletedInWalkinQueueItemFragment(fItem) {
     this._owner.onContentFragmentRequestPopView(this);
-    dba.WalkinQueue.clear();
+    WalkinQueue.clear();
   }
 
   setItemId(id) { this.#fItem.setItemId(id); }

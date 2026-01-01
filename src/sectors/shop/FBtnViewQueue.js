@@ -1,6 +1,9 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { Account } from '../../common/dba/Account.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { Users } from '../../common/dba/Users.js';
 
 export class FBtnViewQueue extends Fragment {
   constructor() {
@@ -41,7 +44,7 @@ export class FBtnViewQueue extends Fragment {
     let u = this.#getSupplier();
     if (u) {
       let url;
-      if (dba.Account.getId() == u.getId()) {
+      if (Account.getId() == u.getId()) {
         url = u.getCounterUrl(this._branchId);
       } else {
         url = u.getQueueUrl(this._branchId);
@@ -51,9 +54,9 @@ export class FBtnViewQueue extends Fragment {
   }
 
   #getSupplier() {
-    let b = dba.Shop.getBranch(this._branchId);
+    let b = Shop.getBranch(this._branchId);
     if (b) {
-      return dba.Users.get(b.getOwnerId());
+      return Users.get(b.getOwnerId());
     }
     return null;
   }

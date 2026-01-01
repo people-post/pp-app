@@ -2,6 +2,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
 import { FProductDelivery } from './FProductDelivery.js';
 import { PGoodDelivery } from './PGoodDelivery.js';
+import { Cart } from '../../common/dba/Cart.js';
 
 export class FGoodDelivery extends FProductDelivery {
   constructor() {
@@ -55,8 +56,8 @@ export class FGoodDelivery extends FProductDelivery {
   }
 
   #countItemInCart(cartId, productId) {
-    let c = dba.Cart.getCart(cartId);
-    return c ? dba.Cart.countProduct(productId) : 0;
+    let c = Cart.getCart(cartId);
+    return c ? Cart.countProduct(productId) : 0;
   }
 };
 

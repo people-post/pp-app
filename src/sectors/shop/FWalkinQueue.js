@@ -6,6 +6,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
 import { FvcWalkinQueueItem } from './FvcWalkinQueueItem.js';
 import { FWalkinQueueItem } from './FWalkinQueueItem.js';
+import { WalkinQueue } from '../../common/dba/WalkinQueue.js';
 
 export class FWalkinQueue extends FLongListLegacy {
   constructor() {
@@ -131,7 +132,7 @@ export class FWalkinQueue extends FLongListLegacy {
       });
       for (let item of items) {
         this.#getIdRecord().appendId(item.getId());
-        dba.WalkinQueue.update(item);
+        WalkinQueue.update(item);
       }
     } else {
       this.#getIdRecord().markComplete();
@@ -139,7 +140,7 @@ export class FWalkinQueue extends FLongListLegacy {
     this._fItems.onScrollFinished();
   }
 
-  #getIdRecord() { return dba.WalkinQueue.getIdRecord(); }
+  #getIdRecord() { return WalkinQueue.getIdRecord(); }
 };
 
 

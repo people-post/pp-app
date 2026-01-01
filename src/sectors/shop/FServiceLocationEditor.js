@@ -7,6 +7,7 @@ import { ProductServiceLocation } from '../../common/datatypes/ProductServiceLoc
 import { T_DATA } from '../../common/plt/Events.js';
 import { PServiceLocationEditor } from './PServiceLocationEditor.js';
 import { FServiceTimeslotEditor } from './FServiceTimeslotEditor.js';
+import { Shop } from '../../common/dba/Shop.js';
 
 export class FServiceLocationEditor extends Fragment {
   constructor() {
@@ -43,7 +44,7 @@ export class FServiceLocationEditor extends Fragment {
 
   getSelectedValueForSelection(fSelection) { return this._branchId; }
   getItemsForSelection(fSelection) {
-    return dba.Shop.getBranchLabels().map(
+    return Shop.getBranchLabels().map(
         a => { return {"text" : a.getName(), "value" : a.getId()}; });
   }
 

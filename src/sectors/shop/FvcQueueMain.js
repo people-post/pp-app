@@ -4,6 +4,7 @@ import { URL_PARAM } from '../../common/constants/Constants.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FWalkinQueue } from './FWalkinQueue.js';
 import { FvcBranchSelection } from './FvcBranchSelection.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
 export class FvcQueueMain extends FScrollViewContent {
   constructor() {
     super();
@@ -32,7 +33,7 @@ export class FvcQueueMain extends FScrollViewContent {
 
   _renderContentOnRender(render) {
     if (!this._fQueue.getSupplierId()) {
-      this._fQueue.setSupplierId(dba.WebConfig.getOwnerId());
+      this._fQueue.setSupplierId(WebConfig.getOwnerId());
     }
 
     if (!this._fQueue.getBranchId()) {

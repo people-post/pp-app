@@ -5,6 +5,10 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { PreviewOrder } from '../../common/datatypes/PreviewOrder.js';
 import { api } from '../../common/plt/Api.js';
 import { FChooseCheckoutItem } from './FChooseCheckoutItem.js';
+import { FCart } from '../../sectors/cart/FCart.js';
+import { FvcCheckout } from '../../sectors/cart/FvcCheckout.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { Counter } from '../../common/dba/Counter.js';
 
 export class FvcPreCheckout extends FScrollViewContent {
   // Serves as checkout register
@@ -13,8 +17,8 @@ export class FvcPreCheckout extends FScrollViewContent {
     this._fChoose = new FChooseCheckoutItem();
     this.setChild("choose", this._fChoose);
 
-    this._fCart = new cart.FCart();
-    this._fCart.setLayoutType(cart.FCart.T_LAYOUT.ACTIVE);
+    this._fCart = new FCart();
+    this._fCart.setLayoutType(FCart.T_LAYOUT.ACTIVE);
     this._fCart.setDataSource(this);
     this._fCart.setDelegate(this);
     this.setChild("cart", this._fCart);
@@ -54,7 +58,7 @@ export class FvcPreCheckout extends FScrollViewContent {
     pMain.pushPanel(p);
 
     // Hack
-    let cId = dba.Shop.getCurrencyIds()[0];
+    let cId = Shop.getCurrencyIds()[0];
     this._fCart.setCurrencyId(cId);
 
     this._fCart.attachRender(p);
@@ -78,11 +82,11 @@ export class FvcPreCheckout extends FScrollViewContent {
 
   #goCheckout(order) {
     let v = new View();
-    let f = new cart.FvcCheckout();
+    let f = new FvcCheckout();
     f.setOrder(order);
     f.setNeedsShipping(false);
     // Note: Only available in Counter session
-    f.setRegisterId(dba.Counter.getRegisterId());
+    f.setRegisterId(Counter.getRegisterId());
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Checkout");
   }

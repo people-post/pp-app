@@ -31,6 +31,7 @@ import { Account } from '../../common/dba/Account.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { R } from '../../common/constants/R.js';
 
 export class FvcConfig extends FScrollViewContent {
   #fTeams;
@@ -280,7 +281,7 @@ export class FvcConfig extends FScrollViewContent {
   }
 
   #fillItemLayoutType(fd, sType = null) {
-    fd.append("item_layout_type", sType ? sType : dba.Shop.getItemLayoutType());
+    fd.append("item_layout_type", sType ? sType : Shop.getItemLayoutType());
   }
 };
 

@@ -4,6 +4,7 @@ import { api } from '../../common/plt/Api.js';
 import { FProductList } from './FProductList.js';
 import { FvcProductEditor } from './FvcProductEditor.js';
 import { FProduct } from './FProduct.js';
+import { Shop } from '../../common/dba/Shop.js';
 
 export class FOwnerProductList extends FProductList {
   #ownerId = null;
@@ -19,7 +20,7 @@ export class FOwnerProductList extends FProductList {
     let v = new View();
     let f = new FvcProductEditor();
     f.setDelegate(this);
-    f.setProduct(dba.Shop.getProduct(productId));
+    f.setProduct(Shop.getProduct(productId));
     v.setContentFragment(f);
     this.onFragmentRequestShowView(this, v, "Product editor");
   }
@@ -29,7 +30,7 @@ export class FOwnerProductList extends FProductList {
     f.setDataSource(this);
     f.setDelegate(this);
     f.setProductId(id);
-    f.setSizeType(dba.Shop.getItemLayoutType());
+    f.setSizeType(Shop.getItemLayoutType());
     return f;
   }
 
@@ -66,7 +67,7 @@ export class FOwnerProductList extends FProductList {
       if (ds.length) {
         for (let d of ds) {
           let p = new Product(d);
-          dba.Shop.updateProduct(p);
+          Shop.updateProduct(p);
           this._getIdRecord().appendId(p.getId());
         }
       } else {

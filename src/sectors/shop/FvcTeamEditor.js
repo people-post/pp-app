@@ -16,6 +16,9 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
 import { api } from '../../common/plt/Api.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Groups } from '../../common/dba/Groups.js';
 
 export class FvcTeamEditor extends FScrollViewContent {
   constructor() {
@@ -80,7 +83,7 @@ export class FvcTeamEditor extends FScrollViewContent {
     }
   }
 
-  #getTeam() { return dba.Shop.getTeam(this._teamId); }
+  #getTeam() { return Shop.getTeam(this._teamId); }
 
   #renderNameInputs() {
     let s = _CFT_SHOP_TEAM_EDITOR.SEC_NAME;
@@ -158,9 +161,9 @@ export class FvcTeamEditor extends FScrollViewContent {
   #onDeleteTeamRRR(data) { this.#onEditTeamFinished(data.groups); }
 
   #onEditTeamFinished(groups) {
-    dba.WebConfig.resetRoles(groups);
+    WebConfig.resetRoles(groups);
     for (let d of groups) {
-      dba.Groups.update(new UserGroup(d));
+      Groups.update(new UserGroup(d));
     }
     this._owner.onContentFragmentRequestPopView(this);
   }

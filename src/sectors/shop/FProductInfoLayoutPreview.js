@@ -3,6 +3,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Shop } from '../../common/dba/Shop.js';
 
 export class FProductInfoLayoutPreview extends Fragment {
   constructor() {
@@ -46,7 +47,7 @@ export class FProductInfoLayoutPreview extends Fragment {
       return;
     }
 
-    if (this._fInfo.getSizeType() == dba.Shop.getItemLayoutType()) {
+    if (this._fInfo.getSizeType() == Shop.getItemLayoutType()) {
       this._fApply.setName("Applied");
       this._fApply.disable();
     } else {

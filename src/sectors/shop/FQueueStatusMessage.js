@@ -1,5 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Label } from '../../lib/ui/controllers/fragments/Label.js';
+import { R } from '../../common/constants/R.js';
 
 export class FQueueStatusMessage extends Fragment {
   constructor() {

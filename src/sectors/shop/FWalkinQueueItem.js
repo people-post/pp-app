@@ -20,6 +20,12 @@ import { PWalkinQueueItem } from './PWalkinQueueItem.js';
 import { PWalkinQueueItemInfo } from './PWalkinQueueItemInfo.js';
 import { PWalkinQueueItemInfoPublic } from './PWalkinQueueItemInfoPublic.js';
 import { FvcPreCheckout } from './FvcPreCheckout.js';
+import { FUserInfo } from '../../common/hr/FUserInfo.js';
+import { FLocalUserSearch } from '../../common/search/FLocalUserSearch.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { WalkinQueue } from '../../common/dba/WalkinQueue.js';
+import { Users } from '../../common/dba/Users.js';
+import { R } from '../../common/constants/R.js';
 
 export class FWalkinQueueItem extends Fragment {
   static T_LAYOUT = {INFO : "INFO", FULL: "FULL"};
@@ -41,11 +47,11 @@ export class FWalkinQueueItem extends Fragment {
     this._fAction2.setDelegate(this);
     this.setChild("action2", this._fAction2);
 
-    this._fAgent = new S.hr.FUserInfo();
-    this._fAgent.setLayoutType(S.hr.FUserInfo.T_LAYOUT.MID_SQUARE);
+    this._fAgent = new FUserInfo();
+    this._fAgent.setLayoutType(FUserInfo.T_LAYOUT.MID_SQUARE);
     this.setChild("agent", this._fAgent);
 
-    this._fAgentSearch = new srch.FLocalUserSearch();
+    this._fAgentSearch = new FLocalUserSearch();
     this._fAgentSearch.setDelegate(this);
 
     this._fOnUserSelect = null;
@@ -66,7 +72,7 @@ export class FWalkinQueueItem extends Fragment {
   }
 
   onLocalUserSearchFragmentRequestFetchUserIds(fSearch) {
-    this.#asyncGetWorkers(dba.WebConfig.getOwnerId());
+    this.#asyncGetWorkers(WebConfig.getOwnerId());
   }
 
   onSearchResultClickedInSearchFragment(fSearch, itemType, itemId) {
@@ -110,14 +116,14 @@ export class FWalkinQueueItem extends Fragment {
   }
 
   _renderOnRender(render) {
-    let item = dba.WalkinQueue.get(this._itemId);
+    let item = WalkinQueue.get(this._itemId);
     if (!item) {
       return;
     }
     let userId = item.getCustomerUserId();
     let name = "";
     if (userId) {
-      let u = dba.Users.get(userId);
+      let u = Users.get(userId);
       if (!u) {
         return;
       }
@@ -230,7 +236,7 @@ export class FWalkinQueueItem extends Fragment {
   }
 
   #onCheckout() {
-    let item = dba.WalkinQueue.get(this._itemId);
+    let item = WalkinQueue.get(this._itemId);
     if (item) {
       this.#asyncPrepareCartItem(item);
     }
@@ -275,7 +281,7 @@ export class FWalkinQueueItem extends Fragment {
   }
 
   #onServeRRR(data) {
-    dba.WalkinQueue.update(new WalkinQueueItem(data.item));
+    WalkinQueue.update(new WalkinQueueItem(data.item));
   }
 
   #asyncDismiss() {

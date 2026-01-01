@@ -3,6 +3,8 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { T_DATA } from '../../lib/framework/Events.js';
+import { Notifications } from '../../common/dba/Notifications.js';
+import { FRequestInfo } from '../../common/hr/FRequestInfo.js';
 
 export class FvcReport extends FScrollViewContent {
   constructor() {
@@ -31,13 +33,13 @@ export class FvcReport extends FScrollViewContent {
     // this._fNoticeList.attachRender(p.getContentPanel());
     // his._fNoticeList.render();
 
-    let ids = dba.Notifications.getShopRequestIds();
+    let ids = Notifications.getShopRequestIds();
     if (ids.length) {
       p = new SectionPanel("Requests");
       panel.pushPanel(p);
       this._fRequestList.clear();
       for (let id of ids) {
-        let f = new S.hr.FRequestInfo();
+        let f = new FRequestInfo();
         f.setRequestId(id);
         f.setDelegate(this);
         this._fRequestList.append(f);

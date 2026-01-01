@@ -19,8 +19,8 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Account } from '../../common/dba/Account.js';
-import { FSearchMenu } from '../../common/search/FSearchMenu.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { FvcCurrent } from '../../sectors/cart/FvcCurrent.js';
 
 export class FvcOwner extends FScrollViewContent {
   #fmMain;
@@ -94,7 +94,7 @@ export class FvcOwner extends FScrollViewContent {
       }
     } else {
       let c = Cart.getCart(CartDataType.T_ID.ACTIVE);
-      if (c && cart.getItems().length) {
+      if (c && c.getItems().length) {
         return this.#fBtnCart;
       }
     }
@@ -169,7 +169,7 @@ export class FvcOwner extends FScrollViewContent {
 
   #onShowCart() {
     let v = new View();
-    let f = new cart.FvcCurrent();
+    let f = new FvcCurrent();
     v.setContentFragment(f);
     this.onFragmentRequestShowView(this, v, "Cart");
   }
