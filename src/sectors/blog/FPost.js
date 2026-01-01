@@ -273,7 +273,7 @@ export class FPost extends Fragment {
 
   #onPostUpdate(updatePost) {
     let post = Blog.getPost(this.#postId);
-    if (blogUtilities.isPostRelated(updatePost, post)) {
+    if (blogUtilities.Utilities.isPostRelated(updatePost, post)) {
       this.render();
     }
   }
