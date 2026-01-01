@@ -1,7 +1,7 @@
 import { Controller } from '../../ext/Controller.js';
 import { View } from './views/View.js';
 import { FvcConfirmAction } from './views/FvcConfirmAction.js';
-import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Events, T_ACTION } from '../../framework/Events.js';
 
 const _CRC_RENDER_CONTROLLER = {
   TIP_LINK :

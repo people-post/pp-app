@@ -4,7 +4,7 @@ import { RenderController } from './RenderController.js';
 import { FNavBack } from './fragments/FNavBack.js';
 import { ViewPanel } from '../renders/panels/ViewPanel.js';
 import { VBlank } from './views/VBlank.js';
-import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Events, T_ACTION } from '../../framework/Events.js';
 
 const _CRC_NAVIGATION = {
   BIT : {NARROW : 1 << 1, WIDE_EXTRA : 1 << 0},
