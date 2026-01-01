@@ -84,9 +84,3 @@ export class Api {
 }
 
 export const api = new Api();
-
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.plt = window.plt || {};
-  window.plt.Api = api;
-}

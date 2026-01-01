@@ -59,9 +59,3 @@ export class FileUploader extends Controller {
 
   _asyncUploadFile(file) {}
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.plt = window.plt || {};
-  window.plt.FileUploader = FileUploader;
-}

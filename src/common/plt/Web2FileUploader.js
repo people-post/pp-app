@@ -70,8 +70,3 @@ export class Web2FileUploader extends FileUploader {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.plt = window.plt || {};
-  window.plt.Web2FileUploader = Web2FileUploader;
-}

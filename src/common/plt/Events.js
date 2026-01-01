@@ -60,10 +60,3 @@ export const T_ACTION = {
   SHOW_USER_INFO : Symbol(),
   SHOW_GROUP_INFO : Symbol(),
 };
-
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.plt = window.plt || {};
-  window.plt.T_DATA = T_DATA;
-  window.plt.T_ACTION = T_ACTION;
-}

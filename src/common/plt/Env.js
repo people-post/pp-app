@@ -88,8 +88,6 @@ export const env = new Env();
 
 // Maintain backward compatibility with global namespace
 if (typeof window !== 'undefined') {
-  window.plt = window.plt || {};
-  window.plt.Env = Env;
   window.glb = window.glb || {};
   window.glb.env = env;
 }
