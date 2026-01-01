@@ -22,6 +22,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { Events, T_DATA as FwkT_DATA, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FvcBasicWebConfig extends FScrollViewContent {
   action(type, ...args) {
@@ -43,7 +44,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case fwk.T_DATA.WEB_CONFIG:
+    case FwkT_DATA.WEB_CONFIG:
       this._owner.onContentFragmentRequestUpdateHeader(this);
       this.render();
       break;
@@ -149,7 +150,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
   }
 
   #onMajorUpdateRRR(data) {
-    fwk.Events.triggerTopAction(fwk.T_ACTION.RELOAD_URL, this);
+    Events.triggerTopAction(T_ACTION.RELOAD_URL, this);
   }
 
   #asyncUpdateHomePageTitle(title) {

@@ -1,6 +1,7 @@
 import { Controller } from '../../ext/Controller.js';
 import { View } from './views/View.js';
 import { FvcConfirmAction } from './views/FvcConfirmAction.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 const _CRC_RENDER_CONTROLLER = {
   TIP_LINK :
@@ -223,7 +224,7 @@ export class RenderController extends Controller {
   }
 
   _displayMessage(textCode) {
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_NOTICE, this,
+    Events.triggerTopAction(T_ACTION.SHOW_NOTICE, this,
                                 R.get(textCode));
   }
 
@@ -234,7 +235,7 @@ export class RenderController extends Controller {
     f.addOption("Yes", func, true);
     f.addOption("Cancel", null);
     v.setContentFragment(f);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                 "Confirmation", false);
   }
 

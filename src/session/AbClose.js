@@ -35,8 +35,3 @@ export class AbClose extends Fragment {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.main = window.main || {};
-  window.main.AbClose = AbClose;
-}

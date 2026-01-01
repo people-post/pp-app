@@ -2,6 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { T_DATA } from '../../lib/framework/Events.js';
 
 export class FvcReport extends FScrollViewContent {
   constructor() {
@@ -12,7 +13,7 @@ export class FvcReport extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case fwk.T_DATA.NOTIFICATIONS:
+    case T_DATA.NOTIFICATIONS:
       this.render();
       break;
     default:

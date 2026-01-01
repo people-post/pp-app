@@ -3,6 +3,7 @@ import { BufferedList } from '../../common/datatypes/BufferedList.js';
 import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
 import { api } from '../../common/plt/Api.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { Events } from '../../lib/framework/Events.js';
 
 export class MessageHandler extends ext.Controller {
   constructor() {
@@ -112,7 +113,7 @@ export class MessageHandler extends ext.Controller {
       }
       messages = this._messageBuffer.extend(messages);
       if (messages.length > 0) {
-        fwk.Events.trigger(T_DATA.MESSAGES,
+        Events.trigger(T_DATA.MESSAGES,
                            {"target" : this._target, "messages" : messages});
         this.#asyncUpdateReadership(this._messageBuffer.getLatestObjectId());
       }

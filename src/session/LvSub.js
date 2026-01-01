@@ -1,5 +1,7 @@
 import { LvTabbedPage } from './LvTabbedPage.js';
 import { api } from '../common/plt/Api.js';
+import { AbAccount } from './AbAccount.js';
+import { FHomeBtn } from './FHomeBtn.js';
 
 export class LvSub extends LvTabbedPage {
   initFromUrl(urlParam) {
@@ -7,7 +9,7 @@ export class LvSub extends LvTabbedPage {
     let pageId = urlParam.get(C.URL_PARAM.PAGE);
 
     if (this._gateway.isLoginRequired()) {
-      let fAb = new main.AbAccount();
+      let fAb = new AbAccount();
       fAb.setDelegate(this);
       this.setDefaultActionButton(fAb);
     }
@@ -69,15 +71,10 @@ export class LvSub extends LvTabbedPage {
   }
 
   #initHomeBtn(icon) {
-    let f = new main.FHomeBtn();
+    let f = new FHomeBtn();
     f.setIcon(icon);
     f.setUrl(dba.WebConfig.getSubUrl(this.getSectorId()));
     this.setHomeBtnFragment(f);
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.main = window.main || {};
-  window.main.LvSub = LvSub;
-}

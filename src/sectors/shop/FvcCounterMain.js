@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 export class FvcCounterMain extends FScrollViewContent {
   constructor() {
     super();
@@ -32,16 +33,16 @@ export class FvcCounterMain extends FScrollViewContent {
   onBranchSelectedInBranchSelectionContentFragment(fvcBranchSelection,
                                                    branchId) {
     this.#setBranchId(branchId);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.REPLACE_STATE, {}, "Counter");
+    Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
+    Events.triggerTopAction(T_ACTION.REPLACE_STATE, {}, "Counter");
     this.render();
   }
 
   onRegisterSelectedInRegisterSelectionContentFragment(fvcRegisterSelection,
                                                        registerId) {
     dba.Counter.setRegisterId(registerId);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.REPLACE_STATE, {}, "Counter");
+    Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
+    Events.triggerTopAction(T_ACTION.REPLACE_STATE, {}, "Counter");
     this.render();
   }
 
@@ -69,7 +70,7 @@ export class FvcCounterMain extends FScrollViewContent {
       let f = new shop.FvcBranchSelection();
       f.setDelegate(this);
       v.setContentFragment(f);
-      fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+      Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                   "Branch selection", false);
       return;
     }
@@ -79,7 +80,7 @@ export class FvcCounterMain extends FScrollViewContent {
       f.setDelegate(this);
       f.setBranchId(this._fQueue.getBranchId());
       v.setContentFragment(f);
-      fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+      Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                   "Register selection", false);
       return;
     }
@@ -89,11 +90,11 @@ export class FvcCounterMain extends FScrollViewContent {
 
   #showLoginView() {
     // This is hack to avoid dialog pop two times, needs debug
-    fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
+    Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
     // TODO: Only allow users with permission to login
     let gw = new auth.Gateway();
     let v = gw.createLoginView();
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Login",
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Login",
                                 false);
   }
 };

@@ -3,6 +3,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { api } from '../../common/plt/Api.js';
+import { Events } from '../../lib/framework/Events.js';
 
 export const CF_LOGIN_PROXY = {
   TRIGGER_CHECK : Symbol(),
@@ -144,7 +145,7 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
   }
 
   #scheduleCheck(time, token) {
-    fwk.Events.scheduleAction(time, this, auth.CF_LOGIN_PROXY.TRIGGER_CHECK,
+    Events.scheduleAction(time, this, auth.CF_LOGIN_PROXY.TRIGGER_CHECK,
                               token);
   }
 

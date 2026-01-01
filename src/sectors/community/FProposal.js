@@ -27,6 +27,7 @@ import { Proposal } from '../../common/datatypes/Proposal.js';
 import { Vote } from '../../common/datatypes/Vote.js';
 import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
 import { STATE } from '../../common/constants/Constants.js';
+import { Events, T_ACTION as FwkT_ACTION } from '../../lib/framework/Events.js';
 import { Utilities } from '../../common/Utilities.js';
 import { PProposal } from './PProposal.js';
 import { PProposalInfo } from './PProposalInfo.js';
@@ -334,7 +335,7 @@ export class FProposal extends Fragment {
   #makeMemberApplicationContent(data) { return data.message; }
 
   #onShowUserInfo(userId) {
-    fwk.Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
+    Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 
   #onViewProposal() {
@@ -350,7 +351,7 @@ export class FProposal extends Fragment {
     f.addOption("NAY", () => this.#onVote(Vote.T_VALUE.NAY));
     f.addOption("Cancel", null, true);
     v.setContentFragment(f);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Choices",
+    Events.triggerTopAction(FwkT_ACTION.SHOW_DIALOG, this, v, "Choices",
                                 false);
   }
 

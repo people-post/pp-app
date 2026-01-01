@@ -4,6 +4,7 @@ import { RenderController } from './RenderController.js';
 import { FNavBack } from './fragments/FNavBack.js';
 import { ViewPanel } from '../renders/panels/ViewPanel.js';
 import { VBlank } from './views/VBlank.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 const _CRC_NAVIGATION = {
   BIT : {NARROW : 1 << 1, WIDE_EXTRA : 1 << 0},
@@ -88,7 +89,7 @@ export class ViewStack extends RenderController {
         if (nBefore != this.getNRealViews()) {
           this.#onStackSizeChange();
         }
-        fwk.Events.triggerTopAction(fwk.T_ACTION.REPLACE_STATE, {}, title);
+        Events.triggerTopAction(T_ACTION.REPLACE_STATE, {}, title);
       }
     }
   }
@@ -107,7 +108,7 @@ export class ViewStack extends RenderController {
       }
       newView.attachRender(r);
       newView.render();
-      fwk.Events.triggerTopAction(fwk.T_ACTION.REPLACE_STATE, {}, title);
+      Events.triggerTopAction(T_ACTION.REPLACE_STATE, {}, title);
     }
   }
 
@@ -315,7 +316,7 @@ export class ViewStack extends RenderController {
     this.#updateViewsVisiblity();
     this.#onStackSizeChange();
 
-    fwk.Events.triggerTopAction(fwk.T_ACTION.PUSH_STATE, {}, title);
+    Events.triggerTopAction(T_ACTION.PUSH_STATE, {}, title);
   }
 
   #pushViewElements(view) {

@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { SimpleLongListFragment } from '../../common/gui/SimpleLongListFragment.js';
 import { T_ACTION } from '../../common/plt/Events.js';
+import { Events } from '../../lib/framework/Events.js';
 
 export class FvcMemberList extends FScrollViewContent {
   constructor() {
@@ -31,7 +32,7 @@ export class FvcMemberList extends FScrollViewContent {
   }
 
   onClickInUserInfoFragment(fUserInfo, userId) {
-    fwk.Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
+    Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 
   _renderContentOnRender(render) {

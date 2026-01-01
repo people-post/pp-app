@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 export class FvcQueueMain extends FScrollViewContent {
   constructor() {
     super();
@@ -22,8 +23,8 @@ export class FvcQueueMain extends FScrollViewContent {
 
   onBranchSelectedInBranchSelectionContentFragment(fvcBranchSelection, branchId) {
     this._fQueue.setBranchId(branchId);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.REPLACE_STATE, {}, "Queue");
+    Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
+    Events.triggerTopAction(T_ACTION.REPLACE_STATE, {}, "Queue");
     this.render();
   }
 
@@ -47,7 +48,7 @@ export class FvcQueueMain extends FScrollViewContent {
       let f = new shop.FvcBranchSelection();
       f.setDelegate(this);
       v.setContentFragment(f);
-      fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+      Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                   "Branch selection", false);
       return;
     }

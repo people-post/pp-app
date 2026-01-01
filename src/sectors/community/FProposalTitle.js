@@ -11,6 +11,7 @@ const _CFT_PROPOSAL_TITLE = {
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Proposal } from '../../common/datatypes/Proposal.js';
 import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
+import { Events } from '../../lib/framework/Events.js';
 
 export class FProposalTitle extends Fragment {
   action(type, ...args) {
@@ -87,7 +88,7 @@ export class FProposalTitle extends Fragment {
   }
 
   #showUserInfo(userId) {
-    fwk.Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
+    Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 };
 

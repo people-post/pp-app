@@ -59,8 +59,3 @@ export class FHomeBtn extends FHeaderMenu {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.main = window.main || {};
-  window.main.FHomeBtn = FHomeBtn;
-}

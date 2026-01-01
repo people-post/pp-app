@@ -7,6 +7,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcProgress } from '../../lib/ui/controllers/views/FvcProgress.js';
 import * as bip39 from '../../lib/3rd/bip39.js';
 import { T_ACTION } from '../../common/plt/Events.js';
+import { Events, T_ACTION as FwkT_ACTION } from '../../lib/framework/Events.js';
 
 export class FvcWeb3Login extends FvcLoginBase {
   #fMnemonic;
@@ -101,7 +102,7 @@ export class FvcWeb3Login extends FvcLoginBase {
     f.setDelegate(this);
     v.setContentFragment(f);
 
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Progress");
+    Events.triggerTopAction(FwkT_ACTION.SHOW_DIALOG, this, v, "Progress");
 
     f.addProgress("Initializing account...");
     dba.Keys.setMnemonic(w);
@@ -145,13 +146,13 @@ export class FvcWeb3Login extends FvcLoginBase {
 
   #skipAccountSearch() {
     // TODO:
-    fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
+    Events.triggerTopAction(FwkT_ACTION.CLOSE_DIALOG, this);
   }
 
   #onAccountProfileReady(fvcProgress, profile) {
     fvcProgress.addProgress("Account ready");
-    fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
-    fwk.Events.triggerTopAction(T_ACTION.LOGIN_SUCCESS, profile);
+    Events.triggerTopAction(FwkT_ACTION.CLOSE_DIALOG, this);
+    Events.triggerTopAction(T_ACTION.LOGIN_SUCCESS, profile);
   }
 
   #onAccountInitError(e) {

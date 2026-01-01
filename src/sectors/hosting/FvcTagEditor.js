@@ -1,4 +1,5 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { T_DATA } from '../../lib/framework/Events.js';
 
 export class FvcTagEditor extends FScrollViewContent {
   constructor() {
@@ -14,7 +15,7 @@ export class FvcTagEditor extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case fwk.T_DATA.WEB_CONFIG:
+    case T_DATA.WEB_CONFIG:
       this.render();
       break;
     default:

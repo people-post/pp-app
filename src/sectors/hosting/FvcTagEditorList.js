@@ -6,6 +6,7 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { Events, T_ACTION, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 
 export class FvcTagEditorList extends FScrollViewContent {
   constructor() {
@@ -36,7 +37,7 @@ export class FvcTagEditorList extends FScrollViewContent {
       fcnOK : () => this.#asyncAddTag(f.getValue()),
     });
     v.setContentFragment(fvc);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Input",
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Input",
                                 false);
   }
 
@@ -50,7 +51,7 @@ export class FvcTagEditorList extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case fwk.T_DATA.WEB_CONFIG:
+    case FwkT_DATA.WEB_CONFIG:
       this._owner.onContentFragmentRequestUpdateHeader(this);
       this.render();
       break;

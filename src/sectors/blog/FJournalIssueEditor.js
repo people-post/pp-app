@@ -42,6 +42,7 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { Journal } from '../../common/datatypes/Journal.js';
 import { Tag } from '../../common/datatypes/Tag.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { JournalIssue } from '../../common/datatypes/JournalIssue.js';
 import { FTag } from '../../common/gui/FTag.js';
 import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
@@ -231,7 +232,7 @@ class FPostSelectorHandle extends Fragment {
   #onChoose() {
     this.#lc.clearOptions();
     this.#lc.addOptionFragment(this.#fSelector);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_LAYER, this, this.#lc,
+    Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lc,
                                 "Context");
   }
 };

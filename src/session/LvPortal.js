@@ -65,8 +65,3 @@ export class LvPortal extends ViewLayer {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.main = window.main || {};
-  window.main.LvPortal = LvPortal;
-}

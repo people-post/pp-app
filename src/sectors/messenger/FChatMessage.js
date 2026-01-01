@@ -26,6 +26,7 @@ const _CFT_CHAT_MESSAGE = {
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
 import { T_ACTION } from '../../common/plt/Events.js';
+import { Events } from '../../lib/framework/Events.js';
 
 export class FChatMessage extends Fragment {
   constructor() {
@@ -155,11 +156,11 @@ export class FChatMessage extends Fragment {
   }
 
   #onShowGroupInfo(groupId) {
-    fwk.Events.triggerTopAction(T_ACTION.SHOW_GROUP_INFO, groupId);
+    Events.triggerTopAction(T_ACTION.SHOW_GROUP_INFO, groupId);
   }
 
   #onShowUserInfo(userId) {
-    fwk.Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
+    Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 };
 

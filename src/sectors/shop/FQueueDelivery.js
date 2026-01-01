@@ -3,6 +3,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FQueueDelivery extends shop.FServiceDelivery {
   constructor() {
@@ -101,7 +102,7 @@ export class FQueueDelivery extends shop.FServiceDelivery {
     let product = this._getProduct();
     f.setData(product.getId(), this._data.getLocations());
     v.setContentFragment(f);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Check in",
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Check in",
                                 false);
   }
 };

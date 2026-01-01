@@ -5,6 +5,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcCreateChatTarget } from './FvcCreateChatTarget.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { Events, T_ACTION, T_DATA } from '../../lib/framework/Events.js';
 
 export class FvcChatThreadList extends FScrollViewContent {
   constructor() {
@@ -24,7 +25,7 @@ export class FvcChatThreadList extends FScrollViewContent {
     let f = new FvcCreateChatTarget();
     f.setDelegate(this);
     v.setContentFragment(f);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                 "Guest comment", false);
   }
 
@@ -55,7 +56,7 @@ export class FvcChatThreadList extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case fwk.T_DATA.NOTIFICATIONS:
+    case T_DATA.NOTIFICATIONS:
       this.render();
       break;
     default:

@@ -12,6 +12,7 @@ import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
 import { CommunityProfile } from '../../common/datatypes/CommunityProfile.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FOverview extends Fragment {
   #fHeaderEditor;
@@ -335,7 +336,7 @@ export class FOverview extends Fragment {
       fcnOK : () => this.#applyMembership(f.getValue()),
     });
     v.setContentFragment(fvc);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                 "Application message", false);
   }
 
@@ -357,7 +358,7 @@ export class FOverview extends Fragment {
       fcnOK : () => this.#onIssueCoin(parseInt(f.getValue())),
     });
     v.setContentFragment(fvc);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v, "Input",
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Input",
                                 false);
   }
 

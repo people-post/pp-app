@@ -10,6 +10,8 @@ import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
 import { api } from '../common/plt/Api.js';
 import { T_ACTION } from '../common/plt/Events.js';
 import { Web2FileUploader } from '../common/plt/Web2FileUploader.js';
+import { Events as FwkEvents, T_ACTION as FwkT_ACTION, T_DATA } from '../lib/framework/Events.js';
+import { PWindow } from './PWindow.js';
 
 const _CRCT_SESSION = {
   // Prime, secondary: User defined
@@ -68,10 +70,10 @@ export class WcSession extends WindowController {
                               T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT,
                               FvcSearchResult);
     if (glb.env.isWeb3()) {
-      fwk.Factory.registerClass(fwk.T_CATEGORY.UI, fwk.T_OBJ.FILE_UPLOADER,
+      Factory.registerClass(T_CATEGORY.UI, T_OBJ.FILE_UPLOADER,
                                 dba.Web3FileUploader);
     } else {
-      fwk.Factory.registerClass(fwk.T_CATEGORY.UI, fwk.T_OBJ.FILE_UPLOADER,
+      Factory.registerClass(T_CATEGORY.UI, T_OBJ.FILE_UPLOADER,
                                 Web2FileUploader);
     }
 
@@ -80,7 +82,7 @@ export class WcSession extends WindowController {
     if (userId && userId.length > 0) {
       dba.Account.setUserId(userId);
     }
-    let w = new main.PWindow();
+    let w = new PWindow();
     // ID value is synced with backend
     w.attach("ID_R");
     this.attachRender(w);
@@ -137,25 +139,25 @@ export class WcSession extends WindowController {
     case T_ACTION.SHOW_GROUP_INFO:
       this.#showUserGroupView(args[0]);
       break;
-    case fwk.T_ACTION.RELOAD_URL:
+    case FwkT_ACTION.RELOAD_URL:
       this.#onReloadUrl();
       break;
-    case fwk.T_ACTION.PUSH_STATE:
+    case FwkT_ACTION.PUSH_STATE:
       this._onPushState(args[0], args[1]);
       break;
-    case fwk.T_ACTION.REPLACE_STATE:
+    case FwkT_ACTION.REPLACE_STATE:
       this.#onReplaceState(args[0], args[1]);
       break;
-    case fwk.T_ACTION.SHOW_NOTICE:
+    case FwkT_ACTION.SHOW_NOTICE:
       this.#showNotice(args[1]);
       break;
-    case fwk.T_ACTION.SHOW_DIALOG:
+    case FwkT_ACTION.SHOW_DIALOG:
       this._showCustomDialog(args[1], args[2], args[3]);
       break;
-    case fwk.T_ACTION.CLOSE_DIALOG:
+    case FwkT_ACTION.CLOSE_DIALOG:
       this.#closeDialog();
       break;
-    case fwk.T_ACTION.SHOW_LAYER:
+    case FwkT_ACTION.SHOW_LAYER:
       this._pushLayer(args[1], args[2]);
       break;
     default:
@@ -165,10 +167,10 @@ export class WcSession extends WindowController {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case fwk.T_DATA.WEB_CONFIG:
+    case T_DATA.WEB_CONFIG:
       this.#applyTheme();
       break;
-    case fwk.T_DATA.REMOTE_ERROR:
+    case T_DATA.REMOTE_ERROR:
       this.#fBanner.showRemoteError(data);
       break;
     default:
@@ -191,7 +193,7 @@ export class WcSession extends WindowController {
 
     this._initLanguage();
     this._initLayer(this._childStack[0]);
-    fwk.Events.setDelegate(this);
+    FwkEvents.setDelegate(this);
 
     let urlParam = new URLSearchParams(window.location.search);
     if (this._shouldClearInitialUrl()) {
@@ -217,7 +219,7 @@ export class WcSession extends WindowController {
   }
 
   _initEventHandlers() {
-    fwk.Events.setOnResizeHandler("default", () => this.#onResize());
+    FwkEvents.setOnResizeHandler("default", () => this.#onResize());
     window.onpopstate = evt => this.#onPopState(evt);
   }
 
@@ -402,8 +404,3 @@ export class WcSession extends WindowController {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.main = window.main || {};
-  window.main.WcSession = WcSession;
-}

@@ -4,6 +4,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export class FvcInteractive extends FScrollViewContent {
   constructor() {
@@ -33,7 +34,7 @@ export class FvcInteractive extends FScrollViewContent {
   }
   onQuizIdListGeneratedInQuizFilterContentFragment(fvcFilter, ids,
                                                    displayMethod) {
-    fwk.Events.triggerTopAction(fwk.T_ACTION.CLOSE_DIALOG, this);
+    Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
     switch (displayMethod) {
     case scol.FvcQuizFilter.T_PRESENTATION.FLASHCARD:
       this.#showFlashcards(ids);
@@ -89,7 +90,7 @@ export class FvcInteractive extends FScrollViewContent {
     let f = new scol.FvcQuizFilter();
     f.setDelegate(this);
     v.setContentFragment(f);
-    fwk.Events.triggerTopAction(fwk.T_ACTION.SHOW_DIALOG, this, v,
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                 "Quiz filter", false);
   }
 
