@@ -8,6 +8,7 @@ import { Menus } from '../dba/Menus.js';
 import { WebConfig } from '../dba/WebConfig.js';
 import Utilities from '../../lib/ext/Utilities.js';
 import { T_DATA } from '../../lib/framework/Events.js';
+import { MAX } from '../constants/Constants.js';
 
 export class MenuConfig extends DirFragment {
   constructor() {
@@ -17,7 +18,7 @@ export class MenuConfig extends DirFragment {
     f.setDelegate(this);
 
     this.setNewItemFragment(f);
-    this.setNMaxItems(C.MAX.N_MENU_ITEMS);
+    this.setNMaxItems(MAX.N_MENU_ITEMS);
 
     this._fSelected = null;
     this._sectorId = null;
@@ -121,8 +122,3 @@ export class MenuConfig extends DirFragment {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.MenuConfig = MenuConfig;
-}

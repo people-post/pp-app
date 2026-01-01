@@ -72,9 +72,3 @@ export class SectorConfigBar extends Fragment {
   #onSetHome(v) { this._delegate.onRequestSetHomeInConfigBar(this, v); }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.CF_SECTOR_CONFIG_BAR = CF_SECTOR_CONFIG_BAR;
-  window.gui.SectorConfigBar = SectorConfigBar;
-}

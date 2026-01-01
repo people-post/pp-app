@@ -1,18 +1,13 @@
+import { CHANNEL } from '../../common/constants/Constants.js';
+import { MessageHandler } from './MessageHandler.js';
+import { Signal } from '../../common/dba/Signal.js';
 
-export class GroupMessageHandler extends msgr.MessageHandler {
+export class GroupMessageHandler extends MessageHandler {
   activate() {
-    dba.Signal.subscribe(C.CHANNEL.GROUP_MSG, this._target.getId(),
+    Signal.subscribe(CHANNEL.GROUP_MSG, this._target.getId(),
                       m => this._asyncPullMessages());
     super.activate();
   }
 
-  deactivate() { dba.Signal.unsubscribe(C.CHANNEL.GROUP_MSG); }
+  deactivate() { Signal.unsubscribe(CHANNEL.GROUP_MSG); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.msgr = window.msgr || {};
-  window.msgr.GroupMessageHandler = GroupMessageHandler;
-}

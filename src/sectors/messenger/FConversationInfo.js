@@ -34,8 +34,3 @@ export class FConversationInfo extends msgr.FChatThreadInfo {
 
 
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.msgr = window.msgr || {};
-  window.msgr.FConversationInfo = FConversationInfo;
-}

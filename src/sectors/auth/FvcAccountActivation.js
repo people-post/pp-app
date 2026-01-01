@@ -2,6 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { api } from '../../common/plt/Api.js';
+import { URL_PARAM } from '../../common/constants/Constants.js';
 
 const _CFT_ACCOUNT_ACTIVATION = {
   MAIN : `
@@ -17,7 +18,7 @@ export class FvcAccountActivation extends FScrollViewContent {
   }
 
   initFromUrl(urlParam) {
-    this._activationCode = urlParam.get(C.URL_PARAM.CODE);
+    this._activationCode = urlParam.get(URL_PARAM.CODE);
     if (!this._isActivating) {
       this.#asyncActivateAccount(this._activationCode);
     }

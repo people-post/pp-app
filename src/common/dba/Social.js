@@ -4,6 +4,7 @@ import { api } from '../plt/Api.js';
 import { Account } from './Account.js';
 import { Users } from './Users.js';
 import { SocialInfo } from '../datatypes/SocialInfo.js';
+import { env } from '../plt/Env.js';
 
 export const Social = function() {
   let _lib = new Map();
@@ -40,7 +41,7 @@ export const Social = function() {
     }
     _pendingResponses.push(itemId);
 
-    if (glb.env.isWeb3()) {
+    if (env.isWeb3()) {
       __asyncWeb3Load(itemId).then(d => __onWeb3LoadRRR(d, itemId));
     } else {
       __asyncWeb2Load(itemId);
@@ -121,8 +122,3 @@ export const Social = function() {
   };
 }();
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Social = Social;
-}

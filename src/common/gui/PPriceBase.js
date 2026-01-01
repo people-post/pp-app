@@ -13,9 +13,3 @@ export class PPriceBase extends Panel {
   getListPricePanel() { return this._pListPrice; }
   getSalesPricePanel() { return this._pSalesPrice; }
 }
-
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.PPriceBase = PPriceBase;
-}

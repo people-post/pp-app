@@ -3,6 +3,7 @@ import { Signal } from '../dba/Signal.js';
 import { api } from '../plt/Api.js';
 import { RealTimeComment } from '../datatypes/RealTimeComment.js';
 import { BufferedList } from '../datatypes/BufferedList.js';
+import { CHANNEL } from '../constants/Constants.js';
 
 export class RealTimeCommentAgent extends Controller {
   #threadId = null;
@@ -14,11 +15,11 @@ export class RealTimeCommentAgent extends Controller {
 
   activate() {
     if (this.#threadId) {
-      Signal.subscribe(C.CHANNEL.COMMENT, this.#threadId,
+      Signal.subscribe(CHANNEL.COMMENT, this.#threadId,
                            m => this.#asyncLoad());
     }
   }
-  deactivate() { Signal.unsubscribe(C.CHANNEL.COMMENT); }
+  deactivate() { Signal.unsubscribe(CHANNEL.COMMENT); }
 
   getComments() {
     if (this.#commentBuffer) {

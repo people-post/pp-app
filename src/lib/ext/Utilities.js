@@ -478,9 +478,3 @@ const Utilities = function() {
 }();
 
 export default Utilities;
-
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ext = window.ext || {};
-  window.ext.Utilities = Utilities;
-}

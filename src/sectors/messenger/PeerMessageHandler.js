@@ -105,8 +105,3 @@ export class PeerMessageHandler extends msgr.MessageHandler {
 
 
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.msgr = window.msgr || {};
-  window.msgr.PeerMessageHandler = PeerMessageHandler;
-}

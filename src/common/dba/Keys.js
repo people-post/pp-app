@@ -158,8 +158,3 @@ export const Keys = function() {
   };
 }();
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Keys = Keys;
-}

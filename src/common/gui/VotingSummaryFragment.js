@@ -55,8 +55,3 @@ export class VotingSummaryFragment extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.VotingSummaryFragment = VotingSummaryFragment;
-}

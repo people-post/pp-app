@@ -4,6 +4,9 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { api } from '../../common/plt/Api.js';
 import { Events } from '../../lib/framework/Events.js';
+import { URL_PARAM, ID } from '../../common/constants/Constants.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Auth } from '../../common/dba/Auth.js';
 
 export const CF_LOGIN_PROXY = {
   TRIGGER_CHECK : Symbol(),
@@ -83,11 +86,11 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
 
   #startProxy(token) {
     let params = [
-      C.URL_PARAM.SECTOR + "=" + C.ID.SECTOR.LOGIN,
-      C.URL_PARAM.TOKEN + "=" + token,
-      C.URL_PARAM.FROM_DOMAIN + "=" + Utilities.getTopLevelDomain()
+      URL_PARAM.SECTOR + "=" + ID.SECTOR.LOGIN,
+      URL_PARAM.TOKEN + "=" + token,
+      URL_PARAM.FROM_DOMAIN + "=" + Utilities.getTopLevelDomain()
     ];
-    let url = dba.WebConfig.getLoginProxyUrl() + "/" + C.ID.SECTOR.GADGET +
+    let url = WebConfig.getLoginProxyUrl() + "/" + ID.SECTOR.GADGET +
               "?" + params.join("&");
     let opt = _CFT_LOGIN_PROXY.OPTIONS;
     opt = opt.replace("__LEFT__", window.screenX + window.outerWidth / 2);
@@ -104,7 +107,7 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
 
   #onReady(token) {
     this._pMsg.replaceContent(R.get("PROXY_MSG_LOGGING_IN"));
-    dba.Auth.asyncLoginWithToken(token, r => this.#onLoginRRR(r));
+    Auth.asyncLoginWithToken(token, r => this.#onLoginRRR(r));
   }
 
   #onLoginError(err) {

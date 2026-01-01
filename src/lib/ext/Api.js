@@ -79,9 +79,3 @@ const Api = function() {
 }();
 
 export default Api;
-
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ext = window.ext || {};
-  window.ext.Api = Api;
-}

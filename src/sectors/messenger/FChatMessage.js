@@ -166,8 +166,3 @@ export class FChatMessage extends Fragment {
 
 
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.msgr = window.msgr || {};
-  window.msgr.FChatMessage = FChatMessage;
-}

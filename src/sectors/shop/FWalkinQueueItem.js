@@ -26,6 +26,7 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { WalkinQueue } from '../../common/dba/WalkinQueue.js';
 import { Users } from '../../common/dba/Users.js';
 import { R } from '../../common/constants/R.js';
+import { STATE } from '../../common/constants/Constants.js';
 
 export class FWalkinQueueItem extends Fragment {
   static T_LAYOUT = {INFO : "INFO", FULL: "FULL"};
@@ -59,10 +60,10 @@ export class FWalkinQueueItem extends Fragment {
 
   onSimpleButtonClicked(fBtn) {
     switch (fBtn.getValue()) {
-    case C.STATE.NEW:
+    case STATE.NEW:
       this.#onServe();
       break;
-    case C.STATE.ACTIVE:
+    case STATE.ACTIVE:
       this.#onCheckout();
       break;
     default:
@@ -200,11 +201,11 @@ export class FWalkinQueueItem extends Fragment {
   #renderPrimeActionButton(item, panel) {
     this._fAction1.setValue(item.getState());
     switch (item.getState()) {
-    case C.STATE.NEW:
+    case STATE.NEW:
       this._fAction1.setName(R.t("Serve..."));
       this._fAction1.setThemeType(null);
       break;
-    case C.STATE.ACTIVE:
+    case STATE.ACTIVE:
       this._fAction1.setName(R.t("Checkout..."));
       this._fAction1.setThemeType(null);
       break;

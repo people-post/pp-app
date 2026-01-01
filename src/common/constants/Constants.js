@@ -110,18 +110,3 @@ export const STUN_URLS = [
   //"stun:stun.altar.com.pl:3478",
 ];
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.C = window.C || {};
-  window.C.MAX = MAX;
-  window.C.PATH = PATH;
-  window.C.STORAGE = STORAGE;
-  window.C.STATE = STATE;
-  window.C.VIS = VIS;
-  window.C.URL_PARAM = URL_PARAM;
-  window.C.URL_PARAM_ADDON_VALUE = URL_PARAM_ADDON_VALUE;
-  window.C.ID = ID;
-  window.C.TYPE = TYPE;
-  window.C.CHANNEL = CHANNEL;
-  window.C.STUN_URLS = STUN_URLS;
-}

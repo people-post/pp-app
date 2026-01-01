@@ -318,10 +318,3 @@ export class MainMenu extends MenuContent {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.PVMenuItem = PVMenuItem;
-  window.gui.PHMenuItem = PHMenuItem;
-  window.gui.MainMenu = MainMenu;
-}

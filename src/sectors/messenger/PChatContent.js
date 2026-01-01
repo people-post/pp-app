@@ -39,8 +39,3 @@ export class PChatContent extends Panel {
 
 
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.msgr = window.msgr || {};
-  window.msgr.PChatContent = PChatContent;
-}

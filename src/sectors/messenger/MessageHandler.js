@@ -5,7 +5,9 @@ import { api } from '../../common/plt/Api.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 
-export class MessageHandler extends ext.Controller {
+import Controller from '../../lib/ext/Controller.js';
+
+export class MessageHandler extends Controller {
   constructor() {
     super();
     this._target = new ChatTarget();
@@ -123,8 +125,3 @@ export class MessageHandler extends ext.Controller {
 
 
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.msgr = window.msgr || {};
-  window.msgr.MessageHandler = MessageHandler;
-}

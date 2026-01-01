@@ -96,8 +96,3 @@ export const Workshop = function() {
   };
 }();
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Workshop = Workshop;
-}

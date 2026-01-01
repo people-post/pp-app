@@ -17,9 +17,3 @@ export class Controller {
 }
 
 export default Controller;
-
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ext = window.ext || {};
-  window.ext.Controller = Controller;
-}

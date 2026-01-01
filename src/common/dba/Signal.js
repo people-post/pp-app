@@ -135,8 +135,3 @@ export const Signal = function() {
   };
 }();
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Signal = Signal;
-}

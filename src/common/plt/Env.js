@@ -86,8 +86,3 @@ export class Env {
 // System level services - export singleton instance
 export const env = new Env();
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.glb = window.glb || {};
-  window.glb.env = env;
-}

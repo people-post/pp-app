@@ -36,9 +36,3 @@ function createHosting() {
 }
 
 export const Hosting = createHosting();
-
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Hosting = Hosting;
-}

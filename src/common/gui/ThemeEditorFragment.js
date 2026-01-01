@@ -87,9 +87,3 @@ export class ThemeEditorFragment extends Fragment {
   }
 };
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.CF_THEME_EDITOR = CF_THEME_EDITOR;
-  window.gui.ThemeEditorFragment = ThemeEditorFragment;
-}

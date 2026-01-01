@@ -75,8 +75,3 @@ function createGroups() {
 
 export const Groups = createGroups();
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Groups = Groups;
-}

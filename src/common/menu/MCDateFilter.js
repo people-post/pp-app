@@ -149,9 +149,3 @@ export class MCDateFilter extends MenuContent {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.PDateFilter = PDateFilter;
-  window.gui.MCDateFilter = MCDateFilter;
-}

@@ -4,6 +4,7 @@ import { FNavMagic } from './FNavMagic.js';
 import { PHeaderThick } from '../../renders/panels/PHeaderThick.js';
 import { PHeaderThin } from '../../renders/panels/PHeaderThin.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
+import { WebConfig } from '../../../../common/dba/WebConfig.js';
 
 export class FViewHeader extends Fragment {
   static T_LAYOUT = {
@@ -73,7 +74,7 @@ export class FViewHeader extends Fragment {
     let eTest = document.getElementById("ID_COLOR_TEST");
     eTest.className = "inline-block";
     let t =
-        this.#customTheme ? this.#customTheme : dba.WebConfig.getCurrentTheme();
+        this.#customTheme ? this.#customTheme : WebConfig.getCurrentTheme();
     let c = t.getSeparationColor(eTest);
     if (this.#customTheme) {
       this.#pMain.setStyle("backgroundColor", t.getPrimaryColor());

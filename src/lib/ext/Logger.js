@@ -14,9 +14,3 @@ export class Logger {
 
   #makeMsg(msg) { return this._prefix + msg; }
 }
-
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.ext = window.ext || {};
-  window.ext.Logger = Logger;
-}

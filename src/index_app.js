@@ -5,6 +5,7 @@ import { WcSub } from './session/WcSub.js';
 import { WcPortal } from './session/WcPortal.js';
 import { env } from './common/plt/Env.js';
 import { Events } from './lib/framework/Events.js';
+import { TYPE } from './common/constants/Constants.js';
 
 const G = function() {
   let _session = null;
@@ -15,34 +16,34 @@ const G = function() {
   }
 
   function _initWeb3(dConfig) {
-    env.setWindowType(C.TYPE.WINDOW.WEB3);
+    env.setWindowType(TYPE.WINDOW.WEB3);
     _session = new WcWeb3();
     Events.setOnLoadHandler("init", () => _session.main(dConfig));
   }
 
   function _initMain(userId, primaryColor, secondaryColor, lang) {
-    env.setWindowType(C.TYPE.WINDOW.MAIN);
+    env.setWindowType(TYPE.WINDOW.MAIN);
     env.setDefaultLanguage(lang);
     _session = new WcMain();
     _initLoader(userId, primaryColor, secondaryColor);
   }
 
   function _initGadget(userId, primaryColor, secondaryColor, lang) {
-    env.setWindowType(C.TYPE.WINDOW.GADGET);
+    env.setWindowType(TYPE.WINDOW.GADGET);
     env.setDefaultLanguage(lang);
     _session = new WcGadget();
     _initLoader(userId, primaryColor, secondaryColor);
   }
 
   function _initSub(userId, primaryColor, secondaryColor, lang) {
-    env.setWindowType(C.TYPE.WINDOW.SUB);
+    env.setWindowType(TYPE.WINDOW.SUB);
     env.setDefaultLanguage(lang);
     _session = new WcSub();
     _initLoader(userId, primaryColor, secondaryColor);
   }
 
   function _initPortal(userId, primaryColor, secondaryColor, lang) {
-    env.setWindowType(C.TYPE.WINDOW.PORTAL);
+    env.setWindowType(TYPE.WINDOW.PORTAL);
     env.setDefaultLanguage(lang);
     _session = new WcPortal();
     _initLoader(userId, primaryColor, secondaryColor);

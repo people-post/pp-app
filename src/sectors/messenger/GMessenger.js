@@ -20,8 +20,3 @@ export const GMessenger = function() {
   };
 }();
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.msgr = window.msgr || {};
-  window.msgr.GMessenger = GMessenger;
-}

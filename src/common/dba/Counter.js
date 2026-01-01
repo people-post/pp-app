@@ -12,8 +12,3 @@ function createCounter() {
 
 export const Counter = createCounter();
 
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Counter = Counter;
-}

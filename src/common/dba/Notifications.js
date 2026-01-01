@@ -12,6 +12,7 @@ import { api } from '../plt/Api.js';
 import { Account } from './Account.js';
 import { Signal } from './Signal.js';
 import { Badge } from './Badge.js';
+import { CHANNEL } from '../constants/Constants.js';
 
 export const Notifications = function() {
   let _mMessages = new Map();
@@ -149,8 +150,8 @@ export const Notifications = function() {
 
   function _reload() {
     if (Account.isAuthenticated()) {
-      if (!Signal.isChannelSet(C.CHANNEL.USER_INBOX)) {
-        Signal.subscribe(C.CHANNEL.USER_INBOX, Account.getId(),
+      if (!Signal.isChannelSet(CHANNEL.USER_INBOX)) {
+        Signal.subscribe(CHANNEL.USER_INBOX, Account.getId(),
                              m => __handleSignal(m));
       }
       __asyncLoadNotifications();
@@ -225,8 +226,3 @@ export const Notifications = function() {
   };
 }();
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.dba = window.dba || {};
-  window.dba.Notifications = Notifications;
-}

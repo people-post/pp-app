@@ -7,6 +7,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Menus } from '../dba/Menus.js';
 import { WebConfig } from '../dba/WebConfig.js';
+import { MAX } from '../constants/Constants.js';
 
 export const CF_MENU_ENTRY_ITEM_CONFIG = {
   CHANGE_DIR : "CF_GUI_MENU_ENTRY_ITEM_CONFIG_2",
@@ -31,7 +32,7 @@ export class MenuEntryItemConfig extends DirFragment {
     f.setHintText("+New tag name");
     f.setDelegate(this);
     this.setNewItemFragment(f);
-    this.setNMaxItems(C.MAX.N_MENU_ITEMS);
+    this.setNMaxItems(MAX.N_MENU_ITEMS);
 
     this._itemId = itemId;
     this._subItemId = null;
@@ -171,9 +172,3 @@ export class MenuEntryItemConfig extends DirFragment {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.CF_MENU_ENTRY_ITEM_CONFIG = CF_MENU_ENTRY_ITEM_CONFIG;
-  window.gui.MenuEntryItemConfig = MenuEntryItemConfig;
-}
