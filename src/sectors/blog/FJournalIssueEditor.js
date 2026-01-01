@@ -312,7 +312,7 @@ class FSectionTagged extends Fragment {
   }
 };
 
-class FJournalIssueEditor extends Fragment {
+export class FJournalIssueEditor extends Fragment {
   #fIssueId;
   #fAbstract;
   #fSummary;
