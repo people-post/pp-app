@@ -3,16 +3,7 @@ import { WcMain } from './session/WcMain.js';
 import { WcGadget } from './session/WcGadget.js';
 import { WcSub } from './session/WcSub.js';
 import { WcPortal } from './session/WcPortal.js';
-import { Env } from './common/plt/Env.js';
-
-// System level services
-export const env = new Env();
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.glb = window.glb || {};
-  window.glb.env = env;
-}
+import { env } from './common/plt/Env.js';
 
 const G = function() {
   let _session = null;
