@@ -1,6 +1,7 @@
 import { UserBase } from './UserBase.js';
 import { BlogConfig } from './BlogConfig.js';
 import { ColorTheme } from './ColorTheme.js';
+import { URL_PARAM, ID } from '../constants/Constants.js';
 
 // Lazy import to avoid circular dependency
 // Use dynamic import with caching for synchronous access pattern
@@ -67,8 +68,8 @@ export class User extends UserBase {
     if (this.isFeed()) {
       return null;
     }
-    let ss = [ C.URL_PARAM.BRANCH + "=" + branchId ];
-    ss.push(C.URL_PARAM.SECTOR + "=" + C.ID.SECTOR.QUEUE);
+    let ss = [ URL_PARAM.BRANCH + "=" + branchId ];
+    ss.push(URL_PARAM.SECTOR + "=" + ID.SECTOR.QUEUE);
     return this.#generateUrl("sub", ss);
   }
   getCounterUrl(branchId) {
@@ -76,8 +77,8 @@ export class User extends UserBase {
     if (this.isFeed()) {
       return null;
     }
-    let ss = [ C.URL_PARAM.BRANCH + "=" + branchId ];
-    ss.push(C.URL_PARAM.SECTOR + "=" + C.ID.SECTOR.COUNTER);
+    let ss = [ URL_PARAM.BRANCH + "=" + branchId ];
+    ss.push(URL_PARAM.SECTOR + "=" + ID.SECTOR.COUNTER);
     return this.#generateUrl("sub", ss);
   }
   getIconUrl() { return this._data.icon_url ? this._data.icon_url : ""; }
@@ -94,7 +95,7 @@ export class User extends UserBase {
     const isDevSite = WebConfig ? WebConfig.isDevSite() : false;
     
     if (isDevSite || !this._data.domain) {
-      allParamStrs.unshift(C.URL_PARAM.USER + "=" + this._data.username);
+      allParamStrs.unshift(URL_PARAM.USER + "=" + this._data.username);
     }
 
     let url = "";
