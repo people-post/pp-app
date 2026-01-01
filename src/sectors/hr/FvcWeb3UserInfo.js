@@ -2,6 +2,7 @@ import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/F
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { T_DATA } from '../../common/plt/Events.js';
 export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
   #fBanner;
   #fBlog;
@@ -57,8 +58,8 @@ export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PROFILE:
       this.#resetTabs();
       break;
     default:

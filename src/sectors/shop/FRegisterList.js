@@ -4,6 +4,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ShopRegister } from '../../common/datatypes/ShopRegister.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FRegisterList extends Fragment {
   constructor() {
@@ -77,7 +78,7 @@ export class FRegisterList extends Fragment {
     let url = "api/shop/register_ids";
     let fd = new FormData();
     fd.append("branch_id", this._branchId);
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onRegisterIdsRRR(d));
   }
 
@@ -90,7 +91,7 @@ export class FRegisterList extends Fragment {
     let url = "api/shop/add_register";
     let fd = new FormData();
     fd.append("branch_id", this._branchId);
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onAddRegisterRRR(d));
   }
 

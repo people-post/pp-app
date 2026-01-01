@@ -10,8 +10,3 @@ export class LongListIdLoader extends Controller {
   }
 };
 
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.plt = window.plt || {};
-  window.plt.LongListIdLoader = LongListIdLoader;
-}

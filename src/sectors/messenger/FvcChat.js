@@ -9,7 +9,7 @@ import { FChatInputMenu } from './FChatInputMenu.js';
 import { PChatContent } from './PChatContent.js';
 import { FvcConversationOptions } from './FvcConversationOptions.js';
 import { FChatMessage } from './FChatMessage.js';
-import { T_DATA } from '../../common/plt/Events.js';
+import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
 import { Notifications } from '../../common/dba/Notifications.js';
 
 export class FvcChat extends FViewContentBase {
@@ -164,7 +164,7 @@ export class FvcChat extends FViewContentBase {
   }
 
   #onShowGroupInfo(groupId) {
-    fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_GROUP_INFO, groupId);
+    fwk.Events.triggerTopAction(T_ACTION.SHOW_GROUP_INFO, groupId);
   }
 
   #updateChatPanel(messages) {

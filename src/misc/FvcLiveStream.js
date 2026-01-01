@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ButtonGroup } from '../lib/ui/controllers/fragments/ButtonGroup.js';
 import { HintText } from '../lib/ui/controllers/fragments/HintText.js';
+import { api } from '../common/plt/Api.js';
 
 window.C_LIVE_STREAM = {
   START_RECORD : "C_LIVE_STREAM_1",
@@ -220,7 +221,7 @@ class FvcLiveStream extends FScrollViewContent {
     let e = document.getElementById("ID_TITLE");
     fd.append("title", e.value);
     fd.append("visibility", this._visView.getValue());
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => { this.#onStartLiveRRR(d); });
   }
 
@@ -235,7 +236,7 @@ class FvcLiveStream extends FScrollViewContent {
     // let recordedBlob = new Blob([ data ], {type : "video/webm"});
     let url = "/api/blog/live_data";
     this.#nUploading++;
-    plt.Api.asyncPost(url, data)
+    api.asyncPost(url, data)
         .then(d => this.#onSendDataRRR(d), e => this.#onSendDataError(e))
         .finally(() => this.#onSendDataDone());
   }
@@ -253,7 +254,7 @@ class FvcLiveStream extends FScrollViewContent {
 
   #asyncStopLive() {
     let url = "/api/blog/stop_live";
-    plt.Api.asyncFragmentCall(this, url).then(d => { this.#onStopLiveRRR(d); });
+    api.asyncFragmentCall(this, url).then(d => { this.#onStopLiveRRR(d); });
   }
 
   #onStopLiveRRR(data) { this.#onRemoveServerStopped(); }

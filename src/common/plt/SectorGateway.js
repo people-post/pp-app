@@ -15,9 +15,3 @@ export class SectorGateway extends Controller {
   createPageEntryViews(pageId) { return []; }
   createPageOptionalViews(pageId) { return []; }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.plt = window.plt || {};
-  window.plt.SectorGateway = SectorGateway;
-}

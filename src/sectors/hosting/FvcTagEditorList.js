@@ -4,6 +4,8 @@ import { ActionButton } from '../../common/gui/ActionButton.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcTagEditorList extends FScrollViewContent {
   constructor() {
@@ -52,7 +54,7 @@ export class FvcTagEditorList extends FScrollViewContent {
       this._owner.onContentFragmentRequestUpdateHeader(this);
       this.render();
       break;
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PROFILE:
       this.render();
       break;
     default:
@@ -86,7 +88,7 @@ export class FvcTagEditorList extends FScrollViewContent {
     let url = "api/user/add_tag";
     let fd = new FormData();
     fd.append("name", tag);
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onAddTagRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onAddTagRRR(d));
   }
 
   #onAddTagRRR(data) {

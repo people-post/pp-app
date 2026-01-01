@@ -1,9 +1,10 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FGlobalCommunityInfo extends Fragment {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.GLOBAL_COMMUNITY_PROFILE:
+    case T_DATA.GLOBAL_COMMUNITY_PROFILE:
       this.render();
       break;
     default:

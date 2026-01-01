@@ -1,4 +1,5 @@
 import { FScrollViewContent } from '../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { api } from '../common/plt/Api.js';
 
 class NutritionLib {
   constructor(data) {
@@ -35,7 +36,7 @@ class FvcNutrition extends FScrollViewContent {
 
   _asyncLoadFoods() {
     let url = "/api/user/data/nutrition";
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onNutritionRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onNutritionRRR(d));
   }
 
   #onNutritionRRR(data) {

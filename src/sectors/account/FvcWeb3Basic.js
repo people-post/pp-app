@@ -6,7 +6,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FIconUploader } from '../../common/gui/FIconUploader.js';
 import { Account } from '../../common/dba/Account.js';
-import { env } from '../../G.js';
+import { env } from '../../common/plt/Env.js';
 
 export class FvcWeb3Basic extends FScrollViewContent {
   #fName;

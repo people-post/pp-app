@@ -11,7 +11,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { FvcFilteredPostList } from './FvcFilteredPostList.js';
 import { Account } from '../../common/dba/Account.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { env } from '../../G.js';
+import { env } from '../../common/plt/Env.js';
 import { Utilities } from '../../common/Utilities.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
@@ -22,7 +22,7 @@ import { FArticle } from './FArticle.js';
 import { FFeedArticleInfo } from './FFeedArticleInfo.js';
 import { FJournalIssue } from './FJournalIssue.js';
 import { FEmptyPost } from './FEmptyPost.js';
-import * as blogUtilities from './Utilities.js';
+import { Utilities as BlogUtilities } from './Utilities.js';
 
 export const CF_POST = {
   TOGGLE_PIN : Symbol(),
@@ -273,7 +273,7 @@ export class FPost extends Fragment {
 
   #onPostUpdate(updatePost) {
     let post = Blog.getPost(this.#postId);
-    if (blogUtilities.isPostRelated(updatePost, post)) {
+    if (BlogUtilities.isPostRelated(updatePost, post)) {
       this.render();
     }
   }

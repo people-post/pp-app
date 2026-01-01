@@ -11,6 +11,8 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { UserRole } from '../../common/datatypes/UserRole.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcCareer extends FScrollViewContent {
   constructor() {
@@ -56,8 +58,8 @@ export class FvcCareer extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PROFILE:
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PROFILE:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
     default:
@@ -128,7 +130,7 @@ export class FvcCareer extends FScrollViewContent {
     let fd = new FormData();
     fd.append("id", roleId);
     let url = "api/career/apply_role";
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onApplyRoleRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onApplyRoleRRR(d));
   }
 
   #onApplyRoleRRR(data) {
@@ -141,7 +143,7 @@ export class FvcCareer extends FScrollViewContent {
     let fd = new FormData();
     fd.append("id", roleId);
     let url = "api/career/resign_role";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onResignRoleRRR(d));
   }
 

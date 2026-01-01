@@ -1,4 +1,5 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FvcWeb3Explorer extends FScrollViewContent {
   #fPosts;
@@ -36,10 +37,10 @@ export class FvcWeb3Explorer extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.NEW_OWNER_POST:
+    case T_DATA.NEW_OWNER_POST:
       this.#fPosts.reset();
       break;
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PROFILE:
       this._owner.onContentFragmentRequestUpdateHeader(this);
       this.render();
       break;

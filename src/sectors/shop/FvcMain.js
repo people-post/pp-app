@@ -6,6 +6,8 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
 import { URL_PARAM, URL_PARAM_ADDON_VALUE } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {
@@ -78,11 +80,11 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.DRAFT_ORDERS:
+    case T_DATA.DRAFT_ORDERS:
       this._owner.onContentFragmentRequestUpdateHeader(this);
       this.render();
       break;
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PROFILE:
     case fwk.T_DATA.WEB_CONFIG:
       this.#resetContents();
       this.render();
@@ -192,14 +194,14 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   #asyncOpenShop() {
     let url = "api/shop/request_open";
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onOpenShopRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onOpenShopRRR(d));
   }
 
   #onOpenShopRRR(data) { dba.WebConfig.setShopOpen(true); }
 
   #asyncCloseShop() {
     let url = "api/shop/request_close";
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onCloseShopRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onCloseShopRRR(d));
   }
 
   #onCloseShopRRR(data) { dba.WebConfig.reset(data.web_config); }

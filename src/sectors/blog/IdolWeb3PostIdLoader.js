@@ -1,5 +1,6 @@
+import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 
-export class IdolWeb3PostIdLoader extends plt.LongListIdLoader {
+export class IdolWeb3PostIdLoader extends LongListIdLoader {
   #loaders = [];
 
   constructor() {

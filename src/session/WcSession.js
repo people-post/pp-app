@@ -7,6 +7,9 @@ import { View } from '../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../lib/ui/controllers/views/FvcNotice.js';
 import { LvDialog } from '../lib/ui/controllers/layers/LvDialog.js';
 import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
+import { api } from '../common/plt/Api.js';
+import { T_ACTION } from '../common/plt/Events.js';
+import { Web2FileUploader } from '../common/plt/Web2FileUploader.js';
 
 const _CRCT_SESSION = {
   // Prime, secondary: User defined
@@ -69,7 +72,7 @@ export class WcSession extends WindowController {
                                 dba.Web3FileUploader);
     } else {
       fwk.Factory.registerClass(fwk.T_CATEGORY.UI, fwk.T_OBJ.FILE_UPLOADER,
-                                plt.Web2FileUploader);
+                                Web2FileUploader);
     }
 
     dba.WebConfig.setBootTheme(
@@ -125,13 +128,13 @@ export class WcSession extends WindowController {
 
   topAction(type, ...args) {
     switch (type) {
-    case plt.T_ACTION.LOGIN:
+    case T_ACTION.LOGIN:
       this.#showLoginView(args[0]);
       break;
-    case plt.T_ACTION.SHOW_USER_INFO:
+    case T_ACTION.SHOW_USER_INFO:
       this.#showUserInfoView(args[0]);
       break;
-    case plt.T_ACTION.SHOW_GROUP_INFO:
+    case T_ACTION.SHOW_GROUP_INFO:
       this.#showUserGroupView(args[0]);
       break;
     case fwk.T_ACTION.RELOAD_URL:
@@ -316,7 +319,7 @@ export class WcSession extends WindowController {
 
   #asyncLoadWebConfig() {
     let url = "api/user/web_config";
-    plt.Api.asyncRawCall(url, r => this.#onWebConfigRRR(r));
+    api.asyncRawCall(url, r => this.#onWebConfigRRR(r));
   }
 
   #onWebConfigRRR(responseText) {
@@ -330,7 +333,7 @@ export class WcSession extends WindowController {
 
   #asyncMarkDomainVisit() {
     let url = "api/stat/mark_visit";
-    plt.Api.asyncRawCall(url);
+    api.asyncRawCall(url);
   }
 
   #closeDialog() {

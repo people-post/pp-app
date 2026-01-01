@@ -2,6 +2,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
+import { api } from '../../common/plt/Api.js';
 
 export const CF_CHANGE_PASSWORD = {
   SUBMIT : Symbol(),
@@ -64,7 +65,7 @@ export class FvcChangePassword extends FScrollViewContent {
     let fd = new FormData();
     fd.append("password", password);
     fd.append("new_password", password_new);
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onChangePasswordRRR(d));
   }
 

@@ -5,6 +5,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
+import { api } from '../../common/plt/Api.js';
 
 const _CFT_RETRIEVE_PASSWORD = {
   MAIN : `<table class="automargin">
@@ -88,7 +89,7 @@ export class FvcRetrievePassword extends FScrollViewContent {
   #asyncSubmit() {
     let email = document.getElementById("email").value;
     var url = "api/auth/retrieve_password?email=" + encodeURIComponent(email);
-    plt.Api.asyncFragmentCall(this, url).then(
+    api.asyncFragmentCall(this, url).then(
         d => this.#onRetrievePasswordRRR(d));
   }
 

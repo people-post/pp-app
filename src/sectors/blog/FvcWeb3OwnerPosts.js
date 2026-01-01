@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FvcWeb3OwnerPosts extends FScrollViewContent {
   #loader;
@@ -43,7 +44,7 @@ export class FvcWeb3OwnerPosts extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.NEW_OWNER_POST:
+    case T_DATA.NEW_OWNER_POST:
       if (this.#loader.getOwnerId() == dba.Account.getId()) {
         this.#fPosts.reset();
       }

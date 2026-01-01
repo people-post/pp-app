@@ -2,6 +2,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FQueueDelivery extends shop.FServiceDelivery {
   constructor() {
@@ -21,7 +22,7 @@ export class FQueueDelivery extends shop.FServiceDelivery {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.SERVICE_QUEUE_SIZE:
+    case T_DATA.SERVICE_QUEUE_SIZE:
       this.#onQueueSizeUpdate(data);
       break;
     default:

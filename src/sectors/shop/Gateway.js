@@ -1,5 +1,6 @@
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
 
-export class Gateway extends plt.SectorGateway {
+export class Gateway extends SectorGateway {
   createMainViewContentFragment() { return new shop.FvcMain(); }
 };
 

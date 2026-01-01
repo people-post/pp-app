@@ -3,6 +3,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { PreviewOrder } from '../../common/datatypes/PreviewOrder.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcPreCheckout extends FScrollViewContent {
   // Serves as checkout register
@@ -66,7 +67,7 @@ export class FvcPreCheckout extends FScrollViewContent {
       fd.append('items', JSON.stringify(item.toJsonDict()));
     }
     let url = "/api/shop/charge_preview";
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onOrderPreviewRRR(d));
   }
 

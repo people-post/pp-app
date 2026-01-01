@@ -4,6 +4,7 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FMediaFileUploader } from '../../lib/ui/controllers/fragments/FMediaFileUploader.js';
 import { ICONS } from '../../lib/ui/Icons.js';
+import { api } from '../plt/Api.js';
 
 export const CF_LIVE_STREAM_CONFIG = {
   ADD_FILE : "CF_GUI_LIVE_STREAM_CONFIG_1",
@@ -124,7 +125,7 @@ export class LiveStreamConfigFragment extends Fragment {
 
   #onRegenerateStreamKey() {
     let url = "api/user/regenerate_live_stream_key";
-    plt.Api.asyncFragmentCall(this, url).then(
+    api.asyncFragmentCall(this, url).then(
         d => this.#onRegenerateStreamKeyRRR(d));
   }
 

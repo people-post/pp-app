@@ -17,6 +17,7 @@ import { Web3CommentIdLoader } from '../../common/social/Web3CommentIdLoader.js'
 import { FCommentInput } from '../../common/social/FCommentInput.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { api } from '../../common/plt/Api.js';
+import { T_DATA } from '../../common/plt/Events.js';
 import * as blogUtilities from './Utilities.js';
 
 const _CPT_POST = {
@@ -170,14 +171,14 @@ class FvcPost extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PROFILE:
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PROFILE:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this._owner.onContentFragmentRequestUpdateHeader(this);
       break;
-    case plt.T_DATA.POST:
+    case T_DATA.POST:
       this.#onPostUpdate(data);
       break;
-    case plt.T_DATA.GROUPS:
+    case T_DATA.GROUPS:
       this.render();
       break;
     default:
@@ -373,7 +374,7 @@ class FvcPost extends FScrollViewContent {
     fd.append("item_type", this.#postId.getType());
     fd.append("article_id", articleId);
     fd.append("tag_id", tagId);
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onTagCommentRRR(d));
   }
 
@@ -388,7 +389,7 @@ class FvcPost extends FScrollViewContent {
     fd.append("item_type", this.#postId.getType());
     fd.append("article_id", articleId);
     fd.append("tag_id", tagId);
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onUntagCommentRRR(d));
   }
 

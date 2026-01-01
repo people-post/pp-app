@@ -6,6 +6,7 @@ import { ButtonList } from '../../lib/ui/controllers/fragments/ButtonList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcCreateChatTarget extends FScrollViewContent {
   constructor() {
@@ -122,7 +123,7 @@ export class FvcCreateChatTarget extends FScrollViewContent {
     for (let uid of userIds) {
       fd.append("member_ids", uid);
     }
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onCreateGroupRRR(d));
   }
 

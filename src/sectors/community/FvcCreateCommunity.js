@@ -12,6 +12,7 @@ const _CFT_CREATE_COMMUNITY_CONTENT = {
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcCreateCommunity extends FScrollViewContent {
   action(type, ...args) {
@@ -57,7 +58,7 @@ export class FvcCreateCommunity extends FScrollViewContent {
     e = document.getElementById(this.#getDescriptionElementId());
     fd.append("description", e.value);
     let url = "api/community/create";
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #onSubmitRRR(data) {

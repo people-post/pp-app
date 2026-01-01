@@ -6,6 +6,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export const CF_LOGIN = {
   REGISTER : Symbol(),
@@ -84,7 +85,7 @@ export class FvcLogin extends FvcWeb2LoginBase {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.LOGIN:
+    case T_DATA.LOGIN:
       this.#onActionFinished();
       break;
     default:

@@ -1,6 +1,8 @@
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { BufferedList } from '../../common/datatypes/BufferedList.js';
 import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
+import { api } from '../../common/plt/Api.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class MessageHandler extends ext.Controller {
   constructor() {
@@ -37,7 +39,7 @@ export class MessageHandler extends ext.Controller {
     if (this._target.isGroup()) {
       fd.append("is_group", "1");
     }
-    plt.Api.asyncRawPost(url, fd, r => this.#onPullRRR(r));
+    api.asyncRawPost(url, fd, r => this.#onPullRRR(r));
   }
 
   #createMessage(data) {
@@ -63,14 +65,14 @@ export class MessageHandler extends ext.Controller {
       fd.append("is_group", 1);
     }
     fd.append("data", data);
-    plt.Api.asyncRawPost(url, fd,
-                      r => this.#onPostRRR(r, data, onSuccess, onFail));
+    api.asyncRawPost(url, fd,
+                     r => this.#onPostRRR(r, data, onSuccess, onFail));
   }
 
   #asyncPostFile(file, onSuccess, onFail) {
     let url = "/api/messenger/post_message";
     let data = "{\"to\": \"" + this._target.getId() + "\"}";
-    // plt.Api.asyncRawPost(url, data);
+    // api.asyncRawPost(url, data);
   }
 
   #asyncGetRelatedMessages() {
@@ -78,7 +80,7 @@ export class MessageHandler extends ext.Controller {
     let fd = new FormData();
     fd.append("target_id", this._target.getId());
     fd.append("target_type", this._target.getIdType());
-    plt.Api.asyncRawPost(url, fd, r => this.#onPullRRR(r));
+    api.asyncRawPost(url, fd, r => this.#onPullRRR(r));
   }
 
   #asyncUpdateReadership(untilMessageId) {
@@ -88,7 +90,7 @@ export class MessageHandler extends ext.Controller {
     if (this._target.isGroup()) {
       url += "&is_group=1"
     }
-    plt.Api.asyncRawCall(url);
+    api.asyncRawCall(url);
   }
 
   #onPostRRR(responseText, data, onSuccess, onFail) {
@@ -110,7 +112,7 @@ export class MessageHandler extends ext.Controller {
       }
       messages = this._messageBuffer.extend(messages);
       if (messages.length > 0) {
-        fwk.Events.trigger(plt.T_DATA.MESSAGES,
+        fwk.Events.trigger(T_DATA.MESSAGES,
                            {"target" : this._target, "messages" : messages});
         this.#asyncUpdateReadership(this._messageBuffer.getLatestObjectId());
       }

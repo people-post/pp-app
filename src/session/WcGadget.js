@@ -3,6 +3,7 @@ import { LvGadget } from './LvGadget.js';
 import { AbClose } from './AbClose.js';
 import { View } from '../lib/ui/controllers/views/View.js';
 import { FvcCountdownAction } from '../common/gui/FvcCountdownAction.js';
+import { T_ACTION } from '../common/plt/Events.js';
 
 export class WcGadget extends WcSession {
   onCountdownCancelledInCountdownContentFragment(fvcCountdown) {
@@ -15,10 +16,10 @@ export class WcGadget extends WcSession {
 
   topAction(type, ...args) {
     switch (type) {
-    case plt.T_ACTION.PROXY_LOGIN_SUCCESS:
+    case T_ACTION.PROXY_LOGIN_SUCCESS:
       this.#onProxyLoginSuccess(args[0]);
       break;
-    case plt.T_ACTION.LOGIN_SUCCESS:
+    case T_ACTION.LOGIN_SUCCESS:
       this.#onLoginSuccess(args[0]);
       break;
     default:

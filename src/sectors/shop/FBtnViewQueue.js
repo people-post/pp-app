@@ -1,5 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FBtnViewQueue extends Fragment {
   constructor() {
@@ -19,8 +20,8 @@ export class FBtnViewQueue extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.SHOP_BRANCH:
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.SHOP_BRANCH:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
     default:

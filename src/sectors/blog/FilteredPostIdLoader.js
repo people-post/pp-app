@@ -1,7 +1,9 @@
 import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
+import { api } from '../../common/plt/Api.js';
 
-export class FilteredPostIdLoader extends plt.LongListIdLoader {
+export class FilteredPostIdLoader extends LongListIdLoader {
   #isBatchLoading = false;
   #tagId = null;
   #idRecord;
@@ -30,7 +32,7 @@ export class FilteredPostIdLoader extends plt.LongListIdLoader {
     if (t) {
       url += "&owner_id=" + t.getOwnerId();
     }
-    plt.Api.asyncRawCall(url, r => this.#onPostsRRR(r));
+    api.asyncRawCall(url, r => this.#onPostsRRR(r));
   }
 
   #onPostsRRR(responseText) {

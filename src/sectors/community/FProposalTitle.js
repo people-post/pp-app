@@ -10,6 +10,7 @@ const _CFT_PROPOSAL_TITLE = {
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Proposal } from '../../common/datatypes/Proposal.js';
+import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
 
 export class FProposalTitle extends Fragment {
   action(type, ...args) {
@@ -25,7 +26,7 @@ export class FProposalTitle extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
     default:
@@ -86,7 +87,7 @@ export class FProposalTitle extends Fragment {
   }
 
   #showUserInfo(userId) {
-    fwk.Events.triggerTopAction(plt.T_ACTION.SHOW_USER_INFO, userId);
+    fwk.Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 };
 

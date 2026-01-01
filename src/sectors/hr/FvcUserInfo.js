@@ -2,6 +2,8 @@ import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/F
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
 export class FvcUserInfo extends FViewContentWithHeroBanner {
   #fBanner;
   #fBlog;
@@ -74,8 +76,8 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PROFILE:
       this.#resetTabs();
       break;
     default:
@@ -88,7 +90,7 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
 
   #asyncMarkAccountVisit() {
     let url = "api/stat/mark_account_visit?user_id=" + this.#userId;
-    plt.Api.asyncRawCall(url);
+    api.asyncRawCall(url);
   }
 
   #resetTabs() {

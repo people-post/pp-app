@@ -10,6 +10,8 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
 import { CommunityProfile } from '../../common/datatypes/CommunityProfile.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FOverview extends Fragment {
   #fHeaderEditor;
@@ -141,8 +143,8 @@ export class FOverview extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
-    case plt.T_DATA.COMMUNITY_PROFILE:
+    case T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.COMMUNITY_PROFILE:
       this.render();
       break;
     default:
@@ -364,7 +366,7 @@ export class FOverview extends Fragment {
     let fd = new FormData();
     fd.append("id", this.#communityId);
     fd.append("msg", message);
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onApplyRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onApplyRRR(d));
   }
 
   #onApplyRRR(data) {
@@ -376,7 +378,7 @@ export class FOverview extends Fragment {
     let fd = new FormData();
     fd.append("total", nCoins);
     let url = "api/community/propose_issue_coins";
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onIssueCoinRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onIssueCoinRRR(d));
   }
 
   #onIssueCoinRRR(data) {
@@ -409,7 +411,7 @@ export class FOverview extends Fragment {
       "type" : info.mimeType,
       "cover_id" : info.coverId
     }));
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onUpdateProfileRRR(d));
   }
 

@@ -2,6 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcConversationOptions extends FScrollViewContent {
   constructor() {
@@ -38,7 +39,7 @@ export class FvcConversationOptions extends FScrollViewContent {
     let url = "/api/messenger/delete_chat";
     let fd = new FormData();
     fd.append("target_id", this._target.getId());
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
   }
 
   #onDeleteRRR(data) {

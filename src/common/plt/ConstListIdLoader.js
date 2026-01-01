@@ -17,9 +17,3 @@ export class ConstListIdLoader extends LongListIdLoader {
   asyncLoadFrontItems() {}
   asyncLoadBackItems() {}
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.plt = window.plt || {};
-  window.plt.ConstListIdLoader = ConstListIdLoader;
-}

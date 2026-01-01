@@ -2,6 +2,7 @@ import { FvcWeb2LoginBase } from './FvcWeb2LoginBase.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { api } from '../../common/plt/Api.js';
 
 export const CF_LOGIN_PROXY = {
   TRIGGER_CHECK : Symbol(),
@@ -128,7 +129,7 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
   #asyncRequestLoginToken() {
     this._pMsg.replaceContent(R.get("PROXY_MSG_INITING"));
     let url = "/api/auth/login_token";
-    plt.Api.asyncRawCall(url, r => this.#onLoginTokenRRR(r));
+    api.asyncRawCall(url, r => this.#onLoginTokenRRR(r));
   }
 
   #onLoginTokenRRR(responseText) {
@@ -151,7 +152,7 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
     let url = "/api/auth/activate_login_token";
     let fd = new FormData();
     fd.append("token", token);
-    plt.Api.asyncRawPost(url, fd, r => this.#onActivateTokenRRR(token, r));
+    api.asyncRawPost(url, fd, r => this.#onActivateTokenRRR(token, r));
   }
 
   #onActivateTokenRRR(token, responseText) {
@@ -167,7 +168,7 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
     let url = "/api/auth/check_login_token";
     let fd = new FormData();
     fd.append("token", token);
-    plt.Api.asyncRawPost(url, fd, r => this.#onTokenCheckRRR(token, r));
+    api.asyncRawPost(url, fd, r => this.#onTokenCheckRRR(token, r));
   }
 
   #onTokenCheckRRR(token, responseText) {

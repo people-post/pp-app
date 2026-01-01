@@ -5,6 +5,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { TimeClock } from '../../common/datatypes/TimeClock.js';
 import { TimeClockRecord } from '../../common/datatypes/TimeClockRecord.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FTimeClock extends Fragment {
   constructor() {
@@ -97,7 +98,7 @@ export class FTimeClock extends Fragment {
   #asyncFetchClockStatus() {
     let url = "api/school/clock";
     let fd = new FormData();
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onClockStatusRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onClockStatusRRR(d));
   }
 
   #onClockStatusRRR(data) {
@@ -111,7 +112,7 @@ export class FTimeClock extends Fragment {
   #asyncClockIn() {
     let url = "api/school/clock_in";
     let fd = new FormData();
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onClockInRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onClockInRRR(d));
   }
 
   #onClockInRRR(data) {
@@ -128,7 +129,7 @@ export class FTimeClock extends Fragment {
     let url = "api/school/clock_out";
     let fd = new FormData();
     fd.append("total", this._dtLast);
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onClockOutRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onClockOutRRR(d));
   }
 
   #onClockOutRRR(data) {

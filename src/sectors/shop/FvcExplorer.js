@@ -5,6 +5,7 @@ import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FvcExplorer extends FScrollViewContent {
   #fmSearch;
@@ -68,7 +69,7 @@ export class FvcExplorer extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.DRAFT_ORDERS:
+    case T_DATA.DRAFT_ORDERS:
       this._owner.onContentFragmentRequestUpdateHeader(this);
       break;
     default:

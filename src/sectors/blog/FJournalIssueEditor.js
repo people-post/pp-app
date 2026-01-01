@@ -48,6 +48,8 @@ import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
 import { FGeneralSearch } from '../../common/search/FGeneralSearch.js';
 import { FSearchResultInfo } from '../../common/search/FSearchResultInfo.js';
 import { FPostInfo } from './FPostInfo.js';
+import { api } from '../../common/plt/Api.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class PEditor extends Panel {
   #pIssueId;
@@ -312,7 +314,7 @@ class FSectionTagged extends Fragment {
   }
 };
 
-class FJournalIssueEditor extends Fragment {
+export class FJournalIssueEditor extends Fragment {
   #fIssueId;
   #fAbstract;
   #fSummary;
@@ -386,7 +388,7 @@ class FJournalIssueEditor extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.GROUPS:
+    case T_DATA.GROUPS:
       this.render();
       break;
     default:
@@ -520,8 +522,8 @@ class FJournalIssueEditor extends Fragment {
     } else {
       url = "api/blog/update_journal_issue";
     }
-    plt.Api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r),
-                         r => this.#onAsyncPostError(r));
+    api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r),
+                     r => this.#onAsyncPostError(r));
     return true;
   }
 
@@ -531,7 +533,7 @@ class FJournalIssueEditor extends Fragment {
 
   #asyncGetTags(ownerId) {
     let url = "api/blog/available_tags?from=" + ownerId;
-    plt.Api.asyncFragmentCall(this, url).then(d => this.#onTagsRRR(d));
+    api.asyncFragmentCall(this, url).then(d => this.#onTagsRRR(d));
   }
 
   #onTagsRRR(data) {

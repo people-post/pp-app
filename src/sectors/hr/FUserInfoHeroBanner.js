@@ -1,3 +1,6 @@
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
+
 export const CF_USER_INFO_HERO_BANNER = {
   FOLLOW : Symbol(),
   UNFOLLOW : Symbol(),
@@ -100,12 +103,12 @@ export class FUserInfoHeroBanner extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PROFILE:
       this.render();
       break;
-    case plt.T_DATA.USER_IDOLS:
-    case plt.T_DATA.USER_PUBLIC_PROFILE:
+    case T_DATA.USER_IDOLS:
+    case T_DATA.USER_PUBLIC_PROFILE:
       if (data == dba.Account.getId() || data == this._dataSource.getUserId()) {
         this.render();
       }
@@ -349,7 +352,7 @@ export class FUserInfoHeroBanner extends Fragment {
     let url = "/api/user/update_info_image";
     let fd = new FormData();
     fd.append('info_image', file)
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onInfoImageUpdateRRR(d));
   }
 
@@ -359,7 +362,7 @@ export class FUserInfoHeroBanner extends Fragment {
     let url = "/api/user/update_brief_biography";
     let fd = new FormData();
     fd.append('text', text)
-    plt.Api.asyncFragmentPost(this, url, fd)
+    api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onBriefBioUpdateRRR(d));
   }
 

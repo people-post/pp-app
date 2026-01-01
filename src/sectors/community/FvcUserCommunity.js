@@ -11,6 +11,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FOverview } from './FOverview.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FvcUserCommunity extends FScrollViewContent {
   constructor() {
@@ -45,9 +46,9 @@ export class FvcUserCommunity extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PUBLIC_PROFILES:
-    case plt.T_DATA.USER_PROFILE:
-    case plt.T_DATA.COMMUNITY_PROFILE:
+    case T_DATA.USER_PUBLIC_PROFILES:
+    case T_DATA.USER_PROFILE:
+    case T_DATA.COMMUNITY_PROFILE:
       this.render();
       break;
     default:

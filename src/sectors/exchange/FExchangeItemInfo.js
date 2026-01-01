@@ -35,7 +35,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Account } from '../../common/dba/Account.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
-import { env } from '../../G.js';
+import { env } from '../../common/plt/Env.js';
 
 export class FExchangeItemInfo extends Fragment {
   constructor() {

@@ -4,6 +4,7 @@ import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
 import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { ProductServiceLocation } from '../../common/datatypes/ProductServiceLocation.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FServiceLocationEditor extends Fragment {
   constructor() {
@@ -85,7 +86,7 @@ export class FServiceLocationEditor extends Fragment {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.SHOP_BRANCH_LABELS:
+    case T_DATA.SHOP_BRANCH_LABELS:
       this.render();
       break;
     default:

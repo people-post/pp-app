@@ -7,6 +7,8 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { SplitPanel } from '../../lib/ui/renders/panels/SplitPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
 
 export class FvcConfigEditor extends FScrollViewContent {
   constructor() {
@@ -48,7 +50,7 @@ export class FvcConfigEditor extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.COMMUNITY_PROFILE:
+    case T_DATA.COMMUNITY_PROFILE:
       if (this._communityId == data.id) {
         this.#setConfig(data.config);
         this.render();
@@ -137,7 +139,7 @@ export class FvcConfigEditor extends FScrollViewContent {
   #asyncPropose() {
     let fd = this.#collectFormData();
     let url = "api/community/propose_config";
-    plt.Api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #onSubmitRRR(data) {

@@ -1,6 +1,8 @@
 import { FvcLoginBase } from './FvcLoginBase.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
+import { T_ACTION } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
 export class FvcWeb2LoginBase extends FvcLoginBase {
   constructor() {
     super();
@@ -28,9 +30,9 @@ export class FvcWeb2LoginBase extends FvcLoginBase {
 
   _onLoginSuccess(profile) {
     if (dba.Auth.getProxyTarget()) {
-      fwk.Events.triggerTopAction(plt.T_ACTION.PROXY_LOGIN_SUCCESS, profile);
+      fwk.Events.triggerTopAction(T_ACTION.PROXY_LOGIN_SUCCESS, profile);
     } else {
-      fwk.Events.triggerTopAction(plt.T_ACTION.LOGIN_SUCCESS, profile,
+      fwk.Events.triggerTopAction(T_ACTION.LOGIN_SUCCESS, profile,
                                   this._nextView);
     }
     this.#asyncMarkDomainVisit();
@@ -38,7 +40,7 @@ export class FvcWeb2LoginBase extends FvcLoginBase {
 
   #asyncMarkDomainVisit() {
     let url = "api/stat/mark_visit";
-    plt.Api.asyncFragmentCall(this, url).then(d => {});
+    api.asyncFragmentCall(this, url).then(d => {});
   }
 }
 

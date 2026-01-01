@@ -1,6 +1,7 @@
 import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { api } from '../../common/plt/Api.js';
 
 const _CFT_COMMENT = {
   ICON : `<span class="inline-block s-icon6">__ICON__</span>`,
@@ -147,7 +148,7 @@ export class FComment extends blog.FPostBase {
     fd.append("item_id", comment.getTargetItemId());
     fd.append("item_type", comment.getTargetItemType());
     fd.append("comment_id", comment.getId());
-    plt.Api.asyncFragmentPost(this, url, fd, d => this.#onKeepRRR(d));
+    api.asyncFragmentPost(this, url, fd, d => this.#onKeepRRR(d));
   }
 
   #asyncDiscard(comment) {
@@ -156,7 +157,7 @@ export class FComment extends blog.FPostBase {
     fd.append("item_id", comment.getTargetItemId());
     fd.append("item_type", comment.getTargetItemType());
     fd.append("comment_id", comment.getId());
-    plt.Api.asyncFragmentPost(this, url, fd, d => this.#onDiscardRRR(d));
+    api.asyncFragmentPost(this, url, fd, d => this.#onDiscardRRR(d));
   }
 
   #onKeepRRR(data) {

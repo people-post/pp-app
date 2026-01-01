@@ -1,6 +1,7 @@
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
 
-export class Gateway extends plt.SectorGateway {
+export class Gateway extends SectorGateway {
   createWebConfigMainViewContentFragment() {
     let f = new FViewContentMux();
 

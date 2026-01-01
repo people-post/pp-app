@@ -5,7 +5,7 @@ import { FvcBasic } from './FvcBasic.js';
 import { FvcCloudFiles } from './FvcCloudFiles.js';
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
-import { env } from '../../G.js';
+import { env } from '../../common/plt/Env.js';
 import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
 

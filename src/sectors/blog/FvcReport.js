@@ -14,6 +14,7 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { T_DATA } from '../../common/plt/Events.js';
 
 export class FvcReport extends FScrollViewContent {
   #selectedPostId = null;
@@ -76,7 +77,7 @@ export class FvcReport extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
-    case plt.T_DATA.USER_PROFILE:
+    case T_DATA.USER_PROFILE:
       this._owner.onContentFragmentRequestUpdateHeader(this);
       this.render();
       break;
