@@ -37,9 +37,6 @@ export const Utilities = function() {
   };
 }();
 
-// Export isPostRelated directly for convenience
-export const isPostRelated = Utilities.isPostRelated;
-
 // Backward compatibility
 if (typeof window !== 'undefined') {
   window.blog = window.blog || {};
