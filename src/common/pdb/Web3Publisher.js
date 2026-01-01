@@ -1,6 +1,3 @@
-import { PublisherAgent } from 'pp-api';
-import { Web3PeerServerMixin } from './Web3PeerServerMixin.js';
-
 import { PublisherAgent, RemoteServer } from 'pp-api';
 import { Web3PeerServerMixin } from './Web3PeerServerMixin.js';
 
