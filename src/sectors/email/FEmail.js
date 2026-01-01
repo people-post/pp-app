@@ -10,6 +10,7 @@ import { MajorSectorItem } from '../../common/gui/MajorSectorItem.js';
 import { Mail } from '../../common/dba/Mail.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Utilities } from '../../common/Utilities.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { PEmail } from './PEmail.js';
 import { PEmailInfo } from './PEmailInfo.js';
 
@@ -191,7 +192,7 @@ export class FEmail extends MajorSectorItem {
     let s;
     if (email) {
       if (this._tLayout == this.constructor.T_LAYOUT.FULL) {
-        s = ext.Utilities.timestampToDateTimeString(email.getCreationTime() /
+        s = UtilitiesExt.timestampToDateTimeString(email.getCreationTime() /
                                                     1000);
       } else {
         s = Utilities.renderTimeDiff(email.getCreationTime());
