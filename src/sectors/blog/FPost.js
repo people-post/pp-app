@@ -22,7 +22,7 @@ import { FArticle } from './FArticle.js';
 import { FFeedArticleInfo } from './FFeedArticleInfo.js';
 import { FJournalIssue } from './FJournalIssue.js';
 import { FEmptyPost } from './FEmptyPost.js';
-import * as blogUtilities from './Utilities.js';
+import { Utilities as BlogUtilities } from './Utilities.js';
 
 export const CF_POST = {
   TOGGLE_PIN : Symbol(),
@@ -273,7 +273,7 @@ export class FPost extends Fragment {
 
   #onPostUpdate(updatePost) {
     let post = Blog.getPost(this.#postId);
-    if (blogUtilities.Utilities.isPostRelated(updatePost, post)) {
+    if (BlogUtilities.isPostRelated(updatePost, post)) {
       this.render();
     }
   }
