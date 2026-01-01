@@ -112,7 +112,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
       fContact.setConfig({
         title : R.get("GUEST_CONTACT_PROMPT"),
         hint : "Contact",
-        value : Account.getGuestContact();
+        value : Account.getGuestContact(),
         isRequired : true
       });
       fvc.addInputCollector(fContact);
