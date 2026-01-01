@@ -76,7 +76,7 @@ export class FDraftArticleInfo extends Fragment {
     let panel = new PDraftArticleInfo();
     panel.setClassName("clickable");
     panel.setAttribute(
-        "onclick", "javascript:G.action(blog.CF_DRAFT_ARTICLE_INFO.ON_CLICK)");
+        "onclick", "javascript:G.action(CF_DRAFT_ARTICLE_INFO.ON_CLICK)");
 
     render.wrapPanel(panel);
 
@@ -220,11 +220,3 @@ export class FDraftArticleInfo extends Fragment {
     this._delegate.onClickInDraftArticleInfoFragment(this, this.#draftId);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.CF_DRAFT_ARTICLE_INFO = CF_DRAFT_ARTICLE_INFO;
-}

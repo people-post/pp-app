@@ -9,5 +9,3 @@ export class EmptyPost extends Post {
   getSocialItemType() { return SocialItem.TYPE.INVALID; }
   getErrorCode() { return this._data.err_code; }
 };
-
-

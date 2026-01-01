@@ -19,11 +19,3 @@ export class FvcBriefDonationResult extends FViewContentBase {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.ftpg = window.ftpg || {};
-  window.ftpg.FvcBriefDonationResult = FvcBriefDonationResult;
-}

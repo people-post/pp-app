@@ -8,11 +8,3 @@ export class FvcLibrary extends FScrollViewContent {
     render.replaceContent("Library"); 
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.FvcLibrary = FvcLibrary;
-}

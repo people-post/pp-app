@@ -30,5 +30,3 @@ export class CustomerOrder extends ServerDataObject {
     return items;
   }
 };
-
-

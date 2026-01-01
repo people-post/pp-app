@@ -17,5 +17,3 @@ export class JournalIssueSection {
   getId() { return this.#data.id; }
   getPostSocialIds() { return this.#ids; }
 };
-
-

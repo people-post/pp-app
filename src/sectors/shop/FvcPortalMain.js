@@ -53,11 +53,3 @@ export class FvcPortalMain extends FScrollViewContent {
     let qrCode = new QRCode(p.getDomElement(), "TEST");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FvcPortalMain = FvcPortalMain;
-}

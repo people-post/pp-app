@@ -644,9 +644,3 @@ export const ICON = {
     </g>
   </svg>`,
 };
-
-// Maintain backward compatibility with global namespace
-if (typeof window !== 'undefined') {
-  window.C = window.C || {};
-  window.C.ICON = ICON;
-}

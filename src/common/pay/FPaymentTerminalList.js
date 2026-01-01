@@ -114,9 +114,3 @@ export class FPaymentTerminalList extends Fragment {
     this.render();
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.pay = window.pay || {};
-  window.pay.FPaymentTerminalList = FPaymentTerminalList;
-}

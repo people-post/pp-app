@@ -71,11 +71,3 @@ export class FvcProposalEditor extends FScrollViewContent {
 
   #onSubmitRRR(data) { this._owner.onContentFragmentRequestPopView(this); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.FvcProposalEditor = FvcProposalEditor;
-}

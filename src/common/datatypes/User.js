@@ -124,5 +124,3 @@ export class User extends UserBase {
     return url;
   }
 };
-
-

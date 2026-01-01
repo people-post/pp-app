@@ -43,11 +43,3 @@ export class PRoleInfo extends Panel {
     this._pStatus.attach(this._getSubElementId("S"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.PRoleInfo = PRoleInfo;
-}

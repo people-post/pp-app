@@ -46,11 +46,3 @@ export class PReservedItemInfo extends PCartItemInfo {
     this._pBtnMoveToCart.attach(this._getSubElementId("M"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cart = window.cart || {};
-  window.cart.PReservedItemInfo = PReservedItemInfo;
-}

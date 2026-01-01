@@ -67,5 +67,3 @@ export class Article extends ArticleBase {
     }
   }
 };
-
-

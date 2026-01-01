@@ -9,11 +9,3 @@ export class PProjectStageInfoBase extends PProjectStageBase {
 
   getOptionBtnPanel() { return this._pOptionBtn; }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.PProjectStageInfoBase = PProjectStageInfoBase;
-}

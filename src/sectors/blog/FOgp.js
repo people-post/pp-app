@@ -119,11 +119,3 @@ export class FOgp extends Fragment {
 
   #onClick() { window.open(this._url, "_blank"); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FOgp = FOgp;
-}

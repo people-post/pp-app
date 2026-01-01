@@ -105,9 +105,3 @@ export class FvcAddressEditor extends FScrollViewContent {
     this._owner.onContentFragmentRequestPopView(this);
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.acnt = window.acnt || {};
-  window.acnt.FvcAddressEditor = FvcAddressEditor;
-}

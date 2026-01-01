@@ -58,11 +58,3 @@ export class FvcAddIdol extends FScrollViewContent {
     Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hr = window.hr || {};
-  window.hr.FvcAddIdol = FvcAddIdol;
-}

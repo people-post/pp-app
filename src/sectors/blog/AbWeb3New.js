@@ -171,11 +171,3 @@ export class AbWeb3New extends Fragment {
         "In order to start posting, at least one storage server is required in settings. Before we are able to provide you a setup wizzard, manually edit config.json is needed.");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.AbWeb3New = AbWeb3New;
-}

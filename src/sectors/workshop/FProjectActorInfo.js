@@ -134,11 +134,3 @@ export class FProjectActorInfo extends Fragment {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FProjectActorInfo = FProjectActorInfo;
-}

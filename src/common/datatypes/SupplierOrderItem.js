@@ -9,5 +9,3 @@ export class SupplierOrderItem extends ServerDataObject {
     return this._data.status ? this._data.status : this._data.state;
   }
 };
-
-

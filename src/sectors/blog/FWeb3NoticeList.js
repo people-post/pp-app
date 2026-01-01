@@ -64,11 +64,3 @@ export class FWeb3NoticeList extends Fragment {
                                                            "Post " + postId);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FWeb3NoticeList = FWeb3NoticeList;
-}

@@ -52,5 +52,3 @@ export class RemoteError {
   static T_DEV = "Oops, we are in trouble, this is an invalid usage";
   static T_CONN = "Failed to receive response from server";
 };
-
-

@@ -40,10 +40,3 @@ export class PUserInfoCompactCell extends PUserInfoBase {
     return s;
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.S = window.S || {};
-  window.S.hr = window.S.hr || {};
-  window.S.hr.PUserInfoCompactCell = PUserInfoCompactCell;
-}

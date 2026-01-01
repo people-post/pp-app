@@ -48,9 +48,3 @@ export class PSquareTerminal extends Panel {
     this._pPairedAt.attach(this._getSubElementId("PA"));
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.pay = window.pay || {};
-  window.pay.PSquareTerminal = PSquareTerminal;
-}

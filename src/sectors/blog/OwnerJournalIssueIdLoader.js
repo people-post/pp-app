@@ -42,11 +42,3 @@ export class OwnerJournalIssueIdLoader extends LongListIdLoader {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.OwnerJournalIssueIdLoader = OwnerJournalIssueIdLoader;
-}

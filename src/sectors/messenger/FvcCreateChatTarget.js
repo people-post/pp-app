@@ -138,6 +138,3 @@ export class FvcCreateChatTarget extends FScrollViewContent {
                                                                     target);
   }
 };
-
-
-

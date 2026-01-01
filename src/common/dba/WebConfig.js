@@ -254,4 +254,3 @@ export const WebConfig = function() {
     setShopOpen : _setShopOpen,
   };
 }();
-

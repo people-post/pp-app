@@ -99,9 +99,3 @@ export class FRepostItemNotice extends Fragment {
 
   #onMarkReadershipRRR(responseText) {}
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.socl = window.socl || {};
-  window.socl.FRepostItemNotice = FRepostItemNotice;
-}

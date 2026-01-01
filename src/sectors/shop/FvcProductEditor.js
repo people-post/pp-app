@@ -233,11 +233,3 @@ export class FvcProductEditor extends FScrollViewContent {
     this._owner.onContentFragmentRequestPopView(this);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.CF_PRODUCT_EDITOR = CF_PRODUCT_EDITOR;
-}

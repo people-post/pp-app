@@ -17,4 +17,3 @@ export class FFragmentList extends Fragment {
 
   #remove(f) { this.setChild(f, null); }
 };
-

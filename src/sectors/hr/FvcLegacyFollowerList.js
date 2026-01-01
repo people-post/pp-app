@@ -39,11 +39,3 @@ export class FvcLegacyFollowerList extends FScrollViewContent {
     this._fList.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hr = window.hr || {};
-  window.hr.FvcLegacyFollowerList = FvcLegacyFollowerList;
-}

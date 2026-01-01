@@ -50,11 +50,3 @@ export class PSupplierOrderInfo extends PSupplierOrderBase {
     this._pItemInfos.attach(this._getSubElementId("I"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PSupplierOrderInfo = PSupplierOrderInfo;
-}

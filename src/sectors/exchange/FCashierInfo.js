@@ -53,11 +53,3 @@ export class FCashierInfo extends FExchangeItemInfo {
   }
   #onWithdrawClicked() { console.log("Withdraw"); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.xchg = window.xchg || {};
-  window.xchg.FCashierInfo = FCashierInfo;
-}

@@ -16,4 +16,3 @@ export class GridFragment extends Fragment {
     return _CFT_GRID.MAIN.replace("__ITEMS__", items.join(""));
   }
 };
-

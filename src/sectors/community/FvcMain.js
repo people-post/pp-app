@@ -68,9 +68,3 @@ export class FvcMain extends FViewContentMux {
     this.switchTo("OVERVIEW");
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.FvcMain = FvcMain;
-}

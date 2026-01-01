@@ -110,11 +110,3 @@ export class FvcInteractive extends FScrollViewContent {
     this._owner.onFragmentRequestShowView(this, v, "Flashcard");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.FvcInteractive = FvcInteractive;
-}

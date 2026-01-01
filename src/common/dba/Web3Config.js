@@ -12,4 +12,3 @@ class Web3ConfigClass {
 }
 
 export const Web3Config = new Web3ConfigClass();
-

@@ -37,4 +37,3 @@ export const Utilities = function() {
     getGroupName : _getGroupName,
   };
 }();
-

@@ -93,11 +93,3 @@ export class FProposalTitle extends Fragment {
     Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.FProposalTitle = FProposalTitle;
-}

@@ -101,9 +101,3 @@ export class FvcRetrievePassword extends FScrollViewContent {
     this._owner.onContentFragmentRequestReplaceView(this, v, "Message");
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.auth = window.auth || {};
-  window.auth.FvcRetrievePassword = FvcRetrievePassword;
-}

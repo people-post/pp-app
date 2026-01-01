@@ -194,4 +194,3 @@ export class TagsEditorFragment extends Fragment {
     return s;
   }
 };
-

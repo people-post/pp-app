@@ -730,9 +730,3 @@ export class FvcProject extends FScrollViewContent {
     this.render();
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FvcProject = FvcProject;
-}

@@ -9,11 +9,3 @@ export class PProductInfoBase extends PProductBase {
 
   getThumbnailPanel() { return this._pThumbnail; }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PProductInfoBase = PProductInfoBase;
-}

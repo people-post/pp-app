@@ -28,4 +28,3 @@ export const Factory = function() {
     registerClass : _registerClass,
   };
 }();
-

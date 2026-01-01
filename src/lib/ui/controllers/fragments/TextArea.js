@@ -67,4 +67,3 @@ export class TextArea extends SimpleInput {
     }
   }
 };
-

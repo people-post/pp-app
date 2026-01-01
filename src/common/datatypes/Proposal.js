@@ -39,5 +39,3 @@ export class Proposal extends ServerDataObject {
     return null;
   }
 };
-
-

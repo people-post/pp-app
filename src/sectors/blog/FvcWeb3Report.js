@@ -26,11 +26,3 @@ export class FvcWeb3Report extends FScrollViewContent {
     this.#fNoticeList.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FvcWeb3Report = FvcWeb3Report;
-}

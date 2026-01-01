@@ -56,11 +56,3 @@ export class PServiceLocation extends Panel {
     this._pBtnViewQueue.attach(this._getSubElementId("Q"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PServiceLocation = PServiceLocation;
-}

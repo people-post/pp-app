@@ -67,11 +67,3 @@ export class FPostInfoLayoutPreview extends Fragment {
     this._fInfo.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FPostInfoLayoutPreview = FPostInfoLayoutPreview;
-}

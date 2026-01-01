@@ -5,6 +5,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { api } from '../../common/plt/Api.js';
+import { FQuoteElement } from './FQuoteElement.js';
 
 export class FvcQuoteEditor extends FScrollViewContent {
   constructor() {
@@ -13,7 +14,7 @@ export class FvcQuoteEditor extends FScrollViewContent {
     this._fDetail.setDelegate(this);
     this._fDetail.setConfig(
         {title : "Content", hint : "", value : "", isRequired : true});
-    this._fQuote = new blog.FQuoteElement();
+    this._fQuote = new FQuoteElement();
     this._fQuote.setDelegate(this);
     this._fBtnSubmit = new Button();
     this._fBtnSubmit.setName("Submit");
@@ -74,11 +75,3 @@ export class FvcQuoteEditor extends FScrollViewContent {
     this._delegate.onQuotePostedInQuoteEditorContentFragment(this);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FvcQuoteEditor = FvcQuoteEditor;
-}

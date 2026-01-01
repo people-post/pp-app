@@ -67,9 +67,3 @@ export class FvcProduct extends FScrollViewContent {
     }
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FvcProduct = FvcProduct;
-}

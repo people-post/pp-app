@@ -317,11 +317,3 @@ export class FOrder extends Fragment {
     Events.triggerTopAction(PltT_ACTION.SHOW_USER_INFO, userId);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cart = window.cart || {};
-  window.cart.CF_CUSTOMER_ORDER = CF_CUSTOMER_ORDER;
-}

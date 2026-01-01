@@ -51,11 +51,3 @@ export class PProjectInfoLargeQuote extends PProjectInfoBase {
     this._pProgress.attach(this._getSubElementId("P"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.PProjectInfoLargeQuote = PProjectInfoLargeQuote;
-}

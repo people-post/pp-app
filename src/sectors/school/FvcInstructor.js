@@ -8,11 +8,3 @@ export class FvcInstructor extends FScrollViewContent {
     render.replaceContent("Instructor");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.FvcInstructor = FvcInstructor;
-}

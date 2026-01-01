@@ -64,11 +64,3 @@ export class FOrderList extends DefaultLongList {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cart = window.cart || {};
-  window.cart.FOrderList = FOrderList;
-}

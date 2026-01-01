@@ -61,11 +61,3 @@ export class FBtnViewQueue extends Fragment {
     return null;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FBtnViewQueue = FBtnViewQueue;
-}

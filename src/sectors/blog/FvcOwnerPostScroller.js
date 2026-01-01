@@ -1,5 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { OwnerPostIdLoader } from './OwnerPostIdLoader.js';
+import { FPostList } from './FPostList.js';
 
 export class FvcOwnerPostScroller extends FScrollViewContent {
   // Note: For brief display only
@@ -8,9 +10,9 @@ export class FvcOwnerPostScroller extends FScrollViewContent {
 
   constructor() {
     super();
-    this.#loader = new blog.OwnerPostIdLoader();
+    this.#loader = new OwnerPostIdLoader();
     this.#loader.setDelegate(this);
-    this.#fPosts = new blog.FPostList();
+    this.#fPosts = new FPostList();
     this.#fPosts.setDataSource(this);
     this.#fPosts.setDelegate(this);
     this.#fPosts.setLoader(this.#loader);
@@ -38,10 +40,4 @@ export class FvcOwnerPostScroller extends FScrollViewContent {
     this.#fPosts.attachRender(render);
     this.#fPosts.render();
   }
-}
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FvcOwnerPostScroller = FvcOwnerPostScroller;
 }

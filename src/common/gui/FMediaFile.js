@@ -34,4 +34,3 @@ export class FMediaFile extends Fragment {
     panel.replaceContent(s);
   }
 };
-

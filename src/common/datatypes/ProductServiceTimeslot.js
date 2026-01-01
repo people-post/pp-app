@@ -118,5 +118,3 @@ export class ProductServiceTimeslot extends ServerDataObject {
     }
   }
 };
-
-

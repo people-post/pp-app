@@ -28,11 +28,3 @@ export class PProjectInfoBase extends Panel {
   enableImage() {}
   invertColor() {}
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.PProjectInfoBase = PProjectInfoBase;
-}

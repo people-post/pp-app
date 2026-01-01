@@ -27,5 +27,3 @@ export class JournalIssueBase extends Post {
 
   getSections() { return this.#sections; }
 };
-
-

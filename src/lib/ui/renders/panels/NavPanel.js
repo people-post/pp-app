@@ -10,4 +10,3 @@ export class NavPanel extends ListPanel {
 
   setRequireLogin(b) { this._isLoginRequired = b; }
 };
-

@@ -59,4 +59,3 @@ export class ActionButton extends Fragment {
 
   _getIcon() { return this._icon; }
 };
-

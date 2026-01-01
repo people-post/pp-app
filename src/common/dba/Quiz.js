@@ -77,4 +77,3 @@ export const Quiz = function() {
     clear : _clear,
   };
 }();
-

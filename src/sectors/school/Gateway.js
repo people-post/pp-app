@@ -62,11 +62,3 @@ export class Gateway extends SectorGateway {
     return {name : R.t(c.NAME), value : c.ID, icon : c.ICON};
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.Gateway = Gateway;
-}

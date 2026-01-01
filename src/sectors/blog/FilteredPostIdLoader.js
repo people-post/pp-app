@@ -56,11 +56,3 @@ export class FilteredPostIdLoader extends LongListIdLoader {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FilteredPostIdLoader = FilteredPostIdLoader;
-}

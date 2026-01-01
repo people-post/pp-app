@@ -74,4 +74,3 @@ function createGroups() {
 }
 
 export const Groups = createGroups();
-

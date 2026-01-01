@@ -35,6 +35,3 @@ export class FChatHeader extends Fragment {
     }
   }
 };
-
-
-

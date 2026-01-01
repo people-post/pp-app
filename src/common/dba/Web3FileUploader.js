@@ -60,4 +60,3 @@ export class Web3FileUploader extends FileUploader {
     this._delegate.onFileUploadProgressUpdateInFileUploader(this, 100);
   }
 };
-

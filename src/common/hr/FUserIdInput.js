@@ -53,11 +53,3 @@ export class FUserIdInput extends Fragment {
     Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.S = window.S || {};
-  window.S.hr = window.S.hr || {};
-  window.S.hr.CF_USER_ID_INPUT = CF_USER_ID_INPUT;
-  window.S.hr.FUserIdInput = FUserIdInput;
-}

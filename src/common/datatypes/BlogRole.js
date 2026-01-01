@@ -16,5 +16,3 @@ export class BlogRole extends UserRole {
 
   getAllowedTagIds() { return this._data.data.allowed_tag_ids; }
 };
-
-

@@ -148,9 +148,3 @@ export class FPayment extends Fragment {
     // TODO: Invoke waiting view
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.pay = window.pay || {};
-  window.pay.FPayment = FPayment;
-}

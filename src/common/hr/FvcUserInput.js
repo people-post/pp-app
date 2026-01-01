@@ -45,10 +45,3 @@ export class FvcUserInput extends FScrollViewContent {
     }
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.S = window.S || {};
-  window.S.hr = window.S.hr || {};
-  window.S.hr.FvcUserInput = FvcUserInput;
-}

@@ -104,11 +104,3 @@ export class FQuiz extends MajorSectorItem {
     panel.replaceContent(s);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.CF_QUIZ_INFO = CF_QUIZ_INFO;
-}

@@ -164,11 +164,3 @@ export class FRegister extends Fragment {
     Shop.updateRegister(new ShopRegister(data.register));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.CF_REGISTER = CF_REGISTER;
-}

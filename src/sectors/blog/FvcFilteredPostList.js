@@ -35,11 +35,3 @@ export class FvcFilteredPostList extends FScrollViewContent {
     this.#fPosts.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FvcFilteredPostList = FvcFilteredPostList;
-}

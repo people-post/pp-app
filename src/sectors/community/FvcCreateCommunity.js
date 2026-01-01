@@ -69,10 +69,3 @@ export class FvcCreateCommunity extends FScrollViewContent {
     this._owner.onContentFragmentRequestPopView(this);
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.CF_CREATE_COMMUNITY_CONTENT = CF_CREATE_COMMUNITY_CONTENT;
-  window.cmut.FvcCreateCommunity = FvcCreateCommunity;
-}

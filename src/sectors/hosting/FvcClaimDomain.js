@@ -17,11 +17,3 @@ export class FvcClaimDomain extends FScrollViewContent {
     render.replaceContent(_CFT_CLAIM_DOMAIN.MAIN);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hstn = window.hstn || {};
-  window.hstn.FvcClaimDomain = FvcClaimDomain;
-}

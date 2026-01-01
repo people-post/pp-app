@@ -7,4 +7,3 @@ export class FLoading extends Fragment {
                                                               ICONS.LOADING);
   }
 }
-

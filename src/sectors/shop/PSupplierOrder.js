@@ -91,11 +91,3 @@ export class PSupplierOrder extends PSupplierOrderBase {
     this._pShippingAddress.attach(this._getSubElementId("A"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PSupplierOrder = PSupplierOrder;
-}

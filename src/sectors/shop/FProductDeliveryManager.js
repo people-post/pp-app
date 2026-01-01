@@ -139,11 +139,3 @@ export class FProductDeliveryManager extends Fragment {
     this._delegate.onProductDeliveryManagerFragmentRequestAddToCart(this);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FProductDeliveryManager = FProductDeliveryManager;
-}

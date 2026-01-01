@@ -31,4 +31,3 @@ export class SplitPanel extends Panel {
     this._pRight.attach(this._getSubElementId("R"));
   }
 };
-

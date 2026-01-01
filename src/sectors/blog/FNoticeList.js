@@ -64,11 +64,3 @@ export class FNoticeList extends Fragment {
                                                            "Post " + postId);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FNoticeList = FNoticeList;
-}

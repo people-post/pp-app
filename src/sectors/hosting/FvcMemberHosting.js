@@ -196,11 +196,3 @@ export class FvcMemberHosting extends FScrollViewContent {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hstn = window.hstn || {};
-  window.hstn.FvcMemberHosting = FvcMemberHosting;
-}

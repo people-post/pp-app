@@ -32,10 +32,3 @@ export class PUserReference extends Panel {
     this._pUser.attach(this._getSubElementId("U"));
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.S = window.S || {};
-  window.S.hr = window.S.hr || {};
-  window.S.hr.PUserReference = PUserReference;
-}

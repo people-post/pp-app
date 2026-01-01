@@ -14,4 +14,3 @@ export class AppointmentServiceDelivery extends ProductDelivery {
 
   #initLocation(data) { return new ProductServiceLocation(data); }
 };
-

@@ -18,4 +18,3 @@ export class Label extends Fragment {
     p.replaceContent(this._text);
   }
 };
-

@@ -36,6 +36,3 @@ export class PChatContent extends Panel {
     return s;
   }
 };
-
-
-

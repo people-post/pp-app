@@ -37,4 +37,3 @@ export const ICONS = {
     </g>
   </svg>`,
 };
-

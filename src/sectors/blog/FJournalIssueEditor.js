@@ -227,7 +227,7 @@ class FPostSelectorHandle extends Fragment {
       let p = new Panel();
       render.wrapPanel(p);
       p.setAttribute("onclick",
-                     `G.action(blog.CF_JOURNAL_ISSUE_EDITOR.ON_CHOOSE)`);
+                     `G.action(CF_JOURNAL_ISSUE_EDITOR.ON_CHOOSE)`);
       p.setClassName("small-info-text");
       p.replaceContent("Click to choose article...");
     }
@@ -566,11 +566,3 @@ export class FJournalIssueEditor extends Fragment {
     this.#unlockActionBtns();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.CF_JOURNAL_ISSUE_EDITOR = CF_JOURNAL_ISSUE_EDITOR;
-}

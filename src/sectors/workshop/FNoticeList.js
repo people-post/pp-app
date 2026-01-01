@@ -63,11 +63,3 @@ export class FNoticeList extends Fragment {
                                                        "Project " + projectId);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FNoticeList = FNoticeList;
-}

@@ -49,11 +49,3 @@ export class FvcReport extends FScrollViewContent {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FvcReport = FvcReport;
-}

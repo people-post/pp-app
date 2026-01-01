@@ -75,11 +75,3 @@ export class PProject extends Panel {
     this._pSocial.attach(this._getSubElementId("SC"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.PProject = PProject;
-}

@@ -20,5 +20,3 @@ export class JournalIssue extends JournalIssueBase {
     return this.#mTagComments.has(tagId) ? this.#mTagComments.get(tagId) : [];
   }
 };
-
-

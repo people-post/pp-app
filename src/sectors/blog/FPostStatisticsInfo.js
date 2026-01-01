@@ -58,11 +58,3 @@ export class FPostStatisticsInfo extends Fragment {
     this._delegate.onClickInFPostStatisticsInfo(this, this._data);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FPostStatisticsInfo = FPostStatisticsInfo;
-}

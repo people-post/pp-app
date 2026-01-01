@@ -19,11 +19,3 @@ export class FProductDelivery extends Fragment {
     return this._dataSource.getProductForProductDeliveryFragment(this);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FProductDelivery = FProductDelivery;
-}

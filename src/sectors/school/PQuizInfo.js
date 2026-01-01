@@ -33,11 +33,3 @@ export class PQuizInfo extends scol.PQuizBase {
     this._pQuestion.attach(this._getSubElementId("Q"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.PQuizInfo = PQuizInfo;
-}

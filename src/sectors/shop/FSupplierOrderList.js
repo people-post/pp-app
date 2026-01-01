@@ -64,11 +64,3 @@ export class FSupplierOrderList extends DefaultLongList {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FSupplierOrderList = FSupplierOrderList;
-}

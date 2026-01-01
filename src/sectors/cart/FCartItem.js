@@ -247,11 +247,3 @@ export class FCartItem extends Fragment {
     this._delegate.onCartItemFragmentRequestShowView(this, v, "product");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cart = window.cart || {};
-  window.cart.CF_CART_ITEM = CF_CART_ITEM;
-}

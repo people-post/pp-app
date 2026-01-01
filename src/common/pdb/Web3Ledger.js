@@ -26,9 +26,3 @@ export class Web3Ledger {
     return null;
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.pdb = window.pdb || {};
-  window.pdb.Web3Ledger = Web3Ledger;
-}

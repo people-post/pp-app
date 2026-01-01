@@ -63,11 +63,3 @@ export class FNsSetup extends Fragment {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hstn = window.hstn || {};
-  window.hstn.FNsSetup = FNsSetup;
-}

@@ -18,11 +18,3 @@ export class PProductBase extends Panel {
   getPricePanel() { return null; }
   getActionPanel() { return null; }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PProductBase = PProductBase;
-}

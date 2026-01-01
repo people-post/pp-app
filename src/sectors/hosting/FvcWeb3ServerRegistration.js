@@ -105,11 +105,3 @@ export class FvcWeb3ServerRegistration extends FScrollViewContent {
     this.onLocalErrorInFragment(this, "Registration failed");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hstn = window.hstn || {};
-  window.hstn.FvcWeb3ServerRegistration = FvcWeb3ServerRegistration;
-}

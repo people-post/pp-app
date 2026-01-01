@@ -39,4 +39,3 @@ export class PGadget extends Panel {
     this.#pConsoleOverlay.attach(this._getSubElementId("NO"));
   }
 };
-

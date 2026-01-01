@@ -126,4 +126,3 @@ export const Menus = function() {
     asyncUpdateEntryMenuItemTheme : _asyncUpdateMenuEntryItemTheme,
   };
 }();
-

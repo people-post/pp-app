@@ -38,4 +38,3 @@ export class ArrayPanel extends Panel {
 
   #getPanelElementId(idx) { return this._elementId + "_" + idx; }
 };
-

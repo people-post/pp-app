@@ -29,5 +29,3 @@ export class Email extends ServerDataObject {
   getOwnerId() { return this._data.owner_id; }
   getUpdateTime() { return new Date(this._data.updated_at * 1000); }
 };
-
-

@@ -41,11 +41,3 @@ export class FvcBriefDonation extends FViewContentBase {
     this.#fPayment.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.ftpg = window.ftpg || {};
-  window.ftpg.FvcBriefDonation = FvcBriefDonation;
-}

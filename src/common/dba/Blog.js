@@ -410,4 +410,3 @@ export const Blog = function() {
     clear : _clear,
   };
 }();
-

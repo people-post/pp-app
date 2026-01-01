@@ -57,11 +57,3 @@ export class PPostInfoLargeQuote extends PPostInfoBase {
     this._pImage.attach(this._getSubElementId("I"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.PPostInfoLargeQuote = PPostInfoLargeQuote;
-}

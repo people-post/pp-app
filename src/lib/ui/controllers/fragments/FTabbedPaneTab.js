@@ -125,4 +125,3 @@ export class FTabbedPaneTab extends Fragment {
     panel.replaceContent(CommonUtilities.renderSvgFuncIcon(icon, invertColor));
   }
 }
-

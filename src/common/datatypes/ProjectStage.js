@@ -36,5 +36,3 @@ export class ProjectStage {
   getActionsForActor() { return []; }
   getActionsForFacilitator() { return []; }
 };
-
-

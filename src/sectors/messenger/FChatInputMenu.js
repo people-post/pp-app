@@ -74,6 +74,3 @@ export class FChatInputMenu extends Fragment {
   #onCall() { console.log("Start call"); }
   #onVideoCall() { console.log("Start video call"); }
 };
-
-
-

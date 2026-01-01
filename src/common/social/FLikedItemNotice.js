@@ -135,10 +135,3 @@ export class FLikedItemNotice extends Fragment {
 
   #onMarkReadershipRRR(responseText) {}
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.socl = window.socl || {};
-  window.socl.CF_LIKED_ITEM_NOTICE = CF_LIKED_ITEM_NOTICE;
-  window.socl.FLikedItemNotice = FLikedItemNotice;
-}

@@ -61,11 +61,3 @@ export class FCareer extends Fragment {
     return s;
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.S = window.S || {};
-  window.S.hr = window.S.hr || {};
-  window.S.hr.CF_CAREER = CF_CAREER;
-  window.S.hr.FCareer = FCareer;
-}

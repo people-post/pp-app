@@ -317,4 +317,3 @@ export class MainMenu extends MenuContent {
     return name;
   }
 };
-

@@ -25,5 +25,3 @@ export class MessageThreadInfo extends Notice {
     return this._data.latest ? new ChatMessage(this._data.latest) : null;
   }
 };
-
-

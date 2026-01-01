@@ -37,11 +37,3 @@ export class PHeaderEditor extends Panel {
     this._pBgUpload.attach(this._getSubElementId("U"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.PHeaderEditor = PHeaderEditor;
-}

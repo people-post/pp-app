@@ -37,11 +37,3 @@ export class PUserOverview extends Panel {
     this._pBgUpload.attach(this._getSubElementId("U"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hr = window.hr || {};
-  window.hr.PUserOverview = PUserOverview;
-}

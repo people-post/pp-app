@@ -63,11 +63,3 @@ export class FOwnerProjectList extends FProjectList {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FOwnerProjectList = FOwnerProjectList;
-}

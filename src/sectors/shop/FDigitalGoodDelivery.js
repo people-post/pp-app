@@ -6,11 +6,3 @@ export class FDigitalGoodDelivery extends FGoodDelivery {
     render.replaceContent(s);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FDigitalGoodDelivery = FDigitalGoodDelivery;
-}

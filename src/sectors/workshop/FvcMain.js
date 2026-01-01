@@ -224,11 +224,3 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   #onCloseWorkshopRRR(data) { WebConfig.reset(data.web_config); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FvcMain = FvcMain;
-}

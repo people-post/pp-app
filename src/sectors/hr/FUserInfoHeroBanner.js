@@ -371,11 +371,3 @@ export class FUserInfoHeroBanner extends Fragment {
     this.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hr = window.hr || {};
-  window.hr.CF_USER_INFO_HERO_BANNER = CF_USER_INFO_HERO_BANNER;
-}

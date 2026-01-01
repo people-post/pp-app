@@ -1,5 +1,9 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { IdolWeb3PostIdLoader } from './IdolWeb3PostIdLoader.js';
+import { FPostList } from './FPostList.js';
+import { AbWeb3New } from './AbWeb3New.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 
 export class FvcWeb3Explorer extends FScrollViewContent {
   #fPosts;
@@ -7,14 +11,14 @@ export class FvcWeb3Explorer extends FScrollViewContent {
 
   constructor() {
     super();
-    let loader = new blog.IdolWeb3PostIdLoader();
+    let loader = new IdolWeb3PostIdLoader();
     loader.setDelegate(this);
-    this.#fPosts = new blog.FPostList();
+    this.#fPosts = new FPostList();
     this.#fPosts.setDelegate(this);
     this.#fPosts.setLoader(loader);
     this.setChild("posts", this.#fPosts);
 
-    this.#fBtnNew = new blog.AbWeb3New();
+    this.#fBtnNew = new AbWeb3New();
   }
 
   isReloadable() { return true; }
@@ -55,11 +59,3 @@ export class FvcWeb3Explorer extends FScrollViewContent {
     this.#fPosts.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FvcWeb3Explorer = FvcWeb3Explorer;
-}

@@ -125,4 +125,3 @@ export class ButtonGroup extends Fragment {
     cell.setAttribute("onclick", s);
   }
 };
-

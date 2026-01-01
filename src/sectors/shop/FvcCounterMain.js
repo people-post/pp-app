@@ -104,11 +104,3 @@ export class FvcCounterMain extends FScrollViewContent {
                                 false);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FvcCounterMain = FvcCounterMain;
-}

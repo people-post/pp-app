@@ -80,11 +80,3 @@ export class FVoucherInfo extends FExchangeItemInfo {
   #onClaimClicked(voucherId) { console.log("Claim: " + voucherId); }
   #onRedeemClicked(voucherId) { console.log("Redeem: " + voucherId); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.xchg = window.xchg || {};
-  window.xchg.FVoucherInfo = FVoucherInfo;
-}

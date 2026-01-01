@@ -3,4 +3,3 @@ export class Country {
 
   getName() { return this._data.name; }
 };
-

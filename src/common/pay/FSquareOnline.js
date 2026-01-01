@@ -110,9 +110,3 @@ export class FSquareOnline extends Fragment {
     }
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.pay = window.pay || {};
-  window.pay.FSquareOnline = FSquareOnline;
-}

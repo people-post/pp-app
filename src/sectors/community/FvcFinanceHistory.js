@@ -8,9 +8,3 @@ export class FvcFinanceHistory extends FScrollViewContent {
 
   setCommunityId(id) { this._communityId = id;   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.FvcFinanceHistory = FvcFinanceHistory;
-}

@@ -62,5 +62,3 @@ export class FrontPageConfig {
     return obj;
   }
 };
-
-

@@ -88,5 +88,3 @@ export class ColorTheme {
     return Utilities.darkerColor(this.getSecondaryColor(), 0.9, eTest);
   }
 };
-
-

@@ -182,6 +182,3 @@ export class FvcChat extends FViewContentBase {
     }
   }
 };
-
-
-

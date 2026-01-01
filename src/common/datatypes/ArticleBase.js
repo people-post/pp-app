@@ -61,5 +61,3 @@ export class ArticleBase extends Post {
 
   #isEmpty() { return this._data.title == null && this._data.content == null; }
 };
-
-

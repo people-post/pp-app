@@ -17,5 +17,3 @@ export class UserRequest extends ServerDataObject {
   getCategory() { return this._data.category; }
   getMessage() { return this._data.message; }
 };
-
-

@@ -73,11 +73,3 @@ export class FQuizList extends FLongListLegacy {
     return f;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.FQuizList = FQuizList;
-}

@@ -43,4 +43,3 @@ function createWalkinQueue() {
 }
 
 export const WalkinQueue = createWalkinQueue();
-

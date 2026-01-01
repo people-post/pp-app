@@ -11,11 +11,3 @@ export class PGoodDeliveryBase extends Panel {
   getAddBtnPanel() { return this._pBtnAdd; }
   getProductCountPanel() { return this._pProductCount; }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PGoodDeliveryBase = PGoodDeliveryBase;
-}

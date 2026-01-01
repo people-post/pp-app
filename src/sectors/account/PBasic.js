@@ -35,9 +35,3 @@ export class PBasic extends Panel {
     this._pBtns.attach(this._getSubElementId("B"));
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.acnt = window.acnt || {};
-  window.acnt.PBasic = PBasic;
-}

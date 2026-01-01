@@ -45,11 +45,3 @@ export class PRegisterSmall extends PRegisterBase {
     this._pTerminalInfo.attach(this._getSubElementId("R"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PRegisterSmall = PRegisterSmall;
-}

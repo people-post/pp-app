@@ -377,4 +377,3 @@ export class FGallery extends Fragment {
     this.#updateDots();
   }
 };
-

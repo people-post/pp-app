@@ -35,4 +35,3 @@ export class VBlank extends View {
     }
   }
 }
-

@@ -36,5 +36,3 @@ export class CardanoAccount {
     return bAddr.to_address();
   }
 };
-
-

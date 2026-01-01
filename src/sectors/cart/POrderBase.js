@@ -17,11 +17,3 @@ export class POrderBase extends Panel {
   getTotalPanel() { return null; }
   getShippingAddressPanel() { return null; }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cart = window.cart || {};
-  window.cart.POrderBase = POrderBase;
-}

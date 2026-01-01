@@ -19,5 +19,3 @@ export class PreviewOrder extends ServerDataObject {
     return items;
   }
 };
-
-

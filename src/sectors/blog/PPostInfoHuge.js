@@ -65,11 +65,3 @@ export class PPostInfoHuge extends PPostInfoBase {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.PPostInfoHuge = PPostInfoHuge;
-}

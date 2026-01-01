@@ -43,10 +43,3 @@ export class PCareerInfo extends Panel {
     this._pStatus.attach(this._getSubElementId("S"));
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.S = window.S || {};
-  window.S.hr = window.S.hr || {};
-  window.S.hr.PCareerInfo = PCareerInfo;
-}

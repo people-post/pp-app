@@ -135,10 +135,3 @@ export class FvcUserGroup extends FScrollViewContent {
     this._owner.onContentFragmentRequestPopView(this);
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.S = window.S || {};
-  window.S.hr = window.S.hr || {};
-  window.S.hr.FvcUserGroup = FvcUserGroup;
-}

@@ -74,11 +74,3 @@ export class FvcDeposit extends FScrollViewContent {
     this._owner.onContentFragmentRequestReplaceView(this, v, "Notice");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.xchg = window.xchg || {};
-  window.xchg.FvcDeposit = FvcDeposit;
-}

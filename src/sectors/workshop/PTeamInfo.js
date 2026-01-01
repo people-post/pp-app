@@ -43,11 +43,3 @@ export class PTeamInfo extends Panel {
     this._pStatus.attach(this._getSubElementId("S"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.PTeamInfo = PTeamInfo;
-}

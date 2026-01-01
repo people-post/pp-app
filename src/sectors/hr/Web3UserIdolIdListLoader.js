@@ -39,11 +39,3 @@ export class Web3UserIdolIdListLoader extends LongListIdLoader {
     this._delegate.onIdUpdatedInLongListIdLoader(this);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hr = window.hr || {};
-  window.hr.Web3UserIdolIdListLoader = Web3UserIdolIdListLoader;
-}

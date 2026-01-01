@@ -46,11 +46,3 @@ export class FvcDrafts extends FScrollViewContent {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FvcDrafts = FvcDrafts;
-}

@@ -27,11 +27,3 @@ export class FChooseCheckoutItem extends Fragment {
     p.replaceContent("TODO: Options to add more or change item");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FChooseCheckoutItem = FChooseCheckoutItem;
-}

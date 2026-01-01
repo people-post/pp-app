@@ -79,11 +79,3 @@ export class PProjectInfoLarge extends PProjectInfoBase {
     this._pSocial.attach(this._getSubElementId("S"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.PProjectInfoLarge = PProjectInfoLarge;
-}

@@ -6,5 +6,3 @@ export class JournalConfigTagged {
   getTagIds() { return this.#data.tag_ids; }
   getPlaceholder() { return this.#data.placeholder; }
 };
-
-

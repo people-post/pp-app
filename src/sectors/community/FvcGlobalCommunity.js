@@ -104,11 +104,3 @@ export class FvcGlobalCommunity extends FScrollViewContent {
     Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.FvcGlobalCommunity = FvcGlobalCommunity;
-}

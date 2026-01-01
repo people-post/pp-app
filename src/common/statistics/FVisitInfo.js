@@ -63,10 +63,3 @@ export class FVisitInfo extends Fragment {
     this._delegate.onClickInVisitSummaryInfoFragment(this, this._data);
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.CF_VISIT_SUMMARY_INFO = CF_VISIT_SUMMARY_INFO;
-  window.stat = window.stat || {};
-  window.stat.FVisitInfo = FVisitInfo;
-}

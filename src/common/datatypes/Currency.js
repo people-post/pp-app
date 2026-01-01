@@ -6,5 +6,3 @@ export class Currency extends ServerDataObject {
   getSymbol() { return this._data.symbol; }
   getIcon() { return this._data.icon; }
 };
-
-

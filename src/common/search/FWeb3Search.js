@@ -56,9 +56,3 @@ export class FWeb3Search extends FSearch {
     this._updateResult(key, r);
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.srch = window.srch || {};
-  window.srch.FWeb3Search = FWeb3Search;
-}

@@ -240,11 +240,3 @@ export class FProjectInfo extends MajorSectorItem {
     Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, lc, "Gallery");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FProjectInfo = FProjectInfo;
-}

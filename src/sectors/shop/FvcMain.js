@@ -217,11 +217,3 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   #onCloseShopRRR(data) { WebConfig.reset(data.web_config); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FvcMain = FvcMain;
-}

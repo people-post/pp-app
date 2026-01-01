@@ -23,4 +23,3 @@ export class FAttachmentFile extends Fragment {
     return s;
   }
 }
-

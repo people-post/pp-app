@@ -247,4 +247,3 @@ export class RenderController extends Controller {
     }
   }
 }
-

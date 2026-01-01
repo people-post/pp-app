@@ -15,6 +15,8 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { FPostStatisticsInfo } from './FPostStatisticsInfo.js';
+import { FvcPost } from './FvcPost.js';
 
 export class FvcReport extends FScrollViewContent {
   #selectedPostId = null;
@@ -136,7 +138,7 @@ export class FvcReport extends FScrollViewContent {
     this.#selectedPostId =
         new SocialItemId(postId, SocialItem.TYPE.ARTICLE);
     let v = new View();
-    let f = new blog.FvcPost();
+    let f = new FvcPost();
     f.setPostId(this.#selectedPostId);
     f.setDataSource(this);
     f.setDelegate(this);
@@ -147,7 +149,7 @@ export class FvcReport extends FScrollViewContent {
   #renderStatistics(panel, notifications) {
     this._fMostComments.clear();
     for (let n of notifications) {
-      let f = new blog.FPostStatisticsInfo();
+      let f = new FPostStatisticsInfo();
       f.setData(n);
       f.setDelegate(this);
       this._fMostComments.append(f);
@@ -172,11 +174,3 @@ export class FvcReport extends FScrollViewContent {
     return items.join("");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FvcReport = FvcReport;
-}

@@ -34,6 +34,3 @@ export class FChatGroupInfo extends msgr.FChatThreadInfo {
     this._delegate.onClickInChatGroupInfoFragment(this, this._threadId);
   }
 };
-
-
-

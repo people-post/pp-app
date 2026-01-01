@@ -31,9 +31,3 @@ export class FRealTimeCommentList extends Fragment {
     this.#fList.render();
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.socl = window.socl || {};
-  window.socl.FRealTimeCommentList = FRealTimeCommentList;
-}

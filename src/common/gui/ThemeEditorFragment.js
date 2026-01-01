@@ -86,4 +86,3 @@ export class ThemeEditorFragment extends Fragment {
     return s;
   }
 };
-

@@ -5,5 +5,3 @@ export class TriplePanelConfig extends FrontPageLayoutConfig {
   getRightValue() { return this._getData("right"); }
   getBottomValue() { return this._getData("bottom"); }
 };
-
-

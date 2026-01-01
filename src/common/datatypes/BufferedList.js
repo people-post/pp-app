@@ -24,5 +24,3 @@ export class BufferedList {
     return objects;
   }
 };
-
-

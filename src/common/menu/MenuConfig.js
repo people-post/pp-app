@@ -121,4 +121,3 @@ export class MenuConfig extends DirFragment {
         () => Menus.asyncRemoveMenuItem(this._sectorId, itemId));
   }
 };
-

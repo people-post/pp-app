@@ -49,4 +49,3 @@ export class DefaultLongList extends FLongListLegacy {
 
   _asyncLoadItems() {}
 };
-

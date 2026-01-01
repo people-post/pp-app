@@ -22,11 +22,3 @@ export class FvcBranch extends FScrollViewContent {
     this._fBranch.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FvcBranch = FvcBranch;
-}

@@ -180,11 +180,3 @@ export class FFeedArticleInfo extends FPostBase {
     Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, lc, "Gallery");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FFeedArticleInfo = FFeedArticleInfo;
-}

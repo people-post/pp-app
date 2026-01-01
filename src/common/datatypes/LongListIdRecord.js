@@ -8,5 +8,3 @@ export class LongListIdRecord {
 
   clear() { throw "clear() is required in LongListIdRecord"; }
 };
-
-

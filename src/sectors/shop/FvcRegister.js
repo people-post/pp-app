@@ -24,11 +24,3 @@ export class FvcRegister extends FScrollViewContent {
     this.#fRegister.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FvcRegister = FvcRegister;
-}

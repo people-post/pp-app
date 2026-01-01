@@ -160,9 +160,3 @@ export class FvcWeb3Login extends FvcLoginBase {
     this.#btnSubmit.setEnabled(true);
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.auth = window.auth || {};
-  window.auth.FvcWeb3Login = FvcWeb3Login;
-}

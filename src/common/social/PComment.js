@@ -50,9 +50,3 @@ export class PComment extends Panel {
     this.#pExtra.attach(this._getSubElementId("E"));
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.socl = window.socl || {};
-  window.socl.PComment = PComment;
-}

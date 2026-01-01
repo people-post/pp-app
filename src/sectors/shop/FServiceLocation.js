@@ -104,11 +104,3 @@ export class FServiceLocation extends Fragment {
     this._fBtnViewQueue.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.CF_SERVICE_LOCATION = CF_SERVICE_LOCATION;
-}

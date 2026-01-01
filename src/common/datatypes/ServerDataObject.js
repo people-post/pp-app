@@ -9,4 +9,3 @@ export class ServerDataObject {
   getId() { return this._data.id; }
   getCreationTime() { return this._data.created_at; }
 };
-

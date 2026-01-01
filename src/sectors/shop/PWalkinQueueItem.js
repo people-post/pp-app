@@ -54,11 +54,3 @@ export class PWalkinQueueItem extends PWalkinQueueItemBase {
     this._pAgent.attach(this._getSubElementId("G"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PWalkinQueueItem = PWalkinQueueItem;
-}

@@ -6,5 +6,3 @@ export class MenuEntryItem extends MenuItem {
     return this._data.theme ? new ColorTheme(this._data.theme) : null;
   }
 };
-
-

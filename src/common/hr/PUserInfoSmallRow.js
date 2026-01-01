@@ -36,10 +36,3 @@ export class PUserInfoSmallRow extends PUserInfoBase {
     return s;
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.S = window.S || {};
-  window.S.hr = window.S.hr || {};
-  window.S.hr.PUserInfoSmallRow = PUserInfoSmallRow;
-}

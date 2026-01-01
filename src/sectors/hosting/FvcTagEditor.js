@@ -29,11 +29,3 @@ export class FvcTagEditor extends FScrollViewContent {
     this._fTagEditor.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hstn = window.hstn || {};
-  window.hstn.FvcTagEditor = FvcTagEditor;
-}

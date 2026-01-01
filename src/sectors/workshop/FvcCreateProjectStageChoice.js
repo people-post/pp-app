@@ -103,11 +103,3 @@ export class FvcCreateProjectStageChoice extends FScrollViewContent {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FvcCreateProjectStageChoice = FvcCreateProjectStageChoice;
-}

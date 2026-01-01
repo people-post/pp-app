@@ -47,11 +47,3 @@ export class FQueueStatusMessage extends Fragment {
     this._fText.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FQueueStatusMessage = FQueueStatusMessage;
-}

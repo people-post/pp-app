@@ -10,4 +10,3 @@ export class Page extends ViewStack {
 
   setPageId(id) { this._pageId = id; }
 }
-

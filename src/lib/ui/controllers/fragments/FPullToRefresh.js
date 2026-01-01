@@ -58,4 +58,3 @@ export class FPullToRefresh extends Fragment {
     p.replaceContent(s);
   }
 };
-

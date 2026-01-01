@@ -28,4 +28,3 @@ export class FWaiting extends Fragment {
 
   #refresh() { this._delegate.onWaitingFragmentRequestUpdate(this); }
 }
-

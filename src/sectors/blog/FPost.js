@@ -30,7 +30,7 @@ export const CF_POST = {
 
 const _CFT_POST = {
   PIN :
-      `<span class="__CLASS__" onclick="javascript:G.action(blog.CF_POST.TOGGLE_PIN)">__ICON__</span>`,
+      `<span class="__CLASS__" onclick="javascript:G.action(CF_POST.TOGGLE_PIN)">__ICON__</span>`,
 };
 
 export class FPost extends Fragment {
@@ -310,11 +310,4 @@ export class FPost extends Fragment {
     Blog.resetConfig(data.blog_config);
     this.render();
   }
-}
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.CF_POST = CF_POST;
-  window.blog.FPost = FPost;
 }

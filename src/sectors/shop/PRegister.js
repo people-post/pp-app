@@ -38,11 +38,3 @@ export class PRegister extends PRegisterBase {
     this._pTerminals.attach(this._getSubElementId("T"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PRegister = PRegister;
-}

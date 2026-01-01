@@ -89,11 +89,3 @@ export class PPostInfoBrief extends PPostInfoBase {
     this.#pSocial.attach(this._getSubElementId("S"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.PPostInfoBrief = PPostInfoBrief;
-}

@@ -38,11 +38,3 @@ export class FRoleList extends Fragment {
     this._fList.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FRoleList = FRoleList;
-}

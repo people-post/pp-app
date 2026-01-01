@@ -101,11 +101,3 @@ export class FPostList extends FSocialItemList {
     return v;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FPostList = FPostList;
-}

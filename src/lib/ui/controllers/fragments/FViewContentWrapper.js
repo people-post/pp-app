@@ -32,4 +32,3 @@ export class FViewContentWrapper extends FViewContentContainer {
 
   _getContentFragment() { return this.#fContent; }
 };
-

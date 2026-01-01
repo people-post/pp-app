@@ -102,6 +102,3 @@ export class PeerMessageHandler extends msgr.MessageHandler {
     }
   }
 };
-
-
-

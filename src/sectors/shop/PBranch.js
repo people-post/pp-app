@@ -43,11 +43,3 @@ export class PBranch extends PBranchBase {
     this._pRegisters.attach(this._getSubElementId("R"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PBranch = PBranch;
-}

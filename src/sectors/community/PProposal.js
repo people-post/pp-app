@@ -43,11 +43,3 @@ export class PProposal extends PProposalBase {
     this._pContent.attach(this._getSubElementId("C"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.PProposal = PProposal;
-}

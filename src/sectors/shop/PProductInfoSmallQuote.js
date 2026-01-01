@@ -53,11 +53,3 @@ export class PProductInfoSmallQuote extends PProductInfoBase {
     return s;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PProductInfoSmallQuote = PProductInfoSmallQuote;
-}

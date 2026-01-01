@@ -96,4 +96,3 @@ export class FilesThumbnailFragment extends Fragment {
     return s;
   }
 };
-

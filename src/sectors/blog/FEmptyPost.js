@@ -1,6 +1,7 @@
 import { EmptyPost } from '../../common/datatypes/EmptyPost.js';
+import { FPostBase } from './FPostBase.js';
 
-export class FEmptyPost extends blog.FPostBase {
+export class FEmptyPost extends FPostBase {
   #post = null;
 
   setPost(post) { this.#post = post; }
@@ -34,11 +35,3 @@ export class FEmptyPost extends blog.FPostBase {
     panel.replaceContent(s);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FEmptyPost = FEmptyPost;
-}

@@ -7,5 +7,3 @@ export class FrontPageTemplateConfig {
 
   _getData(name) { return this.#data[name]; }
 };
-
-

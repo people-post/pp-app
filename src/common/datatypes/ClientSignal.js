@@ -23,5 +23,3 @@ export class ClientSignal {
   setData(data) { this._data.data = data; }
   toEncodedString() { return JSON.stringify(this._data); }
 };
-
-

@@ -198,4 +198,3 @@ export class FViewContentMux extends FViewContentContainer {
 
   #onResize() { this.#scrollToCurrentContent(); }
 };
-

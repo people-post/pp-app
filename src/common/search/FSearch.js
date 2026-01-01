@@ -107,9 +107,3 @@ export class FSearch extends Fragment {
     return r;
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.srch = window.srch || {};
-  window.srch.FSearch = FSearch;
-}

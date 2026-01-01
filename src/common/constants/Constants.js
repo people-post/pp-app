@@ -109,4 +109,3 @@ export const STUN_URLS = [
   //"stun:stun.advfn.com:3478",
   //"stun:stun.altar.com.pl:3478",
 ];
-

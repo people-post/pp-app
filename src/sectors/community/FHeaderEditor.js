@@ -118,11 +118,3 @@ export class FHeaderEditor extends Fragment {
   #onUpdateIcon(file) { this._iconUploader.setFile(file); }
   #onUpdateInfoImage(file) { this._imageUploader.setFile(file); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.FHeaderEditor = FHeaderEditor;
-}

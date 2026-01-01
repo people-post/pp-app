@@ -48,4 +48,3 @@ export class ConsoleOverlayPanel extends ConsolePanel {
     super._onFrameworkDidAppear();
   }
 };
-

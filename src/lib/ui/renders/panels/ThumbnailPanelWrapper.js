@@ -20,4 +20,3 @@ export class ThumbnailPanelWrapper extends PanelWrapper {
     return s;
   }
 }
-

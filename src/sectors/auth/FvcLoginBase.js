@@ -7,9 +7,3 @@ export class FvcLoginBase extends FScrollViewContent {
     return new Fragment();
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.auth = window.auth || {};
-  window.auth.FvcLoginBase = FvcLoginBase;
-}

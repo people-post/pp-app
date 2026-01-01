@@ -14,5 +14,3 @@ export class CommentTag {
   getTagId() { return this.#data.tag_id; };
   getCommentSocialIds() { return this.#sidComments; }
 };
-
-

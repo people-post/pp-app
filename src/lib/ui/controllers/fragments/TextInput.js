@@ -83,4 +83,3 @@ export class TextInput extends SimpleInput {
     return s;
   }
 };
-

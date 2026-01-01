@@ -18,11 +18,3 @@ export class PCartItemInfo extends Panel {
   getSaveForLaterBtnPanel() { return null; }
   getMoveToCartBtnPanel() { return null; }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cart = window.cart || {};
-  window.cart.PCartItemInfo = PCartItemInfo;
-}

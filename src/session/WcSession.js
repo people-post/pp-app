@@ -417,4 +417,3 @@ export class WcSession extends WindowController {
     }
   }
 };
-

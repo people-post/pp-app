@@ -93,11 +93,3 @@ export class FvcNsHowto extends FScrollViewContent {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hstn = window.hstn || {};
-  window.hstn.CF_NS_HOWTO = CF_NS_HOWTO;
-}

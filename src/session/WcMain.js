@@ -105,4 +105,3 @@ export class WcMain extends WcSession {
     }
   }
 };
-

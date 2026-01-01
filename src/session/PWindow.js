@@ -38,4 +38,3 @@ export class PWindow extends Panel {
     this._pLayers.attach(this._getSubElementId("L"));
   }
 };
-

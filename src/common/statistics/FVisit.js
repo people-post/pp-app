@@ -101,9 +101,3 @@ export class FVisit extends Fragment {
     this.render();
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.stat = window.stat || {};
-  window.stat.FVisit = FVisit;
-}

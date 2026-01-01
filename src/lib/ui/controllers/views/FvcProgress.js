@@ -50,4 +50,3 @@ export class FvcProgress extends FScrollViewContent {
     this._owner.onContentFragmentRequestPopView(this);
   }
 };
-

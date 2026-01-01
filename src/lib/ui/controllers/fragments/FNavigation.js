@@ -103,4 +103,3 @@ export class FNavigation extends Fragment {
     }
   }
 };
-

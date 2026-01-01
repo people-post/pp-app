@@ -40,11 +40,3 @@ export class FJournalMenu extends MenuContent {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.ftpg = window.ftpg || {};
-  window.ftpg.FJournalMenu = FJournalMenu;
-}

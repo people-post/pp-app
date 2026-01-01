@@ -40,11 +40,3 @@ export class FProductDeliveryEditor extends Fragment {
 
   _renderSpec(panel) {}
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FProductDeliveryEditor = FProductDeliveryEditor;
-}

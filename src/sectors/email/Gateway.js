@@ -20,11 +20,3 @@ export class Gateway extends SectorGateway {
     return f;
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.emal = window.emal || {};
-  window.emal.Gateway = Gateway;
-}

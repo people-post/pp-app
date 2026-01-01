@@ -18,5 +18,3 @@ export class SimpleImage extends Fragment {
     return s;
   }
 };
-
-

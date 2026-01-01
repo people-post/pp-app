@@ -204,4 +204,3 @@ export class InputConsoleFragment extends Fragment {
     return document.getElementById("ID_INPUT_CONSOLE_" + this._id);
   }
 };
-

@@ -39,4 +39,3 @@ export class BufferedListPanel extends Panel {
     this.#pTail.attach(this._getSubElementId("T"));
   }
 }
-

@@ -91,4 +91,3 @@ export class FMediaFileUploader extends FFileUploader {
     this._uploader.asyncReadThumbnail(file);
   }
 }
-

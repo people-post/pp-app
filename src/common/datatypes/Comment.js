@@ -36,5 +36,3 @@ export class Comment extends Post {
     return text;
   }
 };
-
-

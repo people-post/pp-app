@@ -90,9 +90,3 @@ export const Web3PeerServerMixin = (Base) => class extends Base {
     return d.data.user;
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.pdb = window.pdb || {};
-  window.pdb.Web3PeerServerMixin = Web3PeerServerMixin;
-}

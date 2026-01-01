@@ -120,11 +120,3 @@ export class FFlashcard extends Fragment {
     panel.replaceContent(s);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.CF_FLASHCARD = CF_FLASHCARD;
-}

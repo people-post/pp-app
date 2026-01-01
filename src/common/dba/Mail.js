@@ -77,4 +77,3 @@ export const Mail = function() {
     clear : _clear,
   };
 }();
-

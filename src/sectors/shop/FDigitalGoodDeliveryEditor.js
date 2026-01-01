@@ -9,11 +9,3 @@ export class FDigitalGoodDeliveryEditor extends FProductDeliveryEditor {
         "Electronic delivery.<br>TODO: Email delivery or download link with pass code");
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FDigitalGoodDeliveryEditor = FDigitalGoodDeliveryEditor;
-}

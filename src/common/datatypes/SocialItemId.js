@@ -59,5 +59,3 @@ export class SocialItemId {
   setValue(v) { this.#value = v; }
   setType(t) { this.#type = t; }
 };
-
-

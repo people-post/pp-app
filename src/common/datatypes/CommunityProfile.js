@@ -14,5 +14,3 @@ export class CommunityProfile extends ServerDataObject {
   getNProposals() { return this._data.n_proposals; }
   getConfig() { return this._data.config; }
 };
-
-

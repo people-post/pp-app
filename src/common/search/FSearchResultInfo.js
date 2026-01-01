@@ -240,14 +240,3 @@ export class FSearchResultInfo extends Fragment {
                                                      this.#data.id);
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.srch = window.srch || {};
-  window.srch.CF_SEARCH_RESULT_INFO = CF_SEARCH_RESULT_INFO;
-  window.srch.PSearchResultInfo = PSearchResultInfo;
-  window.srch.PSearchResultInfoTitleOnly = PSearchResultInfoTitleOnly;
-  window.srch.PSearchResultInfoBrief = PSearchResultInfoBrief;
-  window.srch.PSearchResultInfoNormal = PSearchResultInfoNormal;
-  window.srch.FSearchResultInfo = FSearchResultInfo;
-}

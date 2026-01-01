@@ -124,11 +124,3 @@ export class FServiceDeliveryEditor extends FProductDeliveryEditor {
     this._fLocations.append(f);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FServiceDeliveryEditor = FServiceDeliveryEditor;
-}

@@ -38,5 +38,3 @@ export class ProductDeliveryChoice extends ServerDataObject {
     return obj;
   }
 };
-
-

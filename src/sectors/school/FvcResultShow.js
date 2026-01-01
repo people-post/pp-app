@@ -8,11 +8,3 @@ export class FvcResultShow extends FScrollViewContent {
     render.replaceContent("Result show"); 
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.scol = window.scol || {};
-  window.scol.FvcResultShow = FvcResultShow;
-}

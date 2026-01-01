@@ -50,11 +50,3 @@ export class PBranchSmall extends PBranchBase {
     this._pRegisterInfo.attach(this._getSubElementId("R"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PBranchSmall = PBranchSmall;
-}

@@ -19,5 +19,3 @@ export class SearchConfig {
     return JSON.stringify(d);
   }
 };
-
-

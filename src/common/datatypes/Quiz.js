@@ -13,5 +13,3 @@ export class Quiz extends ServerDataObject {
   getAnswers() { return this._data.answers; }
   getChoices() { return this._choices; }
 };
-
-

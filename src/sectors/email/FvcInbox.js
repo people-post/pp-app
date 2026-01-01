@@ -30,11 +30,3 @@ export class FvcInbox extends FScrollViewContent {
     this._fEmails.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.emal = window.emal || {};
-  window.emal.FvcInbox = FvcInbox;
-}

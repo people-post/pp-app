@@ -109,10 +109,3 @@ class FvcWeb3Network extends FScrollViewContent {
 };
 
 hstn.FvcWeb3Network = FvcWeb3Network;
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hstn = window.hstn || {};
-  window.hstn.PWeb3Network = PWeb3Network;
-}

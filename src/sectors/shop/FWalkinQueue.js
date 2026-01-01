@@ -142,11 +142,3 @@ export class FWalkinQueue extends FLongListLegacy {
 
   #getIdRecord() { return WalkinQueue.getIdRecord(); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FWalkinQueue = FWalkinQueue;
-}

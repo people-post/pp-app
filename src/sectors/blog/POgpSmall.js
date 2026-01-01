@@ -19,11 +19,3 @@ const _CPT_OGP_SMALL = {
 export class POgpSmall extends POgp {
   _getTemplate() { return _CPT_OGP_SMALL.MAIN; }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.POgpSmall = POgpSmall;
-}

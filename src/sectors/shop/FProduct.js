@@ -269,11 +269,3 @@ export class FProduct extends MajorSectorItem {
                           [], 1);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.CF_PRODUCT = CF_PRODUCT;
-}

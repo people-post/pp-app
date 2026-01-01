@@ -62,5 +62,3 @@ export class DirItem extends ServerDataObject {
     return subItems;
   }
 };
-
-

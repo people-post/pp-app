@@ -35,4 +35,3 @@ export class AbClose extends Fragment {
     }
   }
 };
-

@@ -9,5 +9,3 @@ export class WalkinQueueItem extends ServerDataObject {
   getUpdateTime() { return new Date(this._data.updated_at * 1000); }
   getAgentId() { return this._data.agent_id; }
 };
-
-

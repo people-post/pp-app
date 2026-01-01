@@ -58,4 +58,3 @@ export class VoteProgressFragment extends Fragment {
     }
   }
 };
-

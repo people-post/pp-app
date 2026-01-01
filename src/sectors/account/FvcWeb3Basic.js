@@ -94,9 +94,3 @@ export class FvcWeb3Basic extends FScrollViewContent {
     await Account.asUpdateProfile(d, [ cid ]);
   }
 }
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.acnt = window.acnt || {};
-  window.acnt.FvcWeb3Basic = FvcWeb3Basic;
-}

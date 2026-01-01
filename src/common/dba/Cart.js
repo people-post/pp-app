@@ -122,4 +122,3 @@ export const Cart = function() {
     asyncRemoveItem : _asyncRemoveItem,
   };
 }();
-

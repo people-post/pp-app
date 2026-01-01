@@ -51,11 +51,3 @@ export class FIdolProductList extends FProductList {
     }
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FIdolProductList = FIdolProductList;
-}

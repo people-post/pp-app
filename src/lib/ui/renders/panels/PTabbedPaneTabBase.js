@@ -8,4 +8,3 @@ export class PTabbedPaneTabBase extends Panel {
 
   invertColor(b) {}
 };
-

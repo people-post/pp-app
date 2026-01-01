@@ -134,11 +134,3 @@ export class FUserInfo extends Fragment {
     }
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.S = window.S || {};
-  window.S.hr = window.S.hr || {};
-  window.S.hr.CF_USER_INFO = CF_USER_INFO;
-  window.S.hr.FUserInfo = FUserInfo;
-}

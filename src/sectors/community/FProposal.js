@@ -359,11 +359,3 @@ export class FProposal extends Fragment {
 
   #onVote(value) { Communities.asyncVote(this._proposalId, value); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.cmut = window.cmut || {};
-  window.cmut.CF_PROPOSAL = CF_PROPOSAL;
-}

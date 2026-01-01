@@ -75,11 +75,3 @@ export class FFeedArticle extends Fragment {
     panel.replaceContent(R.t("Source link"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.blog = window.blog || {};
-  window.blog.FFeedArticle = FFeedArticle;
-}

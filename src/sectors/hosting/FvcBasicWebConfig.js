@@ -176,11 +176,3 @@ export class FvcBasicWebConfig extends FScrollViewContent {
 
   #onWebConfigDataReceived(data) { dba.WebConfig.reset(data.web_config); }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hstn = window.hstn || {};
-  window.hstn.FvcBasicWebConfig = FvcBasicWebConfig;
-}

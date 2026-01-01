@@ -105,11 +105,3 @@ export class FBranchList extends Fragment {
     this.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.FBranchList = FBranchList;
-}

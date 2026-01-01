@@ -16,9 +16,3 @@ export class PPaymentTerminalBase extends Panel {
 
   invertColor() {}
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.pay = window.pay || {};
-  window.pay.PPaymentTerminalBase = PPaymentTerminalBase;
-}

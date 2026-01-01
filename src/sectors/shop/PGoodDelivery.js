@@ -19,11 +19,3 @@ export class PGoodDelivery extends PGoodDeliveryBase {
     this._pProductCount.attach(this._getSubElementId("C"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PGoodDelivery = PGoodDelivery;
-}

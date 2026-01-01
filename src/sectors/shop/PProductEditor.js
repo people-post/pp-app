@@ -62,11 +62,3 @@ export class PProductEditor extends Panel {
     this._pActions.attach(this._getSubElementId("A"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.shop = window.shop || {};
-  window.shop.PProductEditor = PProductEditor;
-}

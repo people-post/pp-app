@@ -148,4 +148,3 @@ export class MCDateFilter extends MenuContent {
                                                                tTo);
   }
 };
-

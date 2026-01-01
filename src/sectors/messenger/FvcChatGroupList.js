@@ -38,6 +38,3 @@ export class FvcChatGroupList extends FScrollViewContent {
     this._owner.onFragmentRequestShowView(this, v, "Chat");
   }
 };
-
-
-

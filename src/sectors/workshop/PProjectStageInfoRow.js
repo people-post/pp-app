@@ -21,11 +21,3 @@ export class PProjectStageInfoRow extends PProjectStageInfoBase {
     this._pOptionBtn.attach(this._getSubElementId("A"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.PProjectStageInfoRow = PProjectStageInfoRow;
-}

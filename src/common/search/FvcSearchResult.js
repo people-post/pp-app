@@ -138,9 +138,3 @@ export class FvcSearchResult extends FScrollViewContent {
     this.#fSearch.render();
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.srch = window.srch || {};
-  window.srch.FvcSearchResult = FvcSearchResult;
-}

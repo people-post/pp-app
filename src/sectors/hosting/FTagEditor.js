@@ -120,11 +120,3 @@ export class FTagEditor extends Fragment {
                                 false);
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.hstn = window.hstn || {};
-  window.hstn.CF_TAG_EDITOR = CF_TAG_EDITOR;
-}

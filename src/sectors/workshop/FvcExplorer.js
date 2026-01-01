@@ -76,11 +76,3 @@ export class FvcExplorer extends FScrollViewContent {
     this.#fList.render();
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.wksp = window.wksp || {};
-  window.wksp.FvcExplorer = FvcExplorer;
-}

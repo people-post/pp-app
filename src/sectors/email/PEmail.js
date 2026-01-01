@@ -49,11 +49,3 @@ export class PEmail extends PEmailBase {
     this._pCarbonCopy.attach(this._getSubElementId("CC"));
   }
 };
-
-
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.emal = window.emal || {};
-  window.emal.PEmail = PEmail;
-}

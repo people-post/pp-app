@@ -10,5 +10,3 @@ export class ShopTeam extends UserRole {
 
   hasPermission(id) { return this._data.data.permissions.indexOf(id) >= 0; }
 };
-
-

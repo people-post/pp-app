@@ -67,4 +67,3 @@ export class Selection extends Fragment {
     return e;
   }
 }
-

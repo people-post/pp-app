@@ -6,5 +6,3 @@ export class TimeClock extends ServerDataObject {
     return this.getServerTime().getTime() - this.getCreationTime().getTime();
   }
 };
-
-

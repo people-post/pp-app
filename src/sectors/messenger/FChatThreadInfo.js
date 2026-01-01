@@ -113,6 +113,3 @@ export class FChatThreadInfo extends Fragment {
     return text;
   }
 };
-
-
-
