@@ -1,4 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { PRoleInfo } from './PRoleInfo.js';
 
 export const CF_ROLE = {
   ON_CLICK : Symbol(),
@@ -15,7 +16,7 @@ export class FRole extends Fragment {
 
   action(type, data) {
     switch (type) {
-    case blog.CF_ROLE.ON_CLICK:
+    case CF_ROLE.ON_CLICK:
       this._delegate.onClickInRoleFragment(this);
       break;
     default:
@@ -30,11 +31,11 @@ export class FRole extends Fragment {
       return;
     }
 
-    let panel = new blog.PRoleInfo();
+    let panel = new PRoleInfo();
     render.wrapPanel(panel);
 
     if (panel.isHighlightable()) {
-      panel.setAttribute("onclick", "G.action(blog.CF_ROLE.ON_CLICK)");
+      panel.setAttribute("onclick", "G.action(CF_ROLE.ON_CLICK)");
       if (this._dataSource.shouldHighlightInRoleFragment(this, this._roleId)) {
         panel.highlight();
       }

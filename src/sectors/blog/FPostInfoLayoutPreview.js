@@ -5,6 +5,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { Blog } from '../../common/dba/Blog.js';
 
 export class FPostInfoLayoutPreview extends Fragment {
   constructor() {
@@ -47,7 +48,7 @@ export class FPostInfoLayoutPreview extends Fragment {
       return;
     }
 
-    if (this._fInfo.getSizeType() == dba.Blog.getItemLayoutType()) {
+    if (this._fInfo.getSizeType() == Blog.getItemLayoutType()) {
       this._fApply.setName("Applied");
       this._fApply.disable();
     } else {

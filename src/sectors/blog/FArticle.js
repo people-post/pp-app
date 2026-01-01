@@ -11,6 +11,7 @@ import { Blog } from '../../common/dba/Blog.js';
 import { Groups } from '../../common/dba/Groups.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
+import { Utilities } from '../../common/Utilities.js';
 
 export class FArticle extends Fragment {
   #fQuote;

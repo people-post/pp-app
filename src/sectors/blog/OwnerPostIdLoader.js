@@ -2,6 +2,9 @@ import { BiLongListIdRecord } from '../../common/datatypes/BiLongListIdRecord.js
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import { api } from '../../common/plt/Api.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Users } from '../../common/dba/Users.js';
 
 export class OwnerPostIdLoader extends LongListIdLoader {
   #idRecord = new BiLongListIdRecord();
@@ -117,7 +120,7 @@ export class OwnerPostIdLoader extends LongListIdLoader {
       if (ds.length) {
         let r = this.#idRecord;
         for (let d of ds) {
-          let p = dba.Blog.updatePostData(d);
+          let p = Blog.updatePostData(d);
           r.prependId(p.getSocialId().toEncodedStr());
         }
         this._delegate.onIdUpdatedInLongListIdLoader(this);
@@ -141,7 +144,7 @@ export class OwnerPostIdLoader extends LongListIdLoader {
         }
         let pids = this.#getPinnedPostIds();
         for (let d of ds) {
-          let p = dba.Blog.updatePostData(d);
+          let p = Blog.updatePostData(d);
           let sid = p.getSocialId().toEncodedStr();
           // To avoid same post display twice near pinned articles
           if (!r.isEmpty() || pids.indexOf(sid) < 0) {
@@ -161,10 +164,10 @@ export class OwnerPostIdLoader extends LongListIdLoader {
 
   #getPinnedPostIds() {
     let ids = [];
-    if (this.#ownerId == dba.WebConfig.getOwnerId()) {
-      ids = dba.Blog.getPinnedPostIds();
+    if (this.#ownerId == WebConfig.getOwnerId()) {
+      ids = Blog.getPinnedPostIds();
     } else {
-      let u = dba.Users.get(this.#ownerId);
+      let u = Users.get(this.#ownerId);
       if (u) {
         let c = u.getBlogConfig();
         if (c) {

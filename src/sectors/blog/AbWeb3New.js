@@ -31,7 +31,7 @@ export class AbWeb3New extends Fragment {
     this.setChild('btn', this.#fBtn);
   }
 
-  isAvailable() { return dba.Account.isAuthenticated(); }
+  isAvailable() { return Account.isAuthenticated(); }
 
   onGuiActionButtonClick(fButton) { this.#onActionClick(); }
   onRegistrationCanceledInServerRegistrationContentFragment(fvc) {

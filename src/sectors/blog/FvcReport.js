@@ -17,6 +17,10 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FPostStatisticsInfo } from './FPostStatisticsInfo.js';
 import { FvcPost } from './FvcPost.js';
+import { Account } from '../../common/dba/Account.js';
+import { Notifications } from '../../common/dba/Notifications.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { FRequestInfo } from '../../common/hr/FRequestInfo.js';
 
 export class FvcReport extends FScrollViewContent {
   #selectedPostId = null;
@@ -40,7 +44,7 @@ export class FvcReport extends FScrollViewContent {
   onClickInFPostStatisticsInfo(fInfo, data) { this.#onViewPost(data.uuid); }
 
   getNextPostIdForPostContentFragment(fvcPost) {
-    let profile = dba.Account.getBlogProfile();
+    let profile = Account.getBlogProfile();
     let idx = 0;
     let id = this.#selectedPostId ? this.#selectedPostId.getValue() : null;
     for (let n of profile.most_commented_articles) {
@@ -57,7 +61,7 @@ export class FvcReport extends FScrollViewContent {
   }
 
   getPreviousPostIdForPostContentFragment(fvcPost) {
-    let profile = dba.Account.getBlogProfile();
+    let profile = Account.getBlogProfile();
     let idx = -1;
     let id = this.#selectedPostId ? this.#selectedPostId.getValue() : null;
     for (let n of profile.most_commented_articles) {
@@ -97,13 +101,13 @@ export class FvcReport extends FScrollViewContent {
     this._fNoticeList.attachRender(pp);
     this._fNoticeList.render();
 
-    let ids = dba.Notifications.getBlogRequestIds();
+    let ids = Notifications.getBlogRequestIds();
     if (ids.length) {
       pp = new SectionPanel("Requests");
       p.pushPanel(pp);
       this._fRequestList.clear();
       for (let id of ids) {
-        let f = new S.hr.FRequestInfo();
+        let f = new FRequestInfo();
         f.setRequestId(id);
         f.setDelegate(this);
         this._fRequestList.append(f);
@@ -112,7 +116,7 @@ export class FvcReport extends FScrollViewContent {
       this._fRequestList.render();
     }
 
-    let profile = dba.Account.getBlogProfile()
+    let profile = Account.getBlogProfile()
     if (profile) {
       let items = profile.most_commented_articles;
       if (items && items.length) {
@@ -164,7 +168,7 @@ export class FvcReport extends FScrollViewContent {
     let s;
     let items = [];
     for (let d of statistics) {
-      let tag = dba.WebConfig.getTag(d.tag_id);
+      let tag = WebConfig.getTag(d.tag_id);
       if (tag) {
         s = ss.replace("__TAG_NAME__", tag.getName());
         s = s.replace("__COUNT__", d.count);

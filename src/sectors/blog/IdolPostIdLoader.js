@@ -2,6 +2,7 @@ import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import { api } from '../../common/plt/Api.js';
+import { Blog } from '../../common/dba/Blog.js';
 
 export class IdolPostIdLoader extends LongListIdLoader {
   #isBatchLoading = false;
@@ -32,7 +33,7 @@ export class IdolPostIdLoader extends LongListIdLoader {
       let ds = response.data.articles;
       if (ds.length) {
         for (let d of ds) {
-          let p = dba.Blog.updatePostData(d);
+          let p = Blog.updatePostData(d);
           this.getIdRecord().appendId(p.getSocialId().toEncodedStr());
         }
       } else {

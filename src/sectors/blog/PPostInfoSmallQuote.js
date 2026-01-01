@@ -27,11 +27,12 @@ const _CPT_POST_INFO_SMALL_QUOTE = {
 import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PUserReference } from '../../common/hr/PUserReference.js';
 
 export class PPostInfoSmallQuote extends PPostInfoBase {
   constructor() {
     super();
-    this._pCrossRef = new S.hr.PUserReference();
+    this._pCrossRef = new PUserReference();
     this._pAuthorName = new PanelWrapper();
     this._pTime = new Panel();
     this._pTitle = new Panel();

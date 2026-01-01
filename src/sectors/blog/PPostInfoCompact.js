@@ -27,13 +27,14 @@ const _CPT_POST_INFO_COMPACT = {
 import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PUserReference } from '../../common/hr/PUserReference.js';
 
 export class PPostInfoCompact extends PPostInfoBase {
   constructor() {
     super();
     this._pTitle = new PanelWrapper();
     this._pPin = new Panel();
-    this._pCrossRef = new S.hr.PUserReference();
+    this._pCrossRef = new PUserReference();
     this._pQuote = new PanelWrapper();
     this._pDateTime = new Panel();
     this._pImage = new PanelWrapper();

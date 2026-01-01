@@ -9,6 +9,7 @@ import { Blog } from '../../common/dba/Blog.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Utilities } from './Utilities.js';
+import { Utilities as CommonUtilities } from '../../common/Utilities.js';
 import { FArticleInfo } from './FArticleInfo.js';
 import { FFeedArticleInfo } from './FFeedArticleInfo.js';
 import { FJournalIssue } from './FJournalIssue.js';
@@ -26,6 +27,7 @@ import { PPostInfoCard } from './PPostInfoCard.js';
 import { PPostInfoHuge } from './PPostInfoHuge.js';
 import { PPostInfoEmbed } from './PPostInfoEmbed.js';
 import { PPostInfoFullPage } from './PPostInfoFullPage.js';
+import { PPostInfoCompact } from './PPostInfoCompact.js';
 
 export const CF_POST_INFO = {
   ON_CLICK : Symbol(),
@@ -152,7 +154,7 @@ export class FPostInfo extends MajorSectorItem {
       }
     }
 
-    let className = Utilities.getVisibilityClassName(post.getVisibility());
+    let className = CommonUtilities.getVisibilityClassName(post.getVisibility());
     panel.setVisibilityClassName(className);
 
     if (panel.getOwnerNamePanel()) {
@@ -170,7 +172,7 @@ export class FPostInfo extends MajorSectorItem {
   }
 
   #isPostSelected(postId) {
-    return ext.Utilities.optCall(
+    return UtilitiesExt.optCall(
         this._dataSource, "isPostSelectedInPostInfoFragment", this, postId);
   }
 
@@ -266,7 +268,7 @@ export class FPostInfo extends MajorSectorItem {
       p = new PPostInfoFullPage();
       break;
     default:
-      p = new blog.PPostInfoCompact();
+      p = new PPostInfoCompact();
       break;
     }
     return p;
@@ -287,7 +289,7 @@ export class FPostInfo extends MajorSectorItem {
     }
     // Pin at upper left corner
     let s = _CFT_POST_INFO.PIN;
-    s = s.replace("__ICON__", Utilities.renderSvgIcon(C.ICON.PIN));
+    s = s.replace("__ICON__", CommonUtilities.renderSvgIcon(C.ICON.PIN));
     panel.replaceContent(s);
   }
 
