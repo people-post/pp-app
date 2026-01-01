@@ -12,6 +12,8 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Proposal } from '../../common/datatypes/Proposal.js';
 import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
+import { Account } from '../../common/dba/Account.js';
+import { Utilities } from '../../common/Utilities.js';
 
 export class FProposalTitle extends Fragment {
   action(type, ...args) {
@@ -72,7 +74,7 @@ export class FProposalTitle extends Fragment {
   #makeMemberApplicationTitle(proposal) {
     let s = _CFT_PROPOSAL_TITLE.NEW_MEMBER;
     let userId = proposal.getAuthorId();
-    let nickname = dba.Account.getUserNickname(userId);
+    let nickname = Account.getUserNickname(userId);
     s = s.replace("__USER__",
                   Utilities.renderSmallButton("CF_PROPOSAL_TITLE.USER_INFO",
                                               userId, nickname));

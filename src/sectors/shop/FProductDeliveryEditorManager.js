@@ -3,6 +3,10 @@ import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
 import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { ProductDeliveryChoice } from '../../common/datatypes/ProductDeliveryChoice.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { FPhysicalGoodDeliveryEditor } from './FPhysicalGoodDeliveryEditor.js';
+import { FDigitalGoodDeliveryEditor } from './FDigitalGoodDeliveryEditor.js';
+import { FAppointmentDeliveryEditor } from './FAppointmentDeliveryEditor.js';
+import { FQueueDeliveryEditor } from './FQueueDeliveryEditor.js';
 
 export class FProductDeliveryEditorManager extends Fragment {
   constructor() {
@@ -68,19 +72,19 @@ export class FProductDeliveryEditorManager extends Fragment {
   #initChoiceMap() {
     let m = new Map();
     let t = ProductDeliveryChoice.TYPE;
-    let f = new shop.FPhysicalGoodDeliveryEditor();
+    let f = new FPhysicalGoodDeliveryEditor();
     f.setDelegate(this);
     m.set(t.GOOD, {name : "Goods", fDetail : f});
 
-    f = new shop.FDigitalGoodDeliveryEditor();
+    f = new FDigitalGoodDeliveryEditor();
     f.setDelegate(this);
     m.set(t.DIGITAL, {name : "Digital", fDetail : f});
 
-    f = new shop.FAppointmentDeliveryEditor();
+    f = new FAppointmentDeliveryEditor();
     f.setDelegate(this);
     m.set(t.SCHEDULE, {name : "Appointment", fDetail : f});
 
-    f = new shop.FQueueDeliveryEditor();
+    f = new FQueueDeliveryEditor();
     f.setDelegate(this);
     m.set(t.QUEUE, {name : "Walk-in", fDetail : f});
     return m;

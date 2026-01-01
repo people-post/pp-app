@@ -13,8 +13,11 @@ import { FvcRegister } from './FvcRegister.js';
 import { PBranch } from './PBranch.js';
 import { PBranchSmall } from './PBranchSmall.js';
 import { Shop } from '../../common/dba/Shop.js';
-import { Address } from '../../common/dba/Address.js';
+import { Address as AddressDBA } from '../../common/dba/Address.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { api } from '../../common/plt/Api.js';
+import { R } from '../../common/constants/R.js';
+import { FvcAddressEditor } from '../../sectors/account/FvcAddressEditor.js';
 
 export class FBranch extends Fragment {
   static T_LAYOUT = {
@@ -48,7 +51,7 @@ export class FBranch extends Fragment {
   setEnableEdit(b) { this._isEditEnabled = b; }
 
   getDataForGuiAddress(fAddress, addressId) {
-    return Address.get(addressId);
+    return AddressDBA.get(addressId);
   }
 
   onInputChangeInTextInputFragment(fTextInput, value) { this.#asyncUpdate(); }
@@ -177,7 +180,7 @@ export class FBranch extends Fragment {
 
   #showAddressEditor(addressId) {
     let v = new View();
-    let f = new acnt.FvcAddressEditor();
+    let f = new FvcAddressEditor();
     f.setAddressId(addressId);
     v.setContentFragment(f);
     this._delegate.onBranchFragmentRequestShowView(this, v, "Edit address");

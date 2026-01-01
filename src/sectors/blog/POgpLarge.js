@@ -1,3 +1,4 @@
+import { POgp } from './POgp.js';
 
 const _CPT_OGP_LARGE = {
   MAIN : `<div class="quote-element pad5px">
@@ -13,7 +14,7 @@ const _CPT_OGP_LARGE = {
   </div>`,
 }
 
-export class POgpLarge extends blog.POgp {
+export class POgpLarge extends POgp {
   _getTemplate() { return _CPT_OGP_LARGE.MAIN; }
 };
 

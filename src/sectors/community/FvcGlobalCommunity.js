@@ -26,6 +26,9 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
+import { Users } from '../../common/dba/Users.js';
+import { Account } from '../../common/dba/Account.js';
+import { Utilities } from '../../common/Utilities.js';
 
 export class FvcGlobalCommunity extends FScrollViewContent {
   constructor() {
@@ -81,16 +84,16 @@ export class FvcGlobalCommunity extends FScrollViewContent {
   #renderHof() { return ""; }
 
   #renderPersonal() {
-    let user = dba.Users.get(this._userId);
+    let user = Users.get(this._userId);
     if (user) {
       let referrerId = user.getReferrerId();
       if (referrerId) {
-        let u = dba.Users.get(referrerId);
+        let u = Users.get(referrerId);
         if (u) {
           return "Referred by: " +
                  Utilities.renderSmallButton(
                      "CF_GLOBAL_COMMUNITY_CONTENT.VIEW_USER", u.getId(),
-                     dba.Account.getUserNickname(u.getId(), u.getNickname()));
+                     Account.getUserNickname(u.getId(), u.getNickname()));
         }
       }
     }

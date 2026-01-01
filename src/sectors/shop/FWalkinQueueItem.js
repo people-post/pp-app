@@ -16,6 +16,16 @@ import { WalkinQueueItem } from '../../common/datatypes/WalkinQueueItem.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { PWalkinQueueItem } from './PWalkinQueueItem.js';
+import { PWalkinQueueItemInfo } from './PWalkinQueueItemInfo.js';
+import { PWalkinQueueItemInfoPublic } from './PWalkinQueueItemInfoPublic.js';
+import { FvcPreCheckout } from './FvcPreCheckout.js';
+import { FUserInfo } from '../../common/hr/FUserInfo.js';
+import { FLocalUserSearch } from '../../common/search/FLocalUserSearch.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { WalkinQueue } from '../../common/dba/WalkinQueue.js';
+import { Users } from '../../common/dba/Users.js';
+import { R } from '../../common/constants/R.js';
 
 export class FWalkinQueueItem extends Fragment {
   static T_LAYOUT = {INFO : "INFO", FULL: "FULL"};
@@ -37,11 +47,11 @@ export class FWalkinQueueItem extends Fragment {
     this._fAction2.setDelegate(this);
     this.setChild("action2", this._fAction2);
 
-    this._fAgent = new S.hr.FUserInfo();
-    this._fAgent.setLayoutType(S.hr.FUserInfo.T_LAYOUT.MID_SQUARE);
+    this._fAgent = new FUserInfo();
+    this._fAgent.setLayoutType(FUserInfo.T_LAYOUT.MID_SQUARE);
     this.setChild("agent", this._fAgent);
 
-    this._fAgentSearch = new srch.FLocalUserSearch();
+    this._fAgentSearch = new FLocalUserSearch();
     this._fAgentSearch.setDelegate(this);
 
     this._fOnUserSelect = null;
@@ -62,7 +72,7 @@ export class FWalkinQueueItem extends Fragment {
   }
 
   onLocalUserSearchFragmentRequestFetchUserIds(fSearch) {
-    this.#asyncGetWorkers(dba.WebConfig.getOwnerId());
+    this.#asyncGetWorkers(WebConfig.getOwnerId());
   }
 
   onSearchResultClickedInSearchFragment(fSearch, itemType, itemId) {
@@ -84,7 +94,7 @@ export class FWalkinQueueItem extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case shop.CF_SHOP_WALKIN_QUEUE_ITEM.ON_CLICK:
+    case CF_SHOP_WALKIN_QUEUE_ITEM.ON_CLICK:
       this._delegate.onClickInWalkinQueueItemFragment(this, this._itemId);
       break;
     default:
@@ -106,14 +116,14 @@ export class FWalkinQueueItem extends Fragment {
   }
 
   _renderOnRender(render) {
-    let item = dba.WalkinQueue.get(this._itemId);
+    let item = WalkinQueue.get(this._itemId);
     if (!item) {
       return;
     }
     let userId = item.getCustomerUserId();
     let name = "";
     if (userId) {
-      let u = dba.Users.get(userId);
+      let u = Users.get(userId);
       if (!u) {
         return;
       }
@@ -170,17 +180,17 @@ export class FWalkinQueueItem extends Fragment {
     let p = null;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.FULL:
-      p = new shop.PWalkinQueueItem();
+      p = new PWalkinQueueItem();
       this._fAction1.setLayoutType(Button.LAYOUT_TYPE.LARGE_CYCLE);
       break;
     default:
       this._fAction1.setLayoutType(Button.LAYOUT_TYPE.SMALL);
       if (this._isActionEnabled) {
-        p = new shop.PWalkinQueueItemInfo();
+        p = new PWalkinQueueItemInfo();
         p.setAttribute("onclick",
                        "G.action(shop.CF_SHOP_WALKIN_QUEUE_ITEM.ON_CLICK)");
       } else {
-        p = new shop.PWalkinQueueItemInfoPublic();
+        p = new PWalkinQueueItemInfoPublic();
       }
       break;
     }
@@ -226,7 +236,7 @@ export class FWalkinQueueItem extends Fragment {
   }
 
   #onCheckout() {
-    let item = dba.WalkinQueue.get(this._itemId);
+    let item = WalkinQueue.get(this._itemId);
     if (item) {
       this.#asyncPrepareCartItem(item);
     }
@@ -250,7 +260,7 @@ export class FWalkinQueueItem extends Fragment {
 
   #goCheckout(cart) {
     let v = new View();
-    let f = new shop.FvcPreCheckout();
+    let f = new FvcPreCheckout();
     f.setCart(cart);
     v.setContentFragment(f);
     Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
@@ -271,7 +281,7 @@ export class FWalkinQueueItem extends Fragment {
   }
 
   #onServeRRR(data) {
-    dba.WalkinQueue.update(new WalkinQueueItem(data.item));
+    WalkinQueue.update(new WalkinQueueItem(data.item));
   }
 
   #asyncDismiss() {

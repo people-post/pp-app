@@ -9,11 +9,14 @@ import { SplitPanel } from '../../lib/ui/renders/panels/SplitPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { FUserIdInput } from '../../common/hr/FUserIdInput.js';
+import { Communities } from '../../common/dba/Communities.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
 
 export class FvcConfigEditor extends FScrollViewContent {
   constructor() {
     super();
-    this._fCaptain = new S.hr.FUserIdInput();
+    this._fCaptain = new FUserIdInput();
     this._fMemberProfitPercent = new NumberInput();
     this._fNJoinApprovals = new NumberInput();
     this._fVotingThreshold = new NumberInput();
@@ -42,7 +45,7 @@ export class FvcConfigEditor extends FScrollViewContent {
 
   setCommunityId(communityId) {
     this._communityId = communityId;
-    let community = dba.Communities.get(communityId);
+    let community = Communities.get(communityId);
     if (community) {
       this.#setConfig(community.getConfig());
     }
@@ -101,7 +104,7 @@ export class FvcConfigEditor extends FScrollViewContent {
     this._fDaysToExpire.attachRender(pSplit.getRightPanel());
     this._fDaysToExpire.render();
 
-    if (dba.WebConfig.isDevSite()) {
+    if (WebConfig.isDevSite()) {
       p = new SectionPanel("Contribution");
       pMain.pushPanel(p);
       this._fTribute.attachRender(p.getContentPanel());

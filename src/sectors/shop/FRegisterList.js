@@ -53,8 +53,8 @@ export class FRegisterList extends Fragment {
 
     this._fItems.clear();
     for (let id of this._ids) {
-      let f = new shop.FRegister();
-      f.setLayoutType(shop.FRegister.T_LAYOUT.SMALL);
+      let f = new FRegister();
+      f.setLayoutType(FRegister.T_LAYOUT.SMALL);
       f.setRegisterId(id);
       f.setEnableEdit(this._isEditEnabled);
       f.setDataSource(this);

@@ -16,9 +16,12 @@ import { CommentIdLoader } from '../../common/social/CommentIdLoader.js';
 import { Web3CommentIdLoader } from '../../common/social/Web3CommentIdLoader.js';
 import { FCommentInput } from '../../common/social/FCommentInput.js';
 import { Blog } from '../../common/dba/Blog.js';
+import { Account } from '../../common/dba/Account.js';
+import { Groups } from '../../common/dba/Groups.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
 import { api } from '../../common/plt/Api.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import * as blogUtilities from './Utilities.js';
+import { Utilities as blogUtilities } from './Utilities.js';
 
 const _CPT_POST = {
   MAIN : `<div id="__ID_POST__"></div>
@@ -146,7 +149,7 @@ class FvcPost extends FScrollViewContent {
     }
 
     let post = Blog.getPost(this.#postId);
-    let uid = dba.Account.getId();
+    let uid = Account.getId();
     return uid && uid == post.getOwnerId();
   }
 
@@ -237,7 +240,7 @@ class FvcPost extends FScrollViewContent {
     // Currently only owner can edit article
     // TODO: Support users with permissions, there are legal considerations
     let userIds = [ post.getOwnerId() ];
-    if (userIds.indexOf(dba.Account.getId()) < 0) {
+    if (userIds.indexOf(Account.getId()) < 0) {
       return false;
     }
     return true;
@@ -279,7 +282,7 @@ class FvcPost extends FScrollViewContent {
 
   #onPostUpdate(updatedPost) {
     let post = Blog.getPost(this.#postId);
-    if (blog.Utilities.isPostRelated(updatedPost, post)) {
+    if (blogUtilities.isPostRelated(updatedPost, post)) {
       this.render();
     }
   }
@@ -303,7 +306,7 @@ class FvcPost extends FScrollViewContent {
     let tagIds = post.getCommentTags();
     if (tagIds.length > 0) {
       let isAdmin =
-          dba.Account.isWebOwner() && post.getOwnerId() == dba.Account.getId();
+          Account.isWebOwner() && post.getOwnerId() == Account.getId();
 
       this.#fTabbedComments = new FTabbedPane();
       this.#fTabbedComments.addPane({name : "All", value : "ALL"},
@@ -315,7 +318,7 @@ class FvcPost extends FScrollViewContent {
         f.setCommentIds(post.getTaggedCommentIds(tid));
         f.setDelegate(this);
 
-        let t = dba.Groups.getTag(tid);
+        let t = Groups.getTag(tid);
         this.#fTabbedComments.addPane(
             {name : t ? t.getName() : "...", value : tid}, f);
       }
@@ -334,7 +337,7 @@ class FvcPost extends FScrollViewContent {
     let ops = [];
 
     // User must be webOwner
-    if (!dba.Account.isWebOwner()) {
+    if (!Account.isWebOwner()) {
       return ops;
     }
 
@@ -344,7 +347,7 @@ class FvcPost extends FScrollViewContent {
     }
 
     // Post owner must be user
-    if (post.getOwnerId() != dba.Account.getId()) {
+    if (post.getOwnerId() != Account.getId()) {
       return ops;
     }
 
@@ -361,7 +364,7 @@ class FvcPost extends FScrollViewContent {
       }
     }
 
-    for (let t of dba.WebConfig.getTags()) {
+    for (let t of WebConfig.getTags()) {
       ops.push({name : t.getName(), value : t.getId()});
     }
     return ops;

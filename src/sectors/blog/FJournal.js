@@ -14,7 +14,7 @@ export class PJournalBase extends Panel {
   getTitlePanel() { return null; }
 };
 
-class FJournal extends Fragment {
+export class FJournal extends Fragment {
   static T_LAYOUT = {
     BUTTON_BAR : Symbol(),
   };
@@ -96,7 +96,6 @@ class FJournal extends Fragment {
   #onClick() { this._delegate.onClickInJournalFragment(this); }
 };
 
-blog.FJournal = FJournal;
 
 
 // Backward compatibility

@@ -18,7 +18,7 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { STATE } from '../../common/constants/Constants.js';
-import { Address } from '../../common/gui/Address.js';
+import { Address as GuiAddress } from '../../common/gui/Address.js';
 import { PSupplierOrder } from './PSupplierOrder.js';
 import { PSupplierOrderInfo } from './PSupplierOrderInfo.js';
 import { FSupplierOrderItem } from './FSupplierOrderItem.js';
@@ -42,7 +42,7 @@ export class FSupplierOrder extends Fragment {
     this._fItems = new FSimpleFragmentList();
     this.setChild("items", this._fItems);
 
-    this._fAddress = new Address();
+    this._fAddress = new GuiAddress();
     this._fAddress.setDataSource(this);
     this.setChild("address", this._fAddress);
 

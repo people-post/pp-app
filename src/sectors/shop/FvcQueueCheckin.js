@@ -7,11 +7,17 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { FServiceLocationFilter } from './FServiceLocationFilter.js';
+import { FQueueStatusMessage } from './FQueueStatusMessage.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { Account } from '../../common/dba/Account.js';
+import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
+import { R } from '../../common/constants/R.js';
 
 export class FvcQueueCheckin extends FScrollViewContent {
   constructor() {
     super();
-    this._fFilter = new shop.FServiceLocationFilter();
+    this._fFilter = new FServiceLocationFilter();
     this._fFilter.setUseCurrentTime(true);
     this._fFilter.setDelegate(this);
     this.setChild("filter", this._fFilter);
@@ -22,7 +28,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
     this._fBtn.setEnabled(false);
     this.setChild("btn", this._fBtn);
 
-    this._fMsg = new shop.FQueueStatusMessage();
+    this._fMsg = new FQueueStatusMessage();
     this.setChild("hint", this._fMsg);
 
     this._selectedLocation = null;
@@ -38,7 +44,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
   onLocationSelectedInServiceLocationFilterFragment(fFilter, loc) {
     this._selectedLocation = loc;
     if (loc) {
-      dba.Shop.asyncQueryQueueSize(loc.getBranchId(), this._productId);
+      Shop.asyncQueryQueueSize(loc.getBranchId(), this._productId);
     }
   }
 
@@ -87,17 +93,17 @@ export class FvcQueueCheckin extends FScrollViewContent {
   }
 
   #onCheckin() {
-    if (dba.Account.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       this.#asyncCheckin();
     } else {
       // Guest
       let v = new View();
-      let fvc = new S.hr.FvcUserInput();
+      let fvc = new FvcUserInput();
       let fName = new TextInput();
       fName.setConfig({
         title : R.get("GUEST_NICKNAME_PROMPT"),
         hint : "Nickname",
-        value : dba.Account.getGuestName(),
+        value : Account.getGuestName(),
         isRequired : true
       });
       fvc.addInputCollector(fName);
@@ -106,7 +112,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
       fContact.setConfig({
         title : R.get("GUEST_CONTACT_PROMPT"),
         hint : "Contact",
-        value : dba.Account.getGuestContact(),
+        value : Account.getGuestContact(),
         isRequired : true
       });
       fvc.addInputCollector(fContact);

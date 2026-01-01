@@ -1,12 +1,15 @@
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Product } from '../../common/datatypes/Product.js';
 import { api } from '../../common/plt/Api.js';
+import { FProductList } from './FProductList.js';
+import { FProduct } from './FProduct.js';
+import { Shop } from '../../common/dba/Shop.js';
 
-export class FIdolProductList extends shop.FProductList {
+export class FIdolProductList extends FProductList {
   #isBatchLoading = false;
 
   _createInfoFragment(id) {
-    let f = new shop.FProduct();
+    let f = new FProduct();
     f.setDataSource(this);
     f.setDelegate(this);
     f.setProductId(id);
@@ -38,7 +41,7 @@ export class FIdolProductList extends shop.FProductList {
       if (ds.length) {
         for (let d of ds) {
           let p = new Product(d);
-          dba.Shop.updateProduct(p);
+          Shop.updateProduct(p);
           this._getIdRecord().appendId(p.getId());
         }
       } else {

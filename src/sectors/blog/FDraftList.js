@@ -2,6 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { FDraftArticleInfo } from './FDraftArticleInfo.js';
 
 export class FDraftList extends Fragment {
   #fList;
@@ -35,7 +36,7 @@ export class FDraftList extends Fragment {
       for (let id of ids) {
         let p = new PanelWrapper();
         pList.pushPanel(p);
-        let f = new blog.FDraftArticleInfo();
+        let f = new FDraftArticleInfo();
         f.setDelegate(this);
         f.setDataSource(this);
         f.setDraftId(id);

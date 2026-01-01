@@ -4,6 +4,10 @@ import { View } from '../lib/ui/controllers/views/View.js';
 import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
 import { PageViewController } from '../lib/ui/controllers/PageViewController.js';
 import { Page } from '../lib/ui/controllers/Page.js';
+import { Logger } from '../lib/ext/Logger.js';
+import { Account } from '../common/dba/Account.js';
+import { Badge } from '../common/dba/Badge.js';
+import { ID } from '../common/constants/Constants.js';
 
 export class LvMultiPage extends ViewLayer {
   #fBtnHome = null;
@@ -21,7 +25,7 @@ export class LvMultiPage extends ViewLayer {
     this._vc.setDelegate(this);
 
     this._gateway = new Gateway();
-    this.#logger = new ext.Logger("LvMultiPage");
+    this.#logger = new Logger("LvMultiPage");
   }
 
   init() {
@@ -36,7 +40,7 @@ export class LvMultiPage extends ViewLayer {
       this.#fBtnHome.detachRender();
     }
     this.onResize();
-    dba.Account.asyncReload();
+    Account.asyncReload();
     super.init();
   }
 
@@ -53,7 +57,7 @@ export class LvMultiPage extends ViewLayer {
   }
   getNPageNotificationsForPageViewController(pvc, pageId) {
     let n = 0;
-    if (pageId == C.ID.SECTOR.EXTRAS) {
+    if (pageId == ID.SECTOR.EXTRAS) {
       for (let c of this._gateway.getExtrasPageConfigs()) {
         n += this._gateway.getNPageNotifications(c.ID);
       }
@@ -70,8 +74,8 @@ export class LvMultiPage extends ViewLayer {
   setSectorId(id) { this._gateway.setSectorId(id); }
 
   onPageSwitchedInPageViewController(pvc) {
-    if (dba.Account.isAuthenticated()) {
-      dba.Badge.checkPermission();
+    if (Account.isAuthenticated()) {
+      Badge.checkPermission();
     }
   }
   onPageViewControllerRequestPopView(pageVc) {
@@ -141,7 +145,7 @@ export class LvMultiPage extends ViewLayer {
   _createMainPanel() { return null; }
 
   #createPageEntryViews(pageId) {
-    if (pageId == C.ID.SECTOR.EXTRAS) {
+    if (pageId == ID.SECTOR.EXTRAS) {
       let v = new View();
       let f = new FvcExtras();
       f.setDataSource(this);

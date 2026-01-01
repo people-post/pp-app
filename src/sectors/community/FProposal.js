@@ -31,6 +31,8 @@ import { Events, T_ACTION as FwkT_ACTION } from '../../lib/framework/Events.js';
 import { Utilities } from '../../common/Utilities.js';
 import { PProposal } from './PProposal.js';
 import { PProposalInfo } from './PProposalInfo.js';
+import { R } from '../../common/constants/R.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
 
 export class FProposal extends Fragment {
   static T_LAYOUT = {
@@ -245,9 +247,9 @@ export class FProposal extends Fragment {
     s = s.replace("__AUTHOR__", Utilities.renderSmallButton(
                                     "cmut.CF_PROPOSAL.USER_INFO", userId,
                                     nickname, "low-profile s-cinfotext bold"));
-    s = s.replace("__T_CREATE__", ext.Utilities.timestampToDateTimeString(
+    s = s.replace("__T_CREATE__", UtilitiesExt.timestampToDateTimeString(
                                       proposal.getCreationTime() / 1000));
-    s = s.replace("__T_UPDATE__", ext.Utilities.timestampToDateTimeString(
+    s = s.replace("__T_UPDATE__", UtilitiesExt.timestampToDateTimeString(
                                       proposal.getUpdateTime() / 1000));
     s = s.replace("__STATUS__", Utilities.renderStatus(proposal.getState(),
                                                        proposal.getStatus()));
@@ -283,7 +285,7 @@ export class FProposal extends Fragment {
   #makeChangeConfigContent(communityId, data) {
     let oldConfig = data.old;
     if (!oldConfig) {
-      let p = dba.Communities.get(communityId);
+      let p = Communities.get(communityId);
       if (!p) {
         return "...";
       }
@@ -355,7 +357,7 @@ export class FProposal extends Fragment {
                                 false);
   }
 
-  #onVote(value) { dba.Communities.asyncVote(this._proposalId, value); }
+  #onVote(value) { Communities.asyncVote(this._proposalId, value); }
 };
 
 

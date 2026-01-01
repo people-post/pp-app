@@ -1,13 +1,14 @@
 import { LvMultiPage } from './LvMultiPage.js';
 import { PMain } from './PMain.js';
 import { VBlank } from '../lib/ui/controllers/views/VBlank.js';
+import { WebConfig } from '../common/dba/WebConfig.js';
 
 export class LvTabbedPage extends LvMultiPage {
   init() {
-    let c = dba.WebConfig.getLeftSideFrameConfig();
+    let c = WebConfig.getLeftSideFrameConfig();
     this.#initSideFrame("left", this._pMain.getLeftSidePanel(), c);
 
-    c = dba.WebConfig.getRightSideFrameConfig();
+    c = WebConfig.getRightSideFrameConfig();
     this.#initSideFrame("right", this._pMain.getRightSidePanel(), c);
     super.init();
   }

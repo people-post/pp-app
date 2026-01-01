@@ -4,6 +4,10 @@ export const CF_SERVICE_LOCATION = {
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { FBranch } from './FBranch.js';
+import { FBtnViewQueue } from './FBtnViewQueue.js';
+import { PServiceLocation } from './PServiceLocation.js';
+import { FServiceTimeslot } from './FServiceTimeslot.js';
 
 export class FServiceLocation extends Fragment {
   constructor() {
@@ -11,12 +15,12 @@ export class FServiceLocation extends Fragment {
     this._fTimeslots = new FSimpleFragmentList();
     this.setChild("timeslots", this._fTimeslots);
 
-    this._fBranch = new shop.FBranch();
+    this._fBranch = new FBranch();
     this._fBranch.setDelegate(this);
-    this._fBranch.setLayoutType(shop.FBranch.T_LAYOUT.SMALL);
+    this._fBranch.setLayoutType(FBranch.T_LAYOUT.SMALL);
     this.setChild("branch", this._fBranch);
 
-    this._fBtnViewQueue = new shop.FBtnViewQueue();
+    this._fBtnViewQueue = new FBtnViewQueue();
     this.setChild("viewQueue", this._fBtnViewQueue);
 
     this._data = null;
@@ -55,7 +59,7 @@ export class FServiceLocation extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case shop.CF_SERVICE_LOCATION.ON_CLICK:
+    case CF_SERVICE_LOCATION.ON_CLICK:
       this._delegate.onClickInServiceLocationFragment(this);
       break;
     default:
@@ -65,7 +69,7 @@ export class FServiceLocation extends Fragment {
   }
 
   _renderOnRender(render) {
-    let panel = new shop.PServiceLocation();
+    let panel = new PServiceLocation();
     render.wrapPanel(panel);
 
     panel.setAttribute(
@@ -88,7 +92,7 @@ export class FServiceLocation extends Fragment {
     p = panel.getTimeslotsPanel();
     this._fTimeslots.clear();
     for (let ts of this._data.getTimeslots()) {
-      let f = new shop.FServiceTimeslot();
+      let f = new FServiceTimeslot();
       f.setData(ts);
       this._fTimeslots.append(f);
     }

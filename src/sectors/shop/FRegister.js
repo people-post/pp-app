@@ -9,6 +9,12 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { ShopRegister } from '../../common/datatypes/ShopRegister.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { PRegisterSmall } from './PRegisterSmall.js';
+import { PRegister } from './PRegister.js';
+import { FPaymentTerminalList } from '../../common/pay/FPaymentTerminalList.js';
+import { FvcPaymentTerminal } from '../../common/pay/FvcPaymentTerminal.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { R } from '../../common/constants/R.js';
 
 export class FRegister extends Fragment {
   static T_LAYOUT = {
@@ -18,7 +24,7 @@ export class FRegister extends Fragment {
 
   constructor() {
     super();
-    this._fTerminals = new pay.FPaymentTerminalList();
+    this._fTerminals = new FPaymentTerminalList();
     this._fTerminals.setDelegate(this);
     this.setChild("terminals", this._fTerminals);
 
@@ -42,7 +48,7 @@ export class FRegister extends Fragment {
   onPaymentTerminalSelectedInPaymentTerminalListFragment(fTerminalList,
                                                          terminalId) {
     let v = new View();
-    let f = new pay.FvcPaymentTerminal();
+    let f = new FvcPaymentTerminal();
     f.setTerminalId(terminalId);
     f.setEnableEdit(this._isEditEnabled);
     v.setContentFragment(f);
@@ -52,7 +58,7 @@ export class FRegister extends Fragment {
 
   action(type, ...args) {
     switch (type) {
-    case shop.CF_REGISTER.ON_CLICK:
+    case CF_REGISTER.ON_CLICK:
       this._delegate.onClickInRegisterFragment(this, this._registerId);
       break;
     default:
@@ -75,7 +81,7 @@ export class FRegister extends Fragment {
   }
 
   _renderOnRender(render) {
-    let register = dba.Shop.getRegister(this._registerId);
+    let register = Shop.getRegister(this._registerId);
     if (!register) {
       return;
     }
@@ -122,12 +128,12 @@ export class FRegister extends Fragment {
     let p;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.SMALL:
-      p = new shop.PRegisterSmall();
+      p = new PRegisterSmall();
       p.setAttribute("onclick",
                      "javascript:G.action(shop.CF_REGISTER.ON_CLICK)");
       break;
     default:
-      p = new shop.PRegister();
+      p = new PRegister();
       break;
     }
     return p;
@@ -155,7 +161,7 @@ export class FRegister extends Fragment {
   }
 
   #onUpdateRRR(data) {
-    dba.Shop.updateRegister(new ShopRegister(data.register));
+    Shop.updateRegister(new ShopRegister(data.register));
   }
 };
 

@@ -6,8 +6,11 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ProductDeliveryChoice } from '../../common/datatypes/ProductDeliveryChoice.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { FProductDeliveryEditor } from './FProductDeliveryEditor.js';
+import { FServiceLocationEditor } from './FServiceLocationEditor.js';
+import { FServiceLocation } from './FServiceLocation.js';
 
-export class FServiceDeliveryEditor extends shop.FProductDeliveryEditor {
+export class FServiceDeliveryEditor extends FProductDeliveryEditor {
   constructor() {
     super();
     this._fBtnAdd = new Button();
@@ -22,7 +25,7 @@ export class FServiceDeliveryEditor extends shop.FProductDeliveryEditor {
     this._fLocationOk.setName("OK");
     this._fLocationOk.setDelegate(this);
 
-    this._fLocationEditor = new shop.FServiceLocationEditor();
+    this._fLocationEditor = new FServiceLocationEditor();
     this._fLocationEditor.setDelegate(this);
 
     this._vLocation = new View();
@@ -113,7 +116,7 @@ export class FServiceDeliveryEditor extends shop.FProductDeliveryEditor {
   }
 
   #addLocation(l) {
-    let f = new shop.FServiceLocation();
+    let f = new FServiceLocation();
     f.setDataSource(this);
     f.setDelegate(this);
     f.setData(l);

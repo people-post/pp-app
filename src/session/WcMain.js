@@ -8,6 +8,11 @@ import { Tag } from '../common/datatypes/Tag.js';
 import { api } from '../common/plt/Api.js';
 import { T_ACTION } from '../common/plt/Events.js';
 import { Events, T_DATA } from '../lib/framework/Events.js';
+import { WebConfig } from '../common/dba/WebConfig.js';
+import { Cart } from '../common/dba/Cart.js';
+import { Notifications } from '../common/dba/Notifications.js';
+import { Account } from '../common/dba/Account.js';
+import { Gateway as HrGateway } from '../sectors/hr/Gateway.js';
 
 export class WcMain extends WcSession {
   onLoginClickInAccountActionButtonFragment(fAbAccount) {
@@ -43,14 +48,14 @@ export class WcMain extends WcSession {
     let fAb = new AbAccount();
     fAb.setDelegate(this);
     lc.setDefaultActionButton(fAb);
-    lc.setDefaultPageId(dba.WebConfig.getHomeSector());
+    lc.setDefaultPageId(WebConfig.getHomeSector());
     super._initLayer(lc);
   }
 
   _initEventHandlers() {
     super._initEventHandlers();
-    dba.Cart.clear();
-    dba.Notifications.init();
+    Cart.clear();
+    Notifications.init();
   }
 
   _main(dConfig) {
@@ -71,7 +76,7 @@ export class WcMain extends WcSession {
   #onLoginSuccess(profile, nextView) {
     let urlParam = new URLSearchParams(window.location.search);
 
-    dba.Account.reset(profile);
+    Account.reset(profile);
     this._clearDbAgents();
 
     this._initLanguage();
@@ -84,7 +89,7 @@ export class WcMain extends WcSession {
 
   #showBlogRolesView() {
     let v = new View();
-    let gw = new hr.Gateway();
+    let gw = new HrGateway();
     let f = gw.createMainViewContentFragment();
     f.switchTo(Tag.T_ID.BLOG);
     v.setContentFragment(f);
@@ -96,7 +101,7 @@ export class WcMain extends WcSession {
     if (response.error) {
       Events.trigger(T_DATA.REMOTE_ERROR, response.error);
     } else {
-      location.replace(dba.WebConfig.getHomeUrl());
+      location.replace(WebConfig.getHomeUrl());
     }
   }
 };

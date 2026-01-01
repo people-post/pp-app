@@ -3,17 +3,19 @@ import { FHomeBtn } from './FHomeBtn.js';
 import { URL_PARAM } from '../lib/ui/Constants.js';
 import { SocialItemId } from '../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../common/datatypes/SocialItem.js';
+import { WebConfig } from '../common/dba/WebConfig.js';
+import { ID, URL_PARAM as URL_PARAM_CONST } from '../common/constants/Constants.js';
 
 export class LvMain extends LvTabbedPage {
   init() {
     let f = new FHomeBtn();
-    f.setUrl(dba.WebConfig.getHomeUrl());
+    f.setUrl(WebConfig.getHomeUrl());
     this.setHomeBtnFragment(f);
     super.init();
   }
 
   initFromUrl(urlParam) {
-    let sectorId = urlParam.get(C.URL_PARAM.SECTOR);
+    let sectorId = urlParam.get(URL_PARAM_CONST.SECTOR);
     if (!sectorId) {
       // Try to decode from id
       let id = urlParam.get(URL_PARAM.ID);
@@ -26,8 +28,8 @@ export class LvMain extends LvTabbedPage {
     }
 
     if (this._isExtrasSectorIdExist(sectorId)) {
-      urlParam.set(C.URL_PARAM.PAGE, sectorId);
-      sectorId = C.ID.SECTOR.EXTRAS;
+      urlParam.set(URL_PARAM_CONST.PAGE, sectorId);
+      sectorId = ID.SECTOR.EXTRAS;
     }
 
     // Switch before call page initFromUrl
@@ -37,7 +39,7 @@ export class LvMain extends LvTabbedPage {
 
   getUrlParamString() {
     let sectorId = this._vc.getActivePageId();
-    let params = [ C.URL_PARAM.SECTOR + "=" + sectorId ];
+    let params = [ URL_PARAM_CONST.SECTOR + "=" + sectorId ];
     let s = this._vc.getUrlParamString();
     if (s.length > 0) {
       params.push(s);
@@ -51,13 +53,13 @@ export class LvMain extends LvTabbedPage {
     case SocialItem.TYPE.ARTICLE:
     case SocialItem.TYPE.FEED_ARTICLE:
     case SocialItem.TYPE.JOURNAL_ARTICLE:
-      id = C.ID.SECTOR.BLOG;
+      id = ID.SECTOR.BLOG;
       break;
     case SocialItem.TYPE.PROJECT:
-      id = C.ID.SECTOR.WORKSHOP;
+      id = ID.SECTOR.WORKSHOP;
       break;
     case SocialItem.TYPE.PRODUCT:
-      id = C.ID.SECTOR.SHOP;
+      id = ID.SECTOR.SHOP;
       break;
     default:
       break;

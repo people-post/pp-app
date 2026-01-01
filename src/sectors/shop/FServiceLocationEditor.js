@@ -5,6 +5,9 @@ import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { ProductServiceLocation } from '../../common/datatypes/ProductServiceLocation.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { PServiceLocationEditor } from './PServiceLocationEditor.js';
+import { FServiceTimeslotEditor } from './FServiceTimeslotEditor.js';
+import { Shop } from '../../common/dba/Shop.js';
 
 export class FServiceLocationEditor extends Fragment {
   constructor() {
@@ -41,7 +44,7 @@ export class FServiceLocationEditor extends Fragment {
 
   getSelectedValueForSelection(fSelection) { return this._branchId; }
   getItemsForSelection(fSelection) {
-    return dba.Shop.getBranchLabels().map(
+    return Shop.getBranchLabels().map(
         a => { return {"text" : a.getName(), "value" : a.getId()}; });
   }
 
@@ -96,7 +99,7 @@ export class FServiceLocationEditor extends Fragment {
   }
 
   _renderOnRender(render) {
-    let panel = new shop.PServiceLocationEditor();
+    let panel = new PServiceLocationEditor();
     render.wrapPanel(panel);
     let p = panel.getTimeOverheadPanel();
     this._fTimeOverhead.attachRender(p);
@@ -125,7 +128,7 @@ export class FServiceLocationEditor extends Fragment {
   }
 
   #addTimeslot(ts) {
-    let f = new shop.FServiceTimeslotEditor();
+    let f = new FServiceTimeslotEditor();
     f.setData(ts);
     f.setDelegate(this);
     this._fTimeslots.append(f);

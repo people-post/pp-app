@@ -1,5 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { FilteredPostIdLoader } from './FilteredPostIdLoader.js';
+import { FPostList } from './FPostList.js';
 
 export class FvcFilteredPostList extends FScrollViewContent {
   #fPosts;
@@ -7,9 +9,9 @@ export class FvcFilteredPostList extends FScrollViewContent {
 
   constructor() {
     super();
-    this.#loader = new blog.FilteredPostIdLoader();
+    this.#loader = new FilteredPostIdLoader();
     this.#loader.setDelegate(this);
-    this.#fPosts = new blog.FPostList();
+    this.#fPosts = new FPostList();
     this.#fPosts.setDelegate(this);
     this.#fPosts.setLoader(this.#loader);
     this.setChild("posts", this.#fPosts);

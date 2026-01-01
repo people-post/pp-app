@@ -9,6 +9,16 @@ import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
 import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { FvcTeamEditor } from './FvcTeamEditor.js';
+import { FvcOrderHistory } from './FvcOrderHistory.js';
+import { FvcConfig } from './FvcConfig.js';
+import { FvcReport } from './FvcReport.js';
+import { Notifications } from '../../common/dba/Notifications.js';
+import { Account } from '../../common/dba/Account.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { FvcCurrent } from '../../sectors/cart/FvcCurrent.js';
+import { R } from '../../common/constants/R.js';
 
 export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {
@@ -49,7 +59,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
     let n = 0;
     switch (v) {
     case "REPORT":
-      n = dba.Notifications.getNShopNotifications();
+      n = Notifications.getNShopNotifications();
       break;
     default:
       break;
@@ -67,12 +77,12 @@ export class FvcMain extends FViewContentWithHeroBanner {
   }
   onShopConfigFragmentRequestAddTeam(fConfig) {
     let v = new View();
-    v.setContentFragment(new shop.FvcTeamEditor());
+    v.setContentFragment(new FvcTeamEditor());
     this._owner.onFragmentRequestShowView(this, v, "Shop team");
   }
   onShopConfigFragmentRequestEditTeam(fConfig, teamId) {
     let v = new View();
-    let f = new shop.FvcTeamEditor();
+    let f = new FvcTeamEditor();
     f.setTeamId(teamId);
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Shop team");
@@ -97,8 +107,8 @@ export class FvcMain extends FViewContentWithHeroBanner {
   }
 
   #getPageType() {
-    if (dba.Account.isWebOwner()) {
-      if (dba.Shop.isOpen()) {
+    if (Account.isWebOwner()) {
+      if (Shop.isOpen()) {
         return this.constructor.#T_PAGE.OWNER_OPEN;
       } else {
         return this.constructor.#T_PAGE.OWNER_CLOSED;
@@ -137,22 +147,22 @@ export class FvcMain extends FViewContentWithHeroBanner {
         {name : R.t("Market"), value : "NEWS", icon : ICON.EXPLORER},
         this.#fvcExplorer);
 
-    this.#fvcOwner.setOwnerId(dba.WebConfig.getOwnerId());
+    this.#fvcOwner.setOwnerId(WebConfig.getOwnerId());
     this.#fMain.addTab(
         {name : R.t("Mine"), value : "OWNER", icon : ICON.SMILEY},
         this.#fvcOwner);
 
-    let ff = new shop.FvcOrderHistory();
+    let ff = new FvcOrderHistory();
     ff.setDelegate(this);
     this.#fMain.addTab(
         {name : R.t("Orders"), value : "ORDERS", icon : ICON.RECEIPT}, ff);
 
-    ff = new shop.FvcConfig();
+    ff = new FvcConfig();
     ff.setDelegate(this);
     this.#fMain.addTab(
         {name : R.t("Config"), value : "CONFIG", icon : ICON.CONFIG}, ff);
 
-    ff = new shop.FvcReport();
+    ff = new FvcReport();
     ff.setDelegate(this);
     this.#fMain.addTab(
         {name : R.t("Report"), value : "REPORT", icon : ICON.REPORT}, ff);
@@ -179,7 +189,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
     this.#fMain.clearContents();
     this.setHeroBannerFragment(null);
 
-    this.#fvcOwner.setOwnerId(dba.WebConfig.getOwnerId());
+    this.#fvcOwner.setOwnerId(WebConfig.getOwnerId());
     this.#fMain.addTab(
         {name : R.t("Products"), value : "OWNER", icon : ICON.PRODUCT},
         this.#fvcOwner);
@@ -188,7 +198,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   #showCart() {
     let v = new View();
-    let f = new cart.FvcCurrent();
+    let f = new FvcCurrent();
     v.setContentFragment(f);
     this._owner.onFragmentRequestShowView(this, v, "Cart");
   }
@@ -198,14 +208,14 @@ export class FvcMain extends FViewContentWithHeroBanner {
     api.asyncFragmentCall(this, url).then(d => this.#onOpenShopRRR(d));
   }
 
-  #onOpenShopRRR(data) { dba.WebConfig.setShopOpen(true); }
+  #onOpenShopRRR(data) { WebConfig.setShopOpen(true); }
 
   #asyncCloseShop() {
     let url = "api/shop/request_close";
     api.asyncFragmentCall(this, url).then(d => this.#onCloseShopRRR(d));
   }
 
-  #onCloseShopRRR(data) { dba.WebConfig.reset(data.web_config); }
+  #onCloseShopRRR(data) { WebConfig.reset(data.web_config); }
 };
 
 

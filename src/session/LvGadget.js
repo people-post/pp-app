@@ -1,22 +1,24 @@
 import { LvMultiPage } from './LvMultiPage.js';
 import { FHomeBtn } from './FHomeBtn.js';
 import { PGadget } from './PGadget.js';
+import { WebConfig } from '../common/dba/WebConfig.js';
+import { ID, URL_PARAM } from '../common/constants/Constants.js';
 
 export class LvGadget extends LvMultiPage {
   init() {
     let f = new FHomeBtn();
-    f.setUrl(dba.WebConfig.getHomeUrl());
+    f.setUrl(WebConfig.getHomeUrl());
     this.setHomeBtnFragment(f);
     super.init();
   }
 
   initFromUrl(urlParam) {
     // Sector id concept for end user is different than the one in code
-    this.setSectorId(C.ID.SECTOR.GADGET);
-    let sectorId = urlParam.get(C.URL_PARAM.SECTOR);
+    this.setSectorId(ID.SECTOR.GADGET);
+    let sectorId = urlParam.get(URL_PARAM.SECTOR);
     // if (this._isExtrasSectorIdExist(sectorId)) {
-    urlParam.set(C.URL_PARAM.PAGE, sectorId);
-    sectorId = C.ID.SECTOR.EXTRAS;
+    urlParam.set(URL_PARAM.PAGE, sectorId);
+    sectorId = ID.SECTOR.EXTRAS;
     //}
     // Switch before call page initFromUrl
     this._vc.switchToPage(sectorId);
@@ -25,7 +27,7 @@ export class LvGadget extends LvMultiPage {
 
   getUrlParamString() {
     let sectorId = this._vc.getActivePageId();
-    let params = [ C.URL_PARAM.SECTOR + "=" + sectorId ];
+    let params = [ URL_PARAM.SECTOR + "=" + sectorId ];
     let s = this._vc.getUrlParamString();
     if (s.length > 0) {
       params.push(s);

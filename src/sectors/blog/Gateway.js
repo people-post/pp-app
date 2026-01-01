@@ -1,6 +1,19 @@
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import { Notifications } from '../../common/dba/Notifications.js';
+import { Account } from '../../common/dba/Account.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Web3Config } from '../../common/dba/Web3Config.js';
+import { FvcWeb3OwnerPosts } from './FvcWeb3OwnerPosts.js';
+import { FvcOwnerPosts } from './FvcOwnerPosts.js';
+import { FvcReport } from './FvcReport.js';
+import { FvcWeb3Explorer } from './FvcWeb3Explorer.js';
+import { FvcDrafts } from './FvcDrafts.js';
+import { FvcConfig } from './FvcConfig.js';
+import { FvcExplorer } from './FvcExplorer.js';
+import { FvcWeb3Report } from './FvcWeb3Report.js';
+import { R } from '../../common/constants/R.js';
 const _CG_BLOG = {
   NEWS : {ID : "NEWS", NAME : "News", ICON : ICON.EXPLORER},
   OWNER_PUBLIC : {ID : "BLOG", NAME : "Blog", ICON : ICON.EXPLORER},
@@ -15,7 +28,7 @@ export class Gateway extends SectorGateway {
     let n = 0;
     switch (v) {
     case _CG_BLOG.REPORT.ID:
-      n = dba.Notifications.getNBlogNotifications();
+      n = Notifications.getNBlogNotifications();
       break;
     default:
       break;
@@ -25,14 +38,14 @@ export class Gateway extends SectorGateway {
 
   createMainViewContentFragment() {
     if (glb.env.isWeb3()) {
-      if (dba.Account.isAuthenticated()) {
+      if (Account.isAuthenticated()) {
         return this.#createMainViewContentFragmentForWeb3Owner();
       } else {
         return this.#createMainViewContentFragmentForWeb3Guest();
       }
     } else {
-      if (dba.Account.isAuthenticated()) {
-        if (dba.Account.isWebOwner()) {
+      if (Account.isAuthenticated()) {
+        if (Account.isWebOwner()) {
           return this.#createMainViewContentFragmentForOwner();
         } else {
           return this.#createMainViewContentFragmentForVisitor();
@@ -44,14 +57,14 @@ export class Gateway extends SectorGateway {
   }
 
   #createMainViewContentFragmentForWeb3Guest() {
-    let f = new blog.FvcWeb3OwnerPosts();
-    f.setOwnerId(dba.Web3Config.getGuestIdolId());
+    let f = new FvcWeb3OwnerPosts();
+    f.setOwnerId(Web3Config.getGuestIdolId());
     return f;
   }
 
   #createMainViewContentFragmentForGuest() {
-    let f = new blog.FvcOwnerPosts();
-    f.setOwnerId(dba.WebConfig.getOwnerId());
+    let f = new FvcOwnerPosts();
+    f.setOwnerId(WebConfig.getOwnerId());
     return f;
   }
 
@@ -60,11 +73,11 @@ export class Gateway extends SectorGateway {
     f.setPreferredWidth({"min" : 320, "best" : 800, "max" : 0});
     f.setDataSource(this);
 
-    let ff = new blog.FvcOwnerPosts();
-    ff.setOwnerId(dba.WebConfig.getOwnerId());
+    let ff = new FvcOwnerPosts();
+    ff.setOwnerId(WebConfig.getOwnerId());
     f.addTab(this.#makeTabConfig(_CG_BLOG.OWNER_PUBLIC), ff);
 
-    ff = new blog.FvcReport();
+    ff = new FvcReport();
     f.addTab(this.#makeTabConfig(_CG_BLOG.REPORT), ff);
 
     f.switchTo(_CG_BLOG.OWNER_PUBLIC.ID);
@@ -76,14 +89,14 @@ export class Gateway extends SectorGateway {
     f.setPreferredWidth({"min" : 320, "best" : 800, "max" : 0});
     f.setDataSource(this);
 
-    let ff = new blog.FvcWeb3Explorer();
+    let ff = new FvcWeb3Explorer();
     f.addTab(this.#makeTabConfig(_CG_BLOG.NEWS), ff);
 
-    ff = new blog.FvcWeb3OwnerPosts();
-    ff.setOwnerId(dba.Account.getId());
+    ff = new FvcWeb3OwnerPosts();
+    ff.setOwnerId(Account.getId());
     f.addTab(this.#makeTabConfig(_CG_BLOG.OWNER), ff);
 
-    ff = new blog.FvcWeb3Report();
+    ff = new FvcWeb3Report();
     f.addTab(this.#makeTabConfig(_CG_BLOG.REPORT), ff);
 
     f.switchTo(_CG_BLOG.NEWS.ID);
@@ -95,20 +108,20 @@ export class Gateway extends SectorGateway {
     f.setPreferredWidth({"min" : 320, "best" : 800, "max" : 0});
     f.setDataSource(this);
 
-    let ff = new blog.FvcExplorer();
+    let ff = new FvcExplorer();
     f.addTab(this.#makeTabConfig(_CG_BLOG.NEWS), ff);
 
-    ff = new blog.FvcOwnerPosts();
-    ff.setOwnerId(dba.WebConfig.getOwnerId());
+    ff = new FvcOwnerPosts();
+    ff.setOwnerId(WebConfig.getOwnerId());
     f.addTab(this.#makeTabConfig(_CG_BLOG.OWNER), ff);
 
-    ff = new blog.FvcDrafts();
+    ff = new FvcDrafts();
     f.addTab(this.#makeTabConfig(_CG_BLOG.DRAFTS), ff);
 
-    ff = new blog.FvcConfig();
+    ff = new FvcConfig();
     f.addTab(this.#makeTabConfig(_CG_BLOG.CONFIG), ff);
 
-    ff = new blog.FvcReport();
+    ff = new FvcReport();
     f.addTab(this.#makeTabConfig(_CG_BLOG.REPORT), ff);
 
     f.switchTo(_CG_BLOG.NEWS.ID);

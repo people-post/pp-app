@@ -1,5 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { Communities } from '../../common/dba/Communities.js';
 
 export class FGlobalCommunityInfo extends Fragment {
   handleSessionDataUpdate(dataType, data) {
@@ -14,7 +15,7 @@ export class FGlobalCommunityInfo extends Fragment {
   }
 
   _renderOnRender(render) {
-    let profile = dba.Communities.getGlobalProfile();
+    let profile = Communities.getGlobalProfile();
     let statistics = profile ? profile.statistics : null;
     let table = document.createElement("TABLE");
 

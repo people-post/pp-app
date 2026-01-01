@@ -4,8 +4,12 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { FServiceDelivery } from './FServiceDelivery.js';
+import { FQueueStatusMessage } from './FQueueStatusMessage.js';
+import { FvcQueueCheckin } from './FvcQueueCheckin.js';
+import { Shop } from '../../common/dba/Shop.js';
 
-export class FQueueDelivery extends shop.FServiceDelivery {
+export class FQueueDelivery extends FServiceDelivery {
   constructor() {
     super();
     this._fBtnCheckin = new Button();
@@ -13,7 +17,7 @@ export class FQueueDelivery extends shop.FServiceDelivery {
     this._fBtnCheckin.setDelegate(this);
     this.setChild("checkin", this._fBtnCheckin);
 
-    this._fMsg = new shop.FQueueStatusMessage();
+    this._fMsg = new FQueueStatusMessage();
     this.setChild("hint", this._fMsg);
 
     this._productId = null;
@@ -82,7 +86,7 @@ export class FQueueDelivery extends shop.FServiceDelivery {
     let locs = this._data.getLocations();
     if (locs.length == 1) {
       let product = this._getProduct();
-      dba.Shop.asyncQueryQueueSize(locs[0].getBranchId(), product.getId());
+      Shop.asyncQueryQueueSize(locs[0].getBranchId(), product.getId());
     }
   }
 
@@ -98,7 +102,7 @@ export class FQueueDelivery extends shop.FServiceDelivery {
 
   #onCheckin() {
     let v = new View();
-    let f = new shop.FvcQueueCheckin();
+    let f = new FvcQueueCheckin();
     let product = this._getProduct();
     f.setData(product.getId(), this._data.getLocations());
     v.setContentFragment(f);

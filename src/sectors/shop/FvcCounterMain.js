@@ -2,10 +2,16 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { FWalkinQueue } from './FWalkinQueue.js';
+import { FvcBranchSelection } from './FvcBranchSelection.js';
+import { FvcRegisterSelection } from './FvcRegisterSelection.js';
+import { Counter } from '../../common/dba/Counter.js';
+import { Account } from '../../common/dba/Account.js';
+import { Gateway as AuthGateway } from '../../sectors/auth/Gateway.js';
 export class FvcCounterMain extends FScrollViewContent {
   constructor() {
     super();
-    this._fQueue = new shop.FWalkinQueue();
+    this._fQueue = new FWalkinQueue();
     this._fQueue.setDelegate(this);
     this.setChild("queue", this._fQueue);
   }
@@ -13,7 +19,7 @@ export class FvcCounterMain extends FScrollViewContent {
   initFromUrl(urlParam) {
     super.initFromUrl(urlParam);
     this.#setBranchId(urlParam.get(URL_PARAM.BRANCH));
-    dba.Counter.setRegisterId(urlParam.get(URL_PARAM.REGISTER));
+    Counter.setRegisterId(urlParam.get(URL_PARAM.REGISTER));
     this.render();
   }
 
@@ -22,7 +28,7 @@ export class FvcCounterMain extends FScrollViewContent {
     let branchId = this._fQueue.getBranchId();
     if (branchId) {
       ss.push(URL_PARAM.BRANCH + "=" + branchId);
-      let registerId = dba.Counter.getRegisterId();
+      let registerId = Counter.getRegisterId();
       if (registerId) {
         ss.push(URL_PARAM.REGISTER + "=" + registerId);
       }
@@ -40,14 +46,14 @@ export class FvcCounterMain extends FScrollViewContent {
 
   onRegisterSelectedInRegisterSelectionContentFragment(fvcRegisterSelection,
                                                        registerId) {
-    dba.Counter.setRegisterId(registerId);
+    Counter.setRegisterId(registerId);
     Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
     Events.triggerTopAction(T_ACTION.REPLACE_STATE, {}, "Counter");
     this.render();
   }
 
   _renderContentOnRender(render) {
-    if (!dba.Account.isAuthenticated()) {
+    if (!Account.isAuthenticated()) {
       // TODO: Only allow users with permission to login
       return;
     }
@@ -61,22 +67,22 @@ export class FvcCounterMain extends FScrollViewContent {
 
   _onContentDidAppear() {
     super._onContentDidAppear();
-    if (!dba.Account.isAuthenticated()) {
+    if (!Account.isAuthenticated()) {
       this.#showLoginView();
       return;
     }
     if (!this._fQueue.getBranchId()) {
       let v = new View();
-      let f = new shop.FvcBranchSelection();
+      let f = new FvcBranchSelection();
       f.setDelegate(this);
       v.setContentFragment(f);
       Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                   "Branch selection", false);
       return;
     }
-    if (!dba.Counter.getRegisterId()) {
+    if (!Counter.getRegisterId()) {
       let v = new View();
-      let f = new shop.FvcRegisterSelection();
+      let f = new FvcRegisterSelection();
       f.setDelegate(this);
       f.setBranchId(this._fQueue.getBranchId());
       v.setContentFragment(f);
@@ -92,7 +98,7 @@ export class FvcCounterMain extends FScrollViewContent {
     // This is hack to avoid dialog pop two times, needs debug
     Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
     // TODO: Only allow users with permission to login
-    let gw = new auth.Gateway();
+    let gw = new AuthGateway();
     let v = gw.createLoginView();
     Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Login",
                                 false);

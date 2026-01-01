@@ -1,3 +1,7 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Exchange } from '../../common/dba/Exchange.js';
+import { Utilities } from '../../common/Utilities.js';
 
 const _CFT_SUPPLIER_ORDER_ITEM = {
   MAIN : `<div class="w40">__DESCRIPTION__</div>
@@ -10,9 +14,6 @@ const _CFT_SUPPLIER_ORDER_ITEM = {
   </div>
   <div>__UNIT_PRICE__</div>`,
 }
-
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 export class FSupplierOrderItem extends Fragment {
   constructor() {
@@ -35,7 +36,7 @@ export class FSupplierOrderItem extends Fragment {
     let s = _CFT_SUPPLIER_ORDER_ITEM.MAIN;
     s = s.replace("__DESCRIPTION__", item.getDescription());
     s = s.replace("__QTY__", item.getQuantity().toString());
-    let c = dba.Exchange.getCurrency(this._currencyId);
+    let c = Exchange.getCurrency(this._currencyId);
     let ss = Utilities.renderPrice(c, item.getUnitPrice());
     s = s.replace("__STATUS__",
                   Utilities.renderStatus(item.getState(), item.getStatus()));

@@ -28,12 +28,13 @@ const _CPT_POST_INFO_BIG_HEAD = {
 import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { PUserReference } from '../../common/hr/PUserReference.js';
 
 export class PPostInfoBigHead extends PPostInfoBase {
   constructor() {
     super();
     this._pTitle = new Panel();
-    this._pCrossRef = new S.hr.PUserReference();
+    this._pCrossRef = new PUserReference();
     this._pQuote = new PanelWrapper();
     this._pDateTime = new Panel();
     this._pImage = new PanelWrapper();
