@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcIdolList extends FScrollViewContent {
   #fUsers;
@@ -27,7 +28,7 @@ export class FvcIdolList extends FScrollViewContent {
   }
 
   getActionButton() {
-    if (dba.Account.getId() == this.#idLoader.getUserId()) {
+    if (Account.getId() == this.#idLoader.getUserId()) {
       return this.#fBtnAdd;
     }
     return null;

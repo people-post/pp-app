@@ -10,6 +10,7 @@ import UtilitiesExt from '../lib/ext/Utilities.js';
 import { Keys } from '../common/dba/Keys.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
 import { Web3Config } from '../common/dba/Web3Config.js';
+import { Account } from '../common/dba/Account.js';
 import { STORAGE } from '../common/constants/Constants.js';
 import { FvcWeb3UserInfo } from '../sectors/hr/FvcWeb3UserInfo.js';
 
@@ -54,8 +55,8 @@ export class WcWeb3 extends WcSession {
 
   onLogoutClickInActionButtonFragment(fAbAccount) {
     sessionStorage.clear();
-    dba.Account.reset();
-    dba.Keys.reset();
+    Account.reset();
+    Keys.reset();
     location.reload();
   }
 
@@ -92,12 +93,12 @@ export class WcWeb3 extends WcSession {
     console.info("Load local data...");
     let sData = sessionStorage.getItem(STORAGE.KEY.KEYS);
     if (sData) {
-      dba.Keys.fromEncodedStr(sData);
+      Keys.fromEncodedStr(sData);
     }
-    dba.Account = new pp.Owner();
-    dba.Account.setDataSource(this);
-    dba.Account.setDelegate(this);
-    dba.Account.loadCheckPoint();
+    Account = new pp.Owner();
+    Account.setDataSource(this);
+    Account.setDelegate(this);
+    Account.loadCheckPoint();
 
     console.info("Load config...");
     Web3Config.load(glb.env.WEB3);
@@ -110,7 +111,7 @@ export class WcWeb3 extends WcSession {
     console.info("Init publisher...");
     glb.web3Publisher = new pdb.Web3Publisher();
     await glb.web3Publisher.asInit(c ? c.publishers : null);
-    await glb.web3Publisher.asInitForUser(dba.Account.getId());
+    await glb.web3Publisher.asInitForUser(Account.getId());
 
     console.info("Init ledger...");
     glb.web3Ledger = new pdb.Web3Ledger();
@@ -119,7 +120,7 @@ export class WcWeb3 extends WcSession {
     console.info("Init storage...");
     glb.web3Storage = new pdb.Web3Storage();
     await glb.web3Storage.asInit(c ? c.storages : null);
-    await glb.web3Storage.asInitForUser(dba.Account.getId());
+    await glb.web3Storage.asInitForUser(Account.getId());
 
     console.info("Init layout...");
     this.init(null, dConfig.default_theme.primary_color,
@@ -131,9 +132,9 @@ export class WcWeb3 extends WcSession {
 
   #onLoginSuccess(profile) {
     let urlParam = new URLSearchParams(window.location.search);
-    dba.Account.reset(profile);
-    dba.Account.saveCheckPoint();
-    sessionStorage.setItem(STORAGE.KEY.KEYS, dba.Keys.toEncodedStr());
+    Account.reset(profile);
+    Account.saveCheckPoint();
+    sessionStorage.setItem(STORAGE.KEY.KEYS, Keys.toEncodedStr());
 
     this._clearDbAgents();
 

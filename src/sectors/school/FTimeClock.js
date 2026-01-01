@@ -6,6 +6,8 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { TimeClock } from '../../common/datatypes/TimeClock.js';
 import { TimeClockRecord } from '../../common/datatypes/TimeClockRecord.js';
 import { api } from '../../common/plt/Api.js';
+import { CronJob } from '../../lib/ext/CronJob.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FTimeClock extends Fragment {
   constructor() {
@@ -16,7 +18,7 @@ export class FTimeClock extends Fragment {
     this._fBtn.setDelegate(this);
     this.setChild("btn", this._fBtn);
 
-    this._beeper = new ext.CronJob();
+    this._beeper = new CronJob();
     this._isInitialized = false;
     this._tStart = null;
     this._dtLast = 0;
@@ -37,7 +39,7 @@ export class FTimeClock extends Fragment {
 
   _renderOnRender(render) {
     if (!this._isInitialized) {
-      if (dba.Account.isAuthenticated()) {
+      if (Account.isAuthenticated()) {
         this._isInitialized = true;
         this.#asyncFetchClockStatus();
         return;
@@ -63,7 +65,7 @@ export class FTimeClock extends Fragment {
     p = new PanelWrapper();
     p.setClassName("w40 center-align");
     panel.pushPanel(p);
-    this._fBtn.setEnabled(dba.Account.isAuthenticated());
+    this._fBtn.setEnabled(Account.isAuthenticated());
     if (this._beeper.isSet()) {
       this._fBtn.setName("Out");
       this._fBtn.setValue("OUT");

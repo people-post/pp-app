@@ -1,9 +1,11 @@
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import { Account } from '../../common/dba/Account.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
 
 export class Gateway extends SectorGateway {
   createMainViewContentFragment() {
-    if (dba.Account.isAuthenticated()) {
-      if (dba.Account.isWebOwner()) {
+    if (Account.isAuthenticated()) {
+      if (Account.isWebOwner()) {
         return this._createMainViewContentFragmentForOwner();
       } else {
         return this._createMainViewContentFragmentForVisitor();
@@ -15,7 +17,7 @@ export class Gateway extends SectorGateway {
 
   _createMainViewContentFragmentForGuest() {
     let f;
-    let c = dba.WebConfig.getFrontPageConfig();
+    let c = WebConfig.getFrontPageConfig();
     switch (c.getTemplateId()) {
     case FrontPageConfig.T_TEMPLATE.JOURNAL:
       f = new ftpg.FvcJournal();
@@ -26,7 +28,7 @@ export class Gateway extends SectorGateway {
       glb.env.setSmartTimeDiffThreshold(24 * 3600);
 
       f = new ftpg.FvcBrief();
-      f.setOwnerId(dba.WebConfig.getOwnerId());
+      f.setOwnerId(WebConfig.getOwnerId());
       f.setConfig(c.getTemplateConfig());
       break;
     case FrontPageConfig.T_TEMPLATE.BLOCKCHAIN:
@@ -35,7 +37,7 @@ export class Gateway extends SectorGateway {
     default:
       // Default to brief
       f = new ftpg.FvcBrief();
-      f.setOwnerId(dba.WebConfig.getOwnerId());
+      f.setOwnerId(WebConfig.getOwnerId());
       break;
     }
     return f;

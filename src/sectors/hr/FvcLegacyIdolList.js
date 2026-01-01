@@ -4,6 +4,8 @@ import { ActionButton } from '../../common/gui/ActionButton.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
+import { Account } from '../../common/dba/Account.js';
+import { FUserInfo } from './FUserInfo.js';
 
 export class FvcLegacyIdolList extends FScrollViewContent {
   constructor() {
@@ -21,7 +23,7 @@ export class FvcLegacyIdolList extends FScrollViewContent {
   }
 
   getActionButton() {
-    if (dba.Account.getId() == this._userId) {
+    if (Account.getId() == this._userId) {
       return this._fBtnAdd;
     }
     return null;
@@ -38,7 +40,7 @@ export class FvcLegacyIdolList extends FScrollViewContent {
   }
 
   createInfoFragmentForLongListFragment(fGrid, id) {
-    let f = new S.hr.FUserInfo();
+    let f = new FUserInfo();
     f.setDelegate(this);
     f.setUserId(id);
     return f;

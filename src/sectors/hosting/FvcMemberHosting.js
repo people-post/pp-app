@@ -18,6 +18,7 @@ import { FvcConfirmAction } from '../../lib/ui/controllers/views/FvcConfirmActio
 import { RemoteError } from '../../common/datatypes/RemoteError.js';
 import { api } from '../../common/plt/Api.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Hosting } from '../../common/dba/Hosting.js';
 
 export class FvcMemberHosting extends FScrollViewContent {
   constructor() {
@@ -26,7 +27,7 @@ export class FvcMemberHosting extends FScrollViewContent {
   }
 
   getContentForWaitingFragment(wf) {
-    let s = dba.Hosting.getStatus();
+    let s = Hosting.getStatus();
     if (s) {
       if (s.ds_record) {
         if (s.is_tls_ready) {
@@ -54,7 +55,7 @@ export class FvcMemberHosting extends FScrollViewContent {
   }
 
   onWaitingFragmentRequestUpdate(wf) {
-    let s = dba.Hosting.getStatus();
+    let s = Hosting.getStatus();
     let fSetup = this.#createSetupFragment(s);
     if (fSetup) {
       this.#resetContentFragment(fSetup);
@@ -91,7 +92,7 @@ export class FvcMemberHosting extends FScrollViewContent {
   }
 
   #initContentFragment() {
-    let s = dba.Hosting.getStatus();
+    let s = Hosting.getStatus();
     let f = this.#createSetupFragment(s);
     if (!f) {
       f = new FWaiting(1000);
@@ -176,7 +177,7 @@ export class FvcMemberHosting extends FScrollViewContent {
     if (response.error) {
       this.#handleRemoteError(response.error);
     } else {
-      dba.Hosting.setStatus(response.data);
+      Hosting.setStatus(response.data);
       this.#onNsSetupFinished();
     }
   }
@@ -191,7 +192,7 @@ export class FvcMemberHosting extends FScrollViewContent {
     if (response.error) {
       this.#handleRemoteError(response.error);
     } else {
-      dba.Hosting.setStatus(response.data);
+      Hosting.setStatus(response.data);
       this.#onUnregisterFinished();
     }
   }

@@ -4,6 +4,10 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { FUserInfoHeroBanner } from './FUserInfoHeroBanner.js';
+import { FvcOwnerPosts } from '../blog/FvcOwnerPosts.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Users } from '../../common/dba/Users.js';
 export class FvcUserInfo extends FViewContentWithHeroBanner {
   #fBanner;
   #fBlog;
@@ -15,13 +19,13 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
 
   constructor() {
     super();
-    this.#fBanner = new hr.FUserInfoHeroBanner();
+    this.#fBanner = new FUserInfoHeroBanner();
     this.#fBanner.setDataSource(this);
     this.#fBanner.setDelegate(this);
     this.setHeroBannerFragment(this.#fBanner);
     this.setEnableAutoHide(true);
 
-    this.#fBlog = new blog.FvcOwnerPosts();
+    this.#fBlog = new FvcOwnerPosts();
     this.#fBlog.setDataSource(this);
     this.#fBlog.setDelegate(this);
 
@@ -42,8 +46,8 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
   getTagIdsForPostListFragment(fPostList) { return []; }
 
   getCustomTheme() {
-    if (!dba.WebConfig.isWebOwner(this.#userId)) {
-      let u = dba.Users.get(this.#userId);
+    if (!WebConfig.isWebOwner(this.#userId)) {
+      let u = Users.get(this.#userId);
       if (u) {
         return u.getColorTheme();
       }
@@ -98,14 +102,14 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
 
     this.#fMain.addTab({name : "Blog", value : "BLOG", icon : ICON.BLOG},
                        this.#fBlog);
-    let user = dba.Users.get(this.#userId);
+    let user = Users.get(this.#userId);
     if (user && user.isWorkshopOpen()) {
       this.#fMain.addTab(
           {name : "Workshop", value : "WORKSHOP", icon : ICON.WORKSHOP},
           this.#fWorkshop);
     }
 
-    if (dba.WebConfig.isDevSite()) {
+    if (WebConfig.isDevSite()) {
       if (user && user.isShopOpen()) {
         this.#fMain.addTab({name : "Shop", value : "SHOP", icon : ICON.SHOP},
                            this.#fShop);

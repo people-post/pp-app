@@ -7,6 +7,8 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
 import { Events, T_ACTION, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Utilities } from '../../common/Utilities.js';
 
 export class FvcTagEditorList extends FScrollViewContent {
   constructor() {
@@ -68,7 +70,7 @@ export class FvcTagEditorList extends FScrollViewContent {
     let p = new PanelWrapper();
     render.wrapPanel(p);
     this._fList.clear();
-    let tags = dba.WebConfig.getTags();
+    let tags = WebConfig.getTags();
     tags.sort((a, b) => {
       return Utilities.stringCompare(a.getName().toLowerCase(),
                                      b.getName().toLowerCase());
@@ -93,7 +95,7 @@ export class FvcTagEditorList extends FScrollViewContent {
   }
 
   #onAddTagRRR(data) {
-    dba.WebConfig.resetTags(data.groups);
+    WebConfig.resetTags(data.groups);
     this.render();
   }
 };

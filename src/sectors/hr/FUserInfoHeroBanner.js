@@ -1,5 +1,9 @@
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
+import { Account } from '../../common/dba/Account.js';
+import { Users } from '../../common/dba/Users.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { User } from '../../common/datatypes/User.js';
 
 export const CF_USER_INFO_HERO_BANNER = {
   FOLLOW : Symbol(),
@@ -75,7 +79,7 @@ export class FUserInfoHeroBanner extends Fragment {
   action(type, ...args) {
     switch (type) {
     case hr.CF_USER_INFO_HERO_BANNER.FOLLOW:
-      dba.Account.asyncFollow(args[0]);
+      Account.asyncFollow(args[0]);
       break;
     case hr.CF_USER_INFO_HERO_BANNER.UNFOLLOW:
       this.#onUnfollow(args[0]);
@@ -109,7 +113,7 @@ export class FUserInfoHeroBanner extends Fragment {
       break;
     case T_DATA.USER_IDOLS:
     case T_DATA.USER_PUBLIC_PROFILE:
-      if (data == dba.Account.getId() || data == this._dataSource.getUserId()) {
+      if (data == Account.getId() || data == this._dataSource.getUserId()) {
         this.render();
       }
       break;
@@ -124,7 +128,7 @@ export class FUserInfoHeroBanner extends Fragment {
     p.setClassName("sticky-bottom-header");
     render.wrapPanel(p);
 
-    let user = dba.Users.get(this._dataSource.getUserId());
+    let user = Users.get(this._dataSource.getUserId());
 
     // Top
     let pp = new hr.PUserOverview();
@@ -155,8 +159,8 @@ export class FUserInfoHeroBanner extends Fragment {
     if (user) {
       pp = new Panel();
       p.pushPanel(pp);
-      if (dba.Account.getId() == user.getId()) {
-        if (dba.WebConfig.getOwnerId() == user.getId()) {
+      if (Account.getId() == user.getId()) {
+        if (WebConfig.getOwnerId() == user.getId()) {
           pp.replaceContent(this.#renderOwnerPrivateInfo());
         } else {
           pp.setClassName("small-info-text center-align");
@@ -164,7 +168,7 @@ export class FUserInfoHeroBanner extends Fragment {
         }
       } else {
         pp.setClassName("small-info-text center-align");
-        if (dba.WebConfig.getOwnerId() == user.getId()) {
+        if (WebConfig.getOwnerId() == user.getId()) {
           pp.replaceContent("Current website");
         } else {
           pp.replaceContent(this.#renderDomain(user));
@@ -178,8 +182,8 @@ export class FUserInfoHeroBanner extends Fragment {
     if (user) {
       let bio = user.getBriefBio();
       bio = bio ? bio : "";
-      if (user.getId() == dba.Account.getId() &&
-          dba.WebConfig.getOwnerId() == user.getId()) {
+      if (user.getId() == Account.getId() &&
+          WebConfig.getOwnerId() == user.getId()) {
         this._fBioEditor.setConfig(
             {value : bio, hint : "Your short description"});
         this._fBioEditor.attachRender(pp);
@@ -213,8 +217,8 @@ export class FUserInfoHeroBanner extends Fragment {
   }
 
   #renderUploadButton(panel, user) {
-    if (user && dba.WebConfig.getOwnerId() == user.getId() &&
-        dba.Account.getId() == user.getId()) {
+    if (user && WebConfig.getOwnerId() == user.getId() &&
+        Account.getId() == user.getId()) {
 
       panel.replaceContent(_CFT_USER_INFO_HERO_BANNER.INFO_IMAGE_UPLOAD);
     } else {
@@ -229,14 +233,14 @@ export class FUserInfoHeroBanner extends Fragment {
     } else {
       s = s.replace("__ICON__", "");
     }
-    s = s.replace("__NAME__", dba.Account.getUserNickname(user.getId(),
+    s = s.replace("__NAME__", Account.getUserNickname(user.getId(),
                                                           user.getNickname()));
 
     let sMsg = "";
     let sSendFund = "";
-    if (dba.Account.isIdolOf(user)) {
+    if (Account.isIdolOf(user)) {
       sMsg = this.#renderMessageBtn(user.getId());
-      if (dba.WebConfig.isDevSite()) {
+      if (WebConfig.isDevSite()) {
         sSendFund = this.#renderSendFundBtn(user.getId());
       }
     }
@@ -244,8 +248,8 @@ export class FUserInfoHeroBanner extends Fragment {
     s = s.replace("__SEND_FUND_BTN__", sSendFund);
 
     let sAction = "";
-    if (dba.Account.isAuthenticated() && dba.Account.getId() != user.getId()) {
-      if (dba.Account.isFollowing(user.getId())) {
+    if (Account.isAuthenticated() && Account.getId() != user.getId()) {
+      if (Account.isFollowing(user.getId())) {
         sAction = _CFT_USER_INFO_HERO_BANNER.UNFOLLOW_BTN;
       } else {
         sAction = _CFT_USER_INFO_HERO_BANNER.FOLLOW_BTN;
@@ -275,7 +279,7 @@ export class FUserInfoHeroBanner extends Fragment {
   }
 
   #renderOwnerPrivateInfo() {
-    if (!dba.WebConfig.isDevSite()) {
+    if (!WebConfig.isDevSite()) {
       return "";
     }
     let s = _CFT_USER_INFO_HERO_BANNER.OWNER_PRIVATE_INFO;
@@ -313,8 +317,8 @@ export class FUserInfoHeroBanner extends Fragment {
 
   #onUnfollow(userId) {
     let s = R.get("CONFIRM_UNFOLLOW");
-    s = s.replace("__NAME__", dba.Account.getUserNickname(userId, userId));
-    this._confirmDangerousOperation(s, () => dba.Account.asyncUnfollow(userId));
+    s = s.replace("__NAME__", Account.getUserNickname(userId, userId));
+    this._confirmDangerousOperation(s, () => Account.asyncUnfollow(userId));
   }
 
   #onUpdateInfoImage(file) { this.#asyncUpdateInfoImage(file); }
@@ -367,7 +371,7 @@ export class FUserInfoHeroBanner extends Fragment {
   }
 
   #onBriefBioUpdateRRR(data) {
-    dba.Users.update(new User(data.profile));
+    Users.update(new User(data.profile));
     this.render();
   }
 };

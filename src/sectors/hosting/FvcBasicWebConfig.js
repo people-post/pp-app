@@ -23,6 +23,8 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { api } from '../../common/plt/Api.js';
 import { Events, T_DATA as FwkT_DATA, T_ACTION } from '../../lib/framework/Events.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
 
 export class FvcBasicWebConfig extends FScrollViewContent {
   action(type, ...args) {
@@ -65,7 +67,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
     p.pushPanel(pp);
     let cp = pp.getContentPanel();
     cp.replaceContent(_CFT_BASIC_WEB_CONFIG.HOME_PAGE_TITLE.replace(
-        "__VALUE__", dba.WebConfig.getHomePageTitle()));
+        "__VALUE__", WebConfig.getHomePageTitle()));
 
     pp = new SectionPanel("Default theme");
     p.pushPanel(pp);
@@ -76,8 +78,8 @@ export class FvcBasicWebConfig extends FScrollViewContent {
   #onUpdateIcon(file) { this.#asyncUpdateIcon(file); }
 
   #renderDefaultThemeConfig() {
-    let config = dba.WebConfig.getDefaultTheme();
-    let owner = dba.WebConfig.getOwner();
+    let config = WebConfig.getDefaultTheme();
+    let owner = WebConfig.getOwner();
     let iconUrl = owner ? owner.getIconUrl() : "";
     let cPrimary = config.getPrimaryColor();
     let cSecondary = config.getSecondaryColor();
@@ -131,8 +133,8 @@ export class FvcBasicWebConfig extends FScrollViewContent {
       return;
     }
 
-    if (ext.Utilities.isValidColor(c)) {
-      let config = dba.WebConfig.getDefaultTheme();
+      if (UtilitiesExt.isValidColor(c)) {
+      let config = WebConfig.getDefaultTheme();
       let other = (key == "primary") ? config.getSecondaryColor()
                                      : config.getPrimaryColor();
       this.#asyncUpdateDefaultTheme(key, c);
@@ -174,5 +176,5 @@ export class FvcBasicWebConfig extends FScrollViewContent {
         .then(d => this.#onWebConfigDataReceived(d));
   }
 
-  #onWebConfigDataReceived(data) { dba.WebConfig.reset(data.web_config); }
+  #onWebConfigDataReceived(data) { WebConfig.reset(data.web_config); }
 };

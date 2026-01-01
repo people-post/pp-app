@@ -23,6 +23,7 @@ const _CVF_VOUCHER_INFO = {
 }
 
 import { FExchangeItemInfo } from './FExchangeItemInfo.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
 
 export class FVoucherInfo extends FExchangeItemInfo {
   action(type, ...args) {
@@ -62,7 +63,7 @@ export class FVoucherInfo extends FExchangeItemInfo {
     let dt = 300;
     if (dt > 0) {
       let ss = _CVF_VOUCHER_INFO.CLAIM_HINT;
-      ss = ss.replace("__DT__", ext.Utilities.timeDiffString(dt));
+      ss = ss.replace("__DT__", UtilitiesExt.timeDiffString(dt));
       s += ss;
     } else {
       s += _CVF_VOUCHER_INFO.BTN_CLAIM;

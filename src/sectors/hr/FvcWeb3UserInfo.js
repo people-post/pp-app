@@ -3,6 +3,10 @@ import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContent
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { FUserInfoHeroBanner } from './FUserInfoHeroBanner.js';
+import { FvcWeb3OwnerPosts } from '../blog/FvcWeb3OwnerPosts.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Users } from '../../common/dba/Users.js';
 export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
   #fBanner;
   #fBlog;
@@ -11,13 +15,13 @@ export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
 
   constructor() {
     super();
-    this.#fBanner = new hr.FUserInfoHeroBanner();
+    this.#fBanner = new FUserInfoHeroBanner();
     this.#fBanner.setDataSource(this);
     this.#fBanner.setDelegate(this);
     this.setHeroBannerFragment(this.#fBanner);
     this.setEnableAutoHide(true);
 
-    this.#fBlog = new blog.FvcWeb3OwnerPosts();
+    this.#fBlog = new FvcWeb3OwnerPosts();
     this.#fBlog.setDataSource(this);
     this.#fBlog.setDelegate(this);
 
@@ -29,8 +33,8 @@ export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
   getTagIdsForPostListFragment(fPostList) { return []; }
 
   getCustomTheme() {
-    if (!dba.WebConfig.isWebOwner(this.#userId)) {
-      let u = dba.Users.get(this.#userId);
+    if (!WebConfig.isWebOwner(this.#userId)) {
+      let u = Users.get(this.#userId);
       if (u) {
         return u.getColorTheme();
       }
