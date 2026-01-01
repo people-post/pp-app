@@ -11,6 +11,7 @@ import { Wallet } from '../../common/datatypes/Wallet.js';
 import { CardanoAccount } from '../../common/datatypes/CardanoAccount.js';
 import { Keys } from '../../common/dba/Keys.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { sys } from 'pp-api';
 
 export class FvcWeb3Wallet extends FScrollViewContent {
   #fToAddr;
@@ -348,7 +349,7 @@ export class FvcWeb3Wallet extends FScrollViewContent {
     return this.#parseBalance(res);
   }
   async #relayReQuest(url) {
-    const r = await pp.sys.ipfs.asFetch(this.#node + url, this.#options);
+    const r = await sys.ipfs.asFetch(this.#node + url, this.#options);
     const t = await r.text();
     console.log("async");
     console.log(t);

@@ -15,6 +15,7 @@ import { DraftArticle } from '../datatypes/DraftArticle.js';
 import { EmptyPost } from '../datatypes/EmptyPost.js';
 import { Journal } from '../datatypes/Journal.js';
 import { env } from '../plt/Env.js';
+import { sys } from 'pp-api';
 
 export const Blog = function() {
   let _config = null;
@@ -257,7 +258,7 @@ export const Blog = function() {
     _pendingPostIds.push(id);
 
     if (env.isWeb3()) {
-      pp.sys.ipfs.asFetchCidJson(id)
+      sys.ipfs.asFetchCidJson(id)
           .then(d => __onCidArticleRRR(id, d))
           .catch(e => __onCidArticleError(id, e));
     } else {

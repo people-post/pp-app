@@ -1,3 +1,5 @@
+import { sys } from 'pp-api';
+
 export const Web3PeerServerMixin = (Base) => class extends Base {
   #mUsers = new Map();
   #initUserId;
@@ -45,7 +47,7 @@ export const Web3PeerServerMixin = (Base) => class extends Base {
       headers : {"Content-Type" : "application/json"},
       body : JSON.stringify({data : msg, public_key : pubKey, signature : sig})
     };
-    let res = await pp.sys.ipfs.asFetch(url, options);
+    let res = await sys.ipfs.asFetch(url, options);
     let d = await res.json();
     if (d.error) {
       throw d.error;
@@ -79,7 +81,7 @@ export const Web3PeerServerMixin = (Base) => class extends Base {
     };
     let res;
     try {
-      res = await pp.sys.ipfs.asFetch(url, options);
+      res = await sys.ipfs.asFetch(url, options);
     } catch (e) {
       return null;
     }

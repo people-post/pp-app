@@ -2,6 +2,7 @@ import { FSearch } from './FSearch.js';
 import { SearchConfig } from '../datatypes/SearchConfig.js';
 import { SearchResult } from '../datatypes/SearchResult.js';
 import { Users } from '../dba/Users.js';
+import { sys } from 'pp-api';
 
 export class FWeb3Search extends FSearch {
   #config;
@@ -25,7 +26,7 @@ export class FWeb3Search extends FSearch {
 
   #isUserId(s) {
     try {
-      pp.sys.utl.peerIdFromString(s);
+      sys.utl.peerIdFromString(s);
       return true;
     } catch (e) {
       return false;

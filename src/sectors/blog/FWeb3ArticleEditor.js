@@ -7,6 +7,9 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PWeb3ArticleEditor } from './PWeb3ArticleEditor.js';
 import { Account } from '../../common/dba/Account.js';
 import { R } from '../../common/constants/R.js';
+import { dat } from 'pp-api';
+
+const { OArticle, OAttachmentMeta } = dat;
 
 export class FWeb3ArticleEditor extends Fragment {
   #fTitle;
@@ -129,14 +132,14 @@ export class FWeb3ArticleEditor extends Fragment {
   }
 
   #collectData() {
-    let oArticle = new pp.dat.OArticle();
+    let oArticle = new OArticle();
     oArticle.setId(this.#baseArticle.getId());
     oArticle.setTitle(this.#fTitle.getValue());
     oArticle.setContent(this.#fContent.getValue());
     oArticle.setOwnerId(Account.getId());
     let jd = this.#fAttachment.getJsonData();
     if (jd) {
-      let oMeta = new pp.dat.OAttachmentMeta();
+      let oMeta = new OAttachmentMeta();
       oMeta.setCid(jd.id);
       oMeta.setName(jd.name);
       oMeta.setType(jd.type);

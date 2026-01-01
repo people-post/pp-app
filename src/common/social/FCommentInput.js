@@ -10,6 +10,9 @@ import { Account } from '../dba/Account.js';
 import { FHashtag } from '../gui/FHashtag.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
 import { api } from '../plt/Api.js';
+import { dat } from 'pp-api';
+
+const { OArticle } = dat;
 
 export class FCommentInput extends Fragment {
   #lc;
@@ -142,7 +145,7 @@ export class FCommentInput extends Fragment {
     }
 
     // Make article out of comment text.
-    let oArticle = new pp.dat.OArticle();
+    let oArticle = new OArticle();
     oArticle.setContent(message);
     oArticle.setOwnerId(Account.getId());
     oArticle.markCreation();

@@ -5,6 +5,7 @@ import { User } from '../datatypes/User.js';
 import { api } from '../plt/Api.js';
 import { PATH } from '../constants/Constants.js';
 import { env } from '../plt/Env.js';
+import { User as PpUser } from 'pp-api';
 
 // Public users' information
 export class UserLib {
@@ -51,7 +52,7 @@ export class UserLib {
         ? window.glb.web3Resolver 
         : null;
       let d = web3Resolver ? await web3Resolver.asResolve(id) : null;
-      let u = new pp.User(d);
+      let u = new PpUser(d);
       u.setDataSource(this);
       u.setDelegate(this);
       this.#mUsers.set(id, u);
@@ -133,7 +134,7 @@ export class UserLib {
   }
 
   #onWeb3LoadRRR(userId, data) {
-    let u = new pp.User(data);
+    let u = new PpUser(data);
     u.setDataSource(this);
     u.setDelegate(this);
     this.#mUsers.set(userId, u);

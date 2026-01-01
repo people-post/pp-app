@@ -1,6 +1,3 @@
-// Import pp-api compatibility layer to ensure global 'pp' variable is available
-import './lib/3rd/pp-api-compat.js';
-
 import { WcWeb3 } from './session/WcWeb3.js';
 import { WcMain } from './session/WcMain.js';
 import { WcGadget } from './session/WcGadget.js';
