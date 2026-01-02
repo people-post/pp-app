@@ -46,7 +46,7 @@ export class Bip32Ed25519Key {
     const encoder = new TextEncoder();
     const dataBuffer = encoder.encode(data);
     const hashBuffer = await window.crypto.subtle.digest('SHA-512', dataBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer)); // convert buffer to byte array
+    const hashArray = new Uint8Array(hashBuffer); // convert buffer to byte array
     const hashHex = Utilities.uint8ArrayToHex(hashArray); // convert bytes to hex string
     return hashHex;
   }
