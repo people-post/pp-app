@@ -1,6 +1,11 @@
-// Format for each row:
-// [ constant, coinSymbol, coinName ]
-export const bip44 = [
+/**
+ * BIP44 Coin Type Registry
+ * Format for each row: [ constant, coinSymbol, coinName ]
+ */
+
+export type Bip44Entry = [number, string, string];
+
+export const bip44: Bip44Entry[] = [
   [ 0x80000000, 'BTC', 'Bitcoin' ],
   [ 0x80000001, '', 'Testnet (all coins)' ],
   [ 0x80000002, 'LTC', 'Litecoin' ],
