@@ -595,7 +595,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("to_user_id", userId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -605,7 +605,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("to_user_id", userId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -619,7 +619,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("to_user_id", toUserId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -629,7 +629,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("from_user_id", userId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -638,7 +638,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("project_id", this._projectId);
     fd.append("role_id", roleId);
     let url = "api/workshop/project_actor_accept";
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -647,7 +647,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("project_id", this._projectId);
     fd.append("role_id", roleId);
     let url = "api/workshop/project_actor_reject";
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -657,7 +657,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("from_user_id", userId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -666,7 +666,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("project_id", this._projectId);
     fd.append("comment", comment);
     let url = "api/workshop/pause_project";
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -675,7 +675,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("project_id", this._projectId);
     fd.append("comment", comment);
     let url = "api/workshop/cancel_project";
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -684,7 +684,7 @@ export class FvcProject extends FScrollViewContent {
     fd.append("project_id", this._projectId);
     fd.append("comment", comment);
     let url = "api/workshop/reopen_project";
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -692,7 +692,7 @@ export class FvcProject extends FScrollViewContent {
     let fd = new FormData();
     fd.append("project_id", this._projectId);
     let url = "api/workshop/resume_project";
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -700,7 +700,7 @@ export class FvcProject extends FScrollViewContent {
     let fd = new FormData();
     fd.append("project_id", this._projectId);
     let url = "api/workshop/mark_project_done";
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -710,7 +710,7 @@ export class FvcProject extends FScrollViewContent {
 
   #asyncGetFollowerIds(ownerId) {
     let url = "api/user/followers?user_id=" + ownerId;
-    Api.asyncFragmentCall(this, url).then(d =>
+    glb.api.asyncFragmentCall(this, url).then(d =>
                                                   this.#onGetFollowerIdsRRR(d));
   }
 
@@ -721,7 +721,7 @@ export class FvcProject extends FScrollViewContent {
 
   #asyncGetWorkerIds(ownerId) {
     let url = "api/workshop/workers?owner_id=" + ownerId;
-    Api.asyncFragmentCall(this, url).then(d => this.#onGetWorkerIdsRRR(d));
+    glb.api.asyncFragmentCall(this, url).then(d => this.#onGetWorkerIdsRRR(d));
   }
 
   #onGetWorkerIdsRRR(data) {

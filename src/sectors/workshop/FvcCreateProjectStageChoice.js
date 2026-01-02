@@ -85,7 +85,7 @@ export class FvcCreateProjectStageChoice extends FScrollViewContent {
     default:
       break;
     }
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onAddNewStageRRR(d));
   }
 

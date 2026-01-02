@@ -114,7 +114,7 @@ export class FvcCurrent extends FScrollViewContent {
     if (Account.isAuthenticated()) {
       url = "/api/cart/order_preview";
     }
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onOrderPreviewRRR(d));
   }
 

@@ -37,7 +37,7 @@ export class FOrderList extends DefaultLongList {
     if (this._ids.length) {
       url += "?before_id=" + this._ids[this._ids.length - 1];
     }
-    Api.asyncRawCall(url, r => this.#onOrdersRRR(r));
+    glb.api.asyncRawCall(url, r => this.#onOrdersRRR(r));
   }
 
   #onOrdersRRR(responseText) {

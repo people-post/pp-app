@@ -98,7 +98,7 @@ export class FvcProjectStageConnection extends FScrollViewContent {
       }
     }
 
-   Api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r));
+   glb.api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r));
   }
 
   #onSubmitRRR(responseText) {
