@@ -1,5 +1,8 @@
 import { ServerDataObject } from './ServerDataObject.js';
 
 export class ItemLabel extends ServerDataObject {
-  getName() { return this._data.name; }
-};
+  getName(): string | undefined {
+    return this._data.name as string | undefined;
+  }
+}
+

@@ -1,3 +1,4 @@
 import { SupplierOrderPublic } from './SupplierOrderPublic.js';
 
-export class CustomerOrderItem extends SupplierOrderPublic {};
+export class CustomerOrderItem extends SupplierOrderPublic {}
+
