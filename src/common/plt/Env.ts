@@ -1,22 +1,9 @@
 import { PATH, TYPE } from '../constants/Constants.js';
 import { Events } from '../../lib/framework/Events.js';
 import { T_DATA } from './Events.js';
+import type { IEnv, ScriptInfo, ScriptsConfig } from '../../lib/framework/Global.js';
 
-interface ScriptInfo {
-  id: string;
-  src: string;
-}
-
-interface ScriptsConfig {
-  EDITOR: ScriptInfo;
-  PLAYER: ScriptInfo;
-  SIGNAL: ScriptInfo;
-  QR_CODE: ScriptInfo;
-  PAYMENT: ScriptInfo;
-  BRAINTREE: ScriptInfo;
-}
-
-export class Env {
+export class Env implements IEnv {
   #windowType: string | null = null;
   #defaultLang: string | null = null;
   #preferredLang: string | null = null;

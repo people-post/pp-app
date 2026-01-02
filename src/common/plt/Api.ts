@@ -2,17 +2,14 @@ import { Api as ExtApi } from '../../lib/ext/Api.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
 import { WebConfig } from '../dba/WebConfig.js';
+import type { IApi, FragmentDelegate } from '../../lib/framework/Global.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: unknown;
 }
 
-interface FragmentDelegate {
-  onRemoteErrorInFragment(f: unknown, e: unknown): void;
-}
-
-export class Api {
+export class Api implements IApi {
   #extApi: ExtApi;
 
   constructor() {
