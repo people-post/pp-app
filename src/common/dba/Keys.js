@@ -6,8 +6,8 @@ import { MlDsa44Key } from '../datatypes/MlDsa44Key.js';
 import { Events as FwkEvents } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import Utilities from '../../lib/ext/Utilities.js';
-import * as bip39 from '../../lib/3rd/bip39.js';
-import * as scureBip32 from '../../lib/3rd/bip32.js';
+import * as bip39 from 'bip39';
+import * as scureBip32 from '@scure/bip32';
 import { generateFromSeed } from 'bip32-ed25519';
 import { sys } from 'pp-api';
 

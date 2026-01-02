@@ -5,7 +5,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcProgress } from '../../lib/ui/controllers/views/FvcProgress.js';
-import * as bip39 from '../../lib/3rd/bip39.js';
+import * as bip39 from 'bip39';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events, T_ACTION as FwkT_ACTION } from '../../lib/framework/Events.js';
 import { Keys } from '../../common/dba/Keys.js';
