@@ -1,6 +1,5 @@
 import { Controller } from '../../ext/Controller.js';
-import { View } from './views/View.js';
-import { FvcConfirmAction } from './views/FvcConfirmAction.js';
+import { Factory, T_CATEGORY, T_OBJ } from '../../framework/Factory.js';
 import { Events, T_ACTION } from '../../framework/Events.js';
 
 const _CRC_RENDER_CONTROLLER = {
@@ -229,8 +228,19 @@ export class RenderController extends Controller {
   }
 
   _confirmDangerousOperation(msg, func) {
-    let v = new View();
-    let f = new FvcConfirmAction();
+    // Use Factory to get View and FvcConfirmAction classes to break circular dependency
+    const ViewClass = Factory.getClass(T_CATEGORY.UI, T_OBJ.VIEW);
+    if (!ViewClass) {
+      console.error('View class not registered in Factory');
+      return;
+    }
+    const ConfirmActionClass = Factory.getClass(T_CATEGORY.UI, T_OBJ.CONFIRM_ACTION_FRAGMENT);
+    if (!ConfirmActionClass) {
+      console.error('FvcConfirmAction class not registered in Factory');
+      return;
+    }
+    let v = new ViewClass();
+    let f = new ConfirmActionClass();
     f.setMessage(msg);
     f.addOption("Yes", func, true);
     f.addOption("Cancel", null);

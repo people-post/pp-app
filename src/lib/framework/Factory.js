@@ -6,6 +6,8 @@ export const T_OBJ = {
   BANNER_FRAGMENT : Symbol(),
   SEARCH_RESULT_VIEW_CONTENT_FRAGMENT : Symbol(),
   FILE_UPLOADER : Symbol(),
+  VIEW : Symbol(),
+  CONFIRM_ACTION_FRAGMENT : Symbol(),
 };
 
 export const Factory = function() {

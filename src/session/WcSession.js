@@ -4,6 +4,7 @@ import { Factory, T_CATEGORY, T_OBJ } from '../lib/framework/Factory.js';
 import { WindowController } from '../lib/ui/controllers/WindowController.js';
 import { PanelWrapper } from '../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../lib/ui/controllers/views/View.js';
+import { FvcConfirmAction } from '../lib/ui/controllers/views/FvcConfirmAction.js';
 import { FvcNotice } from '../lib/ui/controllers/views/FvcNotice.js';
 import { LvDialog } from '../lib/ui/controllers/layers/LvDialog.js';
 import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
@@ -83,6 +84,8 @@ export class WcSession extends WindowController {
     Factory.registerClass(T_CATEGORY.UI,
                               T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT,
                               FvcSearchResult);
+    Factory.registerClass(T_CATEGORY.UI, T_OBJ.VIEW, View);
+    Factory.registerClass(T_CATEGORY.UI, T_OBJ.CONFIRM_ACTION_FRAGMENT, FvcConfirmAction);
     if (glb.env.isWeb3()) {
       Factory.registerClass(T_CATEGORY.UI, T_OBJ.FILE_UPLOADER,
                                 Web3FileUploader);
