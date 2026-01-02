@@ -1,4 +1,5 @@
-export const WEB3 = {
+(function(C) {
+C.WEB3 = {
   "guest_idol_id" : "12D3KooWDeGhHT4xzpVV1nEwVB4rQyRnL7zDcYqUAYYCmDLyzNp5",
   "network" : {
     "resolvers" : [ "/ip6/2600:1f18:4544:9400:bafc:ab1c:7e8:929f/tcp/9097" ],
@@ -14,9 +15,4 @@ export const WEB3 = {
         [ "/ip4/3.145.68.8/tcp/9097", "/dns4/g-ipfs.local/tcp/9097" ]
   }
 };
-
-// Backward compatibility
-if (typeof window !== 'undefined') {
-  window.C = window.C || {};
-  window.C.WEB3 = WEB3;
-}
+}(window.C = window.C || {}));
