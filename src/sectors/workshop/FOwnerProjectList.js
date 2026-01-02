@@ -3,7 +3,6 @@ import { FProjectInfo } from './FProjectInfo.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { Workshop } from '../../common/dba/Workshop.js';
-import { api } from '../../common/plt/Api.js';
 
 export class FOwnerProjectList extends FProjectList {
   #ownerId = null;

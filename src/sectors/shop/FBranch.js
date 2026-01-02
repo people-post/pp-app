@@ -15,7 +15,6 @@ import { PBranchSmall } from './PBranchSmall.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { Address as AddressDBA } from '../../common/dba/Address.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
 import { FvcAddressEditor } from '../../sectors/account/FvcAddressEditor.js';
 

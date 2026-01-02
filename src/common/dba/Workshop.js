@@ -3,7 +3,6 @@ import { WorkshopTeam } from '../datatypes/WorkshopTeam.js';
 import { Tag } from '../datatypes/Tag.js';
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
-import { api } from '../plt/Api.js';
 import { Project } from '../datatypes/Project.js';
 
 export const Workshop = function() {

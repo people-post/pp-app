@@ -1,5 +1,4 @@
 import { FScrollViewContent } from '../lib/ui/controllers/fragments/FScrollViewContent.js';
-import { api } from '../common/plt/Api.js';
 
 class NutritionLib {
   constructor(data) {

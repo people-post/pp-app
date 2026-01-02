@@ -2,7 +2,6 @@ import { FEmailList } from './FEmailList.js';
 import { FEmail } from './FEmail.js';
 import { Mail } from '../../common/dba/Mail.js';
 import { Email } from '../../common/datatypes/Email.js';
-import { api } from '../../common/plt/Api.js';
 
 export class FAllEmailList extends FEmailList {
   constructor() {

@@ -1,5 +1,4 @@
 import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
-import { api } from '../../common/plt/Api.js';
 import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 
 export class SimpleLongListFragment extends FLongListLegacy {

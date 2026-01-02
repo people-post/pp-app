@@ -7,7 +7,6 @@ import { PBasic } from './PBasic.js';
 import { FvcChangePassword } from '../auth/FvcChangePassword.js';
 import { Account } from '../../common/dba/Account.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 
 export class FvcBasic extends FScrollViewContent {
   constructor() {

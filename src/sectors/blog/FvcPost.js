@@ -19,7 +19,6 @@ import { Blog } from '../../common/dba/Blog.js';
 import { Account } from '../../common/dba/Account.js';
 import { Groups } from '../../common/dba/Groups.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
-import { api } from '../../common/plt/Api.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Utilities as blogUtilities } from './Utilities.js';
 

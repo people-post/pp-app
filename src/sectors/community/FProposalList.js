@@ -3,7 +3,6 @@ import { Proposal } from '../../common/datatypes/Proposal.js';
 import { DefaultLongList } from '../../common/gui/DefaultLongList.js';
 import { Communities } from '../../common/dba/Communities.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
-import { api } from '../../common/plt/Api.js';
 import { FProposal } from './FProposal.js';
 import { FvcProposal } from './FvcProposal.js';
 

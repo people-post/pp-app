@@ -1,6 +1,5 @@
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Product } from '../../common/datatypes/Product.js';
-import { api } from '../../common/plt/Api.js';
 import { FProductList } from './FProductList.js';
 import { FProduct } from './FProduct.js';
 import { Shop } from '../../common/dba/Shop.js';

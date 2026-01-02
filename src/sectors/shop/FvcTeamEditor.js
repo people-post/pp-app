@@ -15,7 +15,6 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
-import { api } from '../../common/plt/Api.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Groups } from '../../common/dba/Groups.js';

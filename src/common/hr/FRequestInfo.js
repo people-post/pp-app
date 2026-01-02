@@ -7,7 +7,6 @@ import { UserRequest } from '../datatypes/UserRequest.js';
 import { Account } from '../dba/Account.js';
 import { Groups } from '../dba/Groups.js';
 import Utilities from '../Utilities.js';
-import { api } from '../plt/Api.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export const CF_REQUEST_INFO = {

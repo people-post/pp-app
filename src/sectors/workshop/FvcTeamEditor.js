@@ -19,7 +19,6 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Groups } from '../../common/dba/Groups.js';
 import { WorkshopTeam } from '../../common/datatypes/WorkshopTeam.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
-import { Api } from '../../common/plt/Api.js';
 
 export class FvcTeamEditor extends FScrollViewContent {
   constructor() {
@@ -153,20 +152,20 @@ export class FvcTeamEditor extends FScrollViewContent {
   #asyncRequestAddTeam(data) {
     let url = "api/workshop/add_team";
     let fd = this.#makeForm(data);
-    Api.asyncFragmentPost(this, url, fd).then(d => this.#onNewTeamRRR(d));
+    glb.api.asyncFragmentPost(this, url, fd).then(d => this.#onNewTeamRRR(d));
   }
 
   #asyncRequestEditTeam(data) {
     let url = "api/workshop/update_team";
     let fd = this.#makeForm(data);
-    Api.asyncFragmentPost(this, url, fd).then(d => this.#onEditTeamRRR(d));
+    glb.api.asyncFragmentPost(this, url, fd).then(d => this.#onEditTeamRRR(d));
   }
 
   #asyncRequestDeleteTeam(id) {
     let url = "api/workshop/delete_team";
     let fd = FormData();
     fd.append("id", id);
-    Api.asyncFragmentPost(this, url, fd)
+    glb.api.asyncFragmentPost(this, url, fd)
         .then(d => this.#onDeleteTeamRRR(d));
   }
 

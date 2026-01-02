@@ -1,6 +1,5 @@
 
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
-import { api } from '../../common/plt/Api.js';
 import { PerishableObject } from '../../lib/ext/PerishableObject.js';
 
 export class FvcBlockchain extends FViewContentBase {

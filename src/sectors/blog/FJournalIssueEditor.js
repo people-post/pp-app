@@ -53,7 +53,6 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { R } from '../../common/constants/R.js';
 import { FPostInfo } from './FPostInfo.js';
-import { api } from '../../common/plt/Api.js';
 import { T_DATA } from '../../common/plt/Events.js';
 
 export class PEditor extends Panel {

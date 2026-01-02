@@ -3,7 +3,6 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { PreviewOrder } from '../../common/datatypes/PreviewOrder.js';
-import { api } from '../../common/plt/Api.js';
 import { FChooseCheckoutItem } from './FChooseCheckoutItem.js';
 import { FCart } from '../../sectors/cart/FCart.js';
 import { FvcCheckout } from '../../sectors/cart/FvcCheckout.js';

@@ -5,7 +5,6 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
-import { api } from '../../common/plt/Api.js';
 
 const _CFT_RETRIEVE_PASSWORD = {
   MAIN : `<table class="automargin">

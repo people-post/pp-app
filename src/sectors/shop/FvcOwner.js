@@ -16,7 +16,6 @@ import { FvcProductEditor } from './FvcProductEditor.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { Cart } from '../../common/dba/Cart.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Account } from '../../common/dba/Account.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';

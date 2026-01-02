@@ -1,5 +1,4 @@
 import { FileUploader } from '../plt/FileUploader.js';
-import { api } from '../plt/Api.js';
 import { Account } from './Account.js';
 
 export class Web3FileUploader extends FileUploader {

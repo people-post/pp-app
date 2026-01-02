@@ -1,5 +1,4 @@
 import { LvTabbedPage } from './LvTabbedPage.js';
-import { api } from '../common/plt/Api.js';
 import { AbAccount } from './AbAccount.js';
 import { FHomeBtn } from './FHomeBtn.js';
 import { URL_PARAM } from '../common/constants/Constants.js';

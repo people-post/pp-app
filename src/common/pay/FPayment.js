@@ -10,7 +10,6 @@ import { T_DATA } from '../plt/Events.js';
 import { Exchange } from '../dba/Exchange.js';
 import { Account } from '../dba/Account.js';
 import { Cart } from '../dba/Cart.js';
-import { api } from '../plt/Api.js';
 
 const _CFT_PAYMENT = {
   TITLE : `<div class="payment-choice-title">__TEXT__</div>`,

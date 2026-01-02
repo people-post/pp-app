@@ -5,7 +5,6 @@ import { AbAccount } from './AbAccount.js';
 import { View } from '../lib/ui/controllers/views/View.js';
 import { FvcQuotaLimit } from '../common/gui/FvcQuotaLimit.js';
 import { Tag } from '../common/datatypes/Tag.js';
-import { api } from '../common/plt/Api.js';
 import { T_ACTION } from '../common/plt/Events.js';
 import { Events, T_DATA } from '../lib/framework/Events.js';
 import { WebConfig } from '../common/dba/WebConfig.js';

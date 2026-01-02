@@ -34,7 +34,6 @@ import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { Project } from '../../common/datatypes/Project.js';
-import { Api } from '../../common/plt/Api.js';
 import { VIS } from '../../common/constants/Constants.js';
 
 export class FvcProjectEditor extends FScrollViewContent {

@@ -25,7 +25,6 @@ import { Project } from '../../common/datatypes/Project.js';
 import { ProjectActor } from '../../common/datatypes/ProjectActor.js';
 import { Utilities } from '../../common/Utilities.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { Api } from '../../common/plt/Api.js';
 import { PProject } from './PProject.js';
 import { FProjectActorInfo } from './FProjectActorInfo.js';
 import { FProjectStage } from './FProjectStage.js';

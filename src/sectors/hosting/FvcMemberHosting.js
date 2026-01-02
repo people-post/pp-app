@@ -16,7 +16,6 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FWaiting } from '../../lib/ui/controllers/fragments/FWaiting.js';
 import { FvcConfirmAction } from '../../lib/ui/controllers/views/FvcConfirmAction.js';
 import { RemoteError } from '../../common/datatypes/RemoteError.js';
-import { api } from '../../common/plt/Api.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Hosting } from '../../common/dba/Hosting.js';
 import { FvcNsHowto } from './FvcNsHowto.js';

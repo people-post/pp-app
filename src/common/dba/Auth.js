@@ -1,6 +1,5 @@
 import { CronJob } from '../../lib/ext/CronJob.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
-import { api } from '../plt/Api.js';
 import { TYPE } from '../constants/Constants.js';
 
 function createAuth() {

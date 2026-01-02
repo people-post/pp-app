@@ -12,7 +12,6 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { UserRole } from '../../common/datatypes/UserRole.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Users } from '../../common/dba/Users.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';

@@ -8,7 +8,6 @@ import { FvcConfirmAction } from '../lib/ui/controllers/views/FvcConfirmAction.j
 import { FvcNotice } from '../lib/ui/controllers/views/FvcNotice.js';
 import { LvDialog } from '../lib/ui/controllers/layers/LvDialog.js';
 import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
-import { api } from '../common/plt/Api.js';
 import { T_ACTION } from '../common/plt/Events.js';
 import { Web2FileUploader } from '../common/plt/Web2FileUploader.js';
 import { Events as FwkEvents, T_ACTION as FwkT_ACTION, T_DATA } from '../lib/framework/Events.js';

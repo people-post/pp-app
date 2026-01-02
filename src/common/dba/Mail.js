@@ -1,6 +1,5 @@
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
-import { api } from '../plt/Api.js';
 import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 import { Email } from '../datatypes/Email.js';
 

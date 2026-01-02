@@ -20,7 +20,6 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FQuoteElement } from './FQuoteElement.js';
 import { PArticleEditor } from './PArticleEditor.js';
-import { api } from '../../common/plt/Api.js';
 
 export class FArticleEditor extends Fragment {
   #fTitle;

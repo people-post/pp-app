@@ -2,7 +2,6 @@ import ExtApi from '../../lib/ext/Api.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
 import { WebConfig } from '../dba/WebConfig.js';
-import { glb } from '../../lib/framework/Global.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -122,7 +121,9 @@ export class Api {
   }
 
   #wrapUrl(url: string): string {
-    if ((glb as { env?: { isTrustedSite(): boolean } }).env?.isTrustedSite() || WebConfig.isDevSite()) {
+    // Access glb from window for runtime access
+    const glbEnv = (typeof window !== 'undefined' && (window as { glb?: { env?: { isTrustedSite(): boolean } } }).glb?.env) || null;
+    if ((glbEnv?.isTrustedSite() || WebConfig.isDevSite())) {
       if (url.indexOf('?') > 0) {
         return url + '&' + URL_PARAM.USER + '=' + WebConfig.getOwnerId();
       } else {
@@ -133,6 +134,4 @@ export class Api {
     }
   }
 }
-
-export const api = new Api();
 

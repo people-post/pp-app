@@ -5,7 +5,6 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FPaymentTerminal } from './FPaymentTerminal.js';
 import { PaymentTerminal } from '../datatypes/PaymentTerminal.js';
-import { api } from '../plt/Api.js';
 
 export class FPaymentTerminalList extends Fragment {
   constructor() {

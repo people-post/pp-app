@@ -2,7 +2,6 @@ import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Ev
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Account } from './Account.js';
 import { User } from '../datatypes/User.js';
-import { api } from '../plt/Api.js';
 import { PATH } from '../constants/Constants.js';
 import { glb } from '../../lib/framework/Global.js';
 import { User as PpUser } from 'pp-api';

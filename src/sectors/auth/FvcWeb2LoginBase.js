@@ -2,7 +2,6 @@ import { FvcLoginBase } from './FvcLoginBase.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { T_ACTION } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { Events } from '../../lib/framework/Events.js';
 import { Auth } from '../../common/dba/Auth.js';
 export class FvcWeb2LoginBase extends FvcLoginBase {

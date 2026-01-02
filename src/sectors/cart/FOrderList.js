@@ -4,7 +4,6 @@ import { FOrder } from './FOrder.js';
 import { FvcOrder } from './FvcOrder.js';
 import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
 import { Account } from '../../common/dba/Account.js';
-import { Api } from '../../common/plt/Api.js';
 
 export class FOrderList extends DefaultLongList {
   isOrderSelected(orderId) { return this._currentId == orderId; }

@@ -23,7 +23,6 @@ import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Groups } from '../../common/dba/Groups.js';
 import { Blog } from '../../common/dba/Blog.js';
-import { api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
 
 export class FvcRoleEditor extends FScrollViewContent {

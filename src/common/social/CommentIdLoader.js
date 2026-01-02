@@ -1,7 +1,6 @@
 import { LongListIdLoader } from '../plt/LongListIdLoader.js';
 import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 import { SocialItemId } from '../datatypes/SocialItemId.js';
-import { api } from '../plt/Api.js';
 import { Blog } from '../dba/Blog.js';
 
 export class CommentIdLoader extends LongListIdLoader {

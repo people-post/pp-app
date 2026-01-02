@@ -1,7 +1,6 @@
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { BufferedList } from '../../common/datatypes/BufferedList.js';
 import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
-import { api } from '../../common/plt/Api.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 import { Account } from '../../common/dba/Account.js';

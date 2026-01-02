@@ -7,7 +7,6 @@ import { FvcAddressEditor } from './FvcAddressEditor.js';
 import { Address as AddressDBA } from '../../common/dba/Address.js';
 import { Account } from '../../common/dba/Account.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
 
 export class FvcAddressList extends FScrollViewContent {

@@ -4,12 +4,14 @@ import { WcGadget } from './session/WcGadget.js';
 import { WcSub } from './session/WcSub.js';
 import { WcPortal } from './session/WcPortal.js';
 import { Env } from './common/plt/Env.js';
+import { Api } from './common/plt/Api.js';
 import { Events } from './lib/framework/Events.js';
 import { TYPE } from './common/constants/Constants.js';
 import { glb } from './lib/framework/Global.js';
 
-// Create env instance
+// Create env and api instances
 const env = new Env();
+const api = new Api();
 
 const G = function() {
   let _session = null;
@@ -77,6 +79,7 @@ const G = function() {
 
 // Populate glb namespace
 glb.env = env;
+glb.api = api;
 
 // Export to window for global access
 if (typeof window !== 'undefined') {

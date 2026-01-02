@@ -1,7 +1,6 @@
 import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { api } from '../../common/plt/Api.js';
 import { FPostBase } from './FPostBase.js';
 import { R } from '../../common/constants/R.js';
 import { FUserIcon } from '../../common/hr/FUserIcon.js';

@@ -9,7 +9,6 @@ import { Account } from '../dba/Account.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import Utilities from '../Utilities.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
-import { api } from '../plt/Api.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import { glb } from '../../lib/framework/Global.js';
 import { FvcQuoteEditor } from '../../sectors/blog/FvcQuoteEditor.js';

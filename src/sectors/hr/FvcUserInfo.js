@@ -3,7 +3,6 @@ import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContent
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { FUserInfoHeroBanner } from './FUserInfoHeroBanner.js';
 import { FvcOwnerPosts } from '../blog/FvcOwnerPosts.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';

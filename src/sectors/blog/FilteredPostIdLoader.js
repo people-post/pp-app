@@ -1,7 +1,6 @@
 import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
-import { api } from '../../common/plt/Api.js';
 import { Groups } from '../../common/dba/Groups.js';
 import { Blog } from '../../common/dba/Blog.js';
 

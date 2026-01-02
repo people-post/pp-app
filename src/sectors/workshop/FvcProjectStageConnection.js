@@ -7,7 +7,6 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { Api } from '../../common/plt/Api.js';
 import { FProjectStage } from './FProjectStage.js';
 
 export class FvcProjectStageConnection extends FScrollViewContent {

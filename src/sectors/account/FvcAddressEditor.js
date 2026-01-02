@@ -5,7 +5,6 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Address as AddressDBA } from '../../common/dba/Address.js';
 import { Account } from '../../common/dba/Account.js';
-import { api } from '../../common/plt/Api.js';
 import { Address as AddressDataType } from '../../common/datatypes/Address.js';
 
 export class FvcAddressEditor extends FScrollViewContent {

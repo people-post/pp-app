@@ -2,7 +2,6 @@ import { FvcWeb2LoginBase } from './FvcWeb2LoginBase.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { api } from '../../common/plt/Api.js';
 import { Events } from '../../lib/framework/Events.js';
 import { URL_PARAM, ID } from '../../common/constants/Constants.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';

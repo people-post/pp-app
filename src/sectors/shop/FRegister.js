@@ -8,7 +8,6 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ShopRegister } from '../../common/datatypes/ShopRegister.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { PRegisterSmall } from './PRegisterSmall.js';
 import { PRegister } from './PRegister.js';
 import { FPaymentTerminalList } from '../../common/pay/FPaymentTerminalList.js';

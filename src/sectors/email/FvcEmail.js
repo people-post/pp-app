@@ -7,7 +7,6 @@ import { Timer } from '../../lib/ext/Timer.js';
 import { Mail } from '../../common/dba/Mail.js';
 import { Email } from '../../common/datatypes/Email.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 

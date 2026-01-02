@@ -1,7 +1,6 @@
 import { FSearch } from './FSearch.js';
 import { SearchConfig } from '../datatypes/SearchConfig.js';
 import { SearchResult } from '../datatypes/SearchResult.js';
-import { api } from '../plt/Api.js';
 import Utilities from '../Utilities.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 

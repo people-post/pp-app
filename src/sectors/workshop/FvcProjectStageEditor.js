@@ -15,7 +15,6 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { Project } from '../../common/datatypes/Project.js';
-import { api } from '../../common/plt/Api.js';
 
 export class FvcProjectStageEditor extends FScrollViewContent {
   constructor() {

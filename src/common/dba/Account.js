@@ -2,7 +2,6 @@ import { WebConfig } from './WebConfig.js';
 import { Users } from './Users.js';
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
-import { api } from '../plt/Api.js';
 import { CustomerOrder } from '../datatypes/CustomerOrder.js';
 
 export class Web2Account {
@@ -140,14 +139,14 @@ export class Web2Account {
     let url = "api/user/follow";
     let fd = new FormData();
     fd.append("userId", userId);
-    api.asyncRawPost(url, fd, r => this.#onFollowRRR(r));
+    glb.api.asyncRawPost(url, fd, r => this.#onFollowRRR(r));
   }
 
   asyncUnfollow(userId) {
     let url = "api/user/unfollow";
     let fd = new FormData();
     fd.append("userId", userId);
-    api.asyncRawPost(url, fd, r => this.#onFollowRRR(r));
+    glb.api.asyncRawPost(url, fd, r => this.#onFollowRRR(r));
   }
 
   asyncReload() {
@@ -176,7 +175,7 @@ export class Web2Account {
 
   #asyncLoadProfile() {
     let url = "/api/user/profile";
-    api.asyncRawCall(url, r => this.#onProfileRRR(r));
+    glb.api.asyncRawCall(url, r => this.#onProfileRRR(r));
   }
 
   #onProfileRRR(responseText) {

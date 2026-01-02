@@ -5,7 +5,6 @@ import { FrontPageConfig } from '../datatypes/FrontPageConfig.js';
 import { Tag } from '../datatypes/Tag.js';
 import { User } from '../datatypes/User.js';
 import { Menus } from './Menus.js';
-import { api } from '../plt/Api.js';
 import { ID, URL_PARAM } from '../constants/Constants.js';
 import { glb } from '../../lib/framework/Global.js';
 
@@ -174,7 +173,7 @@ export const WebConfig = function() {
     let url = "api/user/set_home_sector";
     let fd = new FormData();
     fd.append("sector", sectorId);
-    api.asyncRawPost(url, fd, r => __onSetHomeSectorRRR(r));
+    glb.api.asyncRawPost(url, fd, r => __onSetHomeSectorRRR(r));
   }
 
   function _asyncUpdateGroupConfig(groupId, newName = null, themeKey = null,
@@ -191,7 +190,7 @@ export const WebConfig = function() {
     if (themeColor) {
       fd.append('color', themeColor)
     }
-    api.asyncRawPost(url, fd, r => __onUpdateGroupRRR(r));
+    glb.api.asyncRawPost(url, fd, r => __onUpdateGroupRRR(r));
   }
 
   function __getRoleDatas() {

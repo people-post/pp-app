@@ -1,7 +1,6 @@
 import { PerishableObject } from '../../lib/ext/PerishableObject.js';
 import { T_DATA } from '../plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
-import { api } from '../plt/Api.js';
 
 function createHosting() {
   let __status = new PerishableObject(5000);

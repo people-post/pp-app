@@ -3,7 +3,6 @@ import { SupplierOrderPrivate } from '../../common/datatypes/SupplierOrderPrivat
 import { DefaultLongList } from '../../common/gui/DefaultLongList.js';
 import { FSupplierOrder } from './FSupplierOrder.js';
 import { FvcSupplierOrder } from './FvcSupplierOrder.js';
-import { api } from '../../common/plt/Api.js';
 import { Shop } from '../../common/dba/Shop.js';
 
 export class FSupplierOrderList extends DefaultLongList {

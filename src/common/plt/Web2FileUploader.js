@@ -1,5 +1,4 @@
 import { FileUploader } from './FileUploader.js';
-import { api } from './Api.js';
 
 export class Web2FileUploader extends FileUploader {
   _asyncUploadThumbnail(file) {

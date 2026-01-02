@@ -10,7 +10,6 @@ import { Workshop } from '../../common/dba/Workshop.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Account } from '../../common/dba/Account.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Project } from '../../common/datatypes/Project.js';

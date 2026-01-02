@@ -14,7 +14,6 @@ import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
 import { CartItem } from '../../common/datatypes/CartItem.js';
 import { WalkinQueueItem } from '../../common/datatypes/WalkinQueueItem.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { PWalkinQueueItem } from './PWalkinQueueItem.js';
 import { PWalkinQueueItemInfo } from './PWalkinQueueItemInfo.js';

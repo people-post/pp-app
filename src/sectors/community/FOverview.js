@@ -11,7 +11,6 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
 import { CommunityProfile } from '../../common/datatypes/CommunityProfile.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FHeaderEditor } from './FHeaderEditor.js';
 import { POverview } from './POverview.js';

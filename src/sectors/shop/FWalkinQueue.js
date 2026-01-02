@@ -3,7 +3,6 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { WalkinQueueItem } from '../../common/datatypes/WalkinQueueItem.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { FvcWalkinQueueItem } from './FvcWalkinQueueItem.js';
 import { FWalkinQueueItem } from './FWalkinQueueItem.js';
 import { WalkinQueue } from '../../common/dba/WalkinQueue.js';

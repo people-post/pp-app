@@ -16,7 +16,6 @@ import { FRoleList } from './FRoleList.js';
 import { FPostInfo } from './FPostInfo.js';
 import { FPostInfoLayoutPreview } from './FPostInfoLayoutPreview.js';
 import { FvcRoleEditor } from './FvcRoleEditor.js';
-import { api } from '../../common/plt/Api.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
 

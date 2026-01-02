@@ -1,6 +1,5 @@
 import { T_DATA } from '../plt/Events.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
-import { api } from '../plt/Api.js';
 import { UserGroup } from '../datatypes/UserGroup.js';
 
 function createGroups() {

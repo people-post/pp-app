@@ -2,7 +2,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
-import { api } from '../../common/plt/Api.js';
 
 export const CF_CHANGE_PASSWORD = {
   SUBMIT : Symbol(),

@@ -1,7 +1,6 @@
 import { FScrollViewContent } from '../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ButtonGroup } from '../lib/ui/controllers/fragments/ButtonGroup.js';
 import { HintText } from '../lib/ui/controllers/fragments/HintText.js';
-import { api } from '../common/plt/Api.js';
 import { VIS } from '../common/constants/Constants.js';
 
 window.C_LIVE_STREAM = {

@@ -13,7 +13,6 @@ import { Account } from '../../common/dba/Account.js';
 import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
 import { PreviewOrder } from '../../common/datatypes/PreviewOrder.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { Api } from '../../common/plt/Api.js';
 import { URL_PARAM, URL_PARAM_ADDON_VALUE } from '../../common/constants/Constants.js';
 import { FvcCheckout } from './FvcCheckout.js';
 import { Gateway as AuthGateway } from '../auth/Gateway.js';

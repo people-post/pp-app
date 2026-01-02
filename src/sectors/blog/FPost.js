@@ -16,7 +16,6 @@ import { Utilities } from '../../common/Utilities.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { PPost } from './PPost.js';
 import { FArticle } from './FArticle.js';
 import { FFeedArticleInfo } from './FFeedArticleInfo.js';

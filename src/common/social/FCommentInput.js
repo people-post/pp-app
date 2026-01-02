@@ -9,7 +9,6 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Account } from '../dba/Account.js';
 import { FHashtag } from '../gui/FHashtag.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
-import { api } from '../plt/Api.js';
 import { dat } from 'pp-api';
 
 const { OArticle } = dat;

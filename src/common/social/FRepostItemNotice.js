@@ -5,7 +5,6 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { PRepostItemNotice } from './PRepostItemNotice.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
 import { Blog } from '../dba/Blog.js';
-import { api } from '../plt/Api.js';
 
 export class FRepostItemNotice extends Fragment {
   constructor() {

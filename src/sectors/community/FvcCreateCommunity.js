@@ -12,7 +12,6 @@ const _CFT_CREATE_COMMUNITY_CONTENT = {
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
 import { Users } from '../../common/dba/Users.js';
 

@@ -6,7 +6,6 @@ import { FMediaFile } from './FMediaFile.js';
 import { CronJob } from '../../lib/ext/CronJob.js';
 import { SimpleProgress } from '../../lib/ui/controllers/fragments/SimpleProgress.js';
 import { T_DATA } from '../plt/Events.js';
-import { api } from '../plt/Api.js';
 
 export const CF_GALLERY = {
   PREV_IMAGE_SLIDE : Symbol(),

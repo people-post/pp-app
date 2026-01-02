@@ -1,6 +1,5 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Product } from '../../common/datatypes/Product.js';
-import { api } from '../../common/plt/Api.js';
 import { FProductList } from './FProductList.js';
 import { FvcProductEditor } from './FvcProductEditor.js';
 import { FProduct } from './FProduct.js';

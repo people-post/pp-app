@@ -1,6 +1,5 @@
 import Controller from '../../lib/ext/Controller.js';
 import { Signal } from '../dba/Signal.js';
-import { api } from '../plt/Api.js';
 import { RealTimeComment } from '../datatypes/RealTimeComment.js';
 import { BufferedList } from '../datatypes/BufferedList.js';
 import { CHANNEL } from '../constants/Constants.js';

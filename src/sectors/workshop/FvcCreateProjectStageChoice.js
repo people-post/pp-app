@@ -6,7 +6,6 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { ProjectStage } from '../../common/datatypes/ProjectStage.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { Workshop } from '../../common/dba/Workshop.js';
-import { Api } from '../../common/plt/Api.js';
 import { FvcProjectStageEditor } from './FvcProjectStageEditor.js';
 
 export class FvcCreateProjectStageChoice extends FScrollViewContent {

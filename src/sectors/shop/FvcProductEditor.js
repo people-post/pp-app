@@ -34,7 +34,6 @@ import { FProductDeliveryEditorManager } from './FProductDeliveryEditorManager.j
 import { PProductEditor } from './PProductEditor.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Shop } from '../../common/dba/Shop.js';
-import { api } from '../../common/plt/Api.js';
 
 export class FvcProductEditor extends FScrollViewContent {
   constructor() {

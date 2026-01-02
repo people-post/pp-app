@@ -1,7 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
-import { api } from '../../common/plt/Api.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 
 export const CF_RESET_PASSWORD = {

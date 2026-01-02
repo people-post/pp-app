@@ -8,7 +8,6 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { SplitPanel } from '../../lib/ui/renders/panels/SplitPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { FUserIdInput } from '../../common/hr/FUserIdInput.js';
 import { Communities } from '../../common/dba/Communities.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';

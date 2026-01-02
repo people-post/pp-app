@@ -5,7 +5,6 @@ import { BlogRole } from '../datatypes/BlogRole.js';
 import { Tag } from '../datatypes/Tag.js';
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
-import { api } from '../plt/Api.js';
 import { BlogConfig } from '../datatypes/BlogConfig.js';
 import { Article } from '../datatypes/Article.js';
 import { FeedArticle } from '../datatypes/FeedArticle.js';

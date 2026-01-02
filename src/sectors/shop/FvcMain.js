@@ -7,7 +7,6 @@ import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js
 import { URL_PARAM, URL_PARAM_ADDON_VALUE } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { api } from '../../common/plt/Api.js';
 import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { FvcTeamEditor } from './FvcTeamEditor.js';
 import { FvcOrderHistory } from './FvcOrderHistory.js';
