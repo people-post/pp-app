@@ -16,10 +16,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const WORK_DIR = 'obj';
-const ENTRY_APP_JS = 'src/index_app.js';
-const ENTRY_SW_JS = 'src/index_sw.js';
-const BUNDLE_JS_PATH = path.join(WORK_DIR, 'app-min.js');
-const BUNDLE_SW_PATH = path.join(WORK_DIR, 'sw-min.js');
+const ENTRY_APP_JS = 'src/app.js';
+const ENTRY_SW_JS = 'src/sw.js';
+const BUNDLE_JS_PATH = path.join(WORK_DIR, 'app.js');
+const BUNDLE_SW_PATH = path.join(WORK_DIR, 'sw.js');
 
 /**
  * Bundle JavaScript using esbuild
@@ -126,8 +126,9 @@ async function build() {
   fs.mkdirSync(path.join(WEB3_DIR, 'user'), { recursive: true });
   fs.mkdirSync(path.join(WEB3_DIR, 'static'), { recursive: true });
   fs.copyFileSync('html/web3.html', path.join(WEB3_DIR, 'index.html'));
-  fs.copyFileSync(cssOutputFile, path.join(WEB3_DIR, 'static', 'hst-min.css'));
-  fs.copyFileSync(BUNDLE_JS_PATH, path.join(WEB3_DIR, 'static', 'hst-min.js'));
+  fs.copyFileSync(cssOutputFile, path.join(WEB3_DIR, 'static', 'app.css'));
+  fs.copyFileSync(BUNDLE_JS_PATH, path.join(WEB3_DIR, 'static', 'app.js'));
+  fs.copyFileSync(BUNDLE_JS_PATH + '.map', path.join(WEB3_DIR, 'static', 'app.js.map'));
   fs.copyFileSync('configs/web3_config.js', path.join(WEB3_DIR, 'user', 'config.js'));
   fs.copyFileSync('configs/web3_config_example.js', path.join(WEB3_DIR, 'user', 'config.js.bak'));
   fs.copyFileSync('ext/cardano.min.js', path.join(WEB3_DIR, 'static', 'cardano-min.js'));
