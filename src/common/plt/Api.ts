@@ -1,4 +1,4 @@
-import ExtApi from '../../lib/ext/Api.js';
+import { Api as ExtApi } from '../../lib/ext/Api.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
 import { WebConfig } from '../dba/WebConfig.js';
@@ -13,9 +13,15 @@ interface FragmentDelegate {
 }
 
 export class Api {
+  #extApi: ExtApi;
+
+  constructor() {
+    this.#extApi = new ExtApi();
+  }
+
   asyncCall(url: string): Promise<unknown> {
     return new Promise((onOk, onErr) =>
-      ExtApi.asyncCall(
+      this.#extApi.asyncCall(
         this.#wrapUrl(url),
         (txt: string) => this.#onRRR(txt, onOk, onErr),
         (_txt: string) => this.#onConnErr(_txt, onErr)
@@ -25,7 +31,7 @@ export class Api {
 
   asyncPost(url: string, data: unknown, onProg: ((loaded: number) => void) | null = null): Promise<unknown> {
     return new Promise((onOk, onErr) =>
-      ExtApi.asyncFormPost(
+      this.#extApi.asyncFormPost(
         this.#wrapUrl(url),
         data,
         (txt: string) => this.#onRRR(txt, onOk, onErr),
@@ -37,7 +43,7 @@ export class Api {
 
   asyncFragmentCall(f: FragmentDelegate, url: string): Promise<unknown> {
     return new Promise((_onOk, _onErr) =>
-      ExtApi.asyncCall(
+      this.#extApi.asyncCall(
         this.#wrapUrl(url),
         (txt: string) => this.#onFragmentRRR(f, txt, _onOk),
         (txt: string) => this.#onFragmentConnErr(txt, f)
@@ -52,7 +58,7 @@ export class Api {
     onProg: ((loaded: number) => void) | null = null
   ): Promise<unknown> {
     return new Promise((_onOk, _onErr) =>
-      ExtApi.asyncJsonPost(
+      this.#extApi.asyncJsonPost(
         this.#wrapUrl(url),
         data,
         (txt: string) => this.#onFragmentRRR(f, txt, _onOk),
@@ -69,7 +75,7 @@ export class Api {
     onProg: ((loaded: number) => void) | null = null
   ): Promise<unknown> {
     return new Promise((_onOk, _onErr) =>
-      ExtApi.asyncFormPost(
+      this.#extApi.asyncFormPost(
         this.#wrapUrl(url),
         data,
         (txt: string) => this.#onFragmentRRR(f, txt, _onOk),
@@ -80,7 +86,7 @@ export class Api {
   }
 
   asyncRawCall(url: string, onOk: ((txt: string) => void) | null, onErr: ((txt: string) => void) | null): void {
-    ExtApi.asyncCall(
+    this.#extApi.asyncCall(
       this.#wrapUrl(url),
       onOk ? onOk : this.#dummyFunc,
       onErr ? onErr : this.#dummyFunc
@@ -94,7 +100,13 @@ export class Api {
     onErr: ((txt: string) => void) | null,
     onProg: ((loaded: number) => void) | null = null
   ): void {
-    ExtApi.asyncFormPost(this.#wrapUrl(url), data, onOk, onErr ? onErr : this.#dummyFunc, (onProg as unknown) as null | undefined);
+    this.#extApi.asyncFormPost(
+      this.#wrapUrl(url),
+      data,
+      onOk ? onOk : this.#dummyFunc,
+      onErr ? onErr : this.#dummyFunc,
+      (onProg as unknown) as null | undefined
+    );
   }
 
   #dummyFunc(_dummy: unknown): void {}
