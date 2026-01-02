@@ -1,0 +1,58 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    
+    /* Interop Constraints */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    
+    /* Type Checking */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": false,
+    
+    /* Emit */
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "removeComments": false,
+    "noEmit": true, // We use esbuild for bundling, so TypeScript only type-checks
+    
+    /* JavaScript Support */
+    "allowJs": true, // Enable gradual migration from JS to TS
+    "checkJs": false, // Don't type-check JS files initially (can enable later)
+    
+    /* Completeness */
+    "skipLibCheck": true // Skip type checking of declaration files for faster compilation
+  },
+  "include": [
+    "src/**/*",
+    "build.js",
+    "scripts/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "obj",
+    "dist",
+    "legacy",
+    "**/*.test.js",
+    "**/__tests__/**"
+  ]
+}
+

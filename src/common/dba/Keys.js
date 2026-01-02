@@ -8,6 +8,7 @@ import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import Utilities from '../../lib/ext/Utilities.js';
 import * as bip39 from '../../lib/3rd/bip39.js';
 import * as scureBip32 from '../../lib/3rd/bip32.js';
+import { generateFromSeed } from 'bip32-ed25519';
 import { sys } from 'pp-api';
 
 export const Keys = function() {
@@ -111,7 +112,7 @@ export const Keys = function() {
   function __getBip32Ed25519Impl(path) {
     let k = _METHOD.BIP32_ED25119;
     if (!_lib.has(k)) {
-      let kBuffer = Bip32Ed25519.generateFromSeed(_seed);
+      let kBuffer = generateFromSeed(_seed);
       __updateLib(k, new KeyNode(new Bip32Ed25519Key(kBuffer)));
     }
     return _lib.get(k).get(path, [ 1, 1, 1 ]);
@@ -134,7 +135,7 @@ export const Keys = function() {
   }
 
   async function __deriveBip44Ed25519RootKeyFromSeed() {
-    let kBuffer = Bip32Ed25519.generateFromSeed(_seed);
+    let kBuffer = generateFromSeed(_seed);
     return Cardano.Bip32PrivateKey.from_bytes(kBuffer);
   }
 

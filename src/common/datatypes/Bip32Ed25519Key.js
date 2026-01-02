@@ -1,4 +1,5 @@
 import Utilities from '../../lib/ext/Utilities.js';
+import { derivePrivate, toPublic } from 'bip32-ed25519';
 
 export class Bip32Ed25519Key {
   #buffer = null; // Uint8Array
@@ -6,13 +7,13 @@ export class Bip32Ed25519Key {
   constructor(buffer) { this.#buffer = buffer; }
 
   derive(index) {
-    let nk = Bip32Ed25519.derivePrivate(this.#buffer, index);
+    let nk = derivePrivate(this.#buffer, index);
     return new Bip32Ed25519Key(nk);
   }
 
   deriveSeed() { return this.derive(777).toPublic().slice(0, 32); }
 
-  toPublic() { return Bip32Ed25519.toPublic(this.#buffer); }
+  toPublic() { return toPublic(this.#buffer); }
 
   async toPublicAsync() {
     return await nobleEd25519.getPublicKeyAsync(this.#getPrivateKey());
