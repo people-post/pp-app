@@ -1,7 +1,7 @@
 import { Wallet } from '../datatypes/Wallet.js';
 import { KeyNode } from '../datatypes/KeyNode.js';
 import { Cip1852Key } from '../datatypes/Cip1852Key.js';
-import { Bip32Ed25519Key } from '../datatypes/Bip32Ed25519Key.js';
+import { Bip32Ed25519Key } from '../datatypes/Bip32Ed25519Key';
 import { MlDsa44Key } from '../datatypes/MlDsa44Key.js';
 import { Events as FwkEvents } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
