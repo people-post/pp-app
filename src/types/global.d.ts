@@ -53,9 +53,12 @@ declare global {
     };
     Credential: {
       from_keyhash(hash: Uint8Array): unknown;
+      new?(): unknown;
     };
     BaseAddress: {
-      new(networkId: number, payment: unknown, staking: unknown): unknown;
+      new(networkId: number, payment: unknown, staking: unknown): {
+        to_address(): unknown;
+      };
     };
     make_vkey_witness(message: Uint8Array, key: unknown): unknown;
   };

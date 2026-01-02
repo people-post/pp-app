@@ -1,0 +1,55 @@
+import { SocialItemId } from './SocialItemId.js';
+import { SocialItem } from './SocialItem.js';
+
+interface BlogConfigData {
+  is_social_action_enabled?: boolean;
+  pinned_items?: Array<{ id: string; type: string }>;
+  item_layout?: { type: string };
+  pinned_item_layout?: { type: string };
+  [key: string]: unknown;
+}
+
+export class BlogConfig {
+  #pinnedIds: SocialItemId[] = [];
+  protected _data: BlogConfigData;
+
+  constructor(data: BlogConfigData) {
+    this._data = data;
+    if (data.pinned_items) {
+      this.#pinnedIds = data.pinned_items.map((i) => new SocialItemId(i.id, i.type));
+    }
+  }
+
+  isSocialActionEnabled(): boolean {
+    return !!this._data.is_social_action_enabled;
+  }
+
+  isPostPinned(postId: string): boolean {
+    return this.#pinnedIds.some((i) => i.getValue() == postId);
+  }
+
+  getPinnedPostIds(): SocialItemId[] {
+    return this.#pinnedIds;
+  }
+
+  getItemLayoutType(): string {
+    return this.#getLayoutType(this._data.item_layout);
+  }
+
+  getPinnedItemLayoutType(): string {
+    return this.#getLayoutType(this._data.pinned_item_layout);
+  }
+
+  getPostLayoutType(postId: string): string {
+    if (this.isPostPinned(postId)) {
+      return this.getPinnedItemLayoutType();
+    } else {
+      return this.getItemLayoutType();
+    }
+  }
+
+  #getLayoutType(d: { type: string } | undefined): string {
+    return d ? d.type : SocialItem.T_LAYOUT.MEDIUM;
+  }
+}
+
