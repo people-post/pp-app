@@ -4,7 +4,7 @@ import { FvcLoginProxy } from './FvcLoginProxy.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
-import { env } from '../../common/plt/Env.js';
+import { glb } from '../../lib/framework/Global.js';
 
 export class Gateway extends SectorGateway {
   createLoginView(nextView) {
@@ -24,7 +24,7 @@ export class Gateway extends SectorGateway {
 
   #createLoginViewContentFragment() {
     let f;
-    if (env.isTrustedSite() || WebConfig.isDevSite()) {
+    if (glb.env.isTrustedSite() || WebConfig.isDevSite()) {
       f = new FvcLogin();
     } else {
       f = new FvcLoginProxy();

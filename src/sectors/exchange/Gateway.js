@@ -3,14 +3,14 @@ import { FvcWeb3Wallet } from './FvcWeb3Wallet.js';
 import { FvcExchange } from './FvcExchange.js';
 import { FvcWallet } from './FvcWallet.js';
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
-import { env } from '../../common/plt/Env.js';
+import { glb } from '../../lib/framework/Global.js';
 import { Account } from '../../common/dba/Account.js';
 import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
 
 export class Gateway extends SectorGateway {
   createMainViewContentFragment() {
-    if (env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       return this.#createWeb3MainViewContentFragment();
     } else {
       return this.#createWeb2MainViewContentFragment();

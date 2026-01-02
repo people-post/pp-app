@@ -3,9 +3,13 @@ import { WcMain } from './session/WcMain.js';
 import { WcGadget } from './session/WcGadget.js';
 import { WcSub } from './session/WcSub.js';
 import { WcPortal } from './session/WcPortal.js';
-import { env } from './common/plt/Env.js';
+import { Env } from './common/plt/Env.js';
 import { Events } from './lib/framework/Events.js';
 import { TYPE } from './common/constants/Constants.js';
+import { glb } from './lib/framework/Global.js';
+
+// Create env instance
+const env = new Env();
 
 const G = function() {
   let _session = null;
@@ -70,5 +74,13 @@ const G = function() {
     anchorClick : _anchorClick
   };
 }();
+
+// Populate glb namespace
+glb.env = env;
+
+// Export to window for global access
+if (typeof window !== 'undefined') {
+  window.G = G;
+}
 
 export default G;

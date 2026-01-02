@@ -15,7 +15,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { env } from '../../common/plt/Env.js';
+import { glb } from '../../lib/framework/Global.js';
 
 export const CF_USER_INFO_HERO_BANNER = {
   FOLLOW : Symbol(),
@@ -338,7 +338,7 @@ export class FUserInfoHeroBanner extends Fragment {
   #onShowFollowers(userId) {
     let v = new View();
     let f;
-    if (env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       f = new FvcFollowerList();
     } else {
       // TODO: Merge into above version
@@ -352,7 +352,7 @@ export class FUserInfoHeroBanner extends Fragment {
   #onShowIdols(userId) {
     let v = new View();
     let f;
-    if (env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       f = new FvcIdolList();
     } else {
       // TODO: Merge into above version

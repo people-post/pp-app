@@ -5,7 +5,7 @@ import { FrontPageConfig } from '../../common/datatypes/FrontPageConfig.js';
 import { FvcJournal } from './FvcJournal.js';
 import { FvcBrief } from './FvcBrief.js';
 import { FvcBlockchain } from './FvcBlockchain.js';
-import { env } from '../../common/plt/Env.js';
+import { glb } from '../../lib/framework/Global.js';
 
 export class Gateway extends SectorGateway {
   createMainViewContentFragment() {
@@ -30,7 +30,7 @@ export class Gateway extends SectorGateway {
       break;
     case FrontPageConfig.T_TEMPLATE.BRIEF:
       // Hack
-      env.setSmartTimeDiffThreshold(24 * 3600);
+      glb.env.setSmartTimeDiffThreshold(24 * 3600);
 
       f = new FvcBrief();
       f.setOwnerId(WebConfig.getOwnerId());

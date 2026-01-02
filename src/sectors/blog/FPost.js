@@ -11,7 +11,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { FvcFilteredPostList } from './FvcFilteredPostList.js';
 import { Account } from '../../common/dba/Account.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { env } from '../../common/plt/Env.js';
+import { glb } from '../../lib/framework/Global.js';
 import { Utilities } from '../../common/Utilities.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
@@ -208,7 +208,7 @@ export class FPost extends Fragment {
     }
 
     // TODO: Support pin in web3
-    if (env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       return;
     }
 

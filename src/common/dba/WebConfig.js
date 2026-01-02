@@ -1,6 +1,5 @@
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
-import { Account } from './Account.js';
 import { ColorTheme } from '../datatypes/ColorTheme.js';
 import { FrontPageConfig } from '../datatypes/FrontPageConfig.js';
 import { Tag } from '../datatypes/Tag.js';
@@ -8,7 +7,7 @@ import { User } from '../datatypes/User.js';
 import { Menus } from './Menus.js';
 import { api } from '../plt/Api.js';
 import { ID, URL_PARAM } from '../constants/Constants.js';
-import { env } from '../plt/Env.js';
+import { glb } from '../../lib/framework/Global.js';
 
 export const WebConfig = function() {
   let _data = null;
@@ -49,15 +48,15 @@ export const WebConfig = function() {
   }
   function _getHomePageTitle() { return _data ? _data.home_page_title : null; }
   function _getOwnerId() {
-    if (env.isWeb3()) {
-      return Account.getId();
+    if (glb.env.isWeb3()) {
+      return window.dba.Account.getId();
     }
 
     return _data ? _data.owner.uuid : null;
   }
   function _getOwner() {
-    if (env.isWeb3()) {
-      return Account;
+    if (glb.env.isWeb3()) {
+      return window.dba.Account;
     } else {
       if (!_data) {
         return null;
@@ -66,7 +65,7 @@ export const WebConfig = function() {
     }
   }
   function _getHomeUrl() {
-    if (env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       return "?";
     } else {
       return "/?" + URL_PARAM.USER + "=" + _getOwnerId();

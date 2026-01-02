@@ -1,1 +1,3 @@
-export class Web3ResolverAgent extends pp.ServerAgent {};
+import { ServerAgent } from 'pp-api';
+
+export class Web3ResolverAgent extends ServerAgent {};

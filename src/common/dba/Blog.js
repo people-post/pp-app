@@ -14,7 +14,7 @@ import { Comment } from '../datatypes/Comment.js';
 import { DraftArticle } from '../datatypes/DraftArticle.js';
 import { EmptyPost } from '../datatypes/EmptyPost.js';
 import { Journal } from '../datatypes/Journal.js';
-import { env } from '../plt/Env.js';
+import { glb } from '../../lib/framework/Global.js';
 import { sys } from 'pp-api';
 
 export const Blog = function() {
@@ -26,7 +26,7 @@ export const Blog = function() {
   let _pendingDraftIds = [];
 
   function _isSocialEnabled() {
-    if (env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       return Account.isAuthenticated();
     } else {
       let c = _config;
@@ -257,7 +257,7 @@ export const Blog = function() {
     }
     _pendingPostIds.push(id);
 
-    if (env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       sys.ipfs.asFetchCidJson(id)
           .then(d => __onCidArticleRRR(id, d))
           .catch(e => __onCidArticleError(id, e));

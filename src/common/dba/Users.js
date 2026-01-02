@@ -4,7 +4,7 @@ import { Account } from './Account.js';
 import { User } from '../datatypes/User.js';
 import { api } from '../plt/Api.js';
 import { PATH } from '../constants/Constants.js';
-import { env } from '../plt/Env.js';
+import { glb } from '../../lib/framework/Global.js';
 import { User as PpUser } from 'pp-api';
 
 // Public users' information
@@ -27,7 +27,7 @@ export class UserLib {
       return null;
     }
 
-    if (env.isWeb3() && Account.isAuthenticated() &&
+    if (glb.env.isWeb3() && Account.isAuthenticated() &&
         Account.getId() == id) {
       return Account;
     }
@@ -41,7 +41,7 @@ export class UserLib {
   }
 
   async asyncGet(id) {
-    if (env.isWeb3() && Account.isAuthenticated() &&
+    if (glb.env.isWeb3() && Account.isAuthenticated() &&
         Account.getId() == id) {
       return Account;
     }
@@ -98,7 +98,7 @@ export class UserLib {
   }
 
   #load(ids) {
-    if (env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       this.#web3Load(ids);
     } else {
       this.#web2Load(ids);

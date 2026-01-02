@@ -5,13 +5,13 @@ import { FvcBasic } from './FvcBasic.js';
 import { FvcCloudFiles } from './FvcCloudFiles.js';
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
-import { env } from '../../common/plt/Env.js';
+import { glb } from '../../lib/framework/Global.js';
 import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
 
 export class Gateway extends SectorGateway {
   createMainViewContentFragment() {
-    if (env.isWeb3()) {
+    if (glb.env.isWeb3()) {
       return this.#createWeb3MainViewContentFragment();
     } else {
       return this.#createWeb2MainViewContentFragment();

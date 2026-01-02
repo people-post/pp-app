@@ -1,3 +1,4 @@
+import { PQuizBase } from './PQuizBase.js';
 
 const _CPT_QUIZ_INFO = {
   MAIN : `<div class="aspect-5-1-frame">
@@ -11,7 +12,7 @@ const _CPT_QUIZ_INFO = {
   </div>`,
 }
 
-export class PQuizInfo extends scol.PQuizBase {
+export class PQuizInfo extends PQuizBase {
   isColorInvertible() { return true; }
 
   invertColor() {

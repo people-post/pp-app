@@ -9,6 +9,11 @@ export const CF_QUIZ_INFO = {
   VIEW_QUIZ : Symbol(),
 };
 
+// Export to window for string template access
+if (typeof window !== 'undefined') {
+  window.CF_QUIZ_INFO = CF_QUIZ_INFO;
+}
+
 export class FQuiz extends MajorSectorItem {
   static T_LAYOUT = {
     FULL : Symbol(),
@@ -91,7 +96,7 @@ export class FQuiz extends MajorSectorItem {
     let p = new PQuizInfo();
     p.setClassName("clickable");
     p.setAttribute("onclick",
-                   "javascript:G.action(scol.CF_QUIZ_INFO.VIEW_QUIZ)");
+                   "javascript:G.action(window.CF_QUIZ_INFO.VIEW_QUIZ)");
     return p;
   }
 

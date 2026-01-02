@@ -82,6 +82,3 @@ export class Env {
     Events.trigger(T_DATA.ADDON_SCRIPT, scriptId);
   }
 }
-
-// System level services - export singleton instance
-export const env = new Env();
