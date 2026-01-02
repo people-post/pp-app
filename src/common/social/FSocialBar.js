@@ -452,7 +452,7 @@ export class FSocialBar extends Fragment {
     let fd = new FormData();
     fd.append("item_id", itemId);
     fd.append("item_type", itemType);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
   }
 
   #asyncUnlike(itemId) {
@@ -469,7 +469,7 @@ export class FSocialBar extends Fragment {
     let url = "api/social/unlike";
     let fd = new FormData();
     fd.append("item_id", itemId);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
   }
 
   #asyncLink(itemId, itemType) {
@@ -477,7 +477,7 @@ export class FSocialBar extends Fragment {
     let fd = new FormData();
     fd.append("item_id", itemId);
     fd.append("item_type", itemType);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
   }
 
   #asyncUnlink(itemId, itemType) {
@@ -485,7 +485,7 @@ export class FSocialBar extends Fragment {
     let fd = new FormData();
     fd.append("item_id", itemId);
     fd.append("item_type", itemType);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
   }
 
   #onSocialRRR(data) { Social.reload(this.#itemId); }

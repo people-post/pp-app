@@ -113,7 +113,7 @@ export class FCommentInput extends Fragment {
     fd.append("item_type", this.#threadId.getType());
     fd.append("content", message);
     fd.append("guest_name", guestName);
-    api.asyncPost(url, fd).then(r => this.#onPostDone(r),
+    glb.api.asPost(url, fd).then(r => this.#onPostDone(r),
                                     e => this.#onPostError(e, message));
   }
 
@@ -123,7 +123,7 @@ export class FCommentInput extends Fragment {
     fd.append("item_id", hashtagId);
     fd.append("item_type", SocialItem.TYPE.HASHTAG);
     fd.append("content", message);
-    api.asyncPost(url, fd).then(r => this.#onPostDone(r),
+    glb.api.asPost(url, fd).then(r => this.#onPostDone(r),
                                     e => this.#onPostError(e, message));
   }
 
@@ -159,7 +159,7 @@ export class FCommentInput extends Fragment {
     fd.append("item_id", this.#threadId.getValue());
     fd.append("item_type", this.#threadId.getType());
     fd.append("content", message);
-    api.asyncPost(url, fd).then(r => this.#onPostDone(r),
+    glb.api.asPost(url, fd).then(r => this.#onPostDone(r),
                                     e => this.#onPostError(e, message));
   }
 

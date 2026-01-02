@@ -66,7 +66,7 @@ export class FvcQuoteEditor extends FScrollViewContent {
       fd.append("link_type", t);
     }
     let url = "api/blog/post_article";
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #onSubmitRRR(data) {

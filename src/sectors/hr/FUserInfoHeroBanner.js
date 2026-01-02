@@ -367,7 +367,7 @@ export class FUserInfoHeroBanner extends Fragment {
     let url = "/api/user/update_info_image";
     let fd = new FormData();
     fd.append('info_image', file)
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onInfoImageUpdateRRR(d));
   }
 
@@ -377,7 +377,7 @@ export class FUserInfoHeroBanner extends Fragment {
     let url = "/api/user/update_brief_biography";
     let fd = new FormData();
     fd.append('text', text)
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onBriefBioUpdateRRR(d));
   }
 

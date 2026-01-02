@@ -16,7 +16,7 @@ export class Api implements IApi {
     this.#extApi = new ExtApi();
   }
 
-  asyncCall(url: string): Promise<unknown> {
+  asCall(url: string): Promise<unknown> {
     return new Promise((onOk, onErr) =>
       this.#extApi.asyncCall(
         this.#wrapUrl(url),
@@ -26,7 +26,7 @@ export class Api implements IApi {
     );
   }
 
-  asyncPost(url: string, data: unknown, onProg: ((loaded: number) => void) | null = null): Promise<unknown> {
+  asPost(url: string, data: unknown, onProg: ((loaded: number) => void) | null = null): Promise<unknown> {
     return new Promise((onOk, onErr) =>
       this.#extApi.asyncFormPost(
         this.#wrapUrl(url),
@@ -38,7 +38,7 @@ export class Api implements IApi {
     );
   }
 
-  asyncFragmentCall(f: FragmentDelegate, url: string): Promise<unknown> {
+  asFragmentCall(f: FragmentDelegate, url: string): Promise<unknown> {
     return new Promise((_onOk, _onErr) =>
       this.#extApi.asyncCall(
         this.#wrapUrl(url),
@@ -48,7 +48,7 @@ export class Api implements IApi {
     );
   }
 
-  asyncFragmentJsonPost(
+  asFragmentJsonPost(
     f: FragmentDelegate,
     url: string,
     data: unknown,
@@ -65,7 +65,7 @@ export class Api implements IApi {
     );
   }
 
-  asyncFragmentPost(
+  asFragmentPost(
     f: FragmentDelegate,
     url: string,
     data: unknown,

@@ -195,7 +195,7 @@ export class FvcProductEditor extends FScrollViewContent {
     this._fFiles.saveDataToForm(fd);
 
     let url = "/api/shop/update_product";
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #validateData() { return this._fPrice.validate(); }

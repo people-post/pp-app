@@ -146,7 +146,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
     let url = "/api/user/update_favicon";
     let fd = new FormData();
     fd.append('favicon', file)
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onMajorUpdateRRR(d));
   }
 
@@ -158,7 +158,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
     let fd = new FormData();
     fd.append("home_page_title", title);
     let url = "/api/user/update_web_config";
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onMajorUpdateRRR(d));
   }
 
@@ -171,7 +171,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
 
   #asyncUpdateConfig(fd) {
     let url = "/api/user/update_web_config";
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onWebConfigDataReceived(d));
   }
 

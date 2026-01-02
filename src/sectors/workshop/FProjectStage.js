@@ -233,7 +233,7 @@ export class FProjectStage extends Fragment {
     let fd = new FormData();
     fd.append("project_id", this._stage.getProjectId());
     fd.append("stage_id", this._stage.getId());
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -243,7 +243,7 @@ export class FProjectStage extends Fragment {
     fd.append("stage_id", this._stage.getId());
     fd.append("comment", comment);
     let url = "api/workshop/set_stage_status";
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -252,7 +252,7 @@ export class FProjectStage extends Fragment {
     fd.append("project_id", this._stage.getProjectId());
     fd.append("stage_id", this._stage.getId());
     let url = "api/workshop/unset_stage_status";
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 

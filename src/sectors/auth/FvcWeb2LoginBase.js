@@ -41,6 +41,6 @@ export class FvcWeb2LoginBase extends FvcLoginBase {
 
   #asyncMarkDomainVisit() {
     let url = "api/stat/mark_visit";
-    api.asyncFragmentCall(this, url).then(d => {});
+    glb.api.asFragmentCall(this, url).then(d => {});
   }
 }

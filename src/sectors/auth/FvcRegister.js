@@ -171,7 +171,7 @@ export class FvcRegister extends FScrollViewContent {
   #asyncValidateEmail() {
     let email = document.getElementById("ID_EMAIL").value;
     let url = "/api/auth/test_email?email=" + encodeURIComponent(email);
-    api.asyncFragmentCall(this, url).then(d => this.#onValidateEmailRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onValidateEmailRRR(d));
   }
 
   #onValidateEmailRRR(data) {  }

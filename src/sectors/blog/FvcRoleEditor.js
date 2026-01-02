@@ -174,20 +174,20 @@ export class FvcRoleEditor extends FScrollViewContent {
   #asyncRequestAddRole(role) {
     let url = "api/blog/add_role";
     let fd = this.#makeForm(role);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onNewRoleRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onNewRoleRRR(d));
   }
 
   #asyncRequestEditRole(role) {
     let url = "api/blog/update_role";
     let fd = this.#makeForm(role);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onEditRoleRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onEditRoleRRR(d));
   }
 
   #asyncRequestDeleteRole(id) {
     let url = "api/blog/delete_role";
     let fd = FormData();
     fd.append("id", id);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onDeleteRoleRRR(d));
   }
 

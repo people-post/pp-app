@@ -138,20 +138,20 @@ export class FvcTeamEditor extends FScrollViewContent {
   #asyncRequestAddTeam(data) {
     let url = "api/shop/add_team";
     let fd = this.#makeForm(data);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onNewTeamRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onNewTeamRRR(d));
   }
 
   #asyncRequestEditTeam(data) {
     let url = "api/shop/update_team";
     let fd = this.#makeForm(data);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onEditTeamRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onEditTeamRRR(d));
   }
 
   #asyncRequestDeleteTeam(id) {
     let url = "api/shop/delete_team";
     let fd = FormData();
     fd.append("id", id);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onDeleteTeamRRR(d));
   }
 

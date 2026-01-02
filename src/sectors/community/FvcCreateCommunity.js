@@ -59,7 +59,7 @@ export class FvcCreateCommunity extends FScrollViewContent {
     e = document.getElementById(this.#getDescriptionElementId());
     fd.append("description", e.value);
     let url = "api/community/create";
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #onSubmitRRR(data) {

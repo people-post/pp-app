@@ -86,7 +86,7 @@ export class FvcChat extends FViewContentBase {
   }
 
   onInputConsoleRequestPost(text) {
-    this.#msgHandler.asyncPost(text, m => this.#onPostSuccess(m),
+    this.#msgHandler.asPost(text, m => this.#onPostSuccess(m),
                                e => this.#onPostFailed(text, e));
   }
 

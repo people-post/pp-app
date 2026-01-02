@@ -59,7 +59,7 @@ export class LvSub extends LvTabbedPage {
   onLoginClickInAccountActionButtonFragment(fAbAccount) { this.#onLogin(); }
 
   onLogoutClickInActionButtonFragment(fAbAccount) {
-    api.asyncFragmentCall(this, "/api/auth/logout")
+    glb.api.asFragmentCall(this, "/api/auth/logout")
         .then(d => this.#onLogoutRRR(d));
   }
 

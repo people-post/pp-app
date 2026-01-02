@@ -100,7 +100,7 @@ export class FvcEmail extends FScrollViewContent {
     if (isRead) {
       fd.append("is_read", 1);
     }
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onMarkReadershipRRR(d));
   }
 
@@ -108,7 +108,7 @@ export class FvcEmail extends FScrollViewContent {
     let url = "api/email/delete";
     let fd = new FormData();
     fd.append("email_id", email.getId());
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onDeleteRRR(d, email.getId()));
   }
 

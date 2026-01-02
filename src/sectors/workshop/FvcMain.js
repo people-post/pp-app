@@ -202,7 +202,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   #asyncCreateProject() {
     let url = "api/workshop/new_project";
-    api.asyncFragmentCall(this, url).then(d => this.#onDraftProjectRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onDraftProjectRRR(d));
   }
 
   #onDraftProjectRRR(data) {
@@ -211,14 +211,14 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   #asyncOpenWorkshop() {
     let url = "api/workshop/request_open";
-    api.asyncFragmentCall(this, url).then(d => this.#onOpenWorkshopRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onOpenWorkshopRRR(d));
   }
 
   #onOpenWorkshopRRR(data) { WebConfig.setWorkshopOpen(true); }
 
   #asyncCloseWorkshop() {
     let url = "api/workshop/request_close";
-    api.asyncFragmentCall(this, url).then(d => this.#onCloseWorkshopRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onCloseWorkshopRRR(d));
   }
 
   #onCloseWorkshopRRR(data) { WebConfig.reset(data.web_config); }

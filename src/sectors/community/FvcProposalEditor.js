@@ -65,7 +65,7 @@ export class FvcProposalEditor extends FScrollViewContent {
   #asyncSubmit() {
     let fd = this.#collectFormData();
     let url = "api/community/propose";
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #onSubmitRRR(data) { this._owner.onContentFragmentRequestPopView(this); }

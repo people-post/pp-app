@@ -88,7 +88,7 @@ export class FvcProjectStageEditor extends FScrollViewContent {
   #onSubmit() {
     let url = 'api/workshop/update_project_stage';
     let fd = this.#collectData();
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #onSubmitRRR(data) {

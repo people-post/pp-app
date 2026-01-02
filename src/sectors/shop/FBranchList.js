@@ -81,7 +81,7 @@ export class FBranchList extends Fragment {
     }
     this.#isBranchIdsLoading = true;
     let url = "api/shop/branch_ids";
-    api.asyncFragmentCall(this, url).then(d => this.#onBranchIdsRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onBranchIdsRRR(d));
   }
 
   #onBranchIdsRRR(data) {
@@ -93,7 +93,7 @@ export class FBranchList extends Fragment {
   #asyncAdd() {
     let url = "api/shop/add_branch";
     let fd = new FormData();
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onAddBranchRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onAddBranchRRR(d));
   }
 
   #onAddBranchRRR(data) {

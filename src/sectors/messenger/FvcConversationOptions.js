@@ -38,7 +38,7 @@ export class FvcConversationOptions extends FScrollViewContent {
     let url = "/api/messenger/delete_chat";
     let fd = new FormData();
     fd.append("target_id", this._target.getId());
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
   }
 
   #onDeleteRRR(data) {

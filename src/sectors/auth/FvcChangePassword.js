@@ -64,7 +64,7 @@ export class FvcChangePassword extends FScrollViewContent {
     let fd = new FormData();
     fd.append("password", password);
     fd.append("new_password", password_new);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onChangePasswordRRR(d));
   }
 

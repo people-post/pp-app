@@ -234,7 +234,7 @@ export class FvcConfig extends FScrollViewContent {
 
   #asyncUpdateConfig(fd) {
     let url = "api/blog/update_config";
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onUpdateConfigRRR(d));
   }
 

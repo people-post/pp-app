@@ -84,7 +84,7 @@ export class FVisit extends Fragment {
     }
     fd.append("duration", this._fDuration.getSelectedValue());
     fd.append("type", this._queryType);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onLoadDataRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onLoadDataRRR(d));
   }
 
   #onLoadDataRRR(data) {

@@ -200,7 +200,7 @@ export const Notifications = function() {
 
   function __asyncLoadNotifications() {
     let url = "/api/user/notifications";
-    api.asyncCall(url).then(d => __reset(d), e => {});
+    glb.api.asCall(url).then(d => __reset(d), e => {});
   }
 
   return {

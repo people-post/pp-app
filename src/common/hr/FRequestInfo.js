@@ -139,7 +139,7 @@ export class FRequestInfo extends Fragment {
     let url = "api/career/accept_request";
     let fd = new FormData();
     fd.append("id", id);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onRequestOperationRRR(d));
   }
 
@@ -147,7 +147,7 @@ export class FRequestInfo extends Fragment {
     let url = "api/career/decline_request";
     let fd = new FormData();
     fd.append("id", id);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onRequestOperationRRR(d));
   }
 
@@ -155,7 +155,7 @@ export class FRequestInfo extends Fragment {
     let url = "/api/career/ignore_request";
     let fd = new FormData();
     fd.append("id", id);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onRequestOperationRRR(d));
   }
 

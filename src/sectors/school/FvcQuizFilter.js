@@ -91,7 +91,7 @@ export class FvcQuizFilter extends FScrollViewContent {
     fd.append("from_idx", 0); // If known from previous gen
     fd.append("to_idx", 1000);
     fd.append("down_sample", 100);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onQuizIdListRRR(d));
   }
 
@@ -99,7 +99,7 @@ export class FvcQuizFilter extends FScrollViewContent {
     let url = "api/school/quiz_count";
     let fd = new FormData();
     fd.append("scope", this._fScope.getSelectedValue());
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onEstimateFilterRRR(d, pHint));
   }
 

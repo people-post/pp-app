@@ -155,7 +155,7 @@ export class FComment extends FPostBase {
     fd.append("item_id", comment.getTargetItemId());
     fd.append("item_type", comment.getTargetItemType());
     fd.append("comment_id", comment.getId());
-    api.asyncFragmentPost(this, url, fd, d => this.#onKeepRRR(d));
+    glb.api.asFragmentPost(this, url, fd, d => this.#onKeepRRR(d));
   }
 
   #asyncDiscard(comment) {
@@ -164,7 +164,7 @@ export class FComment extends FPostBase {
     fd.append("item_id", comment.getTargetItemId());
     fd.append("item_type", comment.getTargetItemType());
     fd.append("comment_id", comment.getId());
-    api.asyncFragmentPost(this, url, fd, d => this.#onDiscardRRR(d));
+    glb.api.asFragmentPost(this, url, fd, d => this.#onDiscardRRR(d));
   }
 
   #onKeepRRR(data) {

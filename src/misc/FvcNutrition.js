@@ -35,7 +35,7 @@ class FvcNutrition extends FScrollViewContent {
 
   _asyncLoadFoods() {
     let url = "/api/user/data/nutrition";
-    api.asyncFragmentCall(this, url).then(d => this.#onNutritionRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onNutritionRRR(d));
   }
 
   #onNutritionRRR(data) {

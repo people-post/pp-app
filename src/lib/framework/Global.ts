@@ -51,16 +51,16 @@ export interface FragmentDelegate {
  * This allows better type checking when using glb.api
  */
 export interface IApi {
-  asyncCall(url: string): Promise<unknown>;
-  asyncPost(url: string, data: unknown, onProg?: ((loaded: number) => void) | null): Promise<unknown>;
-  asyncFragmentCall(f: FragmentDelegate, url: string): Promise<unknown>;
-  asyncFragmentJsonPost(
+  asCall(url: string): Promise<unknown>;
+  asPost(url: string, data: unknown, onProg?: ((loaded: number) => void) | null): Promise<unknown>;
+  asFragmentCall(f: FragmentDelegate, url: string): Promise<unknown>;
+  asFragmentJsonPost(
     f: FragmentDelegate,
     url: string,
     data: unknown,
     onProg?: ((loaded: number) => void) | null
   ): Promise<unknown>;
-  asyncFragmentPost(
+  asFragmentPost(
     f: FragmentDelegate,
     url: string,
     data: unknown,

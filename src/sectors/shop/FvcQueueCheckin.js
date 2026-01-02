@@ -137,7 +137,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
     if (contact && contact.length) {
       fd.append("customer_contact", contact);
     }
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onCheckinRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onCheckinRRR(d));
   }
 
   #onCheckinRRR(data) { this._owner.onContentFragmentRequestPopView(this); }

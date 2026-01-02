@@ -93,7 +93,7 @@ export class FvcTagEditorList extends FScrollViewContent {
     let url = "api/user/add_tag";
     let fd = new FormData();
     fd.append("name", tag);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onAddTagRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onAddTagRRR(d));
   }
 
   #onAddTagRRR(data) {

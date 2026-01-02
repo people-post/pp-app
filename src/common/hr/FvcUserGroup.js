@@ -124,7 +124,7 @@ export class FvcUserGroup extends FScrollViewContent {
     let fd = new FormData();
     fd.append("id", groupId);
     let url = "api/career/resign_role";
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onLeaveGroupRRR(d));
   }
 

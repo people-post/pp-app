@@ -336,7 +336,7 @@ export class FGallery extends Fragment {
     for (let f of this.#pendingFiles) {
       fd.append("ids", f.getId());
     }
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onFileStatusRRR(d));
   }
 

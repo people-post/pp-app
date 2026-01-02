@@ -182,7 +182,7 @@ export class FRealTimeComments extends Fragment {
 
   #postMessage(message) {
     if (Account.getId()) {
-      this.#hComments.asyncPost(message);
+      this.#hComments.asPost(message);
     } else {
       // Guest
       let v = new View();
@@ -207,6 +207,6 @@ export class FRealTimeComments extends Fragment {
 
   #onPostComment(message, guestName) {
     Account.setGuestName(guestName);
-    this.#hComments.asyncPost(message, guestName);
+    this.#hComments.asPost(message, guestName);
   }
 };

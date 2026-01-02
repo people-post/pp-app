@@ -71,7 +71,7 @@ export class FvcPreCheckout extends FScrollViewContent {
       fd.append('items', JSON.stringify(item.toJsonDict()));
     }
     let url = "/api/shop/charge_preview";
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onOrderPreviewRRR(d));
   }
 

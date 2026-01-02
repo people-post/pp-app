@@ -204,14 +204,14 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   #asyncOpenShop() {
     let url = "api/shop/request_open";
-    api.asyncFragmentCall(this, url).then(d => this.#onOpenShopRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onOpenShopRRR(d));
   }
 
   #onOpenShopRRR(data) { WebConfig.setShopOpen(true); }
 
   #asyncCloseShop() {
     let url = "api/shop/request_close";
-    api.asyncFragmentCall(this, url).then(d => this.#onCloseShopRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onCloseShopRRR(d));
   }
 
   #onCloseShopRRR(data) { WebConfig.reset(data.web_config); }

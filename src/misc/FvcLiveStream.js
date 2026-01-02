@@ -221,7 +221,7 @@ class FvcLiveStream extends FScrollViewContent {
     let e = document.getElementById("ID_TITLE");
     fd.append("title", e.value);
     fd.append("visibility", this._visView.getValue());
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => { this.#onStartLiveRRR(d); });
   }
 
@@ -236,7 +236,7 @@ class FvcLiveStream extends FScrollViewContent {
     // let recordedBlob = new Blob([ data ], {type : "video/webm"});
     let url = "/api/blog/live_data";
     this.#nUploading++;
-    api.asyncPost(url, data)
+    glb.api.asPost(url, data)
         .then(d => this.#onSendDataRRR(d), e => this.#onSendDataError(e))
         .finally(() => this.#onSendDataDone());
   }
@@ -254,7 +254,7 @@ class FvcLiveStream extends FScrollViewContent {
 
   #asyncStopLive() {
     let url = "/api/blog/stop_live";
-    api.asyncFragmentCall(this, url).then(d => { this.#onStopLiveRRR(d); });
+    glb.api.asFragmentCall(this, url).then(d => { this.#onStopLiveRRR(d); });
   }
 
   #onStopLiveRRR(data) { this.#onRemoveServerStopped(); }

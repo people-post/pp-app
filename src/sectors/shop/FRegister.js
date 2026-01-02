@@ -156,7 +156,7 @@ export class FRegister extends Fragment {
   #asyncUpdate() {
     let url = "api/shop/update_register";
     let fd = this.#collectData();
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
   }
 
   #onUpdateRRR(data) {

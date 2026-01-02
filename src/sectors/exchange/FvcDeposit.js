@@ -62,7 +62,7 @@ export class FvcDeposit extends FScrollViewContent {
     fd.append("amount", amount);
     fd.append("currency", currency);
 
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onPayRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onPayRRR(d));
   }
 
   #onPayRRR(data) {

@@ -21,7 +21,7 @@ export class FvcBlockchain extends FViewContentBase {
 
   #asyncLoadBlockHead() {
     let url = "api/blockchain/latest_header";
-    api.asyncFragmentCall(this, url).then(d => this.#onBlockHeadRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onBlockHeadRRR(d));
   }
 
   #onBlockHeadRRR(data) {

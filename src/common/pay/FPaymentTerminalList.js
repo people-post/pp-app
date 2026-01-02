@@ -82,7 +82,7 @@ export class FPaymentTerminalList extends Fragment {
     let url = "api/shop/payment_terminal_ids";
     let fd = new FormData();
     fd.append("register_id", this._registerId);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onTerminalIdsRRR(d));
   }
 
@@ -101,7 +101,7 @@ export class FPaymentTerminalList extends Fragment {
     let url = "api/shop/add_terminal";
     let fd = new FormData();
     fd.append("register_id", this._registerId);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onAddTerminalRRR(d));
   }
 

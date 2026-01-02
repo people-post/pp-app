@@ -378,7 +378,7 @@ export class FOverview extends Fragment {
     let fd = new FormData();
     fd.append("id", this.#communityId);
     fd.append("msg", message);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onApplyRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onApplyRRR(d));
   }
 
   #onApplyRRR(data) {
@@ -390,7 +390,7 @@ export class FOverview extends Fragment {
     let fd = new FormData();
     fd.append("total", nCoins);
     let url = "api/community/propose_issue_coins";
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onIssueCoinRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onIssueCoinRRR(d));
   }
 
   #onIssueCoinRRR(data) {
@@ -423,7 +423,7 @@ export class FOverview extends Fragment {
       "type" : info.mimeType,
       "cover_id" : info.coverId
     }));
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onUpdateProfileRRR(d));
   }
 

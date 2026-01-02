@@ -83,7 +83,7 @@ export class FBraintree extends Fragment {
   }
 
   async #asInit() {
-    let r = await api.asyncFragmentCall(this, "api/token/braintree_client");
+    let r = await glb.api.asFragmentCall(this, "api/token/braintree_client");
     return await window.braintree.dropin.create({
       authorization : r.token,
       container : "#" + this.#getPaymentElementId()
@@ -112,7 +112,7 @@ export class FBraintree extends Fragment {
     this.#payload = await this.#braintree.requestPaymentMethod();
     console.log("Payload:", this.#payload);
 
-    let r = await api.asyncFragmentJsonPost(
+    let r = await glb.api.asFragmentJsonPost(
         this, "api/charity/braintree_donate", {
           amount : this.#amount,
           nonce : this.#payload.nonce,

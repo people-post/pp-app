@@ -88,7 +88,7 @@ export class FvcRetrievePassword extends FScrollViewContent {
   #asyncSubmit() {
     let email = document.getElementById("email").value;
     var url = "api/auth/retrieve_password?email=" + encodeURIComponent(email);
-    api.asyncFragmentCall(this, url).then(
+    glb.api.asFragmentCall(this, url).then(
         d => this.#onRetrievePasswordRRR(d));
   }
 

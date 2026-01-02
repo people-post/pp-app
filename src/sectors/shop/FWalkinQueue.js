@@ -114,7 +114,7 @@ export class FWalkinQueue extends FLongListLegacy {
       fd.append("before_id", fromId);
     }
     this._isBatchLoading = true;
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onQueueItemsRRR(d));
   }
 

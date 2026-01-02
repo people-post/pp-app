@@ -126,7 +126,7 @@ export class LiveStreamConfigFragment extends Fragment {
 
   #onRegenerateStreamKey() {
     let url = "api/user/regenerate_live_stream_key";
-    api.asyncFragmentCall(this, url).then(
+    glb.api.asFragmentCall(this, url).then(
         d => this.#onRegenerateStreamKeyRRR(d));
   }
 

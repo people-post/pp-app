@@ -526,7 +526,7 @@ export class FJournalIssueEditor extends Fragment {
     } else {
       url = "api/blog/update_journal_issue";
     }
-    api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r),
+    glb.api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r),
                      r => this.#onAsyncPostError(r));
     return true;
   }
@@ -537,7 +537,7 @@ export class FJournalIssueEditor extends Fragment {
 
   #asyncGetTags(ownerId) {
     let url = "api/blog/available_tags?from=" + ownerId;
-    api.asyncFragmentCall(this, url).then(d => this.#onTagsRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onTagsRRR(d));
   }
 
   #onTagsRRR(data) {

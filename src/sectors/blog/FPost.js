@@ -294,7 +294,7 @@ export class FPost extends Fragment {
     let fd = new FormData();
     fd.append("id", postId.getValue());
     fd.append("type", postId.getType());
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onTogglePinRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onTogglePinRRR(d));
   }
 
   #asyncUnpinPost(postId) {
@@ -302,7 +302,7 @@ export class FPost extends Fragment {
     let fd = new FormData();
     fd.append("id", postId.getValue());
     fd.append("type", postId.getType());
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onTogglePinRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onTogglePinRRR(d));
   }
 
   #onTogglePinRRR(data) {

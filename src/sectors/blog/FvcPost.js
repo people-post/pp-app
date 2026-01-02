@@ -376,7 +376,7 @@ class FvcPost extends FScrollViewContent {
     fd.append("item_type", this.#postId.getType());
     fd.append("article_id", articleId);
     fd.append("tag_id", tagId);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onTagCommentRRR(d));
   }
 
@@ -391,7 +391,7 @@ class FvcPost extends FScrollViewContent {
     fd.append("item_type", this.#postId.getType());
     fd.append("article_id", articleId);
     fd.append("tag_id", tagId);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onUntagCommentRRR(d));
   }
 

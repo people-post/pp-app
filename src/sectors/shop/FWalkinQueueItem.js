@@ -247,7 +247,7 @@ export class FWalkinQueueItem extends Fragment {
     let fd = new FormData();
     fd.append("product_id", qItem.getProductId());
     fd.append("quantity", 1);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onPrepareCartItemRRR(d));
   }
 
@@ -277,7 +277,7 @@ export class FWalkinQueueItem extends Fragment {
     let fd = new FormData();
     fd.append("id", this._itemId);
     fd.append("agent_id", userId);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onServeRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onServeRRR(d));
   }
 
   #onServeRRR(data) {
@@ -288,7 +288,7 @@ export class FWalkinQueueItem extends Fragment {
     let url = "api/shop/queue_dismiss_item";
     let fd = new FormData();
     fd.append("id", this._itemId);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onDismissRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onDismissRRR(d));
   }
 
   #onDismissRRR(data) {

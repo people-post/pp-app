@@ -141,7 +141,7 @@ export class FvcConfigEditor extends FScrollViewContent {
   #asyncPropose() {
     let fd = this.#collectFormData();
     let url = "api/community/propose_config";
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #onSubmitRRR(data) {

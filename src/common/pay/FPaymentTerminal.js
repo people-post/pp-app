@@ -156,7 +156,7 @@ export class FPaymentTerminal extends Fragment {
   #asyncUpdate() {
     let url = "api/shop/update_terminal";
     let fd = this.#collectData();
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
   }
 
   #onUpdateRRR(data) {

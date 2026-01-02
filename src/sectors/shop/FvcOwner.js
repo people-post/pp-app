@@ -159,7 +159,7 @@ export class FvcOwner extends FScrollViewContent {
 
   #onNewProduct() {
     let url = "api/shop/new_product";
-    api.asyncFragmentCall(this, url).then(d => this.#onDraftProductRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onDraftProductRRR(d));
   }
 
   #onDraftProductRRR(data) {

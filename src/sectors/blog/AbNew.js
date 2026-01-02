@@ -172,7 +172,7 @@ export class AbNew extends Fragment {
 
   #asyncCreateArticle(forOwnerId) {
     let url = "api/blog/new_draft?for=" + forOwnerId;
-    api.asyncFragmentCall(this, url).then(d => this.#onDraftArticleRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onDraftArticleRRR(d));
   }
 
   #onDraftArticleRRR(data) {
@@ -189,7 +189,7 @@ export class AbNew extends Fragment {
 
   #asyncCreateJournalIssue(journalId) {
     let url = "api/blog/new_issue?for=" + journalId;
-    api.asyncFragmentCall(this, url).then(d => this.#onDraftIssueRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onDraftIssueRRR(d));
   }
 
   #onDraftIssueRRR(data) {

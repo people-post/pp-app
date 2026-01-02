@@ -134,7 +134,7 @@ export class FvcCareer extends FScrollViewContent {
     let fd = new FormData();
     fd.append("id", roleId);
     let url = "api/career/apply_role";
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onApplyRoleRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onApplyRoleRRR(d));
   }
 
   #onApplyRoleRRR(data) {
@@ -147,7 +147,7 @@ export class FvcCareer extends FScrollViewContent {
     let fd = new FormData();
     fd.append("id", roleId);
     let url = "api/career/resign_role";
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onResignRoleRRR(d));
   }
 

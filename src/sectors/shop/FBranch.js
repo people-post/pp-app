@@ -195,7 +195,7 @@ export class FBranch extends Fragment {
   #asyncUpdate() {
     let url = "api/shop/update_branch";
     let fd = this.#collectData();
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
   }
 
   #onUpdateRRR(data) { Shop.updateBranch(new ShopBranch(data.branch)); }

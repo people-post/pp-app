@@ -99,7 +99,7 @@ export class FTimeClock extends Fragment {
   #asyncFetchClockStatus() {
     let url = "api/school/clock";
     let fd = new FormData();
-    api.asyncFragmentCall(this, url).then(d => this.#onClockStatusRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onClockStatusRRR(d));
   }
 
   #onClockStatusRRR(data) {
@@ -113,7 +113,7 @@ export class FTimeClock extends Fragment {
   #asyncClockIn() {
     let url = "api/school/clock_in";
     let fd = new FormData();
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onClockInRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onClockInRRR(d));
   }
 
   #onClockInRRR(data) {
@@ -130,7 +130,7 @@ export class FTimeClock extends Fragment {
     let url = "api/school/clock_out";
     let fd = new FormData();
     fd.append("total", this._dtLast);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onClockOutRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onClockOutRRR(d));
   }
 
   #onClockOutRRR(data) {

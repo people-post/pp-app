@@ -356,7 +356,7 @@ export class FArticleEditor extends Fragment {
     } else {
       url = "api/blog/update_article";
     }
-    api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r),
+    glb.api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r),
                          r => this.#onAsyncPostError(r));
     return true;
   }
@@ -386,7 +386,7 @@ export class FArticleEditor extends Fragment {
 
   #asyncGetTags(ownerId) {
     let url = "api/blog/available_tags?from=" + ownerId;
-    api.asyncFragmentCall(this, url).then(d => this.#onTagsRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onTagsRRR(d));
   }
 
   #onTagsRRR(data) {
@@ -415,7 +415,7 @@ export class FArticleEditor extends Fragment {
 
   #asyncDelete() {
     let url = "/api/blog/delete_article?id=" + this.#baseArticle.getId();
-    api.asyncFragmentCall(this, url).then(d => this.#onDeleteRRR(d));
+    glb.api.asFragmentCall(this, url).then(d => this.#onDeleteRRR(d));
   }
 
   #onDeleteRRR(data) { location.replace(WebConfig.getHomeUrl()); }

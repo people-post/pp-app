@@ -77,7 +77,7 @@ export class FRegisterList extends Fragment {
     let url = "api/shop/register_ids";
     let fd = new FormData();
     fd.append("branch_id", this._branchId);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onRegisterIdsRRR(d));
   }
 
@@ -90,7 +90,7 @@ export class FRegisterList extends Fragment {
     let url = "api/shop/add_register";
     let fd = new FormData();
     fd.append("branch_id", this._branchId);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onAddRegisterRRR(d));
   }
 

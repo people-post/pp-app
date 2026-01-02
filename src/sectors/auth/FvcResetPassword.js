@@ -64,7 +64,7 @@ export class FvcResetPassword extends FScrollViewContent {
     let fd = new FormData();
     fd.append("password", password);
     fd.append("code", this._resetCode);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onResetPasswordRRR(d));
   }
 

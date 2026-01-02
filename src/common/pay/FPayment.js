@@ -126,7 +126,7 @@ export class FPayment extends Fragment {
     fd.append("source_id", sourceId);
     fd.append("order_id", orderId);
 
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onOnlinePayRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onOnlinePayRRR(d));
   }
 
   #onOnlinePayRRR(data) {
@@ -138,7 +138,7 @@ export class FPayment extends Fragment {
     let url = "/api/shop/charge_by_terminal";
     let fd = new FormData();
     fd.append("terminal_id", terminalId);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onTerminalPayRRR(d));
   }
 

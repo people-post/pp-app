@@ -80,7 +80,7 @@ export class FvcAddressList extends FScrollViewContent {
     let url = "/api/user/remove_address";
     let fd = new FormData();
     fd.append("id", addressId);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
   }
 
   #onDeleteRRR(data) { Account.resetAddressIds(data.address_ids);   }

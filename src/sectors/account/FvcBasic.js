@@ -101,7 +101,7 @@ export class FvcBasic extends FScrollViewContent {
     if (config.isBetaTester) {
       fd.append("is_beta_tester", 1);
     }
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onUpdateConfigRRR(d));
   }
 

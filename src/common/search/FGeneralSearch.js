@@ -37,18 +37,18 @@ export class FGeneralSearch extends FSearch {
   #asyncOrderSearch(key) {
     let id = Utilities.orderReferenceIdToOrderId(key);
     let url = "api/search/order?id=" + id;
-    api.asyncFragmentCall(this, url).then(d => this.#onSearchRRR(d, key));
+    glb.api.asFragmentCall(this, url).then(d => this.#onSearchRRR(d, key));
   }
 
   #asyncHashtagSearch(key) {
     let k = key.split('#').join(' ');
     let url = "api/search/by_hashtag?key=" + encodeURIComponent(k);
-    api.asyncFragmentCall(this, url).then(d => this.#onSearchRRR(d, key));
+    glb.api.asFragmentCall(this, url).then(d => this.#onSearchRRR(d, key));
   }
 
   #asyncSearchFeed(key) {
     let url = "api/search/feed?url=" + encodeURIComponent(key);
-    api.asyncFragmentCall(this, url).then(d => this.#onSearchRRR(d, key));
+    glb.api.asFragmentCall(this, url).then(d => this.#onSearchRRR(d, key));
   }
 
   #asyncTextSearch(key, config) {
@@ -56,7 +56,7 @@ export class FGeneralSearch extends FSearch {
     let fd = new FormData();
     fd.append("key", key);
     fd.append("config", config.toJsonString());
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onSearchRRR(d, key));
   }
 

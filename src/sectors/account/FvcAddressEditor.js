@@ -82,7 +82,7 @@ export class FvcAddressEditor extends FScrollViewContent {
     let fd = new FormData();
     fd.append("id", this.#addressId);
     this.#fillFormData(fd, address);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onUpdateAddressRRR(d));
   }
 
@@ -90,7 +90,7 @@ export class FvcAddressEditor extends FScrollViewContent {
     let url = "/api/user/add_address";
     let fd = new FormData();
     this.#fillFormData(fd, address);
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onAddAddressRRR(d));
   }
 

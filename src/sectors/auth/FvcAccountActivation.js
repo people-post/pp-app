@@ -42,7 +42,7 @@ export class FvcAccountActivation extends FScrollViewContent {
     let url = "/api/auth/activate";
     let fd = new FormData();
     fd.append("code", activationCode);
-    api.asyncFragmentPost(this, url, fd).then(d => this.#onActivateRRR(d));
+    glb.api.asFragmentPost(this, url, fd).then(d => this.#onActivateRRR(d));
   }
 
   #onActivateRRR(data) {

@@ -127,7 +127,7 @@ export class FvcCreateChatTarget extends FScrollViewContent {
     for (let uid of userIds) {
       fd.append("member_ids", uid);
     }
-    api.asyncFragmentPost(this, url, fd)
+    glb.api.asFragmentPost(this, url, fd)
         .then(d => this.#onCreateGroupRRR(d));
   }
 
