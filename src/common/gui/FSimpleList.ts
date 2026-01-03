@@ -41,15 +41,13 @@ export class FSimpleList extends Fragment {
   // @ts-expect-error - _delegate type is more specific than base class
   declare _delegate: SimpleListDelegate;
 
-  // @ts-expect-error - override with parameters, base class has no parameters
   action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_SIMPLE_LIST.ITEM_CLICK:
       this.#onItemClick(args[0] as string);
       break;
     default:
-      // @ts-expect-error - base class action() has no parameters but subclasses override with parameters
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }

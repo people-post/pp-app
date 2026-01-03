@@ -30,7 +30,6 @@ export class FHomeBtn extends FHeaderMenu {
     this.#url = url;
   }
 
-  // @ts-expect-error - override with different signature
   handleSessionDataUpdate(dataType: symbol, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILE:
@@ -41,8 +40,7 @@ export class FHomeBtn extends FHeaderMenu {
     default:
       break;
     }
-    // @ts-expect-error - base class method signature may differ
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
   _renderOnRender(render: Render): void {

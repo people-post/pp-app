@@ -51,7 +51,6 @@ export class ActionButton extends Fragment {
     this._icon = icon;
   }
 
-  // @ts-expect-error - override with parameters, base class has no parameters
   action(type: string, ...args: unknown[]): void {
     switch (type) {
     case CF_ACTION_BUTTON.ONCLICK:
@@ -59,8 +58,7 @@ export class ActionButton extends Fragment {
       this._delegate?.onGuiActionButtonClick?.(this);
       break;
     default:
-      // @ts-expect-error - base class action() has no parameters but subclasses override with parameters
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }

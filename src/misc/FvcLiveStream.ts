@@ -102,7 +102,6 @@ class FvcLiveStream extends FScrollViewContent {
 
   onButtonGroupSelectionChanged(_fButtonGroup: ButtonGroup, _value: string): void {}
 
-  // @ts-expect-error - override with parameters, base class has no parameters
   action(type: string, ...args: unknown[]): void {
     switch (type) {
     case C_LIVE_STREAM.START_PREVIEW:
@@ -121,8 +120,7 @@ class FvcLiveStream extends FScrollViewContent {
       this.#onVideoToggled(args[0] as boolean);
       break;
     default:
-      // @ts-expect-error - base class action() has no parameters but subclasses override with parameters
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
