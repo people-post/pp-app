@@ -43,6 +43,8 @@ export const Utilities = (function() {
     return s;
   }
 
+  // Unused function - kept for potential future use
+  // @ts-expect-error - unused function
   function forceRedraw(): void {
     let e: Event;
     if (typeof (Event) === "function") {

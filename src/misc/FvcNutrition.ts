@@ -62,7 +62,7 @@ class FvcNutrition extends FScrollViewContent {
 
   _asyncLoadFoods(): void {
     let url = "/api/user/data/nutrition";
-    glb.api!.asFragmentCall(this, url).then((d: NutritionLibData) => this.#onNutritionRRR(d));
+    glb.api!.asFragmentCall(this, url).then((d: unknown) => this.#onNutritionRRR(d as NutritionLibData));
   }
 
   #onNutritionRRR(data: NutritionLibData): void {
@@ -75,7 +75,7 @@ class FvcNutrition extends FScrollViewContent {
   }
 
   #renderNutrition(data: { name: string; unit: string; data: { [key: string]: number } }): string {
-    var table = document.createElement("TABLE");
+    var table = document.createElement("TABLE") as HTMLTableElement;
     table.className = "nutrition";
     var row: HTMLTableRowElement, cell: HTMLTableCellElement, d: number | undefined, ref: NutritionReference;
     for (var i = 0; i < this._nutritionLib!.reference.length; ++i) {
@@ -100,7 +100,7 @@ class FvcNutrition extends FScrollViewContent {
   }
 
   #renderMeter(value: number): HTMLMeterElement {
-    var m = document.createElement("METER");
+    var m = document.createElement("METER") as HTMLMeterElement;
     m.low = 30;
     m.high = 80;
     m.max = 100;

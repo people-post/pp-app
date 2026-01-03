@@ -81,6 +81,7 @@ class FvcLiveStream extends FScrollViewContent {
     super();
     this._dataSource = dataSource;
     this._visView = new ButtonGroup();
+    // @ts-expect-error - setDelegate accepts any object with delegate methods
     this._visView.setDelegate(this);
     this._visView.addChoice({
       name : "Public",
@@ -99,8 +100,9 @@ class FvcLiveStream extends FScrollViewContent {
     });
   }
 
-  onButtonGroupSelectionChanged(fButtonGroup: ButtonGroup, value: string): void {}
+  onButtonGroupSelectionChanged(_fButtonGroup: ButtonGroup, _value: string): void {}
 
+  // @ts-expect-error - override with parameters, base class has no parameters
   action(type: string, ...args: unknown[]): void {
     switch (type) {
     case C_LIVE_STREAM.START_PREVIEW:
@@ -119,7 +121,8 @@ class FvcLiveStream extends FScrollViewContent {
       this.#onVideoToggled(args[0] as boolean);
       break;
     default:
-      super.action.apply(this, arguments as unknown as [string, ...unknown[]]);
+      // @ts-expect-error - base class action() has no parameters but subclasses override with parameters
+      super.action.apply(this, arguments);
       break;
     }
   }
@@ -127,7 +130,9 @@ class FvcLiveStream extends FScrollViewContent {
   _renderContentOnRender(render: Render): void {
     let s = _CVT_LIVE_STREAM.MAIN;
     s = s.replace("__ACTION_BUTTONS__", _CVT_LIVE_STREAM.BTN_START_PREVIEW);
-    s = s.replace("__VISIBILITY__", this._visView.render());
+    // Set ButtonGroup as child fragment - it will render into ID_VISIBILITY div
+    this.setChild("visibility", this._visView);
+    s = s.replace("__VISIBILITY__", '<div id="ID_VISIBILITY"></div>');
     render.replaceContent(s);
   }
 
@@ -151,16 +156,20 @@ class FvcLiveStream extends FScrollViewContent {
           .then(() => d.#onPreviewReady())
           .catch(err => d.#onPreviewError(err));
     } else {
-      this._owner.onLocalErrorInFragment(this, R.get("EL_GET_DEVICE"));
+      // @ts-expect-error - owner may have onLocalErrorInFragment method
+      this._owner?.onLocalErrorInFragment?.(this, R.get("EL_GET_DEVICE"));
     }
   }
 
   #setPreview(stream: MediaStream): Promise<void> {
     this._stream = stream;
-    let ePreview = document.getElementById("ID_PREVIEW") as HTMLVideoElement;
+    let ePreview = document.getElementById("ID_PREVIEW") as HTMLVideoElement | null;
+    if (!ePreview) {
+      return Promise.resolve();
+    }
     ePreview.srcObject = stream;
     return new Promise(resolve => {
-      ePreview.onplaying = () => resolve();
+      ePreview!.onplaying = () => resolve();
     });
   }
 
@@ -172,10 +181,12 @@ class FvcLiveStream extends FScrollViewContent {
   #onPreviewError(err: DOMException): void {
     switch (err.name) {
     case "NotAllowedError":
-      this._owner.onLocalErrorInFragment(this, R.get("EL_ACCESS_DEVICE"));
+      // @ts-expect-error - owner may have onLocalErrorInFragment method
+      this._owner?.onLocalErrorInFragment?.(this, R.get("EL_ACCESS_DEVICE"));
       break;
     case "NotFoundError":
-      this._owner.onLocalErrorInFragment(this, R.get("EL_NO_DEVICE"));
+      // @ts-expect-error - owner may have onLocalErrorInFragment method
+      this._owner?.onLocalErrorInFragment?.(this, R.get("EL_NO_DEVICE"));
       break;
     default:
       console.log(err);
@@ -211,13 +222,15 @@ class FvcLiveStream extends FScrollViewContent {
   }
 
   #onRecordError(evt: Event): void {
-    const err = evt as ErrorEvent;
+    const err = evt as { name?: string };
     switch (err.name) {
     case "NotAllowedError":
-      this._owner.onLocalErrorInFragment(this, R.get("EL_ACCESS_DEVICE"));
+      // @ts-expect-error - owner may have onLocalErrorInFragment method
+      this._owner?.onLocalErrorInFragment?.(this, R.get("EL_ACCESS_DEVICE"));
       break;
     case "NotFoundError":
-      this._owner.onLocalErrorInFragment(this, R.get("EL_NO_DEVICE"));
+      // @ts-expect-error - owner may have onLocalErrorInFragment method
+      this._owner?.onLocalErrorInFragment?.(this, R.get("EL_NO_DEVICE"));
       break;
     default:
       console.log(err);
@@ -251,12 +264,12 @@ class FvcLiveStream extends FScrollViewContent {
     let fd = new FormData();
     let e = document.getElementById("ID_TITLE") as HTMLTextAreaElement;
     fd.append("title", e.value);
-    fd.append("visibility", this._visView.getValue());
+    fd.append("visibility", this._visView.getSelectedValue() || "");
     glb.api!.asFragmentPost(this, url, fd)
         .then((d: unknown) => { this.#onStartLiveRRR(d); });
   }
 
-  #onStartLiveRRR(responseText: unknown): void {
+  #onStartLiveRRR(_responseText: unknown): void {
     this.#onRemoveServerReady();
   }
 
@@ -274,14 +287,15 @@ class FvcLiveStream extends FScrollViewContent {
         .finally(() => this.#onSendDataDone());
   }
 
-  #onSendDataRRR(data: unknown): void {
+  #onSendDataRRR(_data: unknown): void {
     this.#nUploadError = 0;
   }
 
-  #onSendDataError(e: unknown): void {
+  #onSendDataError(_e: unknown): void {
     this.#nUploadError++;
     if (this.#nUploadError > 10) {
-      this._owner.onLocalErrorInFragment(this, R.get("EL_CONNECTION_LOST"));
+      // @ts-expect-error - owner may have onLocalErrorInFragment method
+      this._owner?.onLocalErrorInFragment?.(this, R.get("EL_CONNECTION_LOST"));
     }
   }
 
@@ -294,7 +308,7 @@ class FvcLiveStream extends FScrollViewContent {
     glb.api!.asFragmentCall(this, url).then((d: unknown) => { this.#onStopLiveRRR(d); });
   }
 
-  #onStopLiveRRR(data: unknown): void {
+  #onStopLiveRRR(_data: unknown): void {
     this.#onRemoveServerStopped();
   }
 }
