@@ -163,8 +163,8 @@ export class RenderController extends Controller {
   }
 
   init() {}
-  action() {}
-  handleSessionDataUpdate() {}
+  action(type, ...args) {}
+  handleSessionDataUpdate(dataType, data) {}
 
   render() {
     let r = this.getRender();

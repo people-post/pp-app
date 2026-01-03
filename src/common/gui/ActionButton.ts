@@ -8,6 +8,16 @@ export const CF_ACTION_BUTTON = {
 };
 
 // Export to window for string template access
+declare global {
+  interface Window {
+    gui?: {
+      CF_ACTION_BUTTON?: typeof CF_ACTION_BUTTON;
+      CF_SIMPLE_LIST?: typeof import('./FSimpleList.js').CF_SIMPLE_LIST;
+      [key: string]: unknown;
+    };
+  }
+}
+
 if (typeof window !== 'undefined') {
   window.gui = window.gui || {};
   window.gui.CF_ACTION_BUTTON = CF_ACTION_BUTTON;
@@ -35,25 +45,25 @@ export class ActionButton extends Fragment {
     DONATE: ICON.COFFEE_MUG,
   };
 
-  constructor() {
-    super();
-    this._icon = null;
+  private _icon: string | null = null;
+
+  setIcon(icon: string | null): void {
+    this._icon = icon;
   }
 
-  setIcon(icon) { this._icon = icon; }
-
-  action(type, ...args) {
+  action(type: string, ...args: unknown[]): void {
     switch (type) {
     case CF_ACTION_BUTTON.ONCLICK:
-      this._delegate.onGuiActionButtonClick(this);
+      // @ts-expect-error - delegate may have this method
+      this._delegate?.onGuiActionButtonClick?.(this);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderContent() {
+  _renderContent(): string {
     let icon = this._getIcon();
     if (!icon) {
       return "";
@@ -63,5 +73,7 @@ export class ActionButton extends Fragment {
     return s;
   }
 
-  _getIcon() { return this._icon; }
-};
+  _getIcon(): string | null {
+    return this._icon;
+  }
+}

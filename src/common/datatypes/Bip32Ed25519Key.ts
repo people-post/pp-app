@@ -1,6 +1,6 @@
 import Utilities from '../../lib/ext/Utilities.js';
 import { derivePrivate, toPublic } from 'bip32-ed25519';
-import { getPublicKeyAsync, signAsync } from '@noble/ed25519';
+import { getPublicKey, sign } from '@noble/ed25519';
 
 export class Bip32Ed25519Key {
   #buffer: Uint8Array;
@@ -23,14 +23,14 @@ export class Bip32Ed25519Key {
   }
 
   async toPublicAsync(): Promise<Uint8Array> {
-    return await getPublicKeyAsync(this.#getPrivateKey());
+    return await getPublicKey(this.#getPrivateKey());
   }
 
   async signEd(msg: string): Promise<Uint8Array> {
     const encoder = new TextEncoder();
     const m = await this.#getSha512Hash(msg);
     const hash = encoder.encode(m);
-    return await signAsync(hash, this.#getPrivateKey());
+    return await sign(hash, this.#getPrivateKey());
   }
 
   #getPrivateKey(): Uint8Array {

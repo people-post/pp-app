@@ -2,6 +2,21 @@ import { FScrollViewContent } from '../lib/ui/controllers/fragments/FScrollViewC
 import { ButtonGroup } from '../lib/ui/controllers/fragments/ButtonGroup.js';
 import { HintText } from '../lib/ui/controllers/fragments/HintText.js';
 import { VIS } from '../common/constants/Constants.js';
+import Render from '../lib/ui/renders/Render.js';
+import { glb } from '../lib/framework/Global.js';
+import { R } from '../common/constants/R.js';
+
+declare global {
+  interface Window {
+    C_LIVE_STREAM: {
+      START_RECORD: string;
+      STOP_RECORD: string;
+      TOGGLE_VIDEO: string;
+      START_PREVIEW: string;
+      STOP_PREVIEW: string;
+    };
+  }
+}
 
 window.C_LIVE_STREAM = {
   START_RECORD : "C_LIVE_STREAM_1",
@@ -10,6 +25,8 @@ window.C_LIVE_STREAM = {
   START_PREVIEW : "C_LIVE_STREAM_4",
   STOP_PREVIEW : "C_LIVE_STREAM_5",
 }
+
+const C_LIVE_STREAM = window.C_LIVE_STREAM;
 
 const _CVT_LIVE_STREAM = {
   MAIN : `<div>
@@ -45,18 +62,26 @@ const _CVT_LIVE_STREAM = {
       `<a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action(C_LIVE_STREAM.STOP_PREVIEW)">Stop Preview</a>`,
 }
 
+interface MediaOption {
+  video: boolean;
+  audio: boolean;
+}
+
 class FvcLiveStream extends FScrollViewContent {
   #nUploading = 0;
   #nUploadError = 0;
+  _dataSource: unknown;
+  _recorder: MediaRecorder | null = null;
+  _stream: MediaStream | null = null;
+  _mediaOption: MediaOption = {video : true, audio : true};
+  // TODO: Use fragment based view
+  _visView: ButtonGroup;
 
-  constructor(dataSource) {
+  constructor(dataSource: unknown) {
     super();
     this._dataSource = dataSource;
-    this._recorder = null;
-    this._stream = null;
-    this._mediaOption = {video : true, audio : true};
-    // TODO: Use fragment based view
     this._visView = new ButtonGroup();
+    // @ts-expect-error - setDelegate accepts any object with delegate methods
     this._visView.setDelegate(this);
     this._visView.addChoice({
       name : "Public",
@@ -75,9 +100,9 @@ class FvcLiveStream extends FScrollViewContent {
     });
   }
 
-  onButtonGroupSelectionChanged(fButtonGroup, value) {}
+  onButtonGroupSelectionChanged(_fButtonGroup: ButtonGroup, _value: string): void {}
 
-  action(type, ...args) {
+  action(type: string, ...args: unknown[]): void {
     switch (type) {
     case C_LIVE_STREAM.START_PREVIEW:
       this.#onStartPreview();
@@ -92,31 +117,35 @@ class FvcLiveStream extends FScrollViewContent {
       this.#stopPreview();
       break;
     case C_LIVE_STREAM.TOGGLE_VIDEO:
-      this.#onVideoToggled(args[0]);
+      this.#onVideoToggled(args[0] as boolean);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let s = _CVT_LIVE_STREAM.MAIN;
     s = s.replace("__ACTION_BUTTONS__", _CVT_LIVE_STREAM.BTN_START_PREVIEW);
-    s = s.replace("__VISIBILITY__", this._visView.render());
+    // Set ButtonGroup as child fragment - it will render into ID_VISIBILITY div
+    this.setChild("visibility", this._visView);
+    s = s.replace("__VISIBILITY__", '<div id="ID_VISIBILITY"></div>');
     render.replaceContent(s);
   }
 
-  #setActionButtons(btns) {
+  #setActionButtons(btns: string[]): void {
     let e = document.getElementById("ID_ACTION_BUTTONS");
     if (e) {
       e.innerHTML = btns.join("<br>");
     }
   }
 
-  #onVideoToggled(checked) { this._mediaOption.video = checked; }
+  #onVideoToggled(checked: boolean): void {
+    this._mediaOption.video = checked;
+  }
 
-  #onStartPreview() {
+  #onStartPreview(): void {
     let d = this;
     let devices = navigator.mediaDevices;
     if (devices) {
@@ -125,29 +154,37 @@ class FvcLiveStream extends FScrollViewContent {
           .then(() => d.#onPreviewReady())
           .catch(err => d.#onPreviewError(err));
     } else {
-      this._owner.onLocalErrorInFragment(this, R.get("EL_GET_DEVICE"));
+      // @ts-expect-error - owner may have onLocalErrorInFragment method
+      this._owner?.onLocalErrorInFragment?.(this, R.get("EL_GET_DEVICE"));
     }
   }
 
-  #setPreview(stream) {
+  #setPreview(stream: MediaStream): Promise<void> {
     this._stream = stream;
-    let ePreview = document.getElementById("ID_PREVIEW");
+    let ePreview = document.getElementById("ID_PREVIEW") as HTMLVideoElement | null;
+    if (!ePreview) {
+      return Promise.resolve();
+    }
     ePreview.srcObject = stream;
-    return new Promise(resolve => ePreview.onplaying = resolve);
+    return new Promise(resolve => {
+      ePreview!.onplaying = () => resolve();
+    });
   }
 
-  #onPreviewReady() {
+  #onPreviewReady(): void {
     this.#setActionButtons(
         [ _CVT_LIVE_STREAM.BTN_START, _CVT_LIVE_STREAM.BTN_STOP_PREVIEW ]);
   }
 
-  #onPreviewError(err) {
+  #onPreviewError(err: DOMException): void {
     switch (err.name) {
     case "NotAllowedError":
-      this._owner.onLocalErrorInFragment(this, R.get("EL_ACCESS_DEVICE"));
+      // @ts-expect-error - owner may have onLocalErrorInFragment method
+      this._owner?.onLocalErrorInFragment?.(this, R.get("EL_ACCESS_DEVICE"));
       break;
     case "NotFoundError":
-      this._owner.onLocalErrorInFragment(this, R.get("EL_NO_DEVICE"));
+      // @ts-expect-error - owner may have onLocalErrorInFragment method
+      this._owner?.onLocalErrorInFragment?.(this, R.get("EL_NO_DEVICE"));
       break;
     default:
       console.log(err);
@@ -156,37 +193,42 @@ class FvcLiveStream extends FScrollViewContent {
     this.#stopPreview();
   }
 
-  #onStartLive() {
+  #onStartLive(): void {
     if (this._recorder) {
       return;
     }
     this.#asyncStartLive();
   }
 
-  #onRemoveServerReady() {
+  #onRemoveServerReady(): void {
     this.#setActionButtons([ _CVT_LIVE_STREAM.BTN_STOP ]);
     this.#startRecording();
   }
 
-  #startRecording() {
+  #startRecording(): void {
     this.#nUploading = 0;
     this.#nUploadError = 0;
-    let recorder = new MediaRecorder(this._stream);
-    recorder.ondataavailable = event => this.#onStreamDataAvailable(event.data);
+    let recorder = new MediaRecorder(this._stream!);
+    recorder.ondataavailable = (event: BlobEvent) => this.#onStreamDataAvailable(event.data);
     recorder.start(500);
-    recorder.onerror = event => this.#onRecordError(event);
+    recorder.onerror = (event: Event) => this.#onRecordError(event);
     this._recorder = recorder;
   }
 
-  #onStreamDataAvailable(data) { this.#asyncSendLiveData(data); }
+  #onStreamDataAvailable(data: Blob): void {
+    this.#asyncSendLiveData(data);
+  }
 
-  #onRecordError(evt) {
+  #onRecordError(evt: Event): void {
+    const err = evt as { name?: string };
     switch (err.name) {
     case "NotAllowedError":
-      this._owner.onLocalErrorInFragment(this, R.get("EL_ACCESS_DEVICE"));
+      // @ts-expect-error - owner may have onLocalErrorInFragment method
+      this._owner?.onLocalErrorInFragment?.(this, R.get("EL_ACCESS_DEVICE"));
       break;
     case "NotFoundError":
-      this._owner.onLocalErrorInFragment(this, R.get("EL_NO_DEVICE"));
+      // @ts-expect-error - owner may have onLocalErrorInFragment method
+      this._owner?.onLocalErrorInFragment?.(this, R.get("EL_NO_DEVICE"));
       break;
     default:
       console.log(err);
@@ -195,7 +237,7 @@ class FvcLiveStream extends FScrollViewContent {
     this.#stopRecording();
   }
 
-  #stopRecording() {
+  #stopRecording(): void {
     if (this._recorder) {
       this._recorder.stop();
       this._recorder = null;
@@ -203,11 +245,11 @@ class FvcLiveStream extends FScrollViewContent {
     this.#asyncStopLive();
   }
 
-  #onRemoveServerStopped() {
+  #onRemoveServerStopped(): void {
     this.#setActionButtons([ _CVT_LIVE_STREAM.BTN_STOP_PREVIEW ]);
   }
 
-  #stopPreview() {
+  #stopPreview(): void {
     if (this._stream) {
       this._stream.getTracks().forEach(track => track.stop());
       this._stream = null;
@@ -215,19 +257,21 @@ class FvcLiveStream extends FScrollViewContent {
     this.#setActionButtons([ _CVT_LIVE_STREAM.BTN_START_PREVIEW ]);
   }
 
-  #asyncStartLive() {
+  #asyncStartLive(): void {
     let url = "/api/blog/start_live";
     let fd = new FormData();
-    let e = document.getElementById("ID_TITLE");
+    let e = document.getElementById("ID_TITLE") as HTMLTextAreaElement;
     fd.append("title", e.value);
-    fd.append("visibility", this._visView.getValue());
-    glb.api.asFragmentPost(this, url, fd)
-        .then(d => { this.#onStartLiveRRR(d); });
+    fd.append("visibility", this._visView.getSelectedValue() || "");
+    glb.api!.asFragmentPost(this, url, fd)
+        .then((d: unknown) => { this.#onStartLiveRRR(d); });
   }
 
-  #onStartLiveRRR(responseText) { this.#onRemoveServerReady(); }
+  #onStartLiveRRR(_responseText: unknown): void {
+    this.#onRemoveServerReady();
+  }
 
-  #asyncSendLiveData(data) {
+  #asyncSendLiveData(data: Blob): void {
     if (this.#nUploading > 10) {
       console.log("Too many in queue, dropped data.");
       this.#nUploadError++;
@@ -236,26 +280,35 @@ class FvcLiveStream extends FScrollViewContent {
     // let recordedBlob = new Blob([ data ], {type : "video/webm"});
     let url = "/api/blog/live_data";
     this.#nUploading++;
-    glb.api.asPost(url, data)
-        .then(d => this.#onSendDataRRR(d), e => this.#onSendDataError(e))
+    glb.api!.asPost(url, data)
+        .then((d: unknown) => this.#onSendDataRRR(d), (e: unknown) => this.#onSendDataError(e))
         .finally(() => this.#onSendDataDone());
   }
 
-  #onSendDataRRR(data) { this.#nUploadError = 0; }
+  #onSendDataRRR(_data: unknown): void {
+    this.#nUploadError = 0;
+  }
 
-  #onSendDataError(e) {
+  #onSendDataError(_e: unknown): void {
     this.#nUploadError++;
     if (this.#nUploadError > 10) {
-      this._owner.onLocalErrorInFragment(this, R.get("EL_CONNECTION_LOST"));
+      // @ts-expect-error - owner may have onLocalErrorInFragment method
+      this._owner?.onLocalErrorInFragment?.(this, R.get("EL_CONNECTION_LOST"));
     }
   }
 
-  #onSendDataDone() { this.#nUploading--; }
-
-  #asyncStopLive() {
-    let url = "/api/blog/stop_live";
-    glb.api.asFragmentCall(this, url).then(d => { this.#onStopLiveRRR(d); });
+  #onSendDataDone(): void {
+    this.#nUploading--;
   }
 
-  #onStopLiveRRR(data) { this.#onRemoveServerStopped(); }
+  #asyncStopLive(): void {
+    let url = "/api/blog/stop_live";
+    glb.api!.asFragmentCall(this, url).then((d: unknown) => { this.#onStopLiveRRR(d); });
+  }
+
+  #onStopLiveRRR(_data: unknown): void {
+    this.#onRemoveServerStopped();
+  }
 }
+
+export default FvcLiveStream;
