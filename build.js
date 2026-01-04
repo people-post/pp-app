@@ -37,12 +37,15 @@ async function bundleJs(entryPoint, outputFile, options = {}) {
     sourcemap: true,
     platform: 'browser',
     format: 'iife',
-    globalName: 'window',
     outfile: outputFile,
     // Enable TypeScript support for node_modules (pp-api uses TypeScript)
     loader: {
       '.ts': 'ts',
       '.tsx': 'tsx'
+    },
+    // Ensure window refers to the global window object
+    define: {
+      'window': 'window'
     },
     ...options
   });

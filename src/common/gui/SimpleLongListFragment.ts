@@ -1,6 +1,7 @@
 import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
 import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { glb } from '../../lib/framework/Global.js';
 
 interface SimpleLongListFragmentDataSource {
   createInfoFragmentForLongListFragment(f: SimpleLongListFragment, id: string): Fragment | null;
@@ -45,7 +46,7 @@ export class SimpleLongListFragment extends FLongListLegacy {
     let fromId = this._idRecord.getLastId() ?? null;
     this._isBatchLoading = true;
     let url = this._dataSource.getUrlForLongListFragment(this, fromId);
-    (globalThis as any).api.asyncRawCall(url, (r: string) => this.#onLoadIdsRRR(r));
+    glb.api?.asyncRawCall(url, (r: string) => this.#onLoadIdsRRR(r), null);
   }
 
   #onLoadIdsRRR(responseText: string): void {

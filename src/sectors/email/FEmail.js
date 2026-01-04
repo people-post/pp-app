@@ -2,7 +2,7 @@ export const CF_EMAIL_INFO = {
   VIEW_EMAIL : "CF_EMAIL_INFO_1",
 }
 
-_CFCT_EMAIL_INFO = {
+const _CFCT_EMAIL_INFO = {
   READERSHIP_MARK : `<div class="colorable-info-cycle s-cfuncbg"></div>`,
 }
 

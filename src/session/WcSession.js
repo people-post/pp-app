@@ -26,6 +26,7 @@ import { Logger } from '../lib/ext/Logger.js';
 import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
 import { FvcUserInfo } from '../sectors/hr/FvcUserInfo.js';
 import { FvcUserGroup } from '../common/hr/FvcUserGroup.js';
+import { glb } from '../lib/framework/Global.js';
 
 const _CRCT_SESSION = {
   // Prime, secondary: User defined
@@ -337,7 +338,7 @@ export class WcSession extends WindowController {
 
   #asyncLoadWebConfig() {
     let url = "api/user/web_config";
-    api.asyncRawCall(url, r => this.#onWebConfigRRR(r));
+    glb.api.asyncRawCall(url, r => this.#onWebConfigRRR(r));
   }
 
   #onWebConfigRRR(responseText) {
@@ -351,7 +352,7 @@ export class WcSession extends WindowController {
 
   #asyncMarkDomainVisit() {
     let url = "api/stat/mark_visit";
-    api.asyncRawCall(url);
+    glb.api.asyncRawCall(url);
   }
 
   #closeDialog() {
