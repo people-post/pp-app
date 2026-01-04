@@ -1,20 +1,22 @@
 import { Controller } from '../../ext/Controller.js';
 import { Factory, T_CATEGORY, T_OBJ } from '../../framework/Factory.js';
 import { Events, T_ACTION } from '../../framework/Events.js';
+import { R } from '../../../common/constants/R.js';
+import type Render from '../renders/Render.js';
 
 const _CRC_RENDER_CONTROLLER = {
   TIP_LINK :
       `<a class="knowledge-tip" href="javascript:void(0)" onclick="javascript:G.action(__ACTION_ID__, '__TIP_MSG_ID__')">__TEXT__</a>`,
   FATAL_MSG :
       `We are sorry, there is an unexpected error when __FUNC__: __TEXT__.`,
-};
+} as const;
 
 export class RenderController extends Controller {
-  #isPrimeBg = false;
-  #isActive;
-  #render;
-  #mChild;
-  #mExtraRender;
+  #isPrimeBg: boolean = false;
+  #isActive: boolean;
+  #render: Render | null;
+  #mChild: Map<string, RenderController>;
+  #mExtraRender: Map<string, Render>;
 
   constructor() {
     super();
@@ -25,24 +27,24 @@ export class RenderController extends Controller {
     this.#mExtraRender = new Map();
   }
 
-  isActive() { return this.#isActive; }
-  isAttached() { return !!this.#render; }
-  isMenuRenderMode() { return this.#isPrimeBg; }
-  isOwnedBy(other) {
-    let o = this._owner;
+  isActive(): boolean { return this.#isActive; }
+  isAttached(): boolean { return !!this.#render; }
+  isMenuRenderMode(): boolean { return this.#isPrimeBg; }
+  isOwnedBy(other: RenderController | null): boolean {
+    let o: RenderController | null = this._owner as RenderController | null;
     while (o) {
       if (o == other) {
         return true;
       }
-      o = o._owner;
+      o = o._owner as RenderController | null;
     }
     return false;
   }
 
-  getRender() { return this.#render; }
-  getUrlParamString() { return ""; }
+  getRender(): Render | null { return this.#render; }
+  getUrlParamString(): string { return ""; }
 
-  setVisible(b) {
+  setVisible(b: boolean): void {
     let r = this.getRender();
     if (!r) {
       return;
@@ -55,7 +57,7 @@ export class RenderController extends Controller {
     }
   }
 
-  setActive(b) {
+  setActive(b: boolean): void {
     if (this.#isActive != b) {
       if (b) {
         this.setVisible(true);
@@ -73,14 +75,14 @@ export class RenderController extends Controller {
     }
   }
 
-  setOwner(owner) {
+  setOwner(owner: RenderController | null): void {
     if (this._owner) {
-      this._owner.__onChildRenderControllerRequestReleaseOwnership(this);
+      (this._owner as any).__onChildRenderControllerRequestReleaseOwnership(this);
     }
     this._owner = owner;
   }
 
-  setChild(id, child) {
+  setChild(id: string, child: RenderController | null): void {
     // Detach existing child render controller
     let f = this.#mChild.get(id);
     if (f) {
@@ -97,14 +99,14 @@ export class RenderController extends Controller {
   }
 
   // Render in primary bg color
-  setMenuRenderMode(b) {
+  setMenuRenderMode(b: boolean): void {
     this.#isPrimeBg = b;
     for (let c of this._getAllChildControllers()) {
       c.setMenuRenderMode(b);
     }
   }
 
-  attachRender(render) {
+  attachRender(render: Render): void {
     if (this.#render) {
       this.detachRender();
     }
@@ -114,7 +116,7 @@ export class RenderController extends Controller {
     }
   }
 
-  attachExtraRender(id, render) {
+  attachExtraRender(id: string, render: Render): void {
     // Detach existing first
     let r = this.#mExtraRender.get(id);
     if (r) {
@@ -124,7 +126,7 @@ export class RenderController extends Controller {
     // Extra render do not generate attach event yet
   }
 
-  detachRender() {
+  detachRender(): void {
     this._onBeforeRenderDetach();
     for (let c of this._getAllChildControllers()) {
       c.detachRender();
@@ -139,34 +141,34 @@ export class RenderController extends Controller {
     this.#mExtraRender.clear();
   }
 
-  userAction() {
-    if (this.isActive() && this._isEventSource(event)) {
+  userAction(): void {
+    if (this.isActive() && this._isEventSource(event as Event)) {
       // console.debug(this.constructor.name + " handle event");
       for (let c of this._getActiveChildControllers()) {
-        c.userAction.apply(c, arguments)
+        c.userAction.apply(c, arguments as any);
       }
-      this.action.apply(this, arguments);
+      this.action.apply(this, arguments as any);
     }
   }
 
-  scheduledAction() {
+  scheduledAction(): void {
     if (this.isActive()) {
-      this.action.apply(this, arguments);
+      this.action.apply(this, arguments as any);
     }
   }
 
-  applyDataUpdate() {
+  applyDataUpdate(): void {
     for (let c of this._getAllChildControllers()) {
-      c.applyDataUpdate.apply(c, arguments);
+      c.applyDataUpdate.apply(c, arguments as any);
     }
-    this.handleSessionDataUpdate.apply(this, arguments);
+    this.handleSessionDataUpdate.apply(this, arguments as any);
   }
 
-  init() {}
-  action(type, ...args) {}
-  handleSessionDataUpdate(dataType, data) {}
+  init(): void {}
+  action(_type?: any, ..._args: any[]): void {}
+  handleSessionDataUpdate(_dataType?: any, _data?: any): void {}
 
-  render() {
+  render(): void {
     let r = this.getRender();
     if (r) {
       this._renderOnRender(r);
@@ -174,10 +176,10 @@ export class RenderController extends Controller {
     }
   }
 
-  _onRenderAttached(render) {}
-  _onBeforeRenderDetach() {}
+  _onRenderAttached(render: Render): void {}
+  _onBeforeRenderDetach(): void {}
 
-  _isEventSource(evt) {
+  _isEventSource(evt: Event): boolean {
     if (this.#render && this.#render.isEventSource(evt)) {
       return true;
     }
@@ -189,52 +191,52 @@ export class RenderController extends Controller {
     return false;
   }
 
-  _getChild(id) { return this.#mChild.get(id); }
-  _getAllChildControllers() { return [...this.#mChild.values() ]; }
-  _getActiveChildControllers() {
+  _getChild(id: string): RenderController | undefined { return this.#mChild.get(id); }
+  _getAllChildControllers(): RenderController[] { return [...this.#mChild.values() ]; }
+  _getActiveChildControllers(): RenderController[] {
     return this._getAllChildControllers().filter(c => c.isActive());
   }
-  _getVisibleChildControllers() { return this._getAllChildControllers(); }
+  _getVisibleChildControllers(): RenderController[] { return this._getAllChildControllers(); }
 
-  _renderOnRender(render) { render.replaceContent(this._renderContent()); }
-  _renderContent() { return ""; }
-  _onContentDidAppear() {}
+  _renderOnRender(render: Render): void { render.replaceContent(this._renderContent()); }
+  _renderContent(): string { return ""; }
+  _onContentDidAppear(): void {}
 
-  _clearChildren() {
+  _clearChildren(): void {
     for (let f of this.#mChild.values()) {
       f.detachRender();
     }
     this.#mChild.clear();
   }
 
-  _renderTipLink(actionId, text, tip) {
-    let s = _CRC_RENDER_CONTROLLER.TIP_LINK;
+  _renderTipLink(actionId: string, text: string, tip: string): string {
+    let s: string = _CRC_RENDER_CONTROLLER.TIP_LINK;
     s = s.replace("__ACTION_ID__", actionId);
     s = s.replace("__TEXT__", text);
     s = s.replace("__TIP_MSG_ID__", tip);
     return s;
   }
 
-  _fatal(funcName, responseText) {
-    let s = _CRC_RENDER_CONTROLLER.FATAL_MSG;
+  _fatal(funcName: string, responseText: string): void {
+    let s: string = _CRC_RENDER_CONTROLLER.FATAL_MSG;
     s = s.replace("__FUNC__", funcName);
     s = s.replace("__TEXT__", responseText);
     this._displayMessage(s);
   }
 
-  _displayMessage(textCode) {
+  _displayMessage(textCode: string): void {
     Events.triggerTopAction(T_ACTION.SHOW_NOTICE, this,
                                 R.get(textCode));
   }
 
-  _confirmDangerousOperation(msg, func) {
+  _confirmDangerousOperation(msg: string, func: (() => void) | null): void {
     // Use Factory to get View and FvcConfirmAction classes to break circular dependency
-    const ViewClass = Factory.getClass(T_CATEGORY.UI, T_OBJ.VIEW);
+    const ViewClass = Factory.getClass(T_CATEGORY.UI, T_OBJ.VIEW) as any;
     if (!ViewClass) {
       console.error('View class not registered in Factory');
       return;
     }
-    const ConfirmActionClass = Factory.getClass(T_CATEGORY.UI, T_OBJ.CONFIRM_ACTION_FRAGMENT);
+    const ConfirmActionClass = Factory.getClass(T_CATEGORY.UI, T_OBJ.CONFIRM_ACTION_FRAGMENT) as any;
     if (!ConfirmActionClass) {
       console.error('FvcConfirmAction class not registered in Factory');
       return;
@@ -249,7 +251,7 @@ export class RenderController extends Controller {
                                 "Confirmation", false);
   }
 
-  __onChildRenderControllerRequestReleaseOwnership(child) {
+  __onChildRenderControllerRequestReleaseOwnership(child: RenderController): void {
     for (let [id, c] of this.#mChild.entries()) {
       if (c == child) {
         this.#mChild.delete(id);
@@ -257,3 +259,4 @@ export class RenderController extends Controller {
     }
   }
 }
+

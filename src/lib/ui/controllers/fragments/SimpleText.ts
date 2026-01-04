@@ -1,10 +1,13 @@
 import { Fragment } from './Fragment.js';
 
 export class SimpleText extends Fragment {
-  constructor(text) {
+  private _text: string;
+
+  constructor(text: string) {
     super();
     this._text = text;
   }
 
-  _renderContent() { return this._text; }
-};
+  _renderContent(): string { return this._text; }
+}
+

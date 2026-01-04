@@ -5,9 +5,26 @@ export const CF_UI_BUTTON = {
   ON_CLICK : Symbol(),
 };
 
+// Export to window for string template access
+declare global {
+  interface Window {
+    CF_UI_BUTTON?: typeof CF_UI_BUTTON;
+    [key: string]: unknown;
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.CF_UI_BUTTON = CF_UI_BUTTON;
+}
+
 const _CFT_UI_BUTTON = {
   ACTION : "javascript:G.action(window.CF_UI_BUTTON.ON_CLICK)",
-};
+} as const;
+
+interface Theme {
+  getPrimaryColor(): string;
+  getSecondaryColor(): string;
+}
 
 export class Button extends Fragment {
   static LAYOUT_TYPE = {
@@ -16,7 +33,7 @@ export class Button extends Fragment {
     BARE: Symbol(),
     BAR: Symbol(),
     LARGE_CYCLE: Symbol(),
-  };
+  } as const;
 
   static T_THEME = {
     NONE : Symbol(),
@@ -24,50 +41,52 @@ export class Button extends Fragment {
     RISKY: Symbol(),
     DANGER: Symbol(),
     PALE: Symbol(),
-  };
+  } as const;
 
-  #name = "";
-  #icon = null;
-  #value = null;
-  #theme = null;
-  #isEnabled = true;
-  #tTheme = null;
-  #tLayout = null;
+  #name: string = "";
+  #icon: string | null = null;
+  #value: any = null;
+  #theme: Theme | null = null;
+  #isEnabled: boolean = true;
+  #tTheme: symbol | null = null;
+  #tLayout: symbol | null = null;
 
-  getValue() { return this.#value; }
+  getValue(): any { return this.#value; }
 
-  setName(name) { this.#name = name; }
-  setIcon(icon) { this.#icon = icon; }
-  setValue(v) { this.#value = v; }
-  setThemeType(type) { this.#tTheme = type; }
-  setTheme(t) { this.#theme = t; }
-  setLayoutType(type) { this.#tLayout = type; }
-  setEnabled(b) {
+  setName(name: string): void { this.#name = name; }
+  setIcon(icon: string | null): void { this.#icon = icon; }
+  setValue(v: any): void { this.#value = v; }
+  setThemeType(type: symbol | null): void { this.#tTheme = type; }
+  setTheme(t: Theme | null): void { this.#theme = t; }
+  setLayoutType(type: symbol | null): void { this.#tLayout = type; }
+  setEnabled(b: boolean): void {
     this.#isEnabled = b;
     this.#updateElement();
   }
 
-  action(type, ...args) {
+  action(type: symbol | string, ..._args: any[]): void {
     switch (type) {
     case CF_UI_BUTTON.ON_CLICK:
-      this._delegate.onSimpleButtonClicked(this);
+      if (this._delegate && typeof (this._delegate as any).onSimpleButtonClicked === 'function') {
+        (this._delegate as any).onSimpleButtonClicked(this);
+      }
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action.apply(this, arguments as any);
       break;
     }
   }
 
-  enable() { this.setEnabled(true); }
-  disable() { this.setEnabled(false); }
+  enable(): void { this.setEnabled(true); }
+  disable(): void { this.setEnabled(false); }
 
-  _renderContent() {
-    let e;
+  _renderContent(): string {
+    let e: HTMLElement;
     switch (this.#tLayout) {
-    case this.constructor.LAYOUT_TYPE.LARGE_CYCLE:
-    case this.constructor.LAYOUT_TYPE.SMALL:
-    case this.constructor.LAYOUT_TYPE.NORMAL:
-    case this.constructor.LAYOUT_TYPE.BARE:
+    case Button.LAYOUT_TYPE.LARGE_CYCLE:
+    case Button.LAYOUT_TYPE.SMALL:
+    case Button.LAYOUT_TYPE.NORMAL:
+    case Button.LAYOUT_TYPE.BARE:
       e = document.createElement("SPAN");
       break;
     default:
@@ -89,17 +108,17 @@ export class Button extends Fragment {
     return e.outerHTML;
   }
 
-  #renderIcon(icon) {
+  #renderIcon(icon: string): string {
     if (!icon) {
       return "";
     }
 
     let ss = `<span class="inline-block s-icon6">__ICON__</span>`;
-    ss = ss.replace("__ICON__", Utilities.renderSvgFuncIcon(this.#icon, true));
+    ss = ss.replace("__ICON__", Utilities.renderSvgFuncIcon(icon, true));
     return ss;
   }
 
-  #updateElement() {
+  #updateElement(): void {
     let e = document.getElementById(this.#getBtnId());
     if (e) {
       e.className = this.#getClassName();
@@ -107,7 +126,7 @@ export class Button extends Fragment {
     }
   }
 
-  #getAction() {
+  #getAction(): string {
     if (this.#isEnabled) {
       return _CFT_UI_BUTTON.ACTION;
     } else {
@@ -115,29 +134,29 @@ export class Button extends Fragment {
     }
   }
 
-  #getBtnId() { return "ID_BTN_" + this._id; }
+  #getBtnId(): string { return "ID_BTN_" + this._id; }
 
-  #getStyleClassName(isMenuMode) {
+  #getStyleClassName(isMenuMode: boolean): string {
     return isMenuMode ? this.#getMenuStyleClassName()
                       : this.#getNormalStyleClassName();
   }
 
-  #getClassName() {
-    let names = [];
+  #getClassName(): string {
+    let names: string[] = [];
     switch (this.#tLayout) {
-    case this.constructor.LAYOUT_TYPE.LARGE_CYCLE:
+    case Button.LAYOUT_TYPE.LARGE_CYCLE:
       names.push("button-like");
       names.push("large-cycle");
       break;
-    case this.constructor.LAYOUT_TYPE.SMALL:
+    case Button.LAYOUT_TYPE.SMALL:
       names.push("button-like");
       names.push("small");
       break;
-    case this.constructor.LAYOUT_TYPE.NORMAL:
+    case Button.LAYOUT_TYPE.NORMAL:
       names.push("button-like");
       names.push("normal");
       break;
-    case this.constructor.LAYOUT_TYPE.BARE:
+    case Button.LAYOUT_TYPE.BARE:
       names.push("button-like");
       break;
     default:
@@ -152,43 +171,44 @@ export class Button extends Fragment {
     return names.join(" ");
   }
 
-  #getMenuStyleClassName() {
+  #getMenuStyleClassName(): string {
     if (!this.#isEnabled) {
       return "disabled";
     }
     switch (this.#tTheme) {
-    case this.constructor.T_THEME.NONE:
+    case Button.T_THEME.NONE:
       return "";
-    case this.constructor.T_THEME.FUNC:
+    case Button.T_THEME.FUNC:
       return "s-primary s-csecondarybg s-cfunc";
-    case this.constructor.T_THEME.RISKY:
+    case Button.T_THEME.RISKY:
       return "cred risky";
-    case this.constructor.T_THEME.DANGER:
+    case Button.T_THEME.DANGER:
       return "danger";
-    case this.constructor.T_THEME.PALE:
+    case Button.T_THEME.PALE:
       return "bd1px bdsolid bdlightgray s-cmenu";
     default:
       return "s-cmenubg s-cprime";
     }
   }
 
-  #getNormalStyleClassName() {
+  #getNormalStyleClassName(): string {
     if (!this.#isEnabled) {
       return "disabled";
     }
     switch (this.#tTheme) {
-    case this.constructor.T_THEME.NONE:
+    case Button.T_THEME.NONE:
       return "";
-    case this.constructor.T_THEME.FUNC:
+    case Button.T_THEME.FUNC:
       return "s-primary s-cfuncbg s-csecondary";
-    case this.constructor.T_THEME.RISKY:
+    case Button.T_THEME.RISKY:
       return "cred risky";
-    case this.constructor.T_THEME.DANGER:
+    case Button.T_THEME.DANGER:
       return "danger";
-    case this.constructor.T_THEME.PALE:
+    case Button.T_THEME.PALE:
       return "bd1px bdsolid bdlightgray s-cinfotext";
     default:
       return "s-cfuncbg s-csecondary";
     }
   }
-};
+}
+

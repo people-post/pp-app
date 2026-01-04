@@ -2,6 +2,18 @@ import { Fragment } from './Fragment.js';
 
 export const CFT_OPTION_SWITCH = {
   ON_CHANGE : "CFT_OPTION_SWITCH_1",
+} as const;
+
+// Export to window for string template access
+declare global {
+  interface Window {
+    CFT_OPTION_SWITCH?: typeof CFT_OPTION_SWITCH;
+    [key: string]: unknown;
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.CFT_OPTION_SWITCH = CFT_OPTION_SWITCH;
 }
 
 const _CFT_OPTION_SWITCH = {
@@ -18,20 +30,30 @@ const _CFT_OPTION_SWITCH = {
       </tr>
     </tbody>
   </table>`,
+} as const;
+
+interface OptionData {
+  name: string;
+  isOn: boolean;
 }
 
 export class OptionSwitch extends Fragment {
+  private _optionMap: Map<string, OptionData>;
+
   constructor() {
     super();
     this._optionMap = new Map();
   }
 
-  addOption(name, value, isOn) {
+  addOption(name: string, value: string, isOn: boolean): void {
     this._optionMap.set(value, {"name" : name, "isOn" : isOn})
   }
-  isOptionOn(value) { return this._optionMap.get(value).isOn; }
+  isOptionOn(value: string): boolean { 
+    const option = this._optionMap.get(value);
+    return option ? option.isOn : false;
+  }
 
-  setOption(value, isOn) {
+  setOption(value: string, isOn: boolean): void {
     let d = this._optionMap.get(value);
     if (d) {
       d.isOn = isOn;
@@ -40,7 +62,7 @@ export class OptionSwitch extends Fragment {
     }
   }
 
-  action(type, ...args) {
+  action(type: string | symbol, ...args: any[]): void {
     switch (type) {
     case CFT_OPTION_SWITCH.ON_CHANGE:
       this.#onChange(args[0], args[1]);
@@ -50,8 +72,8 @@ export class OptionSwitch extends Fragment {
     }
   }
 
-  _renderContent() {
-    let items = [];
+  _renderContent(): string {
+    let items: string[] = [];
     let t = _CFT_OPTION_SWITCH.OPTION;
     for (let [v, d] of this._optionMap.entries()) {
       let s = t.replace("__NAME__", d.name);
@@ -66,9 +88,14 @@ export class OptionSwitch extends Fragment {
     return items.join("");
   }
 
-  #onChange(value, isChecked) {
+  #onChange(value: string, isChecked: boolean): void {
     let d = this._optionMap.get(value);
-    d.isOn = isChecked;
-    this._delegate.onOptionChangeInOptionsFragment(this, value, isChecked);
+    if (d) {
+      d.isOn = isChecked;
+      if (this._delegate && typeof (this._delegate as any).onOptionChangeInOptionsFragment === 'function') {
+        (this._delegate as any).onOptionChangeInOptionsFragment(this, value, isChecked);
+      }
+    }
   }
 }
+
