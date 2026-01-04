@@ -7,6 +7,9 @@ import { T_DATA } from '../../lib/framework/Events.js';
 import { WebConfig } from '../dba/WebConfig.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
 import { URL_PARAM } from '../constants/Constants.js';
+import { R } from '../constants/R.js';
+import { Render } from '../../lib/ui/renders/Render.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
 export const CF_EXTRAS_CONTENT = {
   TEST : Symbol(),
@@ -18,18 +21,35 @@ const _CFT_EXTRAS_CONTENT = {
       `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_EXTRAS_CONTENT.TEST)">Test</a>`,
 }
 
+interface PageConfig {
+  ID: string;
+  NAME: string;
+  ICON: string;
+}
+
+interface ListItem {
+  id: string;
+  icon: string;
+  data: {
+    page: PageConfig;
+    nNotifications: number;
+  };
+  isSelectable: boolean;
+}
+
 export class FvcExtras extends FScrollViewContent {
+  _fMenu: FSimpleList;
+  _subPageId: string | null = null;
+
   constructor() {
     super();
     this._fMenu = new FSimpleList();
     this._fMenu.setDataSource(this);
     this._fMenu.setDelegate(this);
     this.setChild("menu", this._fMenu);
-
-    this._subPageId = null;
   }
 
-  getUrlParamString() {
+  getUrlParamString(): string {
     if (this._subPageId) {
       return URL_PARAM.PAGE + "=" + this._subPageId;
     } else {
@@ -37,22 +57,22 @@ export class FvcExtras extends FScrollViewContent {
     }
   }
 
-  initFromUrl(urlParam) {
-    this.#onSubPageSelected(urlParam.get(URL_PARAM.PAGE), urlParam);
+  initFromUrl(urlParam: Map<string, string>): void {
+    this.#onSubPageSelected(urlParam.get(URL_PARAM.PAGE) || null, urlParam);
   }
 
-  getListItemsForListFragment(fList) { return this.#getListItems(); }
-  getSelectedItemIdForList(fList) { return this._subPageId; }
+  getListItemsForListFragment(fList: FSimpleList): ListItem[] { return this.#getListItems(); }
+  getSelectedItemIdForList(fList: FSimpleList): string | null { return this._subPageId; }
 
-  onItemSelectedInList(fList, itemId) { this.#onSubPageSelected(itemId); }
+  onItemSelectedInList(fList: FSimpleList, itemId: string): void { this.#onSubPageSelected(itemId); }
 
-  renderItemForSimpleListFragment(fSimpleList, item, panel) {
-    let config = item.data;
+  renderItemForSimpleListFragment(fSimpleList: FSimpleList, item: ListItem, panel: Panel): void {
+    const config = item.data;
     panel.replaceContent(
         this.#renderTitle(R.t(config.page.NAME), config.nNotifications));
   }
 
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_EXTRAS_CONTENT.TEST:
       this.#onTest();
@@ -63,7 +83,7 @@ export class FvcExtras extends FScrollViewContent {
     }
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: symbol, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PROFILE:
     case T_DATA.NOTIFICATIONS:
@@ -75,8 +95,8 @@ export class FvcExtras extends FScrollViewContent {
     super.handleSessionDataUpdate.apply(this, arguments);
   }
 
-  _renderContentOnRender(render) {
-    let p = new ListPanel();
+  _renderContentOnRender(render: Render): void {
+    const p = new ListPanel();
     render.wrapPanel(p);
 
     let pp = new PanelWrapper();
@@ -91,18 +111,17 @@ export class FvcExtras extends FScrollViewContent {
     }
   }
 
-  #getListItems() {
-    let configs =
-        this._dataSource.getPageConfigsForExtrasViewContentFragment(this);
-    let items = [];
-    for (let c of configs) {
+  #getListItems(): ListItem[] {
+    const configs = (this._dataSource as { getPageConfigsForExtrasViewContentFragment(f: FvcExtras): PageConfig[] }).getPageConfigsForExtrasViewContentFragment(this);
+    const items: ListItem[] = [];
+    for (const c of configs) {
       items.push({
         id : c.ID,
         icon : c.ICON,
         data : {
           page : c,
           nNotifications :
-              this._dataSource
+              (this._dataSource as { getNPageNotificationsForExtrasViewContentFragment(f: FvcExtras, id: string): number })
                   .getNPageNotificationsForExtrasViewContentFragment(this, c.ID)
         },
         isSelectable : true,
@@ -111,39 +130,40 @@ export class FvcExtras extends FScrollViewContent {
     return items;
   }
 
-  #renderTitle(name, nNotifications) {
+  #renderTitle(name: string, nNotifications: number): string {
     if (nNotifications) {
       return name + " " +
-             _CFT_EXTRAS_CONTENT.BADGE.replace("__BADGE__", nNotifications);
+             _CFT_EXTRAS_CONTENT.BADGE.replace("__BADGE__", nNotifications.toString());
     } else {
       return name;
     }
   }
 
-  #renderTest() {
-    let s = _CFT_EXTRAS_CONTENT.BTN_TEST;
+  #renderTest(): string {
+    const s = _CFT_EXTRAS_CONTENT.BTN_TEST;
     return s;
   }
 
-  #onSubPageSelected(pageId, urlParam = null) {
+  #onSubPageSelected(pageId: string | null, urlParam: Map<string, string> | null = null): void {
     this._subPageId = pageId;
-    let v = this._dataSource.createPageEntryViewForExtrasViewContentFragment(
+    const v = (this._dataSource as { createPageEntryViewForExtrasViewContentFragment(f: FvcExtras, pageId: string | null): View | null }).createPageEntryViewForExtrasViewContentFragment(
         this, pageId);
     if (v) {
-      this._owner.onFragmentRequestShowView(this, v, pageId);
+      this._owner.onFragmentRequestShowView(this, v, pageId || "");
       if (urlParam) {
         v.initFromUrl(urlParam);
       }
     }
   }
 
-  #onTest() {
-    let e = {};
-    e.type = RemoteError.T_TYPE.DEV;
-    e.type = RemoteError.T_TYPE.QUOTA;
-    e.code = "Q_LIVE_STREAM";
-    e.data = {period : 1000, quota : 3, fallback_period : 1000};
+  #onTest(): void {
+    const e: RemoteError = {
+      type: RemoteError.T_TYPE.QUOTA,
+      code: "Q_LIVE_STREAM",
+      data: {period : 1000, quota : 3, fallback_period : 1000}
+    } as RemoteError;
     this._owner.onRemoteErrorInFragment(this, e);
     //  fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, e);
   }
-};
+}
+

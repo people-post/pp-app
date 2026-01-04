@@ -4,6 +4,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { WebConfig } from '../dba/WebConfig.js';
+import { Render } from '../../lib/ui/renders/Render.js';
 
 export const CF_UPGRADE_CHOICES = {
   SELECT : Symbol(),
@@ -14,10 +15,19 @@ const _CFT_UPGRACE_CHOICES = {
       `We are sorry, upgrade account feature is still under development...`,
 };
 
-export class FvcUpgradeChoices extends FScrollViewContent {
-  #btnNext;
+interface Choice {
+  name: string;
+  blog: string;
+  livestream: string;
+  project: string;
+  proposal: string;
+  price: string;
+}
 
-  #choices = [
+export class FvcUpgradeChoices extends FScrollViewContent {
+  #btnNext: Button;
+
+  #choices: Choice[] = [
     {
       name : "Basic",
       blog: "14/week",
@@ -44,21 +54,22 @@ export class FvcUpgradeChoices extends FScrollViewContent {
     }
   ];
 
+  _tier = 1;
+
   constructor() {
     super();
-    this._tier = 1;
     this.#btnNext = new Button();
     this.#btnNext.setName("Continue");
     this.#btnNext.setDelegate(this);
     this.setChild("btnNext", this.#btnNext);
   }
 
-  onSimpleButtonClicked(fBtn) {}
+  onSimpleButtonClicked(fBtn: Button): void {}
 
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_UPGRADE_CHOICES.SELECT:
-      this.#onSelect(args[0]);
+      this.#onSelect(args[0] as number);
       break;
     default:
       super.action.apply(this, arguments);
@@ -66,15 +77,15 @@ export class FvcUpgradeChoices extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     if (WebConfig.isDevSite()) {
-      let pList = new ListPanel();
+      const pList = new ListPanel();
       render.wrapPanel(pList);
       let p = new ListPanel();
       p.setClassName("flex x-scroll x-scroll-snap");
       pList.pushPanel(p);
-      for (let [i, c] of this.#choices.entries()) {
-        let pp = new ListPanel();
+      for (const [i, c] of this.#choices.entries()) {
+        const pp = new ListPanel();
         pp.setClassName("w90 flex-noshrink scroll-snap-center");
         pp.setAttribute("onclick",
                         "javascript:G.action(gui.CF_UPGRADE_CHOICES.SELECT, " +
@@ -87,12 +98,12 @@ export class FvcUpgradeChoices extends FScrollViewContent {
       this.#btnNext.attachRender(p);
       this.#btnNext.render();
     } else {
-      let s = _CFT_UPGRACE_CHOICES.UNDER_DEV;
+      const s = _CFT_UPGRACE_CHOICES.UNDER_DEV;
       render.replaceContent(s);
     }
   }
 
-  #renderChoice(listPanel, c) {
+  #renderChoice(listPanel: ListPanel, c: Choice): void {
     let p = new Panel();
     listPanel.pushPanel(p);
     p.replaceContent(c.name);
@@ -113,10 +124,11 @@ export class FvcUpgradeChoices extends FScrollViewContent {
     p.replaceContent("Price: " + c.price);
   }
 
-  #onSelect(idx) {
+  #onSelect(idx: number): void {
     if (idx > 0 && idx < 4) {
       this._tier = idx;
       this.render();
     }
   }
-};
+}
+

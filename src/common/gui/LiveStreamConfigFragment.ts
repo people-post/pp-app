@@ -6,6 +6,9 @@ import { FMediaFileUploader } from '../../lib/ui/controllers/fragments/FMediaFil
 import { ICONS } from '../../lib/ui/Icons.js';
 import { WebConfig } from '../dba/WebConfig.js';
 import { Account } from '../dba/Account.js';
+import { Render } from '../../lib/ui/renders/Render.js';
+import { R } from '../constants/R.js';
+import { glb } from '../../lib/framework/Global.js';
 
 export const CF_LIVE_STREAM_CONFIG = {
   ADD_FILE : "CF_GUI_LIVE_STREAM_CONFIG_1",
@@ -36,26 +39,38 @@ const _CFT_LIVE_STREAM_CONFIG = {
     <p>New to live stream? __TIP_LINK__</p>`,
 }
 
+interface CacheFileInfo {
+  id: string;
+  mimeType: string;
+}
+
+interface RegenerateKeyResponse {
+  live_stream_key: string;
+}
+
 export class LiveStreamConfigFragment extends Fragment {
+  _fFile: FMediaFileUploader | null = null;
+
   constructor() {
     super();
-    this._fFile = null;
   }
 
-  onMediaFileUploadWillBegin(fFile) {}
-  onMediaFileUploadFinished(fFile) {}
+  onMediaFileUploadWillBegin(fFile: FMediaFileUploader): void {}
+  onMediaFileUploadFinished(fFile: FMediaFileUploader): void {}
 
-  saveDataToForm(formData) {
+  saveDataToForm(formData: FormData): void {
     if (this._fFile) {
-      let fInfo = this._fFile.getCacheFileInfo();
-      let info = {"id" : fInfo.id, "type" : fInfo.mimeType};
-      formData.append("livestream_info", JSON.stringify(info));
+      const fInfo = this._fFile.getCacheFileInfo() as CacheFileInfo | null;
+      if (fInfo) {
+        const info = {"id" : fInfo.id, "type" : fInfo.mimeType};
+        formData.append("livestream_info", JSON.stringify(info));
+      }
     }
   }
 
-  clearFiles() { this._fFile = null; }
+  clearFiles(): void { this._fFile = null; }
 
-  validate() {
+  validate(): boolean {
     if (!this._fFile) {
       this.onLocalErrorInFragment(this, R.get("EL_COVER_IMAGE_REQUIRED"));
       return false;
@@ -63,13 +78,13 @@ export class LiveStreamConfigFragment extends Fragment {
     return true;
   }
 
-  action(type, ...args) {
+  action(type: string, ...args: unknown[]): void {
     switch (type) {
     case CF_LIVE_STREAM_CONFIG.ADD_FILE:
-      this.#addFile(args[0]);
+      this.#addFile(args[0] as HTMLInputElement);
       break;
     case CF_LIVE_STREAM_CONFIG.SHOW_TIP:
-      this._displayMessage(args[0]);
+      this._displayMessage(args[0] as string);
       break;
     case CF_LIVE_STREAM_CONFIG.REGENERATE_KEY:
       this.#onRegenerateStreamKey();
@@ -80,8 +95,8 @@ export class LiveStreamConfigFragment extends Fragment {
     }
   }
 
-  _renderOnRender(render) {
-    let p = new ListPanel();
+  _renderOnRender(render: Render): void {
+    const p = new ListPanel();
     render.wrapPanel(p);
     let pp = new SectionPanel("Cover image");
     p.pushPanel(pp);
@@ -98,40 +113,43 @@ export class LiveStreamConfigFragment extends Fragment {
     pp.replaceContent(this.#renderInstructions());
   }
 
-  #renderAddFileButton() {
-    let s = _CFT_LIVE_STREAM_CONFIG.BTN_ADD_FILE
+  #renderAddFileButton(): string {
+    let s = _CFT_LIVE_STREAM_CONFIG.BTN_ADD_FILE;
     s = s.replace(/__ID__/g, this._id + "-add-file");
     s = s.replace("__ICON__", ICONS.CAMERA);
     return s;
   }
 
-  #addFile(inputNode) {
+  #addFile(inputNode: HTMLInputElement): void {
     this._fFile = new FMediaFileUploader();
     this._fFile.setCacheId(0);
     this._fFile.setDataSource(this);
     this._fFile.setDelegate(this);
-    this._fFile.resetToFile(inputNode.files[0]);
+    if (inputNode.files && inputNode.files[0]) {
+      this._fFile.resetToFile(inputNode.files[0]);
+    }
     this.render();
   }
 
-  #renderInstructions() {
+  #renderInstructions(): string {
     let s = _CFT_LIVE_STREAM_CONFIG.INSTRUCTION;
-    s = s.replace("__RTMP_URL__", WebConfig.getRtmpUrl());
-    s = s.replace("__KEY__", Account.getLiveStreamKey());
+    s = s.replace("__RTMP_URL__", WebConfig.getRtmpUrl() || "");
+    s = s.replace("__KEY__", Account.getLiveStreamKey() || "");
     s = s.replace("__TIP_LINK__",
                   this._renderTipLink("gui.CF_LIVE_STREAM_CONFIG.SHOW_TIP",
                                       "how to", "TIP_LIVE_STREAM"));
     return s;
   }
 
-  #onRegenerateStreamKey() {
-    let url = "api/user/regenerate_live_stream_key";
-    glb.api.asFragmentCall(this, url).then(
-        d => this.#onRegenerateStreamKeyRRR(d));
+  #onRegenerateStreamKey(): void {
+    const url = "api/user/regenerate_live_stream_key";
+    glb.api?.asFragmentCall(this, url).then(
+        (d: RegenerateKeyResponse) => this.#onRegenerateStreamKeyRRR(d));
   }
 
-  #onRegenerateStreamKeyRRR(data) {
+  #onRegenerateStreamKeyRRR(data: RegenerateKeyResponse): void {
     Account.setLiveStreamKey(data.live_stream_key);
     this.render();
   }
-};
+}
+

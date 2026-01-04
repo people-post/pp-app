@@ -1,4 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Render } from '../../lib/ui/renders/Render.js';
+import { RemoteFile } from '../datatypes/RemoteFile.js';
 
 const _CFT_MEDIA_FILE = {
   IMAGE :
@@ -8,29 +10,29 @@ const _CFT_MEDIA_FILE = {
 };
 
 export class FMediaFile extends Fragment {
-  #file = null;
+  #file: RemoteFile | null = null;
 
-  getFile(file) { return this.#file; }
+  getFile(): RemoteFile | null { return this.#file; }
 
-  setFile(file) { this.#file = file; }
+  setFile(file: RemoteFile | null): void { this.#file = file; }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Render): void {
     if (this.#file) {
       this.#renderFile(render, this.#file);
     }
   }
 
-  #renderFile(panel, file) {
+  #renderFile(panel: Render, file: RemoteFile): void {
     let s = "";
     if (file.isImage()) {
       s = _CFT_MEDIA_FILE.IMAGE;
-      s = s.replace("__URL__", file.getImageUrl());
-      s = s.replace("__DOWNLOAD_URL__", file.getDownloadUrl());
+      s = s.replace("__URL__", file.getImageUrl() || "");
+      s = s.replace("__DOWNLOAD_URL__", file.getDownloadUrl() || "");
     } else if (file.isVideo()) {
       s = _CFT_MEDIA_FILE.VIDEO;
-      s = s.replace("__TYPE__", file.getVideoManifestType());
-      s = s.replace("__URL__", file.getVideoManifestUrl());
+      s = s.replace("__URL__", file.getVideoManifestUrl() || "");
     }
     panel.replaceContent(s);
   }
-};
+}
+

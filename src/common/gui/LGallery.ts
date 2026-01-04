@@ -7,6 +7,9 @@ import { ICONS } from '../../lib/ui/Icons.js';
 import { ICON } from '../constants/Icons.js';
 import { Utilities } from '../Utilities.js';
 import { FRealTimeComments } from '../social/FRealTimeComments.js';
+import { Render } from '../../lib/ui/renders/Render.js';
+import { RemoteFile } from '../datatypes/RemoteFile.js';
+import { RemoteError } from '../datatypes/RemoteError.js';
 
 export const CLC_GALLERY = {
   TOGGLE_COMMENT : "CLC_GALLERY_1",
@@ -20,6 +23,14 @@ const _CLCT_GALLERY = {
 }
 
 export class LGallery extends Layer {
+  _fGallery: FGallery;
+  _fComments: FRealTimeComments;
+  _rComment: PanelWrapper | null = null;
+  _rControl: Panel | null = null;
+  _pContent: PanelWrapper | null = null;
+  _mActiveTouch: Map<number, Touch> = new Map();
+  _currentScale = 100;
+
   constructor() {
     super();
     this._fGallery = new FGallery();
@@ -30,24 +41,18 @@ export class LGallery extends Layer {
     this._fComments = new FRealTimeComments();
     this._fComments.setShowInputOnInit(false);
     this.setChild("Comments", this._fComments);
-
-    this._rComment = null;
-    this._rControl = null;
-    this._pContent = null;
-    this._mActiveTouch = new Map();
-    this._currentScale = 100;
   }
 
-  getUrlParamString() { return ""; }
+  getUrlParamString(): string { return ""; }
 
-  setFiles(files) { this._fGallery.setFiles(files); }
-  setSelection(idx) { this._fGallery.setSelection(idx); }
-  setCommentThreadId(id, type) { this._fComments.setThreadId(id, type); }
-  onRemoteErrorInFragment(f, err) {
+  setFiles(files: RemoteFile[] | null): void { this._fGallery.setFiles(files); }
+  setSelection(idx: number): void { this._fGallery.setSelection(idx); }
+  setCommentThreadId(id: string | number | null, type: string | null): void { this._fComments.setThreadId(id, type); }
+  onRemoteErrorInFragment(f: unknown, err: RemoteError): void {
     // TODO:
   }
 
-  action(type, ...args) {
+  action(type: string, ...args: unknown[]): void {
     switch (type) {
     case CLC_GALLERY.TOGGLE_COMMENT:
       this.#toggleComment();
@@ -61,16 +66,16 @@ export class LGallery extends Layer {
     }
   }
 
-  _renderOnRender(render) {
-    let p = new ListPanel();
+  _renderOnRender(render: Render): void {
+    const p = new ListPanel();
     p.setClassName("f-simple flex flex-column flex-center");
     p.setAttribute("onclick", "javascript:G.action(CLC_GALLERY.CLOSE)");
     render.wrapPanel(p);
-    let e = p.getDomElement();
-    e.addEventListener("touchstart", evt => this.#onTouchStart(evt));
-    e.addEventListener("touchcancel", evt => this.#onTouchCancel(evt));
-    e.addEventListener("touchmove", evt => this.#onTouchMove(evt));
-    e.addEventListener("touchend", evt => this.#onTouchEnd(evt));
+    const e = p.getDomElement();
+    e.addEventListener("touchstart", (evt: TouchEvent) => this.#onTouchStart(evt));
+    e.addEventListener("touchcancel", (evt: TouchEvent) => this.#onTouchCancel(evt));
+    e.addEventListener("touchmove", (evt: TouchEvent) => this.#onTouchMove(evt));
+    e.addEventListener("touchend", (evt: TouchEvent) => this.#onTouchEnd(evt));
 
     let pp = new PanelWrapper();
     pp.setAttribute("onclick", "javascript:G.anchorClick()");
@@ -94,17 +99,19 @@ export class LGallery extends Layer {
     this._rControl.replaceContent(this.#renderControlBar());
   }
 
-  #toggleComment() {
+  #toggleComment(): void {
     if (this._rComment) {
       this._rComment.setVisible(!this._rComment.isVisible());
       if (this._rComment.isVisible()) {
         this._fComments.render();
       }
-      this._rControl.replaceContent(this.#renderControlBar());
+      if (this._rControl) {
+        this._rControl.replaceContent(this.#renderControlBar());
+      }
     }
   }
 
-  #renderControlBar() {
+  #renderControlBar(): string {
     let s = _CLCT_GALLERY.CONTROL_BAR;
     let stk = "stkdimgray";
     if (this._rComment && this._rComment.isVisible()) {
@@ -118,38 +125,40 @@ export class LGallery extends Layer {
     return s;
   }
 
-  popState(state) { this._owner.onRequestPopLayer(this); }
+  popState(state: unknown): void { this._owner.onRequestPopLayer(this); }
 
-  #onTouchStart(evt) {
-    for (let t of evt.changedTouches) {
+  #onTouchStart(evt: TouchEvent): void {
+    for (const t of evt.changedTouches) {
       this._mActiveTouch.set(t.identifier, t);
     }
   }
-  #onTouchCancel(evt) {
+  #onTouchCancel(evt: TouchEvent): void {
     // Restore resizing
     this._currentScale = 100;
-    this._pContent.setWidth(100, "%");
+    if (this._pContent) {
+      this._pContent.setWidth(100, "%");
+    }
     this._mActiveTouch.clear();
   }
-  #onTouchMove(evt) {
-    let touches = evt.changedTouches;
-    for (let t of touches) {
-      let tLast = this._mActiveTouch.get(t.identifier);
-      if (tLast) {
-        let dx = Math.abs(t.pageX - tLast.pageX);
-        let dy = Math.abs(t.pageY - tLast.pageY);
+  #onTouchMove(evt: TouchEvent): void {
+    const touches = evt.changedTouches;
+    for (const t of touches) {
+      const tLast = this._mActiveTouch.get(t.identifier);
+      if (tLast && this._pContent) {
+        const dx = Math.abs(t.pageX - tLast.pageX);
+        const dy = Math.abs(t.pageY - tLast.pageY);
         if (dy > dx) {
-          let ds = dy;
-          let s = Math.min((1 - ds / 300) * 100, 100);
+          const ds = dy;
+          const s = Math.min((1 - ds / 300) * 100, 100);
           this._pContent.setWidth(s, "%");
           this._currentScale = s;
         }
       }
     }
   }
-  #onTouchEnd(evt) {
-    for (let t of evt.changedTouches) {
-      let tLast = this._mActiveTouch.get(t.identifier);
+  #onTouchEnd(evt: TouchEvent): void {
+    for (const t of evt.changedTouches) {
+      const tLast = this._mActiveTouch.get(t.identifier);
       if (tLast) {
         this._mActiveTouch.delete(t.identifier);
       }
@@ -158,10 +167,11 @@ export class LGallery extends Layer {
       if (this._currentScale < 80) {
         this.#onClose();
       } else {
-        this.#onTouchCancel();
+        this.#onTouchCancel(evt);
       }
     }
   }
 
-  #onClose() { this._owner.onRequestPopLayer(this); }
-};
+  #onClose(): void { this._owner.onRequestPopLayer(this); }
+}
+

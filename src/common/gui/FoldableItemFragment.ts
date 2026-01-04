@@ -3,6 +3,8 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { ArrayPanel } from '../../lib/ui/renders/panels/ArrayPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Render } from '../../lib/ui/renders/Render.js';
+import { RenderController } from '../../lib/ui/controllers/RenderController.js';
 
 export const CF_FOLDABLE_ITEM = {
   ITEM_CLICK : "CF_GUI_FOLDABLE_ITEM_1",
@@ -13,39 +15,40 @@ const _CFT_FOLDABLE_ITEM = {
 }
 
 export class FoldableItemFragment extends Fragment {
+  _itemId: string | null = null;
+  _isOpen = false;
+  _fHeader: RenderController | null = null;
+  _fContent: RenderController | null = null;
+  _fAction: RenderController | null = null;
+
   constructor() {
     super();
-    this._itemId = null;
-    this._isOpen = false;
-    this._fHeader = null;
-    this._fContent = null;
-    this._fAction = null;
   }
 
-  getItemId() { return this._itemId; }
-  setItemId(id) { return this._itemId = id; }
-  setHeaderFragment(f) {
+  getItemId(): string | null { return this._itemId; }
+  setItemId(id: string | null): string | null { return this._itemId = id; }
+  setHeaderFragment(f: RenderController | null): void {
     this._fHeader = f;
     this.setChild("header", f);
   }
-  setContentFragment(f) {
+  setContentFragment(f: RenderController | null): void {
     this._fContent = f;
     this.setChild("content", f);
   }
-  setActionFragment(f) {
+  setActionFragment(f: RenderController | null): void {
     this._fAction = f;
     this.setChild("action", f);
   }
 
-  setIsOpen(b) { this._isOpen = b; }
+  setIsOpen(b: boolean): void { this._isOpen = b; }
 
-  close() {
+  close(): void {
     if (this._isOpen) {
       this.#toggleStatus();
     }
   }
 
-  action(type, ...args) {
+  action(type: string, ...args: unknown[]): void {
     switch (type) {
     case CF_FOLDABLE_ITEM.ITEM_CLICK:
       this.#toggleStatus();
@@ -56,8 +59,8 @@ export class FoldableItemFragment extends Fragment {
     }
   }
 
-  _renderOnRender(render) {
-    let p = new ListPanel();
+  _renderOnRender(render: Render): void {
+    const p = new ListPanel();
     render.wrapPanel(p);
     let pp = new ArrayPanel();
     pp.setTableClassName("foldable-item w100 border-collapse");
@@ -70,8 +73,10 @@ export class FoldableItemFragment extends Fragment {
     let ppp = new PanelWrapper();
     ppp.setAttribute("onclick", _CFT_FOLDABLE_ITEM.ON_CLICK_ACTION);
     pp.pushPanel(ppp);
-    this._fHeader.attachRender(ppp);
-    this._fHeader.render();
+    if (this._fHeader) {
+      this._fHeader.attachRender(ppp);
+      this._fHeader.render();
+    }
 
     if (this._fAction) {
       ppp = new Panel();
@@ -93,13 +98,14 @@ export class FoldableItemFragment extends Fragment {
     }
   }
 
-  #toggleStatus() {
+  #toggleStatus(): void {
     this._isOpen = !this._isOpen;
     if (this._isOpen) {
-      this._delegate.onFoldableItemOpen(this, this._itemId);
+      (this._delegate as { onFoldableItemOpen(f: FoldableItemFragment, id: string | null): void }).onFoldableItemOpen(this, this._itemId);
     } else {
-      this._delegate.onFoldableItemClose(this, this._itemId);
+      (this._delegate as { onFoldableItemClose(f: FoldableItemFragment, id: string | null): void }).onFoldableItemClose(this, this._itemId);
     }
     this.render();
   }
-};
+}
+

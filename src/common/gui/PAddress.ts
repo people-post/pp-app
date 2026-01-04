@@ -48,6 +48,17 @@ const _CPT_ADDRESS = {
 };
 
 export class PAddress extends PAddressBase {
+  _pNickname: Panel;
+  _pName: Panel;
+  _pCountry: Panel;
+  _pState: Panel;
+  _pCity: Panel;
+  _pZipcode: Panel;
+  _pLine1: Panel;
+  _pLine2: Panel;
+  _pBtnEdit: PanelWrapper;
+  _pBtnDelete: PanelWrapper;
+
   constructor() {
     super();
     this._pNickname = new Panel();
@@ -62,18 +73,18 @@ export class PAddress extends PAddressBase {
     this._pBtnDelete = new PanelWrapper();
   }
 
-  getNicknamePanel() { return this._pNickname; }
-  getNamePanel() { return this._pName; }
-  getCountryPanel() { return this._pCountry; }
-  getStatePanel() { return this._pState; }
-  getCityPanel() { return this._pCity; }
-  getZipcodePanel() { return this._pZipcode; }
-  getLine1Panel() { return this._pLine1; }
-  getLine2Panel() { return this._pLine2; }
-  getEditBtnPanel() { return this._pBtnEdit; }
-  getDeleteBtnPanel() { return this._pBtnDelete; }
+  getNicknamePanel(): Panel { return this._pNickname; }
+  getNamePanel(): Panel { return this._pName; }
+  getCountryPanel(): Panel { return this._pCountry; }
+  getStatePanel(): Panel { return this._pState; }
+  getCityPanel(): Panel { return this._pCity; }
+  getZipcodePanel(): Panel { return this._pZipcode; }
+  getLine1Panel(): Panel { return this._pLine1; }
+  getLine2Panel(): Panel { return this._pLine2; }
+  getEditBtnPanel(): PanelWrapper { return this._pBtnEdit; }
+  getDeleteBtnPanel(): PanelWrapper { return this._pBtnDelete; }
 
-  _renderFramework() {
+  _renderFramework(): string {
     let s = _CPT_ADDRESS.MAIN;
     s = s.replace("__ID_NICKNAME__", this._getSubElementId("NN"));
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
@@ -88,7 +99,7 @@ export class PAddress extends PAddressBase {
     return s;
   }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this._pNickname.attach(this._getSubElementId("NN"));
     this._pName.attach(this._getSubElementId("N"));
@@ -101,4 +112,5 @@ export class PAddress extends PAddressBase {
     this._pBtnEdit.attach(this._getSubElementId("E"));
     this._pBtnDelete.attach(this._getSubElementId("D"));
   }
-};
+}
+

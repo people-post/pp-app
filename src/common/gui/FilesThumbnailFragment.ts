@@ -1,5 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Render } from '../../lib/ui/renders/Render.js';
+import { RemoteFile } from '../datatypes/RemoteFile.js';
 
 export const CF_FILES_THUMBNAIL = {
   ON_CLICK : Symbol(),
@@ -37,10 +39,10 @@ const _CFT_FILES_THUMBNAIL = {
 };
 
 export class FilesThumbnailFragment extends Fragment {
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_FILES_THUMBNAIL.ON_CLICK:
-      this._delegate.onThumbnailClickedInThumbnailFragment(this, args[0]);
+      (this._delegate as { onThumbnailClickedInThumbnailFragment(f: FilesThumbnailFragment, idx: number): void }).onThumbnailClickedInThumbnailFragment(this, args[0] as number);
       break;
     default:
       super.action.apply(this, arguments);
@@ -48,42 +50,45 @@ export class FilesThumbnailFragment extends Fragment {
     }
   }
 
-  _renderOnRender(render) {
-    let files = this._dataSource.getFilesForThumbnailFragment(this);
+  _renderOnRender(render: Render): void {
+    const files = (this._dataSource as { getFilesForThumbnailFragment(f: FilesThumbnailFragment): RemoteFile[] | null }).getFilesForThumbnailFragment(this);
     if (!files) {
       return;
     }
-    let p = new Panel();
+    const p = new Panel();
     p.setClassName("thumbnail-grid-wrapper");
     render.wrapPanel(p);
     this.#renderFiles(files, p);
   }
 
-  #renderFiles(files, panel) {
-    let gridTypes = _CFC_FILES_THUMBNAIL.GRID_TYPE["N" + files.length];
-    let items = [];
+  #renderFiles(files: RemoteFile[], panel: Panel): void {
+    const gridTypes = (_CFC_FILES_THUMBNAIL.GRID_TYPE as Record<string, string[]>)[`N${files.length}`];
+    if (!gridTypes) {
+      return;
+    }
+    const items: string[] = [];
     let w = panel.getWidth();
     // Calculations are rough, should be good enough
     if (files.length > 3) {
       w = w / 2;
     }
-    for (let [i, file] of files.entries()) {
-      items.push(this.#renderFile(file, gridTypes[i], i, w));
+    for (const [i, file] of files.entries()) {
+      items.push(this.#renderFile(file, gridTypes[i] || "", i, w));
     }
     panel.replaceContent(items.join(""));
   }
 
-  #renderFile(file, gridType, idx, forWidth) {
+  #renderFile(file: RemoteFile, gridType: string, idx: number, forWidth: number): string {
     let s = _CFT_FILES_THUMBNAIL.ITEM;
     s = s.replace("__THUMBNAIL_GRID_TYPE__", gridType);
-    s = s.replace("__IDX__", idx);
-    let bg = file.getBackgroundColor();
+    s = s.replace("__IDX__", idx.toString());
+    const bg = file.getBackgroundColor();
     if (bg && bg.length) {
       s = s.replace("__BG_COLOR__", "background-color:" + bg + ";");
     } else {
       s = s.replace("__BG_COLOR__", "");
     }
-    s = s.replace("__URL__", file.getThumbnailUrl(forWidth));
+    s = s.replace("__URL__", file.getThumbnailUrl(forWidth) || "");
     if (file.isVideo()) {
       if (file.isLivestreaming()) {
         s = s.replace("__CONTENT__", _CFT_FILES_THUMBNAIL.LIVE_ICON_MASK);
@@ -95,4 +100,5 @@ export class FilesThumbnailFragment extends Fragment {
     }
     return s;
   }
-};
+}
+

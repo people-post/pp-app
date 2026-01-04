@@ -1,4 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Render } from '../../lib/ui/renders/Render.js';
 
 export const CF_ICON_UPLOADER = {
   ON_ICON_CHANGE : Symbol(),
@@ -13,13 +14,14 @@ const _CFT_ICON_UPLOADER = {
 };
 
 export class FIconUploader extends Fragment {
-  #iconUrl;
-  setIconUrl(url) { this.#iconUrl = url; }
+  #iconUrl: string | null = null;
+  
+  setIconUrl(url: string | null): void { this.#iconUrl = url; }
 
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_ICON_UPLOADER.ON_ICON_CHANGE:
-      this._delegate.onIconUploaderFragmentRequestUpdateIcon(this, args[0]);
+      (this._delegate as { onIconUploaderFragmentRequestUpdateIcon(f: FIconUploader, file: File): void }).onIconUploaderFragmentRequestUpdateIcon(this, args[0] as File);
       break;
     default:
       super.action.apply(this, arguments);
@@ -27,9 +29,10 @@ export class FIconUploader extends Fragment {
     }
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Render): void {
     let s = _CFT_ICON_UPLOADER.MAIN;
     s = s.replace("__SRC__", this.#iconUrl ? this.#iconUrl : "");
     render.replaceContent(s);
   }
-};
+}
+

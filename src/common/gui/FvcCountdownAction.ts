@@ -1,5 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { CronJob } from '../../lib/ext/CronJob.js';
+import { Render } from '../../lib/ui/renders/Render.js';
 
 export const CF_COUNTDOWN_ACTION = {
   ACTION : Symbol(),
@@ -14,17 +15,26 @@ const _CFT_COUNTDOWN_ACTION = {
     <a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_COUNTDOWN_ACTION.CANCEL)">Cancel</a>`,
 };
 
+interface CountdownConfig {
+  message: string;
+  actionTitle: string;
+}
+
 export class FvcCountdownAction extends FScrollViewContent {
-  constructor(config, tTotal) {
+  _config: CountdownConfig;
+  _timer: CronJob;
+  _tRemaining: number;
+
+  constructor(config: CountdownConfig, tTotal: number) {
     super();
     this._config = config;
     this._timer = new CronJob();
     this._tRemaining = tTotal;
   }
 
-  onContentDidAppear() { this._timer.reset(() => this.#onInterval(), 1000); }
+  onContentDidAppear(): void { this._timer.reset(() => this.#onInterval(), 1000); }
 
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_COUNTDOWN_ACTION.ACTION:
       this.#onAction();
@@ -37,39 +47,40 @@ export class FvcCountdownAction extends FScrollViewContent {
     }
   }
 
-  _onBeforeRenderDetach() {
+  _onBeforeRenderDetach(): void {
     this._timer.stop();
     super._onBeforeRenderDetach();
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let s = _CFT_COUNTDOWN_ACTION.MAIN;
     s = s.replace("__TEXT__", this._config.message);
     s = s.replace("__ACTION_TITLE__", this._config.actionTitle);
-    s = s.replace("__TIME__", this._tRemaining / 1000);
+    s = s.replace("__TIME__", (this._tRemaining / 1000).toString());
     render.replaceContent(s);
   }
 
-  #onInterval() {
+  #onInterval(): void {
     this._tRemaining -= 1000;
     if (this._tRemaining < 0) {
       this.#onAction();
     }
-    let e = document.getElementById("ID_INTERVAL_VALUE");
+    const e = document.getElementById("ID_INTERVAL_VALUE");
     if (e) {
-      e.innerHTML = this._tRemaining / 1000;
+      e.innerHTML = (this._tRemaining / 1000).toString();
     }
   }
 
-  #onAction() {
+  #onAction(): void {
     this._timer.stop();
-    this._delegate.onCountdownFinishedInCountdownContentFragment(this);
+    (this._delegate as { onCountdownFinishedInCountdownContentFragment(f: FvcCountdownAction): void }).onCountdownFinishedInCountdownContentFragment(this);
     this._owner.onContentFragmentRequestPopView(this);
   }
 
-  #onCancelAction() {
+  #onCancelAction(): void {
     this._timer.stop();
-    this._delegate.onCountdownCancelledInCountdownContentFragment(this);
+    (this._delegate as { onCountdownCancelledInCountdownContentFragment(f: FvcCountdownAction): void }).onCountdownCancelledInCountdownContentFragment(this);
     this._owner.onContentFragmentRequestPopView(this);
   }
-};
+}
+

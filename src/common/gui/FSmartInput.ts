@@ -4,6 +4,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Events } from '../../lib/framework/Events.js';
+import { Render } from '../../lib/ui/renders/Render.js';
 
 export const CF_SMART_INPUT = {
   ON_CHANGE : Symbol(),
@@ -20,8 +21,13 @@ const _CFT_SMART_INPUT = {
       `<span class="clickable bd1px bdsolid bdlightblue bdradius5px pad2px" onclick="javascript:G.action(gui.CF_SMART_INPUT.ON_HINT_ITEM_CHOSEN, '__ITEM_ID__')">__VALUE__</span>`,
 };
 
+interface FilteredItem {
+  id: string;
+  name: string;
+}
+
 export class FSmartInput extends Fragment {
-  #fChoices;
+  #fChoices: Label;
   #hintText = "";
 
   constructor() {
@@ -30,18 +36,18 @@ export class FSmartInput extends Fragment {
     this.setChild("choices", this.#fChoices);
   }
 
-  setHintText(text) { this.#hintText = text; }
+  setHintText(text: string): void { this.#hintText = text; }
 
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_SMART_INPUT.ON_CHANGE:
-      this.#onNameInput(args[0]);
+      this.#onNameInput(args[0] as string);
       break;
     case CF_SMART_INPUT.ON_BLUR:
       this.#onBlur();
       break;
     case CF_SMART_INPUT.ON_HINT_ITEM_CHOSEN:
-      this.#onHintItemChosen(args[0]);
+      this.#onHintItemChosen(args[0] as string);
       break;
     case CF_SMART_INPUT.CLEAR_CHOICES:
       this.#clearChoices();
@@ -52,8 +58,8 @@ export class FSmartInput extends Fragment {
     }
   }
 
-  _renderOnRender(render) {
-    let panel = new ListPanel();
+  _renderOnRender(render: Render): void {
+    const panel = new ListPanel();
     render.wrapPanel(panel);
     let p = new Panel();
     panel.pushPanel(p);
@@ -67,36 +73,37 @@ export class FSmartInput extends Fragment {
     this.#fChoices.render();
   }
 
-  #onNameInput(text) {
-    let sItems = [];
-    let items =
-        this._delegate.getFilteredItemsForSmartInputFragment(this, text);
-    for (let i of items) {
+  #onNameInput(text: string): void {
+    const sItems: string[] = [];
+    const items = (this._delegate as { getFilteredItemsForSmartInputFragment(f: FSmartInput, text: string): FilteredItem[] }).getFilteredItemsForSmartInputFragment(this, text);
+    for (const i of items) {
       let s = _CFT_SMART_INPUT.HINT_TAG;
       s = s.replace("__ITEM_ID__", i.id);
-      s = s.replace("__VALUE__", i.name)
+      s = s.replace("__VALUE__", i.name);
       sItems.push(s);
     }
     this.#fChoices.setText(sItems.join(""));
     this.#fChoices.render();
   }
 
-  #clearChoices() {
+  #clearChoices(): void {
     this.#fChoices.setText("");
     this.#fChoices.render();
   }
 
-  #onHintItemChosen(itemId) {
+  #onHintItemChosen(itemId: string): void {
     this.#clearChoices();
-    this._delegate.onItemChosenInSmartInputFragment(this, itemId);
+    (this._delegate as { onItemChosenInSmartInputFragment(f: FSmartInput, itemId: string): void }).onItemChosenInSmartInputFragment(this, itemId);
   }
 
-  #onBlur() {
-    let r = this.#fChoices.getRender();
-    if (!(r && r.containsElement(event.relatedTarget))) {
+  #onBlur(): void {
+    const r = this.#fChoices.getRender();
+    const event = (window as { event?: FocusEvent }).event as FocusEvent | undefined;
+    if (!(r && event && r.containsElement(event.relatedTarget as Element))) {
       // Use schedule action because safari fires blur without target,
       // if close too early, click will not be triggered
       Events.scheduleAction(100, this, CF_SMART_INPUT.CLEAR_CHOICES);
     }
   }
-};
+}
+
