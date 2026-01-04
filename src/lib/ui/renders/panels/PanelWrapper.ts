@@ -1,0 +1,31 @@
+import { Panel } from './Panel.js';
+
+export class PanelWrapper extends Panel {
+  #pContent: Panel | null = null;
+
+  getContentPanel(): Panel | null { return this.#pContent; }
+
+  wrapPanel(panel: Panel): void {
+    let id = this._getSubElementId("C");
+    let s = panel.createElement(id).outerHTML;
+    let wrapperId = this._getSubElementId("WC");
+    let sWrapper = this._getWrapperFramework(wrapperId);
+    if (sWrapper) {
+      this.replaceContent(sWrapper);
+      this._onWrapperFrameworkDidAppear();
+      let e = document.getElementById(wrapperId);
+      if (e) {
+        e.innerHTML = s;
+      }
+    } else {
+      this.replaceContent(s);
+    }
+    panel.attach(id);
+    this.#pContent = panel;
+  }
+
+  _getWrapperFramework(_wrapperElementId: string): string | null { return null; }
+
+  _onWrapperFrameworkDidAppear(): void {}
+}
+
