@@ -6,15 +6,16 @@ import { FTabbedPaneTabBar } from './FTabbedPaneTabBar.js';
 import { ScrollEndEventShim } from '../../../ext/ScrollEndEventShim.js';
 import { FScrollViewContent } from './FScrollViewContent.js';
 import { FScrollViewContentHook } from './FScrollViewContentHook.js';
+import { Fragment } from './Fragment.js';
 
 const _CPT_VIEW_CONTENT_MUX = {
   MAIN : `<div id="__ID_HEADER__" class="flex-noshrink"></div>
   <div id="__ID_CONTENT__" class="flex-grow y-no-overflow x-scroll x-scroll-snap flex"></div>`,
-};
+} as const;
 
 class PViewContentMux extends Panel {
-  #pHeader;
-  #pContent;
+  #pHeader: PanelWrapper;
+  #pContent: ListPanel;
 
   constructor() {
     super();
@@ -22,61 +23,67 @@ class PViewContentMux extends Panel {
     this.#pContent = new ListPanel();
   }
 
-  getHeaderPanel() { return this.#pHeader; }
-  getContentPanel() { return this.#pContent; }
+  getHeaderPanel(): PanelWrapper { return this.#pHeader; }
+  getContentPanel(): ListPanel { return this.#pContent; }
 
-  _renderFramework() {
-    let s = _CPT_VIEW_CONTENT_MUX.MAIN;
+  _renderFramework(): string {
+    let s: string = _CPT_VIEW_CONTENT_MUX.MAIN;
     s = s.replace("__ID_HEADER__", this._getSubElementId("H"));
     s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
     return s;
   }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this.#pHeader.attach(this._getSubElementId("H"));
     this.#pContent.attach(this._getSubElementId("C"));
   }
-};
+}
+
+interface TabConfig {
+  value: string;
+  name: string;
+  icon?: string;
+}
 
 export class FViewContentMux extends FViewContentContainer {
-  #fTabBar;
-  #fCurrent = null;
-  #pContent = null;
-  #obScrollEnd;
-  #mChildren = new Map();
-  #obResize;
+  #fTabBar: FTabbedPaneTabBar;
+  #fCurrent: Fragment | null = null;
+  #pContent: ListPanel | null = null;
+  #obScrollEnd: ScrollEndEventShim;
+  #mChildren: Map<string, Fragment> = new Map();
+  #obResize: ResizeObserver;
 
   constructor() {
     super();
     this.#fTabBar = new FTabbedPaneTabBar();
     this.#fTabBar.setOnlyShowOnMultiple(true);
-    this.#fTabBar.setDataSource(this);
-    this.#fTabBar.setDelegate(this);
+    this.#fTabBar.setDataSource(this as any);
+    this.#fTabBar.setDelegate(this as any);
     this.setChild("muxHeader", this.#fTabBar);
 
     this.#obScrollEnd = new ScrollEndEventShim();
-    this.#obScrollEnd.setDelegate(this);
+    this.#obScrollEnd.setDelegate(this as any);
 
     this.#obResize = new ResizeObserver(() => this.#onResize());
   }
 
-  getNTabNoticesForTabbedPaneTabBarFragment(fTab, v) {
-    if (this._dataSource) {
-      return this._dataSource.getNTabNoticesForViewContentMuxFragment(this, v);
+  getNTabNoticesForTabbedPaneTabBarFragment(_fTab: FTabbedPaneTabBar, v: string): number {
+    if (this._dataSource && typeof (this._dataSource as any).getNTabNoticesForViewContentMuxFragment === 'function') {
+      return (this._dataSource as any).getNTabNoticesForViewContentMuxFragment(this, v);
     }
     return 0;
   }
 
-  onScrollEndInScrollEndEventShim(sScrollEnd) { this.#onScrollEnd(); }
+  onScrollEndInScrollEndEventShim(_sScrollEnd: ScrollEndEventShim): void { this.#onScrollEnd(); }
 
-  onTabSelectionChangedInTabbedPaneTabBarFragment(fTab, v) {
+  onTabSelectionChangedInTabbedPaneTabBarFragment(_fTab: FTabbedPaneTabBar, v: string): void {
     this.#switchContentTo(v);
   }
 
-  addTab(tabConfig, fTab) {
+  addTab(tabConfig: TabConfig, fTab: Fragment): void {
     this.#fTabBar.addTab(tabConfig);
-    let f = fTab;
+    let f: Fragment = fTab;
     if (fTab instanceof FScrollViewContent) {
       // Wrap scroll content with scroll hook
       f = new FScrollViewContentHook(fTab);
@@ -85,7 +92,7 @@ export class FViewContentMux extends FViewContentContainer {
     this.setChild(tabConfig.value, f);
   }
 
-  clearContents() {
+  clearContents(): void {
     this.#fTabBar.clearTabs();
     for (let id of this.#mChildren.keys()) {
       this.setChild(id, null);
@@ -93,14 +100,14 @@ export class FViewContentMux extends FViewContentContainer {
     this.#mChildren.clear();
   }
 
-  switchTo(id) {
+  switchTo(id: string): void {
     this.#fTabBar.setTab(id);
     this.#switchContentTo(id);
   }
 
-  _getContentFragment() { return this.#fCurrent; }
+  _getContentFragment(): Fragment | null { return this.#fCurrent; }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: any): void {
     let panel = new PViewContentMux();
     panel.setClassName("h100 flex flex-column");
     render.wrapPanel(panel);
@@ -122,26 +129,28 @@ export class FViewContentMux extends FViewContentContainer {
     this.#scrollToCurrentContent();
 
     let e = this.#pContent.getDomElement();
-    this.#obScrollEnd.observe(e);
-    this.#obResize.observe(e);
+    if (e) {
+      this.#obScrollEnd.observe(e);
+      this.#obResize.observe(e);
+    }
   }
 
-  #switchContentTo(id) {
+  #switchContentTo(id: string): void {
     let f = this.#mChildren.get(id);
     if (this.#fCurrent == f) {
       return;
     }
-    this.#fCurrent = f;
+    this.#fCurrent = f ?? null;
     this.#scrollToCurrentContent();
   }
 
-  #scrollToCurrentContent() {
+  #scrollToCurrentContent(): void {
     if (!this.#fCurrent) {
       return;
     }
 
     let r = this.#fCurrent.getRender();
-    if (r && r.getVisibleWidthInParent() > 10) {
+    if (r && (r as any).getVisibleWidthInParent() > 10) {
       // Already in Viewport, no need to scroll
       return;
     }
@@ -166,10 +175,12 @@ export class FViewContentMux extends FViewContentContainer {
     this.onContentFragmentRequestUpdateHeader(this);
   }
 
-  #onScrollEnd() { this.#updateTabBar(); }
+  #onScrollEnd(): void { this.#updateTabBar(); }
 
-  #updateTabBar() {
+  #updateTabBar(): void {
+    if (!this.#pContent) return;
     let xObj = this.#pContent.getScrollX();
+    if (!xObj) return;
     let w = this.#pContent.getWidth();
 
     for (let [id, f] of this.#mChildren.entries()) {
@@ -187,7 +198,7 @@ export class FViewContentMux extends FViewContentContainer {
     }
   }
 
-  #isPanelInXRange(panel, xOffset, width) {
+  #isPanelInXRange(panel: any, xOffset: number, width: number): boolean {
     if (!panel) {
       return false;
     }
@@ -196,5 +207,6 @@ export class FViewContentMux extends FViewContentContainer {
     return x >= xOffset && ((x + w) / 2 < xOffset + width);
   }
 
-  #onResize() { this.#scrollToCurrentContent(); }
-};
+  #onResize(): void { this.#scrollToCurrentContent(); }
+}
+

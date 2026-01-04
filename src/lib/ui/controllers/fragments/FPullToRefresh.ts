@@ -8,11 +8,11 @@ import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
 const _CFT_PULL_TO_REFRESH = {
   ICON :
       `<span class="inline-block s-icon6" style="transform:rotate(__DEG__deg);">__ICON__</span>`,
-};
+} as const;
 
 export class FPullToRefresh extends Fragment {
-  #pIcon;
-  #progress = 0;
+  #pIcon: PanelWrapper;
+  #progress: number = 0;
 
   constructor() {
     super();
@@ -20,28 +20,28 @@ export class FPullToRefresh extends Fragment {
     this.#pIcon.setClassName("flex space-around");
   }
 
-  getHeight() {
+  getHeight(): number {
     let r = this.getRender();
     return r ? r.getHeight() : 0;
   }
 
-  setProgress(percent) {
+  setProgress(percent: number): void {
     this.#progress = Math.min(percent, 100);
     this.render();
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: any): void {
     let p = new ListPanel();
     p.setClassName("bglightgrey");
     render.wrapPanel(p);
     p.pushSpace(10);
     p.pushPanel(this.#pIcon);
-    p = new Panel();
-    p.setClassName("relative");
+    let pWrapper = new Panel();
+    pWrapper.setClassName("relative");
 
-    this.#pIcon.wrapPanel(p);
+    this.#pIcon.wrapPanel(pWrapper);
 
-    let s = _CFT_PULL_TO_REFRESH.ICON;
+    let s: string = _CFT_PULL_TO_REFRESH.ICON;
     if (this.#progress > 95) {
       s = s.replace("__ICON__",
                     CommonUtilities.renderSvgFuncIcon(ICONS.SOLID_DOWN));
@@ -49,12 +49,13 @@ export class FPullToRefresh extends Fragment {
     } else {
       s = s.replace("__ICON__", CommonUtilities.renderSvgFuncIcon(ICONS.DOWN));
       if (this.#progress > 25 && this.#progress < 90) {
-        s = s.replace("__DEG__", (this.#progress - 25) / 65 * 360);
+        s = s.replace("__DEG__", String((this.#progress - 25) / 65 * 360));
       } else {
         s = s.replace("__DEG__", "0");
       }
     }
 
-    p.replaceContent(s);
+    pWrapper.replaceContent(s);
   }
-};
+}
+

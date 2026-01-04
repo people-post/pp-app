@@ -6,14 +6,20 @@ import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { ICONS } from '../../Icons.js';
 import { T_DATA } from '../../../framework/Events.js';
 
+interface TabInfo {
+  name: string;
+  value: string;
+  icon?: string;
+}
+
 export class FTabbedPaneTabBar extends Fragment {
-  #configs = [];
-  #currentIdx = null;
-  #enableEdit = false;
-  #nMax = 0; // Currently only for editor mode
-  #idxNew = -1;
-  #shouldOnlyShowOnMulitple = false;
-  #fTabs;
+  #configs: TabInfo[] = [];
+  #currentIdx: number | null = null;
+  #enableEdit: boolean = false;
+  #nMax: number = 0; // Currently only for editor mode
+  #idxNew: number = -1;
+  #shouldOnlyShowOnMulitple: boolean = false;
+  #fTabs: FFragmentList;
 
   constructor() {
     super();
@@ -21,48 +27,50 @@ export class FTabbedPaneTabBar extends Fragment {
     this.setChild("tabs", this.#fTabs);
   }
 
-  getCurrentTab() { return this.#configs[this.#currentIdx]; }
+  getCurrentTab(): TabInfo | undefined { return this.#configs[this.#currentIdx ?? -1]; }
 
-  setEnableEdit(b) { this.#enableEdit = b; }
-  setOnlyShowOnMultiple(b) { this.#shouldOnlyShowOnMulitple = b; }
-  setMaxNTabs(n) { this.#nMax = n; }
+  setEnableEdit(b: boolean): void { this.#enableEdit = b; }
+  setOnlyShowOnMultiple(b: boolean): void { this.#shouldOnlyShowOnMulitple = b; }
+  setMaxNTabs(n: number): void { this.#nMax = n; }
 
-  setTab(value) {
+  setTab(value: string): void {
     let i = this.#getIndexByValue(value);
     if (i >= 0) {
       this.#currentIdx = i;
     }
   }
 
-  isTabbedPaneTabFragmentSelected(fTab, tabId) {
+  isTabbedPaneTabFragmentSelected(_fTab: FTabbedPaneTab, tabId: number): boolean {
     return tabId == this.#currentIdx;
   }
-  isCloseBtnEnabledInTabbedPaneTabFragment(fTab, tabId) {
+  isCloseBtnEnabledInTabbedPaneTabFragment(_fTab: FTabbedPaneTab, tabId: number): boolean {
     return this.#enableEdit && tabId == this.#currentIdx;
   }
-  getTabConfigForTabbedPaneTabFragment(fTab, tabId) {
+  getTabConfigForTabbedPaneTabFragment(_fTab: FTabbedPaneTab, tabId: number): TabInfo {
     return this.#getTabConfig(tabId);
   }
-  getNNoticesForTabbedPaneTabFragment(fTab, tabId) {
+  getNNoticesForTabbedPaneTabFragment(_fTab: FTabbedPaneTab, tabId: number): number {
     let idx = tabId;
     if (this._dataSource) {
       let c = this.#configs[idx];
-      if (c) {
-        return this._dataSource.getNTabNoticesForTabbedPaneTabBarFragment(
+      if (c && typeof (this._dataSource as any).getNTabNoticesForTabbedPaneTabBarFragment === 'function') {
+        return (this._dataSource as any).getNTabNoticesForTabbedPaneTabBarFragment(
             this, c.value);
       }
     }
     return 0;
   }
 
-  onTabbedPaneTabFragmentClick(fTab, tabId) { this.#onClick(tabId); }
-  onTabbedPaneTabFragmentRequestClose(fTab, tabId) {
+  onTabbedPaneTabFragmentClick(_fTab: FTabbedPaneTab, tabId: number): void { this.#onClick(tabId); }
+  onTabbedPaneTabFragmentRequestClose(_fTab: FTabbedPaneTab, tabId: number): void {
     let idx = tabId;
     let c = this.#configs[idx];
-    this._delegate.onTabbedPaneTabBarFragmentRequestCloseTab(this, c.value);
+    if (c && this._delegate && typeof (this._delegate as any).onTabbedPaneTabBarFragmentRequestCloseTab === 'function') {
+      (this._delegate as any).onTabbedPaneTabBarFragmentRequestCloseTab(this, c.value);
+    }
   }
 
-  addTab(tabInfo) {
+  addTab(tabInfo: TabInfo): void {
     // tabInfo: {name: "", value: "", icon: ""}
     let i = this.#getIndexByValue(tabInfo.value);
     if (i >= 0) {
@@ -73,19 +81,19 @@ export class FTabbedPaneTabBar extends Fragment {
     }
   }
 
-  popTab(value) {
+  popTab(value: string): void {
     let i = this.#getIndexByValue(value);
     if (i >= 0) {
       this.#configs.splice(i, 1);
     }
   }
 
-  clearTabs() {
+  clearTabs(): void {
     this.#configs = [];
     this.#currentIdx = null;
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: symbol | string, data?: any): void {
     switch (dataType) {
     case T_DATA.NOTIFICATIONS:
       this.render();
@@ -96,7 +104,7 @@ export class FTabbedPaneTabBar extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: any): void {
     if (this.#shouldOnlyShowOnMulitple && !this.#enableEdit &&
         this.#configs.length < 2) {
       return;
@@ -135,7 +143,7 @@ export class FTabbedPaneTabBar extends Fragment {
     }
   }
 
-  #getTabConfig(idx) {
+  #getTabConfig(idx: number): TabInfo {
     if (idx == this.#idxNew) {
       return { name: "New", value: "__NEW", icon: ICONS.NEW }
     } else {
@@ -143,7 +151,7 @@ export class FTabbedPaneTabBar extends Fragment {
     }
   }
 
-  #getIndexByValue(value) {
+  #getIndexByValue(value: string): number {
     for (let [i, v] of this.#configs.entries()) {
       if (v.value == value) {
         return i;
@@ -152,14 +160,19 @@ export class FTabbedPaneTabBar extends Fragment {
     return -1;
   }
 
-  #onClick(idx) {
+  #onClick(idx: number): void {
     if (idx == this.#idxNew) {
-      this._delegate.onTabbedPaneTabBarFragmentRequestAddTab(this);
+      if (this._delegate && typeof (this._delegate as any).onTabbedPaneTabBarFragmentRequestAddTab === 'function') {
+        (this._delegate as any).onTabbedPaneTabBarFragmentRequestAddTab(this);
+      }
     } else if (this.#currentIdx != idx) {
       this.#currentIdx = idx;
-      this._delegate.onTabSelectionChangedInTabbedPaneTabBarFragment(
-          this, this.#configs[idx].value);
+      if (this._delegate && typeof (this._delegate as any).onTabSelectionChangedInTabbedPaneTabBarFragment === 'function') {
+        (this._delegate as any).onTabSelectionChangedInTabbedPaneTabBarFragment(
+            this, this.#configs[idx].value);
+      }
       this.render();
     }
   }
-};
+}
+

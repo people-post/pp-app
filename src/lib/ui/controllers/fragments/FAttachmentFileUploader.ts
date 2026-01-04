@@ -7,16 +7,30 @@ import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
 
 export const CF_ATTACHMENT_FILE_UPLOAD = {
   ADD_FILE : "CF_ATTACHMENT_FILE_UPLOAD_1",
-};
+} as const;
+
+// Export to window for string template access
+declare global {
+  interface Window {
+    CF_ATTACHMENT_FILE_UPLOAD?: typeof CF_ATTACHMENT_FILE_UPLOAD;
+    [key: string]: unknown;
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.CF_ATTACHMENT_FILE_UPLOAD = CF_ATTACHMENT_FILE_UPLOAD;
+}
 
 export const _CFT_ATTACHMENT_FILE_UPLOAD = {
   BTN_ADD_FILE : `<label class="s-font5" for="__ID__">
     <span class="icon-legacy inline-block s-icon3">__ICON__</span>
   </label>
   <input id="__ID__" type="file" style="display:none" onchange="javascript:G.action(window.CF_ATTACHMENT_FILE_UPLOAD.ADD_FILE, this)">`,
-}
+} as const;
 
 export class FAttachmentFileUploader extends FFileUploader {
+  protected _fName: TextInput;
+
   constructor() {
     super();
     this._fName = new TextInput();
@@ -25,18 +39,18 @@ export class FAttachmentFileUploader extends FFileUploader {
     this.setChild("name", this._fName);
   }
 
-  validate() {
+  validate(): boolean {
     if (!this.#isEmpty()) {
       return this._fName.validate();
     }
     return true;
   }
 
-  getJsonData() {
+  getJsonData(): any {
     if (this.#isEmpty()) {
       return null;
     }
-    let fInfo = this._uploader.getCacheFileInfo();
+    let fInfo = this._uploader!.getCacheFileInfo();
     return {
       "id" : fInfo.id,
       "type" : fInfo.mimeType,
@@ -45,37 +59,41 @@ export class FAttachmentFileUploader extends FFileUploader {
     };
   }
 
-  getDataForForm() {
+  getDataForForm(): string | null {
     if (this.#isEmpty()) {
       return null;
     }
     return JSON.stringify(this.getJsonData());
   }
 
-  action(type, ...args) {
+  action(type: string | symbol, ...args: any[]): void {
     switch (type) {
     case CF_ATTACHMENT_FILE_UPLOAD.ADD_FILE:
       this.#addFile(args[0]);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action.apply(this, arguments as any);
       break;
     }
   }
 
-  _onFileUploadWillBegin() {
-    this._delegate.onAttachmentFileUploadWillBegin(this);
+  _onFileUploadWillBegin(): void {
+    if (this._delegate && typeof (this._delegate as any).onAttachmentFileUploadWillBegin === 'function') {
+      (this._delegate as any).onAttachmentFileUploadWillBegin(this);
+    }
   }
-  _onFileUploadFinished() {
-    this._delegate.onAttachmentFileUploadFinished(this);
+  _onFileUploadFinished(): void {
+    if (this._delegate && typeof (this._delegate as any).onAttachmentFileUploadFinished === 'function') {
+      (this._delegate as any).onAttachmentFileUploadFinished(this);
+    }
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: any): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
     let pp = new Panel();
-    pp.setClassName();
+    pp.setClassName("");
     p.pushPanel(pp);
     pp.replaceContent(this.#renderAddFileButton());
 
@@ -85,31 +103,32 @@ export class FAttachmentFileUploader extends FFileUploader {
     if (!this.#isEmpty()) {
       this._fName.attachRender(pp);
       this._fName.render();
-      if (this._urlFile) {
-        this._fName.setValue(this._urlFile.getName());
+      if (this._urlFile && typeof (this._urlFile as any).getName === 'function') {
+        this._fName.setValue((this._urlFile as any).getName());
       }
 
       // Progress
-      pp = new PanelWrapper();
+      pp = new Panel();
       p.pushPanel(pp);
       this._renderProgress(pp);
     }
   }
 
-  #renderAddFileButton() {
-    let s = _CFT_ATTACHMENT_FILE_UPLOAD.BTN_ADD_FILE;
+  #renderAddFileButton(): string {
+    let s: string = _CFT_ATTACHMENT_FILE_UPLOAD.BTN_ADD_FILE;
     s = s.replace("__ICON__", CommonUtilities.renderSvgFuncIcon(ICONS.ATTACHMENT));
     s = s.replace(/__ID__/g, this._id + "-btn-label");
     return s;
   }
 
-  #isEmpty() { return this._uploader.isEmpty() && !this._urlFile; }
+  #isEmpty(): boolean { return this._uploader!.isEmpty() && !this._urlFile; }
 
-  #addFile(inputNode) {
-    if (inputNode.files.length) {
+  #addFile(inputNode: HTMLInputElement): void {
+    if (inputNode.files && inputNode.files.length) {
       this.resetToFile(inputNode.files[0]);
       this._fName.setValue(inputNode.value);
       this.render();
     }
   }
-};
+}
+

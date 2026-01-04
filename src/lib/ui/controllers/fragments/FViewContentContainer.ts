@@ -1,7 +1,7 @@
 import { FViewContentBase } from './FViewContentBase.js';
 
 export class FViewContentContainer extends FViewContentBase {
-  initFromUrl(urlParam) {
+  initFromUrl(urlParam: any): void {
     // TODO: This might be wrapper specific
     let f = this._getContentFragment();
     if (f) {
@@ -9,7 +9,7 @@ export class FViewContentContainer extends FViewContentBase {
     }
   }
 
-  getUrlParamString() {
+  getUrlParamString(): string {
     // TODO: This might be wrapper specific
     let f = this._getContentFragment();
     if (f) {
@@ -18,28 +18,28 @@ export class FViewContentContainer extends FViewContentBase {
     return "";
   }
 
-  onContentFragmentRequestUpdateHeader(fContent) {
+  onContentFragmentRequestUpdateHeader(_fContent: Fragment): void {
     if (this._owner) {
-      this._owner.onContentFragmentRequestUpdateHeader(this);
+      (this._owner as any).onContentFragmentRequestUpdateHeader(this);
     }
   }
-  onContentFragmentRequestCloseMenu(fContent) {
+  onContentFragmentRequestCloseMenu(_fContent: Fragment): void {
     if (this._owner) {
-      this._owner.onContentFragmentRequestCloseMenu(this);
+      (this._owner as any).onContentFragmentRequestCloseMenu(this);
     }
   }
-  onContentFragmentRequestReplaceView(fContent, view, title) {
+  onContentFragmentRequestReplaceView(_fContent: Fragment, view: any, title: string): void {
     if (this._owner) {
-      this._owner.onContentFragmentRequestReplaceView(this, view, title);
+      (this._owner as any).onContentFragmentRequestReplaceView(this, view, title);
     }
   }
-  onContentFragmentRequestPopView(fContent) {
+  onContentFragmentRequestPopView(_fContent: Fragment): void {
     if (this._owner) {
-      this._owner.onContentFragmentRequestPopView(this);
+      (this._owner as any).onContentFragmentRequestPopView(this);
     }
   }
 
-  getActionButton() {
+  getActionButton(): Fragment | null {
     let f = this._getContentFragment();
     if (f) {
       return f.getActionButton();
@@ -47,7 +47,7 @@ export class FViewContentContainer extends FViewContentBase {
     return null;
   }
 
-  getHeaderDefaultNavFragment() {
+  getHeaderDefaultNavFragment(): Fragment | null {
     let f = this._getContentFragment();
     if (f) {
       return f.getHeaderDefaultNavFragment();
@@ -55,7 +55,7 @@ export class FViewContentContainer extends FViewContentBase {
     return null;
   }
 
-  getHeaderLayoutType() {
+  getHeaderLayoutType(): symbol | null {
     let f = this._getContentFragment();
     if (f) {
       return f.getHeaderLayoutType();
@@ -63,7 +63,7 @@ export class FViewContentContainer extends FViewContentBase {
     return null;
   }
 
-  getCustomTheme() {
+  getCustomTheme(): any {
     let f = this._getContentFragment();
     if (f) {
       return f.getCustomTheme();
@@ -71,7 +71,7 @@ export class FViewContentContainer extends FViewContentBase {
     return null;
   }
 
-  getMenuFragments() {
+  getMenuFragments(): Fragment[] {
     let f = this._getContentFragment();
     if (f) {
       return f.getMenuFragments();
@@ -79,12 +79,13 @@ export class FViewContentContainer extends FViewContentBase {
     return [];
   }
 
-  knockKnock() {
+  knockKnock(): void {
     let f = this._getContentFragment();
     if (f) {
       f.knockKnock();
     }
   }
 
-  _getContentFragment() { return null; }
-};
+  _getContentFragment(): Fragment | null { return null; }
+}
+

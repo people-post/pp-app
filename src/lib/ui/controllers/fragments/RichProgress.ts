@@ -39,29 +39,35 @@ const _CFT_RICH_PROGRESS = {
       `<div class="rpe-content pipe horizontal __BG_COLOR_CLS__" style="left:__P_BEGIN__%;width:__P_LENGTH__%"></div>`,
   FLOW_V :
       `<div class="rpe-content pipe vertical __BG_COLOR_CLS__" style="bottom:__P_BEGIN__%;height:__P_LENGTH__%"></div>`,
-}
+} as const;
 
 export class RichProgress extends Fragment {
+  private _percent: number = 0;
+  private _threshold: number = 30;
+  private _direction: "H" | "V" = "H";
+  private _r_node: number = 0; // Node radius in percent
+  private _stateClassName: string | null = null;
+
   constructor() {
     super();
     this._percent = 0;
     this._threshold = 30;
     this._direction = "H";
-    this._r_node = 0; // Node radius in percent
+    this._r_node = 0;
     this._stateClassName = null;
   }
 
-  setValue(value) {
+  setValue(value: number): void {
     if (value < 0 || value > 100) {
       return;
     }
     this._percent = Math.floor(value);
   }
-  setDirection(d) { this._direction = d; }
-  setStateClassName(name) { this._stateClassName = name; }
+  setDirection(d: "H" | "V"): void { this._direction = d; }
+  setStateClassName(name: string | null): void { this._stateClassName = name; }
 
-  _renderOnRender(render) {
-    let items = [];
+  _renderOnRender(render: any): void {
+    let items: string[] = [];
     let c = this.#getColorClassName(this._percent);
     this._r_node = this.#calculateRNode(render.getWidth(), render.getHeight());
 
@@ -75,7 +81,7 @@ export class RichProgress extends Fragment {
     render.replaceContent(items.join(""));
   }
 
-  #calculateRNode(w, h) {
+  #calculateRNode(w: number, h: number): number {
     if (this._direction == "H") {
       return 100 * h / w / 2;
     } else {
@@ -83,27 +89,27 @@ export class RichProgress extends Fragment {
     }
   }
 
-  #renderFirstNode(dir, colorClass) {
-    let s = dir == "H" ? _CFT_RICH_PROGRESS.FIRST_NODE_H
+  #renderFirstNode(dir: "H" | "V", colorClass: string): string {
+    let s: string = dir == "H" ? _CFT_RICH_PROGRESS.FIRST_NODE_H
                        : _CFT_RICH_PROGRESS.FIRST_NODE_V;
     return s.replace("__BG_COLOR_CLS__", colorClass);
   }
 
-  #renderLastNode(dir, colorClass) {
-    let s = dir == "H" ? _CFT_RICH_PROGRESS.LAST_NODE_H
+  #renderLastNode(dir: "H" | "V", colorClass: string): string {
+    let s: string = dir == "H" ? _CFT_RICH_PROGRESS.LAST_NODE_H
                        : _CFT_RICH_PROGRESS.LAST_NODE_V;
     return s.replace("__BG_COLOR_CLS__", colorClass);
   }
 
-  #renderPipe(dir, fromPercent, toPercent, colorClass) {
+  #renderPipe(dir: "H" | "V", fromPercent: number, toPercent: number, colorClass: string): string {
     let pFrom = this.#regulatePercent(fromPercent);
     let pTo = this.#regulatePercent(toPercent);
     if (pTo - pFrom < this._r_node * 2) {
       return "";
     }
-    let s = dir == "H" ? _CFT_RICH_PROGRESS.PIPE_H : _CFT_RICH_PROGRESS.PIPE_V;
-    s = s.replace("__P_BEGIN__", pFrom + this._r_node);
-    s = s.replace("__P_LENGTH__", pTo - pFrom - this._r_node * 2);
+    let s: string = dir == "H" ? _CFT_RICH_PROGRESS.PIPE_H : _CFT_RICH_PROGRESS.PIPE_V;
+    s = s.replace("__P_BEGIN__", String(pFrom + this._r_node));
+    s = s.replace("__P_LENGTH__", String(pTo - pFrom - this._r_node * 2));
     if (toPercent > this._percent) {
       return s;
     } else {
@@ -111,27 +117,27 @@ export class RichProgress extends Fragment {
     }
   }
 
-  #renderFlow(dir, fromPercent, toPercent, colorClass) {
-    let s = dir == "H" ? _CFT_RICH_PROGRESS.FLOW_H : _CFT_RICH_PROGRESS.FLOW_V;
-    s = s.replace("__P_BEGIN__", fromPercent + this._r_node * 0.5);
-    s = s.replace("__P_LENGTH__", toPercent - fromPercent - this._r_node);
+  #renderFlow(dir: "H" | "V", fromPercent: number, toPercent: number, colorClass: string): string {
+    let s: string = dir == "H" ? _CFT_RICH_PROGRESS.FLOW_H : _CFT_RICH_PROGRESS.FLOW_V;
+    s = s.replace("__P_BEGIN__", String(fromPercent + this._r_node * 0.5));
+    s = s.replace("__P_LENGTH__", String(toPercent - fromPercent - this._r_node));
     s = s.replace("__BG_COLOR_CLS__", colorClass);
     return s;
   }
 
-  #renderNode(dir, percent, colorClass) {
+  #renderNode(dir: "H" | "V", percent: number, colorClass: string): string {
     let p = this.#regulatePercent(percent);
-    let s = dir == "H" ? _CFT_RICH_PROGRESS.NODE_H : _CFT_RICH_PROGRESS.NODE_V;
-    s = s.replace("__P_BEGIN__", p - this._r_node);
+    let s: string = dir == "H" ? _CFT_RICH_PROGRESS.NODE_H : _CFT_RICH_PROGRESS.NODE_V;
+    s = s.replace("__P_BEGIN__", String(p - this._r_node));
     s = s.replace("__BG_COLOR_CLS__", colorClass);
     return s;
   }
 
-  #regulatePercent(p) {
+  #regulatePercent(p: number): number {
     return this._r_node + p * (100 - this._r_node * 2) / 100;
   }
 
-  #getColorClassName(percent) {
+  #getColorClassName(percent: number): string {
     if (this._stateClassName) {
       return this._stateClassName;
     }
@@ -144,4 +150,5 @@ export class RichProgress extends Fragment {
     }
     return "bgyellow";
   }
-};
+}
+
