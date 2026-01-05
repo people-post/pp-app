@@ -23,7 +23,7 @@ export class ArrayPanel extends Panel {
     let e = this.getDomElement();
     if (e) {
       let table = e.firstChild as HTMLTableElement;
-      if (table && table.rows && table.rows[0]) {
+      if (table && table.rows && table.rows[0] && table.rows[0].insertCell) {
         let cell = table.rows[0].insertCell(-1);
         cell.innerHTML = ee.outerHTML;
       }

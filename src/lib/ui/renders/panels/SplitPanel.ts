@@ -17,16 +17,16 @@ export class SplitPanel extends Panel {
     this.setClassName("flex space-between");
     this._pLeft = new PanelWrapper();
     this._pRight = new PanelWrapper();
-    this._mode = this.constructor.M_SIDE;
+    this._mode = (SplitPanel as any).M_SIDE;
   }
 
   getLeftPanel(): PanelWrapper { return this._pLeft; }
   getRightPanel(): PanelWrapper { return this._pRight; }
 
   _renderFramework(): string {
-    let s = _CPT_SPLIT.MAIN;
-    s = s.replace("__ID_LEFT__", this._getSubElementId("L"));
-    s = s.replace("__ID_RIGHT__", this._getSubElementId("R"));
+    let s: string = _CPT_SPLIT.MAIN;
+    s = s.replace("__ID_LEFT__", this._getSubElementId("L")) as string;
+    s = s.replace("__ID_RIGHT__", this._getSubElementId("R")) as string;
     return s;
   }
 

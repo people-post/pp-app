@@ -56,7 +56,7 @@ export class LvDialog extends ViewLayer {
 
     if (shouldAnimate) {
       pMain.animate([ {top : "100%"}, {top : "10%"} ],
-                    {duration : 200, easing : [ "ease-out" ]});
+                    {duration : 200, easing : "ease-out" });
     }
   }
 

@@ -16,6 +16,7 @@ const _CFT_OPTION_CONTEXT_BUTTON = {
 
 interface OptionContextButtonDelegate {
   onOptionClickedInContextButtonFragment(f: OptionContextButton, value: unknown): void;
+  [key: string]: unknown;
 }
 
 export class OptionContextButton extends Fragment {
@@ -61,9 +62,9 @@ export class OptionContextButton extends Fragment {
   }
 
   #renderIcon(icon: string): string {
-    let s = _CFT_OPTION_CONTEXT_BUTTON.BTN;
+    let s: string = _CFT_OPTION_CONTEXT_BUTTON.BTN;
     let ss = CommonUtilities.renderSvgFuncIcon(icon);
-    s = s.replace("__ICON__", ss);
+    s = s.replace("__ICON__", ss) as string;
     return s;
   }
 

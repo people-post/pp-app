@@ -4,7 +4,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Events } from '../../lib/framework/Events.js';
-import { Render } from '../../lib/ui/renders/Render.js';
+import Render from '../../lib/ui/renders/Render.js';
 
 export const CF_SMART_INPUT = {
   ON_CHANGE : Symbol(),
@@ -53,14 +53,16 @@ export class FSmartInput extends Fragment {
       this.#clearChoices();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action.apply(this, Array.from(arguments) as any);
       break;
     }
   }
 
   _renderOnRender(render: Render): void {
     const panel = new ListPanel();
-    render.wrapPanel(panel);
+    if ('wrapPanel' in render) {
+      (render as any).wrapPanel(panel);
+    }
     let p = new Panel();
     panel.pushPanel(p);
     let s = _CFT_SMART_INPUT.INPUT;
@@ -99,7 +101,7 @@ export class FSmartInput extends Fragment {
   #onBlur(): void {
     const r = this.#fChoices.getRender();
     const event = (window as { event?: FocusEvent }).event as FocusEvent | undefined;
-    if (!(r && event && r.containsElement(event.relatedTarget as Element))) {
+    if (!(r && event && 'containsElement' in r && (r as any).containsElement(event.relatedTarget as Element))) {
       // Use schedule action because safari fires blur without target,
       // if close too early, click will not be triggered
       Events.scheduleAction(100, this, CF_SMART_INPUT.CLEAR_CHOICES);

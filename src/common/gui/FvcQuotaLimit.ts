@@ -3,7 +3,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcUpgradeChoices } from './FvcUpgradeChoices.js';
 import Utilities from '../../lib/ext/Utilities.js';
 import { R } from '../constants/R.js';
-import { Render } from '../../lib/ui/renders/Render.js';
+import Render from '../../lib/ui/renders/Render.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
 
 export const CF_QUOTA_LIMIT = {

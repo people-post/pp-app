@@ -3,7 +3,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { ArrayPanel } from '../../lib/ui/renders/panels/ArrayPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { Render } from '../../lib/ui/renders/Render.js';
+import Render from '../../lib/ui/renders/Render.js';
 import { RenderController } from '../../lib/ui/controllers/RenderController.js';
 
 export const CF_FOLDABLE_ITEM = {
@@ -54,14 +54,16 @@ export class FoldableItemFragment extends Fragment {
       this.#toggleStatus();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action.apply(this, Array.from(arguments) as any);
       break;
     }
   }
 
   _renderOnRender(render: Render): void {
     const p = new ListPanel();
-    render.wrapPanel(p);
+    if ('wrapPanel' in render) {
+      (render as any).wrapPanel(p);
+    }
     let pp = new ArrayPanel();
     pp.setTableClassName("foldable-item w100 border-collapse");
     if (this._isOpen) {
@@ -79,21 +81,21 @@ export class FoldableItemFragment extends Fragment {
     }
 
     if (this._fAction) {
-      ppp = new Panel();
-      ppp.setClassName("right-align");
-      pp.pushPanel(ppp);
-      this._fAction.attachRender(ppp);
+      const pAction = new Panel();
+      pAction.setClassName("right-align");
+      pp.pushPanel(pAction);
+      this._fAction.attachRender(pAction);
       this._fAction.render();
     }
 
     if (this._isOpen && this._fContent) {
-      pp = new PanelWrapper();
-      pp.setClassName("foldable-item-content-wrapper");
-      p.pushPanel(pp);
-      ppp = new PanelWrapper();
-      ppp.setClassName("foldable-item-content");
-      pp.wrapPanel(ppp);
-      this._fContent.attachRender(ppp);
+      const pContentWrapper = new PanelWrapper();
+      pContentWrapper.setClassName("foldable-item-content-wrapper");
+      p.pushPanel(pContentWrapper);
+      const pContent = new PanelWrapper();
+      pContent.setClassName("foldable-item-content");
+      pContentWrapper.wrapPanel(pContent);
+      this._fContent.attachRender(pContent);
       this._fContent.render();
     }
   }

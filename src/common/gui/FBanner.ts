@@ -5,19 +5,18 @@ import Render from '../../lib/ui/renders/Render.js';
 interface BannerDelegate {
   onErrorFragmentRequestShow?(fError: FError): void;
   onErrorFragmentRequestDismiss?(fError: FError): void;
+  [key: string]: unknown;
 }
 
 export class FBanner extends Fragment {
   _fError: FError;
   _fCurrent: Fragment | null = null;
-  // @ts-expect-error - _delegate type is more specific than base class
   declare _delegate: BannerDelegate;
 
   constructor() {
     super();
     this._fError = new FError();
-    // @ts-expect-error - setDelegate accepts any object with delegate methods
-    this._fError.setDelegate(this);
+    this._fError.setDelegate(this as any);
     this.setChild("error", this._fError);
   }
 
@@ -38,7 +37,7 @@ export class FBanner extends Fragment {
   }
 
   showRemoteError(data: unknown): void {
-    this._fError.handleRemoteError(data);
+    this._fError.handleRemoteError(data as { type: string; code: string; data?: unknown });
   }
 
   showLocalError(msg: string): void {
@@ -60,7 +59,8 @@ export class FBanner extends Fragment {
     if (this._fCurrent) {
       this._fCurrent.detachRender();
     }
-    this._fCurrent = this._getChild("content");
+    const child = this._getChild("content");
+    this._fCurrent = child ? (child as Fragment) : null;
     if (this._fCurrent) {
       this.#showRender();
       this._fCurrent.attachRender(this.getRender()!);
@@ -87,8 +87,8 @@ export class FBanner extends Fragment {
 
   #showRender(): void {
     let r = this.getRender();
-    if (r) {
-      r.setStyle("display", "block");
+    if (r && 'setStyle' in r) {
+      (r as any).setStyle("display", "block");
     }
   }
 
@@ -96,7 +96,9 @@ export class FBanner extends Fragment {
     let r = this.getRender();
     if (r) {
       r.clear();
-      r.setStyle("display", "none");
+      if ('setStyle' in r) {
+        (r as any).setStyle("display", "none");
+      }
     }
   }
 }

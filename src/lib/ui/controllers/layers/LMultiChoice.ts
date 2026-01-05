@@ -53,12 +53,12 @@ class PMultiChoiceLayer extends Panel {
   }
 
   _renderFramework(): string {
-    let s = _CLT_MULTI_CHOICE.MAIN;
-    s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
-    s = s.replace("__ID_DESCRIPTION__", this._getSubElementId("D"));
-    s = s.replace("__ID_CHOICES__", this._getSubElementId("C"));
-    s = s.replace("__ID_ALTERNATIVES__", this._getSubElementId("A"));
-    s = s.replace("__ID_BTN_CANCEL__", this._getSubElementId("B"));
+    let s: string = _CLT_MULTI_CHOICE.MAIN;
+    s = s.replace("__ID_TITLE__", this._getSubElementId("T")) as string;
+    s = s.replace("__ID_DESCRIPTION__", this._getSubElementId("D")) as string;
+    s = s.replace("__ID_CHOICES__", this._getSubElementId("C")) as string;
+    s = s.replace("__ID_ALTERNATIVES__", this._getSubElementId("A")) as string;
+    s = s.replace("__ID_BTN_CANCEL__", this._getSubElementId("B")) as string;
     return s;
   }
 }
@@ -70,6 +70,7 @@ const _CL_CONTEXT = {
 interface LMultiChoiceDelegate {
   onAlternativeChosenInMultiChoiceLayer(l: LMultiChoice, value: unknown): void;
   onItemsChosenInMultiChoiceLayer(l: LMultiChoice, values: unknown[]): void;
+  [key: string]: unknown;
 }
 
 export class LMultiChoice extends Layer {
@@ -111,7 +112,7 @@ export class LMultiChoice extends Layer {
     f.setIcon(icon);
     f.setEnabled(isEnabled);
     f.setValue(value);
-    f.setThemeType(themeType);
+    f.setThemeType(themeType as symbol | null);
     f.setDelegate(this);
     this.#fChoices.append(f);
   }
@@ -122,7 +123,7 @@ export class LMultiChoice extends Layer {
     f.setIcon(icon);
     f.setEnabled(isEnabled);
     f.setValue(value);
-    f.setThemeType(themeType);
+    f.setThemeType(themeType as symbol | null);
     f.setDelegate(this);
     this.#fAlternatives.append(f);
   }
@@ -179,21 +180,21 @@ export class LMultiChoice extends Layer {
     p.setClassName("w100 flex flex-center relative");
     panel.wrapPanel(p);
 
-    panel = new PMultiChoiceLayer();
-    panel.setClassName(
+    let pMultiChoiceLayer = new PMultiChoiceLayer();
+    pMultiChoiceLayer.setClassName(
         "w100 s-csecondarybg bdlightgray border-box context-content");
-    panel.setAttribute("onclick", "javascript:G.anchorClick()");
-    p.wrapPanel(panel);
+    pMultiChoiceLayer.setAttribute("onclick", "javascript:G.anchorClick()");
+    p.wrapPanel(pMultiChoiceLayer);
 
-    p = panel.getTitlePanel();
+    p = pMultiChoiceLayer.getTitlePanel();
     p.replaceContent(this.#renderTitle(this.#title));
 
     if (this.#description) {
-      p = panel.getDescriptionPanel();
+      p = pMultiChoiceLayer.getDescriptionPanel();
       p.replaceContent(this.#description);
     }
 
-    p = panel.getChoicesPanel();
+    p = pMultiChoiceLayer.getChoicesPanel();
     // Hack to allow events being recognized in this.#fChoices
     this.#fChoices.attachRender(p);
 
@@ -205,7 +206,7 @@ export class LMultiChoice extends Layer {
       p.pushSpace(1);
     }
 
-    p = panel.getAlternativesPanel();
+    p = pMultiChoiceLayer.getAlternativesPanel();
     // Hack to allow events being recognized in this.#fAlternatives
     this.#fAlternatives.attachRender(p);
 
@@ -217,13 +218,13 @@ export class LMultiChoice extends Layer {
       p.pushSpace(1);
     }
 
-    p = panel.getBtnCancelPanel();
+    p = pMultiChoiceLayer.getBtnCancelPanel();
     this.#btnCancel.attachRender(p);
     this.#btnCancel.render();
 
     if (shouldAnimate) {
-      panel.animate([ {bottom : `-${panel.getHeight()}px`}, {bottom : "0px"} ],
-                    {duration : 200, easing : [ "ease-out" ]});
+      pMultiChoiceLayer.animate([ {bottom : `-${pMultiChoiceLayer.getHeight()}px`}, {bottom : "0px"} ],
+                    {duration : 200, easing : "ease-out" });
     }
   }
 
@@ -241,11 +242,11 @@ export class LMultiChoice extends Layer {
   popState(_state: any): void {}
 
   #renderTitle(title: string | null): string {
-    let s = _CL_CONTEXT.TITLE;
+    let s: string = _CL_CONTEXT.TITLE;
     if (title && title.length) {
-      s = s.replace("__TITLE__", title);
+      s = s.replace("__TITLE__", title) as string;
     } else {
-      s = s.replace("__TITLE__", "Choices");
+      s = s.replace("__TITLE__", "Choices") as string;
     }
     return s;
   }

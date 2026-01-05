@@ -30,7 +30,7 @@ export class VBlank extends View {
   }
 
   setLayoutType(t: symbol): void {
-    if (t == this.constructor.T_LAYOUT.BGPRIME) {
+    if (t == (VBlank as any).T_LAYOUT.BGPRIME) {
       this.#fContent.setInvertColor(true);
     }
   }

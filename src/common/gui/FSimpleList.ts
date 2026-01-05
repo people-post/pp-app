@@ -34,11 +34,11 @@ interface SimpleListDataSource {
 interface SimpleListDelegate {
   renderItemForSimpleListFragment(f: FSimpleList, item: ListItem, panel: Panel): void;
   onItemSelectedInList(f: FSimpleList, itemId: string): void;
+  [key: string]: unknown;
 }
 
 export class FSimpleList extends Fragment {
   declare _dataSource: SimpleListDataSource;
-  // @ts-expect-error - _delegate type is more specific than base class
   declare _delegate: SimpleListDelegate;
 
   action(type: symbol, ...args: unknown[]): void {

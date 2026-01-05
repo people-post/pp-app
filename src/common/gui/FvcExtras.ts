@@ -8,7 +8,7 @@ import { WebConfig } from '../dba/WebConfig.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import { R } from '../constants/R.js';
-import { Render } from '../../lib/ui/renders/Render.js';
+import Render from '../../lib/ui/renders/Render.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 
 export const CF_EXTRAS_CONTENT = {
@@ -45,8 +45,8 @@ export class FvcExtras extends FScrollViewContent {
     super();
     this._fMenu = new FSimpleList();
     this._fMenu.setDataSource(this);
-    this._fMenu.setDelegate(this);
-    this.setChild("menu", this._fMenu);
+    this._fMenu.setDelegate(this as any);
+    this.setChild("menu", this._fMenu as any);
   }
 
   getUrlParamString(): string {
@@ -78,26 +78,28 @@ export class FvcExtras extends FScrollViewContent {
       this.#onTest();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action.apply(this, Array.from(arguments) as any);
       break;
     }
   }
 
   handleSessionDataUpdate(dataType: symbol, data: unknown): void {
     switch (dataType) {
-    case T_DATA.USER_PROFILE:
+    case (T_DATA as any).USER_PROFILE:
     case T_DATA.NOTIFICATIONS:
       this.render();
       break;
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate.apply(this, Array.from(arguments) as any);
   }
 
   _renderContentOnRender(render: Render): void {
     const p = new ListPanel();
-    render.wrapPanel(p);
+    if ('wrapPanel' in render) {
+      (render as any).wrapPanel(p);
+    }
 
     let pp = new PanelWrapper();
     p.pushPanel(pp);
@@ -105,9 +107,9 @@ export class FvcExtras extends FScrollViewContent {
     this._fMenu.render();
 
     if (WebConfig.isDevSite()) {
-      pp = new Panel();
-      p.pushPanel(pp);
-      pp.replaceContent(this.#renderTest());
+      const pTest = new Panel();
+      p.pushPanel(pTest);
+      pTest.replaceContent(this.#renderTest());
     }
   }
 
@@ -148,10 +150,14 @@ export class FvcExtras extends FScrollViewContent {
     this._subPageId = pageId;
     const v = (this._dataSource as { createPageEntryViewForExtrasViewContentFragment(f: FvcExtras, pageId: string | null): View | null }).createPageEntryViewForExtrasViewContentFragment(
         this, pageId);
-    if (v) {
-      this._owner.onFragmentRequestShowView(this, v, pageId || "");
+    if (v && this._owner) {
+      (this._owner as any).onFragmentRequestShowView(this, v, pageId || "");
       if (urlParam) {
-        v.initFromUrl(urlParam);
+        const urlParams = new URLSearchParams();
+        for (const [key, value] of urlParam) {
+          urlParams.set(key, value);
+        }
+        v.initFromUrl(urlParams);
       }
     }
   }
@@ -162,7 +168,9 @@ export class FvcExtras extends FScrollViewContent {
       code: "Q_LIVE_STREAM",
       data: {period : 1000, quota : 3, fallback_period : 1000}
     } as RemoteError;
-    this._owner.onRemoteErrorInFragment(this, e);
+    if (this._owner) {
+      (this._owner as any).onRemoteErrorInFragment(this, e);
+    }
     //  fwk.Events.trigger(fwk.T_DATA.REMOTE_ERROR, e);
   }
 }

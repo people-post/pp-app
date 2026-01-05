@@ -2,6 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import Render from '../../lib/ui/renders/Render.js';
 import { FMediaFile } from './FMediaFile.js';
 import { CronJob } from '../../lib/ext/CronJob.js';
 import { T_DATA } from '../plt/Events.js';
@@ -198,14 +199,18 @@ export class FGallery extends Fragment {
 
     if (this.#fFiles.length > 1) {
       const p = new PGallery();
-      render.wrapPanel(p);
+      if ('wrapPanel' in render) {
+        (render as any).wrapPanel(p);
+      }
       this.#pGallery = p;
       this.#renderSlideShow(p, this.#fFiles);
       this.#switchToSlide(this.#slideIndex);
     } else {
       const p = new PanelWrapper();
       p.setClassName("media-frame");
-      render.wrapPanel(p);
+      if ('wrapPanel' in render) {
+        (render as any).wrapPanel(p);
+      }
       const f = this.#fFiles[0];
       f.attachRender(p);
       f.render();
@@ -256,7 +261,8 @@ export class FGallery extends Fragment {
   }
 
   #getSlideShowContainerElement(): HTMLElement | null {
-    return this.#pGallery ? (this.#pGallery.getDomElement().firstElementChild as HTMLElement) : null;
+    const domEl = this.#pGallery?.getDomElement();
+    return domEl ? (domEl.firstElementChild as HTMLElement) : null;
   }
 
   #renderPreprocProgress(panel: Render): void {
@@ -293,8 +299,11 @@ export class FGallery extends Fragment {
     }
     if (this.#hasVideo(this.#fFiles) &&
         Env.isScriptLoaded(Env.SCRIPT.PLAYER.id)) {
-      const e = this.getRender().getDomElement();
-      this.#initVideos(e.getElementsByTagName("video"));
+      const render = this.getRender();
+      const e = render ? render.getDomElement() : null;
+      if (e) {
+        this.#initVideos(e.getElementsByTagName("video"));
+      }
     }
   }
 
@@ -315,9 +324,10 @@ export class FGallery extends Fragment {
     }
   }
 
-  #handleHlsError(_evt: unknown, data: { fatal?: boolean; type?: string }): void {
-    if (data.fatal) {
-      switch (data.type) {
+  #handleHlsError(_evt: unknown, data: unknown): void {
+    const d = data as { fatal?: boolean; type?: string };
+    if (d.fatal) {
+      switch (d.type) {
       case Hls.ErrorTypes.NETWORK_ERROR:
         console.log("Hls network error, trying to reload.");
         // Note: hls variable not available, this might need fixing

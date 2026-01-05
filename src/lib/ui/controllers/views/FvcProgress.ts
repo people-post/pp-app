@@ -6,6 +6,7 @@ import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
 interface FvcProgressDelegate {
   onRequestCancelInProgressViewContentFragment(f: FvcProgress): void;
+  [key: string]: unknown;
 }
 
 export class FvcProgress extends FScrollViewContent {
@@ -43,9 +44,9 @@ export class FvcProgress extends FScrollViewContent {
 
     pList.pushSpace(1);
 
-    p = new PanelWrapper();
-    pList.pushPanel(p);
-    this.#btnCancel.attachRender(p);
+    let pBtn = new PanelWrapper();
+    pList.pushPanel(pBtn);
+    this.#btnCancel.attachRender(pBtn);
     this.#btnCancel.render();
   }
 

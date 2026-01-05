@@ -8,6 +8,10 @@ export abstract class LongListIdRecord {
     return null;
   }
 
+  getIndexOf(_id: string | number): number | null {
+    return null;
+  }
+
   abstract clear(): void;
 }
 

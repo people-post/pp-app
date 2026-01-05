@@ -30,6 +30,7 @@ interface ViewStackDataSource {
 interface ViewStackDelegate {
   onViewStackStackSizeChange(vs: ViewStack): void;
   onViewStackRequestPopView(vs: ViewStack): void;
+  [key: string]: unknown;
 }
 
 export class ViewStack extends RenderController {
@@ -321,7 +322,7 @@ export class ViewStack extends RenderController {
                     visibility : "visible"
                   }
                 ],
-                {duration : 200, easing : [ "ease-out" ], fill : "forwards"});
+                {duration : 200, easing : "ease-out", fill : "forwards"});
             v.setActive(true);
           }
         }
@@ -336,7 +337,7 @@ export class ViewStack extends RenderController {
                   {transform : "scale(1)", visibility : "visible"},
                   {transform : "scale(0.9)", visibility : "hidden"}
                 ],
-                {duration : 200, easing : [ "ease-out" ], fill : "forwards"});
+                {duration : 200, easing : "ease-out", fill : "forwards"});
           }
           v.setActive(false);
         } else {

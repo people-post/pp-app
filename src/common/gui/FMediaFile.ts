@@ -1,5 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { Render } from '../../lib/ui/renders/Render.js';
+import Render from '../../lib/ui/renders/Render.js';
 import { RemoteFile } from '../datatypes/RemoteFile.js';
 
 const _CFT_MEDIA_FILE = {

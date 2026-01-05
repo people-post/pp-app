@@ -47,11 +47,11 @@ class PContextLayer extends Panel {
   }
 
   _renderFramework(): string {
-    let s = _CLT_CONTEXT.MAIN;
-    s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
-    s = s.replace("__ID_DESCRIPTION__", this._getSubElementId("D"));
-    s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
-    s = s.replace("__ID_BTN_CANCEL__", this._getSubElementId("B"));
+    let s: string = _CLT_CONTEXT.MAIN;
+    s = s.replace("__ID_TITLE__", this._getSubElementId("T")) as string;
+    s = s.replace("__ID_DESCRIPTION__", this._getSubElementId("D")) as string;
+    s = s.replace("__ID_CONTENT__", this._getSubElementId("C")) as string;
+    s = s.replace("__ID_BTN_CANCEL__", this._getSubElementId("B")) as string;
     return s;
   }
 }
@@ -62,6 +62,7 @@ const _CL_CONTEXT = {
 
 interface LContextDelegate {
   onOptionClickedInContextLayer(l: LContext, value: unknown): void;
+  [key: string]: unknown;
 }
 
 export class LContext extends Layer {
@@ -99,7 +100,7 @@ export class LContext extends Layer {
     f.setIcon(icon);
     f.setEnabled(isEnabled);
     f.setValue(value);
-    f.setThemeType(themeType);
+    f.setThemeType(themeType as symbol | null);
     f.setDelegate(this);
     this.#fOptions.append(f);
   }
@@ -147,22 +148,22 @@ export class LContext extends Layer {
     p.setClassName("w100 flex flex-center relative");
     panel.wrapPanel(p);
 
-    panel = new PContextLayer();
-    panel.setClassName(
+    let pContextLayer = new PContextLayer();
+    pContextLayer.setClassName(
         "w100 s-csecondarybg bdlightgray border-box context-content");
-    panel.setAttribute("onclick", "javascript:G.anchorClick()");
-    p.wrapPanel(panel);
+    pContextLayer.setAttribute("onclick", "javascript:G.anchorClick()");
+    p.wrapPanel(pContextLayer);
 
-    p = panel.getTitlePanel();
+    p = pContextLayer.getTitlePanel();
     p.replaceContent(this.#renderTitle(this.#title));
 
     if (this.#description) {
-      p = panel.getDescriptionPanel();
+      p = pContextLayer.getDescriptionPanel();
       p.replaceContent(this.#description);
     }
 
     // Hack to allow events being recognized in this.#fOptions
-    p = panel.getContentPanel();
+    p = pContextLayer.getContentPanel();
     this.#fOptions.attachRender(p);
 
     for (let f of this.#fOptions.getChildren()) {
@@ -173,13 +174,13 @@ export class LContext extends Layer {
       p.pushSpace(1);
     }
 
-    p = panel.getBtnCancelPanel();
+    p = pContextLayer.getBtnCancelPanel();
     this.#btnCancel.attachRender(p);
     this.#btnCancel.render();
 
     if (shouldAnimate) {
-      panel.animate([ {bottom : `-${panel.getHeight()}px`}, {bottom : "0px"} ],
-                    {duration : 200, easing : [ "ease-out" ]});
+      pContextLayer.animate([ {bottom : `-${pContextLayer.getHeight()}px`}, {bottom : "0px"} ],
+                    {duration : 200, easing : "ease-out" });
     }
   }
 
@@ -197,11 +198,11 @@ export class LContext extends Layer {
   popState(_state: any): void {}
 
   #renderTitle(title: string | null): string {
-    let s = _CL_CONTEXT.TITLE;
+    let s: string = _CL_CONTEXT.TITLE;
     if (title && title.length) {
-      s = s.replace("__TITLE__", title);
+      s = s.replace("__TITLE__", title) as string;
     } else {
-      s = s.replace("__TITLE__", "Options");
+      s = s.replace("__TITLE__", "Options") as string;
     }
     return s;
   }

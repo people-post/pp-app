@@ -1,8 +1,9 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
-import { T_DATA } from '../../lib/framework/Events.js';
+import { T_DATA } from '../plt/Events.js';
 import { Hashtags } from '../dba/Hashtags.js';
 import { Hashtag } from '../datatypes/Hashtag.js';
+import Render from '../../lib/ui/renders/Render.js';
 
 export class FHashtag extends Fragment {
   static T_LAYOUT = {
@@ -41,8 +42,8 @@ export class FHashtag extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: unknown): void {
-    const ht = Hashtags.get(this.#id);
+  _renderOnRender(render: Render): void {
+    const ht = Hashtags.get(this.#id) ?? null;
     switch (this.#tLayout) {
     case FHashtag.T_LAYOUT.BUTTON_BAR:
       this.#renderAsButtonBar(render, ht);
@@ -55,15 +56,15 @@ export class FHashtag extends Fragment {
 
   #getText(ht: Hashtag | null): string { return "#" + (ht ? ht.getText() : "..."); }
 
-  #renderAsText(panel: unknown, ht: Hashtag | null): void { 
+  #renderAsText(panel: Render, ht: Hashtag | null): void { 
     panel.replaceContent(this.#getText(ht)); 
   }
 
-  #renderAsButtonBar(panel: unknown, ht: Hashtag | null): void {
+  #renderAsButtonBar(panel: Render, ht: Hashtag | null): void {
     this.#fContent = new Button();
     this.#fContent.setName(this.#getText(ht));
     this.#fContent.setLayoutType(Button.LAYOUT_TYPE.BAR);
-    this.#fContent.setDelegate(this);
+    this.#fContent.setDelegate(this as any);
     this.setChild("content", this.#fContent);
     this.#fContent.attachRender(panel);
     this.#fContent.render();

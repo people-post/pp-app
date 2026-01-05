@@ -1,6 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { Render } from '../../lib/ui/renders/Render.js';
+import Render from '../../lib/ui/renders/Render.js';
 import { RemoteFile } from '../datatypes/RemoteFile.js';
 
 export const CF_FILES_THUMBNAIL = {
@@ -45,7 +45,7 @@ export class FilesThumbnailFragment extends Fragment {
       (this._delegate as { onThumbnailClickedInThumbnailFragment(f: FilesThumbnailFragment, idx: number): void }).onThumbnailClickedInThumbnailFragment(this, args[0] as number);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action.apply(this, Array.from(arguments) as any);
       break;
     }
   }
@@ -57,7 +57,9 @@ export class FilesThumbnailFragment extends Fragment {
     }
     const p = new Panel();
     p.setClassName("thumbnail-grid-wrapper");
-    render.wrapPanel(p);
+    if ('wrapPanel' in render) {
+      (render as any).wrapPanel(p);
+    }
     this.#renderFiles(files, p);
   }
 

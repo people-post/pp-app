@@ -1,6 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { CronJob } from '../../lib/ext/CronJob.js';
-import { Render } from '../../lib/ui/renders/Render.js';
+import Render from '../../lib/ui/renders/Render.js';
 
 export const CF_COUNTDOWN_ACTION = {
   ACTION : Symbol(),

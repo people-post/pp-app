@@ -1,7 +1,7 @@
 import { FScrollable } from '../../lib/ui/controllers/fragments/FScrollable.js';
 import { FLongList } from '../../lib/ui/controllers/fragments/FLongList.js';
 import { LongListIdRecord } from '../datatypes/LongListIdRecord.js';
-import { Render } from '../../lib/ui/renders/Render.js';
+import Render from '../../lib/ui/renders/Render.js';
 import { RenderController } from '../../lib/ui/controllers/RenderController.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 
@@ -12,7 +12,7 @@ export class FSocialItemList extends FScrollable {
     super();
     this.#fList = new FLongList();
     this.#fList.setDataSource(this);
-    this.#fList.setDelegate(this);
+    this.#fList.setDelegate(this as any);
     this.setChild("list", this.#fList);
   }
 
@@ -54,8 +54,8 @@ export class FSocialItemList extends FScrollable {
 
   switchToItem(id: string | number, shouldShowItemView = true): void {
     this.#fList.switchToItem(id);
-    const idx = this._getIdRecord().getIndexOf(id);
-    if (idx != null) {
+    const idx = this._getIdRecord().getIndexOf(typeof id === 'string' ? id : String(id));
+    if (idx != null && typeof idx === 'number') {
       this.#fList.scrollToItemIndex(idx);
     }
     if (shouldShowItemView) {

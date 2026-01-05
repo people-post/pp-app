@@ -7,6 +7,7 @@ import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { FScrollViewContent } from '../fragments/FScrollViewContent.js';
 import { FScrollViewContentHook } from '../fragments/FScrollViewContentHook.js';
 import { Fragment } from '../fragments/Fragment.js';
+import { FViewContentBase } from '../fragments/FViewContentBase.js';
 
 // Note. following constants are used elsewhere, please be careful
 export const CR_VIEW_FRAME = {
@@ -42,19 +43,19 @@ export class View extends RenderController {
     this.setChild("__header", this.#fHeader);
 
     let cls =
-        Factory.getClass(T_CATEGORY.UI, T_OBJ.BANNER_FRAGMENT);
+        Factory.getClass(T_CATEGORY.UI, T_OBJ.BANNER_FRAGMENT) as new () => Fragment;
     this.#fBanner = new cls();
     this.setChild("__banner", this.#fBanner);
   }
 
   initFromUrl(urlParam: URLSearchParams): void {
-    if (this.#fContent) {
+    if (this.#fContent && this.#fContent instanceof FViewContentBase) {
       this.#fContent.initFromUrl(urlParam);
     }
   }
 
   getUrlParamString(): string {
-    if (this.#fContent) {
+    if (this.#fContent && this.#fContent instanceof FViewContentBase) {
       return this.#fContent.getUrlParamString();
     }
     return super.getUrlParamString();
@@ -62,13 +63,13 @@ export class View extends RenderController {
 
   getPreferredWidth(): PreferredWidth {
     // In px
-    let pw = this.#fContent ? this.#fContent.getPreferredWidth() : null;
-    return pw ? pw : this.#pwDefault;
+    let pw = (this.#fContent && this.#fContent instanceof FViewContentBase) ? this.#fContent.getPreferredWidth() : null;
+    return pw ? {min: pw, best: pw, max: pw} : this.#pwDefault;
   }
 
   getActionButtonForHeaderFragment(_fHeader: FViewHeader): Fragment | null {
     let f: Fragment | null = null;
-    if (this.#fContent) {
+    if (this.#fContent && this.#fContent instanceof FViewContentBase) {
       f = this.#fContent.getActionButton();
     }
     if (!f && this._owner) {
@@ -112,7 +113,7 @@ export class View extends RenderController {
   setEnableContentLeftBorder(_b: boolean): void {}
 
   knockKnock(): void {
-    if (this.#fContent) {
+    if (this.#fContent && this.#fContent instanceof FViewContentBase) {
       this.#fContent.knockKnock();
     }
   }
@@ -154,20 +155,20 @@ export class View extends RenderController {
   }
 
   #getHeaderMenuFragments(): Fragment[] {
-    return this.#fContent ? this.#fContent.getMenuFragments() : [];
+    return (this.#fContent && this.#fContent instanceof FViewContentBase) ? this.#fContent.getMenuFragments() : [];
   }
 
   #getHeaderLayoutType(): symbol | null {
-    return this.#fContent ? this.#fContent.getHeaderLayoutType() : null;
+    return (this.#fContent && this.#fContent instanceof FViewContentBase) ? this.#fContent.getHeaderLayoutType() : null;
   }
 
   #getCustomTheme(): any {
-    return this.#fContent ? this.#fContent.getCustomTheme() : null;
+    return (this.#fContent && this.#fContent instanceof FViewContentBase) ? this.#fContent.getCustomTheme() : null;
   }
 
   #updateHeader(): void {
     let f =
-        this.#fContent ? this.#fContent.getHeaderDefaultNavFragment() : null;
+        (this.#fContent && this.#fContent instanceof FViewContentBase) ? this.#fContent.getHeaderDefaultNavFragment() : null;
     if (f) {
       this.#fHeader.setDefaultNavFragment(f);
     }
@@ -187,7 +188,7 @@ export class View extends RenderController {
 
   #search(key: string): void {
     let cls = Factory.getClass(
-        T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
+        T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT) as new () => Fragment;
     let f = new cls();
     (f as any).setKey(key);
     let v = new View();
@@ -211,9 +212,11 @@ export class View extends RenderController {
 
   #attachContentPanel(fContent: Fragment, panel: PanelWrapper): void {
     let names: string[] = [ "w100", "h100" ];
-    let name = fContent.getMaxWidthClassName();
-    if (name && name.length) {
-      names.push(name);
+    if (fContent instanceof FViewContentBase) {
+      let name = fContent.getMaxWidthClassName();
+      if (name && name.length) {
+        names.push(name);
+      }
     }
     panel.setClassName(names.join(" "));
     fContent.attachRender(panel);

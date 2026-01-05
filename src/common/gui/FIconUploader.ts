@@ -1,5 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { Render } from '../../lib/ui/renders/Render.js';
+import Render from '../../lib/ui/renders/Render.js';
 
 export const CF_ICON_UPLOADER = {
   ON_ICON_CHANGE : Symbol(),
@@ -24,7 +24,7 @@ export class FIconUploader extends Fragment {
       (this._delegate as { onIconUploaderFragmentRequestUpdateIcon(f: FIconUploader, file: File): void }).onIconUploaderFragmentRequestUpdateIcon(this, args[0] as File);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action.apply(this, Array.from(arguments) as any);
       break;
     }
   }

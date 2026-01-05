@@ -64,7 +64,9 @@ export class FError extends Fragment {
     if (r && msg && msg.length > 0) {
       const panel = new PError();
       panel.setClassName("error");
-      r.wrapPanel(panel);
+      if ('wrapPanel' in r) {
+        (r as any).wrapPanel(panel);
+      }
       this.#pMain = panel;
 
       const pBtn = panel.getBtnPanel();
