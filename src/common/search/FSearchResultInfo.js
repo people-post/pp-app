@@ -28,7 +28,7 @@ const _CPT_SEARCH_RESULT_INFO = {
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
-import Utilities from '../Utilities.js';
+import { Utilities } from '../Utilities.js';
 
 export class PSearchResultInfo extends Panel {
   getTimePanel() { return null; }

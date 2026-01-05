@@ -1,7 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { T_DATA } from '../plt/Events.js';
-import Utilities from '../Utilities.js';
+import { Utilities } from '../Utilities.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 export const CF_USER_ID_INPUT = {

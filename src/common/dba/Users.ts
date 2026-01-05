@@ -165,7 +165,7 @@ export class UserLib {
     FwkEvents.trigger(PltT_DATA.USER_PUBLIC_PROFILES, [u]);
   }
 
-  #onLoadRRR(ids: string[], responseText: string): void {
+  #onLoadRRR(_ids: string[], responseText: string): void {
     this.#isLoading = false;
     const response = JSON.parse(responseText) as ApiResponse;
     if (response.error) {

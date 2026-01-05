@@ -1,6 +1,6 @@
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import Utilities from '../Utilities.js';
+import { Utilities } from '../Utilities.js';
 
 const _CPT_USER_REFERENCE = {
   MAIN : `<span class="inline-block s-icon5 v-middle-align">__REF_ICON__</span>

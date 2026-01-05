@@ -1,6 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import Utilities from '../Utilities.js';
+import { Utilities } from '../Utilities.js';
 
 export const CF_VISIT_SUMMARY_INFO = {
   ONCLICK : "CF_VISIT_SUMMARY_INFO_1",

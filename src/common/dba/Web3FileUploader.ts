@@ -52,11 +52,12 @@ export class Web3FileUploader extends FileUploader {
     }
   }
 
+  /*
   #onUploadFileProgress(v: number): void {
     const p = (v * 95) / this._file!.size;
     const delegate = this._delegate as Web3FileUploaderDelegate | null;
     delegate?.onFileUploadProgressUpdateInFileUploader(this, p);
-  }
+  }*/
 
   #onUploadThumbnailProgress(v: number): void {
     const p = (v * 95) / this._thumbnailFile!.size;
@@ -84,10 +85,11 @@ export class Web3FileUploader extends FileUploader {
     delegate?.onThumbnailUploadErrorInFileUploader(this, _responseText);
   }
 
+  /*
   #onUploadFileError(responseText: string): void {
     const delegate = this._delegate as Web3FileUploaderDelegate | null;
     delegate?.onFileUploadErrorInFileUploader(this, responseText);
-  }
+  }*/
 
   #onUploadFileDone(cid: string): void {
     this._cacheInfoOnServer.id = cid;

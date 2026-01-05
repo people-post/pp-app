@@ -47,7 +47,7 @@ export class WalkinQueueClass implements WalkinQueueInterface {
 
   #asyncLoad(_id: string): void {
     // TODO:
-    const url = '';
+    // const url = '';
   }
 }
 

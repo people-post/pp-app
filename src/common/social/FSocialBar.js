@@ -6,7 +6,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_DATA } from '../plt/Events.js';
 import { Social } from '../dba/Social.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
-import Utilities from '../Utilities.js';
+import { Utilities } from '../Utilities.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import { glb } from '../../lib/framework/Global.js';

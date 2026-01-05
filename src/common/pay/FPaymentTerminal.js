@@ -6,7 +6,7 @@ import { FSquareTerminal } from './FSquareTerminal.js';
 import { T_DATA } from '../plt/Events.js';
 import { Shop } from '../dba/Shop.js';
 import { PaymentTerminal } from '../datatypes/PaymentTerminal.js';
-import Utilities from '../Utilities.js';
+import { Utilities } from '../Utilities.js';
 import { Api } from '../plt/Api.js';
 
 export const CF_PAYMENT_TERMINAL = {

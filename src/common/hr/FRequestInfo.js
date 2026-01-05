@@ -5,7 +5,7 @@ import { T_DATA } from '../plt/Events.js';
 import { Notifications } from '../dba/Notifications.js';
 import { UserRequest } from '../datatypes/UserRequest.js';
 import { Groups } from '../dba/Groups.js';
-import Utilities from '../Utilities.js';
+import { Utilities } from '../Utilities.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Api } from '../plt/Api.js';
 

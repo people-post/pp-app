@@ -62,7 +62,7 @@ export class HashtagsClass implements HashtagsInterface {
     }
   }
 
-  #onLoadRRR(ids: string[], responseText: string): void {
+  #onLoadRRR(_ids: string[], responseText: string): void {
     const response = JSON.parse(responseText) as ApiResponse;
     if (response.error) {
       Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);

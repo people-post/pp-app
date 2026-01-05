@@ -93,7 +93,7 @@ export class ExchangeClass implements ExchangeInterface {
     Api.asyncRawPost(url, fd, (r) => this.#onLoadCurrenciesRRR(ids, r), null);
   }
 
-  #onLoadCurrenciesRRR(ids: string[], responseText: string): void {
+  #onLoadCurrenciesRRR(_ids: string[], responseText: string): void {
     const response = JSON.parse(responseText) as ApiResponse;
     if (response.error) {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);

@@ -131,7 +131,7 @@ export class SignalClass implements SignalInterface {
     }
   }
 
-  #onConnect(client: PahoClient): void {
+  #onConnect(_client: PahoClient): void {
     this.#mqttClient = this.#cacheClient;
     this.#cacheClient = null;
     for (const [t, f] of this.#mFunc) {

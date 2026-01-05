@@ -5,7 +5,7 @@ import { FUserIcon } from '../hr/FUserIcon.js';
 import { FUserInfo } from '../hr/FUserInfo.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PComment } from './PComment.js';
-import Utilities from '../Utilities.js';
+import { Utilities } from '../Utilities.js';
 
 const _CFT_REAL_TIME_COMMENT = {
   ICON : `<span class="inline-block s-icon6">__ICON__</span>`,
