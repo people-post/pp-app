@@ -9,7 +9,6 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FServiceLocationFilter } from './FServiceLocationFilter.js';
 import { FQueueStatusMessage } from './FQueueStatusMessage.js';
 import { Shop } from '../../common/dba/Shop.js';
-import { Account } from '../../common/dba/Account.js';
 import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
 import { R } from '../../common/constants/R.js';
 
@@ -92,7 +91,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
   }
 
   #onCheckin() {
-    if (Account.isAuthenticated()) {
+    if (window.dba.Account.isAuthenticated()) {
       this.#asyncCheckin();
     } else {
       // Guest
@@ -102,7 +101,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
       fName.setConfig({
         title : R.get("GUEST_NICKNAME_PROMPT"),
         hint : "Nickname",
-        value : Account.getGuestName(),
+        value : window.dba.Account.getGuestName(),
         isRequired : true
       });
       fvc.addInputCollector(fName);
@@ -111,7 +110,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
       fContact.setConfig({
         title : R.get("GUEST_CONTACT_PROMPT"),
         hint : "Contact",
-        value : Account.getGuestContact(),
+        value : window.dba.Account.getGuestContact(),
         isRequired : true
       });
       fvc.addInputCollector(fContact);

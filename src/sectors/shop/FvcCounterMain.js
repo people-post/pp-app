@@ -6,7 +6,6 @@ import { FWalkinQueue } from './FWalkinQueue.js';
 import { FvcBranchSelection } from './FvcBranchSelection.js';
 import { FvcRegisterSelection } from './FvcRegisterSelection.js';
 import { Counter } from '../../common/dba/Counter.js';
-import { Account } from '../../common/dba/Account.js';
 import { Gateway as AuthGateway } from '../../sectors/auth/Gateway.js';
 export class FvcCounterMain extends FScrollViewContent {
   constructor() {
@@ -53,7 +52,7 @@ export class FvcCounterMain extends FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    if (!Account.isAuthenticated()) {
+    if (!window.dba.Account.isAuthenticated()) {
       // TODO: Only allow users with permission to login
       return;
     }
@@ -67,7 +66,7 @@ export class FvcCounterMain extends FScrollViewContent {
 
   _onContentDidAppear() {
     super._onContentDidAppear();
-    if (!Account.isAuthenticated()) {
+    if (!window.dba.Account.isAuthenticated()) {
       this.#showLoginView();
       return;
     }

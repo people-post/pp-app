@@ -2,7 +2,6 @@ import { WcSession } from './WcSession.js';
 import { LvSub } from './LvSub.js';
 import { T_ACTION } from '../common/plt/Events.js';
 import { Notifications } from '../common/dba/Notifications.js';
-import { Account } from '../common/dba/Account.js';
 
 export class WcSub extends WcSession {
   topAction(type, ...args) {
@@ -31,7 +30,7 @@ export class WcSub extends WcSession {
   #onLoginSuccess(profile, nextView) {
     let urlParam = new URLSearchParams(window.location.search);
 
-    Account.reset(profile);
+    window.dba.Account.reset(profile);
     this._clearDbAgents();
 
     this._initLanguage();

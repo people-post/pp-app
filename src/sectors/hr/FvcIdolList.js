@@ -1,7 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { Account } from '../../common/dba/Account.js';
 import { Web3UserIdolIdListLoader } from './Web3UserIdolIdListLoader.js';
 import { FUserList } from './FUserList.js';
 import { FvcAddIdol } from './FvcAddIdol.js';
@@ -32,7 +31,7 @@ export class FvcIdolList extends FScrollViewContent {
   }
 
   getActionButton() {
-    if (Account.getId() == this.#idLoader.getUserId()) {
+    if (window.dba.Account.getId() == this.#idLoader.getUserId()) {
       return this.#fBtnAdd;
     }
     return null;

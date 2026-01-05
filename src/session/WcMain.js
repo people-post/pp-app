@@ -1,7 +1,6 @@
 import { WcSession } from './WcSession.js';
 import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
 import { LvMain } from './LvMain.js';
-import { AbAccount } from './AbAccount.js';
 import { View } from '../lib/ui/controllers/views/View.js';
 import { FvcQuotaLimit } from '../common/gui/FvcQuotaLimit.js';
 import { Tag } from '../common/datatypes/Tag.js';
@@ -10,7 +9,6 @@ import { Events, T_DATA } from '../lib/framework/Events.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
 import { Cart } from '../common/dba/Cart.js';
 import { Notifications } from '../common/dba/Notifications.js';
-import { Account } from '../common/dba/Account.js';
 import { Gateway as HrGateway } from '../sectors/hr/Gateway.js';
 
 export class WcMain extends WcSession {
@@ -75,7 +73,7 @@ export class WcMain extends WcSession {
   #onLoginSuccess(profile, nextView) {
     let urlParam = new URLSearchParams(window.location.search);
 
-    Account.reset(profile);
+    window.dba.Account.reset(profile);
     this._clearDbAgents();
 
     this._initLanguage();

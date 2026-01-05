@@ -1,6 +1,5 @@
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
-import { Account } from './Account.js';
 import { User } from '../datatypes/User.js';
 import { PATH } from '../constants/Constants.js';
 import { glb } from '../../lib/framework/Global.js';
@@ -45,8 +44,8 @@ export class UserLib {
       return null;
     }
 
-    if (glb.env?.isWeb3() && Account.isAuthenticated() && Account.getId() === id) {
-      return Account as unknown as User;
+    if (glb.env?.isWeb3() && window.dba?.Account?.isAuthenticated() && window.dba.Account.getId() === id) {
+      return window.dba.Account as unknown as User;
     }
 
     if (this.#mUsers.has(id)) {
@@ -58,8 +57,8 @@ export class UserLib {
   }
 
   async asyncGet(id: string): Promise<User | PpUser> {
-    if (glb.env?.isWeb3() && Account.isAuthenticated() && Account.getId() === id) {
-      return Account as unknown as User;
+    if (glb.env?.isWeb3() && window.dba?.Account?.isAuthenticated() && window.dba.Account.getId() === id) {
+      return window.dba.Account as unknown as User;
     }
 
     if (!this.#mUsers.has(id)) {

@@ -4,7 +4,6 @@ import { FvcExchange } from './FvcExchange.js';
 import { FvcWallet } from './FvcWallet.js';
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
 import { glb } from '../../lib/framework/Global.js';
-import { Account } from '../../common/dba/Account.js';
 import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
 
@@ -21,7 +20,7 @@ export class Gateway extends SectorGateway {
 
   #createWeb2MainViewContentFragment() {
     let f;
-    if (Account.isWebOwner()) {
+    if (window.dba.Account.isWebOwner()) {
       f = new FViewContentMux();
 
       let ff = new FvcExchange();

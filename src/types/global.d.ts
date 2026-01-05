@@ -62,6 +62,31 @@ declare global {
     };
     make_vkey_witness(message: Uint8Array, key: unknown): unknown;
   };
+
+  /**
+   * Database access objects
+   */
+  interface Window {
+    dba?: {
+      Account?: {
+        isAuthenticated(): boolean;
+        getId(): string | null;
+        setUserId(userId: string): void;
+        getPreferredLanguage(): string | null;
+        getLiveStreamKey(): string | null;
+        setLiveStreamKey(key: string): void;
+        reset(profile?: unknown): void;
+        setDataSource?(source: unknown): void;
+        setDelegate?(delegate: unknown): void;
+        loadCheckPoint?(): void;
+        saveCheckPoint?(): void;
+        setPublishers?(agents: unknown): void;
+        setStorage?(agent: unknown): void;
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    };
+  }
 }
 
 export {};

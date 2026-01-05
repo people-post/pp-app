@@ -8,6 +8,7 @@ import { Api } from './common/plt/Api.js';
 import { Events } from './lib/framework/Events.js';
 import { TYPE } from './common/constants/Constants.js';
 import { glb } from './lib/framework/Global.js';
+import { Web2Account } from './common/dba/Web2Account.js';
 
 // Create env and api instances
 const env = new Env();
@@ -19,6 +20,15 @@ api.setConfig({
   ownerId: null,
   isTrustedSite: env.isTrustedSite(),
 });
+
+// Initialize window.dba.Account for non-Web3 mode
+// (Web3 mode will replace this in WcWeb3.js)
+if (typeof window !== 'undefined') {
+  if (!window.dba) {
+    window.dba = {};
+  }
+  window.dba.Account = new Web2Account();
+}
 
 const G = function() {
   let _session = null;

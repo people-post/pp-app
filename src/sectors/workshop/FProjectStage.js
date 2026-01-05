@@ -10,7 +10,6 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { ProjectStage } from '../../common/datatypes/ProjectStage.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { Workshop } from '../../common/dba/Workshop.js';
-import { Account } from '../../common/dba/Account.js';
 import { R } from '../../common/constants/R.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
@@ -166,7 +165,7 @@ export class FProjectStage extends Fragment {
   #getActions() {
     let project = Workshop.getProject(this._stage.getProjectId());
     if (project) {
-      return project.getActionsForUserInStage(Account.getId(), this._stage);
+      return project.getActionsForUserInStage(window.dba.Account.getId(), this._stage);
     }
     return [];
   }

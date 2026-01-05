@@ -9,7 +9,6 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Cart } from '../../common/dba/Cart.js';
-import { Account } from '../../common/dba/Account.js';
 import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
 import { PreviewOrder } from '../../common/datatypes/PreviewOrder.js';
 import { T_DATA } from '../../common/plt/Events.js';
@@ -111,7 +110,7 @@ export class FvcCurrent extends FScrollViewContent {
       fd.append('item_ids', id);
     }
     let url = "/api/cart/guest_order_preview";
-    if (Account.isAuthenticated()) {
+    if (window.dba.Account.isAuthenticated()) {
       url = "/api/cart/order_preview";
     }
     glb.api.asFragmentPost(this, url, fd)
@@ -123,7 +122,7 @@ export class FvcCurrent extends FScrollViewContent {
   }
 
   #goCheckout(order) {
-    if (Account.isAuthenticated()) {
+    if (window.dba.Account.isAuthenticated()) {
       let v = new View();
       let f = new FvcCheckout();
       f.setOrder(order);

@@ -1,6 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { PCareerInfo } from './PCareerInfo.js';
-import { Account } from '../dba/Account.js';
 
 export const CF_CAREER = {
   ON_CLICK : Symbol(),
@@ -47,9 +46,9 @@ export class FCareer extends Fragment {
     p.replaceContent(this.#renderName(role));
 
     p = panel.getStatusPanel();
-    if (Account.isRoleApplicationPending(this._roleId)) {
+    if (window.dba.Account.isRoleApplicationPending(this._roleId)) {
       p.replaceContent("Applied");
-    } else if (Account.isInGroup(this._roleId)) {
+    } else if (window.dba.Account.isInGroup(this._roleId)) {
       p.replaceContent("Joined");
     }
   }

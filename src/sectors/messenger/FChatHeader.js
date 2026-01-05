@@ -1,7 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { Account } from '../../common/dba/Account.js';
 import { Utilities as MessengerUtilities } from './Utilities.js';
 
 export class FChatHeader extends Fragment {
@@ -33,7 +32,7 @@ export class FChatHeader extends Fragment {
     if (this._target.isGroup()) {
       return MessengerUtilities.getGroupName(this._target.getId());
     } else {
-      return Account.getUserNickname(this._target.getId(), "Unknown user");
+      return window.dba.Account.getUserNickname(this._target.getId(), "Unknown user");
     }
   }
 };

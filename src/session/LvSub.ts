@@ -1,8 +1,6 @@
 import { LvTabbedPage } from './LvTabbedPage.js';
-import { AbAccount } from './AbAccount.js';
 import { FHomeBtn } from './FHomeBtn.js';
 import { URL_PARAM } from '../common/constants/Constants.js';
-import { Account } from '../common/dba/Account.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
 import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
 
@@ -43,7 +41,7 @@ export class LvSub extends LvTabbedPage {
     }
     this._vc.initFromUrl(urlParam);
 
-    if (this._gateway.isLoginRequired() && !Account.isAuthenticated()) {
+    if (this._gateway.isLoginRequired() && !(window.dba?.Account?.isAuthenticated() || false)) {
       this.#onLogin();
     }
   }

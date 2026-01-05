@@ -27,7 +27,6 @@ import { FvcBranch } from './FvcBranch.js';
 import { FTeam } from './FTeam.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { Menus } from '../../common/dba/Menus.js';
-import { Account } from '../../common/dba/Account.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
@@ -101,7 +100,7 @@ export class FvcConfig extends FScrollViewContent {
   }
   getTeamForTeamFragment(fTeam, teamId) { return Shop.getTeam(teamId); }
   getMenuForGuiMenuConfig(fMenuConfig) {
-    let menus = Menus.get(ID.SECTOR.SHOP, Account.getId());
+    let menus = Menus.get(ID.SECTOR.SHOP, window.dba.Account.getId());
     return menus.length ? menus[0] : null;
   }
 

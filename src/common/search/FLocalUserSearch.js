@@ -1,6 +1,5 @@
 import { FSearch } from './FSearch.js';
 import { T_DATA } from '../plt/Events.js';
-import { Account } from '../dba/Account.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
 import { SearchResult } from '../datatypes/SearchResult.js';
 import { Users } from '../dba/Users.js';
@@ -36,7 +35,7 @@ export class FLocalUserSearch extends FSearch {
 
   #makeResultFromUserId(userId) {
     // TODO: This return is a hack result
-    let nickname = Account.getUserNickname(userId, "...");
+    let nickname = window.dba.Account.getUserNickname(userId, "...");
     return {
       id : userId,
       type : SocialItem.TYPE.USER,

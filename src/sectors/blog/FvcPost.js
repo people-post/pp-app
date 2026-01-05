@@ -16,7 +16,6 @@ import { CommentIdLoader } from '../../common/social/CommentIdLoader.js';
 import { Web3CommentIdLoader } from '../../common/social/Web3CommentIdLoader.js';
 import { FCommentInput } from '../../common/social/FCommentInput.js';
 import { Blog } from '../../common/dba/Blog.js';
-import { Account } from '../../common/dba/Account.js';
 import { Groups } from '../../common/dba/Groups.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { T_DATA } from '../../common/plt/Events.js';
@@ -148,7 +147,7 @@ class FvcPost extends FScrollViewContent {
     }
 
     let post = Blog.getPost(this.#postId);
-    let uid = Account.getId();
+    let uid = window.dba.Account.getId();
     return uid && uid == post.getOwnerId();
   }
 
@@ -239,7 +238,7 @@ class FvcPost extends FScrollViewContent {
     // Currently only owner can edit article
     // TODO: Support users with permissions, there are legal considerations
     let userIds = [ post.getOwnerId() ];
-    if (userIds.indexOf(Account.getId()) < 0) {
+    if (userIds.indexOf(window.dba.Account.getId()) < 0) {
       return false;
     }
     return true;
@@ -305,7 +304,7 @@ class FvcPost extends FScrollViewContent {
     let tagIds = post.getCommentTags();
     if (tagIds.length > 0) {
       let isAdmin =
-          Account.isWebOwner() && post.getOwnerId() == Account.getId();
+          window.dba.Account.isWebOwner() && post.getOwnerId() == window.dba.Account.getId();
 
       this.#fTabbedComments = new FTabbedPane();
       this.#fTabbedComments.addPane({name : "All", value : "ALL"},
@@ -336,7 +335,7 @@ class FvcPost extends FScrollViewContent {
     let ops = [];
 
     // User must be webOwner
-    if (!Account.isWebOwner()) {
+    if (!window.dba.Account.isWebOwner()) {
       return ops;
     }
 
@@ -346,7 +345,7 @@ class FvcPost extends FScrollViewContent {
     }
 
     // Post owner must be user
-    if (post.getOwnerId() != Account.getId()) {
+    if (post.getOwnerId() != window.dba.Account.getId()) {
       return ops;
     }
 

@@ -27,7 +27,6 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 import { Users } from '../../common/dba/Users.js';
-import { Account } from '../../common/dba/Account.js';
 import { Utilities } from '../../common/Utilities.js';
 
 export class FvcGlobalCommunity extends FScrollViewContent {
@@ -93,7 +92,7 @@ export class FvcGlobalCommunity extends FScrollViewContent {
           return "Referred by: " +
                  Utilities.renderSmallButton(
                      "CF_GLOBAL_COMMUNITY_CONTENT.VIEW_USER", u.getId(),
-                     Account.getUserNickname(u.getId(), u.getNickname()));
+                     window.dba.Account.getUserNickname(u.getId(), u.getNickname()));
         }
       }
     }

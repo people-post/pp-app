@@ -17,7 +17,6 @@ import { Shop } from '../../common/dba/Shop.js';
 import { Cart } from '../../common/dba/Cart.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
-import { Account } from '../../common/dba/Account.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FvcCurrent } from '../../sectors/cart/FvcCurrent.js';
 
@@ -85,8 +84,8 @@ export class FvcOwner extends FScrollViewContent {
   getMenuFragments() { return [ this.#fmMain, this.#fmSearch ]; }
 
   getActionButton() {
-    if (Account.isAuthenticated()) {
-      if (Account.isWebOwner()) {
+    if (window.dba.Account.isAuthenticated()) {
+      if (window.dba.Account.isWebOwner()) {
         return this.#fBtnNew;
       } else {
         return this.#fBtnCart;

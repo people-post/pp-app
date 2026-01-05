@@ -22,7 +22,6 @@ import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.
 import { Cart } from '../../common/dba/Cart.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { Exchange } from '../../common/dba/Exchange.js';
-import { Account } from '../../common/dba/Account.js';
 import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Utilities } from '../../common/Utilities.js';
@@ -163,7 +162,7 @@ export class FCartItem extends Fragment {
 
     if (this._isTransferButtonEnabled) {
       p = panel.getSaveForLaterBtnPanel();
-      if (p && Account.isAuthenticated()) {
+      if (p && window.dba.Account.isAuthenticated()) {
         this._fBtnSaveForLater.attachRender(p);
         this._fBtnSaveForLater.render();
       }

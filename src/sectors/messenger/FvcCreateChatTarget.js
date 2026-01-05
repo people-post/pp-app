@@ -6,7 +6,6 @@ import { ButtonList } from '../../lib/ui/controllers/fragments/ButtonList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { Account } from '../../common/dba/Account.js';
 import { Groups } from '../../common/dba/Groups.js';
 import { FUserIcon } from '../../common/hr/FUserIcon.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
@@ -41,7 +40,7 @@ export class FvcCreateChatTarget extends FScrollViewContent {
 
   getFilteredItemsForSmartInputFragment(fSmartInput, filterStr) { return []; }
   getUrlForLongListFragment(fGrid, fromId) {
-    let url = "api/user/followers?user_id=" + Account.getId();
+    let url = "api/user/followers?user_id=" + window.dba.Account.getId();
     if (fromId) {
       url += "&before_id=" + fromId;
     }

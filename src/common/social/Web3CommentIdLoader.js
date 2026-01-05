@@ -1,7 +1,6 @@
 import { LongListIdLoader } from '../plt/LongListIdLoader.js';
 import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 import { SocialItemId } from '../datatypes/SocialItemId.js';
-import { Account } from '../dba/Account.js';
 import { Users } from '../dba/Users.js';
 
 export class Web3CommentIdLoader extends LongListIdLoader {
@@ -43,9 +42,9 @@ export class Web3CommentIdLoader extends LongListIdLoader {
   }
 
   async #asyncLoadAllComments() {
-    let uids = await Account.asyncGetIdolIds();
+    let uids = await window.dba.Account.asyncGetIdolIds();
     // Include owner himself
-    uids.push(Account.getId());
+    uids.push(window.dba.Account.getId());
 
     let key = this.#threadId.getValue();
     let u, m;

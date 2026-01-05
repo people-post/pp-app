@@ -1,5 +1,4 @@
 import { FileUploader, type CacheInfoOnServer } from '../plt/FileUploader.js';
-import { Account } from './Account.js';
 import { glb } from '../../lib/framework/Global.js';
 
 interface Web3FileUploaderDelegate {
@@ -50,7 +49,7 @@ export class Web3FileUploader extends FileUploader {
     } else {
       // Fallback: mark as done if method doesn't exist
       this._isFileUploading = false;
-      console.warn('Account.asUploadFile is not available');
+      console.warn('window.dba.Account.asUploadFile is not available');
     }
   }
 

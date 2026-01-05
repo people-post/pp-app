@@ -1,5 +1,4 @@
 import { T_DATA } from '../../common/plt/Events.js';
-import { Account } from '../../common/dba/Account.js';
 import { Users } from '../../common/dba/Users.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { User } from '../../common/datatypes/User.js';
@@ -90,7 +89,7 @@ export class FUserInfoHeroBanner extends Fragment {
   action(type, ...args) {
     switch (type) {
     case CF_USER_INFO_HERO_BANNER.FOLLOW:
-      Account.asyncFollow(args[0]);
+      window.dba.Account.asyncFollow(args[0]);
       break;
     case CF_USER_INFO_HERO_BANNER.UNFOLLOW:
       this.#onUnfollow(args[0]);
@@ -124,7 +123,7 @@ export class FUserInfoHeroBanner extends Fragment {
       break;
     case T_DATA.USER_IDOLS:
     case T_DATA.USER_PUBLIC_PROFILE:
-      if (data == Account.getId() || data == this._dataSource.getUserId()) {
+      if (data == window.dba.Account.getId() || data == this._dataSource.getUserId()) {
         this.render();
       }
       break;
@@ -170,7 +169,7 @@ export class FUserInfoHeroBanner extends Fragment {
     if (user) {
       pp = new Panel();
       p.pushPanel(pp);
-      if (Account.getId() == user.getId()) {
+      if (window.dba.Account.getId() == user.getId()) {
         if (WebConfig.getOwnerId() == user.getId()) {
           pp.replaceContent(this.#renderOwnerPrivateInfo());
         } else {
@@ -193,7 +192,7 @@ export class FUserInfoHeroBanner extends Fragment {
     if (user) {
       let bio = user.getBriefBio();
       bio = bio ? bio : "";
-      if (user.getId() == Account.getId() &&
+      if (user.getId() == window.dba.Account.getId() &&
           WebConfig.getOwnerId() == user.getId()) {
         this._fBioEditor.setConfig(
             {value : bio, hint : "Your short description"});
@@ -229,7 +228,7 @@ export class FUserInfoHeroBanner extends Fragment {
 
   #renderUploadButton(panel, user) {
     if (user && WebConfig.getOwnerId() == user.getId() &&
-        Account.getId() == user.getId()) {
+        window.dba.Account.getId() == user.getId()) {
 
       panel.replaceContent(_CFT_USER_INFO_HERO_BANNER.INFO_IMAGE_UPLOAD);
     } else {
@@ -244,12 +243,12 @@ export class FUserInfoHeroBanner extends Fragment {
     } else {
       s = s.replace("__ICON__", "");
     }
-    s = s.replace("__NAME__", Account.getUserNickname(user.getId(),
+    s = s.replace("__NAME__", window.dba.Account.getUserNickname(user.getId(),
                                                           user.getNickname()));
 
     let sMsg = "";
     let sSendFund = "";
-    if (Account.isIdolOf(user)) {
+    if (window.dba.Account.isIdolOf(user)) {
       sMsg = this.#renderMessageBtn(user.getId());
       if (WebConfig.isDevSite()) {
         sSendFund = this.#renderSendFundBtn(user.getId());
@@ -259,8 +258,8 @@ export class FUserInfoHeroBanner extends Fragment {
     s = s.replace("__SEND_FUND_BTN__", sSendFund);
 
     let sAction = "";
-    if (Account.isAuthenticated() && Account.getId() != user.getId()) {
-      if (Account.isFollowing(user.getId())) {
+    if (window.dba.Account.isAuthenticated() && window.dba.Account.getId() != user.getId()) {
+      if (window.dba.Account.isFollowing(user.getId())) {
         sAction = _CFT_USER_INFO_HERO_BANNER.UNFOLLOW_BTN;
       } else {
         sAction = _CFT_USER_INFO_HERO_BANNER.FOLLOW_BTN;
@@ -328,8 +327,8 @@ export class FUserInfoHeroBanner extends Fragment {
 
   #onUnfollow(userId) {
     let s = R.get("CONFIRM_UNFOLLOW");
-    s = s.replace("__NAME__", Account.getUserNickname(userId, userId));
-    this._confirmDangerousOperation(s, () => Account.asyncUnfollow(userId));
+    s = s.replace("__NAME__", window.dba.Account.getUserNickname(userId, userId));
+    this._confirmDangerousOperation(s, () => window.dba.Account.asyncUnfollow(userId));
   }
 
   #onUpdateInfoImage(file) { this.#asyncUpdateInfoImage(file); }

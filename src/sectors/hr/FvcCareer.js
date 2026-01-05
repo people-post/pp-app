@@ -15,7 +15,6 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Users } from '../../common/dba/Users.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
-import { Account } from '../../common/dba/Account.js';
 import { R } from '../../common/constants/R.js';
 
 export class FvcCareer extends FScrollViewContent {
@@ -119,9 +118,9 @@ export class FvcCareer extends FScrollViewContent {
   }
 
   #renderActions(role, panel) {
-    if (Account.isRoleApplicationPending(role.getId())) {
+    if (window.dba.Account.isRoleApplicationPending(role.getId())) {
       panel.replaceContent("Your application is pending approval.");
-    } else if (Account.isInGroup(role.getId())) {
+    } else if (window.dba.Account.isInGroup(role.getId())) {
       this._fBtnLeave.attachRender(panel);
       this._fBtnLeave.render();
     } else {
@@ -138,7 +137,7 @@ export class FvcCareer extends FScrollViewContent {
   }
 
   #onApplyRoleRRR(data) {
-    Account.reset(data.profile);
+    window.dba.Account.reset(data.profile);
     Events.triggerTopAction(T_ACTION.SHOW_NOTICE, this,
                                 R.get("ROLE_APPLICATION_SENT"));
   }
@@ -152,7 +151,7 @@ export class FvcCareer extends FScrollViewContent {
   }
 
   #onResignRoleRRR(data) {
-    Account.reset(data.profile);
+    window.dba.Account.reset(data.profile);
     WebConfig.reset(data.web_config);
     this._owner.onContentFragmentRequestPopView(this)
   }

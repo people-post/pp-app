@@ -3,7 +3,6 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { Account } from '../../common/dba/Account.js';
 import { FChatGroupInfo } from './FChatGroupInfo.js';
 import { FvcChat } from './FvcChat.js';
 
@@ -23,7 +22,7 @@ export class FvcChatGroupList extends FScrollViewContent {
 
   _renderContentOnRender(render) {
     this._fList.clear();
-    for (let id of Account.getGroupIds()) {
+    for (let id of window.dba.Account.getGroupIds()) {
       let f = new FChatGroupInfo();
       f.setDelegate(this);
       f.setThreadId(id);

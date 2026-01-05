@@ -2,7 +2,6 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
-import { Account } from '../../common/dba/Account.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { MainMenu } from '../../common/menu/MainMenu.js';
 import { FSearchMenu } from '../../common/search/FSearchMenu.js';
@@ -72,7 +71,7 @@ export class FvcOwner extends FScrollViewContent {
   getMenuFragments() { return [ this.#fmMain, this.#fmSearch ]; }
 
   getActionButton() {
-    if (Account.isAuthenticated() && Account.isWebOwner()) {
+    if (window.dba.Account.isAuthenticated() && window.dba.Account.isWebOwner()) {
       return this.#fBtnNew;
     }
     return null;

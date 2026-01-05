@@ -1,5 +1,4 @@
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
-import { Account } from '../../common/dba/Account.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { FrontPageConfig } from '../../common/datatypes/FrontPageConfig.js';
 import { FvcJournal } from './FvcJournal.js';
@@ -9,8 +8,8 @@ import { glb } from '../../lib/framework/Global.js';
 
 export class Gateway extends SectorGateway {
   createMainViewContentFragment() {
-    if (Account.isAuthenticated()) {
-      if (Account.isWebOwner()) {
+    if (window.dba.Account.isAuthenticated()) {
+      if (window.dba.Account.isWebOwner()) {
         return this._createMainViewContentFragmentForOwner();
       } else {
         return this._createMainViewContentFragmentForVisitor();

@@ -25,7 +25,6 @@ import { FSupplierOrderItem } from './FSupplierOrderItem.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { Address } from '../../common/dba/Address.js';
 import { Exchange } from '../../common/dba/Exchange.js';
-import { Account } from '../../common/dba/Account.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
@@ -295,7 +294,7 @@ export class FSupplierOrder extends Fragment {
   }
 
   #renderUserName(userId) {
-    let nickname = Account.getUserNickname(userId, "...");
+    let nickname = window.dba.Account.getUserNickname(userId, "...");
     return Utilities.renderSmallButton(
         "shop.CF_SUPPLIER_ORDER_CONTENT.USER_INFO", userId, nickname,
         "low-profile s-cinfotext bold");

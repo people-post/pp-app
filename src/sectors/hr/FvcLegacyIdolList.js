@@ -4,7 +4,6 @@ import { ActionButton } from '../../common/gui/ActionButton.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
-import { Account } from '../../common/dba/Account.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FvcAddIdol } from './FvcAddIdol.js';
 
@@ -24,7 +23,7 @@ export class FvcLegacyIdolList extends FScrollViewContent {
   }
 
   getActionButton() {
-    if (Account.getId() == this._userId) {
+    if (window.dba.Account.getId() == this._userId) {
       return this._fBtnAdd;
     }
     return null;

@@ -5,7 +5,6 @@ import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { PBasic } from './PBasic.js';
 import { FvcChangePassword } from '../auth/FvcChangePassword.js';
-import { Account } from '../../common/dba/Account.js';
 import { T_DATA } from '../../common/plt/Events.js';
 
 export class FvcBasic extends FScrollViewContent {
@@ -65,13 +64,13 @@ export class FvcBasic extends FScrollViewContent {
   }
 
   #renderNickname(panel) {
-    this._fNickname.setValue(Account.getNickname());
+    this._fNickname.setValue(window.dba.Account.getNickname());
     this._fNickname.attachRender(panel);
     this._fNickname.render();
   }
 
   #renderOptions(panel) {
-    this._fOptions.setOption("BETA_TESTER", Account.isBetaTester());
+    this._fOptions.setOption("BETA_TESTER", window.dba.Account.isBetaTester());
     this._fOptions.attachRender(panel);
     this._fOptions.render();
   }
@@ -105,5 +104,5 @@ export class FvcBasic extends FScrollViewContent {
         .then(d => this.#onUpdateConfigRRR(d));
   }
 
-  #onUpdateConfigRRR(data) { Account.asyncReload(); }
+  #onUpdateConfigRRR(data) { window.dba.Account.asyncReload(); }
 };

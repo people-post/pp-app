@@ -4,7 +4,6 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Address as AddressDBA } from '../../common/dba/Address.js';
-import { Account } from '../../common/dba/Account.js';
 import { Address as AddressDataType } from '../../common/datatypes/Address.js';
 
 export class FvcAddressEditor extends FScrollViewContent {
@@ -100,7 +99,7 @@ export class FvcAddressEditor extends FScrollViewContent {
   }
 
   #onAddAddressRRR(data) {
-    Account.resetAddressIds(data.address_ids);
+    window.dba.Account.resetAddressIds(data.address_ids);
     this._owner.onContentFragmentRequestPopView(this);
   }
 }

@@ -15,7 +15,6 @@ import { Article } from '../../common/datatypes/Article.js';
 import { RichContentEditor } from '../../common/gui/RichContentEditor.js';
 import { LiveStreamConfigFragment } from '../../common/gui/LiveStreamConfigFragment.js';
 import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
-import { Account } from '../../common/dba/Account.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FQuoteElement } from './FQuoteElement.js';
@@ -163,7 +162,7 @@ export class FArticleEditor extends Fragment {
     }
 
     let ownerId = this.#baseArticle.getOwnerId();
-    if (Account.getId() == ownerId && Account.isWebOwner()) {
+    if (window.dba.Account.getId() == ownerId && window.dba.Account.isWebOwner()) {
       this.#tags = WebConfig.getTags();
       return this.#tags;
     } else {
@@ -224,7 +223,7 @@ export class FArticleEditor extends Fragment {
     this.#fContent.render();
 
     p = panel.getTagsPanel();
-    if (Account.isWebOwner()) {
+    if (window.dba.Account.isWebOwner()) {
       this.#fTags.setEnableNewTags(true);
     }
     this.#fTags.attachRender(p.getContentPanel());

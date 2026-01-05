@@ -1,6 +1,5 @@
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
-import { Account } from './Account.js';
 import { CartItem } from '../datatypes/CartItem.js';
 import { Cart as CartDataType } from '../datatypes/Cart.js';
 import { glb } from '../../lib/framework/Global.js';
@@ -65,7 +64,7 @@ export class CartClass implements CartInterface {
     }
     this.#isLoading = true;
     let url = '/api/cart/guest_draft_orders';
-    if (Account.isAuthenticated()) {
+    if (window.dba?.Account?.isAuthenticated()) {
       url = '/api/cart/draft_orders';
     }
     glb.api?.asyncRawCall(url, (r) => this.#onLoadOrderItemsRRR(r), null);
@@ -78,7 +77,7 @@ export class CartClass implements CartInterface {
 
   asyncAddItem(productId: string, currencyId: string | null, specifications: string[], quantity: number): void {
     let url = '/api/cart/guest_add_item';
-    if (Account.isAuthenticated()) {
+    if (window.dba?.Account?.isAuthenticated()) {
       url = '/api/cart/add_item';
     }
     const fd = new FormData();
@@ -109,7 +108,7 @@ export class CartClass implements CartInterface {
 
   asyncChangeItemQuantity(itemId: string, delta: number): void {
     let url = '/api/cart/guest_update_item';
-    if (Account.isAuthenticated()) {
+    if (window.dba?.Account?.isAuthenticated()) {
       url = '/api/cart/update_item';
     }
     const fd = new FormData();

@@ -4,7 +4,6 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { T_DATA } from '../plt/Events.js';
 import { Notifications } from '../dba/Notifications.js';
 import { UserRequest } from '../datatypes/UserRequest.js';
-import { Account } from '../dba/Account.js';
 import { Groups } from '../dba/Groups.js';
 import Utilities from '../Utilities.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
@@ -115,7 +114,7 @@ export class FRequestInfo extends Fragment {
   #renderJoinGroupRequest(request) {
     let s = _CFT_REQUEST_INFO.JOIN_GROUP;
     let uid = request.getFromId();
-    let nickname = Account.getUserNickname(uid);
+    let nickname = window.dba.Account.getUserNickname(uid);
     s = s.replace("__USER__",
                   Utilities.renderSmallButton("S.hr.CF_REQUEST_INFO.USER_INFO",
                                               uid, nickname));
@@ -159,7 +158,7 @@ export class FRequestInfo extends Fragment {
         .then(d => this.#onRequestOperationRRR(d));
   }
 
-  #onRequestOperationRRR(data) { Account.reset(data.profile); }
+  #onRequestOperationRRR(data) { window.dba.Account.reset(data.profile); }
 
   #onShowUserInfo(userId) {
     Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);

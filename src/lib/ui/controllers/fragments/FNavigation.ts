@@ -1,7 +1,6 @@
 import { Fragment } from './Fragment.js';
 import { FSimpleFragmentList } from './FSimpleFragmentList.js';
 import { FTabbedPaneTab } from './FTabbedPaneTab.js';
-import { Account } from '../../../../common/dba/Account.js';
 
 export const CF_NAVIGATION = {
   ON_TAB_CLICK : Symbol(),
@@ -87,7 +86,7 @@ export class FNavigation extends Fragment {
       // Clear first since panel may be reused
       p.clear();
       this._fTabs.clear();
-      if (!(p as any).isLoginRequired() || Account.isAuthenticated()) {
+      if (!(p as any).isLoginRequired() || (window.dba?.Account?.isAuthenticated() || false)) {
         for (let item of items) {
           let f = new FTabbedPaneTab();
           f.setLayoutType(FTabbedPaneTab.T_LAYOUT.LARGE);

@@ -1,7 +1,6 @@
 import { T_DATA } from '../../common/plt/Events.js';
 import { FChatThreadInfo } from './FChatThreadInfo.js';
 import { Users } from '../../common/dba/Users.js';
-import { Account } from '../../common/dba/Account.js';
 
 export class FConversationInfo extends FChatThreadInfo {
   handleSessionDataUpdate(dataType, data) {
@@ -26,7 +25,7 @@ export class FConversationInfo extends FChatThreadInfo {
   }
 
   _renderTitle() {
-    return Account.getUserNickname(this._threadId, "Unknown user");
+    return window.dba.Account.getUserNickname(this._threadId, "Unknown user");
   }
 
   _onClick() {

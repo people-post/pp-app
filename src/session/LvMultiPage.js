@@ -5,7 +5,6 @@ import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
 import { PageViewController } from '../lib/ui/controllers/PageViewController.js';
 import { Page } from '../lib/ui/controllers/Page.js';
 import { Logger } from '../lib/ext/Logger.js';
-import { Account } from '../common/dba/Account.js';
 import { Badge } from '../common/dba/Badge.js';
 import { ID } from '../common/constants/Constants.js';
 
@@ -40,7 +39,7 @@ export class LvMultiPage extends ViewLayer {
       this.#fBtnHome.detachRender();
     }
     this.onResize();
-    Account.asyncReload();
+    window.dba.Account.asyncReload();
     super.init();
   }
 
@@ -74,7 +73,7 @@ export class LvMultiPage extends ViewLayer {
   setSectorId(id) { this._gateway.setSectorId(id); }
 
   onPageSwitchedInPageViewController(pvc) {
-    if (Account.isAuthenticated()) {
+    if (window.dba.Account.isAuthenticated()) {
       Badge.checkPermission();
     }
   }

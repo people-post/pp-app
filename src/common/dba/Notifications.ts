@@ -8,7 +8,6 @@ import { LikedItemNotice } from '../datatypes/LikedItemNotice.js';
 import { RepostItemNotice } from '../datatypes/RepostItemNotice.js';
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
-import { Account } from './Account.js';
 import { Signal } from './Signal.js';
 import { Badge } from './Badge.js';
 import { CHANNEL } from '../constants/Constants.js';
@@ -210,8 +209,8 @@ export class NotificationsClass implements NotificationsInterface {
   }
 
   reload(): void {
-    if (Account.isAuthenticated()) {
-      const accountId = Account.getId();
+    if (window.dba?.Account?.isAuthenticated()) {
+      const accountId = window.dba.Account.getId();
       if (accountId && !Signal.isChannelSet(CHANNEL.USER_INBOX)) {
         Signal.subscribe(CHANNEL.USER_INBOX, accountId, (m) => this.#handleSignal(m));
       }

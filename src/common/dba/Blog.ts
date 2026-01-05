@@ -1,4 +1,3 @@
-import { Account } from './Account.js';
 import { WebConfig } from './WebConfig.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
 import { BlogRole } from '../datatypes/BlogRole.js';
@@ -75,7 +74,7 @@ export class BlogClass implements BlogInterface {
 
   isSocialEnabled(): boolean {
     if (glb.env?.isWeb3()) {
-      return Account.isAuthenticated();
+      return (window.dba?.Account?.isAuthenticated() || false);
     } else {
       const c = this.#config;
       return !!(c && c.isSocialActionEnabled());

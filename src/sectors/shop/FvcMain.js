@@ -13,7 +13,6 @@ import { FvcOrderHistory } from './FvcOrderHistory.js';
 import { FvcConfig } from './FvcConfig.js';
 import { FvcReport } from './FvcReport.js';
 import { Notifications } from '../../common/dba/Notifications.js';
-import { Account } from '../../common/dba/Account.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { FvcCurrent } from '../../sectors/cart/FvcCurrent.js';
@@ -106,7 +105,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
   }
 
   #getPageType() {
-    if (Account.isWebOwner()) {
+    if (window.dba.Account.isWebOwner()) {
       if (Shop.isOpen()) {
         return this.constructor.#T_PAGE.OWNER_OPEN;
       } else {

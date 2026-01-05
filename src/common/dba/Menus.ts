@@ -1,7 +1,6 @@
 import { Menu } from '../datatypes/Menu.js';
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
-import { Account } from './Account.js';
 import { glb } from '../../lib/framework/Global.js';
 
 interface ApiResponse {
@@ -123,7 +122,7 @@ export class MenusClass implements MenusInterface {
   }
 
   #onOwnerMenusRRR(responseText: string, sectorId: string): void {
-    this.#onMenusRRR(responseText, sectorId, Account.getId());
+    this.#onMenusRRR(responseText, sectorId, window.dba.Account.getId());
   }
 
   #onMenusRRR(responseText: string, sectorId: string, userId: string | null): void {

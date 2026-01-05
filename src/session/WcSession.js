@@ -14,7 +14,6 @@ import { Events as FwkEvents, T_ACTION as FwkT_ACTION, T_DATA } from '../lib/fra
 import { PWindow } from './PWindow.js';
 import { Web3FileUploader } from '../common/dba/Web3FileUploader.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
-import { Account } from '../common/dba/Account.js';
 import { Blog } from '../common/dba/Blog.js';
 import { Users } from '../common/dba/Users.js';
 import { Cart } from '../common/dba/Cart.js';
@@ -97,7 +96,7 @@ export class WcSession extends WindowController {
     WebConfig.setBootTheme(
         {primary_color : primaryColor, secondary_color : secondaryColor});
     if (userId && userId.length > 0) {
-      Account.setUserId(userId);
+      window.dba.Account.setUserId(userId);
     }
     let w = new PWindow();
     // ID value is synced with backend
@@ -228,7 +227,7 @@ export class WcSession extends WindowController {
     if (urlParam.has(URL_PARAM.LANGUAGE)) {
       glb.env.setPreferredLanguage(urlParam.get(URL_PARAM.LANGUAGE));
     }
-    let lang = Account.getPreferredLanguage();
+    let lang = window.dba.Account.getPreferredLanguage();
     if (!lang) {
       lang = glb.env.getLanguage();
     }

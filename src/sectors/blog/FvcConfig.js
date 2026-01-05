@@ -11,7 +11,6 @@ import { ICON } from '../../common/constants/Icons.js';
 import { MenuConfig } from '../../common/menu/MenuConfig.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { Menus } from '../../common/dba/Menus.js';
-import { Account } from '../../common/dba/Account.js';
 import { FRoleList } from './FRoleList.js';
 import { FPostInfo } from './FPostInfo.js';
 import { FPostInfoLayoutPreview } from './FPostInfoLayoutPreview.js';
@@ -117,7 +116,7 @@ export class FvcConfig extends FScrollViewContent {
   }
 
   getMenuForGuiMenuConfig(fMenuConfig) {
-    let menus = Menus.get(ID.SECTOR.BLOG, Account.getId());
+    let menus = Menus.get(ID.SECTOR.BLOG, window.dba.Account.getId());
     return menus.length ? menus[0] : null;
   }
 

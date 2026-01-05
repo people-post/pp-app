@@ -1,7 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { T_DATA } from '../plt/Events.js';
-import { Account } from '../dba/Account.js';
 import Utilities from '../Utilities.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
@@ -44,7 +43,7 @@ export class FUserIdInput extends Fragment {
   }
 
   #renderUser() {
-    let nickname = Account.getUserNickname(this.#userId);
+    let nickname = window.dba.Account.getUserNickname(this.#userId);
     return Utilities.renderSmallButton("S.hr.CF_USER_ID_INPUT.USER_INFO",
                                        this.#userId, nickname);
   }

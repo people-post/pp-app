@@ -2,7 +2,6 @@ import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContent
 import { ICON } from '../../common/constants/Icons.js';
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
 import { Notifications } from '../../common/dba/Notifications.js';
-import { Account } from '../../common/dba/Account.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Web3Config } from '../../common/dba/Web3Config.js';
 import { FvcWeb3OwnerPosts } from './FvcWeb3OwnerPosts.js';
@@ -38,14 +37,14 @@ export class Gateway extends SectorGateway {
 
   createMainViewContentFragment() {
     if (glb.env.isWeb3()) {
-      if (Account.isAuthenticated()) {
+      if (window.dba.Account.isAuthenticated()) {
         return this.#createMainViewContentFragmentForWeb3Owner();
       } else {
         return this.#createMainViewContentFragmentForWeb3Guest();
       }
     } else {
-      if (Account.isAuthenticated()) {
-        if (Account.isWebOwner()) {
+      if (window.dba.Account.isAuthenticated()) {
+        if (window.dba.Account.isWebOwner()) {
           return this.#createMainViewContentFragmentForOwner();
         } else {
           return this.#createMainViewContentFragmentForVisitor();
@@ -93,7 +92,7 @@ export class Gateway extends SectorGateway {
     f.addTab(this.#makeTabConfig(_CG_BLOG.NEWS), ff);
 
     ff = new FvcWeb3OwnerPosts();
-    ff.setOwnerId(Account.getId());
+    ff.setOwnerId(window.dba.Account.getId());
     f.addTab(this.#makeTabConfig(_CG_BLOG.OWNER), ff);
 
     ff = new FvcWeb3Report();

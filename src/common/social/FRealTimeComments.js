@@ -6,7 +6,6 @@ import { InputConsoleFragment } from '../gui/InputConsoleFragment.js';
 import { FRealTimeCommentList } from './FRealTimeCommentList.js';
 import { RealTimeCommentAgent } from './RealTimeCommentAgent.js';
 import { T_DATA } from '../plt/Events.js';
-import { Account } from '../dba/Account.js';
 import { Social } from '../dba/Social.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcUserInput } from '../hr/FvcUserInput.js';
@@ -175,13 +174,13 @@ export class FRealTimeComments extends Fragment {
     if (isBottom) {
       this.#pMain.scrollToBottom();
     }
-    if (Account.isAuthenticated()) {
+    if (window.dba.Account.isAuthenticated()) {
       this.#hComments.updateReadership(this.#isAdmin);
     }
   }
 
   #postMessage(message) {
-    if (Account.getId()) {
+    if (window.dba.Account.getId()) {
       this.#hComments.asPost(message);
     } else {
       // Guest
@@ -191,7 +190,7 @@ export class FRealTimeComments extends Fragment {
       f.setConfig({
         title : R.get("GUEST_NICKNAME_PROMPT"),
         hint : "Nickname",
-        value : Account.getGuestName(),
+        value : window.dba.Account.getGuestName(),
         isRequired : true
       });
       fvc.addInputCollector(f);
@@ -206,7 +205,7 @@ export class FRealTimeComments extends Fragment {
   }
 
   #onPostComment(message, guestName) {
-    Account.setGuestName(guestName);
+    window.dba.Account.setGuestName(guestName);
     this.#hComments.asPost(message, guestName);
   }
 };

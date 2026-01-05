@@ -48,7 +48,6 @@ import { FTag } from '../../common/gui/FTag.js';
 import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
 import { FGeneralSearch } from '../../common/search/FGeneralSearch.js';
 import { FSearchResultInfo } from '../../common/search/FSearchResultInfo.js';
-import { Account } from '../../common/dba/Account.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { R } from '../../common/constants/R.js';
@@ -375,7 +374,7 @@ export class FJournalIssueEditor extends Fragment {
     }
 
     let ownerId = this.#journalIssue.getOwnerId();
-    if (Account.getId() == ownerId && Account.isWebOwner()) {
+    if (window.dba.Account.getId() == ownerId && window.dba.Account.isWebOwner()) {
       this.#tags = WebConfig.getTags();
       return this.#tags;
     } else {
@@ -423,7 +422,7 @@ export class FJournalIssueEditor extends Fragment {
     this.#renderContent(panel.getSectionListPanel(), this.#journalIssue);
 
     p = panel.getTagsPanel();
-    if (Account.isWebOwner()) {
+    if (window.dba.Account.isWebOwner()) {
       this.#fTags.setEnableNewTags(true);
     }
     this.#fTags.attachRender(p.getContentPanel());

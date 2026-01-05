@@ -3,7 +3,6 @@ import { View } from '../lib/ui/controllers/views/View.js';
 import { ICONS } from '../lib/ui/Icons.js';
 import { ID } from '../common/constants/Constants.js';
 import { ICON } from '../common/constants/Icons.js';
-import { Account } from '../common/dba/Account.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
 import { Workshop } from '../common/dba/Workshop.js';
 import { Shop } from '../common/dba/Shop.js';
@@ -197,25 +196,25 @@ export class Gateway extends Controller {
     }
 
     // Customized frontpage
-    if (!Account.isAuthenticated() && WebConfig.getFrontPageConfig()) {
+    if (!window.dba.Account.isAuthenticated() && WebConfig.getFrontPageConfig()) {
       return [ this.constructor.T_CONFIG.FRONT_PAGE ];
     }
 
     // Default
     let configs = [ this.constructor.T_CONFIG.BLOG ];
-    if (Account.isAuthenticated()) {
+    if (window.dba.Account.isAuthenticated()) {
       configs.push(this.constructor.T_CONFIG.MESSENGER);
     }
 
     // Shop, still in development
-    if (Account.isBetaTester() || WebConfig.isDevSite()) {
-      if (Account.isWebOwner() || Shop.isOpen()) {
+    if (window.dba.Account.isBetaTester() || WebConfig.isDevSite()) {
+      if (window.dba.Account.isWebOwner() || Shop.isOpen()) {
         configs.push(this.constructor.T_CONFIG.SHOP);
       }
     }
 
     // Workshop
-    if (Account.isWebOwner() || Workshop.isOpen()) {
+    if (window.dba.Account.isWebOwner() || Workshop.isOpen()) {
       configs.push(this.constructor.T_CONFIG.WORKSHOP);
     }
     return configs;
@@ -230,14 +229,14 @@ export class Gateway extends Controller {
 
   #getExtrasPageConfigs() {
     if (glb.env.isWeb3()) {
-      if (Account.isAuthenticated()) {
+      if (window.dba.Account.isAuthenticated()) {
         return this.#getWeb3OwnerPageConfigs();
       } else {
         return this.#getWeb3GuestPageConfigs();
       }
     } else {
-      if (Account.isAuthenticated()) {
-        if (Account.isWebOwner()) {
+      if (window.dba.Account.isAuthenticated()) {
+        if (window.dba.Account.isWebOwner()) {
           return this.#getOwnerPageConfigs();
         } else if (glb.env.isTrustedSite()) {
           return this.#getMemberPageConfigs();
@@ -293,7 +292,7 @@ export class Gateway extends Controller {
     }
 
     if (Shop.isOpen()) {
-      if (Account.isBetaTester() || WebConfig.isDevSite()) {
+      if (window.dba.Account.isBetaTester() || WebConfig.isDevSite()) {
         items.push(this.constructor.T_CONFIG.CART);
       }
     }
@@ -307,7 +306,7 @@ export class Gateway extends Controller {
       items.push(this.constructor.T_CONFIG.EXCHANGE);
     }
     items.push(this.constructor.T_CONFIG.EMAIL);
-    if (Account.hasDomain()) {
+    if (window.dba.Account.hasDomain()) {
       // Required here in case user lost access to their own website
       items.push(this.constructor.T_CONFIG.HOSTING);
     } else {
@@ -315,7 +314,7 @@ export class Gateway extends Controller {
     }
     items.push(this.constructor.T_CONFIG.PROFILE);
     items.push(this.constructor.T_CONFIG.ACCOUNT);
-    if (Account.isBetaTester() || WebConfig.isDevSite()) {
+    if (window.dba.Account.isBetaTester() || WebConfig.isDevSite()) {
       items.push(this.constructor.T_CONFIG.CART);
     }
     return items;
@@ -338,7 +337,7 @@ export class Gateway extends Controller {
     items.push(this.constructor.T_CONFIG.HOSTING);
     items.push(this.constructor.T_CONFIG.PROFILE);
     items.push(this.constructor.T_CONFIG.ACCOUNT);
-    if (Account.isBetaTester() || WebConfig.isDevSite()) {
+    if (window.dba.Account.isBetaTester() || WebConfig.isDevSite()) {
       items.push(this.constructor.T_CONFIG.CART);
     }
     items.push(this.constructor.T_CONFIG.CONFIG);
@@ -420,7 +419,7 @@ export class Gateway extends Controller {
     case ID.SECTOR.PROFILE:
       vs = [ new View() ];
       f = new FvcUserInfo();
-      f.setUserId(Account.getId());
+      f.setUserId(window.dba.Account.getId());
       vs[0].setContentFragment(f);
       break;
     case ID.SECTOR.HOSTING:

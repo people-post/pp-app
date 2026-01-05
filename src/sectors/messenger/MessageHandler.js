@@ -3,7 +3,6 @@ import { BufferedList } from '../../common/datatypes/BufferedList.js';
 import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
-import { Account } from '../../common/dba/Account.js';
 
 import Controller from '../../lib/ext/Controller.js';
 
@@ -47,7 +46,7 @@ export class MessageHandler extends Controller {
 
   #createMessage(data) {
     let m = new Object();
-    m.from_user_id = Account.getId();
+    m.from_user_id = window.dba.Account.getId();
     if (this._target.isGroup()) {
       m.in_group_id = this._target.getId();
       m.to_user_id = null;

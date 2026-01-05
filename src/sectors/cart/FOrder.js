@@ -16,7 +16,6 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { Account } from '../../common/dba/Account.js';
 import { Exchange } from '../../common/dba/Exchange.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { STATE } from '../../common/constants/Constants.js';
@@ -74,7 +73,7 @@ export class FOrder extends Fragment {
   }
 
   _renderOnRender(render) {
-    let order = Account.getOrder(this._orderId);
+    let order = window.dba.Account.getOrder(this._orderId);
     if (!order) {
       return;
     }
@@ -203,7 +202,7 @@ export class FOrder extends Fragment {
 
   #renderShopNameInfo(order, panel) {
     let userId = order.getShopId();
-    let name = Account.getUserShopName(userId, "...");
+    let name = window.dba.Account.getUserShopName(userId, "...");
     let s =
         Utilities.renderSmallButton("cart.CF_CUSTOMER_ORDER.USER_INFO", userId,
                                     name, "low-profile s-cinfotext bold");
@@ -212,7 +211,7 @@ export class FOrder extends Fragment {
 
   #renderShopName(order, panel) {
     let userId = order.getShopId();
-    let name = Account.getUserShopName(userId, "...");
+    let name = window.dba.Account.getUserShopName(userId, "...");
     let s = "Shop: ";
     s += Utilities.renderSmallButton("cart.CF_CUSTOMER_ORDER.USER_INFO", userId,
                                      name, "low-profile s-cinfotext bold");

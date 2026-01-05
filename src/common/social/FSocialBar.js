@@ -5,7 +5,6 @@ import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_DATA } from '../plt/Events.js';
 import { Social } from '../dba/Social.js';
-import { Account } from '../dba/Account.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import Utilities from '../Utilities.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
@@ -321,7 +320,7 @@ export class FSocialBar extends Fragment {
   }
 
   #onLike() {
-    if (Account.isAuthenticated()) {
+    if (window.dba.Account.isAuthenticated()) {
       this.#asyncLike(this.#itemId, this.#itemType);
     } else {
       this._displayMessage("LOGIN_BEFORE_LIKE");
@@ -329,7 +328,7 @@ export class FSocialBar extends Fragment {
   }
 
   #onUnlike() {
-    if (Account.isAuthenticated()) {
+    if (window.dba.Account.isAuthenticated()) {
       this.#asyncUnlike(this.#itemId);
     } else {
       this._displayMessage("LOGIN_BEFORE_LIKE");
@@ -337,7 +336,7 @@ export class FSocialBar extends Fragment {
   }
 
   #onLink() {
-    if (Account.isAuthenticated()) {
+    if (window.dba.Account.isAuthenticated()) {
       this.#lc.setTargetName(R.get("repost"));
       this.#lc.setDescription(null);
       this.#lc.clearOptions();
@@ -351,7 +350,7 @@ export class FSocialBar extends Fragment {
   }
 
   #onUnlink() {
-    if (Account.isAuthenticated()) {
+    if (window.dba.Account.isAuthenticated()) {
       this.#lc.setTargetName(R.get("repost"));
       this.#lc.setDescription(null);
       this.#lc.clearOptions();
@@ -445,7 +444,7 @@ export class FSocialBar extends Fragment {
     }
   }
 
-  async #asyncWeb3Like(itemId, itemType) { await Account.asLike(itemId); }
+  async #asyncWeb3Like(itemId, itemType) { await window.dba.Account.asLike(itemId); }
 
   #asyncWeb2Like(itemId, itemType) {
     let url = "api/social/like";
@@ -463,7 +462,7 @@ export class FSocialBar extends Fragment {
     }
   }
 
-  async #asyncWeb3Unlike(itemId) { await Account.asUnlike(itemId); }
+  async #asyncWeb3Unlike(itemId) { await window.dba.Account.asUnlike(itemId); }
 
   #asyncWeb2Unlike(itemId) {
     let url = "api/social/unlike";

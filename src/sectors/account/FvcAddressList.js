@@ -5,7 +5,6 @@ import { Address } from '../../common/gui/Address.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcAddressEditor } from './FvcAddressEditor.js';
 import { Address as AddressDBA } from '../../common/dba/Address.js';
-import { Account } from '../../common/dba/Account.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
 
@@ -55,7 +54,7 @@ export class FvcAddressList extends FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    let ids = Account.getAddressIds();
+    let ids = window.dba.Account.getAddressIds();
     this._fItems.clear();
     for (let id of ids) {
       let f = new Address();
@@ -83,5 +82,5 @@ export class FvcAddressList extends FScrollViewContent {
     glb.api.asFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
   }
 
-  #onDeleteRRR(data) { Account.resetAddressIds(data.address_ids);   }
+  #onDeleteRRR(data) { window.dba.Account.resetAddressIds(data.address_ids);   }
 }

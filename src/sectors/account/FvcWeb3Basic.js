@@ -5,7 +5,6 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FIconUploader } from '../../common/gui/FIconUploader.js';
-import { Account } from '../../common/dba/Account.js';
 import { glb } from '../../lib/framework/Global.js';
 
 export class FvcWeb3Basic extends FScrollViewContent {
@@ -43,7 +42,7 @@ export class FvcWeb3Basic extends FScrollViewContent {
     let p = new PanelWrapper();
     pList.pushPanel(p);
 
-    this.#fName.setUserId(Account.getId());
+    this.#fName.setUserId(window.dba.Account.getId());
     this.#fName.attachRender(p);
     this.#fName.render();
 
@@ -51,7 +50,7 @@ export class FvcWeb3Basic extends FScrollViewContent {
       p = new Panel();
       pList.pushPanel(p);
       p.setClassName("ellipsis");
-      p.replaceContent("Public key:" + Account.getPublicKey());
+      p.replaceContent("Public key:" + window.dba.Account.getPublicKey());
 
       pList.pushSpace(1);
 
@@ -70,27 +69,27 @@ export class FvcWeb3Basic extends FScrollViewContent {
 
     p = new PanelWrapper();
     pList.pushPanel(p);
-    this.#fNickname.setValue(Account.getNickname());
+    this.#fNickname.setValue(window.dba.Account.getNickname());
     this.#fNickname.attachRender(p);
     this.#fNickname.render();
 
     p = new PanelWrapper();
     pList.pushPanel(p);
-    this.#fIcon.setIconUrl(Account.getIconUrl());
+    this.#fIcon.setIconUrl(window.dba.Account.getIconUrl());
     this.#fIcon.attachRender(p);
     this.#fIcon.render();
   }
 
   async #asyncUpdateNickname(value) {
-    let d = Account.getProfile();
+    let d = window.dba.Account.getProfile();
     d.nickname = value;
-    await Account.asUpdateProfile(d, []);
+    await window.dba.Account.asUpdateProfile(d, []);
   }
 
   async #asyncUpdateIconFile(file) {
-    let cid = await Account.asUploadFile(file);
-    let d = Account.getProfile();
+    let cid = await window.dba.Account.asUploadFile(file);
+    let d = window.dba.Account.getProfile();
     d.icon_cid = cid;
-    await Account.asUpdateProfile(d, [ cid ]);
+    await window.dba.Account.asUpdateProfile(d, [ cid ]);
   }
 }

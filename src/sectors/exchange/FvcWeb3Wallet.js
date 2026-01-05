@@ -8,7 +8,6 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { Wallet } from '../../common/datatypes/Wallet.js';
-import { CardanoAccount } from '../../common/datatypes/CardanoAccount.js';
 import { Keys } from '../../common/dba/Keys.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { sys } from 'pp-api';
@@ -249,7 +248,7 @@ export class FvcWeb3Wallet extends FScrollViewContent {
   }
   async #onTransfer() {
     this.#pBalance.replaceContent("Transfering fund ...");
-    this.#pBalance.replaceContent("Querying Account...");
+    this.#pBalance.replaceContent("Querying window.dba.Account...");
     var o = await this.#queryBalance(this.#input_addr);
     if (o.hasOwnProperty("inputs")) {
       this.#input_hashs = o.inputs;

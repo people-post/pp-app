@@ -11,7 +11,6 @@ import { ActionButton } from '../../common/gui/ActionButton.js';
 import { FLocalUserSearch } from '../../common/search/FLocalUserSearch.js';
 import { FJournal } from './FJournal.js';
 import { FvcPostEditor } from './FvcPostEditor.js';
-import { Account } from '../../common/dba/Account.js';
 import { Groups } from '../../common/dba/Groups.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Blog } from '../../common/dba/Blog.js';
@@ -37,10 +36,10 @@ export class AbNew extends Fragment {
   }
 
   isAvailable() {
-    if (Account.isAuthenticated()) {
-      if (Account.isWebOwner() ||
+    if (window.dba.Account.isAuthenticated()) {
+      if (window.dba.Account.isWebOwner() ||
           Blog.getRoleIdsByType(BlogRole.T_ROLE.EXCLUSIVE)
-              .some(id => Account.isInGroup(id))) {
+              .some(id => window.dba.Account.isInGroup(id))) {
         return true;
       }
     }
@@ -81,8 +80,8 @@ export class AbNew extends Fragment {
   }
 
   #onClick() {
-    if (Account.isWebOwner()) {
-      let gIds = Account.getGroupIds();
+    if (window.dba.Account.isWebOwner()) {
+      let gIds = window.dba.Account.getGroupIds();
       if (!Groups.loadMissing(gIds)) {
         this.#showCreateOptions(gIds);
       } else {
@@ -97,7 +96,7 @@ export class AbNew extends Fragment {
   #onGroupDataReceived() {
     if (this.#isPendingChoices) {
       this.#isPendingChoices = false;
-      let gIds = Account.getGroupIds();
+      let gIds = window.dba.Account.getGroupIds();
       this.#showCreateOptions(gIds);
     }
   }
@@ -112,7 +111,7 @@ export class AbNew extends Fragment {
     }
 
     let ownerIds = Array.from(new Set(ids));
-    let journalIds = Account.getJournalIds();
+    let journalIds = window.dba.Account.getJournalIds();
     if (journalIds.length > 0) {
       // With journal
       if (ownerIds.length > 1) {

@@ -8,7 +8,6 @@ import { ID, MAX } from '../../common/constants/Constants.js';
 import { Notifications } from '../../common/dba/Notifications.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
-import { Account } from '../../common/dba/Account.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
@@ -107,7 +106,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
   }
 
   #getPageType() {
-    if (Account.isWebOwner()) {
+    if (window.dba.Account.isWebOwner()) {
       if (Workshop.isOpen()) {
         return this.constructor.#T_PAGE.OWNER_OPEN;
       } else {

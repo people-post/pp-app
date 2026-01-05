@@ -18,7 +18,6 @@ import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FProductDeliveryManager } from './FProductDeliveryManager.js';
 import { PriceFragment } from '../../common/gui/PriceFragment.js';
 import { Shop } from '../../common/dba/Shop.js';
-import { Account } from '../../common/dba/Account.js';
 import { Cart } from '../../common/dba/Cart.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { T_DATA } from '../../common/plt/Events.js';
@@ -239,7 +238,7 @@ export class FProduct extends MajorSectorItem {
     }
 
     if (this._tLayout != this.constructor.T_LAYOUT.FULL &&
-        product.isEditableByUser(Account.getId())) {
+        product.isEditableByUser(window.dba.Account.getId())) {
       panel.replaceContent(_CFT_PRODUCT.EDIT_BUTTON);
       return;
     }

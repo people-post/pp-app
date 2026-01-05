@@ -9,7 +9,6 @@ import { FSocialBar } from '../../common/social/FSocialBar.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FvcFilteredPostList } from './FvcFilteredPostList.js';
-import { Account } from '../../common/dba/Account.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { glb } from '../../lib/framework/Global.js';
 import { Utilities } from '../../common/Utilities.js';
@@ -135,7 +134,7 @@ export class FPost extends Fragment {
     }
 
     if (!post.getLinkTo() &&
-        this.#shouldShowApplyRoleAction(post, Account.getId())) {
+        this.#shouldShowApplyRoleAction(post, window.dba.Account.getId())) {
       p = panel.getJobAdPanel();
       this.#btnApply.attachRender(p);
       this.#btnApply.render();
@@ -214,12 +213,12 @@ export class FPost extends Fragment {
     if (!post.isPinnable()) {
       return;
     }
-    if (!Account.isWebOwner()) {
+    if (!window.dba.Account.isWebOwner()) {
       // Only web owner can pin
       return;
     }
 
-    if (Account.getId() != post.getOwnerId()) {
+    if (window.dba.Account.getId() != post.getOwnerId()) {
       // Only pin owner's post
       return;
     }

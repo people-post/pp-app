@@ -1,7 +1,7 @@
 import { WcSession } from './WcSession.js';
+import { AbAccount } from './AbAccount.js';
 import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
 import { LvMain } from './LvMain.js';
-import { AbAccount } from './AbAccount.js';
 import { View } from '../lib/ui/controllers/views/View.js';
 import { Wallet } from '../common/datatypes/Wallet.js';
 import { T_DATA, T_ACTION } from '../common/plt/Events.js';
@@ -10,7 +10,6 @@ import UtilitiesExt from '../lib/ext/Utilities.js';
 import { Keys } from '../common/dba/Keys.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
 import { Web3Config } from '../common/dba/Web3Config.js';
-import { Account } from '../common/dba/Account.js';
 import { STORAGE } from '../common/constants/Constants.js';
 import { FvcWeb3UserInfo } from '../sectors/hr/FvcWeb3UserInfo.js';
 import { Web3Resolver } from '../common/pdb/Web3Resolver.js';
@@ -63,8 +62,6 @@ export class WcWeb3 extends WcSession {
     sessionStorage.clear();
     if (window.dba && window.dba.Account) {
       window.dba.Account.reset();
-    } else {
-      Account.reset();
     }
     Keys.reset();
     location.reload();

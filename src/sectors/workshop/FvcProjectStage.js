@@ -3,7 +3,6 @@ import { ActionButton } from '../../common/gui/ActionButton.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { Account } from '../../common/dba/Account.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { ProjectStage } from '../../common/datatypes/ProjectStage.js';
 import { T_DATA } from '../../common/plt/Events.js';
@@ -25,8 +24,8 @@ export class FvcProjectStage extends FScrollViewContent {
   }
 
   getActionButton() {
-    if (Account.isAuthenticated()) {
-      if (this.#isEditableByUser(Account.getId())) {
+    if (window.dba.Account.isAuthenticated()) {
+      if (this.#isEditableByUser(window.dba.Account.getId())) {
         return this._fBtnEdit;
       }
     }

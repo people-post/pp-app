@@ -7,7 +7,6 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FUserIcon } from './FUserIcon.js';
 import { Groups } from '../dba/Groups.js';
-import { Account } from '../dba/Account.js';
 import { WebConfig } from '../dba/WebConfig.js';
 import { T_DATA } from '../plt/Events.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
@@ -101,8 +100,8 @@ export class FvcUserGroup extends FScrollViewContent {
     this._fMembers.attachRender(pp.getContentPanel());
     this._fMembers.render();
 
-    if (Account.isInGroup(group.getId()) &&
-        Account.getId() != group.getOwnerId()) {
+    if (window.dba.Account.isInGroup(group.getId()) &&
+        window.dba.Account.getId() != group.getOwnerId()) {
       p.pushSpace(1);
       pp = new PanelWrapper();
       p.pushPanel(pp);
@@ -129,7 +128,7 @@ export class FvcUserGroup extends FScrollViewContent {
   }
 
   #onLeaveGroupRRR(data) {
-    Account.reset(data.profile);
+    window.dba.Account.reset(data.profile);
     WebConfig.reset(data.web_config);
     this._owner.onContentFragmentRequestPopView(this);
   }

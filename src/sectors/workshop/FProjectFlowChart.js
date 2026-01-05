@@ -14,7 +14,6 @@ import { ProjectStage } from '../../common/datatypes/ProjectStage.js';
 import { FvcCreateProjectStageChoice } from './FvcCreateProjectStageChoice.js';
 import { PProjectFlowChart } from './PProjectFlowChart.js';
 import { FProjectStage } from './FProjectStage.js';
-import { Account } from '../../common/dba/Account.js';
 import { Utilities } from '../../common/Utilities.js';
 import { R } from '../../common/constants/R.js';
 import { STATE } from '../../common/constants/Constants.js';
@@ -224,7 +223,7 @@ export class FProjectFlowChart extends Fragment {
     let project = this._dataSource.getProjectForFlowChartFragment(this);
     if (project) {
       let actions =
-          project.getActionsForUserInBeginTerminal(Account.getId());
+          project.getActionsForUserInBeginTerminal(window.dba.Account.getId());
       if (actions.length) {
         this.#showContextMenu(R.get("begin terminal"), actions);
       }
@@ -234,7 +233,7 @@ export class FProjectFlowChart extends Fragment {
   #onClickAtEnd() {
     let project = this._dataSource.getProjectForFlowChartFragment(this);
     if (project) {
-      let actions = project.getActionsForUserInEndTerminal(Account.getId());
+      let actions = project.getActionsForUserInEndTerminal(window.dba.Account.getId());
       if (actions.length) {
         this.#showContextMenu(R.get("end terminal"), actions);
       }

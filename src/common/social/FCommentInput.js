@@ -6,7 +6,6 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcUserInput } from '../hr/FvcUserInput.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
-import { Account } from '../dba/Account.js';
 import { FHashtag } from '../gui/FHashtag.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
 import { dat } from 'pp-api';
@@ -64,7 +63,7 @@ export class FCommentInput extends Fragment {
   }
 
   #onPostMessage(message) {
-    if (Account.getId()) {
+    if (window.dba.Account.getId()) {
       // User, ask to choose comment vs article
       this.#tmpMessage = message;
       this.#lc.clearOptions();
@@ -87,7 +86,7 @@ export class FCommentInput extends Fragment {
       f.setConfig({
         title : R.get("GUEST_NICKNAME_PROMPT"),
         hint : "Nickname",
-        value : Account.getGuestName(),
+        value : window.dba.Account.getGuestName(),
         isRequired : true
       });
       fvc.addInputCollector(f);
@@ -102,7 +101,7 @@ export class FCommentInput extends Fragment {
   }
 
   #postGuestComment(message, guestName) {
-    Account.setGuestName(guestName);
+    window.dba.Account.setGuestName(guestName);
     this.#asyncPostGuestComment(message, guestName);
   }
 
@@ -146,10 +145,10 @@ export class FCommentInput extends Fragment {
     // Make article out of comment text.
     let oArticle = new OArticle();
     oArticle.setContent(message);
-    oArticle.setOwnerId(Account.getId());
+    oArticle.setOwnerId(window.dba.Account.getId());
     oArticle.markCreation();
 
-    await Account.asComment(this.#threadId.getValue(), oArticle, asPost);
+    await window.dba.Account.asComment(this.#threadId.getValue(), oArticle, asPost);
   }
 
   #asyncWeb2PostUserComment(message, asPost) {

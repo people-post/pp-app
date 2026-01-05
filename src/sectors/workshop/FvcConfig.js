@@ -5,7 +5,6 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { MenuConfig } from '../../common/menu/MenuConfig.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
-import { Account } from '../../common/dba/Account.js';
 import { Menus } from '../../common/dba/Menus.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
@@ -72,7 +71,7 @@ export class FvcConfig extends FScrollViewContent {
   }
 
   getMenuForGuiMenuConfig(fMenuConfig) {
-    let menus = Menus.get(ID.SECTOR.WORKSHOP, Account.getId());
+    let menus = Menus.get(ID.SECTOR.WORKSHOP, window.dba.Account.getId());
     return menus.length ? menus[0] : null;
   }
 

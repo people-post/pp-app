@@ -6,7 +6,6 @@ import { DraftArticle } from '../../common/datatypes/DraftArticle.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { FvcWeb3PostEditor } from './FvcWeb3PostEditor.js';
 import { FvcWeb3ServerRegistration } from '../../sectors/hosting/FvcWeb3ServerRegistration.js';
-import { Account } from '../../common/dba/Account.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { glb } from '../../lib/framework/Global.js';
 
@@ -32,7 +31,7 @@ export class AbWeb3New extends Fragment {
     this.setChild('btn', this.#fBtn);
   }
 
-  isAvailable() { return Account.isAuthenticated(); }
+  isAvailable() { return window.dba.Account.isAuthenticated(); }
 
   onGuiActionButtonClick(fButton) { this.#onActionClick(); }
   onRegistrationCanceledInServerRegistrationContentFragment(fvc) {
@@ -102,7 +101,7 @@ export class AbWeb3New extends Fragment {
 
   #onPublisherAgentsChosen(agents) {
     for (let a of agents) {
-      if (a.getInitUserId() != Account.getId()) {
+      if (a.getInitUserId() != window.dba.Account.getId()) {
         // Should not happen, but need to be handled
         console.error("Account id not match record in publisher agent");
         return;
@@ -112,7 +111,7 @@ export class AbWeb3New extends Fragment {
         return;
       }
     }
-    Account.setPublishers(agents);
+    window.dba.Account.setPublishers(agents);
     this.#evaluateStorageAgents();
   }
 
@@ -120,7 +119,7 @@ export class AbWeb3New extends Fragment {
     const web3Storage = (typeof window !== 'undefined' && window.glb && window.glb.web3Storage) 
       ? window.glb.web3Storage 
       : null;
-    const agents = web3Storage ? web3Storage.getAgents(Account.getId()) : [];
+    const agents = web3Storage ? web3Storage.getAgents(window.dba.Account.getId()) : [];
     if (agents.length > 0) {
       this.#onChooseStorageAgent(agents);
     } else {
@@ -143,7 +142,7 @@ export class AbWeb3New extends Fragment {
   }
 
   #onStorageAgentChosen(agent) {
-    Account.setStorage(agent);
+    window.dba.Account.setStorage(agent);
     this.#showDraftEditor();
   }
 

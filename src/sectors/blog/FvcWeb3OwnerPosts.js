@@ -5,7 +5,6 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { OwnerWeb3PostIdLoader } from './OwnerWeb3PostIdLoader.js';
 import { FPostList } from './FPostList.js';
 import { AbWeb3New } from './AbWeb3New.js';
-import { Account } from '../../common/dba/Account.js';
 
 export class FvcWeb3OwnerPosts extends FScrollViewContent {
   #loader;
@@ -49,7 +48,7 @@ export class FvcWeb3OwnerPosts extends FScrollViewContent {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case T_DATA.NEW_OWNER_POST:
-      if (this.#loader.getOwnerId() == Account.getId()) {
+      if (this.#loader.getOwnerId() == window.dba.Account.getId()) {
         this.#fPosts.reset();
       }
       break;

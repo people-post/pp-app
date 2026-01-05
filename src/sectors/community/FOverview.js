@@ -21,7 +21,6 @@ import { FvcProposalEditor } from './FvcProposalEditor.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
 import { Communities } from '../../common/dba/Communities.js';
-import { Account } from '../../common/dba/Account.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { R } from '../../common/constants/R.js';
 
@@ -222,7 +221,7 @@ export class FOverview extends Fragment {
     p = pMain.getNMembersPanel();
     p.replaceContent(profile.getNMembers());
 
-    if (Account.isBetaTester()) {
+    if (window.dba.Account.isBetaTester()) {
       p = pMain.getNCoinsDescriptionPanel();
       p.replaceContent("Coins:");
 
@@ -230,7 +229,7 @@ export class FOverview extends Fragment {
       p.replaceContent(this.#renderNCoins(profile));
 
       p = pMain.getCoinBtnPanel();
-      if (Account.isInCommunity(this.#communityId)) {
+      if (window.dba.Account.isInCommunity(this.#communityId)) {
         this.#btnCoinInfo.attachRender(p);
         this.#btnCoinInfo.render();
       }
@@ -242,7 +241,7 @@ export class FOverview extends Fragment {
       p.replaceContent(profile.getCashBalance());
 
       p = pMain.getBalanceBtnPanel();
-      if (Account.isInCommunity(this.#communityId)) {
+      if (window.dba.Account.isInCommunity(this.#communityId)) {
         this.#btnCashInfo.attachRender(p);
         this.#btnCashInfo.render();
       }
@@ -251,14 +250,14 @@ export class FOverview extends Fragment {
     p = pMain.getNProposalsPanel();
     p.replaceContent(profile.getNProposals());
 
-    if (Account.isAuthenticated() && !Account.getCommunityId() &&
-        !Account.isCommunityApplicationPending()) {
+    if (window.dba.Account.isAuthenticated() && !window.dba.Account.getCommunityId() &&
+        !window.dba.Account.isCommunityApplicationPending()) {
       p = pMain.getBtnJoinPanel();
       this.#btnJoin.attachRender(p);
       this.#btnJoin.render();
     }
 
-    if (profile.getCreatorId() == Account.getId()) {
+    if (profile.getCreatorId() == window.dba.Account.getId()) {
       // Management actions
       p = pMain.getBtnProposePanel();
       this.#btnPropose.attachRender(p);
@@ -278,7 +277,7 @@ export class FOverview extends Fragment {
 
   #isEditor(profile) {
     let captainId = profile.getCaptainId();
-    return Account.getId() == captainId &&
+    return window.dba.Account.getId() == captainId &&
            WebConfig.getOwnerId() == captainId;
   }
 
@@ -382,7 +381,7 @@ export class FOverview extends Fragment {
   }
 
   #onApplyRRR(data) {
-    Account.reset(data.profile);
+    window.dba.Account.reset(data.profile);
     this._delegate.onNewProposalRequestAcceptedInOverviewFragment(this);
   }
 

@@ -6,7 +6,6 @@ import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FPost } from './FPost.js';
 import { Blog } from '../../common/dba/Blog.js';
-import { Account } from '../../common/dba/Account.js';
 import { Utilities } from './Utilities.js';
 import { FRealTimeComments } from '../../common/social/FRealTimeComments.js';
 
@@ -179,7 +178,7 @@ class FPostNavigator extends Fragment {
     }
     this.#fComments.setThreadId(realPost.getId(), realPost.getSocialItemType());
     this.#fComments.setIsAdmin(
-        this.#isUserPostAdmin(Account.getId(), realPost));
+        this.#isUserPostAdmin(window.dba.Account.getId(), realPost));
     this.#fComments.attachRender(panel);
     this.#fComments.render();
   }

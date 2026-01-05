@@ -21,7 +21,6 @@ import { FvcConfirmAction } from '../../lib/ui/controllers/views/FvcConfirmActio
 import { FProposalTitle } from './FProposalTitle.js';
 import { VotingSummaryFragment } from '../../common/gui/VotingSummaryFragment.js';
 import { Communities } from '../../common/dba/Communities.js';
-import { Account } from '../../common/dba/Account.js';
 import { Votes } from '../../common/dba/Votes.js';
 import { Proposal } from '../../common/datatypes/Proposal.js';
 import { Vote } from '../../common/datatypes/Vote.js';
@@ -193,11 +192,11 @@ export class FProposal extends Fragment {
 
   #renderVote(proposal, panel) {
     let s;
-    let v = Votes.get(Account.getId(), proposal.getId());
+    let v = Votes.get(window.dba.Account.getId(), proposal.getId());
     if (v) {
       s = this.#renderUserVoteStatus(v.getValue());
     } else {
-      let rId = Account.getRepresentativeId();
+      let rId = window.dba.Account.getRepresentativeId();
       if (rId) {
         v = Votes.get(rId, proposal.getId());
       }
@@ -243,7 +242,7 @@ export class FProposal extends Fragment {
   #renderSubtitle(proposal, panel) {
     let s = _CFT_PROPOSAL.SUBTITLE;
     let userId = proposal.getAuthorId();
-    let nickname = Account.getUserNickname(userId);
+    let nickname = window.dba.Account.getUserNickname(userId);
     s = s.replace("__AUTHOR__", Utilities.renderSmallButton(
                                     "cmut.CF_PROPOSAL.USER_INFO", userId,
                                     nickname, "low-profile s-cinfotext bold"));

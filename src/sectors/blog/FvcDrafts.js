@@ -5,7 +5,6 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { FInsiderAuthorDraftList } from './FInsiderAuthorDraftList.js';
 import { FInsiderTaskDraftList } from './FInsiderTaskDraftList.js';
 import { FOwnerDraftList } from './FOwnerDraftList.js';
-import { Account } from '../../common/dba/Account.js';
 
 export class FvcDrafts extends FScrollViewContent {
   #fInsiderAuthored;
@@ -38,7 +37,7 @@ export class FvcDrafts extends FScrollViewContent {
     this.#fInsiderTasks.attachRender(p);
     this.#fInsiderTasks.render();
 
-    if (Account.isWebOwner()) {
+    if (window.dba.Account.isWebOwner()) {
       p = new SectionPanel("Tasks");
       pList.pushPanel(p);
       this.#fTasks.attachRender(p.getContentPanel());

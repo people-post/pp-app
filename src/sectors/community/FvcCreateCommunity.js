@@ -12,7 +12,6 @@ const _CFT_CREATE_COMMUNITY_CONTENT = {
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { Account } from '../../common/dba/Account.js';
 import { Users } from '../../common/dba/Users.js';
 
 export class FvcCreateCommunity extends FScrollViewContent {
@@ -63,8 +62,8 @@ export class FvcCreateCommunity extends FScrollViewContent {
   }
 
   #onSubmitRRR(data) {
-    Account.reset(data.profile);
-    Users.reload(Account.getId());
+    window.dba.Account.reset(data.profile);
+    Users.reload(window.dba.Account.getId());
     this._owner.onContentFragmentRequestPopView(this);
   }
 }

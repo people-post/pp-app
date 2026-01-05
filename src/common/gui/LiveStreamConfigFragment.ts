@@ -5,7 +5,6 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FMediaFileUploader } from '../../lib/ui/controllers/fragments/FMediaFileUploader.js';
 import { ICONS } from '../../lib/ui/Icons.js';
 import { WebConfig } from '../dba/WebConfig.js';
-import { Account } from '../dba/Account.js';
 import { Render } from '../../lib/ui/renders/Render.js';
 import { R } from '../constants/R.js';
 import { glb } from '../../lib/framework/Global.js';
@@ -134,7 +133,7 @@ export class LiveStreamConfigFragment extends Fragment {
   #renderInstructions(): string {
     let s = _CFT_LIVE_STREAM_CONFIG.INSTRUCTION;
     s = s.replace("__RTMP_URL__", WebConfig.getRtmpUrl() || "");
-    s = s.replace("__KEY__", Account.getLiveStreamKey() || "");
+    s = s.replace("__KEY__", (window.dba?.Account?.getLiveStreamKey() || "") || "");
     s = s.replace("__TIP_LINK__",
                   this._renderTipLink("gui.CF_LIVE_STREAM_CONFIG.SHOW_TIP",
                                       "how to", "TIP_LIVE_STREAM"));
@@ -148,7 +147,7 @@ export class LiveStreamConfigFragment extends Fragment {
   }
 
   #onRegenerateStreamKeyRRR(data: RegenerateKeyResponse): void {
-    Account.setLiveStreamKey(data.live_stream_key);
+    window.dba.Account.setLiveStreamKey(data.live_stream_key);
     this.render();
   }
 }

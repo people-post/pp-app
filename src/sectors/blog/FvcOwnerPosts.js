@@ -10,7 +10,6 @@ import { AbNew } from './AbNew.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Users } from '../../common/dba/Users.js';
-import { Account } from '../../common/dba/Account.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 export class FvcOwnerPosts extends FScrollViewContent {
@@ -141,7 +140,7 @@ export class FvcOwnerPosts extends FScrollViewContent {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case T_DATA.NEW_OWNER_POST:
-      if (this.#loader.getOwnerId() == Account.getId()) {
+      if (this.#loader.getOwnerId() == window.dba.Account.getId()) {
         this.#fPosts.reset();
       }
       break;

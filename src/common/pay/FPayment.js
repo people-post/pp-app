@@ -8,7 +8,6 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SimpleText } from '../../lib/ui/controllers/fragments/SimpleText.js';
 import { T_DATA } from '../plt/Events.js';
 import { Exchange } from '../dba/Exchange.js';
-import { Account } from '../dba/Account.js';
 import { Cart } from '../dba/Cart.js';
 
 const _CFT_PAYMENT = {
@@ -118,7 +117,7 @@ export class FPayment extends Fragment {
 
   #asyncSubmitSquareOnlinePay(locationId, sourceId, orderId) {
     let url = "/api/cart/guest_square_pay";
-    if (Account.isAuthenticated()) {
+    if (window.dba.Account.isAuthenticated()) {
       url = "/api/cart/square_pay";
     }
     let fd = new FormData();
