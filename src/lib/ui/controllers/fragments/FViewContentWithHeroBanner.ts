@@ -22,9 +22,9 @@ class PViewContentWithHeroBanner extends Panel {
   getContentPanel(): PanelWrapper { return this.#pContent; }
 
   _renderFramework(): string {
-    let s = _CPT_VIEW_CONTENT_WITH_HERO_BANNER.MAIN;
-    s = s.replace("__ID_HEADER__", this._getSubElementId("H"));
-    s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
+    let s: string = _CPT_VIEW_CONTENT_WITH_HERO_BANNER.MAIN;
+    s = s.replace("__ID_HEADER__", this._getSubElementId("H") as string);
+    s = s.replace("__ID_CONTENT__", this._getSubElementId("C") as string);
     return s;
   }
 
@@ -95,7 +95,7 @@ export class FViewContentWithHeroBanner extends FViewContentWrapper {
     if (this.#isBannerVisible && this.#pHeader) {
       this.#pHeader.animate(
           [ {height : ""}, {height : "0px"} ],
-          {duration : 1000, easing : [ "ease-out" ], fill : "forwards"});
+          {duration : 1000, easing : "ease-out", fill : "forwards"});
       this.#isBannerVisible = false;
     }
   }
@@ -104,7 +104,7 @@ export class FViewContentWithHeroBanner extends FViewContentWrapper {
     if (!this.#isBannerVisible && this.#pHeader) {
       this.#pHeader.animate(
           [ {height : "0px"}, {height : ""} ],
-          {duration : 1000, easing : [ "ease-out" ], fill : "forwards"});
+          {duration : 1000, easing : "ease-out", fill : "forwards"});
       this.#isBannerVisible = true;
     }
   }

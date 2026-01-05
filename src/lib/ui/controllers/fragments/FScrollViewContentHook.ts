@@ -40,10 +40,10 @@ class PScrollViewContentHook extends Panel {
   getBsttPanel(): Panel { return this.#pBstt; }
 
   _renderFramework(): string {
-    let s = _CPT_SCROLL_VIEW_CONTENT_HOOK.MAIN;
-    s = s.replace("__ID_ELASTIC_REFRESH__", this._getSubElementId("R"));
-    s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
-    s = s.replace("__ID_BSTT__", this._getSubElementId("B"));
+    let s: string = _CPT_SCROLL_VIEW_CONTENT_HOOK.MAIN;
+    s = s.replace("__ID_ELASTIC_REFRESH__", this._getSubElementId("R") as string);
+    s = s.replace("__ID_CONTENT__", this._getSubElementId("C") as string);
+    s = s.replace("__ID_BSTT__", this._getSubElementId("B") as string);
     return s;
   }
 

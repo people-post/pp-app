@@ -15,9 +15,16 @@ const _CPT_ADDRESS_SMALL = {
       <div id="__ID_COUNTRY__"></div> 
     </div> 
   </div>`,
-};
+} as const;
 
 export class PAddressSmall extends PAddressBase {
+  _pCountry: Panel;
+  _pState: Panel;
+  _pCity: Panel;
+  _pZipcode: Panel;
+  _pLine1: Panel;
+  _pLine2: Panel;
+
   constructor() {
     super();
     this._pCountry = new Panel();
@@ -28,15 +35,15 @@ export class PAddressSmall extends PAddressBase {
     this._pLine2 = new Panel();
   }
 
-  getCountryPanel() { return this._pCountry; }
-  getStatePanel() { return this._pState; }
-  getCityPanel() { return this._pCity; }
-  getZipcodePanel() { return this._pZipcode; }
-  getLine1Panel() { return this._pLine1; }
-  getLine2Panel() { return this._pLine2; }
+  getCountryPanel(): Panel { return this._pCountry; }
+  getStatePanel(): Panel { return this._pState; }
+  getCityPanel(): Panel { return this._pCity; }
+  getZipcodePanel(): Panel { return this._pZipcode; }
+  getLine1Panel(): Panel { return this._pLine1; }
+  getLine2Panel(): Panel { return this._pLine2; }
 
-  _renderFramework() {
-    let s = _CPT_ADDRESS_SMALL.MAIN;
+  _renderFramework(): string {
+    let s: string = _CPT_ADDRESS_SMALL.MAIN;
     s = s.replace("__ID_COUNTRY__", this._getSubElementId("CY"));
     s = s.replace("__ID_STATE__", this._getSubElementId("S"));
     s = s.replace("__ID_CITY__", this._getSubElementId("C"));
@@ -46,7 +53,7 @@ export class PAddressSmall extends PAddressBase {
     return s;
   }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this._pCountry.attach(this._getSubElementId("CY"));
     this._pState.attach(this._getSubElementId("S"));
@@ -55,4 +62,5 @@ export class PAddressSmall extends PAddressBase {
     this._pLine1.attach(this._getSubElementId("L1"));
     this._pLine2.attach(this._getSubElementId("L2"));
   }
-};
+}
+

@@ -34,10 +34,10 @@ class PScrollableHook extends Panel {
   getBsttPanel(): Panel { return this.#pBstt; }
 
   _renderFramework(): string {
-    let s = _CPT_SCROLLABLE_HOOK.MAIN;
-    s = s.replace("__ID_ELASTIC_REFRESH__", this._getSubElementId("R"));
-    s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
-    s = s.replace("__ID_BSTT__", this._getSubElementId("B"));
+    let s: string = _CPT_SCROLLABLE_HOOK.MAIN;
+    s = s.replace("__ID_ELASTIC_REFRESH__", this._getSubElementId("R") as string);
+    s = s.replace("__ID_CONTENT__", this._getSubElementId("C") as string);
+    s = s.replace("__ID_BSTT__", this._getSubElementId("B") as string);
     return s;
   }
 
@@ -47,7 +47,7 @@ class PScrollableHook extends Panel {
     this.#pContentContainer.attach(this._getSubElementId("C"));
     this.#pBstt.attach(this._getSubElementId("B"));
 
-    let s = _CPT_SCROLLABLE_HOOK.CONTENT;
+    let s: string = _CPT_SCROLLABLE_HOOK.CONTENT;
     let id = this._getSubElementId("CC");
     s = s.replace("__ID_CONTENT__", id);
     this.#pContentContainer.replaceContent(s);
@@ -133,31 +133,31 @@ export class FScrollableHook extends Fragment {
     render.wrapPanel(panel);
     this.#pMain = panel;
 
-    let p = panel.getElasticRefreshPanel();
-    this.#fElasticRefresh.attachRender(p);
+    let pElasticRefresh = panel.getElasticRefreshPanel();
+    this.#fElasticRefresh.attachRender(pElasticRefresh);
     this.#fElasticRefresh.render();
 
-    p = panel.getBsttPanel();
-    p.replaceContent("Back to top");
-    p.setVisible(false);
-    p.setAttribute("onclick",
+    let pBstt = panel.getBsttPanel();
+    pBstt.replaceContent("Back to top");
+    pBstt.setVisible(false);
+    pBstt.setAttribute("onclick",
                    "javascript:G.action(window.CF_SCROLLABLE_HOOK.SCROLL_TO_TOP)");
 
-    p = panel.getContentContainerPanel();
-    let e = p.getDomElement();
+    let pContentContainer = panel.getContentContainerPanel();
+    let e = pContentContainer.getDomElement();
     if (e) {
       this.#sScrollEvt.observe(e);
     }
 
-    p = panel.getContentPanel();
+    let pContent = panel.getContentPanel();
     if (typeof (this.#fContent as any).isReloadable === 'function' && (this.#fContent as any).isReloadable()) {
-      let e = p.getDomElement();
+      let e = pContent.getDomElement();
       if (e) {
         this.#fElasticRefresh.observe(e);
       }
     }
 
-    this.#fContent.attachRender(p);
+    this.#fContent.attachRender(pContent);
     this.#fContent.render();
   }
 

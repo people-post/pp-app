@@ -25,10 +25,10 @@ export class FAttachmentFile extends Fragment {
     if (!this.#file) {
       return "";
     }
-    let s = _CFT_ATTACHMENT_FILE.MAIN;
-    s = s.replace("__ICON__", CommonUtilities.renderSvgFuncIcon(ICONS.ATTACHMENT));
-    s = s.replace("__DOWNLOAD_URL__", this.#file.getDownloadUrl());
-    s = s.replace("__NAME__", this.#file.getName());
+    let s: string = _CFT_ATTACHMENT_FILE.MAIN;
+    s = s.replace("__ICON__", CommonUtilities.renderSvgFuncIcon(ICONS.ATTACHMENT) as string);
+    s = s.replace("__DOWNLOAD_URL__", this.#file.getDownloadUrl() as string);
+    s = s.replace("__NAME__", this.#file.getName() as string);
     return s;
   }
 }
