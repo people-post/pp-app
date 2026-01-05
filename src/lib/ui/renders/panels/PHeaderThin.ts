@@ -46,14 +46,14 @@ export class PHeaderThin extends PHeader {
   }
 
   _renderFramework(): string {
-    let s = _CPT_HEADER_THIN.MAIN;
+    let s: string = _CPT_HEADER_THIN.MAIN;
     s = s.replace("__ID_NAV__", this._getSubElementId("N"));
-    s = s.replace("__ID_MENU_0__", this._getSubElementId("M0"));
-    s = s.replace("__ID_MENU_1__", this._getSubElementId("M1"));
-    s = s.replace("__ID_MENU_2__", this._getSubElementId("M2"));
-    s = s.replace("__ID_SPACE__", this._getSubElementId("S"));
-    s = s.replace("__ID_ACTION__", this._getSubElementId("A"));
-    s = s.replace("__ID_MENU_CONTENT__", this._getSubElementId("C"));
+    s = s.replace("__ID_MENU_0__", this._getSubElementId("M0")) as string;
+    s = s.replace("__ID_MENU_1__", this._getSubElementId("M1")) as string;
+    s = s.replace("__ID_MENU_2__", this._getSubElementId("M2")) as string;
+    s = s.replace("__ID_SPACE__", this._getSubElementId("S")) as string;
+    s = s.replace("__ID_ACTION__", this._getSubElementId("A")) as string;
+    s = s.replace("__ID_MENU_CONTENT__", this._getSubElementId("C")) as string;
     return s;
   }
 

@@ -30,10 +30,10 @@ export class PError extends Panel {
   }
 
   _renderFramework(): string {
-    let s = _CPT_ERROR.MAIN;
-    s = s.replace("__ID_PROGRESS__", this._getSubElementId("P"));
-    s = s.replace("__ID_TEXT__", this._getSubElementId("T"));
-    s = s.replace("__ID_BTN__", this._getSubElementId("B"));
+    let s: string = _CPT_ERROR.MAIN;
+    s = s.replace("__ID_PROGRESS__", this._getSubElementId("P")) as string;
+    s = s.replace("__ID_TEXT__", this._getSubElementId("T")) as string;
+    s = s.replace("__ID_BTN__", this._getSubElementId("B")) as string;
     return s;
   }
 

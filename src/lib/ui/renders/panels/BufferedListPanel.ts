@@ -25,10 +25,10 @@ export class BufferedListPanel extends Panel {
   getTailPanel(): PanelWrapper { return this.#pTail; }
 
   _renderFramework(): string {
-    let s = _CPT_BUFFERED_LIST.MAIN;
-    s = s.replace("__ID_HEAD__", this._getSubElementId("H"));
-    s = s.replace("__ID_MAIN__", this._getSubElementId("M"));
-    s = s.replace("__ID_TAIL__", this._getSubElementId("T"));
+    let s: string = _CPT_BUFFERED_LIST.MAIN;
+    s = s.replace("__ID_HEAD__", this._getSubElementId("H")) as string;
+    s = s.replace("__ID_MAIN__", this._getSubElementId("M")) as string;
+    s = s.replace("__ID_TAIL__", this._getSubElementId("T")) as string;
     return s;
   }
 

@@ -81,7 +81,6 @@ class FvcLiveStream extends FScrollViewContent {
     super();
     this._dataSource = dataSource;
     this._visView = new ButtonGroup();
-    // @ts-expect-error - setDelegate accepts any object with delegate methods
     this._visView.setDelegate(this);
     this._visView.addChoice({
       name : "Public",

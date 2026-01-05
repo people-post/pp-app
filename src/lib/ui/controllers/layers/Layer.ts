@@ -1,7 +1,6 @@
 import { RenderController } from '../RenderController.js';
-import type { ControllerOwner } from '../../../ext/Controller.js';
 
-export interface LayerOwner extends ControllerOwner {
+export interface LayerOwner {
   onRequestPopLayer(layerController: Layer): void;
 }
 

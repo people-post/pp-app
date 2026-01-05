@@ -185,40 +185,40 @@ export class LMultiChoice extends Layer {
     pMultiChoiceLayer.setAttribute("onclick", "javascript:G.anchorClick()");
     p.wrapPanel(pMultiChoiceLayer);
 
-    p = pMultiChoiceLayer.getTitlePanel();
-    p.replaceContent(this.#renderTitle(this.#title));
+    let pTitle = pMultiChoiceLayer.getTitlePanel();
+    pTitle.replaceContent(this.#renderTitle(this.#title));
 
     if (this.#description) {
-      p = pMultiChoiceLayer.getDescriptionPanel();
-      p.replaceContent(this.#description);
+      let pDescription = pMultiChoiceLayer.getDescriptionPanel();
+      pDescription.replaceContent(this.#description);
     }
 
-    p = pMultiChoiceLayer.getChoicesPanel();
+    let pChoices = pMultiChoiceLayer.getChoicesPanel();
     // Hack to allow events being recognized in this.#fChoices
-    this.#fChoices.attachRender(p);
+    this.#fChoices.attachRender(pChoices);
 
     for (let f of this.#fChoices.getChildren()) {
       let pp = new PanelWrapper();
-      p.pushPanel(pp);
+      pChoices.pushPanel(pp);
       f.attachRender(pp);
       f.render();
-      p.pushSpace(1);
+      pChoices.pushSpace(1);
     }
 
-    p = pMultiChoiceLayer.getAlternativesPanel();
+    let pAlternatives = pMultiChoiceLayer.getAlternativesPanel();
     // Hack to allow events being recognized in this.#fAlternatives
-    this.#fAlternatives.attachRender(p);
+    this.#fAlternatives.attachRender(pAlternatives);
 
     for (let f of this.#fAlternatives.getChildren()) {
       let pp = new PanelWrapper();
-      p.pushPanel(pp);
+      pAlternatives.pushPanel(pp);
       f.attachRender(pp);
       f.render();
-      p.pushSpace(1);
+      pAlternatives.pushSpace(1);
     }
 
-    p = pMultiChoiceLayer.getBtnCancelPanel();
-    this.#btnCancel.attachRender(p);
+    let pBtnCancel = pMultiChoiceLayer.getBtnCancelPanel();
+    this.#btnCancel.attachRender(pBtnCancel);
     this.#btnCancel.render();
 
     if (shouldAnimate) {

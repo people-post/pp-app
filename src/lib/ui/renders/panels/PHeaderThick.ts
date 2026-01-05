@@ -32,12 +32,12 @@ export class PHeaderThick extends PHeader {
   setEnableNav(b: boolean): void { this.#isNavEnabled = b; }
 
   _renderFramework(): string {
-    let s = _CPT_HEADER_THICK.MAIN;
+    let s: string = _CPT_HEADER_THICK.MAIN;
     s = s.replace("__ID_NAV__", this._getSubElementId("N"));
-    s = s.replace("__ID_MENU_0__", this._getSubElementId("M0"));
-    s = s.replace("__ID_MENU_1__", this._getSubElementId("M1"));
-    s = s.replace("__ID_ACTION__", this._getSubElementId("A"));
-    s = s.replace("__ID_MENU_CONTENT__", this._getSubElementId("C"));
+    s = s.replace("__ID_MENU_0__", this._getSubElementId("M0")) as string;
+    s = s.replace("__ID_MENU_1__", this._getSubElementId("M1")) as string;
+    s = s.replace("__ID_ACTION__", this._getSubElementId("A")) as string;
+    s = s.replace("__ID_MENU_CONTENT__", this._getSubElementId("C")) as string;
     return s;
   }
 

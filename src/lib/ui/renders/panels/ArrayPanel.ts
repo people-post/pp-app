@@ -23,7 +23,7 @@ export class ArrayPanel extends Panel {
     let e = this.getDomElement();
     if (e) {
       let table = e.firstChild as HTMLTableElement;
-      if (table && table.rows && table.rows[0] && table.rows[0].insertCell) {
+      if (table && table.rows && table.rows[0] && typeof table.rows[0].insertCell === 'function') {
         let cell = table.rows[0].insertCell(-1);
         cell.innerHTML = ee.outerHTML;
       }
@@ -34,11 +34,11 @@ export class ArrayPanel extends Panel {
   _renderFramework(): string {
     let table = document.createElement("TABLE");
     table.className = this._tableClassName;
-    let row = table.insertRow(-1);
+    let row = (table as HTMLTableElement).insertRow(-1) as HTMLTableRowElement;
     for (let [i, p] of this._panels.entries()) {
       let panelId = this.#getPanelElementId(i);
       let e = p.createElement(panelId);
-      let cell = row.insertCell(-1);
+      let cell = row.insertCell(-1) as HTMLTableCellElement;
       cell.innerHTML = e.outerHTML;
     }
     return table.outerHTML;

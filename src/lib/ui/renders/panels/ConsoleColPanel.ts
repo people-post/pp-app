@@ -21,9 +21,9 @@ export class ConsoleColPanel extends ConsolePanel {
   getTabPanel(): NavPanel { return this._pTab; }
 
   _renderFramework(): string {
-    let s = _CPT_CONSOLE_COL.MAIN;
-    s = s.replace("__ID_HOME_BTN__", this._getSubElementId("H"));
-    s = s.replace("__ID_TAB__", this._getSubElementId("N"));
+    let s: string = _CPT_CONSOLE_COL.MAIN;
+    s = s.replace("__ID_HOME_BTN__", this._getSubElementId("H")) as string;
+    s = s.replace("__ID_TAB__", this._getSubElementId("N")) as string;
     return s;
   }
 

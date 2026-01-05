@@ -32,10 +32,10 @@ export class ViewPanel extends Panel {
   }
 
   _renderFramework(): string {
-    let s = _CPT_VIEW.MAIN;
-    s = s.replace("__ID_HEADER__", this._getSubElementId("H"));
-    s = s.replace("__ID_BANNER__", this._getSubElementId("B"));
-    s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
+    let s: string = _CPT_VIEW.MAIN;
+    s = s.replace("__ID_HEADER__", this._getSubElementId("H")) as string;
+    s = s.replace("__ID_BANNER__", this._getSubElementId("B")) as string;
+    s = s.replace("__ID_CONTENT__", this._getSubElementId("C")) as string;
     return s;
   }
 }

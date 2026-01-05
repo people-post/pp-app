@@ -16,9 +16,9 @@ export class SectionPanel extends PanelWrapper {
   }
 
   _getWrapperFramework(wrapperElementId: string): string {
-    let s = _CPT_SECTION.FRAMEWORK;
-    s = s.replace("__TITLE__", this._title);
-    s = s.replace("__ID__", wrapperElementId);
+    let s: string = _CPT_SECTION.FRAMEWORK;
+    s = s.replace("__TITLE__", this._title) as string;
+    s = s.replace("__ID__", wrapperElementId) as string;
     return s;
   }
 

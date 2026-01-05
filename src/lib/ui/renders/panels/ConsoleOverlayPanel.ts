@@ -30,16 +30,16 @@ export class ConsoleOverlayPanel extends ConsolePanel {
   }
 
   getTabPanel(): NavPanel { return this._pTab; }
-  getNavPanel(i: number): PanelWrapper | undefined { return this._pNavs[i]; }
+  getNavPanel(i: number): PanelWrapper | null { return this._pNavs[i] ?? null; }
 
   clearNavPanels(): void { this._pNavs.forEach(p => p.clear()); }
 
   _renderFramework(): string {
-    let s = _CPT_CONSOLE_OVERLAY.MAIN;
-    s = s.replace("__ID_HOME_BTN__", this._getSubElementId("H"));
-    s = s.replace("__ID_TAB__", this._getSubElementId("N"));
-    s = s.replace("__ID_NAV_ICON_0__", this._getSubElementId("N0"));
-    s = s.replace("__ID_NAV_ICON_1__", this._getSubElementId("N1"));
+    let s: string = _CPT_CONSOLE_OVERLAY.MAIN;
+    s = s.replace("__ID_HOME_BTN__", this._getSubElementId("H")) as string;
+    s = s.replace("__ID_TAB__", this._getSubElementId("N")) as string;
+    s = s.replace("__ID_NAV_ICON_0__", this._getSubElementId("N0")) as string;
+    s = s.replace("__ID_NAV_ICON_1__", this._getSubElementId("N1")) as string;
     return s;
   }
 

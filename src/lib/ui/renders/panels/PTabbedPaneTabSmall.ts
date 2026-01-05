@@ -41,12 +41,12 @@ export class PTabbedPaneTabSmall extends PTabbedPaneTabBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_TABBED_PANE_TAB_SMALL.MAIN;
-    s = s.replace("__ID_MAIN__", this._getSubElementId("M"));
-    s = s.replace("__ID_ICON__", this._getSubElementId("I"));
-    s = s.replace("__ID_NAME__", this._getSubElementId("N"));
-    s = s.replace("__ID_BADGE__", this._getSubElementId("B"));
-    s = s.replace("__ID_BTN_CLOSE__", this._getSubElementId("C"));
+    let s: string = _CPT_TABBED_PANE_TAB_SMALL.MAIN;
+    s = s.replace("__ID_MAIN__", this._getSubElementId("M")) as string;
+    s = s.replace("__ID_ICON__", this._getSubElementId("I")) as string;
+    s = s.replace("__ID_NAME__", this._getSubElementId("N")) as string;
+    s = s.replace("__ID_BADGE__", this._getSubElementId("B")) as string;
+    s = s.replace("__ID_BTN_CLOSE__", this._getSubElementId("C")) as string;
     return s;
   }
 

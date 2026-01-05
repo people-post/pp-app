@@ -153,28 +153,28 @@ export class LContext extends Layer {
     pContextLayer.setAttribute("onclick", "javascript:G.anchorClick()");
     p.wrapPanel(pContextLayer);
 
-    p = pContextLayer.getTitlePanel();
-    p.replaceContent(this.#renderTitle(this.#title));
+    let pTitle = pContextLayer.getTitlePanel();
+    pTitle.replaceContent(this.#renderTitle(this.#title));
 
     if (this.#description) {
-      p = pContextLayer.getDescriptionPanel();
-      p.replaceContent(this.#description);
+      let pDescription = pContextLayer.getDescriptionPanel();
+      pDescription.replaceContent(this.#description);
     }
 
     // Hack to allow events being recognized in this.#fOptions
-    p = pContextLayer.getContentPanel();
-    this.#fOptions.attachRender(p);
+    let pContent = pContextLayer.getContentPanel();
+    this.#fOptions.attachRender(pContent);
 
     for (let f of this.#fOptions.getChildren()) {
       let pp = new PanelWrapper();
-      p.pushPanel(pp);
+      pContent.pushPanel(pp);
       f.attachRender(pp);
       f.render();
-      p.pushSpace(1);
+      pContent.pushSpace(1);
     }
 
-    p = pContextLayer.getBtnCancelPanel();
-    this.#btnCancel.attachRender(p);
+    let pBtnCancel = pContextLayer.getBtnCancelPanel();
+    this.#btnCancel.attachRender(pBtnCancel);
     this.#btnCancel.render();
 
     if (shouldAnimate) {

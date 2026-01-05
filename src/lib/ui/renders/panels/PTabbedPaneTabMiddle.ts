@@ -33,9 +33,9 @@ export class PTabbedPaneTabMiddle extends PTabbedPaneTabBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_TABBED_PANE_TAB_MIDDLE.MAIN;
-    s = s.replace("__ID_ICON__", this._getSubElementId("I"));
-    s = s.replace("__ID_BADGE__", this._getSubElementId("B"));
+    let s: string = _CPT_TABBED_PANE_TAB_MIDDLE.MAIN;
+    s = s.replace("__ID_ICON__", this._getSubElementId("I")) as string;
+    s = s.replace("__ID_BADGE__", this._getSubElementId("B")) as string;
     return s;
   }
 

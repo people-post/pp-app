@@ -17,8 +17,8 @@ export class ThumbnailPanelWrapper extends PanelWrapper {
   }
 
   _getWrapperFramework(wrapperElementId: string): string {
-    let s = _CPW_THUMBNAIL.MAIN;
-    s = s.replace("__ID__", wrapperElementId);
+    let s: string = _CPW_THUMBNAIL.MAIN;
+    s = s.replace("__ID__", wrapperElementId) as string;
     return s;
   }
 }
