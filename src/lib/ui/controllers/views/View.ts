@@ -7,7 +7,7 @@ import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { FScrollViewContent } from '../fragments/FScrollViewContent.js';
 import { FScrollViewContentHook } from '../fragments/FScrollViewContentHook.js';
 import { Fragment } from '../fragments/Fragment.js';
-import { FViewContentBase } from '../fragments/FViewContentBase.js';
+import { FViewContentBase, PreferredWidth, ViewContentFragmentOwner } from '../fragments/FViewContentBase.js';
 
 // Note. following constants are used elsewhere, please be careful
 export const CR_VIEW_FRAME = {
@@ -19,13 +19,7 @@ if (typeof window !== 'undefined') {
   (window as any).CR_VIEW_FRAME = CR_VIEW_FRAME;
 }
 
-interface PreferredWidth {
-  min: number;
-  best: number;
-  max: number;
-}
-
-export class View extends RenderController {
+export class View extends RenderController implements ViewContentFragmentOwner {
   #fHeader: FViewHeader;
   #fBanner: Fragment;
   #pContent: PanelWrapper | null = null;
@@ -64,7 +58,7 @@ export class View extends RenderController {
   getPreferredWidth(): PreferredWidth {
     // In px
     let pw = (this.#fContent && this.#fContent instanceof FViewContentBase) ? this.#fContent.getPreferredWidth() : null;
-    return pw ? {min: pw, best: pw, max: pw} : this.#pwDefault;
+    return pw || this.#pwDefault;
   }
 
   getActionButtonForHeaderFragment(_fHeader: FViewHeader): Fragment | null {

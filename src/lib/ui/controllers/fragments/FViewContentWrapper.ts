@@ -1,12 +1,12 @@
 import { FViewContentContainer } from './FViewContentContainer.js';
-import { Fragment } from './Fragment.js';
+import { FViewContentBase, PreferredWidth } from './FViewContentBase.js';
 
 export class FViewContentWrapper extends FViewContentContainer {
-  #fContent: Fragment | null = null;
+  #fContent: FViewContentBase | null = null;
 
-  getPreferredWidth(): number | null {
+  getPreferredWidth(): PreferredWidth | null {
     let f = this._getContentFragment();
-    if (f) {
+    if (f && f instanceof FViewContentBase) {
       return f.getPreferredWidth();
     }
     return super.getPreferredWidth();
@@ -20,17 +20,17 @@ export class FViewContentWrapper extends FViewContentContainer {
     return super.getMaxWidthClassName();
   }
 
-  wrapContentFragment(fContent: Fragment): void {
+  wrapContentFragment(fContent: FViewContentBase): void {
     this.#fContent = fContent;
     this.setChild("wrappedcontent", fContent);
   }
 
-  resetContentFragment(fContent: Fragment): void {
+  resetContentFragment(fContent: FViewContentBase): void {
     this.wrapContentFragment(fContent);
     this.render();
     this.onContentFragmentRequestUpdateHeader(this);
   }
 
-  _getContentFragment(): Fragment | null { return this.#fContent; }
+  _getContentFragment(): FViewContentBase | null { return this.#fContent; }
 }
 

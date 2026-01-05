@@ -7,16 +7,11 @@ import { VBlank } from './views/VBlank.js';
 import { Events, T_ACTION } from '../../framework/Events.js';
 import { View } from './views/View.js';
 import { ListPanel } from '../renders/panels/ListPanel.js';
+import { PreferredWidth } from './fragments/FViewContentBase.js';
 
 const _CRC_NAVIGATION = {
   BIT : {NARROW : 1 << 1, WIDE_EXTRA : 1 << 0},
 } as const;
-
-interface PreferredWidth {
-  min: number;
-  best: number;
-  max: number;
-}
 
 interface FrameSize {
   offset: number;
