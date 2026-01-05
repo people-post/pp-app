@@ -1,7 +1,6 @@
 import { Api as ExtApi } from '../../lib/ext/Api.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
-import { WebConfig } from '../dba/WebConfig.js';
 import type { IApi, FragmentDelegate } from '../../lib/framework/Global.js';
 
 interface ApiResponse {
@@ -9,11 +8,26 @@ interface ApiResponse {
   data?: unknown;
 }
 
+export interface ApiConfig {
+  isDevSite: boolean;
+  ownerId: string | null;
+  isTrustedSite: boolean;
+}
+
 export class Api implements IApi {
   #extApi: ExtApi;
+  #config: ApiConfig = {
+    isDevSite: false,
+    ownerId: null,
+    isTrustedSite: false,
+  };
 
   constructor() {
     this.#extApi = new ExtApi();
+  }
+
+  setConfig(config: ApiConfig): void {
+    this.#config = config;
   }
 
   asCall(url: string): Promise<unknown> {
@@ -130,13 +144,11 @@ export class Api implements IApi {
   }
 
   #wrapUrl(url: string): string {
-    // Access glb from window for runtime access
-    const glbEnv = (typeof window !== 'undefined' && (window as { glb?: { env?: { isTrustedSite(): boolean } } }).glb?.env) || null;
-    if ((glbEnv?.isTrustedSite() || WebConfig.isDevSite())) {
+    if ((this.#config.isTrustedSite || this.#config.isDevSite)) {
       if (url.indexOf('?') > 0) {
-        return url + '&' + URL_PARAM.USER + '=' + WebConfig.getOwnerId();
+        return url + '&' + URL_PARAM.USER + '=' + this.#config.ownerId;
       } else {
-        return url + '?' + URL_PARAM.USER + '=' + WebConfig.getOwnerId();
+        return url + '?' + URL_PARAM.USER + '=' + this.#config.ownerId;
       }
     } else {
       return url;

@@ -90,6 +90,23 @@ export class WebConfigClass implements WebConfigInterface {
 
   reset(data: WebConfigData | null): void {
     this.#data = data;
+    // Update Api instance with isDevSite, ownerId, and isTrustedSite
+    if (glb.api && 'setConfig' in glb.api && typeof glb.api.setConfig === 'function') {
+      const isDevSite = data ? !!data.is_dev_site : false;
+      let ownerId: string | null = null;
+      if (glb.env?.isWeb3()) {
+        const dba = (window as { dba?: { Account?: { getId(): string | null } } }).dba;
+        ownerId = dba?.Account?.getId() || null;
+      } else {
+        ownerId = data && data.owner ? data.owner.uuid || null : null;
+      }
+      const isTrustedSite = glb.env?.isTrustedSite() || false;
+      (glb.api as { setConfig(config: { isDevSite: boolean; ownerId: string | null; isTrustedSite: boolean }): void }).setConfig({
+        isDevSite,
+        ownerId,
+        isTrustedSite,
+      });
+    }
     FwkEvents.trigger(FwkT_DATA.WEB_CONFIG, data);
   }
 

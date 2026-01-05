@@ -13,6 +13,13 @@ import { glb } from './lib/framework/Global.js';
 const env = new Env();
 const api = new Api();
 
+// Set initial Api config
+api.setConfig({
+  isDevSite: false,
+  ownerId: null,
+  isTrustedSite: env.isTrustedSite(),
+});
+
 const G = function() {
   let _session = null;
 
