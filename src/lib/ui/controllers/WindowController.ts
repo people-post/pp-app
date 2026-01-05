@@ -1,8 +1,8 @@
 import { RenderController } from './RenderController.js';
 import { PanelWrapper } from '../renders/panels/PanelWrapper.js';
-import { Layer } from './layers/Layer.js';
+import { Layer, LayerOwner } from './layers/Layer.js';
 
-export class WindowController extends RenderController {
+export class WindowController extends RenderController implements LayerOwner {
   declare _childStack: Layer[];
 
   constructor() {

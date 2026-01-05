@@ -7,9 +7,9 @@ import { ICONS } from '../../lib/ui/Icons.js';
 import { ICON } from '../constants/Icons.js';
 import { Utilities } from '../Utilities.js';
 import { FRealTimeComments } from '../social/FRealTimeComments.js';
-import { Render } from '../../lib/ui/renders/Render.js';
 import { RemoteFile } from '../datatypes/RemoteFile.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
+import type { LayerOwner } from '../../lib/ui/controllers/layers/Layer.js';
 
 export const CLC_GALLERY = {
   TOGGLE_COMMENT : "CLC_GALLERY_1",
@@ -48,7 +48,7 @@ export class LGallery extends Layer {
   setFiles(files: RemoteFile[] | null): void { this._fGallery.setFiles(files); }
   setSelection(idx: number): void { this._fGallery.setSelection(idx); }
   setCommentThreadId(id: string | number | null, type: string | null): void { this._fComments.setThreadId(id, type); }
-  onRemoteErrorInFragment(f: unknown, err: RemoteError): void {
+  onRemoteErrorInFragment(_f: unknown, _err: RemoteError): void {
     // TODO:
   }
 
@@ -61,21 +61,23 @@ export class LGallery extends Layer {
       this.#onClose();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     const p = new ListPanel();
     p.setClassName("f-simple flex flex-column flex-center");
     p.setAttribute("onclick", "javascript:G.action(CLC_GALLERY.CLOSE)");
     render.wrapPanel(p);
     const e = p.getDomElement();
-    e.addEventListener("touchstart", (evt: TouchEvent) => this.#onTouchStart(evt));
-    e.addEventListener("touchcancel", (evt: TouchEvent) => this.#onTouchCancel(evt));
-    e.addEventListener("touchmove", (evt: TouchEvent) => this.#onTouchMove(evt));
-    e.addEventListener("touchend", (evt: TouchEvent) => this.#onTouchEnd(evt));
+    if (e) {
+      e.addEventListener("touchstart", (evt: TouchEvent) => this.#onTouchStart(evt));
+      e.addEventListener("touchcancel", (evt: TouchEvent) => this.#onTouchCancel(evt));
+      e.addEventListener("touchmove", (evt: TouchEvent) => this.#onTouchMove(evt));
+      e.addEventListener("touchend", (evt: TouchEvent) => this.#onTouchEnd(evt));
+    }
 
     let pp = new PanelWrapper();
     pp.setAttribute("onclick", "javascript:G.anchorClick()");
@@ -125,14 +127,19 @@ export class LGallery extends Layer {
     return s;
   }
 
-  popState(state: unknown): void { this._owner.onRequestPopLayer(this); }
+  popState(_state: unknown): void {
+    const owner = this.getOwner<LayerOwner>();
+    if (owner) {
+      owner.onRequestPopLayer(this);
+    }
+  }
 
   #onTouchStart(evt: TouchEvent): void {
     for (const t of evt.changedTouches) {
       this._mActiveTouch.set(t.identifier, t);
     }
   }
-  #onTouchCancel(evt: TouchEvent): void {
+  #onTouchCancel(_evt: TouchEvent): void {
     // Restore resizing
     this._currentScale = 100;
     if (this._pContent) {
@@ -172,6 +179,11 @@ export class LGallery extends Layer {
     }
   }
 
-  #onClose(): void { this._owner.onRequestPopLayer(this); }
+  #onClose(): void {
+    const owner = this.getOwner<LayerOwner>();
+    if (owner) {
+      owner.onRequestPopLayer(this);
+    }
+  }
 }
 
