@@ -1,11 +1,13 @@
 import { FScrollable } from '../../lib/ui/controllers/fragments/FScrollable.js';
 import { FLongList } from '../../lib/ui/controllers/fragments/FLongList.js';
+import type { LongListDataSource } from '../../lib/ui/controllers/fragments/FLongList.js';
+import type { LongListDelegate } from '../../lib/ui/controllers/fragments/FLongList.js';
 import { LongListIdRecord } from '../datatypes/LongListIdRecord.js';
-import Render from '../../lib/ui/renders/Render.js';
-import { RenderController } from '../../lib/ui/controllers/RenderController.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class FSocialItemList extends FScrollable {
+export class FSocialItemList extends FScrollable implements LongListDataSource, LongListDelegate {
   #fList: FLongList;
 
   constructor() {
@@ -35,7 +37,7 @@ export class FSocialItemList extends FScrollable {
 
   getCurrentId(): string | number | null { return this.#fList.getCurrentId(); }
   getIdRecordForLongListFragment(_fLongList: FLongList): LongListIdRecord { return this._getIdRecord(); }
-  getItemFragmentForLongListFragment(_fLongList: FLongList, itemIndex: number): RenderController | null {
+  getItemFragmentForLongListFragment(_fLongList: FLongList, itemIndex: number): Fragment | null {
     return this.#createItemFragment(itemIndex);
   }
 
@@ -66,14 +68,14 @@ export class FSocialItemList extends FScrollable {
     }
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     this.#fList.attachRender(render);
     this.#fList.render();
   }
 
   _getIdRecord(): LongListIdRecord { throw new Error("_getIdRecord is required in FSocialItemList"); }
 
-  _createInfoFragment(_id: string | number): RenderController { throw new Error("_createInfoFragment is not implemented"); }
+  _createInfoFragment(_id: string | number): Fragment { throw new Error("_createInfoFragment is not implemented"); }
   _createItemView(_id: string | number): View | null { throw new Error("_createItemView is not implemented"); }
 
   _asyncLoadFrontItems(): void { throw new Error("_asyncLoadFrontItems is not implemented"); }
@@ -82,7 +84,7 @@ export class FSocialItemList extends FScrollable {
   #isListFrontLoaded(): boolean { return this._getIdRecord().isFrontComplete(); }
   #isListBackLoaded(): boolean { return this._getIdRecord().isBackComplete(); }
 
-  #createItemFragment(itemIndex: number): RenderController | null {
+  #createItemFragment(itemIndex: number): Fragment | null {
     const id = this._getIdRecord().getId(itemIndex);
     if (id) {
       return this._createInfoFragment(id);

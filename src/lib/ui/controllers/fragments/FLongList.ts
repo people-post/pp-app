@@ -1,20 +1,20 @@
 import { Fragment } from './Fragment.js';
 import { BufferedList } from './BufferedList.js';
 
-interface LongListDataSource {
+export interface LongListDataSource {
   getItemFragmentForLongListFragment(f: FLongList, itemIndex: number): Fragment | null;
   isMoreFrontItemsExpectedInLongListFragment(f: FLongList): boolean;
   isMoreBackItemsExpectedInLongListFragment(f: FLongList): boolean;
   getIdRecordForLongListFragment(f: FLongList): { isEmpty(): boolean };
 }
 
-interface LongListDelegate {
+export interface LongListDelegate {
   onLongListFragmentRequestResetList(f: FLongList): void;
 }
 
 export class FLongList extends Fragment {
   #fItems: BufferedList;
-  #currentId: number | null = null;
+  #currentId: string | number | null = null;
 
   protected declare _dataSource: LongListDataSource;
   protected declare _delegate: LongListDelegate;
@@ -44,7 +44,7 @@ export class FLongList extends Fragment {
   }
 
   getFirstId(): number { return this.#fItems.getFirstId(); }
-  getCurrentId(): number | null { return this.#currentId; }
+  getCurrentId(): string | number | null { return this.#currentId; }
 
   // Mutators
   setEnableTopBuffer(b: boolean): void { this.#fItems.setEnableTopBuffer(b); }
@@ -63,7 +63,7 @@ export class FLongList extends Fragment {
   // Only refresh items
   refresh(): void { this.#fItems.refresh(); }
 
-  switchToItem(id: number): void {
+  switchToItem(id: string | number): void {
     this.#currentId = id;
     this.#fItems.refresh();
   }
