@@ -176,7 +176,7 @@ export class RenderController extends Controller {
     }
   }
 
-  _onRenderAttached(render: Render): void {}
+  _onRenderAttached(_render: Render): void {}
   _onBeforeRenderDetach(): void {}
 
   _isEventSource(evt: Event): boolean {

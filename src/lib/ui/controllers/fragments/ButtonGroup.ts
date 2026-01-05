@@ -111,7 +111,7 @@ export class ButtonGroup extends Fragment {
   #renderButtons(): string {
     let table = document.createElement("TABLE");
     table.className = "group-button";
-    let row = table.insertRow(-1);
+    let row = (table as HTMLTableElement).insertRow(-1);
     for (let [i, c] of this._choices.entries()) {
       let cell = row.insertCell(-1);
       cell.innerHTML = this.#renderButtonName(c);

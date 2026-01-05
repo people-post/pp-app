@@ -2,6 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Utilities } from '../Utilities.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export const CF_SIMPLE_LIST = {
   ITEM_CLICK : Symbol(),
@@ -51,7 +52,7 @@ export class FSimpleList extends Fragment {
     }
   }
 
-  _renderOnRender(render: { wrapPanel: (p: ListPanel) => void }): void {
+  _renderOnRender(render: PanelWrapper): void {
     let pMain = new ListPanel();
     render.wrapPanel(pMain);
 

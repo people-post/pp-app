@@ -26,16 +26,16 @@ export class FSocialItemList extends FScrollable {
 
   isReloadable(): boolean { return true; }
 
-  isMoreFrontItemsExpectedInLongListFragment(fLongList: FLongList): boolean {
+  isMoreFrontItemsExpectedInLongListFragment(_fLongList: FLongList): boolean {
     return !this.#isListFrontLoaded();
   }
-  isMoreBackItemsExpectedInLongListFragment(fLongList: FLongList): boolean {
+  isMoreBackItemsExpectedInLongListFragment(_fLongList: FLongList): boolean {
     return !this.#isListBackLoaded();
   }
 
   getCurrentId(): string | number | null { return this.#fList.getCurrentId(); }
-  getIdRecordForLongListFragment(fLongList: FLongList): LongListIdRecord { return this._getIdRecord(); }
-  getItemFragmentForLongListFragment(fLongList: FLongList, itemIndex: number): RenderController | null {
+  getIdRecordForLongListFragment(_fLongList: FLongList): LongListIdRecord { return this._getIdRecord(); }
+  getItemFragmentForLongListFragment(_fLongList: FLongList, itemIndex: number): RenderController | null {
     return this.#createItemFragment(itemIndex);
   }
 
@@ -73,8 +73,8 @@ export class FSocialItemList extends FScrollable {
 
   _getIdRecord(): LongListIdRecord { throw new Error("_getIdRecord is required in FSocialItemList"); }
 
-  _createInfoFragment(id: string | number): RenderController { throw new Error("_createInfoFragment is not implemented"); }
-  _createItemView(id: string | number): View | null { throw new Error("_createItemView is not implemented"); }
+  _createInfoFragment(_id: string | number): RenderController { throw new Error("_createInfoFragment is not implemented"); }
+  _createItemView(_id: string | number): View | null { throw new Error("_createItemView is not implemented"); }
 
   _asyncLoadFrontItems(): void { throw new Error("_asyncLoadFrontItems is not implemented"); }
   _asyncLoadBackItems(): void { throw new Error("_asyncLoadBackItems is not implemented"); }

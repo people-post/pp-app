@@ -7,13 +7,13 @@ import { T_ACTION } from '../common/plt/Events.js';
 import { ID } from '../common/constants/Constants.js';
 
 export class WcGadget extends WcSession {
-  onCountdownCancelledInCountdownContentFragment(fvcCountdown) {
+  onCountdownCancelledInCountdownContentFragment(_fvcCountdown) {
     this._reload();
   }
-  onCountdownFinishedInCountdownContentFragment(fvcCountdown) {
+  onCountdownFinishedInCountdownContentFragment(_fvcCountdown) {
     this.#closeWindow();
   }
-  onClickInCloseActionButtonFragment(fAbClose) { this.#closeWindow(); }
+  onClickInCloseActionButtonFragment(_fAbClose) { this.#closeWindow(); }
 
   topAction(type, ...args) {
     switch (type) {
@@ -24,7 +24,7 @@ export class WcGadget extends WcSession {
       this.#onLoginSuccess(args[0]);
       break;
     default:
-      super.topAction.apply(this, arguments);
+      super.topAction(type, ...args);
       break;
     }
   }

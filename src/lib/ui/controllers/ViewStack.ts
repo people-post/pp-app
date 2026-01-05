@@ -9,9 +9,9 @@ import { View } from './views/View.js';
 import { ListPanel } from '../renders/panels/ListPanel.js';
 import { PreferredWidth } from './fragments/FViewContentBase.js';
 
-const _CRC_NAVIGATION = {
-  BIT : {NARROW : 1 << 1, WIDE_EXTRA : 1 << 0},
-} as const;
+//const _CRC_NAVIGATION = {
+//  BIT : {NARROW : 1 << 1, WIDE_EXTRA : 1 << 0},
+//} as const;
 
 interface FrameSize {
   offset: number;

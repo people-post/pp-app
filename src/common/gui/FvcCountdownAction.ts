@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { CronJob } from '../../lib/ext/CronJob.js';
 import Render from '../../lib/ui/renders/Render.js';
+import { ViewContentFragmentOwner } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 
 export const CF_COUNTDOWN_ACTION = {
   ACTION : Symbol(),
@@ -20,6 +21,11 @@ interface CountdownConfig {
   actionTitle: string;
 }
 
+export interface CountdownActionDelegate {
+  onCountdownFinishedInCountdownContentFragment(f: FvcCountdownAction): void;
+  onCountdownCancelledInCountdownContentFragment(f: FvcCountdownAction): void;
+}
+
 export class FvcCountdownAction extends FScrollViewContent {
   _config: CountdownConfig;
   _timer: CronJob;
@@ -32,7 +38,7 @@ export class FvcCountdownAction extends FScrollViewContent {
     this._tRemaining = tTotal;
   }
 
-  onContentDidAppear(): void { this._timer.reset(() => this.#onInterval(), 1000); }
+  onContentDidAppear(): void { this._timer.reset(() => this.#onInterval(), 1000, null, null); }
 
   action(type: symbol, ...args: unknown[]): void {
     switch (type) {
@@ -43,6 +49,7 @@ export class FvcCountdownAction extends FScrollViewContent {
       this.#onCancelAction();
       break;
     default:
+      super.action(type, ...args);
       break;
     }
   }
@@ -73,14 +80,26 @@ export class FvcCountdownAction extends FScrollViewContent {
 
   #onAction(): void {
     this._timer.stop();
-    (this._delegate as { onCountdownFinishedInCountdownContentFragment(f: FvcCountdownAction): void }).onCountdownFinishedInCountdownContentFragment(this);
-    this._owner.onContentFragmentRequestPopView(this);
+    const delegate = this.getDelegate<CountdownActionDelegate>();
+    if (delegate) {
+      delegate.onCountdownFinishedInCountdownContentFragment(this);
+    }
+    const owner = this.getOwner<ViewContentFragmentOwner>();
+    if (owner) {
+      owner.onContentFragmentRequestPopView(this);
+    }
   }
 
   #onCancelAction(): void {
     this._timer.stop();
-    (this._delegate as { onCountdownCancelledInCountdownContentFragment(f: FvcCountdownAction): void }).onCountdownCancelledInCountdownContentFragment(this);
-    this._owner.onContentFragmentRequestPopView(this);
+    const delegate = this.getDelegate<CountdownActionDelegate>();
+    if (delegate) {
+      delegate.onCountdownCancelledInCountdownContentFragment(this);
+    }
+    const owner = this.getOwner<ViewContentFragmentOwner>();
+    if (owner) {
+      owner.onContentFragmentRequestPopView(this);
+    }
   }
 }
 

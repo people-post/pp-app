@@ -4,7 +4,7 @@ import { FvcUpgradeChoices } from './FvcUpgradeChoices.js';
 import Utilities from '../../lib/ext/Utilities.js';
 import { R } from '../constants/R.js';
 import Render from '../../lib/ui/renders/Render.js';
-import { RemoteError } from '../datatypes/RemoteError.js';
+import { FragmentOwner } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 export const CF_QUOTA_LIMIT = {
   UPGRADE : Symbol(),
@@ -22,11 +22,11 @@ interface QuotaErrorData {
 }
 
 export class FvcQuotaLimit extends FScrollViewContent {
-  _quotaError: RemoteError & { data: QuotaErrorData };
+  #quotaError: { code: string; data: QuotaErrorData };
 
-  constructor(quotaError: RemoteError & { data: QuotaErrorData }) {
+  constructor(quotaError: { code: string; data: QuotaErrorData }) {
     super();
-    this._quotaError = quotaError;
+    this.#quotaError = quotaError;
   }
 
   action(type: symbol, ...args: unknown[]): void {
@@ -35,20 +35,23 @@ export class FvcQuotaLimit extends FScrollViewContent {
       this.#onUpgradeClicked();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
   _renderContentOnRender(render: Render): void {
-    const s = this.#renderErrorMsg(this._quotaError.code, this._quotaError.data);
+    const s = this.#renderErrorMsg(this.#quotaError.code, this.#quotaError.data);
     render.replaceContent(s);
   }
 
   #onUpgradeClicked(): void {
-    const v = new View();
-    v.setContentFragment(new FvcUpgradeChoices());
-    this._owner.onFragmentRequestShowView(this, v, "Upgrades");
+    const owner = this.getOwner<FragmentOwner>();
+    if (owner) {
+      const v = new View();
+      v.setContentFragment(new FvcUpgradeChoices());
+      owner.onFragmentRequestShowView(this, v, "Upgrades");
+    }
   }
 
   #renderErrorMsg(code: string, data: QuotaErrorData): string {

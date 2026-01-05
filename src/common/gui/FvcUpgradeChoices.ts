@@ -4,7 +4,6 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { WebConfig } from '../dba/WebConfig.js';
-import Render from '../../lib/ui/renders/Render.js';
 
 export const CF_UPGRADE_CHOICES = {
   SELECT : Symbol(),
@@ -64,7 +63,7 @@ export class FvcUpgradeChoices extends FScrollViewContent {
     this.setChild("btnNext", this.#btnNext);
   }
 
-  onSimpleButtonClicked(fBtn: Button): void {}
+  onSimpleButtonClicked(_fBtn: Button): void {}
 
   action(type: symbol, ...args: unknown[]): void {
     switch (type) {
@@ -72,12 +71,12 @@ export class FvcUpgradeChoices extends FScrollViewContent {
       this.#onSelect(args[0] as number);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     if (WebConfig.isDevSite()) {
       const pList = new ListPanel();
       render.wrapPanel(pList);
@@ -93,12 +92,12 @@ export class FvcUpgradeChoices extends FScrollViewContent {
         p.pushPanel(pp);
         this.#renderChoice(pp, c);
       }
-      p = new PanelWrapper();
-      pList.pushPanel(p);
-      this.#btnNext.attachRender(p);
+      const pWrapper = new PanelWrapper();
+      pList.pushPanel(pWrapper);
+      this.#btnNext.attachRender(pWrapper);
       this.#btnNext.render();
     } else {
-      const s = _CFT_UPGRACE_CHOICES.UNDER_DEV;
+      const s: string = _CFT_UPGRACE_CHOICES.UNDER_DEV;
       render.replaceContent(s);
     }
   }

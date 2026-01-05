@@ -35,43 +35,37 @@ const _CFT_INPUT_CONSOLE = {
    </label>`,
 }
 
-interface InputConsoleDelegate {
+export interface InputConsoleDelegate {
   onInputConsoleRequestPost?(message: string): void;
   onInputConsoleRequestPostFile?(file: File): void;
 }
 
 export class InputConsoleFragment extends Fragment {
-  _isVisible: boolean = true;
-  _isEnabled: boolean = true;
-  _placeholder: string = "";
-  _cacheText: string = "";
-  _lastKeyDownEvent: KeyboardEvent | null = null;
-  _isMenuOpen: boolean = false;
-  // @ts-expect-error - _delegate type is more specific than base class
-  declare _delegate: InputConsoleDelegate;
-
-  constructor() {
-    super();
-  }
+  #isVisible: boolean = true;
+  #isEnabled: boolean = true;
+  #placeholder: string = "";
+  #cacheText: string = "";
+  #lastKeyDownEvent: KeyboardEvent | null = null;
+  #isMenuOpen: boolean = false;
 
   isVisible(): boolean {
-    return this._isVisible;
+    return this.#isVisible;
   }
 
   isEnabled(): boolean {
-    return this._isEnabled;
+    return this.#isEnabled;
   }
 
   setPlaceholder(text: string): void {
-    this._placeholder = text;
+    this.#placeholder = text;
   }
 
   setEnabled(b: boolean): void {
-    this._isEnabled = b;
+    this.#isEnabled = b;
   }
 
   setVisible(b: boolean): void {
-    this._isVisible = b;
+    this.#isVisible = b;
   }
 
   setMenuFragment(f: Fragment | null): void {
@@ -102,7 +96,7 @@ export class InputConsoleFragment extends Fragment {
   }
 
   setText(text: string): void {
-    this._cacheText = text;
+    this.#cacheText = text;
     let e = this.#getTextInputNode();
     if (e) {
       e.value = text;
@@ -114,15 +108,15 @@ export class InputConsoleFragment extends Fragment {
   }
 
   toggleVisibility(): void {
-    if (this._isVisible) {
-      this._cacheText = this.#getInputText();
+    if (this.#isVisible) {
+      this.#cacheText = this.#getInputText();
     }
-    this._isVisible = !this._isVisible;
+    this.#isVisible = !this.#isVisible;
     this.render();
   }
 
-  _renderOnRender(render: { wrapPanel: (p: ListPanel) => void; replaceContent: (content: string) => void }): void {
-    if (!this._isVisible) {
+  _renderOnRender(render: PanelWrapper): void {
+    if (!this.#isVisible) {
       render.replaceContent("");
       return;
     }
@@ -134,10 +128,10 @@ export class InputConsoleFragment extends Fragment {
     let pp = new Panel();
     pp.setClassName("input-console-text");
     p.pushPanel(pp);
-    pp.replaceContent(this.#renderTextInput(this._isEnabled));
+    pp.replaceContent(this.#renderTextInput(this.#isEnabled));
     // Send btn
     pp = new Panel();
-    if (this._isEnabled) {
+    if (this.#isEnabled) {
       pp.setAttribute("onclick",
                       "javascript:G.action(gui.CF_INPUT_CONSOLE.ON_POST)");
     }
@@ -149,18 +143,18 @@ export class InputConsoleFragment extends Fragment {
     let fMenu = this._getChild("menu");
     if (fMenu) {
       pp = new Panel();
-      if (this._isMenuOpen) {
+      if (this.#isMenuOpen) {
         pp.setClassName("input-console-icon s-cprimebg");
       } else {
         pp.setClassName("input-console-icon");
       }
-      if (this._isEnabled) {
+      if (this.#isEnabled) {
         pp.setAttribute(
             "onclick", "javascript:G.action(gui.CF_INPUT_CONSOLE.TOGGLE_MORE)");
       }
       p.pushPanel(pp);
       pp.replaceContent(this.#renderMoreButton());
-      if (this._isMenuOpen) {
+      if (this.#isMenuOpen) {
         let pMenu = new PanelWrapper();
         pMenu.setClassName("input-console-menu");
         pAll.pushPanel(pMenu);
@@ -175,11 +169,11 @@ export class InputConsoleFragment extends Fragment {
     if (isEnabled) {
       s = _CFT_INPUT_CONSOLE.TEXT_INPUT_NORMAL;
       s = s.replace("__FID__", this._id);
-      s = s.replace("__VALUE__", this._cacheText);
+      s = s.replace("__VALUE__", this.#cacheText);
     } else {
       s = _CFT_INPUT_CONSOLE.TEXT_INPUT_DISABLED;
     }
-    s = s.replace("__TEXT_PLACE_HOLDER__", this._placeholder);
+    s = s.replace("__TEXT_PLACE_HOLDER__", this.#placeholder);
     return s;
   }
 
@@ -193,7 +187,7 @@ export class InputConsoleFragment extends Fragment {
   #renderMoreButton(): string {
     let s = _CFT_INPUT_CONSOLE.ICON;
     s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.CIRCLED_MORE,
-                                                          this._isMenuOpen));
+                                                          this.#isMenuOpen));
     return s;
   }
 
@@ -203,15 +197,15 @@ export class InputConsoleFragment extends Fragment {
   }
 
   #onKeyDown(): void {
-    this._lastKeyDownEvent = (globalThis as { event?: KeyboardEvent }).event || null;
-    const evt = this._lastKeyDownEvent;
+    this.#lastKeyDownEvent = (globalThis as { event?: KeyboardEvent }).event || null;
+    const evt = this.#lastKeyDownEvent;
     if (evt && this.#isSendEvt(evt)) {
       this.#onPost();
     }
   }
 
   #onKeyUp(): void {
-    if (this._lastKeyDownEvent && this.#isSendEvt(this._lastKeyDownEvent)) {
+    if (this.#lastKeyDownEvent && this.#isSendEvt(this.#lastKeyDownEvent)) {
       this.clearInputText();
     }
   }
@@ -224,18 +218,20 @@ export class InputConsoleFragment extends Fragment {
     let message = this.#getInputText();
     if (message.length) {
       this.clearInputText();
-      this._delegate.onInputConsoleRequestPost?.(message);
+      const delegate = this.getDelegate<InputConsoleDelegate>();
+      delegate?.onInputConsoleRequestPost?.(message);
     }
   }
 
   #toggleMoreMenu(): void {
-    this._isMenuOpen = !this._isMenuOpen;
+    this.#isMenuOpen = !this.#isMenuOpen;
     this.render();
   }
 
   #onPostFile(inputNode: HTMLInputElement): void {
     if (inputNode.files && inputNode.files[0]) {
-      this._delegate.onInputConsoleRequestPostFile?.(inputNode.files[0]);
+      const delegate = this.getDelegate<InputConsoleDelegate>();
+      delegate?.onInputConsoleRequestPostFile?.(inputNode.files[0]);
     }
   }
 

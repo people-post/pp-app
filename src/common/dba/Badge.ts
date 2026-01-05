@@ -1,5 +1,5 @@
 export class BadgeClass {
-  #hasBadgePermission = false;
+  //#hasBadgePermission: boolean = false;
   #lastN = 0;
 
   checkPermission(): void {
@@ -59,11 +59,11 @@ export class BadgeClass {
     switch (state) {
       case 'granted':
         // You can use the Badging API
-        this.#hasBadgePermission = true;
+        //this.#hasBadgePermission = true;
         break;
       case 'denied':
         // The user has denied the permission
-        this.#hasBadgePermission = false;
+        //this.#hasBadgePermission = false;
         break;
       default:
         // The user has not yet granted or denied the permission

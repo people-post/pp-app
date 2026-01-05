@@ -8,7 +8,6 @@ import { WebConfig } from '../dba/WebConfig.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import { R } from '../constants/R.js';
-import Render from '../../lib/ui/renders/Render.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 
 export const CF_EXTRAS_CONTENT = {
@@ -61,12 +60,12 @@ export class FvcExtras extends FScrollViewContent {
     this.#onSubPageSelected(urlParam.get(URL_PARAM.PAGE) || null, urlParam);
   }
 
-  getListItemsForListFragment(fList: FSimpleList): ListItem[] { return this.#getListItems(); }
-  getSelectedItemIdForList(fList: FSimpleList): string | null { return this._subPageId; }
+  getListItemsForListFragment(_fList: FSimpleList): ListItem[] { return this.#getListItems(); }
+  getSelectedItemIdForList(_fList: FSimpleList): string | null { return this._subPageId; }
 
-  onItemSelectedInList(fList: FSimpleList, itemId: string): void { this.#onSubPageSelected(itemId); }
+  onItemSelectedInList(_fList: FSimpleList, itemId: string): void { this.#onSubPageSelected(itemId); }
 
-  renderItemForSimpleListFragment(fSimpleList: FSimpleList, item: ListItem, panel: Panel): void {
+  renderItemForSimpleListFragment(_fSimpleList: FSimpleList, item: ListItem, panel: Panel): void {
     const config = item.data;
     panel.replaceContent(
         this.#renderTitle(R.t(config.page.NAME), config.nNotifications));
@@ -78,7 +77,7 @@ export class FvcExtras extends FScrollViewContent {
       this.#onTest();
       break;
     default:
-      super.action.apply(this, Array.from(arguments) as any);
+      super.action(type, ...args);
       break;
     }
   }
@@ -92,14 +91,12 @@ export class FvcExtras extends FScrollViewContent {
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, Array.from(arguments) as any);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     const p = new ListPanel();
-    if ('wrapPanel' in render) {
-      (render as any).wrapPanel(p);
-    }
+    render.wrapPanel(p);
 
     let pp = new PanelWrapper();
     p.pushPanel(pp);

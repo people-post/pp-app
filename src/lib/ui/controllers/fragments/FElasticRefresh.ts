@@ -20,8 +20,8 @@ class PElasticRefresh extends Panel {
   getIconPanel(): Panel { return this.#pIcon; }
 
   _renderFramework(): string {
-    let s = _CPT_ELASTIC_REFRESH.MAIN;
-    s = s.replace("__ID_ICON__", this._getSubElementId("I"));
+    let s: string = _CPT_ELASTIC_REFRESH.MAIN;
+    s = s.replace("__ID_ICON__", this._getSubElementId("I") as string);
     return s;
   }
 
@@ -51,11 +51,11 @@ export class FElasticRefresh extends Fragment {
   protected declare _delegate: ElasticRefreshDelegate;
 
   observe(element: Element): void {
-    element.addEventListener("touchstart", evt => this.#onTouchStart(evt));
-    element.addEventListener("touchcancel", evt => this.#onTouchCancel(evt));
-    element.addEventListener("touchmove", evt => this.#onTouchMove(evt));
-    element.addEventListener("touchend", evt => this.#onTouchEnd(evt));
-    element.addEventListener("wheel", evt => this.#onWheelEvent(evt));
+    element.addEventListener("touchstart", evt => this.#onTouchStart(evt as TouchEvent));
+    element.addEventListener("touchcancel", evt => this.#onTouchCancel(evt as TouchEvent));
+    element.addEventListener("touchmove", evt => this.#onTouchMove(evt as TouchEvent));
+    element.addEventListener("touchend", evt => this.#onTouchEnd(evt as TouchEvent));
+    element.addEventListener("wheel", evt => this.#onWheelEvent(evt as WheelEvent));
   }
 
   _renderOnRender(render: any): void {

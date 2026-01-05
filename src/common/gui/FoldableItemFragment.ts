@@ -3,7 +3,6 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { ArrayPanel } from '../../lib/ui/renders/panels/ArrayPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import Render from '../../lib/ui/renders/Render.js';
 import { RenderController } from '../../lib/ui/controllers/RenderController.js';
 
 export const CF_FOLDABLE_ITEM = {
@@ -54,16 +53,14 @@ export class FoldableItemFragment extends Fragment {
       this.#toggleStatus();
       break;
     default:
-      super.action.apply(this, Array.from(arguments) as any);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     const p = new ListPanel();
-    if ('wrapPanel' in render) {
-      (render as any).wrapPanel(p);
-    }
+    render.wrapPanel(p);
     let pp = new ArrayPanel();
     pp.setTableClassName("foldable-item w100 border-collapse");
     if (this._isOpen) {
