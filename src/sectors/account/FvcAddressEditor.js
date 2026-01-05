@@ -5,6 +5,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Address as AddressDBA } from '../../common/dba/Address.js';
 import { Address as AddressDataType } from '../../common/datatypes/Address.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcAddressEditor extends FScrollViewContent {
   #fAddress;
@@ -81,7 +82,7 @@ export class FvcAddressEditor extends FScrollViewContent {
     let fd = new FormData();
     fd.append("id", this.#addressId);
     this.#fillFormData(fd, address);
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onUpdateAddressRRR(d));
   }
 
@@ -89,7 +90,7 @@ export class FvcAddressEditor extends FScrollViewContent {
     let url = "/api/user/add_address";
     let fd = new FormData();
     this.#fillFormData(fd, address);
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onAddAddressRRR(d));
   }
 

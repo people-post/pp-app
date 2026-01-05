@@ -16,6 +16,7 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Api } from '../../common/plt/Api.js';
 
 // ActionButton needs some redesign
 export class AbNew extends Fragment {
@@ -171,7 +172,7 @@ export class AbNew extends Fragment {
 
   #asyncCreateArticle(forOwnerId) {
     let url = "api/blog/new_draft?for=" + forOwnerId;
-    glb.api.asFragmentCall(this, url).then(d => this.#onDraftArticleRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onDraftArticleRRR(d));
   }
 
   #onDraftArticleRRR(data) {
@@ -188,7 +189,7 @@ export class AbNew extends Fragment {
 
   #asyncCreateJournalIssue(journalId) {
     let url = "api/blog/new_issue?for=" + journalId;
-    glb.api.asFragmentCall(this, url).then(d => this.#onDraftIssueRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onDraftIssueRRR(d));
   }
 
   #onDraftIssueRRR(data) {

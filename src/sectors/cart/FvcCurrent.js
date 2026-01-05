@@ -15,6 +15,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { URL_PARAM, URL_PARAM_ADDON_VALUE } from '../../common/constants/Constants.js';
 import { FvcCheckout } from './FvcCheckout.js';
 import { Gateway as AuthGateway } from '../auth/Gateway.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcCurrent extends FScrollViewContent {
   constructor() {
@@ -113,7 +114,7 @@ export class FvcCurrent extends FScrollViewContent {
     if (window.dba.Account.isAuthenticated()) {
       url = "/api/cart/order_preview";
     }
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onOrderPreviewRRR(d));
   }
 

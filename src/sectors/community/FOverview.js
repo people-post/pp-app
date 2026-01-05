@@ -23,6 +23,7 @@ import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
 import { Communities } from '../../common/dba/Communities.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { R } from '../../common/constants/R.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FOverview extends Fragment {
   #fHeaderEditor;
@@ -377,7 +378,7 @@ export class FOverview extends Fragment {
     let fd = new FormData();
     fd.append("id", this.#communityId);
     fd.append("msg", message);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onApplyRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onApplyRRR(d));
   }
 
   #onApplyRRR(data) {
@@ -389,7 +390,7 @@ export class FOverview extends Fragment {
     let fd = new FormData();
     fd.append("total", nCoins);
     let url = "api/community/propose_issue_coins";
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onIssueCoinRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onIssueCoinRRR(d));
   }
 
   #onIssueCoinRRR(data) {
@@ -422,7 +423,7 @@ export class FOverview extends Fragment {
       "type" : info.mimeType,
       "cover_id" : info.coverId
     }));
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onUpdateProfileRRR(d));
   }
 

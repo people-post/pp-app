@@ -8,6 +8,7 @@ import { FCart } from '../../sectors/cart/FCart.js';
 import { FvcCheckout } from '../../sectors/cart/FvcCheckout.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { Counter } from '../../common/dba/Counter.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcPreCheckout extends FScrollViewContent {
   // Serves as checkout register
@@ -71,7 +72,7 @@ export class FvcPreCheckout extends FScrollViewContent {
       fd.append('items', JSON.stringify(item.toJsonDict()));
     }
     let url = "/api/shop/charge_preview";
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onOrderPreviewRRR(d));
   }
 

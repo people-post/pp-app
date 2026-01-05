@@ -53,6 +53,7 @@ import { Blog } from '../../common/dba/Blog.js';
 import { R } from '../../common/constants/R.js';
 import { FPostInfo } from './FPostInfo.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class PEditor extends Panel {
   #pIssueId;
@@ -525,7 +526,7 @@ export class FJournalIssueEditor extends Fragment {
     } else {
       url = "api/blog/update_journal_issue";
     }
-    glb.api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r),
+    Api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r),
                      r => this.#onAsyncPostError(r));
     return true;
   }
@@ -536,7 +537,7 @@ export class FJournalIssueEditor extends Fragment {
 
   #asyncGetTags(ownerId) {
     let url = "api/blog/available_tags?from=" + ownerId;
-    glb.api.asFragmentCall(this, url).then(d => this.#onTagsRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onTagsRRR(d));
   }
 
   #onTagsRRR(data) {

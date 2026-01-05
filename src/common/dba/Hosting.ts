@@ -1,7 +1,7 @@
 import { PerishableObject } from '../../lib/ext/PerishableObject.js';
 import { T_DATA } from '../plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -30,7 +30,7 @@ export class HostingClass implements HostingInterface {
 
   #asyncGetStatus(): void {
     const url = 'api/hosting/status';
-    glb.api?.asyncRawCall(url, (r) => this.#onStatusRRR(r), null);
+    Api.asyncRawCall(url, (r) => this.#onStatusRRR(r), null);
   }
 
   #onStatusRRR(responseText: string): void {

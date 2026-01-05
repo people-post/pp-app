@@ -1,6 +1,7 @@
 import { WcSession } from './WcSession.js';
 import { LvPortal } from './LvPortal.js';
 import { Notifications } from '../common/dba/Notifications.js';
+import { Env } from '../common/plt/Env.js';
 
 export class WcPortal extends WcSession {
   _createLayerFragment() { return new LvPortal(); }
@@ -12,7 +13,7 @@ export class WcPortal extends WcSession {
 
   _main(dConfig) {
     super._main(dConfig);
-    glb.env.checkLoadAddonScript(glb.env.SCRIPT.SIGNAL);
-    glb.env.checkLoadAddonScript(glb.env.SCRIPT.QR_CODE);
+    Env.checkLoadAddonScript(Env.SCRIPT.SIGNAL);
+    Env.checkLoadAddonScript(Env.SCRIPT.QR_CODE);
   }
 };

@@ -9,6 +9,8 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FHashtag } from '../gui/FHashtag.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
 import { dat } from 'pp-api';
+import { Env } from '../plt/Env.js';
+import { Api } from '../plt/Api.js';
 
 const { OArticle } = dat;
 
@@ -112,7 +114,7 @@ export class FCommentInput extends Fragment {
     fd.append("item_type", this.#threadId.getType());
     fd.append("content", message);
     fd.append("guest_name", guestName);
-    glb.api.asPost(url, fd).then(r => this.#onPostDone(r),
+    Api.asPost(url, fd).then(r => this.#onPostDone(r),
                                     e => this.#onPostError(e, message));
   }
 
@@ -122,12 +124,12 @@ export class FCommentInput extends Fragment {
     fd.append("item_id", hashtagId);
     fd.append("item_type", SocialItem.TYPE.HASHTAG);
     fd.append("content", message);
-    glb.api.asPost(url, fd).then(r => this.#onPostDone(r),
+    Api.asPost(url, fd).then(r => this.#onPostDone(r),
                                     e => this.#onPostError(e, message));
   }
 
   #asyncPostUserComment(message, asPost = false) {
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       this.#asyncWeb3PostUserComment(this.#tmpMessage, asPost)
           .then(() => this.#onPostDone())
           .catch(e => this.#onPostError(e, this.#tmpMessage));
@@ -158,7 +160,7 @@ export class FCommentInput extends Fragment {
     fd.append("item_id", this.#threadId.getValue());
     fd.append("item_type", this.#threadId.getType());
     fd.append("content", message);
-    glb.api.asPost(url, fd).then(r => this.#onPostDone(r),
+    Api.asPost(url, fd).then(r => this.#onPostDone(r),
                                     e => this.#onPostError(e, message));
   }
 

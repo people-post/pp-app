@@ -1,7 +1,7 @@
 import { T_DATA } from '../plt/Events.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { UserGroup } from '../datatypes/UserGroup.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -43,7 +43,7 @@ export class GroupsClass implements GroupsInterface {
       // Set to default
       this.#map.set(id, null);
     }
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onLoadRRR(ids, r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onLoadRRR(ids, r), null);
   }
 
   get(id: string | null): UserGroup | null | undefined {

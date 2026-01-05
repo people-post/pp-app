@@ -19,6 +19,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FvcCurrent } from '../../sectors/cart/FvcCurrent.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcOwner extends FScrollViewContent {
   #fmMain;
@@ -158,7 +159,7 @@ export class FvcOwner extends FScrollViewContent {
 
   #onNewProduct() {
     let url = "api/shop/new_product";
-    glb.api.asFragmentCall(this, url).then(d => this.#onDraftProductRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onDraftProductRRR(d));
   }
 
   #onDraftProductRRR(data) {

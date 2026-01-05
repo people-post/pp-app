@@ -11,6 +11,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { FUserIdInput } from '../../common/hr/FUserIdInput.js';
 import { Communities } from '../../common/dba/Communities.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcConfigEditor extends FScrollViewContent {
   constructor() {
@@ -141,7 +142,7 @@ export class FvcConfigEditor extends FScrollViewContent {
   #asyncPropose() {
     let fd = this.#collectFormData();
     let url = "api/community/propose_config";
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #onSubmitRRR(data) {

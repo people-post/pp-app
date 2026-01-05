@@ -11,7 +11,7 @@ import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Signal } from './Signal.js';
 import { Badge } from './Badge.js';
 import { CHANNEL } from '../constants/Constants.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface NotificationsData {
   message_threads: Array<{
@@ -265,7 +265,7 @@ export class NotificationsClass implements NotificationsInterface {
 
   #asyncLoadNotifications(): void {
     const url = '/api/user/notifications';
-    glb.api?.asCall(url).then(
+    Api.asCall(url).then(
       (d) => this.#reset(d as NotificationsData),
       () => {}
     );

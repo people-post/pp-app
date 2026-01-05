@@ -1,7 +1,7 @@
 import { CronJob } from '../../lib/ext/CronJob.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { TYPE } from '../constants/Constants.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface ProxyTargetInfo {
   toDomain: string;
@@ -44,7 +44,7 @@ export class AuthClass implements AuthInterface {
     fd.append('domain', this.#targetInfo.toDomain);
     fd.append('token', this.#targetInfo.token);
     fd.append('type', TYPE.TOKEN.LOGIN);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onRefreshTokenRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onRefreshTokenRRR(r), null);
   }
 
   #onRefreshTokenRRR(responseText: string): void {
@@ -64,7 +64,7 @@ export class AuthClass implements AuthInterface {
     }
 
     const url = '/api/auth/login';
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onLoginRRR(r, onSuccess), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onLoginRRR(r, onSuccess), null);
   }
 
   #onLoginRRR(responseText: string, onSuccess: (profile: unknown) => void): void {
@@ -83,7 +83,7 @@ export class AuthClass implements AuthInterface {
     const url = '/api/auth/login_with_token';
     const fd = new FormData();
     fd.append('token', token);
-    glb.api?.asyncRawPost(url, fd, (r) => handler(r), null);
+    Api.asyncRawPost(url, fd, (r) => handler(r), null);
   }
 
   asyncRegisterUser(email: string, password: string, onSuccess: () => void): void {
@@ -95,7 +95,7 @@ export class AuthClass implements AuthInterface {
       fd.append('domain', this.#targetInfo.toDomain);
       fd.append('token', this.#targetInfo.token);
     }
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onRegisterResultReceived(r, onSuccess), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onRegisterResultReceived(r, onSuccess), null);
   }
 
   #onRegisterResultReceived(responseText: string, onSuccess: () => void): void {

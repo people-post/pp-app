@@ -1,7 +1,7 @@
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Currency } from '../datatypes/Currency.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -69,7 +69,7 @@ export class ExchangeClass implements ExchangeInterface {
     const fd = new FormData();
     fd.append('id', id);
     this.#assetLib.set(id, null);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onAssetRRR(r, id), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onAssetRRR(r, id), null);
   }
 
   #onAssetRRR(responseText: string, id: string): void {
@@ -90,7 +90,7 @@ export class ExchangeClass implements ExchangeInterface {
       // Set to default
       this.#currencyLib.set(id, null);
     }
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onLoadCurrenciesRRR(ids, r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onLoadCurrenciesRRR(ids, r), null);
   }
 
   #onLoadCurrenciesRRR(ids: string[], responseText: string): void {

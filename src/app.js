@@ -10,15 +10,11 @@ import { TYPE } from './common/constants/Constants.js';
 import { glb } from './lib/framework/Global.js';
 import { Web2Account } from './common/dba/Web2Account.js';
 
-// Create env and api instances
-const env = new Env();
-const api = new Api();
-
 // Set initial Api config
-api.setConfig({
+Api.setConfig({
   isDevSite: false,
   ownerId: null,
-  isTrustedSite: env.isTrustedSite(),
+  isTrustedSite: Env.isTrustedSite(),
 });
 
 // Initialize window.dba.Account for non-Web3 mode
@@ -39,35 +35,35 @@ const G = function() {
   }
 
   function _initWeb3(dConfig) {
-    env.setWindowType(TYPE.WINDOW.WEB3);
+    Env.setWindowType(TYPE.WINDOW.WEB3);
     _session = new WcWeb3();
     Events.setOnLoadHandler("init", () => _session.main(dConfig));
   }
 
   function _initMain(userId, primaryColor, secondaryColor, lang) {
-    env.setWindowType(TYPE.WINDOW.MAIN);
-    env.setDefaultLanguage(lang);
+    Env.setWindowType(TYPE.WINDOW.MAIN);
+    Env.setDefaultLanguage(lang);
     _session = new WcMain();
     _initLoader(userId, primaryColor, secondaryColor);
   }
 
   function _initGadget(userId, primaryColor, secondaryColor, lang) {
-    env.setWindowType(TYPE.WINDOW.GADGET);
-    env.setDefaultLanguage(lang);
+    Env.setWindowType(TYPE.WINDOW.GADGET);
+    Env.setDefaultLanguage(lang);
     _session = new WcGadget();
     _initLoader(userId, primaryColor, secondaryColor);
   }
 
   function _initSub(userId, primaryColor, secondaryColor, lang) {
-    env.setWindowType(TYPE.WINDOW.SUB);
-    env.setDefaultLanguage(lang);
+    Env.setWindowType(TYPE.WINDOW.SUB);
+    Env.setDefaultLanguage(lang);
     _session = new WcSub();
     _initLoader(userId, primaryColor, secondaryColor);
   }
 
   function _initPortal(userId, primaryColor, secondaryColor, lang) {
-    env.setWindowType(TYPE.WINDOW.PORTAL);
-    env.setDefaultLanguage(lang);
+    Env.setWindowType(TYPE.WINDOW.PORTAL);
+    Env.setDefaultLanguage(lang);
     _session = new WcPortal();
     _initLoader(userId, primaryColor, secondaryColor);
   }
@@ -93,10 +89,6 @@ const G = function() {
     anchorClick : _anchorClick
   };
 }();
-
-// Populate glb namespace
-glb.env = env;
-glb.api = api;
 
 // Export to window for global access
 if (typeof window !== 'undefined') {

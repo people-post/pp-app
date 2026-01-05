@@ -8,6 +8,7 @@ import { FvcMemberHosting } from './FvcMemberHosting.js';
 import { FvcGuestHosting } from './FvcGuestHosting.js';
 import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { Env } from '../../common/plt/Env.js';
 
 export class Gateway extends SectorGateway {
   createWebConfigMainViewContentFragment() {
@@ -24,7 +25,7 @@ export class Gateway extends SectorGateway {
   }
 
   createMemberMainViewContentFragment() {
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       return this.#createWeb3MemberMainViewContentFragment();
     } else {
       return this.#createWeb2MemberMainViewContentFragment();

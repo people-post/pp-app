@@ -2,6 +2,7 @@ import { WcSession } from './WcSession.js';
 import { LvSub } from './LvSub.js';
 import { T_ACTION } from '../common/plt/Events.js';
 import { Notifications } from '../common/dba/Notifications.js';
+import { Env } from '../common/plt/Env.js';
 
 export class WcSub extends WcSession {
   topAction(type, ...args) {
@@ -24,7 +25,7 @@ export class WcSub extends WcSession {
 
   _main(dConfig) {
     super._main(dConfig);
-    glb.env.checkLoadAddonScript(glb.env.SCRIPT.SIGNAL);
+    Env.checkLoadAddonScript(Env.SCRIPT.SIGNAL);
   }
 
   #onLoginSuccess(profile, nextView) {

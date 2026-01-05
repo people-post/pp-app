@@ -11,6 +11,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcUserInput } from '../hr/FvcUserInput.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Env } from '../plt/Env.js';
 
 const _CPT_REAL_TIME_COMMENTS = {
   MAIN : `<div id="__ID_COMMENTS__"></div>
@@ -123,7 +124,7 @@ export class FRealTimeComments extends Fragment {
       this.render();
       break;
     case T_DATA.ADDON_SCRIPT:
-      if (data == glb.env.SCRIPT.SIGNAL.id) {
+      if (data == Env.SCRIPT.SIGNAL.id) {
         this.#hComments.activate();
       }
       break;

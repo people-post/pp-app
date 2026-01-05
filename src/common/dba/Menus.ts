@@ -1,7 +1,7 @@
 import { Menu } from '../datatypes/Menu.js';
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -58,7 +58,7 @@ export class MenusClass implements MenusInterface {
     if (userId) {
       url += '&user=' + userId;
     }
-    glb.api?.asyncRawCall(url, (r) => this.#onGetMenusRRR(r, sectorId, userId), null);
+    Api.asyncRawCall(url, (r) => this.#onGetMenusRRR(r, sectorId, userId), null);
   }
 
   asyncAddMenu(sectorId: string, name: string): void {
@@ -66,7 +66,7 @@ export class MenusClass implements MenusInterface {
     const fd = new FormData();
     fd.append('sector', sectorId);
     fd.append('name', name);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onOwnerMenusRRR(r, sectorId), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onOwnerMenusRRR(r, sectorId), null);
   }
 
   asyncAddMenuItem(sectorId: string, parentId: string, tagId: string): void {
@@ -75,7 +75,7 @@ export class MenusClass implements MenusInterface {
     fd.append('sector', sectorId);
     fd.append('parent_id', parentId);
     fd.append('tag_id', tagId);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onOwnerMenusRRR(r, sectorId), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onOwnerMenusRRR(r, sectorId), null);
   }
 
   asyncRemoveMenuItem(sectorId: string, menuId: string): void {
@@ -83,7 +83,7 @@ export class MenusClass implements MenusInterface {
     const fd = new FormData();
     fd.append('sector', sectorId);
     fd.append('id', menuId);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onOwnerMenusRRR(r, sectorId), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onOwnerMenusRRR(r, sectorId), null);
   }
 
   asyncUpdateEntryMenuItemTheme(sectorId: string, menuId: string, key: string, color: string): void {
@@ -93,7 +93,7 @@ export class MenusClass implements MenusInterface {
     fd.append('id', menuId);
     fd.append('key', key);
     fd.append('color', color);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onOwnerMenusRRR(r, sectorId), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onOwnerMenusRRR(r, sectorId), null);
   }
 
   #setMenus(menus: unknown[], sectorId: string, userId: string | null): void {
@@ -122,7 +122,7 @@ export class MenusClass implements MenusInterface {
   }
 
   #onOwnerMenusRRR(responseText: string, sectorId: string): void {
-    this.#onMenusRRR(responseText, sectorId, window.dba.Account.getId());
+    this.#onMenusRRR(responseText, sectorId, window.dba?.Account?.getId() || null);
   }
 
   #onMenusRRR(responseText: string, sectorId: string, userId: string | null): void {

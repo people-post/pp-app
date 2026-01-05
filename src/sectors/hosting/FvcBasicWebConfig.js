@@ -24,6 +24,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { Events, T_DATA as FwkT_DATA, T_ACTION } from '../../lib/framework/Events.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcBasicWebConfig extends FScrollViewContent {
   action(type, ...args) {
@@ -146,7 +147,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
     let url = "/api/user/update_favicon";
     let fd = new FormData();
     fd.append('favicon', file)
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onMajorUpdateRRR(d));
   }
 
@@ -158,7 +159,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
     let fd = new FormData();
     fd.append("home_page_title", title);
     let url = "/api/user/update_web_config";
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onMajorUpdateRRR(d));
   }
 
@@ -171,7 +172,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
 
   #asyncUpdateConfig(fd) {
     let url = "/api/user/update_web_config";
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onWebConfigDataReceived(d));
   }
 

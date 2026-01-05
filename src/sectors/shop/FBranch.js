@@ -17,6 +17,7 @@ import { Address as AddressDBA } from '../../common/dba/Address.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
 import { FvcAddressEditor } from '../../sectors/account/FvcAddressEditor.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FBranch extends Fragment {
   static T_LAYOUT = {
@@ -195,7 +196,7 @@ export class FBranch extends Fragment {
   #asyncUpdate() {
     let url = "api/shop/update_branch";
     let fd = this.#collectData();
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
   }
 
   #onUpdateRRR(data) { Shop.updateBranch(new ShopBranch(data.branch)); }

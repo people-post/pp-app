@@ -3,6 +3,8 @@ import { FHomeBtn } from './FHomeBtn.js';
 import { URL_PARAM } from '../common/constants/Constants.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
 import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
+import { Api } from '../common/plt/Api.js';
+import { AbAccount } from './AbAccount.js';
 
 export class LvSub extends LvTabbedPage {
   initFromUrl(urlParam: URLSearchParams): void {
@@ -11,7 +13,7 @@ export class LvSub extends LvTabbedPage {
 
     if (this._gateway.isLoginRequired()) {
       let fAb = new AbAccount();
-      fAb.setDelegate(this);
+      fAb.setDelegate(this as any);
       this.setDefaultActionButton(fAb);
     }
 
@@ -61,8 +63,8 @@ export class LvSub extends LvTabbedPage {
   onLoginClickInAccountActionButtonFragment(_fAbAccount: AbAccount): void { this.#onLogin(); }
 
   onLogoutClickInActionButtonFragment(_fAbAccount: AbAccount): void {
-    (globalThis as any).glb.api.asFragmentCall(this, "/api/auth/logout")
-        .then((d: any) => this.#onLogoutRRR(d));
+    Api.asCall("/api/auth/logout")
+        .then((d: unknown) => this.#onLogoutRRR(d));
   }
 
   #onLogin(): void {

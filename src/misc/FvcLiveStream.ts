@@ -3,7 +3,7 @@ import { ButtonGroup } from '../lib/ui/controllers/fragments/ButtonGroup.js';
 import { HintText } from '../lib/ui/controllers/fragments/HintText.js';
 import { VIS } from '../common/constants/Constants.js';
 import Render from '../lib/ui/renders/Render.js';
-import { glb } from '../lib/framework/Global.js';
+import { Api } from '../common/plt/Api.js';
 import { R } from '../common/constants/R.js';
 
 declare global {
@@ -263,7 +263,7 @@ class FvcLiveStream extends FScrollViewContent {
     let e = document.getElementById("ID_TITLE") as HTMLTextAreaElement;
     fd.append("title", e.value);
     fd.append("visibility", this._visView.getSelectedValue() || "");
-    glb.api!.asFragmentPost(this, url, fd)
+    Api!.asFragmentPost(this, url, fd)
         .then((d: unknown) => { this.#onStartLiveRRR(d); });
   }
 
@@ -280,7 +280,7 @@ class FvcLiveStream extends FScrollViewContent {
     // let recordedBlob = new Blob([ data ], {type : "video/webm"});
     let url = "/api/blog/live_data";
     this.#nUploading++;
-    glb.api!.asPost(url, data)
+    Api!.asPost(url, data)
         .then((d: unknown) => this.#onSendDataRRR(d), (e: unknown) => this.#onSendDataError(e))
         .finally(() => this.#onSendDataDone());
   }
@@ -303,7 +303,7 @@ class FvcLiveStream extends FScrollViewContent {
 
   #asyncStopLive(): void {
     let url = "/api/blog/stop_live";
-    glb.api!.asFragmentCall(this, url).then((d: unknown) => { this.#onStopLiveRRR(d); });
+    Api!.asFragmentCall(this, url).then((d: unknown) => { this.#onStopLiveRRR(d); });
   }
 
   #onStopLiveRRR(_data: unknown): void {

@@ -13,6 +13,7 @@ import { FvcConfig } from './FvcConfig.js';
 import { FvcExplorer } from './FvcExplorer.js';
 import { FvcWeb3Report } from './FvcWeb3Report.js';
 import { R } from '../../common/constants/R.js';
+import { Env } from '../../common/plt/Env.js';
 const _CG_BLOG = {
   NEWS : {ID : "NEWS", NAME : "News", ICON : ICON.EXPLORER},
   OWNER_PUBLIC : {ID : "BLOG", NAME : "Blog", ICON : ICON.EXPLORER},
@@ -36,7 +37,7 @@ export class Gateway extends SectorGateway {
   }
 
   createMainViewContentFragment() {
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       if (window.dba.Account.isAuthenticated()) {
         return this.#createMainViewContentFragmentForWeb3Owner();
       } else {

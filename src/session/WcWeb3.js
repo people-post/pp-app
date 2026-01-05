@@ -18,6 +18,7 @@ import { Web3Ledger } from '../common/pdb/Web3Ledger.js';
 import { Web3Storage } from '../common/pdb/Web3Storage.js';
 import { glb } from '../lib/framework/Global.js';
 import { asInit, Owner } from 'pp-api';
+import { Env } from '../common/plt/Env.js';
 
 export class WcWeb3 extends WcSession {
   #postingKeyPath =
@@ -113,8 +114,8 @@ export class WcWeb3 extends WcSession {
     window.dba.Account.loadCheckPoint();
 
     console.info("Load config...");
-    // glb.env.WEB3 is set by backend HTML, keep global access for now
-    Web3Config.load(typeof window !== 'undefined' && window.glb && window.glb.env ? window.glb.env.WEB3 : null);
+    // C.WEB3 is set by configs/web3_config.js
+    Web3Config.load(typeof window !== 'undefined' && window.C && window.C.WEB3 ? window.C.WEB3 : null);
     const c = Web3Config.getNetworkConfig();
 
     console.info("Init resolver...");

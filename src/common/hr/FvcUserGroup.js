@@ -10,6 +10,7 @@ import { Groups } from '../dba/Groups.js';
 import { WebConfig } from '../dba/WebConfig.js';
 import { T_DATA } from '../plt/Events.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Api } from '../plt/Api.js';
 
 const _CF_USER_GROUP_CONTENT = {
   HEAD : `<div>
@@ -123,7 +124,7 @@ export class FvcUserGroup extends FScrollViewContent {
     let fd = new FormData();
     fd.append("id", groupId);
     let url = "api/career/resign_role";
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onLeaveGroupRRR(d));
   }
 

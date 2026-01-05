@@ -1,7 +1,7 @@
 import { T_DATA } from '../plt/Events.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { Vote } from '../datatypes/Vote.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -54,7 +54,7 @@ export class VotesClass implements VotesInterface {
     this.#pendingResponses.push(recordId);
 
     const url = 'api/user/vote?user_id=' + userId + '&item_id=' + itemId;
-    glb.api?.asyncRawCall(url, (r) => this.#onLoadVoteRRR(r, recordId), null);
+    Api.asyncRawCall(url, (r) => this.#onLoadVoteRRR(r, recordId), null);
   }
 
   #onLoadVoteRRR(responseText: string, recordId: string): void {

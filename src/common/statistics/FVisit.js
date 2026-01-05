@@ -7,6 +7,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FVisitInfo } from './FVisitInfo.js';
 import { VisitSummary } from '../datatypes/VisitSummary.js';
 import { R } from '../constants/R.js';
+import { Api } from '../plt/Api.js';
 
 export class FVisit extends Fragment {
   constructor() {
@@ -84,7 +85,7 @@ export class FVisit extends Fragment {
     }
     fd.append("duration", this._fDuration.getSelectedValue());
     fd.append("type", this._queryType);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onLoadDataRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onLoadDataRRR(d));
   }
 
   #onLoadDataRRR(data) {

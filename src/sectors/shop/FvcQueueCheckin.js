@@ -11,6 +11,7 @@ import { FQueueStatusMessage } from './FQueueStatusMessage.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
 import { R } from '../../common/constants/R.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcQueueCheckin extends FScrollViewContent {
   constructor() {
@@ -136,7 +137,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
     if (contact && contact.length) {
       fd.append("customer_contact", contact);
     }
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onCheckinRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onCheckinRRR(d));
   }
 
   #onCheckinRRR(data) { this._owner.onContentFragmentRequestPopView(this); }

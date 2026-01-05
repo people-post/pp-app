@@ -5,6 +5,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FPaymentTerminal } from './FPaymentTerminal.js';
 import { PaymentTerminal } from '../datatypes/PaymentTerminal.js';
+import { Api } from '../plt/Api.js';
 
 export class FPaymentTerminalList extends Fragment {
   constructor() {
@@ -82,7 +83,7 @@ export class FPaymentTerminalList extends Fragment {
     let url = "api/shop/payment_terminal_ids";
     let fd = new FormData();
     fd.append("register_id", this._registerId);
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onTerminalIdsRRR(d));
   }
 
@@ -101,7 +102,7 @@ export class FPaymentTerminalList extends Fragment {
     let url = "api/shop/add_terminal";
     let fd = new FormData();
     fd.append("register_id", this._registerId);
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onAddTerminalRRR(d));
   }
 

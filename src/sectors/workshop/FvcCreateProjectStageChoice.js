@@ -7,6 +7,7 @@ import { ProjectStage } from '../../common/datatypes/ProjectStage.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { FvcProjectStageEditor } from './FvcProjectStageEditor.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcCreateProjectStageChoice extends FScrollViewContent {
   constructor() {
@@ -85,7 +86,7 @@ export class FvcCreateProjectStageChoice extends FScrollViewContent {
     default:
       break;
     }
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onAddNewStageRRR(d));
   }
 

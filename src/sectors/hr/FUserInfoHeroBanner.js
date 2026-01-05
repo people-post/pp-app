@@ -14,6 +14,8 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { glb } from '../../lib/framework/Global.js';
+import { Env } from '../../common/plt/Env.js';
+import { Api } from '../../common/plt/Api.js';
 
 export const CF_USER_INFO_HERO_BANNER = {
   FOLLOW : Symbol(),
@@ -336,7 +338,7 @@ export class FUserInfoHeroBanner extends Fragment {
   #onShowFollowers(userId) {
     let v = new View();
     let f;
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       f = new FvcFollowerList();
     } else {
       // TODO: Merge into above version
@@ -350,7 +352,7 @@ export class FUserInfoHeroBanner extends Fragment {
   #onShowIdols(userId) {
     let v = new View();
     let f;
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       f = new FvcIdolList();
     } else {
       // TODO: Merge into above version
@@ -366,7 +368,7 @@ export class FUserInfoHeroBanner extends Fragment {
     let url = "/api/user/update_info_image";
     let fd = new FormData();
     fd.append('info_image', file)
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onInfoImageUpdateRRR(d));
   }
 
@@ -376,7 +378,7 @@ export class FUserInfoHeroBanner extends Fragment {
     let url = "/api/user/update_brief_biography";
     let fd = new FormData();
     fd.append('text', text)
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onBriefBioUpdateRRR(d));
   }
 

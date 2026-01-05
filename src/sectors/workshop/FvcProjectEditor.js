@@ -35,6 +35,7 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { VIS } from '../../common/constants/Constants.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcProjectEditor extends FScrollViewContent {
   constructor() {
@@ -192,7 +193,7 @@ export class FvcProjectEditor extends FScrollViewContent {
     this._fFiles.saveDataToForm(fd);
 
     let url = "/api/workshop/update_project";
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #collectData() {
@@ -219,7 +220,7 @@ export class FvcProjectEditor extends FScrollViewContent {
     let fd = new FormData();
     fd.append("project_id", this._project.getId());
     let url = "/api/workshop/delete_project";
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
   }
 
   #onDeleteRRR(data) { location.replace(WebConfig.getHomeUrl()); }

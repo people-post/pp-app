@@ -9,6 +9,7 @@ import { SimpleText } from '../../lib/ui/controllers/fragments/SimpleText.js';
 import { T_DATA } from '../plt/Events.js';
 import { Exchange } from '../dba/Exchange.js';
 import { Cart } from '../dba/Cart.js';
+import { Api } from '../plt/Api.js';
 
 const _CFT_PAYMENT = {
   TITLE : `<div class="payment-choice-title">__TEXT__</div>`,
@@ -125,7 +126,7 @@ export class FPayment extends Fragment {
     fd.append("source_id", sourceId);
     fd.append("order_id", orderId);
 
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onOnlinePayRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onOnlinePayRRR(d));
   }
 
   #onOnlinePayRRR(data) {
@@ -137,7 +138,7 @@ export class FPayment extends Fragment {
     let url = "/api/shop/charge_by_terminal";
     let fd = new FormData();
     fd.append("terminal_id", terminalId);
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onTerminalPayRRR(d));
   }
 

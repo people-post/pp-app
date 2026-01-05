@@ -7,6 +7,7 @@ import { UserRequest } from '../datatypes/UserRequest.js';
 import { Groups } from '../dba/Groups.js';
 import Utilities from '../Utilities.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Api } from '../plt/Api.js';
 
 export const CF_REQUEST_INFO = {
   ACCEPT : "CF_GUI_REQUEST_INFO_1",
@@ -138,7 +139,7 @@ export class FRequestInfo extends Fragment {
     let url = "api/career/accept_request";
     let fd = new FormData();
     fd.append("id", id);
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onRequestOperationRRR(d));
   }
 
@@ -146,7 +147,7 @@ export class FRequestInfo extends Fragment {
     let url = "api/career/decline_request";
     let fd = new FormData();
     fd.append("id", id);
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onRequestOperationRRR(d));
   }
 
@@ -154,7 +155,7 @@ export class FRequestInfo extends Fragment {
     let url = "/api/career/ignore_request";
     let fd = new FormData();
     fd.append("id", id);
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onRequestOperationRRR(d));
   }
 

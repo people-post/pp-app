@@ -7,6 +7,7 @@ import { FvcAddressEditor } from './FvcAddressEditor.js';
 import { Address as AddressDBA } from '../../common/dba/Address.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcAddressList extends FScrollViewContent {
   constructor() {
@@ -79,7 +80,7 @@ export class FvcAddressList extends FScrollViewContent {
     let url = "/api/user/remove_address";
     let fd = new FormData();
     fd.append("id", addressId);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
   }
 
   #onDeleteRRR(data) { window.dba.Account.resetAddressIds(data.address_ids);   }

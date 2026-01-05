@@ -17,6 +17,7 @@ import { FPostInfoLayoutPreview } from './FPostInfoLayoutPreview.js';
 import { FvcRoleEditor } from './FvcRoleEditor.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
+import { Api } from '../../common/plt/Api.js';
 
 window.CF_BLOG_CONFIG = {
   ADD_ROLE : "CF_BLOG_CONFIG_1",
@@ -233,7 +234,7 @@ export class FvcConfig extends FScrollViewContent {
 
   #asyncUpdateConfig(fd) {
     let url = "api/blog/update_config";
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onUpdateConfigRRR(d));
   }
 

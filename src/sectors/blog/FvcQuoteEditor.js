@@ -5,6 +5,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FQuoteElement } from './FQuoteElement.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcQuoteEditor extends FScrollViewContent {
   constructor() {
@@ -66,7 +67,7 @@ export class FvcQuoteEditor extends FScrollViewContent {
       fd.append("link_type", t);
     }
     let url = "api/blog/post_article";
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #onSubmitRRR(data) {

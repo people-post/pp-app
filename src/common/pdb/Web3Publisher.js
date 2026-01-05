@@ -1,5 +1,6 @@
 import { PublisherAgent, RemoteServer } from 'pp-api';
 import { Web3PeerServerMixin } from './Web3PeerServerMixin.js';
+import { Env } from '../plt/Env.js';
 
 export class Web3PeerPublisherAgent extends Web3PeerServerMixin(PublisherAgent) {};
 export class Web3GroupPublisherAgent extends PublisherAgent {};
@@ -40,7 +41,7 @@ export class Web3Publisher {
         }
       }
     } else {
-      if (glb.env.hasHost()) {
+      if (Env.hasHost()) {
         let agent = await this.#asCreateAgent();
         if (agent) {
           this.#agents.push(agent);

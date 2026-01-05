@@ -6,7 +6,8 @@ import { Tag } from '../datatypes/Tag.js';
 import { User } from '../datatypes/User.js';
 import { Menus } from './Menus.js';
 import { ID, URL_PARAM } from '../constants/Constants.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Env } from '../plt/Env.js';
+import { Api } from '../plt/Api.js';
 
 interface WebConfigData {
   is_shop_open?: boolean;
@@ -91,17 +92,17 @@ export class WebConfigClass implements WebConfigInterface {
   reset(data: WebConfigData | null): void {
     this.#data = data;
     // Update Api instance with isDevSite, ownerId, and isTrustedSite
-    if (glb.api && 'setConfig' in glb.api && typeof glb.api.setConfig === 'function') {
+    if (Api && 'setConfig' in Api && typeof Api.setConfig === 'function') {
       const isDevSite = data ? !!data.is_dev_site : false;
       let ownerId: string | null = null;
-      if (glb.env?.isWeb3()) {
+      if (Env.isWeb3()) {
         const dba = (window as { dba?: { Account?: { getId(): string | null } } }).dba;
         ownerId = dba?.Account?.getId() || null;
       } else {
         ownerId = data && data.owner ? data.owner.uuid || null : null;
       }
-      const isTrustedSite = glb.env?.isTrustedSite() || false;
-      (glb.api as { setConfig(config: { isDevSite: boolean; ownerId: string | null; isTrustedSite: boolean }): void }).setConfig({
+      const isTrustedSite = Env.isTrustedSite() || false;
+      (Api as { setConfig(config: { isDevSite: boolean; ownerId: string | null; isTrustedSite: boolean }): void }).setConfig({
         isDevSite,
         ownerId,
         isTrustedSite,
@@ -173,7 +174,7 @@ export class WebConfigClass implements WebConfigInterface {
   }
 
   getOwnerId(): string | null {
-    if (glb.env?.isWeb3()) {
+    if (Env.isWeb3()) {
       const dba = (window as { dba?: { Account?: { getId(): string | null } } }).dba;
       return dba?.Account?.getId() || null;
     }
@@ -182,7 +183,7 @@ export class WebConfigClass implements WebConfigInterface {
   }
 
   getOwner(): User | null {
-    if (glb.env?.isWeb3()) {
+    if (Env.isWeb3()) {
       const dba = (window as { dba?: { Account?: User } }).dba;
       return (dba?.Account as unknown as User) || null;
     } else {
@@ -194,7 +195,7 @@ export class WebConfigClass implements WebConfigInterface {
   }
 
   getHomeUrl(): string {
-    if (glb.env?.isWeb3()) {
+    if (Env.isWeb3()) {
       return '?';
     } else {
       return '/?' + URL_PARAM.USER + '=' + this.getOwnerId();
@@ -315,7 +316,7 @@ export class WebConfigClass implements WebConfigInterface {
     const url = 'api/user/set_home_sector';
     const fd = new FormData();
     fd.append('sector', sectorId);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onSetHomeSectorRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onSetHomeSectorRRR(r), null);
   }
 
   asyncUpdateGroupConfig(
@@ -336,7 +337,7 @@ export class WebConfigClass implements WebConfigInterface {
     if (themeColor) {
       fd.append('color', themeColor);
     }
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onUpdateGroupRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onUpdateGroupRRR(r), null);
   }
 
   #getRoleDatas(): unknown[] {

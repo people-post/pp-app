@@ -10,6 +10,7 @@ import { WebConfig } from '../common/dba/WebConfig.js';
 import { Cart } from '../common/dba/Cart.js';
 import { Notifications } from '../common/dba/Notifications.js';
 import { Gateway as HrGateway } from '../sectors/hr/Gateway.js';
+import { Env } from '../common/plt/Env.js';
 
 export class WcMain extends WcSession {
   onLoginClickInAccountActionButtonFragment(fAbAccount) {
@@ -57,11 +58,11 @@ export class WcMain extends WcSession {
 
   _main(dConfig) {
     super._main(dConfig);
-    glb.env.checkLoadAddonScript(glb.env.SCRIPT.PLAYER);
-    glb.env.checkLoadAddonScript(glb.env.SCRIPT.SIGNAL);
-    glb.env.checkLoadAddonScript(glb.env.SCRIPT.EDITOR);
-    glb.env.checkLoadAddonScript(glb.env.SCRIPT.PAYMENT);
-    glb.env.checkLoadAddonScript(glb.env.SCRIPT.BRAINTREE);
+    Env.checkLoadAddonScript(Env.SCRIPT.PLAYER);
+    Env.checkLoadAddonScript(Env.SCRIPT.SIGNAL);
+    Env.checkLoadAddonScript(Env.SCRIPT.EDITOR);
+    Env.checkLoadAddonScript(Env.SCRIPT.PAYMENT);
+    Env.checkLoadAddonScript(Env.SCRIPT.BRAINTREE);
   }
 
   #showUpgradeView(quotaError) {

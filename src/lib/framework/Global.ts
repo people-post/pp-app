@@ -20,7 +20,7 @@ export interface ScriptsConfig {
 
 /**
  * Interface for the Env class public API
- * This allows better type checking when using glb.env
+ * This allows better type checking when using Env
  */
 export interface IEnv {
   readonly SCRIPT: ScriptsConfig;
@@ -48,7 +48,7 @@ export interface FragmentDelegate {
 
 /**
  * Interface for the Api class public API
- * This allows better type checking when using glb.api
+ * This allows better type checking when using Api
  */
 export interface IApi {
   asCall(url: string): Promise<unknown>;
@@ -78,11 +78,10 @@ export interface IApi {
 
 /**
  * Global namespace object
- * Properties are populated in app.js and WcWeb3.js
+ * Properties are populated in WcWeb3.js
+ * Note: env and api are now imported directly, not stored in glb
  */
 export interface GlobalNamespace {
-  env?: IEnv;
-  api?: IApi;
   // Web3 properties are added dynamically in WcWeb3.js:
   web3Resolver?: unknown;
   web3Publisher?: unknown;
@@ -92,7 +91,6 @@ export interface GlobalNamespace {
 }
 
 export const glb: GlobalNamespace = {
-  // env is populated in app.js
   // Web3 properties are added dynamically in WcWeb3.js:
   // web3Resolver, web3Publisher, web3Ledger, web3Storage
 };

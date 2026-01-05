@@ -3,6 +3,7 @@ import { SearchConfig } from '../datatypes/SearchConfig.js';
 import { SearchResult } from '../datatypes/SearchResult.js';
 import Utilities from '../Utilities.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
+import { Api } from '../plt/Api.js';
 
 export class FGeneralSearch extends FSearch {
   #enableAddFeed = false;
@@ -37,18 +38,18 @@ export class FGeneralSearch extends FSearch {
   #asyncOrderSearch(key) {
     let id = Utilities.orderReferenceIdToOrderId(key);
     let url = "api/search/order?id=" + id;
-    glb.api.asFragmentCall(this, url).then(d => this.#onSearchRRR(d, key));
+    Api.asFragmentCall(this, url).then(d => this.#onSearchRRR(d, key));
   }
 
   #asyncHashtagSearch(key) {
     let k = key.split('#').join(' ');
     let url = "api/search/by_hashtag?key=" + encodeURIComponent(k);
-    glb.api.asFragmentCall(this, url).then(d => this.#onSearchRRR(d, key));
+    Api.asFragmentCall(this, url).then(d => this.#onSearchRRR(d, key));
   }
 
   #asyncSearchFeed(key) {
     let url = "api/search/feed?url=" + encodeURIComponent(key);
-    glb.api.asFragmentCall(this, url).then(d => this.#onSearchRRR(d, key));
+    Api.asFragmentCall(this, url).then(d => this.#onSearchRRR(d, key));
   }
 
   #asyncTextSearch(key, config) {
@@ -56,7 +57,7 @@ export class FGeneralSearch extends FSearch {
     let fd = new FormData();
     fd.append("key", key);
     fd.append("config", config.toJsonString());
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onSearchRRR(d, key));
   }
 

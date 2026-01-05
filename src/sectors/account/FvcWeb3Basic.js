@@ -6,6 +6,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FIconUploader } from '../../common/gui/FIconUploader.js';
 import { glb } from '../../lib/framework/Global.js';
+import { Env } from '../../common/plt/Env.js';
 
 export class FvcWeb3Basic extends FScrollViewContent {
   #fName;
@@ -46,7 +47,7 @@ export class FvcWeb3Basic extends FScrollViewContent {
     this.#fName.attachRender(p);
     this.#fName.render();
 
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       p = new Panel();
       pList.pushPanel(p);
       p.setClassName("ellipsis");

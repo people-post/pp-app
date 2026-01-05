@@ -4,7 +4,7 @@ import { Proposal } from '../datatypes/Proposal.js';
 import { Vote } from '../datatypes/Vote.js';
 import { Votes } from './Votes.js';
 import { CommunityProfile } from '../datatypes/CommunityProfile.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -90,7 +90,7 @@ export class CommunitiesClass implements CommunitiesInterface {
     const fd = new FormData();
     fd.append('id', itemId);
     fd.append('value', value.toString());
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onVoteRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onVoteRRR(r), null);
   }
 
   #onVoteRRR(responseText: string): void {
@@ -111,7 +111,7 @@ export class CommunitiesClass implements CommunitiesInterface {
     const url = 'api/community/profile';
     const fd = new FormData();
     fd.append('id', id);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onLoadRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onLoadRRR(r), null);
   }
 
   #onLoadRRR(responseText: string): void {
@@ -132,7 +132,7 @@ export class CommunitiesClass implements CommunitiesInterface {
     this.#pendingResponses.push(id);
 
     const url = 'api/community/proposal?id=' + id;
-    glb.api?.asyncRawCall(url, (r) => this.#onProposalRRR(r, id), null);
+    Api.asyncRawCall(url, (r) => this.#onProposalRRR(r, id), null);
   }
 
   #onProposalRRR(responseText: string, proposalId: string): void {
@@ -157,7 +157,7 @@ export class CommunitiesClass implements CommunitiesInterface {
     }
     this.#isGlobalProfileLoading = true;
     const url = '/api/community/global_profile';
-    glb.api?.asyncRawCall(url, (r) => this.#onGlobalProfileRRR(r), null);
+    Api.asyncRawCall(url, (r) => this.#onGlobalProfileRRR(r), null);
   }
 
   #onGlobalProfileRRR(responseText: string): void {

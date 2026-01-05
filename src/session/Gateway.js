@@ -27,6 +27,7 @@ import { FvcMain } from '../sectors/community/FvcMain.js';
 import { FvcUserInfo } from '../sectors/hr/FvcUserInfo.js';
 import { FvcResetPassword } from '../sectors/auth/FvcResetPassword.js';
 import { FvcAccountActivation } from '../sectors/auth/FvcAccountActivation.js';
+import { Env } from '../common/plt/Env.js';
 
 export class Gateway extends Controller {
   static T_CONFIG = {
@@ -181,7 +182,7 @@ export class Gateway extends Controller {
   }
 
   #getPageConfigs() {
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       return this.#getWeb3PageConfigs();
     } else {
       return this.#getWeb2PageConfigs();
@@ -228,7 +229,7 @@ export class Gateway extends Controller {
   }
 
   #getExtrasPageConfigs() {
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       if (window.dba.Account.isAuthenticated()) {
         return this.#getWeb3OwnerPageConfigs();
       } else {
@@ -238,7 +239,7 @@ export class Gateway extends Controller {
       if (window.dba.Account.isAuthenticated()) {
         if (window.dba.Account.isWebOwner()) {
           return this.#getOwnerPageConfigs();
-        } else if (glb.env.isTrustedSite()) {
+        } else if (Env.isTrustedSite()) {
           return this.#getMemberPageConfigs();
         } else {
           return this.#getVisitorPageConfigs();

@@ -1,7 +1,7 @@
 import { T_DATA } from '../plt/Events.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { Address as AddressDataType } from '../datatypes/Address.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -47,7 +47,7 @@ export class AddressClass implements AddressInterface {
     const url = '/api/user/address';
     const fd = new FormData();
     fd.append('id', id);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onGetRRR(r, id), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onGetRRR(r, id), null);
   }
 
   #onGetRRR(responseText: string, id: string): void {

@@ -19,6 +19,7 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FQuoteElement } from './FQuoteElement.js';
 import { PArticleEditor } from './PArticleEditor.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FArticleEditor extends Fragment {
   #fTitle;
@@ -355,7 +356,7 @@ export class FArticleEditor extends Fragment {
     } else {
       url = "api/blog/update_article";
     }
-    glb.api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r),
+    Api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r),
                          r => this.#onAsyncPostError(r));
     return true;
   }
@@ -385,7 +386,7 @@ export class FArticleEditor extends Fragment {
 
   #asyncGetTags(ownerId) {
     let url = "api/blog/available_tags?from=" + ownerId;
-    glb.api.asFragmentCall(this, url).then(d => this.#onTagsRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onTagsRRR(d));
   }
 
   #onTagsRRR(data) {
@@ -414,7 +415,7 @@ export class FArticleEditor extends Fragment {
 
   #asyncDelete() {
     let url = "/api/blog/delete_article?id=" + this.#baseArticle.getId();
-    glb.api.asFragmentCall(this, url).then(d => this.#onDeleteRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onDeleteRRR(d));
   }
 
   #onDeleteRRR(data) { location.replace(WebConfig.getHomeUrl()); }

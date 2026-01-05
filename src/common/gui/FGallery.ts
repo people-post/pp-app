@@ -6,7 +6,8 @@ import { FMediaFile } from './FMediaFile.js';
 import { CronJob } from '../../lib/ext/CronJob.js';
 import { T_DATA } from '../plt/Events.js';
 import { RemoteFile } from '../datatypes/RemoteFile.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Env } from '../plt/Env.js';
+import { Api } from '../plt/Api.js';
 
 export const CF_GALLERY = {
   PREV_IMAGE_SLIDE : Symbol(),
@@ -172,7 +173,7 @@ export class FGallery extends Fragment {
   handleSessionDataUpdate(dataType: symbol, data: unknown): void {
     switch (dataType) {
     case T_DATA.ADDON_SCRIPT:
-      if (data == glb.env.SCRIPT.PLAYER.id) {
+      if (data == Env.SCRIPT.PLAYER.id) {
         this.#assignVideoPlayers();
       }
       break;
@@ -291,7 +292,7 @@ export class FGallery extends Fragment {
       return;
     }
     if (this.#hasVideo(this.#fFiles) &&
-        glb.env?.isScriptLoaded(glb.env.SCRIPT.PLAYER.id)) {
+        Env.isScriptLoaded(Env.SCRIPT.PLAYER.id)) {
       const e = this.getRender().getDomElement();
       this.#initVideos(e.getElementsByTagName("video"));
     }
@@ -370,7 +371,7 @@ export class FGallery extends Fragment {
         fd.append("ids", id);
       }
     }
-    glb.api?.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then((d: unknown) => this.#onFileStatusRRR(d as FileStatusResponse));
   }
 

@@ -24,6 +24,7 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Groups } from '../../common/dba/Groups.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { R } from '../../common/constants/R.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcRoleEditor extends FScrollViewContent {
   constructor() {
@@ -174,20 +175,20 @@ export class FvcRoleEditor extends FScrollViewContent {
   #asyncRequestAddRole(role) {
     let url = "api/blog/add_role";
     let fd = this.#makeForm(role);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onNewRoleRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onNewRoleRRR(d));
   }
 
   #asyncRequestEditRole(role) {
     let url = "api/blog/update_role";
     let fd = this.#makeForm(role);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onEditRoleRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onEditRoleRRR(d));
   }
 
   #asyncRequestDeleteRole(id) {
     let url = "api/blog/delete_role";
     let fd = FormData();
     fd.append("id", id);
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onDeleteRoleRRR(d));
   }
 

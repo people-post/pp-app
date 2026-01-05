@@ -9,6 +9,7 @@ import { Blog } from '../../common/dba/Blog.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Utilities } from './Utilities.js';
 import { Utilities as CommonUtilities } from '../../common/Utilities.js';
+import { Api } from '../../common/plt/Api.js';
 
 const _CFT_COMMENT = {
   ICON : `<span class="inline-block s-icon6">__ICON__</span>`,
@@ -155,7 +156,7 @@ export class FComment extends FPostBase {
     fd.append("item_id", comment.getTargetItemId());
     fd.append("item_type", comment.getTargetItemType());
     fd.append("comment_id", comment.getId());
-    glb.api.asFragmentPost(this, url, fd, d => this.#onKeepRRR(d));
+    Api.asFragmentPost(this, url, fd, d => this.#onKeepRRR(d));
   }
 
   #asyncDiscard(comment) {
@@ -164,7 +165,7 @@ export class FComment extends FPostBase {
     fd.append("item_id", comment.getTargetItemId());
     fd.append("item_type", comment.getTargetItemType());
     fd.append("comment_id", comment.getId());
-    glb.api.asFragmentPost(this, url, fd, d => this.#onDiscardRRR(d));
+    Api.asFragmentPost(this, url, fd, d => this.#onDiscardRRR(d));
   }
 
   #onKeepRRR(data) {

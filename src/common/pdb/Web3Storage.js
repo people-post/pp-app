@@ -1,5 +1,6 @@
 import { StorageAgent, RemoteServer } from 'pp-api';
 import { Web3PeerServerMixin } from './Web3PeerServerMixin.js';
+import { Env } from '../plt/Env.js';
 
 export class Web3PeerStorageAgent extends Web3PeerServerMixin(StorageAgent) {};
 export class Web3GroupStorageAgent extends StorageAgent {};
@@ -18,7 +19,7 @@ export class Web3Storage {
         }
       }
     } else {
-      if (glb.env.hasHost()) {
+      if (Env.hasHost()) {
         let agent = await this.#asCreateAgent();
         if (agent) {
           this.#agents.push(agent);

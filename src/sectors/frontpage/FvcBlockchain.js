@@ -1,6 +1,7 @@
 
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 import { PerishableObject } from '../../lib/ext/PerishableObject.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcBlockchain extends FViewContentBase {
   #blockHead;
@@ -21,7 +22,7 @@ export class FvcBlockchain extends FViewContentBase {
 
   #asyncLoadBlockHead() {
     let url = "api/blockchain/latest_header";
-    glb.api.asFragmentCall(this, url).then(d => this.#onBlockHeadRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onBlockHeadRRR(d));
   }
 
   #onBlockHeadRRR(data) {

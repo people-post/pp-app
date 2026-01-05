@@ -4,6 +4,8 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { T_DATA } from '../plt/Events.js';
+import { Env } from '../plt/Env.js';
+import { Api } from '../plt/Api.js';
 
 const _CFT_BRAINTREE = {
   MAIN : `<div id="__ID__"></div>`,
@@ -37,7 +39,7 @@ export class FBraintree extends Fragment {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case T_DATA.ADDON_SCRIPT:
-      if (data == glb.env.SCRIPT.BRAINTREE.id) {
+      if (data == Env.SCRIPT.BRAINTREE.id) {
         this.render();
       }
       break;
@@ -75,7 +77,7 @@ export class FBraintree extends Fragment {
   #getPaymentElementId() { return "ID_" + this._id + "_PAY"; }
 
   #loadJsPayment() {
-    if (glb.env.isScriptLoaded(glb.env.SCRIPT.BRAINTREE.id)) {
+    if (Env.isScriptLoaded(Env.SCRIPT.BRAINTREE.id)) {
       this.#asInit()
           .then(obj => this.#onCreateSuccess(obj))
           .catch(e => this.#onCreateError(e));
@@ -83,7 +85,7 @@ export class FBraintree extends Fragment {
   }
 
   async #asInit() {
-    let r = await glb.api.asFragmentCall(this, "api/token/braintree_client");
+    let r = await Api.asFragmentCall(this, "api/token/braintree_client");
     return await window.braintree.dropin.create({
       authorization : r.token,
       container : "#" + this.#getPaymentElementId()
@@ -112,7 +114,7 @@ export class FBraintree extends Fragment {
     this.#payload = await this.#braintree.requestPaymentMethod();
     console.log("Payload:", this.#payload);
 
-    let r = await glb.api.asFragmentJsonPost(
+    let r = await Api.asFragmentJsonPost(
         this, "api/charity/braintree_donate", {
           amount : this.#amount,
           nonce : this.#payload.nonce,

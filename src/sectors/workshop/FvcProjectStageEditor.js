@@ -15,6 +15,7 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { Project } from '../../common/datatypes/Project.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcProjectStageEditor extends FScrollViewContent {
   constructor() {
@@ -88,7 +89,7 @@ export class FvcProjectStageEditor extends FScrollViewContent {
   #onSubmit() {
     let url = 'api/workshop/update_project_stage';
     let fd = this.#collectData();
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #onSubmitRRR(data) {

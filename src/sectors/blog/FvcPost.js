@@ -20,6 +20,8 @@ import { Groups } from '../../common/dba/Groups.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Utilities as blogUtilities } from './Utilities.js';
+import { Env } from '../../common/plt/Env.js';
+import { Api } from '../../common/plt/Api.js';
 
 const _CPT_POST = {
   MAIN : `<div id="__ID_POST__"></div>
@@ -104,7 +106,7 @@ class FvcPost extends FScrollViewContent {
     this.#btnPrev.setDelegate(this);
     this.setChild("btnPrev", this.#btnPrev);
 
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       this.#cIdLoader = new Web3CommentIdLoader();
     } else {
       this.#cIdLoader = new CommentIdLoader();
@@ -227,7 +229,7 @@ class FvcPost extends FScrollViewContent {
       return false;
     }
 
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       return false;
     }
 
@@ -375,7 +377,7 @@ class FvcPost extends FScrollViewContent {
     fd.append("item_type", this.#postId.getType());
     fd.append("article_id", articleId);
     fd.append("tag_id", tagId);
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onTagCommentRRR(d));
   }
 
@@ -390,7 +392,7 @@ class FvcPost extends FScrollViewContent {
     fd.append("item_type", this.#postId.getType());
     fd.append("article_id", articleId);
     fd.append("tag_id", tagId);
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onUntagCommentRRR(d));
   }
 

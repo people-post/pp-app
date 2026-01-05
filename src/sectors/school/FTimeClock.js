@@ -6,6 +6,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { TimeClock } from '../../common/datatypes/TimeClock.js';
 import { TimeClockRecord } from '../../common/datatypes/TimeClockRecord.js';
 import { CronJob } from '../../lib/ext/CronJob.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FTimeClock extends Fragment {
   constructor() {
@@ -98,7 +99,7 @@ export class FTimeClock extends Fragment {
   #asyncFetchClockStatus() {
     let url = "api/school/clock";
     let fd = new FormData();
-    glb.api.asFragmentCall(this, url).then(d => this.#onClockStatusRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onClockStatusRRR(d));
   }
 
   #onClockStatusRRR(data) {
@@ -112,7 +113,7 @@ export class FTimeClock extends Fragment {
   #asyncClockIn() {
     let url = "api/school/clock_in";
     let fd = new FormData();
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onClockInRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onClockInRRR(d));
   }
 
   #onClockInRRR(data) {
@@ -129,7 +130,7 @@ export class FTimeClock extends Fragment {
     let url = "api/school/clock_out";
     let fd = new FormData();
     fd.append("total", this._dtLast);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onClockOutRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onClockOutRRR(d));
   }
 
   #onClockOutRRR(data) {

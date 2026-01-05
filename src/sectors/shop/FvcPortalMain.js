@@ -3,6 +3,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { Env } from '../../common/plt/Env.js';
 export class FvcPortalMain extends FScrollViewContent {
   #branchId = null;
 
@@ -22,7 +23,7 @@ export class FvcPortalMain extends FScrollViewContent {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case T_DATA.ADDON_SCRIPT:
-      if (data == glb.env.SCRIPT.QR_CODE.id) {
+      if (data == Env.SCRIPT.QR_CODE.id) {
         this.render();
       }
       break;
@@ -33,7 +34,7 @@ export class FvcPortalMain extends FScrollViewContent {
   }
 
   _renderContentOnRender(render) {
-    if (!glb.env.isScriptLoaded(glb.env.SCRIPT.QR_CODE.id)) {
+    if (!Env.isScriptLoaded(Env.SCRIPT.QR_CODE.id)) {
       render.replaceContent("Loading...");
       return;
     }

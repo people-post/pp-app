@@ -4,6 +4,7 @@ import { URL_PARAM } from '../../common/constants/Constants.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 import { Auth } from '../../common/dba/Auth.js';
+import { Api } from '../../common/plt/Api.js';
 export class FvcWeb2LoginBase extends FvcLoginBase {
   constructor() {
     super();
@@ -41,6 +42,6 @@ export class FvcWeb2LoginBase extends FvcLoginBase {
 
   #asyncMarkDomainVisit() {
     let url = "api/stat/mark_visit";
-    glb.api.asFragmentCall(this, url).then(d => {});
+    Api.asFragmentCall(this, url).then(d => {});
   }
 }

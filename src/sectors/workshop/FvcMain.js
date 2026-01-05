@@ -17,6 +17,7 @@ import { FvcConfig } from './FvcConfig.js';
 import { FvcReport } from './FvcReport.js';
 import { FvcProjectEditor } from './FvcProjectEditor.js';
 import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {
@@ -201,7 +202,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   #asyncCreateProject() {
     let url = "api/workshop/new_project";
-    glb.api.asFragmentCall(this, url).then(d => this.#onDraftProjectRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onDraftProjectRRR(d));
   }
 
   #onDraftProjectRRR(data) {
@@ -210,14 +211,14 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   #asyncOpenWorkshop() {
     let url = "api/workshop/request_open";
-    glb.api.asFragmentCall(this, url).then(d => this.#onOpenWorkshopRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onOpenWorkshopRRR(d));
   }
 
   #onOpenWorkshopRRR(data) { WebConfig.setWorkshopOpen(true); }
 
   #asyncCloseWorkshop() {
     let url = "api/workshop/request_close";
-    glb.api.asFragmentCall(this, url).then(d => this.#onCloseWorkshopRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onCloseWorkshopRRR(d));
   }
 
   #onCloseWorkshopRRR(data) { WebConfig.reset(data.web_config); }

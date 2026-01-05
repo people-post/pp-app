@@ -2,7 +2,8 @@ import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Ev
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Users } from './Users.js';
 import { SocialInfo } from '../datatypes/SocialInfo.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Env } from '../plt/Env.js';
+import { Api } from '../plt/Api.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -66,7 +67,7 @@ export class SocialClass implements SocialInterface {
     }
     this.#pendingResponses.push(itemId);
 
-    if (glb.env?.isWeb3()) {
+    if (Env.isWeb3()) {
       this.#asyncWeb3Load(itemId).then((d) => this.#onWeb3LoadRRR(d, itemId));
     } else {
       this.#asyncWeb2Load(itemId);
@@ -85,8 +86,8 @@ export class SocialClass implements SocialInterface {
 
     // Search from owner data
     // Note: asyncFindMark and asyncGetIdolIds are Web3-specific methods
-    const account = Account as unknown as { asyncFindMark?: (itemId: string) => Promise<{ like?: boolean; comments?: unknown[] } | null> };
-    const m = account.asyncFindMark ? await account.asyncFindMark(itemId) : null;
+    const account = window.dba?.Account as unknown as { asyncFindMark?: (itemId: string) => Promise<{ like?: boolean; comments?: unknown[] } | null> };
+    const m = account?.asyncFindMark ? await account.asyncFindMark(itemId) : null;
     if (m) {
       if (m.like) {
         data.n_likes = (data.n_likes || 0) + 1;
@@ -98,7 +99,7 @@ export class SocialClass implements SocialInterface {
     }
 
     // Search from all idols
-    const accountWithIdols = Account as unknown as { asyncGetIdolIds?: () => Promise<string[]> };
+    const accountWithIdols = window.dba?.Account as unknown as { asyncGetIdolIds?: () => Promise<string[]> };
     const ids = accountWithIdols.asyncGetIdolIds ? await accountWithIdols.asyncGetIdolIds() : [];
     let u;
     for (const id of ids) {
@@ -127,7 +128,7 @@ export class SocialClass implements SocialInterface {
 
   #asyncWeb2Load(itemId: string): void {
     const url = 'api/social/info?item_id=' + itemId;
-    glb.api?.asyncRawCall(url, (r) => this.#onLoadRRR(r, itemId), null);
+    Api.asyncRawCall(url, (r) => this.#onLoadRRR(r, itemId), null);
   }
 
   #onLoadRRR(responseText: string, itemId: string): void {

@@ -12,6 +12,7 @@ import { FChatMessage } from './FChatMessage.js';
 import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
 import { Notifications } from '../../common/dba/Notifications.js';
 import { Events } from '../../lib/framework/Events.js';
+import { Env } from '../../common/plt/Env.js';
 
 export class FvcChat extends FViewContentBase {
   #fHeader;
@@ -102,7 +103,7 @@ export class FvcChat extends FViewContentBase {
       this.#msgHandler.onUserInboxSignal(data);
       break;
     case T_DATA.ADDON_SCRIPT:
-      if (data == glb.env.SCRIPT.SIGNAL.id) {
+      if (data == Env.SCRIPT.SIGNAL.id) {
         this.#msgHandler.activate();
       }
       break;

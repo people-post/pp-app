@@ -14,7 +14,7 @@ export interface ApiConfig {
   isTrustedSite: boolean;
 }
 
-export class Api implements IApi {
+class ApiClass implements IApi {
   #extApi: ExtApi;
   #config: ApiConfig = {
     isDevSite: false,
@@ -155,4 +155,6 @@ export class Api implements IApi {
     }
   }
 }
+
+export const Api = new ApiClass();
 

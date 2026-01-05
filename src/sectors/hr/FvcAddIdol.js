@@ -6,6 +6,7 @@ import { SearchConfig } from '../../common/datatypes/SearchConfig.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
+import { Env } from '../../common/plt/Env.js';
 
 export class FvcAddIdol extends FScrollViewContent {
   #fSearch;
@@ -13,7 +14,7 @@ export class FvcAddIdol extends FScrollViewContent {
   constructor() {
     super();
     let c = new SearchConfig();
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       this.#fSearch = new srch.FWeb3Search();
       c.setCategories([ SocialItem.TYPE.USER ]);
     } else {
@@ -42,7 +43,7 @@ export class FvcAddIdol extends FScrollViewContent {
     render.wrapPanel(p)
     let pp = new Panel();
     p.pushPanel(pp);
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       pp.replaceContent(R.get("ADD_WEB3_IDOL_HINT"));
     } else {
       pp.replaceContent(R.get("ADD_IDOL_HINT"));

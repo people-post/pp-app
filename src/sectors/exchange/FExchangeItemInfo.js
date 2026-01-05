@@ -35,6 +35,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { glb } from '../../lib/framework/Global.js';
+import { Env } from '../../common/plt/Env.js';
 
 export class FExchangeItemInfo extends Fragment {
   constructor() {
@@ -77,7 +78,7 @@ export class FExchangeItemInfo extends Fragment {
     s = s.replace("__NAME__", item.name);
     s = s.replace("__DETAIL__", this._renderDetail(item));
     if (window.dba.Account.isAuthenticated()) {
-      if (window.dba.Account.isWebOwner() || glb.env.isTrustedSite() ||
+      if (window.dba.Account.isWebOwner() || Env.isTrustedSite() ||
           WebConfig.isDevSite()) {
         s = s.replace("__ACTIONS__", this._renderActions(item));
       } else {

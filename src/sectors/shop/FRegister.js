@@ -14,6 +14,7 @@ import { FPaymentTerminalList } from '../../common/pay/FPaymentTerminalList.js';
 import { FvcPaymentTerminal } from '../../common/pay/FvcPaymentTerminal.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { R } from '../../common/constants/R.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FRegister extends Fragment {
   static T_LAYOUT = {
@@ -156,7 +157,7 @@ export class FRegister extends Fragment {
   #asyncUpdate() {
     let url = "api/shop/update_register";
     let fd = this.#collectData();
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
   }
 
   #onUpdateRRR(data) {

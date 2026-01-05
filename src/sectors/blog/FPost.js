@@ -21,6 +21,8 @@ import { FFeedArticleInfo } from './FFeedArticleInfo.js';
 import { FJournalIssue } from './FJournalIssue.js';
 import { FEmptyPost } from './FEmptyPost.js';
 import { Utilities as BlogUtilities } from './Utilities.js';
+import { Env } from '../../common/plt/Env.js';
+import { Api } from '../../common/plt/Api.js';
 
 export const CF_POST = {
   TOGGLE_PIN : Symbol(),
@@ -206,7 +208,7 @@ export class FPost extends Fragment {
     }
 
     // TODO: Support pin in web3
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       return;
     }
 
@@ -293,7 +295,7 @@ export class FPost extends Fragment {
     let fd = new FormData();
     fd.append("id", postId.getValue());
     fd.append("type", postId.getType());
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onTogglePinRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onTogglePinRRR(d));
   }
 
   #asyncUnpinPost(postId) {
@@ -301,7 +303,7 @@ export class FPost extends Fragment {
     let fd = new FormData();
     fd.append("id", postId.getValue());
     fd.append("type", postId.getType());
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onTogglePinRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onTogglePinRRR(d));
   }
 
   #onTogglePinRRR(data) {

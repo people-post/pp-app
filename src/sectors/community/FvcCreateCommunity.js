@@ -13,6 +13,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Users } from '../../common/dba/Users.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcCreateCommunity extends FScrollViewContent {
   action(type, ...args) {
@@ -58,7 +59,7 @@ export class FvcCreateCommunity extends FScrollViewContent {
     e = document.getElementById(this.#getDescriptionElementId());
     fd.append("description", e.value);
     let url = "api/community/create";
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #onSubmitRRR(data) {

@@ -6,10 +6,11 @@ import { SectorGateway } from '../../common/plt/SectorGateway.js';
 import { glb } from '../../lib/framework/Global.js';
 import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { Env } from '../../common/plt/Env.js';
 
 export class Gateway extends SectorGateway {
   createMainViewContentFragment() {
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       return this.#createWeb3MainViewContentFragment();
     } else {
       return this.#createWeb2MainViewContentFragment();

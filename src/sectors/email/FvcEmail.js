@@ -9,6 +9,7 @@ import { Email } from '../../common/datatypes/Email.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcEmail extends FScrollViewContent {
   constructor() {
@@ -100,7 +101,7 @@ export class FvcEmail extends FScrollViewContent {
     if (isRead) {
       fd.append("is_read", 1);
     }
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onMarkReadershipRRR(d));
   }
 
@@ -108,7 +109,7 @@ export class FvcEmail extends FScrollViewContent {
     let url = "api/email/delete";
     let fd = new FormData();
     fd.append("email_id", email.getId());
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onDeleteRRR(d, email.getId()));
   }
 

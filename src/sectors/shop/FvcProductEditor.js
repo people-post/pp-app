@@ -34,6 +34,7 @@ import { FProductDeliveryEditorManager } from './FProductDeliveryEditorManager.j
 import { PProductEditor } from './PProductEditor.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Shop } from '../../common/dba/Shop.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcProductEditor extends FScrollViewContent {
   constructor() {
@@ -195,7 +196,7 @@ export class FvcProductEditor extends FScrollViewContent {
     this._fFiles.saveDataToForm(fd);
 
     let url = "/api/shop/update_product";
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #validateData() { return this._fPrice.validate(); }

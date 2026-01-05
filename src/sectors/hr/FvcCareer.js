@@ -16,6 +16,7 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Users } from '../../common/dba/Users.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { R } from '../../common/constants/R.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcCareer extends FScrollViewContent {
   constructor() {
@@ -133,7 +134,7 @@ export class FvcCareer extends FScrollViewContent {
     let fd = new FormData();
     fd.append("id", roleId);
     let url = "api/career/apply_role";
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onApplyRoleRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onApplyRoleRRR(d));
   }
 
   #onApplyRoleRRR(data) {
@@ -146,7 +147,7 @@ export class FvcCareer extends FScrollViewContent {
     let fd = new FormData();
     fd.append("id", roleId);
     let url = "api/career/resign_role";
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onResignRoleRRR(d));
   }
 

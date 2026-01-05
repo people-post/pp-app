@@ -8,6 +8,7 @@ import { FvcWeb3PostEditor } from './FvcWeb3PostEditor.js';
 import { FvcWeb3ServerRegistration } from '../../sectors/hosting/FvcWeb3ServerRegistration.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { glb } from '../../lib/framework/Global.js';
+import { Env } from '../../common/plt/Env.js';
 
 // ActionButton needs some redesign
 export class AbWeb3New extends Fragment {
@@ -92,7 +93,7 @@ export class AbWeb3New extends Fragment {
                                    a.isInitUserUsable());
     }
 
-    if (!glb.env.hasHost()) {
+    if (!Env.hasHost()) {
       this.#lmcPublisher.addAlternative("Add new...", null, null, null, false);
     }
     Events.triggerTopAction(T_ACTION.SHOW_LAYER, this,
@@ -134,7 +135,7 @@ export class AbWeb3New extends Fragment {
                                 a.isInitUserUsable());
     }
 
-    if (!glb.env.hasHost()) {
+    if (!Env.hasHost()) {
       this.#lcStorage.addOption("Add new...", null, null, null, false);
     }
     Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lcStorage,

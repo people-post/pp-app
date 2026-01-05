@@ -7,6 +7,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { FSquareOnline } from '../../common/pay/FSquareOnline.js';
 import { R } from '../../common/constants/R.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcDeposit extends FScrollViewContent {
   constructor() {
@@ -62,7 +63,7 @@ export class FvcDeposit extends FScrollViewContent {
     fd.append("amount", amount);
     fd.append("currency", currency);
 
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onPayRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onPayRRR(d));
   }
 
   #onPayRRR(data) {

@@ -5,6 +5,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ShopBranch } from '../../common/datatypes/ShopBranch.js';
 import { FBranch } from './FBranch.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FBranchList extends Fragment {
   #fItems;
@@ -81,7 +82,7 @@ export class FBranchList extends Fragment {
     }
     this.#isBranchIdsLoading = true;
     let url = "api/shop/branch_ids";
-    glb.api.asFragmentCall(this, url).then(d => this.#onBranchIdsRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onBranchIdsRRR(d));
   }
 
   #onBranchIdsRRR(data) {
@@ -93,7 +94,7 @@ export class FBranchList extends Fragment {
   #asyncAdd() {
     let url = "api/shop/add_branch";
     let fd = new FormData();
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onAddBranchRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onAddBranchRRR(d));
   }
 
   #onAddBranchRRR(data) {

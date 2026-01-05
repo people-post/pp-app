@@ -8,6 +8,7 @@ import { Workshop } from '../../common/dba/Workshop.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FProjectStage } from './FProjectStage.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcProjectStageConnection extends FScrollViewContent {
   constructor() {
@@ -98,7 +99,7 @@ export class FvcProjectStageConnection extends FScrollViewContent {
       }
     }
 
-   glb.api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r));
+   Api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r));
   }
 
   #onSubmitRRR(responseText) {

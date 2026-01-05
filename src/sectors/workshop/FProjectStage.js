@@ -20,6 +20,7 @@ import { PProjectStageInfoCompact } from './PProjectStageInfoCompact.js';
 import { PProjectStageMenuItem } from './PProjectStageMenuItem.js';
 import { PProjectStageInfoRow } from './PProjectStageInfoRow.js';
 import { PProjectStage } from './PProjectStage.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FProjectStage extends Fragment {
   static LTC_MID = "LTC_MID";
@@ -232,7 +233,7 @@ export class FProjectStage extends Fragment {
     let fd = new FormData();
     fd.append("project_id", this._stage.getProjectId());
     fd.append("stage_id", this._stage.getId());
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -242,7 +243,7 @@ export class FProjectStage extends Fragment {
     fd.append("stage_id", this._stage.getId());
     fd.append("comment", comment);
     let url = "api/workshop/set_stage_status";
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -251,7 +252,7 @@ export class FProjectStage extends Fragment {
     fd.append("project_id", this._stage.getProjectId());
     fd.append("stage_id", this._stage.getId());
     let url = "api/workshop/unset_stage_status";
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 

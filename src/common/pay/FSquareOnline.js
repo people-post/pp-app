@@ -4,6 +4,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { T_DATA } from '../plt/Events.js';
+import { Env } from '../plt/Env.js';
 
 const _CFT_SQUARE_PAYMENT = {
   MAIN : `<div id="__ID__"><div>`,
@@ -29,7 +30,7 @@ export class FSquareOnline extends Fragment {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case T_DATA.ADDON_SCRIPT:
-      if (data == glb.env.SCRIPT.PAYMENT.id) {
+      if (data == Env.SCRIPT.PAYMENT.id) {
         this.#loadJsPayment();
       }
       break;
@@ -64,7 +65,7 @@ export class FSquareOnline extends Fragment {
   #getPaymentElementId() { return "ID_" + this._id + "_PAY"; }
 
   #loadJsPayment() {
-    if (glb.env.isScriptLoaded(glb.env.SCRIPT.PAYMENT.id)) {
+    if (Env.isScriptLoaded(Env.SCRIPT.PAYMENT.id)) {
       this._payments = window.Square.payments(
           "sandbox-sq0idb-DXWW7Opo8N9NkM1ru0XgDw", this._locationId);
       this.#initCard();

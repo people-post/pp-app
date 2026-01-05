@@ -11,6 +11,8 @@ import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import { glb } from '../../lib/framework/Global.js';
 import { FvcQuoteEditor } from '../../sectors/blog/FvcQuoteEditor.js';
+import { Env } from '../plt/Env.js';
+import { Api } from '../plt/Api.js';
 
 export const CF_SOCIAL_BAR = {
   ON_COMMENT_CLICK : Symbol(),
@@ -88,7 +90,7 @@ export class FSocialBar extends Fragment {
     this.#lc.setDelegate(this);
 
     // Default actions
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       this.#actions = [
         this.constructor.T_ACTION.COMMENT, this.constructor.T_ACTION.LIKE,
         this.constructor.T_ACTION.LINK, this.constructor.T_ACTION.CONTEXT
@@ -437,7 +439,7 @@ export class FSocialBar extends Fragment {
   #handleShareError(err) { console.log("Share error", err); }
 
   #asyncLike(itemId, itemType) {
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       this.#asyncWeb3Like(itemId).then(() => this.#onSocialRRR());
     } else {
       this.#asyncWeb2Like(itemId, itemType);
@@ -451,11 +453,11 @@ export class FSocialBar extends Fragment {
     let fd = new FormData();
     fd.append("item_id", itemId);
     fd.append("item_type", itemType);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
   }
 
   #asyncUnlike(itemId) {
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       this.#asyncWeb3Unlike(itemId).then(() => this.#onSocialRRR());
     } else {
       this.#asyncWeb2Unlike(itemId);
@@ -468,7 +470,7 @@ export class FSocialBar extends Fragment {
     let url = "api/social/unlike";
     let fd = new FormData();
     fd.append("item_id", itemId);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
   }
 
   #asyncLink(itemId, itemType) {
@@ -476,7 +478,7 @@ export class FSocialBar extends Fragment {
     let fd = new FormData();
     fd.append("item_id", itemId);
     fd.append("item_type", itemType);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
   }
 
   #asyncUnlink(itemId, itemType) {
@@ -484,7 +486,7 @@ export class FSocialBar extends Fragment {
     let fd = new FormData();
     fd.append("item_id", itemId);
     fd.append("item_type", itemType);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
   }
 
   #onSocialRRR(data) { Social.reload(this.#itemId); }

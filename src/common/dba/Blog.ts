@@ -12,7 +12,8 @@ import { Comment } from '../datatypes/Comment.js';
 import { DraftArticle } from '../datatypes/DraftArticle.js';
 import { EmptyPost } from '../datatypes/EmptyPost.js';
 import { Journal } from '../datatypes/Journal.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Env } from '../plt/Env.js';
+import { Api } from '../plt/Api.js';
 import { sys } from 'pp-api';
 import type { SocialItemId } from '../datatypes/SocialItemId.js';
 
@@ -73,7 +74,7 @@ export class BlogClass implements BlogInterface {
   #pendingDraftIds: string[] = [];
 
   isSocialEnabled(): boolean {
-    if (glb.env?.isWeb3()) {
+    if (Env.isWeb3()) {
       return (window.dba?.Account?.isAuthenticated() || false);
     } else {
       const c = this.#config;
@@ -291,7 +292,7 @@ export class BlogClass implements BlogInterface {
     this.#pendingDraftIds.push(id);
 
     const url = 'api/blog/draft?id=' + id;
-    glb.api?.asyncRawCall(url, (r) => this.#onDraftRRR(r, id), null);
+    Api.asyncRawCall(url, (r) => this.#onDraftRRR(r, id), null);
   }
 
   #onDraftRRR(responseText: string, id: string): void {
@@ -318,7 +319,7 @@ export class BlogClass implements BlogInterface {
     this.#pendingPostIds.push(id);
 
     const url = 'api/social/comment?id=' + id;
-    glb.api?.asyncRawCall(url, (r) => this.#onCommentRRR(r, id), null);
+    Api.asyncRawCall(url, (r) => this.#onCommentRRR(r, id), null);
   }
 
   #onCommentRRR(responseText: string, id: string): void {
@@ -349,14 +350,14 @@ export class BlogClass implements BlogInterface {
     }
     this.#pendingPostIds.push(id);
 
-    if (glb.env?.isWeb3()) {
+    if (Env.isWeb3()) {
       sys.ipfs
         .asFetchCidJson(id)
         .then((d) => this.#onCidArticleRRR(id, d))
         .catch((e) => this.#onCidArticleError(id, e));
     } else {
       const url = 'api/blog/article?id=' + id;
-      glb.api?.asyncRawCall(url, (r) => this.#onArticleRRR(r, id), null);
+      Api.asyncRawCall(url, (r) => this.#onArticleRRR(r, id), null);
     }
   }
 
@@ -389,7 +390,7 @@ export class BlogClass implements BlogInterface {
     this.#pendingPostIds.push(id);
 
     const url = 'api/blog/feed_article?id=' + id;
-    glb.api?.asyncRawCall(url, (r) => this.#onFeedArticleRRR(r, id), null);
+    Api.asyncRawCall(url, (r) => this.#onFeedArticleRRR(r, id), null);
   }
 
   #onFeedArticleRRR(responseText: string, id: string): void {
@@ -416,7 +417,7 @@ export class BlogClass implements BlogInterface {
 
   #asyncLoadJournal(id: string): void {
     const url = 'api/blog/journal?id=' + id;
-    glb.api?.asyncRawCall(url, (r) => this.#onJournalRRR(r, id), null);
+    Api.asyncRawCall(url, (r) => this.#onJournalRRR(r, id), null);
   }
 
   #onJournalRRR(responseText: string, id: string): void {
@@ -440,7 +441,7 @@ export class BlogClass implements BlogInterface {
     this.#pendingPostIds.push(id);
 
     const url = 'api/blog/journal_issue?id=' + id;
-    glb.api?.asyncRawCall(url, (r) => this.#onJournalIssueRRR(r, id), null);
+    Api.asyncRawCall(url, (r) => this.#onJournalIssueRRR(r, id), null);
   }
 
   #onJournalIssueRRR(responseText: string, id: string): void {

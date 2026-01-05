@@ -2,7 +2,7 @@ import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Ev
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { CartItem } from '../datatypes/CartItem.js';
 import { Cart as CartDataType } from '../datatypes/Cart.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -67,7 +67,7 @@ export class CartClass implements CartInterface {
     if (window.dba?.Account?.isAuthenticated()) {
       url = '/api/cart/draft_orders';
     }
-    glb.api?.asyncRawCall(url, (r) => this.#onLoadOrderItemsRRR(r), null);
+    Api.asyncRawCall(url, (r) => this.#onLoadOrderItemsRRR(r), null);
   }
 
   #onLoadOrderItemsRRR(responseText: string): void {
@@ -87,7 +87,7 @@ export class CartClass implements CartInterface {
       fd.append('specifications', s);
     }
     fd.append('quantity', quantity.toString());
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onOrderItemsRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onOrderItemsRRR(r), null);
   }
 
   asyncMoveItem(itemId: string, toCartId: string): void {
@@ -95,7 +95,7 @@ export class CartClass implements CartInterface {
     const fd = new FormData();
     fd.append('item_id', itemId);
     fd.append('to_cart', toCartId);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onOrderItemsRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onOrderItemsRRR(r), null);
   }
 
   asyncRemoveItem(cartId: string, itemId: string): void {
@@ -114,7 +114,7 @@ export class CartClass implements CartInterface {
     const fd = new FormData();
     fd.append('item_id', itemId);
     fd.append('quantity', delta.toString());
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onOrderItemsRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onOrderItemsRRR(r), null);
   }
 
   #onOrderItemsRRR(responseText: string): void {

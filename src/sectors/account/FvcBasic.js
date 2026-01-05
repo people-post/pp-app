@@ -6,6 +6,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { PBasic } from './PBasic.js';
 import { FvcChangePassword } from '../auth/FvcChangePassword.js';
 import { T_DATA } from '../../common/plt/Events.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcBasic extends FScrollViewContent {
   constructor() {
@@ -100,7 +101,7 @@ export class FvcBasic extends FScrollViewContent {
     if (config.isBetaTester) {
       fd.append("is_beta_tester", 1);
     }
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onUpdateConfigRRR(d));
   }
 

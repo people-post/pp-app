@@ -1,7 +1,7 @@
 import { T_DATA } from '../plt/Events.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { OgpData } from '../datatypes/OgpData.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -43,7 +43,7 @@ export class OgpClass implements OgpInterface {
     const url = '/api/blog/ogp';
     const fd = new FormData();
     fd.append('url', ogpUrl);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onFetchOgpRRR(r, ogpUrl), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onFetchOgpRRR(r, ogpUrl), null);
   }
 
   #onFetchOgpRRR(responseText: string, id: string): void {

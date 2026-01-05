@@ -1,5 +1,5 @@
-import { FileUploader, type CacheInfoOnServer } from '../plt/FileUploader.js';
-import { glb } from '../../lib/framework/Global.js';
+import { FileUploader } from '../plt/FileUploader.js';
+import { Api } from '../plt/Api.js';
 
 interface Web3FileUploaderDelegate {
   onFileUploadProgressUpdateInFileUploader(uploader: Web3FileUploader, percent: number): void;
@@ -26,7 +26,7 @@ export class Web3FileUploader extends FileUploader {
     fd.append('file', file);
     fd.append('id', this._cacheId!.toString() + '_cover');
 
-    glb.api?.asyncRawPost(
+    Api.asyncRawPost(
       url,
       fd,
       (r) => this.#onUploadThumbnailDone(r),
@@ -41,7 +41,7 @@ export class Web3FileUploader extends FileUploader {
     // TODO: there is no progress track in fetch api, need to find p2p version
     // of XMLHttpRequest similar to p2pFetch
     // Note: asUploadFile is a Web3-specific method that may not exist in Web2Account
-    const account = Account as unknown as { asUploadFile?: (file: File) => Promise<string> };
+    const account = window.dba?.Account as unknown as { asUploadFile?: (file: File) => Promise<string> };
     if (account.asUploadFile) {
       account.asUploadFile(file)
         .then((cid: string) => this.#onUploadFileDone(cid))

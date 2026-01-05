@@ -1,6 +1,7 @@
 import { FInput } from '../../lib/ui/controllers/fragments/FInput.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { T_DATA } from '../../lib/framework/Events.js';
+import { Env } from '../plt/Env.js';
 
 const _CF_RICH_CONTENT_EDITOR = {
   TOOLBAR : [
@@ -41,7 +42,7 @@ export class RichContentEditor extends FInput {
   handleSessionDataUpdate(dataType, data) {
     switch (dataType) {
     case T_DATA.ADDON_SCRIPT:
-      if (data == glb.env.SCRIPT.EDITOR.id) {
+      if (data == Env.SCRIPT.EDITOR.id) {
         this.#loadJsEditor();
       }
       break;
@@ -70,7 +71,7 @@ export class RichContentEditor extends FInput {
   }
 
   #loadJsEditor() {
-    if (glb.env.isScriptLoaded(glb.env.SCRIPT.EDITOR.id)) {
+    if (Env.isScriptLoaded(Env.SCRIPT.EDITOR.id)) {
       let config = {toolbar : _CF_RICH_CONTENT_EDITOR.TOOLBAR};
       this._editor = CKEDITOR.replace(this._getInputElementId(), config);
     }

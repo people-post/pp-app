@@ -5,6 +5,7 @@ import { ButtonList } from '../../lib/ui/controllers/fragments/ButtonList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcProposalEditor extends FScrollViewContent {
   constructor() {
@@ -65,7 +66,7 @@ export class FvcProposalEditor extends FScrollViewContent {
   #asyncSubmit() {
     let fd = this.#collectFormData();
     let url = "api/community/propose";
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #onSubmitRRR(data) { this._owner.onContentFragmentRequestPopView(this); }

@@ -4,7 +4,7 @@ import { Tag } from '../datatypes/Tag.js';
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Project } from '../datatypes/Project.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -90,7 +90,7 @@ export class WorkshopClass implements WorkshopInterface {
 
   #asyncLoadProject(id: string): void {
     const url = 'api/workshop/project?id=' + id;
-    glb.api?.asyncRawCall(url, (r) => this.#onProjectRRR(r), null);
+    Api.asyncRawCall(url, (r) => this.#onProjectRRR(r), null);
   }
 
   #onProjectRRR(responseText: string): void {
@@ -106,7 +106,7 @@ export class WorkshopClass implements WorkshopInterface {
 
   #asyncLoadConfig(): void {
     const url = 'api/workshop/config';
-    glb.api?.asyncRawCall(url, (r) => this.#onConfigRRR(r), null);
+    Api.asyncRawCall(url, (r) => this.#onConfigRRR(r), null);
   }
 
   #onConfigRRR(responseText: string): void {

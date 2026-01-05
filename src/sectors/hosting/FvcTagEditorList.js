@@ -11,6 +11,7 @@ import { Utilities } from '../../common/Utilities.js';
 import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
 import { FvcTagEditor } from './FvcTagEditor.js';
 import { FTagEditor } from './FTagEditor.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcTagEditorList extends FScrollViewContent {
   constructor() {
@@ -93,7 +94,7 @@ export class FvcTagEditorList extends FScrollViewContent {
     let url = "api/user/add_tag";
     let fd = new FormData();
     fd.append("name", tag);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onAddTagRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onAddTagRRR(d));
   }
 
   #onAddTagRRR(data) {

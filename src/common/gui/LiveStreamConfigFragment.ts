@@ -7,7 +7,7 @@ import { ICONS } from '../../lib/ui/Icons.js';
 import { WebConfig } from '../dba/WebConfig.js';
 import { Render } from '../../lib/ui/renders/Render.js';
 import { R } from '../constants/R.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 export const CF_LIVE_STREAM_CONFIG = {
   ADD_FILE : "CF_GUI_LIVE_STREAM_CONFIG_1",
@@ -142,7 +142,7 @@ export class LiveStreamConfigFragment extends Fragment {
 
   #onRegenerateStreamKey(): void {
     const url = "api/user/regenerate_live_stream_key";
-    glb.api?.asFragmentCall(this, url).then(
+    Api.asFragmentCall(this, url).then(
         (d: RegenerateKeyResponse) => this.#onRegenerateStreamKeyRRR(d));
   }
 

@@ -3,7 +3,7 @@ import { Users } from './Users.js';
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { CustomerOrder } from '../datatypes/CustomerOrder.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 import type { User } from '../datatypes/User.js';
 
 interface Idol {
@@ -254,14 +254,14 @@ export class Web2Account {
     const url = 'api/user/follow';
     const fd = new FormData();
     fd.append('userId', userId);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onFollowRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onFollowRRR(r), null);
   }
 
   asyncUnfollow(userId: string): void {
     const url = 'api/user/unfollow';
     const fd = new FormData();
     fd.append('userId', userId);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onFollowRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onFollowRRR(r), null);
   }
 
   asyncReload(): void {
@@ -292,7 +292,7 @@ export class Web2Account {
 
   #asyncLoadProfile(): void {
     const url = '/api/user/profile';
-    glb.api?.asyncRawCall(url, (r) => this.#onProfileRRR(r), null);
+    Api.asyncRawCall(url, (r) => this.#onProfileRRR(r), null);
   }
 
   #onProfileRRR(responseText: string): void {
@@ -308,7 +308,7 @@ export class Web2Account {
 
   #asyncLoadAddressIds(): void {
     const url = '/api/user/address_ids';
-    glb.api?.asyncRawCall(url, (r) => this.#onAddressIdsRRR(r), null);
+    Api.asyncRawCall(url, (r) => this.#onAddressIdsRRR(r), null);
   }
 
   #onAddressIdsRRR(responseText: string): void {
@@ -324,7 +324,7 @@ export class Web2Account {
 
   #asyncLoadOrder(id: string): void {
     const url = '/api/user/order?id=' + id;
-    glb.api?.asyncRawCall(url, (r) => this.#onOrderRRR(r, id), null);
+    Api.asyncRawCall(url, (r) => this.#onOrderRRR(r, id), null);
   }
 
   #onOrderRRR(responseText: string, id: string): void {

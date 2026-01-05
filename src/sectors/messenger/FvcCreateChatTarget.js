@@ -10,6 +10,7 @@ import { Groups } from '../../common/dba/Groups.js';
 import { FUserIcon } from '../../common/hr/FUserIcon.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcCreateChatTarget extends FScrollViewContent {
   constructor() {
@@ -126,7 +127,7 @@ export class FvcCreateChatTarget extends FScrollViewContent {
     for (let uid of userIds) {
       fd.append("member_ids", uid);
     }
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onCreateGroupRRR(d));
   }
 

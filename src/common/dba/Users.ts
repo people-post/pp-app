@@ -2,7 +2,8 @@ import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Ev
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { User } from '../datatypes/User.js';
 import { PATH } from '../constants/Constants.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Env } from '../plt/Env.js';
+import { Api } from '../plt/Api.js';
 import { User as PpUser } from 'pp-api';
 
 interface ApiResponse {
@@ -44,7 +45,7 @@ export class UserLib {
       return null;
     }
 
-    if (glb.env?.isWeb3() && window.dba?.Account?.isAuthenticated() && window.dba.Account.getId() === id) {
+    if (Env.isWeb3() && window.dba?.Account?.isAuthenticated() && window.dba.Account.getId() === id) {
       return window.dba.Account as unknown as User;
     }
 
@@ -57,7 +58,7 @@ export class UserLib {
   }
 
   async asyncGet(id: string): Promise<User | PpUser> {
-    if (glb.env?.isWeb3() && window.dba?.Account?.isAuthenticated() && window.dba.Account.getId() === id) {
+    if (Env.isWeb3() && window.dba?.Account?.isAuthenticated() && window.dba.Account.getId() === id) {
       return window.dba.Account as unknown as User;
     }
 
@@ -122,7 +123,7 @@ export class UserLib {
   }
 
   #load(ids: string[]): void {
-    if (glb.env?.isWeb3()) {
+    if (Env.isWeb3()) {
       this.#web3Load(ids);
     } else {
       this.#web2Load(ids);
@@ -141,7 +142,7 @@ export class UserLib {
       // Set to default
       this.#mUsers.set(id, null);
     }
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onLoadRRR(ids, r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onLoadRRR(ids, r), null);
   }
 
   #web3Load(ids: string[]): void {

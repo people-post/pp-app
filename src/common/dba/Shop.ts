@@ -10,7 +10,7 @@ import { ItemLabel } from '../datatypes/ItemLabel.js';
 import { PaymentTerminal } from '../datatypes/PaymentTerminal.js';
 import { ShopRegister } from '../datatypes/ShopRegister.js';
 import { ShopBranch } from '../datatypes/ShopBranch.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface ShopConfig {
   item_layout?: {
@@ -258,7 +258,7 @@ export class ShopClass implements ShopInterface {
     this.#pendingResponses.push(id);
 
     const url = 'api/shop/product?id=' + id;
-    glb.api?.asyncRawCall(url, (r) => this.#onProductRRR(r, id), null);
+    Api.asyncRawCall(url, (r) => this.#onProductRRR(r, id), null);
   }
 
   #onProductRRR(responseText: string, id: string): void {
@@ -279,7 +279,7 @@ export class ShopClass implements ShopInterface {
 
   #asyncLoadOrder(id: string): void {
     const url = 'api/shop/supplier_order?id=' + id;
-    glb.api?.asyncRawCall(url, (r) => this.#onOrderRRR(r), null);
+    Api.asyncRawCall(url, (r) => this.#onOrderRRR(r), null);
   }
 
   #onOrderRRR(responseText: string): void {
@@ -300,7 +300,7 @@ export class ShopClass implements ShopInterface {
     if (productId && productId.length) {
       fd.append('product_id', productId);
     }
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onQueryQueueSizeRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onQueryQueueSizeRRR(r), null);
   }
 
   #onQueryQueueSizeRRR(responseText: string): void {
@@ -314,7 +314,7 @@ export class ShopClass implements ShopInterface {
 
   #asyncLoadConfig(): void {
     const url = 'api/shop/config';
-    glb.api?.asyncRawCall(url, (r) => this.#onConfigRRR(r), null);
+    Api.asyncRawCall(url, (r) => this.#onConfigRRR(r), null);
   }
 
   #onConfigRRR(responseText: string): void {
@@ -332,12 +332,12 @@ export class ShopClass implements ShopInterface {
     if (config.name) {
       fd.append('name', config.name);
     }
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onConfigRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onConfigRRR(r), null);
   }
 
   #asyncLoadAddressLabels(): void {
     const url = 'api/shop/address_labels';
-    glb.api?.asyncRawCall(url, (r) => this.#onAddressLabelsRRR(r), null);
+    Api.asyncRawCall(url, (r) => this.#onAddressLabelsRRR(r), null);
   }
 
   #onAddressLabelsRRR(responseText: string): void {
@@ -353,7 +353,7 @@ export class ShopClass implements ShopInterface {
 
   #asyncLoadBranchLabels(): void {
     const url = 'api/shop/branch_labels';
-    glb.api?.asyncRawCall(url, (r) => this.#onBranchLabelsRRR(r), null);
+    Api.asyncRawCall(url, (r) => this.#onBranchLabelsRRR(r), null);
   }
 
   #onBranchLabelsRRR(responseText: string): void {
@@ -371,7 +371,7 @@ export class ShopClass implements ShopInterface {
     const url = 'api/shop/payment_terminal';
     const fd = new FormData();
     fd.append('id', id);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onPaymentTerminalRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onPaymentTerminalRRR(r), null);
   }
 
   #onPaymentTerminalRRR(responseText: string): void {
@@ -389,7 +389,7 @@ export class ShopClass implements ShopInterface {
     const url = 'api/shop/register';
     const fd = new FormData();
     fd.append('id', id);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onRegisterRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onRegisterRRR(r), null);
   }
 
   #onRegisterRRR(responseText: string): void {
@@ -407,7 +407,7 @@ export class ShopClass implements ShopInterface {
     const url = 'api/shop/branch';
     const fd = new FormData();
     fd.append('id', id);
-    glb.api?.asyncRawPost(url, fd, (r) => this.#onBranchRRR(r), null);
+    Api.asyncRawPost(url, fd, (r) => this.#onBranchRRR(r), null);
   }
 
   #onBranchRRR(responseText: string): void {

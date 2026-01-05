@@ -3,6 +3,7 @@ import { DefaultLongList } from '../../common/gui/DefaultLongList.js';
 import { FOrder } from './FOrder.js';
 import { FvcOrder } from './FvcOrder.js';
 import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FOrderList extends DefaultLongList {
   isOrderSelected(orderId) { return this._currentId == orderId; }
@@ -36,7 +37,7 @@ export class FOrderList extends DefaultLongList {
     if (this._ids.length) {
       url += "?before_id=" + this._ids[this._ids.length - 1];
     }
-    glb.api.asyncRawCall(url, r => this.#onOrdersRRR(r));
+    Api.asyncRawCall(url, r => this.#onOrdersRRR(r));
   }
 
   #onOrdersRRR(responseText) {

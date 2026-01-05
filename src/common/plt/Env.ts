@@ -3,7 +3,7 @@ import { Events } from '../../lib/framework/Events.js';
 import { T_DATA } from './Events.js';
 import type { IEnv, ScriptInfo, ScriptsConfig } from '../../lib/framework/Global.js';
 
-export class Env implements IEnv {
+class EnvClass implements IEnv {
   #windowType: string | null = null;
   #defaultLang: string | null = null;
   #preferredLang: string | null = null;
@@ -114,3 +114,4 @@ export class Env implements IEnv {
   }
 }
 
+export const Env = new EnvClass();

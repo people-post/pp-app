@@ -2,7 +2,7 @@ import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Ev
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 import { Email } from '../datatypes/Email.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -75,7 +75,7 @@ export class MailClass implements MailInterface {
     this.#pendingResponses.push(id);
 
     const url = 'api/email/item?id=' + id;
-    glb.api?.asyncRawCall(url, (r) => this.#onEmailRRR(r, id), null);
+    Api.asyncRawCall(url, (r) => this.#onEmailRRR(r, id), null);
   }
 
   #onEmailRRR(responseText: string, id: string): void {

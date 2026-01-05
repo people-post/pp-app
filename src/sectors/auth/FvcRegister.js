@@ -7,6 +7,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { Auth } from '../../common/dba/Auth.js';
 import { R } from '../../common/constants/R.js';
+import { Api } from '../../common/plt/Api.js';
 
 export const CF_REGISTER_CONTENT = {
   VALIDATE_EMAIL : "CF_REGISTER_CONTENT_1",
@@ -171,7 +172,7 @@ export class FvcRegister extends FScrollViewContent {
   #asyncValidateEmail() {
     let email = document.getElementById("ID_EMAIL").value;
     let url = "/api/auth/test_email?email=" + encodeURIComponent(email);
-    glb.api.asFragmentCall(this, url).then(d => this.#onValidateEmailRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onValidateEmailRRR(d));
   }
 
   #onValidateEmailRRR(data) {  }

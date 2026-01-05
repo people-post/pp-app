@@ -6,6 +6,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { FvcWalkinQueueItem } from './FvcWalkinQueueItem.js';
 import { FWalkinQueueItem } from './FWalkinQueueItem.js';
 import { WalkinQueue } from '../../common/dba/WalkinQueue.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FWalkinQueue extends FLongListLegacy {
   constructor() {
@@ -114,7 +115,7 @@ export class FWalkinQueue extends FLongListLegacy {
       fd.append("before_id", fromId);
     }
     this._isBatchLoading = true;
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onQueueItemsRRR(d));
   }
 

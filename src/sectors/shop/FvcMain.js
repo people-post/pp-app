@@ -17,6 +17,7 @@ import { Shop } from '../../common/dba/Shop.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { FvcCurrent } from '../../sectors/cart/FvcCurrent.js';
 import { R } from '../../common/constants/R.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {
@@ -203,14 +204,14 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   #asyncOpenShop() {
     let url = "api/shop/request_open";
-    glb.api.asFragmentCall(this, url).then(d => this.#onOpenShopRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onOpenShopRRR(d));
   }
 
   #onOpenShopRRR(data) { WebConfig.setShopOpen(true); }
 
   #asyncCloseShop() {
     let url = "api/shop/request_close";
-    glb.api.asFragmentCall(this, url).then(d => this.#onCloseShopRRR(d));
+    Api.asFragmentCall(this, url).then(d => this.#onCloseShopRRR(d));
   }
 
   #onCloseShopRRR(data) { WebConfig.reset(data.web_config); }

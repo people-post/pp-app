@@ -26,6 +26,7 @@ import { WalkinQueue } from '../../common/dba/WalkinQueue.js';
 import { Users } from '../../common/dba/Users.js';
 import { R } from '../../common/constants/R.js';
 import { STATE } from '../../common/constants/Constants.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FWalkinQueueItem extends Fragment {
   static T_LAYOUT = {INFO : "INFO", FULL: "FULL"};
@@ -247,7 +248,7 @@ export class FWalkinQueueItem extends Fragment {
     let fd = new FormData();
     fd.append("product_id", qItem.getProductId());
     fd.append("quantity", 1);
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onPrepareCartItemRRR(d));
   }
 
@@ -277,7 +278,7 @@ export class FWalkinQueueItem extends Fragment {
     let fd = new FormData();
     fd.append("id", this._itemId);
     fd.append("agent_id", userId);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onServeRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onServeRRR(d));
   }
 
   #onServeRRR(data) {
@@ -288,7 +289,7 @@ export class FWalkinQueueItem extends Fragment {
     let url = "api/shop/queue_dismiss_item";
     let fd = new FormData();
     fd.append("id", this._itemId);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onDismissRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onDismissRRR(d));
   }
 
   #onDismissRRR(data) {

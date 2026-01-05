@@ -5,6 +5,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { PFilterItem } from './PFilterItem.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcQuizFilter extends FScrollViewContent {
   static T_PRESENTATION = {
@@ -91,7 +92,7 @@ export class FvcQuizFilter extends FScrollViewContent {
     fd.append("from_idx", 0); // If known from previous gen
     fd.append("to_idx", 1000);
     fd.append("down_sample", 100);
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onQuizIdListRRR(d));
   }
 
@@ -99,7 +100,7 @@ export class FvcQuizFilter extends FScrollViewContent {
     let url = "api/school/quiz_count";
     let fd = new FormData();
     fd.append("scope", this._fScope.getSelectedValue());
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onEstimateFilterRRR(d, pHint));
   }
 

@@ -1,5 +1,5 @@
 import { FileUploader } from './FileUploader.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from './Api.js';
 
 interface Web2FileUploaderDelegate {
   onFileUploadProgressUpdateInFileUploader(uploader: Web2FileUploader, percent: number): void;
@@ -25,11 +25,11 @@ export class Web2FileUploader extends FileUploader {
     fd.append('file', file);
     fd.append('id', this._cacheId!.toString() + '_cover');
 
-    if (!glb.api) {
+    if (!Api) {
       throw new Error('API not available');
     }
 
-    glb.api.asyncRawPost(
+    Api.asyncRawPost(
       url,
       fd,
       (r) => this.#onUploadThumbnailDone(r),
@@ -45,11 +45,11 @@ export class Web2FileUploader extends FileUploader {
     fd.append('file', file);
     fd.append('id', this._cacheId!.toString() + '_raw');
 
-    if (!glb.api) {
+    if (!Api) {
       throw new Error('API not available');
     }
 
-    glb.api.asyncRawPost(
+    Api.asyncRawPost(
       url,
       fd,
       (r) => this.#onUploadFileDone(r),

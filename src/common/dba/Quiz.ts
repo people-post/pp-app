@@ -2,7 +2,7 @@ import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Ev
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 import { Quiz as QuizDataType } from '../datatypes/Quiz.js';
-import { glb } from '../../lib/framework/Global.js';
+import { Api } from '../plt/Api.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -75,7 +75,7 @@ export class QuizClass implements QuizInterface {
     this.#pendingResponses.push(id);
 
     const url = 'api/school/quiz?id=' + id;
-    glb.api?.asyncRawCall(url, (r) => this.#onQuizRRR(r, id), null);
+    Api.asyncRawCall(url, (r) => this.#onQuizRRR(r, id), null);
   }
 
   #onQuizRRR(responseText: string, id: string): void {

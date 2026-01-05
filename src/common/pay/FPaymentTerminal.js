@@ -7,6 +7,7 @@ import { T_DATA } from '../plt/Events.js';
 import { Shop } from '../dba/Shop.js';
 import { PaymentTerminal } from '../datatypes/PaymentTerminal.js';
 import Utilities from '../Utilities.js';
+import { Api } from '../plt/Api.js';
 
 export const CF_PAYMENT_TERMINAL = {
   ON_CLICK : Symbol(),
@@ -156,7 +157,7 @@ export class FPaymentTerminal extends Fragment {
   #asyncUpdate() {
     let url = "api/shop/update_terminal";
     let fd = this.#collectData();
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onUpdateRRR(d));
   }
 
   #onUpdateRRR(data) {

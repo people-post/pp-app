@@ -26,6 +26,8 @@ import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
 import { FvcUserInfo } from '../sectors/hr/FvcUserInfo.js';
 import { FvcUserGroup } from '../common/hr/FvcUserGroup.js';
 import { glb } from '../lib/framework/Global.js';
+import { Env } from '../common/plt/Env.js';
+import { Api } from '../common/plt/Api.js';
 
 const _CRCT_SESSION = {
   // Prime, secondary: User defined
@@ -85,7 +87,7 @@ export class WcSession extends WindowController {
                               FvcSearchResult);
     Factory.registerClass(T_CATEGORY.UI, T_OBJ.VIEW, View);
     Factory.registerClass(T_CATEGORY.UI, T_OBJ.CONFIRM_ACTION_FRAGMENT, FvcConfirmAction);
-    if (glb.env.isWeb3()) {
+    if (Env.isWeb3()) {
       Factory.registerClass(T_CATEGORY.UI, T_OBJ.FILE_UPLOADER,
                                 Web3FileUploader);
     } else {
@@ -225,11 +227,11 @@ export class WcSession extends WindowController {
   _initLanguage() {
     let urlParam = new URLSearchParams(window.location.search);
     if (urlParam.has(URL_PARAM.LANGUAGE)) {
-      glb.env.setPreferredLanguage(urlParam.get(URL_PARAM.LANGUAGE));
+      Env.setPreferredLanguage(urlParam.get(URL_PARAM.LANGUAGE));
     }
     let lang = window.dba.Account.getPreferredLanguage();
     if (!lang) {
-      lang = glb.env.getLanguage();
+      lang = Env.getLanguage();
     }
     R.setLanguage(lang);
   }
@@ -274,8 +276,8 @@ export class WcSession extends WindowController {
       items.push(s);
     }
     items.push(URL_PARAM.USER + "=" + WebConfig.getOwnerId());
-    if (glb.env.getPreferredLanguage()) {
-      items.push("lang=" + glb.env.getPreferredLanguage());
+    if (Env.getPreferredLanguage()) {
+      items.push("lang=" + Env.getPreferredLanguage());
     }
     let url = "?" + items.join("&");
     return {
@@ -337,7 +339,7 @@ export class WcSession extends WindowController {
 
   #asyncLoadWebConfig() {
     let url = "api/user/web_config";
-    glb.api.asyncRawCall(url, r => this.#onWebConfigRRR(r));
+    Api.asyncRawCall(url, r => this.#onWebConfigRRR(r));
   }
 
   #onWebConfigRRR(responseText) {
@@ -351,7 +353,7 @@ export class WcSession extends WindowController {
 
   #asyncMarkDomainVisit() {
     let url = "api/stat/mark_visit";
-    glb.api.asyncRawCall(url);
+    Api.asyncRawCall(url);
   }
 
   #closeDialog() {

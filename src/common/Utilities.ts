@@ -2,7 +2,7 @@ import { Country } from './datatypes/Country.js';
 import UtilitiesExt from '../lib/ext/Utilities.js';
 import { VIS, STATE, PATH } from './constants/Constants.js';
 import { COUNTRIES } from './constants/CountryCodes.js';
-import { glb } from '../lib/framework/Global.js';
+import { Env } from './plt/Env.js';
 import { R } from './constants/R.js';
 import { Currency } from './datatypes/Currency.js';
 
@@ -60,7 +60,7 @@ export const Utilities = (function() {
   function _renderSmartTime(t: Date): string {
     let dt = Math.abs(t.getTime() - Date.now()) / 1000;
     // Unit is seconds
-    if (dt > glb.env!.getSmartTimeDiffThreshold()) {
+    if (dt > Env.getSmartTimeDiffThreshold()) {
       return t.toLocaleString(
           [], {month : "numeric", day : "numeric", year : "2-digit"})
     } else {

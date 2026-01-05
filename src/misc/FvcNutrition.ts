@@ -1,6 +1,6 @@
 import { FScrollViewContent } from '../lib/ui/controllers/fragments/FScrollViewContent.js';
 import Render from '../lib/ui/renders/Render.js';
-import { glb } from '../lib/framework/Global.js';
+import { Api } from '../common/plt/Api.js';
 
 interface NutritionData {
   [key: string]: {
@@ -62,7 +62,7 @@ class FvcNutrition extends FScrollViewContent {
 
   _asyncLoadFoods(): void {
     let url = "/api/user/data/nutrition";
-    glb.api!.asFragmentCall(this, url).then((d: unknown) => this.#onNutritionRRR(d as NutritionLibData));
+    Api!.asFragmentCall(this, url).then((d: unknown) => this.#onNutritionRRR(d as NutritionLibData));
   }
 
   #onNutritionRRR(data: NutritionLibData): void {

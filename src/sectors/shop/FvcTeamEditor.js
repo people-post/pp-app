@@ -18,6 +18,7 @@ import { UserGroup } from '../../common/datatypes/UserGroup.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Groups } from '../../common/dba/Groups.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FvcTeamEditor extends FScrollViewContent {
   constructor() {
@@ -138,20 +139,20 @@ export class FvcTeamEditor extends FScrollViewContent {
   #asyncRequestAddTeam(data) {
     let url = "api/shop/add_team";
     let fd = this.#makeForm(data);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onNewTeamRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onNewTeamRRR(d));
   }
 
   #asyncRequestEditTeam(data) {
     let url = "api/shop/update_team";
     let fd = this.#makeForm(data);
-    glb.api.asFragmentPost(this, url, fd).then(d => this.#onEditTeamRRR(d));
+    Api.asFragmentPost(this, url, fd).then(d => this.#onEditTeamRRR(d));
   }
 
   #asyncRequestDeleteTeam(id) {
     let url = "api/shop/delete_team";
     let fd = FormData();
     fd.append("id", id);
-    glb.api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost(this, url, fd)
         .then(d => this.#onDeleteTeamRRR(d));
   }
 
