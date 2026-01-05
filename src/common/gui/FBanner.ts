@@ -5,7 +5,6 @@ import Render from '../../lib/ui/renders/Render.js';
 interface BannerDelegate {
   onErrorFragmentRequestShow?(fError: FError): void;
   onErrorFragmentRequestDismiss?(fError: FError): void;
-  [key: string]: unknown;
 }
 
 export class FBanner extends Fragment {

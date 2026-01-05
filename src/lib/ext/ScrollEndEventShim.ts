@@ -2,7 +2,6 @@ import { Controller } from './Controller.js';
 
 interface ScrollEndEventShimDelegate {
   onScrollEndInScrollEndEventShim(shim: ScrollEndEventShim): void;
-  [key: string]: unknown;
 }
 
 export class ScrollEndEventShim extends Controller {

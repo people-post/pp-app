@@ -10,7 +10,6 @@ interface LongListDataSource {
 
 interface LongListDelegate {
   onLongListFragmentRequestResetList(f: FLongList): void;
-  [key: string]: unknown;
 }
 
 export class FLongList extends Fragment {

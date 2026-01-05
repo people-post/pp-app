@@ -34,7 +34,6 @@ interface SimpleListDataSource {
 interface SimpleListDelegate {
   renderItemForSimpleListFragment(f: FSimpleList, item: ListItem, panel: Panel): void;
   onItemSelectedInList(f: FSimpleList, itemId: string): void;
-  [key: string]: unknown;
 }
 
 export class FSimpleList extends Fragment {

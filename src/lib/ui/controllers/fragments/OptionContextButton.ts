@@ -16,7 +16,6 @@ const _CFT_OPTION_CONTEXT_BUTTON = {
 
 interface OptionContextButtonDelegate {
   onOptionClickedInContextButtonFragment(f: OptionContextButton, value: unknown): void;
-  [key: string]: unknown;
 }
 
 export class OptionContextButton extends Fragment {

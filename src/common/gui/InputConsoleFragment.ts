@@ -38,7 +38,6 @@ const _CFT_INPUT_CONSOLE = {
 interface InputConsoleDelegate {
   onInputConsoleRequestPost?(message: string): void;
   onInputConsoleRequestPostFile?(file: File): void;
-  [key: string]: unknown;
 }
 
 export class InputConsoleFragment extends Fragment {

@@ -1,7 +1,8 @@
 import { Fragment } from './Fragment.js';
 import { BufferedList } from './BufferedList.js';
+import type { BufferedListDataSource, BufferedListDelegate } from './BufferedList.js';
 
-export class FLongListLegacy extends Fragment {
+export class FLongListLegacy extends Fragment implements BufferedListDataSource, BufferedListDelegate {
   declare _fItems: BufferedList;
   declare _currentId: string | null;
 

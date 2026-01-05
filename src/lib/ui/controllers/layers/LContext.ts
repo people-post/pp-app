@@ -62,7 +62,6 @@ const _CL_CONTEXT = {
 
 interface LContextDelegate {
   onOptionClickedInContextLayer(l: LContext, value: unknown): void;
-  [key: string]: unknown;
 }
 
 export class LContext extends Layer {

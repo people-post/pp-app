@@ -70,7 +70,6 @@ const _CL_CONTEXT = {
 interface LMultiChoiceDelegate {
   onAlternativeChosenInMultiChoiceLayer(l: LMultiChoice, value: unknown): void;
   onItemsChosenInMultiChoiceLayer(l: LMultiChoice, values: unknown[]): void;
-  [key: string]: unknown;
 }
 
 export class LMultiChoice extends Layer {

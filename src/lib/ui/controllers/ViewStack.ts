@@ -25,7 +25,6 @@ interface ViewStackDataSource {
 interface ViewStackDelegate {
   onViewStackStackSizeChange(vs: ViewStack): void;
   onViewStackRequestPopView(vs: ViewStack): void;
-  [key: string]: unknown;
 }
 
 export class ViewStack extends RenderController {
@@ -219,7 +218,7 @@ export class ViewStack extends RenderController {
   }
 
   _getAllChildControllers(): any[] {
-    return this.#childStack.concat(super._getAllChildControllers());
+    return this.#childStack.concat(super._getAllChildControllers() as View[]);
   }
 
   _renderOnRender(render: ListPanel): void {

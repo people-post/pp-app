@@ -6,7 +6,6 @@ interface Web3FileUploaderDelegate {
   onThumbnailUploadProgressUpdateInFileUploader(uploader: Web3FileUploader, percent: number): void;
   onFileUploadErrorInFileUploader(uploader: Web3FileUploader, responseText: string): void;
   onThumbnailUploadErrorInFileUploader(uploader: Web3FileUploader, responseText: string): void;
-  [key: string]: unknown;
 }
 
 interface UploadResponse {

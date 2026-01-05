@@ -30,7 +30,7 @@ export class WindowController extends RenderController {
   }
 
   _getAllChildControllers(): any[] {
-    return this._childStack.concat(super._getAllChildControllers());
+    return this._childStack.concat(super._getAllChildControllers() as Layer[]);
   }
 
   _pushLayer(lc: Layer, stateName: string): void {

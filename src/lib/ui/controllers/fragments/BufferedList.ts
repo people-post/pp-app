@@ -7,16 +7,16 @@ const _CFT_LONG_LIST = {
   EMPTY : `<div class="center-align">Empty list</div>`,
 } as const;
 
-interface BufferedListDataSource {
+export interface BufferedListDataSource {
   createFragmentForBufferedListItem(f: BufferedList, id: number): Fragment | null;
   isBufferedListExpectingMoreHeadItems(f: BufferedList): boolean;
   isBufferedListExpectingMoreTrailingItems(f: BufferedList): boolean;
 }
 
-interface BufferedListDelegate {
+export interface BufferedListDelegate {
   shouldBufferedListClearBuffer(f: BufferedList): boolean;
-  onContentTopResizeBeginInFragment(f: Fragment): void;
-  onContentTopResizeEndInFragment(f: Fragment): void;
+  onContentTopResizeBeginInFragment?(f: Fragment): void;
+  onContentTopResizeEndInFragment?(f: Fragment): void;
 }
 
 export class BufferedList extends Fragment {
@@ -29,9 +29,6 @@ export class BufferedList extends Fragment {
   #fHead: FLoading;
   #fTail: FLoading;
   #fItems: Fragment[] = [];
-
-  protected declare _dataSource: BufferedListDataSource;
-  protected declare _delegate: BufferedListDelegate;
 
   constructor() {
     super();
@@ -92,7 +89,8 @@ export class BufferedList extends Fragment {
   }
 
   _renderOnRender(render: any): void {
-    if (this._delegate.shouldBufferedListClearBuffer(this)) {
+    const delegate = this.getDelegate<BufferedListDelegate>();
+    if (delegate?.shouldBufferedListClearBuffer(this)) {
       this.#clearBuffer();
     }
 
@@ -111,9 +109,10 @@ export class BufferedList extends Fragment {
       }
     } else {
       this.#loadInitialItems();
-      if (this.#fItems.length == 0 &&
-          !this._dataSource.isBufferedListExpectingMoreHeadItems(this) &&
-          !this._dataSource.isBufferedListExpectingMoreTrailingItems(this)) {
+      const dataSource = this.getDataSource<BufferedListDataSource>();
+      if (this.#fItems.length == 0 && dataSource &&
+          !dataSource.isBufferedListExpectingMoreHeadItems(this) &&
+          !dataSource.isBufferedListExpectingMoreTrailingItems(this)) {
         pMain.replaceContent(_CFT_LONG_LIST.EMPTY);
       }
     }
@@ -133,7 +132,9 @@ export class BufferedList extends Fragment {
   }
 
   #createFragment(id: number): Fragment | null {
-    let f = this._dataSource.createFragmentForBufferedListItem(this, id);
+    const dataSource = this.getDataSource<BufferedListDataSource>();
+    if (!dataSource) return null;
+    let f = dataSource.createFragmentForBufferedListItem(this, id);
     if (f) {
       f.setOwner(this);
     }
@@ -154,7 +155,8 @@ export class BufferedList extends Fragment {
         let p = this.#createItemPanel();
         if (!isResizeBegin) {
           isResizeBegin = true;
-          this._delegate.onContentTopResizeBeginInFragment(this);
+          const delegate = this.getDelegate<BufferedListDelegate>();
+          delegate?.onContentTopResizeBeginInFragment?.(this);
         }
         pMain.unshiftPanel(p);
         f.attachRender(p);
@@ -167,7 +169,8 @@ export class BufferedList extends Fragment {
 
     if (isAtTop) {
       let p = this.#panel.getHeadPanel();
-      if (this._dataSource.isBufferedListExpectingMoreHeadItems(this)) {
+      const dataSource = this.getDataSource<BufferedListDataSource>();
+      if (dataSource && dataSource.isBufferedListExpectingMoreHeadItems(this)) {
         this.#fHead.attachRender(p);
         this.#fHead.render();
       } else {
@@ -177,7 +180,8 @@ export class BufferedList extends Fragment {
     }
 
     if (isResizeBegin) {
-      this._delegate.onContentTopResizeEndInFragment(this);
+      const delegate = this.getDelegate<BufferedListDelegate>();
+      delegate?.onContentTopResizeEndInFragment?.(this);
     }
 
     // Reduce overflow elements from end
@@ -196,13 +200,14 @@ export class BufferedList extends Fragment {
       // The reason is that append will cause item to load, result in fast
       // changing heights. So if do append first, scroll cannot correctly
       // restore to item before resize
-      this._delegate.onContentTopResizeBeginInFragment(this);
+      const delegate = this.getDelegate<BufferedListDelegate>();
+      delegate?.onContentTopResizeBeginInFragment?.(this);
       while (this.#fItems.length > this.#cacheSize) {
         this.#idOffset += 1;
         this.#fItems.shift();
         pMain.shift();
       }
-      this._delegate.onContentTopResizeEndInFragment(this);
+      delegate?.onContentTopResizeEndInFragment?.(this);
     }
 
     let nextId = this.#idOffset + this.#fItems.length;
@@ -230,7 +235,8 @@ export class BufferedList extends Fragment {
 
     if (isAtEnd) {
       let p = this.#panel.getTailPanel();
-      if (this._dataSource.isBufferedListExpectingMoreTrailingItems(this)) {
+      const dataSource = this.getDataSource<BufferedListDataSource>();
+      if (dataSource && dataSource.isBufferedListExpectingMoreTrailingItems(this)) {
         this.#fTail.attachRender(p);
         this.#fTail.render();
       } else {

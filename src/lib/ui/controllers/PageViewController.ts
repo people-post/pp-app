@@ -45,11 +45,14 @@ export class PageViewController extends RenderController {
     this.#fNav.setDelegate(this);
   }
 
-  init(configs: PageConfig[]): void {
-    this.#resetPages(configs);
-    // This is a hack fix for ViewStack that initially it doesn't show
-    // action button correctly in multi frame layout
-    this.onResize();
+  init(configs?: PageConfig[]): void {
+    super.init();
+    if (configs) {
+      this.#resetPages(configs);
+      // This is a hack fix for ViewStack that initially it doesn't show
+      // action button correctly in multi frame layout
+      this.onResize();
+    }
   }
 
   initFromUrl(urlParam: URLSearchParams): void {
@@ -172,7 +175,7 @@ export class PageViewController extends RenderController {
     if (page) {
       // Clear theme set by page
       WebConfig.setThemeId(null);
-      page.setOwner(this);
+      page.setOwner(this as unknown as RenderController);
       this.#currentPage = page;
       this.#currentPage.setActive(true);
       let r = this.getRender();
