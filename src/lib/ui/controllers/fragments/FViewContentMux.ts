@@ -6,7 +6,7 @@ import { FTabbedPaneTabBar } from './FTabbedPaneTabBar.js';
 import { ScrollEndEventShim } from '../../../ext/ScrollEndEventShim.js';
 import { FScrollViewContent } from './FScrollViewContent.js';
 import { FScrollViewContentHook } from './FScrollViewContentHook.js';
-import { Fragment } from './Fragment.js';
+import { FViewContentBase } from './FViewContentBase.js';
 
 const _CPT_VIEW_CONTENT_MUX = {
   MAIN : `<div id="__ID_HEADER__" class="flex-noshrink"></div>
@@ -48,10 +48,10 @@ interface TabConfig {
 
 export class FViewContentMux extends FViewContentContainer {
   #fTabBar: FTabbedPaneTabBar;
-  #fCurrent: Fragment | null = null;
+  #fCurrent: FViewContentBase | null = null;
   #pContent: ListPanel | null = null;
   #obScrollEnd: ScrollEndEventShim;
-  #mChildren: Map<string, Fragment> = new Map();
+  #mChildren: Map<string, FViewContentBase> = new Map();
   #obResize: ResizeObserver;
 
   constructor() {
@@ -81,9 +81,9 @@ export class FViewContentMux extends FViewContentContainer {
     this.#switchContentTo(v);
   }
 
-  addTab(tabConfig: TabConfig, fTab: Fragment): void {
+  addTab(tabConfig: TabConfig, fTab: FViewContentBase): void {
     this.#fTabBar.addTab(tabConfig);
-    let f: Fragment = fTab;
+    let f: FViewContentBase = fTab;
     if (fTab instanceof FScrollViewContent) {
       // Wrap scroll content with scroll hook
       f = new FScrollViewContentHook(fTab);
@@ -105,7 +105,7 @@ export class FViewContentMux extends FViewContentContainer {
     this.#switchContentTo(id);
   }
 
-  _getContentFragment(): Fragment | null { return this.#fCurrent; }
+  _getContentFragment(): FViewContentBase | null { return this.#fCurrent; }
 
   _renderOnRender(render: any): void {
     let panel = new PViewContentMux();

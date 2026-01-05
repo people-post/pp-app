@@ -1,10 +1,11 @@
-import { Logger } from '../../../ext/Logger.js';
+//import { Logger } from '../../../ext/Logger.js';
 import { Fragment } from './Fragment.js';
 import { FNavMagic } from './FNavMagic.js';
 import { PHeaderThick } from '../../renders/panels/PHeaderThick.js';
 import { PHeaderThin } from '../../renders/panels/PHeaderThin.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { WebConfig } from '../../../../common/dba/WebConfig.js';
+import { PHeader } from '../../renders/panels/PHeader.js';
 
 export class FViewHeader extends Fragment {
   static T_LAYOUT = {
@@ -15,17 +16,17 @@ export class FViewHeader extends Fragment {
   #fNav: Fragment | null = null;
   #fNavDefault: Fragment | null = null;
   #fMenus: Fragment[] = [];
-  #pMain: any = null;
-  #isOpen: boolean = false;
+  #pMain: PHeader | null = null;
+  //#isOpen: boolean = false;
   #resizeObserver: ResizeObserver;
   #customTheme: any = null;
-  #logger: Logger;
+  //#logger: Logger;
   #tLayout: symbol | null = null;
 
   constructor() {
     super();
     this.#resizeObserver = new ResizeObserver(() => this.#onResize());
-    this.#logger = new Logger("FViewHeader");
+    //this.#logger = new Logger("FViewHeader");
   }
 
   onMenuFragmentRequestShowContent(_fMenu: Fragment, fContent: Fragment): void {
@@ -82,17 +83,17 @@ export class FViewHeader extends Fragment {
           this.#customTheme ? this.#customTheme : WebConfig.getCurrentTheme();
       let c = t.getSeparationColor(eTest);
       if (this.#customTheme) {
-        this.#pMain.setStyle("backgroundColor", t.getPrimaryColor());
-        this.#pMain.setStyle("color", t.getMenuColor(eTest));
+        this.#pMain?.setStyle("backgroundColor", t.getPrimaryColor());
+        this.#pMain?.setStyle("color", t.getMenuColor(eTest));
         if (c) {
-          this.#pMain.setStyle("borderBottom", "1px solid " + c);
+          this.#pMain?.setStyle("borderBottom", "1px solid " + c);
         }
       } else {
         if (c) {
-          this.#pMain.setClassName(
+          this.#pMain?.setClassName(
               "s-cprimebg s-cmenu bd-b-1px bd-b-solid s-cseparationbd");
         } else {
-          this.#pMain.setClassName("s-cprimebg s-cmenu");
+          this.#pMain?.setClassName("s-cprimebg s-cmenu");
         }
       }
       eTest.className = "no-display";
@@ -101,18 +102,18 @@ export class FViewHeader extends Fragment {
     render.wrapPanel(this.#pMain);
 
     this.#resizeObserver.disconnect();
-    let e = this.#pMain.getDomElement();
+    let e = this.#pMain?.getDomElement();
     if (e) {
       this.#resizeObserver.observe(e);
     }
 
-    this.#pMain.setAnimationEndHandler(() => this.#onAnimationEnd());
+    this.#pMain?.setAnimationEndHandler(() => this.#onAnimationEnd());
 
     let fNav = this.#fNav ? this.#fNav : this.#fNavDefault;
-    this.#pMain.setEnableNav(!!fNav);
+    this.#pMain?.setEnableNav(!!fNav);
     let p: any;
     if (fNav) {
-      p = this.#pMain.getNavPanel();
+      p = this.#pMain?.getNavPanel();
       if (p) {
         fNav.attachRender(p);
         fNav.render();
@@ -128,14 +129,14 @@ export class FViewHeader extends Fragment {
 
     let i = 0;
     while (true) {
-      p = this.#pMain.getMenuPanel(i);
+      p = this.#pMain?.getMenuPanel(i);
       if (!p) {
         break;
       }
       let f: Fragment | undefined = this.#fMenus[i];
       if (f) {
         if (f == fmMin && (this.#isWide || (f as any).isExpandableInNarrowHeader())) {
-          this.#pMain.expandPanelIfPossible(i);
+          this.#pMain?.expandPanelIfPossible(i);
         }
       } else {
         f = new FNavMagic();
@@ -197,7 +198,7 @@ export class FViewHeader extends Fragment {
     e.style.animationDuration = "0.5s";
     e.style.webkitAnimationName = "menulist-open";
     e.style.webkitAnimationDuration = "0.5s";
-    this.#isOpen = true;
+    //this.#isOpen = true;
   }
 
   #closeMenuContent(shouldAnimate: boolean = true): void {
@@ -217,7 +218,7 @@ export class FViewHeader extends Fragment {
       (e.style as any).webkitAnimationName = null;
       (e.style as any).webkitAnimationDuration = null;
     }
-    this.#isOpen = false;
+    //this.#isOpen = false;
   }
 
   #reloadMenuContent(fragment: Fragment): void {
@@ -241,15 +242,17 @@ export class FViewHeader extends Fragment {
     }
     this.setChild("actionBtn", fBtn);
 
-    let p = this.#pMain.getActionPanel();
-    if (fBtn) {
-      // this.#logger.debug("Action button exists on: " + p.getId());
-      fBtn.setActive(true);
-      fBtn.attachRender(p);
-      fBtn.render();
-    } else {
-      // this.#logger.debug("Action button cleared on: " + p.getId());
-      p.clear();
+    let p = this.#pMain?.getActionPanel();
+    if (p) {
+      if (fBtn) {
+        // this.#logger.debug("Action button exists on: " + p.getId());
+        fBtn.setActive(true);
+        fBtn.attachRender(p);
+        fBtn.render();
+      } else {
+        // this.#logger.debug("Action button cleared on: " + p.getId());
+        p.clear();
+      }
     }
   }
 

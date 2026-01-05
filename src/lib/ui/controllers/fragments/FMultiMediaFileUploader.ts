@@ -2,8 +2,8 @@ import { Fragment } from './Fragment.js';
 import { FMediaFileUploader } from './FMediaFileUploader.js';
 import { ListPanel } from '../../renders/panels/ListPanel.js';
 import { Panel } from '../../renders/panels/Panel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { ICONS } from '../../Icons.js';
-import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
 
 export const CF_MULTI_MEDIA_FILE_UPLOAD = {
   ADD_FILES : "CF_MULTI_MEDIA_FILE_UPLOAD_1",
@@ -131,14 +131,16 @@ export class FMultiMediaFileUploader extends Fragment {
 
   #addFiles(inputNode: HTMLInputElement): void {
     this.#clear();
-    for (let i = 0; i < inputNode.files.length; ++i) {
-      if (i < this._cacheIds.length) {
-        let f = new FMediaFileUploader();
-        f.setCacheId(this._cacheIds[i]);
-        f.setDataSource(this);
-        f.setDelegate(this);
-        f.resetToFile(inputNode.files[i]);
-        this._fFiles.push(f);
+    if (inputNode.files) {
+      for (let i = 0; i < inputNode.files.length; ++i) {
+        if (i < this._cacheIds.length) {
+          let f = new FMediaFileUploader();
+          f.setCacheId(this._cacheIds[i]);
+          f.setDataSource(this);
+          f.setDelegate(this);
+          f.resetToFile(inputNode.files[i]);
+          this._fFiles.push(f);
+        }
       }
     }
 

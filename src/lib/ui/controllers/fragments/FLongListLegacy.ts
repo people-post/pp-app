@@ -62,7 +62,7 @@ export class FLongListLegacy extends Fragment implements BufferedListDataSource,
   }
 
   _isFullListLoaded(): boolean { throw "_isFullListLoaded is required"; }
-  _createItemFragment(itemIndex: number): Fragment | null { throw "_createItemFragment is required"; }
+  _createItemFragment(_itemIndex: number): Fragment | null { throw "_createItemFragment is required"; }
   _createItemView(_id: string): any { return null; }
   _resetList(): void { throw "_resetList is required"; }
 }

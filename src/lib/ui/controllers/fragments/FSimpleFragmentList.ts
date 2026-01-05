@@ -1,7 +1,6 @@
 import { FFragmentList } from './FFragmentList.js';
 import { ListPanel } from '../../renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
-import { Fragment } from './Fragment.js';
 
 interface GridConfig {
   nCols: number;

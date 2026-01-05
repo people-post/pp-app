@@ -134,7 +134,7 @@ export class FTabbedPaneTab extends Fragment {
   #renderCloseBtn(panel: any): void {
     panel.setAttribute("onclick",
                        "javascript:G.action(window.CF_TABBED_PANE_TAB.ON_CLOSE)");
-    panel.replaceContent(CommonUtilities.renderSvgIcon(ICONS.CLOSE, "stkred"));
+    panel.replaceContent(CommonUtilities.renderSvgIcon(ICONS.CLOSE, "stkred", null));
   }
 
   #renderIcon(icon: string, isSelected: boolean, panel: any): void {

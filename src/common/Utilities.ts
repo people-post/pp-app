@@ -6,12 +6,12 @@ import { Env } from './plt/Env.js';
 import { R } from './constants/R.js';
 import { Currency } from './datatypes/Currency.js';
 
-export const Utilities = (function() {
-  function _isOrderReferenceId(key: string): boolean {
+class UtilitiesClass {
+  isOrderReferenceId(key: string): boolean {
     return key.length == 27 && key.indexOf('ORD') == 0;
   }
 
-  function _escapeHtml(unsafe: string): string {
+  escapeHtml(unsafe: string): string {
     return unsafe.replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -19,7 +19,7 @@ export const Utilities = (function() {
         .replace(/'/g, "&#039;");
   }
 
-  function _getVisibilityClassName(visibility: string): string {
+  getVisibilityClassName(visibility: string): string {
     switch (visibility) {
     case VIS.PRIVATE:
       return "private";
@@ -32,7 +32,7 @@ export const Utilities = (function() {
     }
   }
 
-  function _genRandomString(length: number): string {
+  genRandomString(length: number): string {
     let s = '';
     let chars =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -45,7 +45,7 @@ export const Utilities = (function() {
 
   // Unused function - kept for potential future use
   // @ts-expect-error - unused function
-  function forceRedraw(): void {
+  private forceRedraw(): void {
     let e: Event;
     if (typeof (Event) === "function") {
       e = new Event("resize");
@@ -57,7 +57,7 @@ export const Utilities = (function() {
     window.dispatchEvent(e);
   }
 
-  function _renderSmartTime(t: Date): string {
+  renderSmartTime(t: Date): string {
     let dt = Math.abs(t.getTime() - Date.now()) / 1000;
     // Unit is seconds
     if (dt > Env.getSmartTimeDiffThreshold()) {
@@ -68,7 +68,7 @@ export const Utilities = (function() {
     }
   }
 
-  function _renderTimeDiff(t1: number, t2: number | null = null, isMs: boolean = true, isShortString: boolean = true): string {
+  renderTimeDiff(t1: number, t2: number | null = null, isMs: boolean = true, isShortString: boolean = true): string {
     let dt = Math.abs(t1 - (t2 ? t2 : Date.now()));
     if (isMs) {
       dt = dt / 1000;
@@ -77,7 +77,7 @@ export const Utilities = (function() {
                          : UtilitiesExt.timeDiffString(dt);
   }
 
-  function _getTopLevelDomain(): string {
+  getTopLevelDomain(): string {
     let name = window.location.hostname;
     if (name.indexOf("www.") == 0) {
       name = name.replace("www.", "");
@@ -85,25 +85,25 @@ export const Utilities = (function() {
     return name;
   }
 
-  function _renderSvgIcon(tIcon: string, stroke: string | null, fill: string | null): string {
+  renderSvgIcon(tIcon: string, stroke: string | null, fill: string | null): string {
     let s = tIcon;
     s = s.replace(/__C_STROKE__/g, stroke ? stroke : "");
     s = s.replace(/__C_FILL__/g, fill ? fill : "");
     return s;
   }
 
-  function _renderSvgFuncIcon(tIcon: string, isInverse: boolean = false): string {
+  renderSvgFuncIcon(tIcon: string, isInverse: boolean = false): string {
     if (isInverse) {
-      return _renderSvgIcon(tIcon, "s-csecondarystk", "s-csecondaryfill");
+      return this.renderSvgIcon(tIcon, "s-csecondarystk", "s-csecondaryfill");
     }
-    return _renderSvgIcon(tIcon, "s-cfuncstk", "s-cfuncfill");
+    return this.renderSvgIcon(tIcon, "s-cfuncstk", "s-cfuncfill");
   }
 
-  function _renderSvgMenuIcon(tIcon: string): string {
-    return _renderSvgIcon(tIcon, "s-cmenustk", "s-cmenufill");
+  renderSvgMenuIcon(tIcon: string): string {
+    return this.renderSvgIcon(tIcon, "s-cmenustk", "s-cmenufill");
   }
 
-  function _renderSmallButton(actionId: string, id: string, name: string, className: string = "s-primary"): string {
+  renderSmallButton(actionId: string, id: string, name: string, className: string = "s-primary"): string {
     let s =
         `<span class="button-like small __CLASS_NAME__" onclick="javascript:G.action(__ACTION_ID__, '__ID__')">__NAME__</span>`;
     s = s.replace("__ACTION_ID__", actionId);
@@ -113,7 +113,7 @@ export const Utilities = (function() {
     return s;
   }
 
-  function _stringCompare(sa: string, sb: string): number {
+  stringCompare(sa: string, sb: string): number {
     if (sa < sb) {
       return -1;
     }
@@ -123,7 +123,7 @@ export const Utilities = (function() {
     return 0;
   }
 
-  function _renderContent(s: string | null | undefined): string {
+  renderContent(s: string | null | undefined): string {
     // Render with hashtag detection
     if (!s) {
       return "";
@@ -140,10 +140,10 @@ export const Utilities = (function() {
     return s;
   }
 
-  function _renderPrice(currency: Currency | null, value: number | null | undefined): string {
+  renderPrice(currency: Currency | null, value: number | null | undefined): string {
     if (value || value == 0) {
       let s = `<span class="num-font">__SYMBOL__&nbsp;__VALUE__</span>`;
-      s = s.replace("__SYMBOL__", __renderCurrencyIcon(currency));
+      s = s.replace("__SYMBOL__", this.renderCurrencyIcon(currency));
       let v = Math.round(value * 100) / 100.0;
       s = s.replace("__VALUE__", v.toString());
       return s;
@@ -152,7 +152,7 @@ export const Utilities = (function() {
     }
   }
 
-  function __renderCurrencyIcon(c: Currency | null): string {
+  private renderCurrencyIcon(c: Currency | null): string {
     if (!c) {
       return "...";
     }
@@ -173,19 +173,19 @@ export const Utilities = (function() {
     return "...";
   }
 
-  function _orderIdToReferenceId(orderId: string): string { return "ORD" + orderId; }
+  orderIdToReferenceId(orderId: string): string { return "ORD" + orderId; }
 
-  function _orderReferenceIdToOrderId(refId: string): string { return refId.substring(3); }
+  orderReferenceIdToOrderId(refId: string): string { return refId.substring(3); }
 
-  function _renderStatus(state: string, status: string | null): string {
+  renderStatus(state: string, status: string | null): string {
     let s = `<span class="status-text __CLASS_NAME__">__TEXT__</span>`;
-    s = s.replace("__CLASS_NAME__", _getStateClassName(state, status));
+    s = s.replace("__CLASS_NAME__", this.getStateClassName(state, status));
     let t = status ? status : state;
     s = s.replace("__TEXT__", R.get(t));
     return s;
   }
 
-  function _getStateClassName(state: string, status: string | null = null): string {
+  getStateClassName(state: string, status: string | null = null): string {
     let name = "unknown";
     switch (state) {
     case STATE.NEW:
@@ -211,7 +211,7 @@ export const Utilities = (function() {
     return name;
   }
 
-  function _getCountryByCode(code: string): Country | null {
+  getCountryByCode(code: string): Country | null {
     let idx2 = COUNTRIES.IDX.A2CODE;
     let idx3 = COUNTRIES.IDX.A3CODE;
     let i = COUNTRIES.DATA.find(i => i[idx2] == code || i[idx3] == code);
@@ -221,7 +221,7 @@ export const Utilities = (function() {
     return null;
   }
 
-  function _renderFlagIcon(countryCode: string, ratio: string = "4x3"): string {
+  renderFlagIcon(countryCode: string, ratio: string = "4x3"): string {
     let s =
         `<span class="flag-icon" style="background-image:url(__FLAGS_PATH__/__DIR__/__CODE__.svg);"></span>`;
     let dir = ratio == "1x1" ? ratio : "4x3";
@@ -231,7 +231,7 @@ export const Utilities = (function() {
     return s;
   }
 
-  function _writeIframe(iframe: HTMLIFrameElement, content: string): void {
+  writeIframe(iframe: HTMLIFrameElement, content: string): void {
     iframe.setAttribute("scrolling", "no");
     let doc: Document | null = null;
     if (iframe.contentDocument) {
@@ -251,30 +251,6 @@ export const Utilities = (function() {
     let h = doc.documentElement.scrollHeight + 70;
     iframe.style.height = h + "px";
   }
+}
 
-  return {
-    isOrderReferenceId : _isOrderReferenceId,
-    getVisibilityClassName : _getVisibilityClassName,
-    getStateClassName : _getStateClassName,
-    getTopLevelDomain : _getTopLevelDomain,
-    getCountryByCode : _getCountryByCode,
-    escapeHtml : _escapeHtml,
-    genRandomString : _genRandomString,
-    orderIdToReferenceId : _orderIdToReferenceId,
-    orderReferenceIdToOrderId : _orderReferenceIdToOrderId,
-    renderSvgIcon : _renderSvgIcon,
-    renderSvgMenuIcon : _renderSvgMenuIcon,
-    renderSvgFuncIcon : _renderSvgFuncIcon,
-    renderContent : _renderContent,
-    renderSmallButton : _renderSmallButton,
-    renderStatus : _renderStatus,
-    renderPrice : _renderPrice,
-    renderTimeDiff : _renderTimeDiff,
-    renderSmartTime : _renderSmartTime,
-    renderFlagIcon : _renderFlagIcon,
-    stringCompare : _stringCompare,
-    writeIframe : _writeIframe,
-  };
-})();
-
-export default Utilities;
+export const Utilities = new UtilitiesClass();

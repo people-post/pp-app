@@ -21,9 +21,6 @@ export class FFileUploader extends Fragment {
     super();
     this._fProgress = new SimpleProgress();
     this.setChild("progress", this._fProgress);
-
-    this._uploader = null;
-    this._urlFile = null;
   }
 
   isBusy(): boolean { return this.#getOrInitUploader().isBusy(); }
@@ -47,7 +44,7 @@ export class FFileUploader extends Fragment {
 
   setCacheId(id: string): void { this.#getOrInitUploader().setCacheId(id); }
 
-  resetToFile(file: File, name: string | null = null): void {
+  resetToFile(file: File, _name: string | null = null): void {
     this._urlFile = null;
     this._onFileUploadWillBegin();
     this.#getOrInitUploader().setFile(file);
@@ -79,10 +76,10 @@ export class FFileUploader extends Fragment {
   #getOrInitUploader(): FileUploader {
     if (!this._uploader) {
       let cls = Factory.getClass(T_CATEGORY.UI, T_OBJ.FILE_UPLOADER) as any;
-      this._uploader = new cls();
-      this._uploader.setDelegate(this);
+      this._uploader = cls ? new cls() : null;
+      this._uploader?.setDelegate(this);
     }
-    return this._uploader;
+    return this._uploader as FileUploader;
   }
 }
 
