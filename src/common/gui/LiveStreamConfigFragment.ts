@@ -5,7 +5,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FMediaFileUploader } from '../../lib/ui/controllers/fragments/FMediaFileUploader.js';
 import { ICONS } from '../../lib/ui/Icons.js';
 import { WebConfig } from '../dba/WebConfig.js';
-import { Render } from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { R } from '../constants/R.js';
 import { Api } from '../plt/Api.js';
 
@@ -54,8 +54,8 @@ export class LiveStreamConfigFragment extends Fragment {
     super();
   }
 
-  onMediaFileUploadWillBegin(fFile: FMediaFileUploader): void {}
-  onMediaFileUploadFinished(fFile: FMediaFileUploader): void {}
+  onMediaFileUploadWillBegin(_fFile: FMediaFileUploader): void {}
+  onMediaFileUploadFinished(_fFile: FMediaFileUploader): void {}
 
   saveDataToForm(formData: FormData): void {
     if (this._fFile) {
@@ -89,27 +89,32 @@ export class LiveStreamConfigFragment extends Fragment {
       this.#onRegenerateStreamKey();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     const p = new ListPanel();
     render.wrapPanel(p);
     let pp = new SectionPanel("Cover image");
     p.pushPanel(pp);
 
+    const contentPanel = pp.getContentPanel();
     if (this._fFile) {
-      this._fFile.attachRender(pp.getContentPanel());
-      this._fFile.render();
+      if (contentPanel) {
+        this._fFile.attachRender(contentPanel);
+        this._fFile.render();
+      }
     } else {
-      pp.getContentPanel().replaceContent(this.#renderAddFileButton());
+      if (contentPanel) {
+        contentPanel.replaceContent(this.#renderAddFileButton());
+      }
     }
 
-    pp = new Panel();
-    p.pushPanel(pp);
-    pp.replaceContent(this.#renderInstructions());
+    const pInstructions = new Panel();
+    p.pushPanel(pInstructions);
+    pInstructions.replaceContent(this.#renderInstructions());
   }
 
   #renderAddFileButton(): string {
@@ -121,7 +126,7 @@ export class LiveStreamConfigFragment extends Fragment {
 
   #addFile(inputNode: HTMLInputElement): void {
     this._fFile = new FMediaFileUploader();
-    this._fFile.setCacheId(0);
+    this._fFile.setCacheId("0");
     this._fFile.setDataSource(this);
     this._fFile.setDelegate(this);
     if (inputNode.files && inputNode.files[0]) {
@@ -143,11 +148,11 @@ export class LiveStreamConfigFragment extends Fragment {
   #onRegenerateStreamKey(): void {
     const url = "api/user/regenerate_live_stream_key";
     Api.asFragmentCall(this, url).then(
-        (d: RegenerateKeyResponse) => this.#onRegenerateStreamKeyRRR(d));
+        (d: unknown) => this.#onRegenerateStreamKeyRRR(d as RegenerateKeyResponse));
   }
 
   #onRegenerateStreamKeyRRR(data: RegenerateKeyResponse): void {
-    window.dba.Account.setLiveStreamKey(data.live_stream_key);
+    window.dba?.Account?.setLiveStreamKey(data.live_stream_key);
     this.render();
   }
 }

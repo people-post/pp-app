@@ -1,3 +1,4 @@
+import { Fragment } from './Fragment.js';
 import { FViewContentBase } from './FViewContentBase.js';
 
 export class FViewContentContainer extends FViewContentBase {
@@ -18,22 +19,22 @@ export class FViewContentContainer extends FViewContentBase {
     return "";
   }
 
-  onContentFragmentRequestUpdateHeader(_fContent: Fragment): void {
+  onContentFragmentRequestUpdateHeader(_fContent: FViewContentBase): void {
     if (this._owner) {
       (this._owner as any).onContentFragmentRequestUpdateHeader(this);
     }
   }
-  onContentFragmentRequestCloseMenu(_fContent: Fragment): void {
+  onContentFragmentRequestCloseMenu(_fContent: FViewContentBase): void {
     if (this._owner) {
       (this._owner as any).onContentFragmentRequestCloseMenu(this);
     }
   }
-  onContentFragmentRequestReplaceView(_fContent: Fragment, view: any, title: string): void {
+  onContentFragmentRequestReplaceView(_fContent: FViewContentBase, view: any, title: string): void {
     if (this._owner) {
       (this._owner as any).onContentFragmentRequestReplaceView(this, view, title);
     }
   }
-  onContentFragmentRequestPopView(_fContent: Fragment): void {
+  onContentFragmentRequestPopView(_fContent: FViewContentBase): void {
     if (this._owner) {
       (this._owner as any).onContentFragmentRequestPopView(this);
     }
@@ -86,6 +87,6 @@ export class FViewContentContainer extends FViewContentBase {
     }
   }
 
-  _getContentFragment(): Fragment | null { return null; }
+  _getContentFragment(): FViewContentBase | null { return null; }
 }
 

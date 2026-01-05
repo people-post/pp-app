@@ -4,6 +4,7 @@ import { FViewContentWrapper } from './FViewContentWrapper.js';
 import { ScrollEndEventShim } from '../../../ext/ScrollEndEventShim.js';
 import { FElasticRefresh } from './FElasticRefresh.js';
 import { Fragment } from './Fragment.js';
+import { FViewContentBase } from './FViewContentBase.js';
 
 const _CPT_SCROLL_VIEW_CONTENT_HOOK = {
   MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="flex-noshrink"></div>
@@ -53,9 +54,9 @@ class PScrollViewContentHook extends Panel {
     this.#pContentContainer.attach(this._getSubElementId("C"));
     this.#pBstt.attach(this._getSubElementId("B"));
 
-    let s = _CPT_SCROLL_VIEW_CONTENT_HOOK.CONTENT;
+    let s: string = _CPT_SCROLL_VIEW_CONTENT_HOOK.CONTENT;
     let id = this._getSubElementId("CC");
-    s = s.replace("__ID_CONTENT__", id);
+    s = s.replace("__ID_CONTENT__", id as string);
     this.#pContentContainer.replaceContent(s);
     this.#pContent.attach(id);
   }
@@ -81,7 +82,7 @@ export class FScrollViewContentHook extends FViewContentWrapper {
   #pMain: PScrollViewContentHook | null = null;
   #scrollYBeforeTopResize: ScrollYInfo | null = null;
 
-  constructor(fContent: Fragment) {
+  constructor(fContent: FViewContentBase) {
     super();
     this.#sScrollEvt = new ScrollEndEventShim();
     this.#sScrollEvt.setDelegate(this);
@@ -142,34 +143,34 @@ export class FScrollViewContentHook extends FViewContentWrapper {
     render.wrapPanel(panel);
     this.#pMain = panel;
 
-    let p = panel.getElasticRefreshPanel();
-    this.#fElasticRefresh.attachRender(p);
+    const pElasticRefresh = panel.getElasticRefreshPanel();
+    this.#fElasticRefresh.attachRender(pElasticRefresh);
     this.#fElasticRefresh.render();
 
-    p = panel.getBsttPanel();
-    p.replaceContent("Back to top");
-    p.setVisible(false);
-    p.setAttribute(
+    const pBstt = panel.getBsttPanel();
+    pBstt.replaceContent("Back to top");
+    pBstt.setVisible(false);
+    pBstt.setAttribute(
         "onclick",
         "javascript:G.action(window.CF_SCROLL_VIEW_CONTENT_HOOK.SCROLL_TO_TOP)");
 
-    p = panel.getContentContainerPanel();
-    let e = p.getDomElement();
+    const pContentContainer = panel.getContentContainerPanel();
+    let e = pContentContainer.getDomElement();
     if (e) {
       this.#sScrollEvt.observe(e);
     }
 
-    p = panel.getContentPanel();
+    const pContent = panel.getContentPanel();
     let f = this._getContentFragment();
     if (f && typeof (f as any).isReloadable === 'function' && (f as any).isReloadable()) {
-      let e = p.getDomElement();
+      let e = pContent.getDomElement();
       if (e) {
         this.#fElasticRefresh.observe(e);
       }
     }
 
     if (f) {
-      f.attachRender(p);
+      f.attachRender(pContent);
       f.render();
     }
   }
