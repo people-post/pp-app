@@ -1,3 +1,10 @@
+// Polyfill Buffer for browser environment (required by bip39)
+import { Buffer } from 'buffer';
+if (typeof window !== 'undefined') {
+  window.Buffer = window.Buffer || Buffer;
+  globalThis.Buffer = globalThis.Buffer || Buffer;
+}
+
 import { WcWeb3 } from './session/WcWeb3.js';
 import { WcMain } from './session/WcMain.js';
 import { WcGadget } from './session/WcGadget.js';

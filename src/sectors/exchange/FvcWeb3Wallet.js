@@ -11,6 +11,7 @@ import { Wallet } from '../../common/datatypes/Wallet.js';
 import { Keys } from '../../common/dba/Keys.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { sys } from 'pp-api';
+import { CardanoAccount } from '../../common/datatypes/CardanoAccount.js';
 
 export class FvcWeb3Wallet extends FScrollViewContent {
   #fToAddr;

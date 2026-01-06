@@ -9,9 +9,8 @@ import * as bip39 from 'bip39';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events, T_ACTION as FwkT_ACTION } from '../../lib/framework/Events.js';
 import { Keys } from '../../common/dba/Keys.js';
-import { Web3Resolver } from '../../common/pdb/Web3Resolver.js';
-import { Web3Publisher } from '../../common/pdb/Web3Publisher.js';
 import { sys } from 'pp-api';
+import { R } from '../../common/constants/R.js';
 
 export class FvcWeb3Login extends FvcLoginBase {
   #fMnemonic;
