@@ -1,0 +1,31 @@
+const _CPT_PROJECT_STAGE_INFO_COMPACT = {
+  MAIN : `<div class="flex space-between baseline-align-items">
+      <div>
+        <span class="small-info-text">Stage:</span>
+        <span id="__ID_NAME__" class="small-info-text"></span>
+      </div>
+      <div id="__ID_ACTION__"></div>
+    </div>`,
+}
+
+import { PProjectStageInfoBase } from './PProjectStageInfoBase.js';
+import { Utilities } from '../../common/Utilities.js';
+
+export class PProjectStageInfoCompact extends PProjectStageInfoBase {
+  setThemeForState(state: string, status: string): void {
+    this._pName.setClassName("small-info-text status-text " +
+                             Utilities.getStateClassName(state, status));
+  }
+
+  _renderFramework(): string {
+    let s = _CPT_PROJECT_STAGE_INFO_COMPACT.MAIN;
+    s = s.replace("__ID_NAME__", this._getSubElementId("N"));
+    s = s.replace("__ID_ACTION__", this._getSubElementId("A"));
+    return s;
+  }
+
+  _onFrameworkDidAppear(): void {
+    this._pName.attach(this._getSubElementId("N"));
+    this._pOptionBtn.attach(this._getSubElementId("A"));
+  }
+}

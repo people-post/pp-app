@@ -5,6 +5,7 @@ import { FvcUserInput } from '../hr/FvcUserInput.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { MAX } from '../constants/Constants.js';
+import { R } from '../constants/R.js';
 
 export const CF_TAGS_EDITOR = {
   TOGGLE : Symbol(),

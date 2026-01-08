@@ -1,9 +1,8 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
-import { T_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Exchange } from '../dba/Exchange.js';
 import Utilities from '../../lib/ext/Utilities.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PPriceBase } from './PPriceBase.js';
 
 interface PriceItem {
@@ -61,7 +60,7 @@ export class PriceFragment extends Fragment {
 
   handleSessionDataUpdate(dataType: string, data: unknown): void {
     switch (dataType) {
-    case T_DATA.CURRENCIES:
+    case PltT_DATA.CURRENCIES:
       this.render();
       break;
     default:

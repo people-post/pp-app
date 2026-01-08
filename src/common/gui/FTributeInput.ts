@@ -2,6 +2,7 @@ import { FInput } from '../../lib/ui/controllers/fragments/FInput.js';
 import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
 import { SplitPanel } from '../../lib/ui/renders/panels/SplitPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 const _CF_TRIBUTE_INPUT = {
   TYPE : {FLAT : "FLAT"},
@@ -26,7 +27,7 @@ export class FTributeInput extends FInput {
     // Same format as server return object
     return {
       type : _CF_TRIBUTE_INPUT.TYPE.FLAT,
-      data : this._fPercent.getValue()
+      data : Number(this._fPercent.getValue())
     };
   }
 
@@ -46,7 +47,7 @@ export class FTributeInput extends FInput {
     super.setConfig(config);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let pSplit = new SplitPanel();
     render.wrapPanel(pSplit);
 

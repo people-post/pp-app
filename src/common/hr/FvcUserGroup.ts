@@ -8,9 +8,10 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FUserIcon } from './FUserIcon.js';
 import { Groups } from '../dba/Groups.js';
 import { WebConfig } from '../dba/WebConfig.js';
-import { T_DATA } from '../plt/Events.js';
+import { T_DATA, T_ACTION as PltT_ACTION } from '../plt/Events.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Api } from '../plt/Api.js';
+import { R } from '../constants/R.js';
 
 const _CF_USER_GROUP_CONTENT = {
   HEAD : `<div>
@@ -56,7 +57,7 @@ export class FvcUserGroup extends FScrollViewContent {
   }
 
   onIconClickedInUserIconFragment(_fUserIcon: FUserIcon, userId: string | null): void {
-    Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
+    Events.triggerTopAction(PltT_ACTION.SHOW_USER_INFO, userId);
   }
 
   action(type: string | symbol, ...args: unknown[]): void {

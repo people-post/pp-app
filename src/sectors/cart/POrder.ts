@@ -1,0 +1,94 @@
+const _CPT_CUSTOMER_ORDER = {
+  MAIN : `<div class="small-info-text">
+    <div id="__ID_SHOP_NAME__"></div>
+    <div id="__ID_ORDER_ID__"></div>
+    <div id="__ID_T_CREATE__"></div>
+    <div id="__ID_STATUS__"></div>
+  </div>
+  <div id="__ID_ITEMS__"></div>
+  <div class="small-info-text right-align">
+    <div id="__ID_SUBTOTAL__"></div>
+    <div id="__ID_SHIPPING_HANDLING__"></div>
+    <div id="__ID_DISCOUNT__"></div>
+    <div id="__ID_REFUND__"></div>
+    <div id="__ID_TOTAL__"></div>
+  </div>
+  <div id="__ID_SHIPPING_ADDRESS__"></div>`,
+}
+
+import { POrderBase } from './POrderBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class POrder extends POrderBase {
+  protected _pShopName: Panel;
+  protected _pOrderId: Panel;
+  protected _pCreationTime: Panel;
+  protected _pStatus: Panel;
+  protected _pItems: SectionPanel;
+  protected _pSubtotal: Panel;
+  protected _pShippingHandling: Panel;
+  protected _pDiscount: Panel;
+  protected _pRefund: Panel;
+  protected _pTotal: Panel;
+  protected _pShippingAddress: PanelWrapper;
+
+  constructor() {
+    super();
+    this._pShopName = new Panel();
+    this._pOrderId = new Panel();
+    this._pCreationTime = new Panel();
+    this._pStatus = new Panel();
+    this._pItems = new SectionPanel("Items");
+    this._pSubtotal = new Panel();
+    this._pShippingHandling = new Panel();
+    this._pDiscount = new Panel();
+    this._pRefund = new Panel();
+    this._pTotal = new Panel();
+    this._pShippingAddress = new PanelWrapper();
+  }
+
+  getShopNamePanel(): Panel { return this._pShopName; }
+  getOrderIdPanel(): Panel { return this._pOrderId; }
+  getCreationTimePanel(): Panel { return this._pCreationTime; }
+  getStatusPanel(): Panel { return this._pStatus; }
+  getItemsPanel(): Panel { return this._pItems.getContentPanel(); }
+  getSubtotalPanel(): Panel { return this._pSubtotal; }
+  getShippingHandlingPanel(): Panel { return this._pShippingHandling; }
+  getDiscountPanel(): Panel { return this._pDiscount; }
+  getRefundPanel(): Panel { return this._pRefund; }
+  getTotalPanel(): Panel { return this._pTotal; }
+  getShippingAddressPanel(): PanelWrapper { return this._pShippingAddress; }
+
+  _renderFramework(): string {
+    let s = _CPT_CUSTOMER_ORDER.MAIN;
+    s = s.replace("__ID_SHOP_NAME__", this._getSubElementId("N"));
+    s = s.replace("__ID_ORDER_ID__", this._getSubElementId("O"));
+    s = s.replace("__ID_T_CREATE__", this._getSubElementId("T"));
+    s = s.replace("__ID_STATUS__", this._getSubElementId("S"));
+    s = s.replace("__ID_ITEMS__", this._getSubElementId("I"));
+    s = s.replace("__ID_SUBTOTAL__", this._getSubElementId("ST"));
+    s = s.replace("__ID_SHIPPING_HANDLING__", this._getSubElementId("H"));
+    s = s.replace("__ID_DISCOUNT__", this._getSubElementId("D"));
+    s = s.replace("__ID_REFUND__", this._getSubElementId("R"));
+    s = s.replace("__ID_TOTAL__", this._getSubElementId("TT"));
+    s = s.replace("__ID_SHIPPING_ADDRESS__", this._getSubElementId("A"));
+    return s;
+  }
+
+  _onFrameworkDidAppear(): void {
+    super._onFrameworkDidAppear();
+    this._pShopName.attach(this._getSubElementId("N"));
+    this._pOrderId.attach(this._getSubElementId("O"));
+    this._pCreationTime.attach(this._getSubElementId("T"));
+    this._pStatus.attach(this._getSubElementId("S"));
+    this._pItems.attach(this._getSubElementId("I"));
+    this._pSubtotal.attach(this._getSubElementId("ST"));
+    this._pShippingHandling.attach(this._getSubElementId("H"));
+    this._pDiscount.attach(this._getSubElementId("D"));
+    this._pRefund.attach(this._getSubElementId("R"));
+    this._pTotal.attach(this._getSubElementId("TT"));
+    this._pShippingAddress.attach(this._getSubElementId("A"));
+  }
+}

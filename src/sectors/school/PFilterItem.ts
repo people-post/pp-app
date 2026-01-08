@@ -1,0 +1,38 @@
+const _CPT_FILTER_ITEM = {
+  MAIN : `<div class="pad5">
+  <div class="pad5 bd1px bdsolid bdlightgray bdradius5px">
+    <div id="__ID_CONTENT__"></div>
+    <div id="__ID_HINT__" class="small-info-text right-align"></div>
+  </div>
+  </div>`,
+}
+
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PFilterItem extends Panel {
+  protected _pContent: PanelWrapper;
+  protected _pHint: Panel;
+
+  constructor() {
+    super();
+    this._pContent = new PanelWrapper();
+    this._pHint = new Panel();
+  }
+
+  getContentPanel(): PanelWrapper { return this._pContent; }
+  getHintPanel(): Panel { return this._pHint; }
+
+  _renderFramework(): string {
+    let s = _CPT_FILTER_ITEM.MAIN;
+    s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
+    s = s.replace("__ID_HINT__", this._getSubElementId("H"));
+    return s;
+  }
+
+  _onFrameworkDidAppear(): void {
+    super._onFrameworkDidAppear();
+    this._pContent.attach(this._getSubElementId("C"));
+    this._pHint.attach(this._getSubElementId("H"));
+  }
+}

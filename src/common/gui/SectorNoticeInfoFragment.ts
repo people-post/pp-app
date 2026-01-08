@@ -27,7 +27,7 @@ export class SectorNoticeInfoFragment extends Fragment {
 
   setData(notification: MessageThreadInfo | LikedItemNotice | RepostItemNotice): void { this._notification = notification; }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._notification) {
       return;
     }

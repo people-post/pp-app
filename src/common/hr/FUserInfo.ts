@@ -4,10 +4,11 @@ import { PUserInfoCompactCell } from './PUserInfoCompactCell.js';
 import { PUserInfoMidsizeCell } from './PUserInfoMidsizeCell.js';
 import { PUserInfoSmallRow } from './PUserInfoSmallRow.js';
 import { PUserInfoMidsizeRow } from './PUserInfoMidsizeRow.js';
-import { T_DATA } from '../plt/Events.js';
+import { T_DATA, T_ACTION as PltT_ACTION } from '../plt/Events.js';
 import { Users } from '../dba/Users.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { ICON } from '../constants/Icons.js';
 
 export const CF_USER_INFO = {
   ON_CLICK : Symbol(),
@@ -122,7 +123,7 @@ export class FUserInfo extends Fragment {
   #renderTypeIcon(user: ReturnType<typeof Users.get>): string {
     if (user && user.isFeed()) {
       let s = `<span class="inline-block s-icon7">__ICON__</span>`;
-      return s.replace("__ICON__", C.ICON.FEED);
+      return s.replace("__ICON__", ICON.FEED);
     }
     return "";
   }
@@ -133,7 +134,7 @@ export class FUserInfo extends Fragment {
       // @ts-expect-error - delegate may have this method
       this._delegate.onClickInUserInfoFragment?.(this, userId);
     } else {
-      Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
+      Events.triggerTopAction(PltT_ACTION.SHOW_USER_INFO, userId);
     }
   }
 }

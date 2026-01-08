@@ -28,7 +28,7 @@ export class VotingSummaryFragment extends Fragment {
 
   setSummary(summary: VoteSummary): void { this._summary = summary; }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._summary) {
       return;
     }

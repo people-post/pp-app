@@ -3,6 +3,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { T_DATA } from '../plt/Events.js';
 import { Utilities } from '../Utilities.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { T_ACTION as PltT_ACTION } from '../plt/Events.js';
 
 export const CF_USER_ID_INPUT = {
   USER_INFO : Symbol()
@@ -49,7 +50,7 @@ export class FUserIdInput extends Fragment {
   }
 
   #showUserInfo(userId: string): void {
-    Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
+      Events.triggerTopAction(PltT_ACTION.SHOW_USER_INFO, userId);
   }
 }
 

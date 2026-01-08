@@ -1,6 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { PCareerInfo } from './PCareerInfo.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export const CF_CAREER = {
   ON_CLICK : Symbol(),
@@ -24,7 +25,7 @@ export class FCareer extends Fragment {
     }
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let role = this._dataSource.getRoleForCareerFragment(this, this._roleId);
     if (!role) {
       return;

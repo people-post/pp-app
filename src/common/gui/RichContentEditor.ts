@@ -1,8 +1,10 @@
 import { FInput } from '../../lib/ui/controllers/fragments/FInput.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { T_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Env } from '../plt/Env.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 const _CF_RICH_CONTENT_EDITOR = {
   TOOLBAR : [
@@ -54,7 +56,7 @@ export class RichContentEditor extends FInput {
 
   handleSessionDataUpdate(dataType: string, data: unknown): void {
     switch (dataType) {
-    case T_DATA.ADDON_SCRIPT:
+    case PltT_DATA.ADDON_SCRIPT:
       if (data == Env.SCRIPT.EDITOR.id) {
         this.#loadJsEditor();
       }
@@ -65,8 +67,8 @@ export class RichContentEditor extends FInput {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Panel): void {
-    let pp: Panel = render;
+  _renderOnRender(render: PanelWrapper): void {
+    let pp: Panel | null = render;
     if (this._config.title && this._config.title.length) {
       let p = new SectionPanel(this._config.title);
       render.wrapPanel(p);

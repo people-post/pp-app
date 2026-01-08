@@ -7,6 +7,7 @@ import { UserRequest } from '../datatypes/UserRequest.js';
 import { Groups } from '../dba/Groups.js';
 import { Utilities } from '../Utilities.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { T_ACTION as PltT_ACTION } from '../plt/Events.js';
 import { Api } from '../plt/Api.js';
 
 export const CF_REQUEST_INFO = {
@@ -158,11 +159,11 @@ export class FRequestInfo extends Fragment {
   #onRequestOperationRRR(data: { profile: unknown }): void { window.dba.Account.reset(data.profile); }
 
   #onShowUserInfo(userId: string): void {
-    Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
+      Events.triggerTopAction(PltT_ACTION.SHOW_USER_INFO, userId);
   }
 
   #onShowGroupInfo(groupId: string): void {
-    Events.triggerTopAction(T_ACTION.SHOW_GROUP_INFO, groupId);
+      Events.triggerTopAction(PltT_ACTION.SHOW_GROUP_INFO, groupId);
   }
 }
 

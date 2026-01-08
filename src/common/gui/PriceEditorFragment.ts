@@ -1,12 +1,14 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
 import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
-import { T_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ArrayPanel } from '../../lib/ui/renders/panels/ArrayPanel.js';
 import { Shop } from '../dba/Shop.js';
 import { Exchange } from '../dba/Exchange.js';
+import { R } from '../constants/R.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface PriceItem {
   currency_id: string;
@@ -123,9 +125,9 @@ export class PriceEditorFragment extends Fragment {
     this.render();
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
-    case T_DATA.CURRENCIES:
+    case PltT_DATA.CURRENCIES:
       this.render();
       break;
     default:
@@ -134,7 +136,7 @@ export class PriceEditorFragment extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     if (this._hasError) {
       p.setClassName("input-error");
@@ -147,28 +149,28 @@ export class PriceEditorFragment extends Fragment {
     this._fListPriceUnits.attachRender(pp);
     this._fListPriceUnits.render();
 
-    pp = new ArrayPanel();
-    p.pushPanel(pp);
+    let pArray = new ArrayPanel();
+    p.pushPanel(pArray);
     let ppp: Panel;
     ppp = new Panel();
     ppp.setClassName("list-price");
-    pp.pushPanel(ppp);
+    pArray.pushPanel(ppp);
     ppp.replaceContent("List price: ");
 
     ppp = new Panel();
     ppp.setClassName("list-price");
-    pp.pushPanel(ppp);
+    pArray.pushPanel(ppp);
     let price = this.#getCurrentPriceItem();
     this.#renderListPriceValue(ppp, price ? price.list_price : null);
 
-    pp = new ArrayPanel();
-    p.pushPanel(pp);
+    pArray = new ArrayPanel();
+    p.pushPanel(pArray);
     ppp = new Panel();
-    pp.pushPanel(ppp);
+    pArray.pushPanel(ppp);
     ppp.replaceContent("Sales price: ");
 
     ppp = new Panel();
-    pp.pushPanel(ppp);
+    pArray.pushPanel(ppp);
     this.#renderSalesPriceValue(ppp, price ? price.sales_price : null);
   }
 
@@ -219,6 +221,9 @@ export class PriceEditorFragment extends Fragment {
   }
 
   #renderCurrencyName(currency: ReturnType<typeof Exchange.getCurrency>): string {
+    if (!currency) {
+      return "";
+    }
     let s = `__NAME__(__CODE__)`;
     s = s.replace("__NAME__", currency.getName());
     s = s.replace("__CODE__", currency.getCode());

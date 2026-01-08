@@ -46,7 +46,7 @@ export class SearchBar extends Fragment {
     }
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new PanelWrapper();
     if (this.#isFatMode) {
       p.setClassName("search-bar-panel h-pad5px fat");
