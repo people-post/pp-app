@@ -26,12 +26,14 @@ const _CFT_MENU_ITEM_NAME = {
 }
 
 export class MenuItemName extends Fragment {
-  constructor(itemId) {
+  protected _itemId: string;
+
+  constructor(itemId: string) {
     super();
     this._itemId = itemId;
   }
 
-  action(type, ...args) {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_MENU_ITEM_NAME.ONCLICK:
       this.#onClick();
@@ -40,20 +42,23 @@ export class MenuItemName extends Fragment {
       this.#onDelete();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
     let p = new Panel();
     p.setClassName("");
     render.wrapPanel(p);
     p.replaceContent(this._renderName());
   }
 
-  _renderName() {
+  _renderName(): string {
     let item = this._getItem();
+    if (!item) {
+      return "";
+    }
     let tag = WebConfig.getTag(item.getTagId());
     let s = _CFT_MENU_ITEM_NAME.MAIN;
     let name = tag ? tag.getName() : item.getName();
@@ -64,13 +69,17 @@ export class MenuItemName extends Fragment {
     return s;
   }
 
-  _getItem() { return Menus.find(this._itemId); }
+  _getItem(): ReturnType<typeof Menus.find> { return Menus.find(this._itemId); }
 
-  #onClick() {
-    this._delegate.onItemClickedInGuiMenuItemName(this, this._itemId);
+  #onClick(): void {
+    // @ts-expect-error - delegate may have this method
+    this._delegate?.onItemClickedInGuiMenuItemName?.(this, this._itemId);
   }
 
-  #onDelete() {
-    this._delegate.onGuiMenuItemNameRequestDeleteItem(this, this._itemId);
+  #onDelete(): void {
+    // @ts-expect-error - delegate may have this method
+    this._delegate?.onGuiMenuItemNameRequestDeleteItem?.(this, this._itemId);
   }
-};
+}
+
+export default MenuItemName;

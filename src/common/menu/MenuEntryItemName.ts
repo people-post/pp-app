@@ -13,10 +13,13 @@ const _CFT_MENU_ENTRY_ITEM_NAME = {
 }
 
 export class MenuEntryItemName extends MenuItemName {
-  _renderName() {
+  _renderName(): string {
     let menuItem = this._getItem();
+    if (!menuItem) {
+      return "";
+    }
     let s = _CFT_MENU_ENTRY_ITEM_NAME.MENU_ITEM_HEADER;
-    let tag = WebConfig.getTag(menuItem ? menuItem.getTagId() : null);
+    let tag = WebConfig.getTag(menuItem.getTagId());
     if (tag) {
       s = s.replace("__NAME__", tag.getName());
       let theme = menuItem.getTheme();
@@ -30,4 +33,6 @@ export class MenuEntryItemName extends MenuItemName {
     }
     return "";
   }
-};
+}
+
+export default MenuEntryItemName;

@@ -2,6 +2,7 @@ import { FInput } from '../../lib/ui/controllers/fragments/FInput.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { T_DATA } from '../../lib/framework/Events.js';
 import { Env } from '../plt/Env.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 const _CF_RICH_CONTENT_EDITOR = {
   TOOLBAR : [
@@ -30,16 +31,28 @@ const _CFT_RICH_CONTENT_EDITOR = {
       `<textarea id="__ID__" class="normal" placeholder="__HINT__">__VALUE__</textarea>`,
 }
 
+interface RichContentConfig {
+  title?: string;
+  hint?: string;
+  value?: string;
+  className?: string;
+}
+
+interface CKEditorInstance {
+  getData(): string;
+}
+
+declare var CKEDITOR: {
+  replace(id: string, config: {toolbar: typeof _CF_RICH_CONTENT_EDITOR.TOOLBAR}): CKEditorInstance;
+};
+
 export class RichContentEditor extends FInput {
-  constructor() {
-    super();
-    this._editor = null;
-    this._config = {title : "", hint : "", value : "", className : ""};
-  }
+  private _editor: CKEditorInstance | null = null;
+  protected _config: RichContentConfig = {title : "", hint : "", value : "", className : ""};
 
-  getValue() { return this._editor.getData(); }
+  getValue(): string { return this._editor ? this._editor.getData() : ""; }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: string, data: unknown): void {
     switch (dataType) {
     case T_DATA.ADDON_SCRIPT:
       if (data == Env.SCRIPT.EDITOR.id) {
@@ -49,11 +62,11 @@ export class RichContentEditor extends FInput {
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render) {
-    let pp = render;
+  _renderOnRender(render: Panel): void {
+    let pp: Panel = render;
     if (this._config.title && this._config.title.length) {
       let p = new SectionPanel(this._config.title);
       render.wrapPanel(p);
@@ -61,7 +74,7 @@ export class RichContentEditor extends FInput {
     }
 
     let s = _CFT_RICH_CONTENT_EDITOR.INPUT;
-    s = s.replace("__HINT__", this._config.hint);
+    s = s.replace("__HINT__", this._config.hint || "");
     s = s.replace("__ID__", this._getInputElementId());
     s = s.replace("__VALUE__", this._config.value ? this._config.value : "");
 
@@ -70,10 +83,12 @@ export class RichContentEditor extends FInput {
     this.#loadJsEditor();
   }
 
-  #loadJsEditor() {
+  #loadJsEditor(): void {
     if (Env.isScriptLoaded(Env.SCRIPT.EDITOR.id)) {
       let config = {toolbar : _CF_RICH_CONTENT_EDITOR.TOOLBAR};
       this._editor = CKEDITOR.replace(this._getInputElementId(), config);
     }
   }
-};
+}
+
+export default RichContentEditor;

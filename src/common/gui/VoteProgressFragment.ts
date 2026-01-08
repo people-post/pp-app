@@ -9,52 +9,58 @@ const _CFT_VOTE_PROGRESS = {
     </div>`,
 }
 
+interface VoteConfig {
+  value: number;
+  threshold: number;
+  total: number;
+  nayValue?: number;
+}
+
 export class VoteProgressFragment extends Fragment {
-  constructor() {
-    super();
-    this._config = {"value" : 0, "threshold" : 0, "total" : 0};
-  }
+  private _config: VoteConfig = {"value" : 0, "threshold" : 0, "total" : 0};
 
-  setConfig(config) { this._config = config; }
+  setConfig(config: VoteConfig): void { this._config = config; }
 
-  _renderContent() {
+  _renderContent(): string {
     let s = _CFT_VOTE_PROGRESS.MAIN;
-    s = s.replace("__PERCENT__", this.#getPercent());
-    s = s.replace("__NAY_PERCENT__", this.#getNayPercent());
-    s = s.replace("__TARGET__", this.#getTargetPercent());
+    s = s.replace("__PERCENT__", this.#getPercent().toString());
+    s = s.replace("__NAY_PERCENT__", this.#getNayPercent().toString());
+    s = s.replace("__TARGET__", this.#getTargetPercent().toString());
     s = s.replace("__COLOR__", this.#getColorClass());
-    s = s.replace("__VALUE__", this._config.value);
-    s = s.replace("__TOTAL__", this._config.total);
+    s = s.replace("__VALUE__", this._config.value.toString());
+    s = s.replace("__TOTAL__", this._config.total.toString());
     return s;
   }
 
-  #getColorClass() {
+  #getColorClass(): string {
     if (this._config.value > this._config.threshold) {
       return "bggreen";
     }
     return "bgyellow";
   }
 
-  #getNayPercent() {
+  #getNayPercent(): number {
     if (this._config.total > 0) {
-      return this._config.nayValue * 100 / this._config.total;
+      return (this._config.nayValue || 0) * 100 / this._config.total;
     } else {
       return 100;
     }
   }
 
-  #getPercent() {
+  #getPercent(): number {
     if (this._config.total > 0) {
       return this._config.value * 100 / this._config.total;
     } else {
       return 100;
     }
   }
-  #getTargetPercent() {
+  #getTargetPercent(): number {
     if (this._config.total > 0) {
       return this._config.threshold * 100 / this._config.total;
     } else {
       return 100;
     }
   }
-};
+}
+
+export default VoteProgressFragment;

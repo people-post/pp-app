@@ -22,31 +22,31 @@ const _CFT_SEARCH_BAR = {
 
 export class SearchBar extends Fragment {
   #isFatMode = false;
-  #key = null
+  #key: string | null = null;
 
-  getKey() { return this.#key; }
+  getKey(): string | null { return this.#key; }
 
-  setKey(key) { this.#key = key; }
-  setFatMode(b) { this.#isFatMode = b; }
+  setKey(key: string | null): void { this.#key = key; }
+  setFatMode(b: boolean): void { this.#isFatMode = b; }
 
-  action(type, ...args) {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_SEARCH_BAR.ON_CLEAR:
       this.#onClear();
       break;
     case CF_SEARCH_BAR.ON_CHANGE:
-      this.#onChange(args[0]);
+      this.#onChange(args[0] as string);
       break;
     case CF_SEARCH_BAR.ON_KEYDOWN:
-      this.#onKeydown(args[0]);
+      this.#onKeydown(args[0] as string);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
     let p = new PanelWrapper();
     if (this.#isFatMode) {
       p.setClassName("search-bar-panel h-pad5px fat");
@@ -99,27 +99,33 @@ export class SearchBar extends Fragment {
     ppp.replaceContent(s);
   }
 
-  #getInputElementId() { return "EID_" + this._id; }
-  #getInputElement() {
-    return document.getElementById(this.#getInputElementId());
+  #getInputElementId(): string { return "EID_" + this._id; }
+  #getInputElement(): HTMLInputElement | null {
+    return document.getElementById(this.#getInputElementId()) as HTMLInputElement | null;
   }
 
-  #onChange(value) {}
+  #onChange(_value: string): void {}
 
-  #onKeydown(value) {
+  #onKeydown(value: string): void {
     if (this.#isSendEvt(event)) {
       this.#key = value;
-      this._delegate.onGuiSearchBarRequestSearch(this, value);
+      // @ts-expect-error - delegate may have this method
+      this._delegate?.onGuiSearchBarRequestSearch?.(this, value);
     }
   }
 
-  #isSendEvt(evt) { return !evt.shiftKey && evt.key === "Enter"; }
+  #isSendEvt(evt: Event | undefined): boolean {
+    if (!evt) return false;
+    return !(evt as KeyboardEvent).shiftKey && (evt as KeyboardEvent).key === "Enter";
+  }
 
-  #onClear() {
+  #onClear(): void {
     this.#key = null;
     let e = this.#getInputElement();
     if (e) {
       e.value = "";
     }
   }
-};
+}
+
+export default SearchBar;

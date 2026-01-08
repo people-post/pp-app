@@ -36,9 +36,9 @@ const _CPT_MENU_ITEM = {
 };
 
 export class PVMenuItem extends Panel {
-  #pTheme;
-  #pContent;
-  #pArrow;
+  #pTheme: Panel;
+  #pContent: PanelWrapper;
+  #pArrow: Panel;
 
   constructor() {
     super();
@@ -47,30 +47,30 @@ export class PVMenuItem extends Panel {
     this.#pArrow = new Panel();
   }
 
-  getThemePanel() { return this.#pTheme; }
-  getContentPanel() { return this.#pContent; }
-  getArrowPanel() { return this.#pArrow; }
+  getThemePanel(): Panel { return this.#pTheme; }
+  getContentPanel(): PanelWrapper { return this.#pContent; }
+  getArrowPanel(): Panel { return this.#pArrow; }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this.#pTheme.attach(this._getSubElementId("T"));
     this.#pContent.attach(this._getSubElementId("C"));
     this.#pArrow.attach(this._getSubElementId("A"));
   }
 
-  _renderFramework() {
+  _renderFramework(): string {
     let s = _CPT_MENU_ITEM.V_MAIN;
     s = s.replace("__ID_THEME__", this._getSubElementId("T"));
     s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
     s = s.replace("__ID_ARROW__", this._getSubElementId("A"));
     return s;
   }
-};
+}
 
 export class PHMenuItem extends Panel {
-  #pTheme;
-  #pContent;
-  #pArrow;
+  #pTheme: Panel;
+  #pContent: PanelWrapper;
+  #pArrow: Panel;
 
   constructor() {
     super();
@@ -79,36 +79,47 @@ export class PHMenuItem extends Panel {
     this.#pArrow = new Panel();
   }
 
-  getThemePanel() { return this.#pTheme; }
-  getContentPanel() { return this.#pContent; }
-  getArrowPanel() { return this.#pArrow; }
+  getThemePanel(): Panel { return this.#pTheme; }
+  getContentPanel(): PanelWrapper { return this.#pContent; }
+  getArrowPanel(): Panel { return this.#pArrow; }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this.#pTheme.attach(this._getSubElementId("T"));
     this.#pContent.attach(this._getSubElementId("C"));
     this.#pArrow.attach(this._getSubElementId("A"));
   }
 
-  _renderFramework() {
+  _renderFramework(): string {
     let s = _CPT_MENU_ITEM.H_MAIN;
     s = s.replace("__ID_THEME__", this._getSubElementId("T"));
     s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
     s = s.replace("__ID_ARROW__", this._getSubElementId("A"));
     return s;
   }
-};
+}
+
+interface MenuItem {
+  getId(): string;
+  getName(): string;
+  getTagId(): string;
+  getTheme(): { getPrimaryColor(): string } | null;
+  getSubItems(): MenuItem[];
+  isEmpty(): boolean;
+  getDepth(): number;
+  getParent(): MenuItem | null;
+}
 
 export class MainMenu extends MenuContent {
-  #fBar;
-  #btnAll;
-  #fChoices;
-  #sectorId = null;
-  #currentItem = null;
-  #ownerId = null;
-  #tResultLayout = null;
-  #cMaxWidth = null;
-  #extraItems = [];
+  #fBar: SearchBar;
+  #btnAll: Button;
+  #fChoices: FFragmentList;
+  #sectorId: string | null = null;
+  #currentItem: MenuItem | null = null;
+  #ownerId: string | null = null;
+  #tResultLayout: string | null = null;
+  #cMaxWidth: string | null = null;
+  #extraItems: MenuItem[] = [];
 
   constructor() {
     super();
@@ -129,8 +140,9 @@ export class MainMenu extends MenuContent {
     this.setChild("choices", this.#fChoices);
   }
 
-  onGuiSearchBarRequestSearch(fSearchBar, value) {
-    this._delegate.onMenuFragmentRequestCloseMenu(this);
+  onGuiSearchBarRequestSearch(_fSearchBar: SearchBar, value: string): void {
+    // @ts-expect-error - delegate may have this method
+    this._delegate?.onMenuFragmentRequestCloseMenu?.(this);
     let cls = Factory.getClass(
         T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
     let f = new cls();
@@ -138,18 +150,19 @@ export class MainMenu extends MenuContent {
     f.setResultLayoutType(this.#tResultLayout);
     let v = new View();
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Search result");
+    // @ts-expect-error - owner may have this method
+    this._owner?.onFragmentRequestShowView?.(this, v, "Search result");
   }
 
-  setOwnerId(id) { this.#ownerId = id; }
-  setSector(sectorId) { this.#sectorId = sectorId; }
-  setExtraItems(items) { this.#extraItems = items; }
-  setSearchResultLayoutType(t) { this.#tResultLayout = t; }
-  setMaxWidthClass(name) { this.#cMaxWidth = name; }
+  setOwnerId(id: string | null): void { this.#ownerId = id; }
+  setSector(sectorId: string | null): void { this.#sectorId = sectorId; }
+  setExtraItems(items: MenuItem[]): void { this.#extraItems = items; }
+  setSearchResultLayoutType(t: string | null): void { this.#tResultLayout = t; }
+  setMaxWidthClass(name: string | null): void { this.#cMaxWidth = name; }
 
-  onSimpleButtonClicked(fBtn) { this.#onItemSelected(fBtn.getValue()); }
+  onSimpleButtonClicked(fBtn: Button): void { this.#onItemSelected(fBtn.getValue() as string); }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: string, data: unknown): void {
     switch (dataType) {
     case PltT_DATA.GROUPS:
       this.render();
@@ -161,10 +174,10 @@ export class MainMenu extends MenuContent {
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
     let items = this.#getCurrentItems();
     if (this._isQuickLinkRenderMode) {
       this.#renderAsQuickLink(render, items);
@@ -173,7 +186,7 @@ export class MainMenu extends MenuContent {
     }
   }
 
-  #renderAsDropdownList(render, items) {
+  #renderAsDropdownList(render: Panel, items: MenuItem[]): void {
     let panel = new ListPanel();
     render.wrapPanel(panel);
 
@@ -185,7 +198,7 @@ export class MainMenu extends MenuContent {
     p = new Panel();
     panel.pushPanel(p);
     p.setClassName("menu-hr-wrapper");
-    p.replaceContent(_CPT_MENU_ITEM.H_BAR)
+    p.replaceContent(_CPT_MENU_ITEM.H_BAR);
 
     if (this.#currentItem) {
       p = new PVMenuItem();
@@ -207,7 +220,7 @@ export class MainMenu extends MenuContent {
     }
   }
 
-  #renderChoice(panel, item, tLayout = null) {
+  #renderChoice(panel: PVMenuItem, item: MenuItem, tLayout: string | null = null): void {
     let t = item.getTheme();
     if (t) {
       panel.getThemePanel().setStyle("backgroundColor", t.getPrimaryColor());
@@ -230,7 +243,7 @@ export class MainMenu extends MenuContent {
     this.#fChoices.append(f);
   }
 
-  #renderAsQuickLink(render, items) {
+  #renderAsQuickLink(render: Panel, items: MenuItem[]): void {
     let pWrapper = new PanelWrapper();
     pWrapper.setClassName("flex flex-center");
     render.wrapPanel(pWrapper);
@@ -261,17 +274,19 @@ export class MainMenu extends MenuContent {
     }
   }
 
-  #onItemSelected(itemId) {
+  #onItemSelected(itemId: string): void {
     if (itemId == "ALL") {
       let item = this.#currentItem;
       this.#currentItem = null;
-      this._delegate.onItemSelectedInGuiMainMenu(this, item);
+      // @ts-expect-error - delegate may have this method
+      this._delegate?.onItemSelectedInGuiMainMenu?.(this, item);
     } else {
       let item = this.#getItem(itemId);
       if (item) {
         if (item.isEmpty()) {
           this.#currentItem = null;
-          this._delegate.onItemSelectedInGuiMainMenu(this, item);
+          // @ts-expect-error - delegate may have this method
+          this._delegate?.onItemSelectedInGuiMainMenu?.(this, item);
         } else {
           this.#currentItem = item;
         }
@@ -280,7 +295,7 @@ export class MainMenu extends MenuContent {
     this.render();
   }
 
-  #getItem(itemId) {
+  #getItem(itemId: string): MenuItem | null {
     for (let i of this.#getCurrentItems()) {
       if (i.getId() == itemId) {
         return i;
@@ -289,14 +304,14 @@ export class MainMenu extends MenuContent {
     return null;
   }
 
-  #getCurrentItems() {
+  #getCurrentItems(): MenuItem[] {
     if (this.#currentItem) {
       return this.#currentItem.getSubItems();
     }
     return this.#getMenus();
   }
 
-  #getMenus() {
+  #getMenus(): MenuItem[] {
     let items = Menus.get(this.#sectorId, this.#ownerId);
     if (items.length == 1) {
       // Auto expand to next level
@@ -305,7 +320,7 @@ export class MainMenu extends MenuContent {
     return items.concat(this.#extraItems);
   }
 
-  #getItemName(item) {
+  #getItemName(item: MenuItem): string {
     let name = item.getName();
     if (!name) {
       // TODO: Should use tag
@@ -316,4 +331,6 @@ export class MainMenu extends MenuContent {
     }
     return name;
   }
-};
+}
+
+export default MainMenu;

@@ -22,7 +22,11 @@ const _CFT_MENU_ENTRY_ITEM_CONFIG = {
 }
 
 export class MenuEntryItemConfig extends DirFragment {
-  constructor(itemId) {
+  private _fThemeEditor: ThemeEditorFragment;
+  protected _itemId: string;
+  private _subItemId: string | null = null;
+
+  constructor(itemId: string) {
     super();
     this._fThemeEditor = new ThemeEditorFragment();
     this._fThemeEditor.setDelegate(this);
@@ -35,32 +39,35 @@ export class MenuEntryItemConfig extends DirFragment {
     this.setNMaxItems(MAX.N_MENU_ITEMS);
 
     this._itemId = itemId;
-    this._subItemId = null;
   }
 
-  onItemClickedInGuiMenuItemName(fName, itemId) {
+  onItemClickedInGuiMenuItemName(_fName: MenuItemName, itemId: string): void {
     this._subItemId = itemId;
     this.render();
   }
-  onGuiMenuItemNameRequestDeleteItem(fName, itemId) {
-    this._delegate.onEntryItemRequestDelete(this, itemId);
+  onGuiMenuItemNameRequestDeleteItem(_fName: MenuItemName, itemId: string): void {
+    // @ts-expect-error - delegate may have this method
+    this._delegate?.onEntryItemRequestDelete?.(this, itemId);
   }
-  onGuiThemeEditorFragmentRequestChangeColor(fThemeEditor, key, color) {
-    this._delegate.onGuiMenuEntryItemConfigRequestChangeTheme(
+  onGuiThemeEditorFragmentRequestChangeColor(_fThemeEditor: ThemeEditorFragment, key: string, color: string): void {
+    // @ts-expect-error - delegate may have this method
+    this._delegate?.onGuiMenuEntryItemConfigRequestChangeTheme?.(
         this, this._itemId, key, color);
   }
 
-  onItemChosenInSmartInputFragment(fSmartInput, tagId) {
+  onItemChosenInSmartInputFragment(_fSmartInput: FSmartInput, tagId: string): void {
     if (this._subItemId) {
-      this._delegate.onMenuItemRequestAddSubItem(this, this._subItemId, tagId);
+      // @ts-expect-error - delegate may have this method
+      this._delegate?.onMenuItemRequestAddSubItem?.(this, this._subItemId, tagId);
     } else {
-      this._delegate.onMenuItemRequestAddSubItem(this, this._itemId, tagId);
+      // @ts-expect-error - delegate may have this method
+      this._delegate?.onMenuItemRequestAddSubItem?.(this, this._itemId, tagId);
     }
   }
 
-  getFilteredItemsForSmartInputFragment(fSmartInput, filterStr) {
+  getFilteredItemsForSmartInputFragment(_fSmartInput: FSmartInput, filterStr: string): Array<{id: string; name: string}> {
     let s = filterStr.toLowerCase();
-    let items = [];
+    let items: Array<{id: string; name: string}> = [];
     for (let t of WebConfig.getTags()) {
       if (t.getName().toLowerCase().indexOf(s) > -1) {
         items.push({id : t.getId(), name : t.getName()});
@@ -69,18 +76,18 @@ export class MenuEntryItemConfig extends DirFragment {
     return items;
   }
 
-  action(type, ...args) {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_MENU_ENTRY_ITEM_CONFIG.CHANGE_DIR:
-      this.#onChangeDir(args[0]);
+      this.#onChangeDir(args[0] as string);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -118,26 +125,29 @@ export class MenuEntryItemConfig extends DirFragment {
     p.pushSpace(1);
   }
 
-  _createSubDirFragment(item) {
+  _createSubDirFragment(item: ReturnType<typeof Menus.find>): MenuItemName {
+    if (!item) {
+      throw new Error("Item is required");
+    }
     let f = new MenuItemName(item.getId());
     f.setDelegate(this);
     return f;
   }
 
-  _getSubItems() {
+  _getSubItems(): unknown[] {
     if (this._subItemId) {
       return this.#getSubItems(this._subItemId);
     }
     return this.#getSubItems(this._itemId);
   }
 
-  #getSubItems(itemId) {
+  #getSubItems(itemId: string): unknown[] {
     let i = Menus.find(itemId);
     return i ? i.getSubItems() : [];
   }
 
-  #renderPath(itemId) {
-    let names = [];
+  #renderPath(itemId: string): string {
+    let names: string[] = [];
     let i = Menus.find(itemId);
     while (i) {
       if (names.length) {
@@ -148,26 +158,31 @@ export class MenuEntryItemConfig extends DirFragment {
       i = i.getParent();
     }
     let s = _CFT_MENU_ENTRY_ITEM_CONFIG.PATH;
-    s = s.replace("__ITEMS__", names.join("/"))
+    s = s.replace("__ITEMS__", names.join("/"));
     return s;
   }
 
-  #renderPathItem(item) {
+  #renderPathItem(item: ReturnType<typeof Menus.find>): string {
+    if (!item) {
+      return "";
+    }
     let s = _CFT_MENU_ENTRY_ITEM_CONFIG.PATH_ITEM;
     s = s.replace("__ID__", item.getId());
     s = s.replace("__NAME__", this.#getTagName(item.getTagId()));
     return s;
   }
 
-  #getTagName(tagId) {
+  #getTagName(tagId: string | null): string {
     let tag = WebConfig.getTag(tagId);
     return tag ? tag.getName() : "";
   }
 
-  #getItem() { return Menus.find(this._itemId); }
+  #getItem(): ReturnType<typeof Menus.find> { return Menus.find(this._itemId); }
 
-  #onChangeDir(menuItemId) {
+  #onChangeDir(menuItemId: string): void {
     this._subItemId = menuItemId;
     this.render();
   }
-};
+}
+
+export default MenuEntryItemConfig;

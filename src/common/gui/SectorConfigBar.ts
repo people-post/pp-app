@@ -20,21 +20,21 @@ const _CFT_SECTOR_CONFIG_BAR = {
 }
 
 export class SectorConfigBar extends Fragment {
-  action(type, ...args) {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_SECTOR_CONFIG_BAR.ON_ENABLE_CLICKED:
-      this.#onSetEnabled(args[0]);
+      this.#onSetEnabled(args[0] as boolean);
       break;
     case CF_SECTOR_CONFIG_BAR.ON_HOME_CLICKED:
-      this.#onSetHome(args[0]);
+      this.#onSetHome(args[0] as boolean);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderContent() {
+  _renderContent(): string {
     let table = document.createElement("TABLE");
     table.className = "config-bar";
     let row = table.insertRow(-1);
@@ -54,7 +54,7 @@ export class SectorConfigBar extends Fragment {
     return table.outerHTML;
   }
 
-  #renderCell(text, isChecked, actionId) {
+  #renderCell(text: string, isChecked: boolean, actionId: string): string {
     let s = _CFT_SECTOR_CONFIG_BAR.CELL;
     s = s.replace("__NAME__", text);
     let c = document.createElement("INPUT");
@@ -67,7 +67,15 @@ export class SectorConfigBar extends Fragment {
     return s;
   }
 
-  #onSetEnabled(v) { this._delegate.onRequestSetEnabledInConfigBar(this, v); }
+  #onSetEnabled(v: boolean): void {
+    // @ts-expect-error - delegate may have this method
+    this._delegate?.onRequestSetEnabledInConfigBar?.(this, v);
+  }
 
-  #onSetHome(v) { this._delegate.onRequestSetHomeInConfigBar(this, v); }
-};
+  #onSetHome(v: boolean): void {
+    // @ts-expect-error - delegate may have this method
+    this._delegate?.onRequestSetHomeInConfigBar?.(this, v);
+  }
+}
+
+export default SectorConfigBar;

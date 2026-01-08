@@ -22,10 +22,10 @@ const _CPT_DATE_FILTER = {
 };
 
 export class PDateFilter extends Panel {
-  #pSearchBar;
-  #pFrom;
-  #pTo;
-  #btnApply;
+  #pSearchBar: PanelWrapper;
+  #pFrom: PanelWrapper;
+  #pTo: PanelWrapper;
+  #btnApply: PanelWrapper;
 
   constructor() {
     super();
@@ -35,12 +35,12 @@ export class PDateFilter extends Panel {
     this.#btnApply = new PanelWrapper();
   }
 
-  getSearchBarPanel() { return this.#pSearchBar; }
-  getFromTimePanel() { return this.#pFrom; }
-  getToTimePanel() { return this.#pTo; }
-  getBtnApplyPanel() { return this.#btnApply; }
+  getSearchBarPanel(): PanelWrapper { return this.#pSearchBar; }
+  getFromTimePanel(): PanelWrapper { return this.#pFrom; }
+  getToTimePanel(): PanelWrapper { return this.#pTo; }
+  getBtnApplyPanel(): PanelWrapper { return this.#btnApply; }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this.#pSearchBar.attach(this._getSubElementId("S"));
     this.#pFrom.attach(this._getSubElementId("F"));
@@ -48,7 +48,7 @@ export class PDateFilter extends Panel {
     this.#btnApply.attach(this._getSubElementId("B"));
   }
 
-  _renderFramework() {
+  _renderFramework(): string {
     let s = _CPT_DATE_FILTER.MAIN;
     s = s.replace("__ID_SEARCH_BAR__", this._getSubElementId("S"));
     s = s.replace("__ID_FROM__", this._getSubElementId("F"));
@@ -56,13 +56,13 @@ export class PDateFilter extends Panel {
     s = s.replace("__ID_BTN_APPLY__", this._getSubElementId("B"));
     return s;
   }
-};
+}
 
 export class MCDateFilter extends MenuContent {
-  #fBar;
-  #fFrom;
-  #fTo;
-  #btnApply;
+  #fBar: SearchBar;
+  #fFrom: FDateTimeSelector;
+  #fTo: FDateTimeSelector;
+  #btnApply: Button;
 
   constructor() {
     super();
@@ -89,25 +89,27 @@ export class MCDateFilter extends MenuContent {
     this.setChild("btnApply", this.#btnApply);
   }
 
-  setTimeRange(tFrom, tTo) {
+  setTimeRange(tFrom: Date | null, tTo: Date | null): void {
     this.#fFrom.setDateTime(tFrom ? tFrom.getTime() / 1000 : null);
     this.#fTo.setDateTime(tTo ? tTo.getTime() / 1000 : null);
   }
 
-  onSimpleButtonClicked(fBtn) { this.#onApply(); }
+  onSimpleButtonClicked(_fBtn: Button): void { this.#onApply(); }
 
-  onGuiSearchBarRequestSearch(fSearchBar, value) {
-    this._delegate.onMenuFragmentRequestCloseMenu(this);
+  onGuiSearchBarRequestSearch(_fSearchBar: SearchBar, value: string): void {
+    // @ts-expect-error - delegate may have this method
+    this._delegate?.onMenuFragmentRequestCloseMenu?.(this);
     let cls = Factory.getClass(
         T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
     let f = new cls();
     f.setKey(value);
     let v = new View();
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Search result");
+    // @ts-expect-error - owner may have this method
+    this._owner?.onFragmentRequestShowView?.(this, v, "Search result");
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
     if (this._isQuickLinkRenderMode) {
       this.#renderQuickLink(render);
     } else {
@@ -115,12 +117,12 @@ export class MCDateFilter extends MenuContent {
     }
   }
 
-  #renderQuickLink(render) {
+  #renderQuickLink(render: Panel): void {
     this.#fBar.attachRender(render);
     this.#fBar.render();
   }
 
-  #renderDropDown(render) {
+  #renderDropDown(render: Panel): void {
     let panel = new PDateFilter();
     render.wrapPanel(panel);
 
@@ -141,10 +143,13 @@ export class MCDateFilter extends MenuContent {
     this.#btnApply.render();
   }
 
-  #onApply() {
+  #onApply(): void {
     let tFrom = this.#fFrom.getValue();
     let tTo = this.#fTo.getValue();
-    this._delegate.onTimeRangeSelectedInDateTimeFilterFragment(this, tFrom,
+    // @ts-expect-error - delegate may have this method
+    this._delegate?.onTimeRangeSelectedInDateTimeFilterFragment?.(this, tFrom,
                                                                tTo);
   }
-};
+}
+
+export default MCDateFilter;

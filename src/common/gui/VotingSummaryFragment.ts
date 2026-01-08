@@ -3,28 +3,43 @@ import { VoteProgressFragment } from './VoteProgressFragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Vote } from '../datatypes/Vote.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
+interface VoteSummary {
+  getBallotConfig(): {
+    total: { weight: number; count: number };
+    threshold: { weight: number; count: number };
+  };
+  getBallot(value: symbol): { weight: number; count: number } | null;
+}
 
 export class VotingSummaryFragment extends Fragment {
+  private _fGeneral: VoteProgressFragment;
+  private _fWealth: VoteProgressFragment;
+  private _summary: VoteSummary | null = null;
+
   constructor() {
     super();
     this._fGeneral = new VoteProgressFragment();
     this._fWealth = new VoteProgressFragment();
     this.setChild("general", this._fGeneral);
     this.setChild("wealth", this._fWealth);
-    this._summary = null;
   }
 
-  setSummary(summary) { this._summary = summary; }
+  setSummary(summary: VoteSummary): void { this._summary = summary; }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
+    if (!this._summary) {
+      return;
+    }
     let p = new ListPanel();
     render.wrapPanel(p);
 
-    let config = {'threshold' : 0, 'total' : 0};
+    let config: {threshold: number; total: number; value: number; nayValue: number} = {'threshold' : 0, 'total' : 0, 'value': 0, 'nayValue': 0};
     let summary = this._summary;
     let bConfig = summary.getBallotConfig();
 
-    let pp;
+    let pp: PanelWrapper;
     if (bConfig.total.weight) {
       pp = new PanelWrapper();
       p.pushPanel(pp);
@@ -53,4 +68,6 @@ export class VotingSummaryFragment extends Fragment {
     this._fWealth.attachRender(pp);
     this._fWealth.render();
   }
-};
+}
+
+export default VotingSummaryFragment;

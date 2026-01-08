@@ -11,15 +11,21 @@ import { SocialItem } from '../datatypes/SocialItem.js';
 import { dat } from 'pp-api';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 const { OArticle } = dat;
 
+interface SocialItemId {
+  getValue(): string;
+  getType(): string;
+}
+
 export class FCommentInput extends Fragment {
-  #lc;
-  #fInput;
-  #tmpMessage = null;
-  #threadId = null; // SocialItemId
-  #hashtagIds = [];
+  #lc: LContext;
+  #fInput: InputConsoleFragment;
+  #tmpMessage: string | null = null;
+  #threadId: SocialItemId | null = null;
+  #hashtagIds: string[] = [];
 
   constructor() {
     super();
@@ -33,30 +39,30 @@ export class FCommentInput extends Fragment {
     this.setChild("input", this.#fInput);
   }
 
-  setThreadId(sid) { this.#threadId = sid; }
-  setTargetHashtagIds(ids) { this.#hashtagIds = ids; }
+  setThreadId(sid: SocialItemId): void { this.#threadId = sid; }
+  setTargetHashtagIds(ids: string[]): void { this.#hashtagIds = ids; }
 
-  onInputConsoleRequestPostFile(file) {}
-  onInputConsoleRequestPost(message) { this.#onPostMessage(message); }
-  onClickInHashtagFragment(fHashtag) {
+  onInputConsoleRequestPostFile(_file: File): void {}
+  onInputConsoleRequestPost(message: string): void { this.#onPostMessage(message); }
+  onClickInHashtagFragment(fHashtag: FHashtag): void {
     this.#lc.dismiss();
-    this.#asyncPostUserHashtagComment(this.#tmpMessage, fHashtag.getTagId());
+    this.#asyncPostUserHashtagComment(this.#tmpMessage || "", fHashtag.getTagId());
   }
 
-  onOptionClickedInContextLayer(lc, value) {
+  onOptionClickedInContextLayer(_lc: LContext, value: string): void {
     switch (value) {
     case "COMMENT":
-      this.#asyncPostUserComment(this.#tmpMessage);
+      this.#asyncPostUserComment(this.#tmpMessage || "");
       break;
     case "POST":
-      this.#asyncPostUserComment(this.#tmpMessage, true);
+      this.#asyncPostUserComment(this.#tmpMessage || "", true);
       break;
     default:
       break;
     }
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
     let p = new PanelWrapper();
     p.setClassName("comment-input-console");
     render.wrapPanel(p);
@@ -64,7 +70,7 @@ export class FCommentInput extends Fragment {
     this.#fInput.render();
   }
 
-  #onPostMessage(message) {
+  #onPostMessage(message: string): void {
     if (window.dba.Account.getId()) {
       // User, ask to choose comment vs article
       this.#tmpMessage = message;
@@ -102,12 +108,15 @@ export class FCommentInput extends Fragment {
     }
   }
 
-  #postGuestComment(message, guestName) {
+  #postGuestComment(message: string, guestName: string): void {
     window.dba.Account.setGuestName(guestName);
     this.#asyncPostGuestComment(message, guestName);
   }
 
-  #asyncPostGuestComment(message, guestName) {
+  #asyncPostGuestComment(message: string, guestName: string): void {
+    if (!this.#threadId) {
+      return;
+    }
     let url = "api/social/add_guest_comment";
     let fd = new FormData();
     fd.append("item_id", this.#threadId.getValue());
@@ -118,7 +127,7 @@ export class FCommentInput extends Fragment {
                                     e => this.#onPostError(e, message));
   }
 
-  #asyncPostUserHashtagComment(message, hashtagId) {
+  #asyncPostUserHashtagComment(message: string, hashtagId: string): void {
     let url = "api/social/add_comment_article";
     let fd = new FormData();
     fd.append("item_id", hashtagId);
@@ -128,19 +137,22 @@ export class FCommentInput extends Fragment {
                                     e => this.#onPostError(e, message));
   }
 
-  #asyncPostUserComment(message, asPost = false) {
+  #asyncPostUserComment(message: string, asPost = false): void {
     if (Env.isWeb3()) {
-      this.#asyncWeb3PostUserComment(this.#tmpMessage, asPost)
-          .then(() => this.#onPostDone())
-          .catch(e => this.#onPostError(e, this.#tmpMessage));
+      this.#asyncWeb3PostUserComment(message, asPost)
+          .then(() => this.#onPostDone(undefined))
+          .catch(e => this.#onPostError(e, message));
     } else {
-      this.#asyncWeb2PostUserComment(this.#tmpMessage, asPost);
+      this.#asyncWeb2PostUserComment(message, asPost);
     }
   }
 
-  async #asyncWeb3PostUserComment(message, asPost) {
+  async #asyncWeb3PostUserComment(message: string, asPost: boolean): Promise<void> {
     if (asPost) {
       console.log("TODO: Post user comment as post is not implemented");
+      return;
+    }
+    if (!this.#threadId) {
       return;
     }
 
@@ -153,7 +165,10 @@ export class FCommentInput extends Fragment {
     await window.dba.Account.asComment(this.#threadId.getValue(), oArticle, asPost);
   }
 
-  #asyncWeb2PostUserComment(message, asPost) {
+  #asyncWeb2PostUserComment(message: string, asPost: boolean): void {
+    if (!this.#threadId) {
+      return;
+    }
     let url = asPost ? "api/social/add_comment_article"
                      : "api/social/add_user_comment";
     let fd = new FormData();
@@ -164,12 +179,15 @@ export class FCommentInput extends Fragment {
                                     e => this.#onPostError(e, message));
   }
 
-  #onPostDone(data) {
-    this._delegate.onCommentPostedInCommentInputFragment(this);
+  #onPostDone(_data?: unknown): void {
+    // @ts-expect-error - delegate may have this method
+    this._delegate?.onCommentPostedInCommentInputFragment?.(this);
   }
 
-  #onPostError(e, message) {
+  #onPostError(e: unknown, message: string): void {
     this.#fInput.setText(message);
     this.onRemoteErrorInFragment(this, e);
   }
-};
+}
+
+export default FCommentInput;

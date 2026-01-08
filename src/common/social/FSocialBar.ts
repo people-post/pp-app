@@ -9,7 +9,6 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Utilities } from '../Utilities.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { URL_PARAM } from '../constants/Constants.js';
-import { glb } from '../../lib/framework/Global.js';
 import { FvcQuoteEditor } from '../../sectors/blog/FvcQuoteEditor.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
@@ -34,39 +33,50 @@ export class PSocialBarItem extends Panel {
   #pIcon = new Panel();
   #pLabel = new Panel();
 
-  getIconPanel() { return this.#pIcon; }
-  getLabelPanel() { return this.#pLabel; }
+  getIconPanel(): Panel { return this.#pIcon; }
+  getLabelPanel(): Panel { return this.#pLabel; }
 
-  _renderFramework() {
+  _renderFramework(): string {
     let s = _CPT_SOCIAL_BAR.ITEM;
     s = s.replace("__ID_ICON__", this._getSubElementId("I"));
     s = s.replace("__ID_LABEL__", this._getSubElementId("L"));
     return s;
   }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this.#pIcon.attach(this._getSubElementId("I"));
     this.#pLabel.attach(this._getSubElementId("L"));
   }
-};
+}
 
 export class PSocialBar extends Panel {
   #pItems = new ListPanel();
 
-  getItemsPanel() { return this.#pItems; }
+  getItemsPanel(): ListPanel { return this.#pItems; }
 
-  _renderFramework() {
+  _renderFramework(): string {
     let s = _CPT_SOCIAL_BAR.MAIN;
     s = s.replace("__ID_MAIN__", this._getSubElementId("M"));
     return s;
   }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this.#pItems.attach(this._getSubElementId("M"));
   }
-};
+}
+
+interface SocialItem {
+  getId(): string;
+  getSocialItemType(): string;
+  getOgpData(): { getTitle(): string; getUrl(): string } | null;
+}
+
+interface OgpData {
+  getTitle(): string;
+  getUrl(): string;
+}
 
 export class FSocialBar extends Fragment {
   static T_ACTION = {
@@ -77,12 +87,12 @@ export class FSocialBar extends Fragment {
     CONTEXT: Symbol(),
   };
 
-  #lc;
+  #lc: LContext;
   #invertColor = false;
-  #itemId = null;
-  #itemType = null;
-  #itemOgpData = null;
-  #actions = [];
+  #itemId: string | null = null;
+  #itemType: string | null = null;
+  #itemOgpData: OgpData | null = null;
+  #actions: symbol[] = [];
 
   constructor() {
     super();
@@ -92,32 +102,32 @@ export class FSocialBar extends Fragment {
     // Default actions
     if (Env.isWeb3()) {
       this.#actions = [
-        this.constructor.T_ACTION.COMMENT, this.constructor.T_ACTION.LIKE,
-        this.constructor.T_ACTION.LINK, this.constructor.T_ACTION.CONTEXT
+        FSocialBar.T_ACTION.COMMENT, FSocialBar.T_ACTION.LIKE,
+        FSocialBar.T_ACTION.LINK, FSocialBar.T_ACTION.CONTEXT
       ];
     } else {
       this.#actions = [
-        this.constructor.T_ACTION.COMMENT, this.constructor.T_ACTION.LIKE,
-        this.constructor.T_ACTION.LINK, this.constructor.T_ACTION.SHARE
+        FSocialBar.T_ACTION.COMMENT, FSocialBar.T_ACTION.LIKE,
+        FSocialBar.T_ACTION.LINK, FSocialBar.T_ACTION.SHARE
       ];
     }
   }
 
-  setInvertColor(b) { this.#invertColor = b; }
-  setActions(actions) { this.#actions = actions; }
-  setItem(item) {
+  setInvertColor(b: boolean): void { this.#invertColor = b; }
+  setActions(actions: symbol[]): void { this.#actions = actions; }
+  setItem(item: SocialItem): void {
     this.#itemId = item.getId();
     this.#itemType = item.getSocialItemType();
     this.#itemOgpData = item.getOgpData();
   }
 
-  onOptionClickedInContextLayer(lContext, value) {
+  onOptionClickedInContextLayer(_lContext: LContext, value: string): void {
     switch (value) {
     case "REPOST":
-      this.#asyncLink(this.#itemId, this.#itemType);
+      this.#asyncLink(this.#itemId || "", this.#itemType || "");
       break;
     case "UNREPOST":
-      this.#asyncUnlink(this.#itemId, this.#itemType);
+      this.#asyncUnlink(this.#itemId || "", this.#itemType || "");
       break;
     case "QUOTE":
       this.#onQuote();
@@ -139,28 +149,29 @@ export class FSocialBar extends Fragment {
     }
   }
 
-  onQuotePostedInQuoteEditorContentFragment(fvcQuoteEditor) {
+  onQuotePostedInQuoteEditorContentFragment(_fvcQuoteEditor: Fragment): void {
     Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
     Events.trigger(T_DATA.NEW_OWNER_POST);
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: string, data: unknown): void {
     switch (dataType) {
     case T_DATA.SOCIAL_INFO:
-      if (data.getId() == this.#itemId) {
+      if ((data as { getId(): string }).getId() == this.#itemId) {
         this.render();
       }
       break;
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
-  action(type, ...args) {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_SOCIAL_BAR.ON_COMMENT_CLICK:
-      this._delegate.onCommentClickedInSocialBar(this);
+      // @ts-expect-error - delegate may have this method
+      this._delegate?.onCommentClickedInSocialBar?.(this);
       break;
     case CF_SOCIAL_BAR.LIKE:
       this.#onLike();
@@ -181,12 +192,12 @@ export class FSocialBar extends Fragment {
       this.#onShowContext();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
     if (!this.#itemId) {
       return;
     }
@@ -198,7 +209,7 @@ export class FSocialBar extends Fragment {
     render.wrapPanel(panel);
 
     let pItems = panel.getItemsPanel();
-    let p;
+    let p: PSocialBarItem;
     for (let t of this.#actions) {
       p = new PSocialBarItem();
       p.setClassName("flex-grow flex flex-center center-align-items clickable");
@@ -207,30 +218,30 @@ export class FSocialBar extends Fragment {
     }
 
     if (this.#actions.length > 0) {
-      p = pItems.getPanel(0);
+      p = pItems.getPanel(0) as PSocialBarItem;
       p.setClassName("flex-grow flex flex-start center-align-items clickable");
       if (this.#actions.length > 1) {
-        p = pItems.getPanel(this.#actions.length - 1);
+        p = pItems.getPanel(this.#actions.length - 1) as PSocialBarItem;
         p.setClassName("flex-grow flex flex-end center-align-items clickable");
       }
     }
   }
 
-  #renderAction(type, panel, social) {
+  #renderAction(type: symbol, panel: PSocialBarItem, social: ReturnType<typeof Social.get>): void {
     switch (type) {
-    case this.constructor.T_ACTION.COMMENT:
+    case FSocialBar.T_ACTION.COMMENT:
       this.#renderComment(panel, social);
       break;
-    case this.constructor.T_ACTION.LIKE:
+    case FSocialBar.T_ACTION.LIKE:
       this.#renderLike(panel, social);
       break;
-    case this.constructor.T_ACTION.LINK:
+    case FSocialBar.T_ACTION.LINK:
       this.#renderLink(panel, social);
       break;
-    case this.constructor.T_ACTION.SHARE:
+    case FSocialBar.T_ACTION.SHARE:
       this.#renderShare(panel, social);
       break;
-    case this.constructor.T_ACTION.CONTEXT:
+    case FSocialBar.T_ACTION.CONTEXT:
       this.#renderContext(panel, social);
       break;
     default:
@@ -238,7 +249,7 @@ export class FSocialBar extends Fragment {
     }
   }
 
-  #renderComment(panel, social) {
+  #renderComment(panel: PSocialBarItem, social: ReturnType<typeof Social.get>): void {
     if (!panel) {
       return;
     }
@@ -252,7 +263,7 @@ export class FSocialBar extends Fragment {
     p.replaceContent(UtilitiesExt.nToShortString(social.getNComments()));
   }
 
-  #renderLike(panel, social) {
+  #renderLike(panel: PSocialBarItem, social: ReturnType<typeof Social.get>): void {
     if (!panel) {
       return;
     }
@@ -273,7 +284,7 @@ export class FSocialBar extends Fragment {
     p.replaceContent(UtilitiesExt.nToShortString(social.getNLikes()));
   }
 
-  #renderLink(panel, social) {
+  #renderLink(panel: PSocialBarItem, social: ReturnType<typeof Social.get>): void {
     if (!panel) {
       return;
     }
@@ -299,7 +310,7 @@ export class FSocialBar extends Fragment {
     p.replaceContent(UtilitiesExt.nToShortString(social.getNLinks()));
   }
 
-  #renderShare(panel, social) {
+  #renderShare(panel: PSocialBarItem, _social: ReturnType<typeof Social.get>): void {
     if (!panel) {
       return;
     }
@@ -310,7 +321,7 @@ export class FSocialBar extends Fragment {
         Utilities.renderSvgFuncIcon(C.ICON.SHARE, this.#invertColor));
   }
 
-  #renderContext(panel, social) {
+  #renderContext(panel: PSocialBarItem, _social: ReturnType<typeof Social.get>): void {
     if (!panel) {
       return;
     }
@@ -321,23 +332,23 @@ export class FSocialBar extends Fragment {
         Utilities.renderSvgFuncIcon(C.ICON.CIRCLED_MORE, this.#invertColor));
   }
 
-  #onLike() {
+  #onLike(): void {
     if (window.dba.Account.isAuthenticated()) {
-      this.#asyncLike(this.#itemId, this.#itemType);
+      this.#asyncLike(this.#itemId || "", this.#itemType || "");
     } else {
       this._displayMessage("LOGIN_BEFORE_LIKE");
     }
   }
 
-  #onUnlike() {
+  #onUnlike(): void {
     if (window.dba.Account.isAuthenticated()) {
-      this.#asyncUnlike(this.#itemId);
+      this.#asyncUnlike(this.#itemId || "");
     } else {
       this._displayMessage("LOGIN_BEFORE_LIKE");
     }
   }
 
-  #onLink() {
+  #onLink(): void {
     if (window.dba.Account.isAuthenticated()) {
       this.#lc.setTargetName(R.get("repost"));
       this.#lc.setDescription(null);
@@ -351,7 +362,7 @@ export class FSocialBar extends Fragment {
     }
   }
 
-  #onUnlink() {
+  #onUnlink(): void {
     if (window.dba.Account.isAuthenticated()) {
       this.#lc.setTargetName(R.get("repost"));
       this.#lc.setDescription(null);
@@ -365,7 +376,7 @@ export class FSocialBar extends Fragment {
     }
   }
 
-  #onShowContext() {
+  #onShowContext(): void {
     this.#lc.setTargetName(R.get("feedback"));
     this.#lc.setDescription("Customized feedback");
     this.#lc.clearOptions();
@@ -381,7 +392,7 @@ export class FSocialBar extends Fragment {
                                 "Context");
   }
 
-  #onShare() {
+  #onShare(): void {
     let ogp = this.#itemOgpData;
     if (!ogp) {
       return;
@@ -403,30 +414,39 @@ export class FSocialBar extends Fragment {
     }
   }
 
-  #onShareToTwitter() {
+  #onShareToTwitter(): void {
     let ogp = this.#itemOgpData;
+    if (!ogp) {
+      return;
+    }
     let items = [ "https://twitter.com/intent/tweet?" ];
     items.push("text=" + encodeURI(ogp.getTitle()));
     items.push("url=" + encodeURI(ogp.getUrl()));
     let url = items.join("&");
-    window.open(url, '_blank').focus();
+    window.open(url, '_blank')?.focus();
   }
 
-  #onShareToFacebook() {
+  #onShareToFacebook(): void {
     let ogp = this.#itemOgpData;
+    if (!ogp) {
+      return;
+    }
     let items = [ "https://www.facebook.com/share.php?" ];
     items.push(URL_PARAM.USER + "=" + encodeURI(ogp.getUrl()));
     let url = items.join("&");
-    window.open(url, '_blank').focus();
+    window.open(url, '_blank')?.focus();
   }
 
-  #onQuickComment() {}
+  #onQuickComment(): void {}
 
-  #onAudioComment() {}
+  #onAudioComment(): void {}
 
-  #onQuote() {
+  #onQuote(): void {
     let itemId = this.#itemId;
     let itemType = this.#itemType;
+    if (!itemId || !itemType) {
+      return;
+    }
     let v = new View();
     let f = new FvcQuoteEditor();
     f.setDelegate(this);
@@ -436,9 +456,9 @@ export class FSocialBar extends Fragment {
                                 false);
   }
 
-  #handleShareError(err) { console.log("Share error", err); }
+  #handleShareError(err: unknown): void { console.log("Share error", err); }
 
-  #asyncLike(itemId, itemType) {
+  #asyncLike(itemId: string, itemType: string): void {
     if (Env.isWeb3()) {
       this.#asyncWeb3Like(itemId).then(() => this.#onSocialRRR());
     } else {
@@ -446,9 +466,9 @@ export class FSocialBar extends Fragment {
     }
   }
 
-  async #asyncWeb3Like(itemId, itemType) { await window.dba.Account.asLike(itemId); }
+  async #asyncWeb3Like(itemId: string): Promise<void> { await window.dba.Account.asLike(itemId); }
 
-  #asyncWeb2Like(itemId, itemType) {
+  #asyncWeb2Like(itemId: string, itemType: string): void {
     let url = "api/social/like";
     let fd = new FormData();
     fd.append("item_id", itemId);
@@ -456,7 +476,7 @@ export class FSocialBar extends Fragment {
     Api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
   }
 
-  #asyncUnlike(itemId) {
+  #asyncUnlike(itemId: string): void {
     if (Env.isWeb3()) {
       this.#asyncWeb3Unlike(itemId).then(() => this.#onSocialRRR());
     } else {
@@ -464,16 +484,16 @@ export class FSocialBar extends Fragment {
     }
   }
 
-  async #asyncWeb3Unlike(itemId) { await window.dba.Account.asUnlike(itemId); }
+  async #asyncWeb3Unlike(itemId: string): Promise<void> { await window.dba.Account.asUnlike(itemId); }
 
-  #asyncWeb2Unlike(itemId) {
+  #asyncWeb2Unlike(itemId: string): void {
     let url = "api/social/unlike";
     let fd = new FormData();
     fd.append("item_id", itemId);
     Api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
   }
 
-  #asyncLink(itemId, itemType) {
+  #asyncLink(itemId: string, itemType: string): void {
     let url = "api/social/link";
     let fd = new FormData();
     fd.append("item_id", itemId);
@@ -481,7 +501,7 @@ export class FSocialBar extends Fragment {
     Api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
   }
 
-  #asyncUnlink(itemId, itemType) {
+  #asyncUnlink(itemId: string, itemType: string): void {
     let url = "api/social/unlink";
     let fd = new FormData();
     fd.append("item_id", itemId);
@@ -489,5 +509,7 @@ export class FSocialBar extends Fragment {
     Api.asFragmentPost(this, url, fd).then(d => this.#onSocialRRR(d));
   }
 
-  #onSocialRRR(data) { Social.reload(this.#itemId); }
-};
+  #onSocialRRR(_data?: unknown): void { if (this.#itemId) Social.reload(this.#itemId); }
+}
+
+export default FSocialBar;

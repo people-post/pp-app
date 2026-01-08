@@ -26,35 +26,38 @@ const _CFT_TAGS_EDITOR = {
 };
 
 export class TagsEditorFragment extends Fragment {
-  #elementName;
-  #extraTagNames = [];
+  #elementName: string;
+  #extraTagNames: string[] = [];
   #shouldEnableNewTags = false;
   #nMax = MAX.N_TAGS;
 
-  constructor(elementId) {
+  constructor(_elementId?: string) {
     super();
     this.#elementName = "EDIT_TAG_" + Utilities.uuid();
   }
 
-  getNewTagNames() { return this.#extraTagNames; }
-  getSelectedTagIds() {
-    let ids = [];
+  getNewTagNames(): string[] { return this.#extraTagNames; }
+  getSelectedTagIds(): string[] {
+    let ids: string[] = [];
     for (let e of document.getElementsByName(this.#elementName)) {
-      if (this.#isTagSelected(e)) {
-        ids.push(e.getAttribute("value"));
+      if (this.#isTagSelected(e as HTMLElement)) {
+        let value = e.getAttribute("value");
+        if (value) {
+          ids.push(value);
+        }
       }
     }
     return ids;
   }
 
-  setEnableNewTags(b) { this.#shouldEnableNewTags = b; }
+  setEnableNewTags(b: boolean): void { this.#shouldEnableNewTags = b; }
 
-  _renderContent() {
+  _renderContent(): string {
     let allTags = this._dataSource.getTagsForTagsEditorFragment(this);
     let checkedTagIds =
         this._dataSource.getInitialCheckedIdsForTagsEditorFragment(this);
     let s = _CFT_TAGS_EDITOR.MAIN;
-    let items = [];
+    let items: string[] = [];
     for (let tag of allTags) {
       let ss = this.#renderTag(tag, checkedTagIds.includes(tag.getId()));
       items.push(ss);
@@ -73,23 +76,23 @@ export class TagsEditorFragment extends Fragment {
     return s;
   }
 
-  action(type, ...args) {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_TAGS_EDITOR.TOGGLE:
-      this.#onToggleTag(args[0]);
+      this.#onToggleTag(args[0] as HTMLElement);
       break;
     case CF_TAGS_EDITOR.NEW_TAG:
       this.#onNewTag();
       break;
     case CF_TAGS_EDITOR.REMOVE_EXTRA_TAG:
-      this.#onRemoveExtraTag(args[0]);
+      this.#onRemoveExtraTag(args[0] as string);
       break;
     default:
       break;
     }
   }
 
-  #onNewTag() {
+  #onNewTag(): void {
     let v = new View();
     let fvc = new FvcUserInput();
     let f = new TextInput();
@@ -109,22 +112,22 @@ export class TagsEditorFragment extends Fragment {
                                 false);
   }
 
-  #addTag(name) {
+  #addTag(name: string): void {
     this.#extraTagNames.push(name);
     this.#updateExtraTags();
   }
 
-  #countTags() {
+  #countTags(): number {
     return document.getElementsByName(this.#elementName).length +
            this.#extraTagNames.length;
   }
 
-  #countSelectedTags() {
+  #countSelectedTags(): number {
     return this.getSelectedTagIds().length + this.#extraTagNames.length;
   }
 
-  #renderExtraTags(tagNames, shouldEnableNewTag) {
-    let items = [];
+  #renderExtraTags(tagNames: string[], shouldEnableNewTag: boolean): string {
+    let items: string[] = [];
     for (let name of tagNames) {
       items.push(this.#renderExtraTag(name));
     }
@@ -135,7 +138,7 @@ export class TagsEditorFragment extends Fragment {
     return s;
   }
 
-  #updateExtraTags() {
+  #updateExtraTags(): void {
     let e = document.getElementById("ID_EXTRA_TAGS");
     if (e) {
       let n = 0;
@@ -149,7 +152,7 @@ export class TagsEditorFragment extends Fragment {
     }
   }
 
-  #onToggleTag(eTag) {
+  #onToggleTag(eTag: HTMLElement): void {
     if (this.#isTagSelected(eTag)) {
       eTag.className = "tag";
     } else {
@@ -158,22 +161,22 @@ export class TagsEditorFragment extends Fragment {
       } else {
         this.onLocalErrorInFragment(
             this,
-            R.get("EL_N_MAX_TAG").replace("__N_MAX__", MAX.N_TAGS_PER_ITEM));
+            R.get("EL_N_MAX_TAG").replace("__N_MAX__", MAX.N_TAGS_PER_ITEM.toString()));
       }
     }
     this.#updateExtraTags();
   }
 
-  #isTagSelected(eTag) { return eTag.className.indexOf("selected") > 0; }
+  #isTagSelected(eTag: HTMLElement): boolean { return eTag.className.indexOf("selected") > 0; }
 
-  #renderExtraTag(name) {
+  #renderExtraTag(name: string): string {
     let s = _CFT_TAGS_EDITOR.EXTRA_TAG;
     s = s.replace("__TEXT__", name);
     s = s.replace("__VALUE__", name);
     return s;
   }
 
-  #onRemoveExtraTag(name) {
+  #onRemoveExtraTag(name: string): void {
     let i = this.#extraTagNames.indexOf(name);
     if (i >= 0) {
       this.#extraTagNames.splice(i, 1);
@@ -181,7 +184,7 @@ export class TagsEditorFragment extends Fragment {
     }
   }
 
-  #renderTag(tag, isChecked) {
+  #renderTag(tag: ReturnType<typeof this._dataSource.getTagsForTagsEditorFragment>, isChecked: boolean): string {
     let s = _CFT_TAGS_EDITOR.TAG;
     s = s.replace("__NAME__", this.#elementName);
     s = s.replace("__VALUE__", tag.getId());
@@ -193,4 +196,6 @@ export class TagsEditorFragment extends Fragment {
     s = s.replace("__TEXT__", tag.getName());
     return s;
   }
-};
+}
+
+export default TagsEditorFragment;

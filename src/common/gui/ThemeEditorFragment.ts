@@ -17,28 +17,33 @@ const _CFT_THEME_EDITOR = {
     </span>`,
 };
 
+interface Theme {
+  getPrimaryColor(): string;
+  getSecondaryColor(): string;
+}
+
 export class ThemeEditorFragment extends Fragment {
-  constructor() {
-    super();
-    this._theme = null;
-    this._iconUrl = "";
-  }
+  private _theme: Theme | null = null;
+  private _iconUrl = "";
 
-  setTheme(t) { this._theme = t; }
-  setIconUrl(url) { this._iconUrl = url; }
+  setTheme(t: Theme | null): void { this._theme = t; }
+  setIconUrl(url: string): void { this._iconUrl = url; }
 
-  action(type, ...args) {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_THEME_EDITOR.ON_COLOR_CHANGE:
-      this.#onColorChange(args[0], args[1]);
+      this.#onColorChange(args[0] as string, args[1] as string);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
+    if (!this._theme) {
+      return;
+    }
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -55,21 +60,22 @@ export class ThemeEditorFragment extends Fragment {
     pp.replaceContent(this.#renderIconPreview(this._theme, this._iconUrl));
   }
 
-  #onColorChange(key, color) {
-    this._delegate.onGuiThemeEditorFragmentRequestChangeColor(this, key, color);
+  #onColorChange(key: string, color: string): void {
+    // @ts-expect-error - delegate may have this method
+    this._delegate?.onGuiThemeEditorFragmentRequestChangeColor?.(this, key, color);
   }
 
-  #renderHeaderTheme(theme) {
+  #renderHeaderTheme(theme: Theme): string {
     return this.#renderColor("Header", theme.getSecondaryColor(),
                              theme.getPrimaryColor(), "primary");
   }
 
-  #renderContentTheme(theme) {
+  #renderContentTheme(theme: Theme): string {
     return this.#renderColor("Content", theme.getPrimaryColor(),
                              theme.getSecondaryColor(), "secondary");
   }
 
-  #renderColor(name, color, bgColor, key) {
+  #renderColor(name: string, color: string, bgColor: string, key: string): string {
     let s = _CFT_THEME_EDITOR.COLOR;
     s = s.replace("__NAME__", name);
     s = s.replace("__VALUE__", bgColor);
@@ -79,10 +85,12 @@ export class ThemeEditorFragment extends Fragment {
     return s;
   }
 
-  #renderIconPreview(theme, iconUrl) {
+  #renderIconPreview(theme: Theme, iconUrl: string): string {
     let s = _CFT_THEME_EDITOR.ICON_PREVIEW;
     s = s.replace("__SRC__", iconUrl);
     s = s.replace("__ICON_BG_COLOR__", theme.getPrimaryColor());
     return s;
   }
-};
+}
+
+export default ThemeEditorFragment;
