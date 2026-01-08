@@ -18,7 +18,7 @@ const _CPT_PRICE = {
 }
 
 export class PPrice extends PPriceBase {
-  _renderFramework() {
+  _renderFramework(): string {
     let s = _CPT_PRICE.MAIN;
     s = s.replace("__ID_UNIT__", this._getSubElementId("U"));
     s = s.replace("__ID_LIST_PRICE__", this._getSubElementId("LP"));
@@ -26,10 +26,13 @@ export class PPrice extends PPriceBase {
     return s;
   }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this._pUnit.attach(this._getSubElementId("U"));
     this._pListPrice.attach(this._getSubElementId("LP"));
     this._pSalesPrice.attach(this._getSubElementId("SP"));
   }
-};
+}
+
+export default PPrice;
+

@@ -9,23 +9,23 @@ export const CF_USER_ID_INPUT = {
 };
 
 export class FUserIdInput extends Fragment {
-  #userId = null;
+  #userId: string | null = null;
 
-  getUserId() { return this.#userId; }
-  setUserId(id) { this.#userId = id; }
+  getUserId(): string | null { return this.#userId; }
+  setUserId(id: string | null): void { this.#userId = id; }
 
-  action(type, ...args) {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_USER_ID_INPUT.USER_INFO:
-      this.#showUserInfo(args[0]);
+      this.#showUserInfo(args[0] as string);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
@@ -36,19 +36,22 @@ export class FUserIdInput extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
     let p = new Panel();
     render.wrapPanel(p);
     p.replaceContent(this.#renderUser());
   }
 
-  #renderUser() {
+  #renderUser(): string {
     let nickname = window.dba.Account.getUserNickname(this.#userId);
     return Utilities.renderSmallButton("S.hr.CF_USER_ID_INPUT.USER_INFO",
                                        this.#userId, nickname);
   }
 
-  #showUserInfo(userId) {
+  #showUserInfo(userId: string): void {
     Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 }
+
+export default FUserIdInput;
+

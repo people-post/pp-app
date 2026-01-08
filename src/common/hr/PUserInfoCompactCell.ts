@@ -16,27 +16,33 @@ const _CPT_USER_INFO_COMPACT_CELL = {
 }
 
 export class PUserInfoCompactCell extends PUserInfoBase {
+  private _pTypeIcon: Panel;
+  private _pUserId: Panel;
+
   constructor() {
     super();
     this._pTypeIcon = new Panel();
     this._pUserId = new Panel();
   }
 
-  getUserIdPanel() { return this._pUserId; }
-  getTypeIconPanel() { return this._pTypeIcon; }
+  getUserIdPanel(): Panel { return this._pUserId; }
+  getTypeIconPanel(): Panel { return this._pTypeIcon; }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this._pName.attach(this._getSubElementId("N"));
     this._pTypeIcon.attach(this._getSubElementId("TI"));
     this._pUserId.attach(this._getSubElementId("ID"));
   }
 
-  _renderFramework() {
+  _renderFramework(): string {
     let s = _CPT_USER_INFO_COMPACT_CELL.MAIN;
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_TYPE_ICON__", this._getSubElementId("TI"));
     s = s.replace("__ID_USER_ID__", this._getSubElementId("ID"));
     return s;
   }
-};
+}
+
+export default PUserInfoCompactCell;
+

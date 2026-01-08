@@ -1,19 +1,28 @@
 import { FInput } from '../../lib/ui/controllers/fragments/FInput.js';
 import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
 import { SplitPanel } from '../../lib/ui/renders/panels/SplitPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 const _CF_TRIBUTE_INPUT = {
   TYPE : {FLAT : "FLAT"},
 }
 
+interface TributeConfig {
+  type?: string;
+  data?: number;
+}
+
 export class FTributeInput extends FInput {
+  private _fPercent: NumberInput;
+  protected _config: TributeConfig = { type: _CF_TRIBUTE_INPUT.TYPE.FLAT };
+
   constructor() {
     super();
     this._fPercent = new NumberInput();
     this.setChild('percent', this._fPercent);
   }
 
-  getConfig() {
+  getConfig(): TributeConfig {
     // Same format as server return object
     return {
       type : _CF_TRIBUTE_INPUT.TYPE.FLAT,
@@ -21,12 +30,12 @@ export class FTributeInput extends FInput {
     };
   }
 
-  setConfig(config) {
+  setConfig(config: TributeConfig | null): void {
     // Same format as server return object
     if (config) {
       switch (config.type) {
       case _CF_TRIBUTE_INPUT.TYPE.FLAT:
-        this.#setFlatTribute(config.data);
+        this.#setFlatTribute(config.data || 0);
         break;
       default:
         break;
@@ -37,7 +46,7 @@ export class FTributeInput extends FInput {
     super.setConfig(config);
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
     let pSplit = new SplitPanel();
     render.wrapPanel(pSplit);
 
@@ -49,7 +58,7 @@ export class FTributeInput extends FInput {
     this.#renderTributeInputOnRender(p);
   }
 
-  #renderTributeType() {
+  #renderTributeType(): string {
     let s = "Type: ";
     switch (this._config.type) {
     case _CF_TRIBUTE_INPUT.TYPE.FLAT:
@@ -62,7 +71,7 @@ export class FTributeInput extends FInput {
     return s;
   }
 
-  #renderTributeInputOnRender(render) {
+  #renderTributeInputOnRender(render: Panel): void {
     switch (this._config.type) {
     case _CF_TRIBUTE_INPUT.TYPE.FLAT:
       this.#renderFlatTribute(render);
@@ -72,12 +81,12 @@ export class FTributeInput extends FInput {
     }
   }
 
-  #renderFlatTribute(render) {
+  #renderFlatTribute(render: Panel): void {
     this._fPercent.attachRender(render);
     this._fPercent.render();
   }
 
-  #setFlatTribute(percent) {
+  #setFlatTribute(percent: number): void {
     this._fPercent.setConfig({
       title : "",
       max : 100,
@@ -87,4 +96,7 @@ export class FTributeInput extends FInput {
       unit : "%"
     });
   }
-};
+}
+
+export default FTributeInput;
+

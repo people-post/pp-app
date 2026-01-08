@@ -9,16 +9,19 @@ const _CPT_USER_REFERENCE = {
 }
 
 export class PUserReference extends Panel {
+  private _pText: Panel;
+  private _pUser: PanelWrapper;
+
   constructor() {
     super();
     this._pText = new Panel();
     this._pUser = new PanelWrapper();
   }
 
-  getTextPanel() { return this._pText; }
-  getUserPanel() { return this._pUser; }
+  getTextPanel(): Panel { return this._pText; }
+  getUserPanel(): PanelWrapper { return this._pUser; }
 
-  _renderFramework() {
+  _renderFramework(): string {
     let s = _CPT_USER_REFERENCE.MAIN;
     s = s.replace("__REF_ICON__", Utilities.renderSvgIcon(C.ICON.REFRESH));
     s = s.replace("__ID_TEXT__", this._getSubElementId("T"));
@@ -26,9 +29,12 @@ export class PUserReference extends Panel {
     return s;
   }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this._pText.attach(this._getSubElementId("T"));
     this._pUser.attach(this._getSubElementId("U"));
   }
-};
+}
+
+export default PUserReference;
+

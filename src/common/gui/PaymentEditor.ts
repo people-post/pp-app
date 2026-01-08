@@ -1,4 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 const _CFT_PAYMENT_EDITOR = {
   MAIN : `<table>
@@ -34,5 +35,8 @@ const _CFT_PAYMENT_EDITOR = {
 }
 
 export class PaymentEditor extends Fragment {
-  _renderOnRender(render) { render.replaceContent(_CFT_PAYMENT_EDITOR.MAIN); }
+  _renderOnRender(render: Panel): void { render.replaceContent(_CFT_PAYMENT_EDITOR.MAIN); }
 }
+
+export default PaymentEditor;
+

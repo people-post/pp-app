@@ -16,23 +16,28 @@ const _CPT_USER_INFO_SMALL_ROW = {
 }
 
 export class PUserInfoSmallRow extends PUserInfoBase {
+  private _pIcon: PanelWrapper;
+
   constructor() {
     super();
     this._pIcon = new PanelWrapper();
   }
 
-  getIconPanel() { return this._pIcon; }
+  getIconPanel(): PanelWrapper { return this._pIcon; }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this._pName.attach(this._getSubElementId("N"));
     this._pIcon.attach(this._getSubElementId("I"));
   }
 
-  _renderFramework() {
+  _renderFramework(): string {
     let s = _CPT_USER_INFO_SMALL_ROW.MAIN;
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_ICON__", this._getSubElementId("I"));
     return s;
   }
-};
+}
+
+export default PUserInfoSmallRow;
+

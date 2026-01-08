@@ -19,25 +19,29 @@ const _CPT_USER_INFO_MIDSIZE_CELL = {
 }
 
 export class PUserInfoMidsizeCell extends PUserInfoBase {
+  private _pIcon: Panel;
+
   constructor() {
     super();
     this._pIcon = new Panel();
   }
 
-  getIconPanel() { return this._pIcon; }
+  getIconPanel(): Panel { return this._pIcon; }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this._pName.attach(this._getSubElementId("N"));
     this._pIcon.attach(this._getSubElementId("I"));
   }
 
-  _renderFramework() {
+  _renderFramework(): string {
     let s = _CPT_USER_INFO_MIDSIZE_CELL.MAIN;
     s = s.replace("__ID_MAIN__", this._getSubElementId("M"));
-    s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_ICON__", this._getSubElementId("I"));
     return s;
   }
-};
+}
+
+export default PUserInfoMidsizeCell;
+

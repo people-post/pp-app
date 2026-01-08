@@ -2,15 +2,18 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { Label } from '../../lib/ui/controllers/fragments/Label.js';
 import { T_DATA } from '../plt/Events.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 export class FCareerList extends Fragment {
+  private _fGroups: FSimpleFragmentList;
+
   constructor() {
     super();
     this._fGroups = new FSimpleFragmentList();
     this.setChild("groups", this._fGroups);
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PROFILE:
       this.render();
@@ -21,7 +24,7 @@ export class FCareerList extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
     this._fGroups.clear();
     for (let [k, v] of this._dataSource
              .getFragmentsDictForCareerListFragment(this)
@@ -34,7 +37,7 @@ export class FCareerList extends Fragment {
     this._fGroups.render();
   }
 
-  #createGroupFragment(name, fragments) {
+  #createGroupFragment(name: string | null, fragments: unknown[]): FSimpleFragmentList {
     let fGroup = new FSimpleFragmentList();
     let fHeader = new Label(name);
     if (!name) {
@@ -53,3 +56,6 @@ export class FCareerList extends Fragment {
     return fGroup;
   }
 }
+
+export default FCareerList;
+

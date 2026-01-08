@@ -7,6 +7,7 @@ import { PUserInfoMidsizeRow } from './PUserInfoMidsizeRow.js';
 import { T_DATA } from '../plt/Events.js';
 import { Users } from '../dba/Users.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 export const CF_USER_INFO = {
   ON_CLICK : Symbol(),
@@ -19,21 +20,22 @@ export class FUserInfo extends Fragment {
     MID_SQUARE: Symbol(),
   }
 
+  private _fIcon: FUserIcon;
+  private _layoutType: symbol | null = null;
+
   constructor() {
     super();
     this._fIcon = new FUserIcon();
     this._fIcon.setDelegate(this);
     this.setChild("icon", this._fIcon);
-
-    this._layoutType = null;
   }
 
-  setUserId(userId) { this._fIcon.setUserId(userId); }
-  setLayoutType(layoutType) {
+  setUserId(userId: string | null): void { this._fIcon.setUserId(userId); }
+  setLayoutType(layoutType: symbol | null): void {
     this._layoutType = layoutType;
     switch (this._layoutType) {
-    case this.constructor.T_LAYOUT.SMALL_ROW:
-    case this.constructor.T_LAYOUT.MID_SQUARE:
+    case FUserInfo.T_LAYOUT.SMALL_ROW:
+    case FUserInfo.T_LAYOUT.MID_SQUARE:
       this._fIcon.setSizeType(FUserIcon.ST_SMALL);
       break;
     default:
@@ -41,20 +43,20 @@ export class FUserInfo extends Fragment {
     }
   }
 
-  onIconClickedInUserIconFragment(fIcon, userId) { this.#onClick(); }
+  onIconClickedInUserIconFragment(_fIcon: FUserIcon, _userId: string | null): void { this.#onClick(); }
 
-  action(type, ...args) {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_USER_INFO.ON_CLICK:
       this.#onClick();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
@@ -62,10 +64,10 @@ export class FUserInfo extends Fragment {
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
     let u = Users.get(this._fIcon.getUserId());
     let p = this.#createPanel();
     p.setAttribute("onclick",
@@ -91,17 +93,17 @@ export class FUserInfo extends Fragment {
     }
   }
 
-  #createPanel() {
-    let p = null;
+  #createPanel(): Panel {
+    let p: Panel;
     switch (this._layoutType) {
-    case this.constructor.T_LAYOUT.COMPACT:
+    case FUserInfo.T_LAYOUT.COMPACT:
       p = new PUserInfoCompactCell();
       p.setClassName("inline-block");
       break;
-    case this.constructor.T_LAYOUT.MID_SQUARE:
+    case FUserInfo.T_LAYOUT.MID_SQUARE:
       p = new PUserInfoMidsizeCell();
       break;
-    case this.constructor.T_LAYOUT.SMALL_ROW:
+    case FUserInfo.T_LAYOUT.SMALL_ROW:
       p = new PUserInfoSmallRow();
       break;
     default:
@@ -111,13 +113,13 @@ export class FUserInfo extends Fragment {
     return p;
   }
 
-  #renderName(user) { return user ? user.getNickname() : "..."; }
-  #renderId(user) {
+  #renderName(user: ReturnType<typeof Users.get>): string { return user ? user.getNickname() : "..."; }
+  #renderId(user: ReturnType<typeof Users.get>): string {
     let id = user ? user.getUsername() : null;
     return id ? "@" + id : "";
   }
 
-  #renderTypeIcon(user) {
+  #renderTypeIcon(user: ReturnType<typeof Users.get>): string {
     if (user && user.isFeed()) {
       let s = `<span class="inline-block s-icon7">__ICON__</span>`;
       return s.replace("__ICON__", C.ICON.FEED);
@@ -125,12 +127,16 @@ export class FUserInfo extends Fragment {
     return "";
   }
 
-  #onClick() {
+  #onClick(): void {
     let userId = this._fIcon.getUserId();
     if (this._delegate) {
-      this._delegate.onClickInUserInfoFragment(this, userId);
+      // @ts-expect-error - delegate may have this method
+      this._delegate.onClickInUserInfoFragment?.(this, userId);
     } else {
       Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
     }
   }
-};
+}
+
+export default FUserInfo;
+

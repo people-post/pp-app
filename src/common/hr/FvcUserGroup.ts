@@ -26,6 +26,10 @@ const _CF_USER_GROUP_CONTENT = {
 }
 
 export class FvcUserGroup extends FScrollViewContent {
+  private _fMembers: FSimpleFragmentList;
+  private _fLeave: Button;
+  private _groupId: string | null = null;
+
   constructor() {
     super();
     this._fMembers = new FSimpleFragmentList();
@@ -38,13 +42,11 @@ export class FvcUserGroup extends FScrollViewContent {
 
     this.setChild("members", this._fMembers);
     this.setChild("btnLeave", this._fLeave);
-
-    this._groupId = null;
   }
 
-  setGroupId(id) { this._groupId = id; }
+  setGroupId(id: string | null): void { this._groupId = id; }
 
-  onSimpleButtonClicked(fButton) {
+  onSimpleButtonClicked(_fButton: Button): void {
     let group = Groups.get(this._groupId);
     if (group) {
       this._confirmDangerousOperation(R.get("CONFIRM_LEAVE_GROUP"),
@@ -53,19 +55,19 @@ export class FvcUserGroup extends FScrollViewContent {
     }
   }
 
-  onIconClickedInUserIconFragment(fUserIcon, userId) {
+  onIconClickedInUserIconFragment(_fUserIcon: FUserIcon, userId: string | null): void {
     Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 
-  action(type, ...args) {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: string, data: unknown): void {
     switch (dataType) {
     case T_DATA.GROUPS:
       this.render();
@@ -76,7 +78,7 @@ export class FvcUserGroup extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Panel): void {
     let group = Groups.get(this._groupId);
     if (!group) {
       return;
@@ -113,14 +115,14 @@ export class FvcUserGroup extends FScrollViewContent {
     p.pushSpace(2);
   }
 
-  #renderHead(group) {
+  #renderHead(group: ReturnType<typeof Groups.get>): string {
     let s = _CF_USER_GROUP_CONTENT.HEAD;
     s = s.replace("__NAME__", group.getName());
-    s = s.replace("__N_MEMBERS__", group.getNMembers());
+    s = s.replace("__N_MEMBERS__", group.getNMembers().toString());
     return s;
   }
 
-  #asyncLeaveGroup(groupId) {
+  #asyncLeaveGroup(groupId: string): void {
     let fd = new FormData();
     fd.append("id", groupId);
     let url = "api/career/resign_role";
@@ -128,9 +130,13 @@ export class FvcUserGroup extends FScrollViewContent {
         .then(d => this.#onLeaveGroupRRR(d));
   }
 
-  #onLeaveGroupRRR(data) {
+  #onLeaveGroupRRR(data: { profile: unknown; web_config: unknown }): void {
     window.dba.Account.reset(data.profile);
     WebConfig.reset(data.web_config);
-    this._owner.onContentFragmentRequestPopView(this);
+    // @ts-expect-error - owner may have this method
+    this._owner?.onContentFragmentRequestPopView?.(this);
   }
-};
+}
+
+export default FvcUserGroup;
+

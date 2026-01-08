@@ -19,26 +19,26 @@ export class FUserIcon extends Fragment {
   static ST_MIDDLE = "MIDDLE";
   static ST_LARGE = "LARGE";
 
-  #userId;
-  #sizeType;
+  #userId: string | null = null;
+  #sizeType: string | null = null;
 
-  getUserId() { return this.#userId; }
+  getUserId(): string | null { return this.#userId; }
 
-  setUserId(id) { this.#userId = id; }
-  setSizeType(sizeType) { this.#sizeType = sizeType; }
+  setUserId(id: string | null): void { this.#userId = id; }
+  setSizeType(sizeType: string | null): void { this.#sizeType = sizeType; }
 
-  action(type, ...args) {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_USER_ICON.USER_INFO:
       this.#onClick();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
@@ -51,10 +51,10 @@ export class FUserIcon extends Fragment {
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContent() {
+  _renderContent(): string {
     let user = Users.get(this.#userId);
     let s = _CFT_USER_ICON.ICON;
     if (user) {
@@ -68,13 +68,13 @@ export class FUserIcon extends Fragment {
     return s;
   }
 
-  #getSizeClassName() {
-    let name;
+  #getSizeClassName(): string {
+    let name: string;
     switch (this.#sizeType) {
-    case this.constructor.ST_SMALL:
+    case FUserIcon.ST_SMALL:
       name = "_small";
       break;
-    case this.constructor.ST_LARGE:
+    case FUserIcon.ST_LARGE:
       name = "_large";
       break;
     default:
@@ -84,11 +84,15 @@ export class FUserIcon extends Fragment {
     return name;
   }
 
-  #onClick() {
+  #onClick(): void {
     if (this._delegate) {
-      this._delegate.onIconClickedInUserIconFragment(this, this.#userId);
+      // @ts-expect-error - delegate may have this method
+      this._delegate.onIconClickedInUserIconFragment?.(this, this.#userId);
     } else {
       Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, this.#userId);
     }
   }
 }
+
+export default FUserIcon;
+

@@ -11,25 +11,28 @@ const _CPT_CAREER_INFO = {
 };
 
 export class PCareerInfo extends Panel {
+  private _pName: Panel;
+  private _pStatus: Panel;
+
   constructor() {
     super();
     this._pName = new Panel();
     this._pStatus = new Panel();
   }
 
-  isHighlightable() { return true; }
+  isHighlightable(): boolean { return true; }
 
-  getNamePanel() { return this._pName; }
-  getStatusPanel() { return this._pStatus; }
+  getNamePanel(): Panel { return this._pName; }
+  getStatusPanel(): Panel { return this._pStatus; }
 
-  highlight() {
+  highlight(): void {
     let e = document.getElementById(this._getSubElementId("M"));
     if (e) {
       e.className = e.className.replace("bdlightgray", "s-cprimebd");
     }
   }
 
-  _renderFramework() {
+  _renderFramework(): string {
     let s = _CPT_CAREER_INFO.MAIN;
     s = s.replace("__ID_MAIN__", this._getSubElementId("M"));
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
@@ -37,9 +40,12 @@ export class PCareerInfo extends Panel {
     return s;
   }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this._pName.attach(this._getSubElementId("N"));
     this._pStatus.attach(this._getSubElementId("S"));
   }
-};
+}
+
+export default PCareerInfo;
+

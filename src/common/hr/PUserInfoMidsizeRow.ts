@@ -20,27 +20,33 @@ const _CPT_USER_INFO_MIDSIZE_ROW = {
 }
 
 export class PUserInfoMidsizeRow extends PUserInfoBase {
+  private _pIcon: Panel;
+  private _pDescription: Panel;
+
   constructor() {
     super();
     this._pIcon = new Panel();
     this._pDescription = new Panel();
   }
 
-  getIconPanel() { return this._pIcon; }
-  getDescriptionPanel() { return this._pDescription; }
+  getIconPanel(): Panel { return this._pIcon; }
+  getDescriptionPanel(): Panel { return this._pDescription; }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this._pName.attach(this._getSubElementId("N"));
     this._pIcon.attach(this._getSubElementId("I"));
     this._pDescription.attach(this._getSubElementId("D"));
   }
 
-  _renderFramework() {
+  _renderFramework(): string {
     let s = _CPT_USER_INFO_MIDSIZE_ROW.MAIN;
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_ICON__", this._getSubElementId("I"));
     s = s.replace("__ID_DESCRIPTION__", this._getSubElementId("D"));
     return s;
   }
-};
+}
+
+export default PUserInfoMidsizeRow;
+

@@ -1,31 +1,30 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { PCareerInfo } from './PCareerInfo.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 export const CF_CAREER = {
   ON_CLICK : Symbol(),
 };
 
 export class FCareer extends Fragment {
-  constructor() {
-    super();
-    this._roleId;
-  }
+  private _roleId: string | null = null;
 
-  getRoleId() { return this._roleId; }
-  setRoleId(id) { this._roleId = id; }
+  getRoleId(): string | null { return this._roleId; }
+  setRoleId(id: string | null): void { this._roleId = id; }
 
-  action(type, data) {
+  action(type: string | symbol, data?: unknown): void {
     switch (type) {
     case CF_CAREER.ON_CLICK:
-      this._delegate.onClickInCareerFragment(this);
+      // @ts-expect-error - delegate may have this method
+      this._delegate?.onClickInCareerFragment?.(this);
       break;
     default:
-      super.action.apply(arguments);
+      super.action(type, data);
       break;
     }
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
     let role = this._dataSource.getRoleForCareerFragment(this, this._roleId);
     if (!role) {
       return;
@@ -53,10 +52,13 @@ export class FCareer extends Fragment {
     }
   }
 
-  #renderName(role) {
+  #renderName(role: ReturnType<typeof this._dataSource.getRoleForCareerFragment>): string {
     let s = `__NAME__(__TOTAL__)`;
     s = s.replace("__NAME__", role.getName());
-    s = s.replace("__TOTAL__", role.getNMembers());
+    s = s.replace("__TOTAL__", role.getNMembers().toString());
     return s;
   }
 }
+
+export default FCareer;
+

@@ -31,14 +31,11 @@ const _CFT_REQUEST_INFO = {
 }
 
 export class FRequestInfo extends Fragment {
-  constructor() {
-    super();
-    this._requestId = null;
-  }
+  private _requestId: string | null = null;
 
-  setRequestId(id) { this._requestId = id; }
+  setRequestId(id: string | null): void { this._requestId = id; }
 
-  action(type, ...args) {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_REQUEST_INFO.ACCEPT:
       this.#onAccept();
@@ -50,18 +47,18 @@ export class FRequestInfo extends Fragment {
       this.#onIgnore();
       break;
     case CF_REQUEST_INFO.USER_INFO:
-      this.#onShowUserInfo(args[0]);
+      this.#onShowUserInfo(args[0] as string);
       break;
     case CF_REQUEST_INFO.GROUP_INFO:
-      this.#onShowGroupInfo(args[0]);
+      this.#onShowGroupInfo(args[0] as string);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: string, data: unknown): void {
     switch (dataType) {
     case T_DATA.GROUPS:
     case T_DATA.USER_PUBLIC_PROFILES:
@@ -73,7 +70,7 @@ export class FRequestInfo extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Panel): void {
     let request = Notifications.getRequest(this._requestId);
     if (!request) {
       return;
@@ -101,18 +98,17 @@ export class FRequestInfo extends Fragment {
     pp.replaceContent(_CFT_REQUEST_INFO.BTN_IGNORE);
   }
 
-  #renderRequestContent(request) {
+  #renderRequestContent(request: ReturnType<typeof Notifications.getRequest>): string {
     switch (request.getCategory()) {
     case UserRequest.T_CATEGORY.JOIN_GROUP:
       return this.#renderJoinGroupRequest(request);
-      break;
     default:
       break;
     }
     return request.getMessage();
   }
 
-  #renderJoinGroupRequest(request) {
+  #renderJoinGroupRequest(request: ReturnType<typeof Notifications.getRequest>): string {
     let s = _CFT_REQUEST_INFO.JOIN_GROUP;
     let uid = request.getFromId();
     let nickname = window.dba.Account.getUserNickname(uid);
@@ -131,41 +127,44 @@ export class FRequestInfo extends Fragment {
     return s;
   }
 
-  #onAccept() { this.#asyncAccept(this._requestId); }
-  #onDecline() { this.#asyncDecline(this._requestId); }
-  #onIgnore() { this.#asyncIgnore(this._requestId); }
+  #onAccept(): void { this.#asyncAccept(this._requestId); }
+  #onDecline(): void { this.#asyncDecline(this._requestId); }
+  #onIgnore(): void { this.#asyncIgnore(this._requestId); }
 
-  #asyncAccept(id) {
+  #asyncAccept(id: string | null): void {
     let url = "api/career/accept_request";
     let fd = new FormData();
-    fd.append("id", id);
+    fd.append("id", id || "");
     Api.asFragmentPost(this, url, fd)
         .then(d => this.#onRequestOperationRRR(d));
   }
 
-  #asyncDecline(id) {
+  #asyncDecline(id: string | null): void {
     let url = "api/career/decline_request";
     let fd = new FormData();
-    fd.append("id", id);
+    fd.append("id", id || "");
     Api.asFragmentPost(this, url, fd)
         .then(d => this.#onRequestOperationRRR(d));
   }
 
-  #asyncIgnore(id) {
+  #asyncIgnore(id: string | null): void {
     let url = "/api/career/ignore_request";
     let fd = new FormData();
-    fd.append("id", id);
+    fd.append("id", id || "");
     Api.asFragmentPost(this, url, fd)
         .then(d => this.#onRequestOperationRRR(d));
   }
 
-  #onRequestOperationRRR(data) { window.dba.Account.reset(data.profile); }
+  #onRequestOperationRRR(data: { profile: unknown }): void { window.dba.Account.reset(data.profile); }
 
-  #onShowUserInfo(userId) {
+  #onShowUserInfo(userId: string): void {
     Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, userId);
   }
 
-  #onShowGroupInfo(groupId) {
+  #onShowGroupInfo(groupId: string): void {
     Events.triggerTopAction(T_ACTION.SHOW_GROUP_INFO, groupId);
   }
-};
+}
+
+export default FRequestInfo;
+
