@@ -29,10 +29,14 @@ export class LvSub extends LvTabbedPage {
     }
 
     let configs = this._gateway.getPageConfigs();
-    this._pMain.setEnableNavPanel(configs.length > 1);
+    if (this._pMain) {
+      this._pMain.setEnableNavPanel(configs.length > 1);
+    }
 
     this.onResize();
-    this._vc.replaceNavWrapperPanel(this._pMain.getNavWrapperPanel());
+    if (this._pMain) {
+      this._vc.replaceNavWrapperPanel(this._pMain.getNavWrapperPanel?.() ?? null);
+    }
 
     this._vc.init(configs);
     this.setDefaultPageId(this._gateway.getDefaultPageId());

@@ -1,12 +1,12 @@
 // ---- Begin for activate ----
 const enableNavigationPreload = async (): Promise<void> => {
-  if (self.registration.navigationPreload) {
+  if ((self.registration as any).navigationPreload) {
     // Enable navigation preloads!
-    await self.registration.navigationPreload.enable();
+    await (self.registration as any).navigationPreload.enable();
   }
 };
 
-const onActivate = (event: ExtendableEvent): void => { event.waitUntil(enableNavigationPreload()); };
+const onActivate = (event: any): void => { event.waitUntil(enableNavigationPreload()); };
 // ---- End for activate ----
 
 const addResourcesToCache = async (resources: string[]): Promise<void> => {
@@ -15,7 +15,7 @@ const addResourcesToCache = async (resources: string[]): Promise<void> => {
 };
 
 // ---- Begin for install ----
-const onInstall = (event: ExtendableEvent): void => {
+const onInstall = (event: any): void => {
   event.waitUntil(addResourcesToCache([
     './',
     './static/css/hst-min.css',
@@ -79,7 +79,7 @@ const cachedFetch = async ({request, preloadResponsePromise, fallbackUrl}: Cache
   }
 };
 
-const onFetch = (event: FetchEvent): void => {
+const onFetch = (event: any): void => {
   event.respondWith(cachedFetch({
     request : event.request,
     preloadResponsePromise : event.preloadResponse || Promise.resolve(undefined),
@@ -88,6 +88,6 @@ const onFetch = (event: FetchEvent): void => {
 };
 // ---- End for fetch ----
 
-self.addEventListener('activate', e => onActivate(e as ExtendableEvent));
-self.addEventListener('install', e => onInstall(e as ExtendableEvent));
-self.addEventListener('fetch', e => onFetch(e as FetchEvent));
+self.addEventListener('activate', e => onActivate(e as any));
+self.addEventListener('install', e => onInstall(e as any));
+self.addEventListener('fetch', e => onFetch(e as any));

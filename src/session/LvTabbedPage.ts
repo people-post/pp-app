@@ -1,16 +1,27 @@
 import { LvMultiPage } from './LvMultiPage.js';
-import { PMain } from './PMain.js';
+import { PMainTabbed } from './PMainTabbed.js';
 import { VBlank } from '../lib/ui/controllers/views/VBlank.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
 import { PageViewController } from '../lib/ui/controllers/PageViewController.js';
+import { PMain } from './PMain.js';
 
 export class LvTabbedPage extends LvMultiPage {
   init(): void {
+    if (!this._pMain) {
+      super.init();
+      return;
+    }
     let c = WebConfig.getLeftSideFrameConfig();
-    this.#initSideFrame("left", this._pMain.getLeftSidePanel(), c);
+    let leftPanel = this._pMain.getLeftSidePanel?.();
+    if (leftPanel) {
+      this.#initSideFrame("left", leftPanel, c);
+    }
 
     c = WebConfig.getRightSideFrameConfig();
-    this.#initSideFrame("right", this._pMain.getRightSidePanel(), c);
+    let rightPanel = this._pMain.getRightSidePanel?.();
+    if (rightPanel) {
+      this.#initSideFrame("right", rightPanel, c);
+    }
     super.init();
   }
 
@@ -23,29 +34,32 @@ export class LvTabbedPage extends LvMultiPage {
   }
 
   onPageViewControllerOverlayPermissionChange(pvc: PageViewController, isOverlayAllowed: boolean): void {
-    if (this._pMain.isNavOverlay()) {
+    if (this._pMain?.isNavOverlay()) {
       // TODO: setVisible not working here because of grid display
-      this._pMain.getConsoleOverlayPanel().getTabPanel().setDisplay(
+      this._pMain.getConsoleOverlayPanel()?.getTabPanel()?.setDisplay(
           isOverlayAllowed ? "" : "none");
     }
   }
 
   _isExtrasPageNeeded(): boolean {
-    return this._pMain.isNavOverlay() &&
+    return this._pMain?.isNavOverlay() === true &&
            this._gateway.getExtrasPageConfigs().length > 0;
   }
 
-  _createMainPanel(): PMain { return new PMain(); }
+  _createMainPanel(): PMain | null { return new PMainTabbed(); }
 
   _renderOnRender(render: ReturnType<typeof this.getRender>): void {
     // This is before init()
+    if (!this._pMain) {
+      return;
+    }
     render.wrapPanel(this._pMain);
     this.#updateLayout();
     this._vc.attachRender(this._pMain.getContentPanel());
     this._vc.render();
   }
 
-  #initSideFrame(name: string, panel: ReturnType<PMain['getLeftSidePanel']>, config: ReturnType<typeof WebConfig.getLeftSideFrameConfig>): void {
+  #initSideFrame(name: string, panel: ReturnType<PMainTabbed['getLeftSidePanel']>, config: ReturnType<typeof WebConfig.getLeftSideFrameConfig>): void {
     let v;
     if (config) {
       switch (config.type) {
@@ -66,19 +80,26 @@ export class LvTabbedPage extends LvMultiPage {
   }
 
   #updateLayout(): void {
+    if (!this._pMain) {
+      return;
+    }
     let wasOverlay = this._pMain.isConsoleOverlay();
     let w = this._pMain.getWidth();
-    this._pMain.setEnableConsoleOverlay(w < 400);
+    this._pMain.setEnableConsoleOverlay?.(w < 400);
     let pw = w >= 500 ? 5 : 0;
-    let p = this._pMain.getLeftSidePanel();
-    p.setWidth(pw, "%");
-    p = this._pMain.getRightSidePanel();
-    p.setWidth(pw, "%");
+    let p = this._pMain.getLeftSidePanel?.();
+    if (p) {
+      p.setWidth(pw, "%");
+    }
+    p = this._pMain.getRightSidePanel?.();
+    if (p) {
+      p.setWidth(pw, "%");
+    }
 
     // If narrow, reduce pages to 4 and use extra sector
-    if (this._pMain.isConsoleOverlay() != wasOverlay) {
+    if (this._pMain.isConsoleOverlay?.() != wasOverlay) {
       this._vc.init(this._getVisiblePageConfigs());
-      this._vc.replaceNavWrapperPanel(this._pMain.getNavWrapperPanel());
+      this._vc.replaceNavWrapperPanel(this._pMain.getNavWrapperPanel?.() ?? null);
     }
   }
 }

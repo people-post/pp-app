@@ -3,6 +3,8 @@ import { FHomeBtn } from './FHomeBtn.js';
 import { PGadget } from './PGadget.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
 import { ID, URL_PARAM } from '../common/constants/Constants.js';
+import { PanelWrapper } from '../lib/ui/renders/panels/PanelWrapper.js';
+import { PMain } from './PMain.js';
 
 export class LvGadget extends LvMultiPage {
   init(): void {
@@ -39,9 +41,12 @@ export class LvGadget extends LvMultiPage {
 
   _isExtrasPageNeeded(): boolean { return true; }
 
-  _createMainPanel(): PGadget { return new PGadget(); }
+  _createMainPanel(): PMain | null { return new PGadget(); }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
+    if (!this._pMain) {
+      return;
+    }
     render.wrapPanel(this._pMain);
     this._vc.attachRender(this._pMain.getContentPanel());
     this._vc.render();

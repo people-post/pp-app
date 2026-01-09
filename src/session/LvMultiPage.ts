@@ -8,21 +8,23 @@ import { Logger } from '../lib/ext/Logger.js';
 import { Badge } from '../common/dba/Badge.js';
 import { ID } from '../common/constants/Constants.js';
 import { FHomeBtn } from './FHomeBtn.js'; 
-import { Panel } from '../lib/ui/renders/panels/Panel.js';
+import { PMain } from './PMain.js';
 import { PageConfig } from '../common/plt/SectorGateway.js';
 
 export class LvMultiPage extends ViewLayer implements PageViewControllerOwner, PageViewControllerDataSource, PageViewControllerDelegate {
   #fBtnHome: FHomeBtn | null = null;
   #fAbDefault: unknown = null;
   #logger: Logger;
-  protected _pMain: Panel;
+  protected _pMain: PMain | null;
   protected _vc: PageViewController;
   protected _gateway: Gateway;
 
   constructor() {
     super();
     this._pMain = this._createMainPanel();
-    this._pMain.setClassName("w100 h100");
+    if (this._pMain) {
+      this._pMain.setClassName("w100 h100");
+    }
 
     this._vc = new PageViewController();
     this._vc.setOwner(this);
@@ -38,7 +40,9 @@ export class LvMultiPage extends ViewLayer implements PageViewControllerOwner, P
     this.#logger.debug("init...");
     let cs = this._getVisiblePageConfigs();
     this._vc.init(cs);
-    this._pMain.setEnableNavPanel(cs.length > 1);
+    if (this._pMain) {
+      this._pMain.setEnableNavPanel(cs.length > 1);
+    }
     // TODO: Re-evaluate home btn, this is a hack fix for front page using their
     // own home button
     if (this.#fBtnHome && cs.length < 2) {
@@ -91,7 +95,7 @@ export class LvMultiPage extends ViewLayer implements PageViewControllerOwner, P
   }
   onPageViewControllerOverlayPermissionChange(_pvc: PageViewController, _isOverlayAllowed: boolean): void {}
   onPageViewControllerWillUpdateNavView(_pvc: PageViewController): void {
-    if (this.#fBtnHome) {
+    if (this.#fBtnHome && this._pMain) {
       // @ts-expect-error - pMain may have this method
       let p = this._pMain.getHomeBtnPanel?.();
       if (p) {
@@ -149,7 +153,7 @@ export class LvMultiPage extends ViewLayer implements PageViewControllerOwner, P
     return configs;
   }
 
-  _createMainPanel(): Panel { return null as unknown as Panel; }
+  _createMainPanel(): PMain | null { return null; }
 
   #createPageEntryViews(pageId: string): View[] {
     if (pageId == ID.SECTOR.EXTRAS) {

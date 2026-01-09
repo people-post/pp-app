@@ -1,6 +1,7 @@
-import { Panel } from '../lib/ui/renders/panels/Panel.js';
 import { ListPanel } from '../lib/ui/renders/panels/ListPanel.js';
 import { ConsoleOverlayPanel } from '../lib/ui/renders/panels/ConsoleOverlayPanel.js';
+import { PMain } from './PMain.js';
+import { Panel } from '../lib/ui/renders/panels/Panel.js';
 
 const _CPT_GADGET = {
   MAIN : `<div class="f-gadget">
@@ -9,7 +10,7 @@ const _CPT_GADGET = {
   </div>`,
 };
 
-export class PGadget extends Panel {
+export class PGadget extends PMain {
   #pContent: ListPanel;
   #pConsoleOverlay: ConsoleOverlayPanel;
 
@@ -19,10 +20,10 @@ export class PGadget extends Panel {
     this.#pConsoleOverlay = new ConsoleOverlayPanel();
   }
 
-  getContentPanel(): ListPanel { return this.#pContent; }
-  getHomeBtnPanel(): ReturnType<ConsoleOverlayPanel['getHomeBtnPanel']> { return this.#pConsoleOverlay.getHomeBtnPanel(); }
+  override getContentPanel(): ListPanel { return this.#pContent; }
+  override getHomeBtnPanel(): Panel | null { return this.#pConsoleOverlay.getHomeBtnPanel(); }
 
-  setEnableNavPanel(_b: boolean): void {}
+  override setEnableNavPanel(_b: boolean): void {}
 
   onResize(): void {}
 
