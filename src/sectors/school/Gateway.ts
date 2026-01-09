@@ -1,6 +1,6 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ICON } from '../../common/constants/Icons.js';
-import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import { SectorGateway, PageConfig } from '../../common/plt/SectorGateway.js';
 import { FTimeClock } from './FTimeClock.js';
 import { FvcLibrary } from './FvcLibrary.js';
 import { FvcInteractive } from './FvcInteractive.js';
@@ -10,13 +10,7 @@ import { FvcInstructor } from './FvcInstructor.js';
 import { FvcResultShow } from './FvcResultShow.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
-interface PageConfig {
-  ID: string;
-  NAME: string;
-  ICON: string;
-}
-
-export class Gateway extends SectorGateway {
+export class Gateway implements SectorGateway {
   static T_CONFIG = {
     LIBRARY : {ID : "LIBRARY", NAME: "Library", ICON: ICON.LIBRARY},
     INTERACTIVE: {ID: "INTERACTIVE", NAME: "Interactive", ICON: ICON.TEST},
@@ -27,6 +21,8 @@ export class Gateway extends SectorGateway {
   } as const;
 
   isLoginRequired(): boolean { return true; }
+  isPageNavItem(_pageId: string): boolean { return false; }
+  shouldEnableSessionAction(_pageId: string): boolean { return true; }
 
   getIcon(): string { return ICON.SCHOOL; }
   getDefaultPageId(): string { return Gateway.T_CONFIG.LIBRARY.ID; }
@@ -72,5 +68,7 @@ export class Gateway extends SectorGateway {
     return vs;
   }
 
+  getNPageNotifications(_pageId: string): number { return 0; }
+  createPageOptionalViews(_pageId: string): View[] { return []; }
 }
 

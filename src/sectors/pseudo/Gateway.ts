@@ -1,12 +1,12 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ID } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
-import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import { SectorGateway, PageConfig } from '../../common/plt/SectorGateway.js';
 import { FvcQueueMain } from '../shop/FvcQueueMain.js';
 import { FvcCounterMain } from '../shop/FvcCounterMain.js';
 import { FvcQueueSide } from '../shop/FvcQueueSide.js';
 
-export class Gateway extends SectorGateway {
+export class Gateway implements SectorGateway {
   static T_CONFIG = {
     QUEUE : {ID : ID.SECTOR.QUEUE, NAME: "Queue", ICON: ICON.QUEUE},
     COUNTER: {ID: ID.SECTOR.COUNTER, NAME: "Counter", ICON: ICON.INFO},
@@ -15,9 +15,12 @@ export class Gateway extends SectorGateway {
   private _sectorId: string;
 
   constructor(sectorId: string) {
-    super();
     this._sectorId = sectorId;
   }
+
+  isLoginRequired(): boolean { return false; }
+  isPageNavItem(_pageId: string): boolean { return false; }
+  shouldEnableSessionAction(_pageId: string): boolean { return true; }
 
   getIcon(): string | null {
     let icon: string;
@@ -49,8 +52,8 @@ export class Gateway extends SectorGateway {
     return id;
   }
 
-  getPageConfigs(): unknown[] {
-    let configs: unknown[] = [];
+  getPageConfigs(): PageConfig[] {
+    let configs: PageConfig[] = [];
     switch (this._sectorId) {
     case this.constructor.T_CONFIG.COUNTER.ID:
       configs.push(this.constructor.T_CONFIG.COUNTER);
@@ -65,7 +68,7 @@ export class Gateway extends SectorGateway {
     return configs;
   }
 
-  createPageEntryViews(pageId: string): unknown[] {
+  createPageEntryViews(pageId: string): View[] {
     let vs: View[] = [];
     switch (pageId) {
     case this.constructor.T_CONFIG.QUEUE.ID:
@@ -82,7 +85,7 @@ export class Gateway extends SectorGateway {
     return vs;
   }
 
-  createPageOptionalViews(pageId: string): unknown[] {
+  createPageOptionalViews(pageId: string): View[] {
     let vs: View[] = [];
     switch (pageId) {
     case this.constructor.T_CONFIG.QUEUE.ID:
@@ -94,4 +97,7 @@ export class Gateway extends SectorGateway {
     }
     return vs;
   }
+
+  getBannerFragment(): Fragment | null { return null; }
+  getNPageNotifications(_pageId: string): number { return 0; }
 };

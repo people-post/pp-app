@@ -105,36 +105,32 @@ export class Gateway extends Controller {
   #sGateway: SectorGateway | null = null;
 
   isLoginRequired(): boolean {
-    return this.#sGateway ? this.#sGateway.isLoginRequired?.() : false;
+    return this.#sGateway?.isLoginRequired() ?? false;
   }
 
   isPageNavItem(pageId: string): boolean {
-    return this.#sGateway ? this.#sGateway.isPageNavItem?.(pageId)
-                          : this.#isPageNavItem(pageId);
+    return this.#sGateway?.isPageNavItem(pageId) ?? this.#isPageNavItem(pageId);
   }
   shouldEnableSessionAction(pageId: string): boolean {
-    return this.#sGateway ? this.#sGateway.shouldEnableSessionAction?.(pageId)
-                          : this.#shouldEnableSessionAction(pageId);
+    return this.#sGateway?.shouldEnableSessionAction(pageId) ?? this.#shouldEnableSessionAction(pageId);
   }
 
   getSectorId(): string | null { return this.#sectorId; }
   getIcon(): string | null {
-    return this.#sGateway ? this.#sGateway.getIcon?.() : null;
+    return this.#sGateway?.getIcon() ?? null;
   }
   getBannerFragment(): unknown | null {
-    return this.#sGateway ? this.#sGateway.getBannerFragment?.() : null;
+    return this.#sGateway?.getBannerFragment() ?? null;
   }
   getDefaultPageId(): string | null {
-    return this.#sGateway ? this.#sGateway.getDefaultPageId?.() : null;
+    return this.#sGateway?.getDefaultPageId() ?? null;
   }
   getPageConfigs(): PageConfig[] {
-    return this.#sGateway ? this.#sGateway.getPageConfigs?.()
-                          : this.#getPageConfigs();
+    return this.#sGateway?.getPageConfigs() ?? this.#getPageConfigs();
   }
 
   getNPageNotifications(pageId: string): number {
-    return this.#sGateway ? this.#sGateway.getNPageNotifications?.(pageId)
-                          : this.#getNPageNotifications(pageId);
+    return this.#sGateway?.getNPageNotifications(pageId) ?? this.#getNPageNotifications(pageId);
   }
 
   getExtrasPageConfigs(): PageConfig[] {
@@ -148,13 +144,11 @@ export class Gateway extends Controller {
   }
 
   createPageEntryViews(pageId: string): View[] {
-    return this.#sGateway ? this.#sGateway.createPageEntryViews?.(pageId)
-                          : this.#createPageEntryViews(pageId);
+    return this.#sGateway?.createPageEntryViews(pageId) ?? this.#createPageEntryViews(pageId);
   }
 
   createPageOptionalViews(pageId: string): View[] {
-    // @ts-expect-error - sGateway may have this method
-    return this.#sGateway ? this.#sGateway.createPageOptionalViews?.(pageId) : [];
+    return this.#sGateway?.createPageOptionalViews(pageId) ?? [];
   }
 
   #isPageNavItem(pageId: string): boolean {
