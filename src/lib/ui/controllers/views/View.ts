@@ -21,8 +21,8 @@ if (typeof window !== 'undefined') {
 
 export interface ViewOwner {
   onViewRequestPop(v: View): void;
-  onViewRequestReplace(v: View, view: any, title: string): void;
-  onViewRequestPush(v: View, view: any, title: string): void;
+  onViewRequestReplace(v: View, view: View, title: string): void;
+  onViewRequestPush(v: View, view: View, title: string): void;
   getDefaultActionButtonForView(v: View): Fragment | null;
 }
 
@@ -81,7 +81,7 @@ export class View extends RenderController implements ViewContentFragmentOwner {
   }
 
   onMagicClickInHeaderFragment(_fHeader: FViewHeader): void { this.knockKnock(); }
-  onFragmentRequestShowView(_f: Fragment, view: any, title: string): void {
+  onFragmentRequestShowView(_f: Fragment, view: View, title: string): void {
     const owner = this.getOwner<ViewOwner>();
     if (owner) {
       owner.onViewRequestPush(this, view, title);
@@ -89,7 +89,7 @@ export class View extends RenderController implements ViewContentFragmentOwner {
   }
   onContentFragmentRequestUpdateHeader(_fContent: Fragment): void { this.#updateHeader(); }
   onContentFragmentRequestCloseMenu(_fContent: Fragment): void { this.#fHeader.closeMenu(); }
-  onContentFragmentRequestReplaceView(_fContent: Fragment, view: any, title: string): void {
+  onContentFragmentRequestReplaceView(_fContent: Fragment, view: View, title: string): void {
     const owner = this.getOwner<ViewOwner>();
     if (owner) {
       owner.onViewRequestReplace(this, view, title);

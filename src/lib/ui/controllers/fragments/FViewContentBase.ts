@@ -1,4 +1,5 @@
 import { Fragment } from './Fragment.js';
+import { View } from '../views/View.js';
 
 export interface PreferredWidth {
   min: number;
@@ -9,9 +10,9 @@ export interface PreferredWidth {
 export interface ViewContentFragmentOwner {
   onContentFragmentRequestUpdateHeader(fContent: Fragment): void;
   onContentFragmentRequestCloseMenu(fContent: Fragment): void;
-  onContentFragmentRequestReplaceView(fContent: Fragment, view: any, title: string): void;
+  onContentFragmentRequestReplaceView(fContent: Fragment, view: View, title: string): void;
   onContentFragmentRequestPopView(fContent: Fragment): void;
-  onFragmentRequestShowView(f: Fragment, view: any, title: string): void;
+  onFragmentRequestShowView(f: Fragment, view: View, title: string): void;
   onRemoteErrorInFragment(f: Fragment, e: unknown): void;
   onLocalErrorInFragment(f: Fragment, msg: string): void;
 }

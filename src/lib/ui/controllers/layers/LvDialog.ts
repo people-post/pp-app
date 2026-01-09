@@ -1,5 +1,6 @@
 import { ViewLayer } from './ViewLayer.js';
 import { ViewStack } from '../ViewStack.js';
+import { View } from '../views/View.js';
 import { Panel } from '../../renders/panels/Panel.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { ListPanel } from '../../renders/panels/ListPanel.js';
@@ -62,7 +63,7 @@ export class LvDialog extends ViewLayer {
 
   setEnableCloseButton(b: boolean): void { this._enableCloseBtn = b; }
 
-  pushView(view: any, title: string): void { this._vc.pushView(view, title); }
+  pushView(view: View, title: string): void { this._vc.pushView(view, title); }
 
   action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {

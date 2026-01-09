@@ -5,6 +5,7 @@ import { Layer } from './Layer.js';
 import { FFragmentList } from '../fragments/FFragmentList.js';
 import { Button } from '../fragments/Button.js';
 import { Fragment } from '../fragments/Fragment.js';
+import { View } from '../views/View.js';
 
 export const CL_CONTEXT = {
   CLOSE : Symbol(),
@@ -115,7 +116,7 @@ export class LContext extends Layer {
     console.log("onLocalErrorInFragment not implemented in LContext");
     console.log(msg);
   }
-  onFragmentRequestShowView(_f: Fragment, _view: any, _title: string): void {
+  onFragmentRequestShowView(_f: Fragment, _view: View, _title: string): void {
     console.log("onFragmentRequestShowView not implemented in LContext");
   }
 

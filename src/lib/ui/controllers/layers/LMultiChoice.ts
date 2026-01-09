@@ -4,6 +4,7 @@ import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { Layer } from './Layer.js';
 import { FFragmentList } from '../fragments/FFragmentList.js';
 import { Button } from '../fragments/Button.js';
+import { View } from '../views/View.js';
 
 export const CL_MULTI_CHOICE = {
   CLOSE : Symbol(),
@@ -136,7 +137,7 @@ export class LMultiChoice extends Layer {
     console.log("onLocalErrorInFragment not implemented in LMultiChoice");
     console.log(msg);
   }
-  onFragmentRequestShowView(_f: any, _view: any, _title: string): void {
+  onFragmentRequestShowView(_f: any, _view: View, _title: string): void {
     console.log("onFragmentRequestShowView not implemented in LMultiChoice");
   }
 

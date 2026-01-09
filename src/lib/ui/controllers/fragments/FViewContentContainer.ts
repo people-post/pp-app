@@ -1,5 +1,6 @@
 import { Fragment } from './Fragment.js';
 import { FViewContentBase } from './FViewContentBase.js';
+import { View } from '../views/View.js';
 
 export class FViewContentContainer extends FViewContentBase {
   initFromUrl(urlParam: any): void {
@@ -29,7 +30,7 @@ export class FViewContentContainer extends FViewContentBase {
       (this._owner as any).onContentFragmentRequestCloseMenu(this);
     }
   }
-  onContentFragmentRequestReplaceView(_fContent: FViewContentBase, view: any, title: string): void {
+  onContentFragmentRequestReplaceView(_fContent: FViewContentBase, view: View, title: string): void {
     if (this._owner) {
       (this._owner as any).onContentFragmentRequestReplaceView(this, view, title);
     }

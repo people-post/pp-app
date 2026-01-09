@@ -1,8 +1,9 @@
 import Utilities from '../../../ext/Utilities.js';
 import { RenderController } from '../RenderController.js';
+import { View } from '../views/View.js';
 
 export interface FragmentOwner {
-  onFragmentRequestShowView(f: Fragment, view: any, title: string): void;
+  onFragmentRequestShowView(f: Fragment, view: View, title: string): void;
   onRemoteErrorInFragment(f: Fragment, e: unknown): void;
   onLocalErrorInFragment(f: Fragment, msg: string): void;
   onContentTopResizeBeginInFragment?(f: Fragment): void;
@@ -17,7 +18,7 @@ export class Fragment extends RenderController implements FragmentOwner {
     this._id = Utilities.uuid();
   }
 
-  onFragmentRequestShowView(_f: Fragment, view: any, title: string): void {
+  onFragmentRequestShowView(_f: Fragment, view: View, title: string): void {
     const owner = this.getOwner<FragmentOwner>();
     if (owner) {
       owner.onFragmentRequestShowView(this, view, title);
