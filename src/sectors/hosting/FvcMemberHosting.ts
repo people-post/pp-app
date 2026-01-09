@@ -1,4 +1,3 @@
-
 const _CFT_MEMBER_HOSTING_CONTENT = {
   INIT : `Initializing...`,
   NS_PENDING :
@@ -23,14 +22,27 @@ import { FvcDsHowto } from './FvcDsHowto.js';
 import { FHostingStatus } from './FHostingStatus.js';
 import { FNsSetup } from './FNsSetup.js';
 import { FvcClaimDomain } from './FvcClaimDomain.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Api } from '../../common/plt/Api.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
+
+interface HostingDelegate {
+  onNsHowtoClicked(): void;
+  onDsHowtoClicked(): void;
+  onRequestRegisterDomain(name: string): void;
+  onRequestRemoveDomain(): void;
+  onRequestNotifyDsReady(): void;
+}
 
 export class FvcMemberHosting extends FScrollViewContent {
+  protected _delegate!: HostingDelegate;
+
   constructor() {
     super();
     this.setChild("content", this.#initContentFragment());
   }
 
-  getContentForWaitingFragment(wf) {
+  getContentForWaitingFragment(wf: FWaiting): string {
     let s = Hosting.getStatus();
     if (s) {
       if (s.ds_record) {
@@ -58,7 +70,7 @@ export class FvcMemberHosting extends FScrollViewContent {
     return _CFT_MEMBER_HOSTING_CONTENT.INIT;
   }
 
-  onWaitingFragmentRequestUpdate(wf) {
+  onWaitingFragmentRequestUpdate(wf: FWaiting): void {
     let s = Hosting.getStatus();
     let fSetup = this.#createSetupFragment(s);
     if (fSetup) {
@@ -68,34 +80,34 @@ export class FvcMemberHosting extends FScrollViewContent {
     }
   }
 
-  onNsHowtoClicked() {
+  onNsHowtoClicked(): void {
     let v = new View();
     v.setContentFragment(new FvcNsHowto());
     this._owner.onFragmentRequestShowView(this, v, "NS howto");
   }
 
-  onDsHowtoClicked() {
+  onDsHowtoClicked(): void {
     let v = new View();
     v.setContentFragment(new FvcDsHowto());
     this._owner.onFragmentRequestShowView(this, v, "DS howto");
   }
 
-  onRequestRegisterDomain(name) {
+  onRequestRegisterDomain(name: string): void {
     let url = "api/hosting/register";
     let fd = new FormData();
     fd.append("name", name);
-    api.asyncRawPost(url, fd, r => this.#onRegisterDomainRRR(r));
+    Api.asyncRawPost(url, fd, r => this.#onRegisterDomainRRR(r));
   }
 
-  onRequestRemoveDomain() { this.#asyncUnregisterDomain() }
+  onRequestRemoveDomain(): void { this.#asyncUnregisterDomain() }
 
-  _renderContentOnRender(render) {
-    let f = this._getChild("content");
+  _renderContentOnRender(render: Render): void {
+    let f = this._getChild("content") as Fragment;
     f.attachRender(render);
     f.render();
   }
 
-  #initContentFragment() {
+  #initContentFragment(): Fragment {
     let s = Hosting.getStatus();
     let f = this.#createSetupFragment(s);
     if (!f) {
@@ -106,32 +118,34 @@ export class FvcMemberHosting extends FScrollViewContent {
     return f;
   }
 
-  #createSetupFragment(stat) {
+  #createSetupFragment(stat: unknown): Fragment | null {
     if (stat) {
-      if (stat.ds_record) {
-        if (stat.is_tls_ready) {
+      let s = stat as { ds_record?: unknown; is_tls_ready?: boolean; is_tls_pending?: boolean; is_ns_pending?: boolean; domain_name?: string };
+      if (s.ds_record) {
+        if (s.is_tls_ready) {
           let f = new FHostingStatus();
-          f.setDomainName(stat.domain_name);
+          f.setDomainName(s.domain_name || "");
           f.setDelegate(this);
           return f;
         } else {
-          if (!stat.is_tls_pending) {
+          if (!s.is_tls_pending) {
             let f = new FNsSetup();
             f.setDelegate(this);
             return f;
           }
         }
       } else {
-        if (!stat.is_ns_pending) {
-          let f = new hstn.FNsSetup();
+        if (!s.is_ns_pending) {
+          let f = new FNsSetup();
           f.setDelegate(this);
           return f;
         }
       }
     }
+    return null;
   }
 
-  #onDomainAlreayRegistered() {
+  #onDomainAlreayRegistered(): void {
     let msg = _CFT_MEMBER_HOSTING_CONTENT.CLAIM_CONFIRMATION_MSG;
     msg = msg.replace("__DOMAIN__", "TEMP");
     let v = new View();
@@ -144,7 +158,7 @@ export class FvcMemberHosting extends FScrollViewContent {
                                 false);
   }
 
-  #handleRemoteError(err) {
+  #handleRemoteError(err: RemoteError): void {
     if (err.type == RemoteError.T_TYPE.USER &&
         err.code == "E_DOMAIN_IN_USE") {
       this.#onDomainAlreayRegistered();
@@ -153,22 +167,22 @@ export class FvcMemberHosting extends FScrollViewContent {
     }
   }
 
-  #onClaimDomain() {
+  #onClaimDomain(): void {
     let v = new View();
     v.setContentFragment(new FvcClaimDomain());
     this._owner.onFragmentRequestShowView(this, v, "Claim domain");
   }
 
-  #onNsSetupFinished() { this.#refresh(); }
-  #onUnregisterFinished() { this.#refresh(); }
+  #onNsSetupFinished(): void { this.#refresh(); }
+  #onUnregisterFinished(): void { this.#refresh(); }
 
-  #refresh() {
+  #refresh(): void {
     let f = this.#initContentFragment();
     this.#resetContentFragment(f);
   }
 
-  #resetContentFragment(fragment) {
-    let f = this._getChild("content");
+  #resetContentFragment(fragment: Fragment): void {
+    let f = this._getChild("content") as Fragment;
     if (f) {
       f.detachRender();
     }
@@ -176,27 +190,31 @@ export class FvcMemberHosting extends FScrollViewContent {
     this.render();
   }
 
-  #onRegisterDomainRRR(responseText) {
-    let response = JSON.parse(responseText);
+  #onRegisterDomainRRR(responseText: string): void {
+    let response = JSON.parse(responseText) as { error?: RemoteError; data?: unknown };
     if (response.error) {
       this.#handleRemoteError(response.error);
     } else {
-      Hosting.setStatus(response.data);
+      if (response.data) {
+        Hosting.setStatus(response.data);
+      }
       this.#onNsSetupFinished();
     }
   }
 
-  #asyncUnregisterDomain() {
+  #asyncUnregisterDomain(): void {
     let url = "api/hosting/unregister";
-    api.asyncRawCall(url, r => this.#onUnregisterRRR(r));
+    Api.asyncRawCall(url, r => this.#onUnregisterRRR(r));
   }
 
-  #onUnregisterRRR(responseText) {
-    let response = JSON.parse(responseText);
+  #onUnregisterRRR(responseText: string): void {
+    let response = JSON.parse(responseText) as { error?: RemoteError; data?: unknown };
     if (response.error) {
       this.#handleRemoteError(response.error);
     } else {
-      Hosting.setStatus(response.data);
+      if (response.data) {
+        Hosting.setStatus(response.data);
+      }
       this.#onUnregisterFinished();
     }
   }

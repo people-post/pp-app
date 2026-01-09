@@ -21,6 +21,17 @@ import { PProjectStageMenuItem } from './PProjectStageMenuItem.js';
 import { PProjectStageInfoRow } from './PProjectStageInfoRow.js';
 import { PProjectStage } from './PProjectStage.js';
 import { Api } from '../../common/plt/Api.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type { PProjectStageBase } from './PProjectStageBase.js';
+
+interface ProjectStageDelegate {
+  onClickInProjectStageFragment(f: FProjectStage): void;
+}
+
+interface ProjectStageAction {
+  name: string;
+  type: symbol;
+}
 
 export class FProjectStage extends Fragment {
   static LTC_MID = "LTC_MID";
@@ -28,6 +39,14 @@ export class FProjectStage extends Fragment {
   static LTR_MID = "LTR_MID";
   static LT_FULL = "FULL";
   static LT_MENU_ITEM = "LT_MENU_ITEM";
+
+  protected _fOptions: OptionContextButton;
+  protected _stage: ProjectStage | null;
+  protected _layoutType: string | null;
+  protected _isActionsEnabled: boolean;
+  protected _isSelected: boolean;
+  protected _isEnabled: boolean;
+  protected _delegate!: ProjectStageDelegate;
 
   constructor() {
     super();
@@ -42,16 +61,16 @@ export class FProjectStage extends Fragment {
     this._isEnabled = true;
   }
 
-  isSelected() { return this._isSelected; }
-  getStage() { return this._stage; }
+  isSelected(): boolean { return this._isSelected; }
+  getStage(): ProjectStage | null { return this._stage; }
 
-  setStage(stage) { this._stage = stage; }
-  setLayoutType(layoutType) { this._layoutType = layoutType; }
-  setEnableActions(b) { this._isActionsEnabled = b; }
-  setSelected(b) { this._isSelected = b; }
-  setEnabled(b) { this._isEnabled = b; }
+  setStage(stage: ProjectStage | null): void { this._stage = stage; }
+  setLayoutType(layoutType: string | null): void { this._layoutType = layoutType; }
+  setEnableActions(b: boolean): void { this._isActionsEnabled = b; }
+  setSelected(b: boolean): void { this._isSelected = b; }
+  setEnabled(b: boolean): void { this._isEnabled = b; }
 
-  onOptionClickedInContextButtonFragment(fBtn, value) {
+  onOptionClickedInContextButtonFragment(fBtn: OptionContextButton, value: symbol): void {
     switch (value) {
     case ProjectStage.ACTIONS.CLOSE.type:
       this.#onMarkDone();
@@ -76,18 +95,21 @@ export class FProjectStage extends Fragment {
     }
   }
 
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_PROJECT_STAGE.ON_CLICK:
       this._delegate.onClickInProjectStageFragment(this);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Render): void {
+    if (!this._stage) {
+      return;
+    }
     let p = this.#createPanel();
     if (this._isEnabled) {
       p.setClassName("clickable");
@@ -100,41 +122,49 @@ export class FProjectStage extends Fragment {
     p.setEnabled(this._isEnabled);
     p.setSelected(this._isSelected);
 
-    let ppp;
+    let ppp: SectionPanel | null;
     let pp = p.getNamePanel();
-    pp.replaceContent(this._stage.getName());
+    if (pp) {
+      pp.replaceContent(this._stage.getName());
+    }
 
     pp = p.getDescriptionPanel();
     if (pp && this._stage.getDescription()) {
       ppp = new SectionPanel("Description");
       pp.wrapPanel(ppp);
-      ppp.replaceContent(this._stage.getDescription());
+      if (ppp) {
+        ppp.replaceContent(this._stage.getDescription());
+      }
     }
 
     pp = p.getCommentPanel();
     if (pp && this._stage.getComment()) {
       ppp = new SectionPanel("Comment");
       pp.wrapPanel(ppp);
-      ppp.replaceContent(this._stage.getComment());
+      if (ppp) {
+        ppp.replaceContent(this._stage.getComment());
+      }
     }
 
     if (this._isEnabled && this._isActionsEnabled) {
       let actions = this.#getActions();
       if (actions.length) {
         pp = p.getOptionBtnPanel();
-        this._fOptions.clearOptions();
-        this._fOptions.setTargetName(this._stage.getName());
-        for (let a of actions) {
-          this._fOptions.addOption(a.name, a.type);
+        if (pp) {
+          this._fOptions.clearOptions();
+          this._fOptions.setTargetName(this._stage.getName());
+          for (let a of actions) {
+            this._fOptions.addOption(a.name, a.type);
+          }
+          this._fOptions.attachRender(pp);
+          this._fOptions.render();
         }
-        this._fOptions.attachRender(pp);
-        this._fOptions.render();
       }
     }
   }
 
-  #createPanel() {
-    let p;
+  #createPanel(): PProjectStageBase {
+    let p: PProjectStageBase;
     switch (this._layoutType) {
     case this.constructor.LTC_MID:
       // Currently for process element in flow chart
@@ -163,7 +193,10 @@ export class FProjectStage extends Fragment {
     return p;
   }
 
-  #getActions() {
+  #getActions(): ProjectStageAction[] {
+    if (!this._stage) {
+      return [];
+    }
     let project = Workshop.getProject(this._stage.getProjectId());
     if (project) {
       return project.getActionsForUserInStage(window.dba.Account.getId(), this._stage);
@@ -171,7 +204,7 @@ export class FProjectStage extends Fragment {
     return [];
   }
 
-  #onMarkDone() {
+  #onMarkDone(): void {
     let v = new View();
     let fvc = new FvcUserInput();
     let f = new TextInput();
@@ -191,17 +224,20 @@ export class FProjectStage extends Fragment {
                                 false);
   }
 
-  #onUnsetStatus() {
+  #onUnsetStatus(): void {
     this._confirmDangerousOperation(R.get("CONFIRM_UNSET_STAGE"),
                                     () => this.#asyncUnsetSatus());
   }
 
-  #onDelete() {
+  #onDelete(): void {
     this._confirmDangerousOperation(R.get("CONFIRM_DELETE_STAGE"),
                                     () => this.#asyncDeleteStage());
   }
 
-  #onConnect() {
+  #onConnect(): void {
+    if (!this._stage) {
+      return;
+    }
     let v = new View();
     let f = new FvcProjectStageConnection();
     f.setStage(this._stage);
@@ -210,7 +246,10 @@ export class FProjectStage extends Fragment {
                                 "Stage connection", true);
   }
 
-  #onPrepend() {
+  #onPrepend(): void {
+    if (!this._stage) {
+      return;
+    }
     let v = new View();
     let f = new FvcCreateProjectStageChoice();
     f.setProjectId(this._stage.getProjectId());
@@ -219,7 +258,10 @@ export class FProjectStage extends Fragment {
     this._owner.onFragmentRequestShowView(this, v, "Add stage");
   }
 
-  #onAppend() {
+  #onAppend(): void {
+    if (!this._stage) {
+      return;
+    }
     let v = new View();
     let f = new FvcCreateProjectStageChoice();
     f.setProjectId(this._stage.getProjectId());
@@ -228,7 +270,10 @@ export class FProjectStage extends Fragment {
     this._owner.onFragmentRequestShowView(this, v, "Add stage");
   }
 
-  #asyncDeleteStage() {
+  #asyncDeleteStage(): void {
+    if (!this._stage) {
+      return;
+    }
     let url = "api/workshop/remove_project_stage";
     let fd = new FormData();
     fd.append("project_id", this._stage.getProjectId());
@@ -237,7 +282,10 @@ export class FProjectStage extends Fragment {
         .then(d => this.#onProjectDataReceived(d));
   }
 
-  #asyncMarkDone(comment) {
+  #asyncMarkDone(comment: string): void {
+    if (!this._stage) {
+      return;
+    }
     let fd = new FormData();
     fd.append("project_id", this._stage.getProjectId());
     fd.append("stage_id", this._stage.getId());
@@ -247,7 +295,10 @@ export class FProjectStage extends Fragment {
         .then(d => this.#onProjectDataReceived(d));
   }
 
-  #asyncUnsetSatus() {
+  #asyncUnsetSatus(): void {
+    if (!this._stage) {
+      return;
+    }
     let fd = new FormData();
     fd.append("project_id", this._stage.getProjectId());
     fd.append("stage_id", this._stage.getId());
@@ -256,7 +307,10 @@ export class FProjectStage extends Fragment {
         .then(d => this.#onProjectDataReceived(d));
   }
 
-  #onProjectDataReceived(data) {
-    Workshop.updateProject(new Project(data.project));
+  #onProjectDataReceived(data: unknown): void {
+    let projectData = (data as { project?: unknown }).project;
+    if (projectData) {
+      Workshop.updateProject(new Project(projectData as Parameters<typeof Project>[0]));
+    }
   }
 };

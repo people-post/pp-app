@@ -4,11 +4,11 @@ import { FrontPageConfig } from '../../common/datatypes/FrontPageConfig.js';
 import { FvcJournal } from './FvcJournal.js';
 import { FvcBrief } from './FvcBrief.js';
 import { FvcBlockchain } from './FvcBlockchain.js';
-import { glb } from '../../lib/framework/Global.js';
 import { Env } from '../../common/plt/Env.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 export class Gateway extends SectorGateway {
-  createMainViewContentFragment() {
+  createMainViewContentFragment(): Fragment {
     if (window.dba.Account.isAuthenticated()) {
       if (window.dba.Account.isWebOwner()) {
         return this._createMainViewContentFragmentForOwner();
@@ -20,8 +20,8 @@ export class Gateway extends SectorGateway {
     }
   }
 
-  _createMainViewContentFragmentForGuest() {
-    let f;
+  _createMainViewContentFragmentForGuest(): Fragment {
+    let f: Fragment;
     let c = WebConfig.getFrontPageConfig();
     switch (c.getTemplateId()) {
     case FrontPageConfig.T_TEMPLATE.JOURNAL:
@@ -48,11 +48,11 @@ export class Gateway extends SectorGateway {
     return f;
   }
 
-  _createMainViewContentFragmentForVisitor() {
+  _createMainViewContentFragmentForVisitor(): Fragment {
     return this._createMainViewContentFragmentForGuest();
   }
 
-  _createMainViewContentFragmentForOwner() {
+  _createMainViewContentFragmentForOwner(): Fragment {
     return this._createMainViewContentFragmentForGuest();
   }
 };

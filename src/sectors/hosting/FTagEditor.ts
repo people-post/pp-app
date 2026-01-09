@@ -11,11 +11,24 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { PTagEditor } from './PTagEditor.js';
 import { PTagEditorInfo } from './PTagEditorInfo.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type { PTagEditorBase } from './PTagEditorBase.js';
+
+interface TagEditorDelegate {
+  onClickInTagEditorFragment(f: FTagEditor): void;
+}
 
 export class FTagEditor extends Fragment {
   static T_LAYOUT = {
     INFO : Symbol(),
   };
+
+  protected _fBtnQuick: Button;
+  protected _fTheme: ThemeEditorFragment;
+  protected _tagId: string | null;
+  protected _tLayout: symbol | null;
+  protected _delegate!: TagEditorDelegate;
 
   constructor() {
     super();
@@ -33,28 +46,33 @@ export class FTagEditor extends Fragment {
     this._tLayout = null;
   }
 
-  getTagId() { return this._tagId; }
+  getTagId(): string | null { return this._tagId; }
 
-  setLayoutType(t) { this._tLayout = t; }
-  setTagId(id) { this._tagId = id; }
+  setLayoutType(t: symbol | null): void { this._tLayout = t; }
+  setTagId(id: string | null): void { this._tagId = id; }
 
-  onSimpleButtonClicked(fBtn) { this.#onRename(); }
-  onGuiThemeEditorFragmentRequestChangeColor(fThemeEditor, key, color) {
-    WebConfig.asyncUpdateGroupConfig(this._tagId, null, key, color);
+  onSimpleButtonClicked(fBtn: Button): void { this.#onRename(); }
+  onGuiThemeEditorFragmentRequestChangeColor(fThemeEditor: ThemeEditorFragment, key: string, color: string): void {
+    if (this._tagId) {
+      WebConfig.asyncUpdateGroupConfig(this._tagId, null, key, color);
+    }
   }
 
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_TAG_EDITOR.ON_CLICK:
       this._delegate.onClickInTagEditorFragment(this);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Render): void {
+    if (!this._tagId) {
+      return;
+    }
     let tag = WebConfig.getTag(this._tagId);
     if (!tag) {
       return;
@@ -62,7 +80,9 @@ export class FTagEditor extends Fragment {
     let panel = this.#createPanel();
     render.wrapPanel(panel);
     let p = panel.getNamePanel();
-    p.replaceContent(tag.getName());
+    if (p) {
+      p.replaceContent(tag.getName());
+    }
 
     p = panel.getThemePanel();
     if (p) {
@@ -81,8 +101,8 @@ export class FTagEditor extends Fragment {
     }
   }
 
-  #createPanel() {
-    let p = null;
+  #createPanel(): PTagEditorBase {
+    let p: PTagEditorBase;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.INFO:
       p = new PTagEditorInfo();
@@ -95,13 +115,16 @@ export class FTagEditor extends Fragment {
     return p;
   }
 
-  #onRename() {
+  #onRename(): void {
+    if (!this._tagId) {
+      return;
+    }
     let tag = WebConfig.getTag(this._tagId);
     if (!tag) {
       return;
     }
     let v = new View();
-    let fvc = new S.hr.FvcUserInput();
+    let fvc = new FvcUserInput();
     let f = new TextInput();
     f.setConfig({
       title : "Change tag name:",

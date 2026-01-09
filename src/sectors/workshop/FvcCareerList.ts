@@ -4,8 +4,12 @@ import { FCareerList } from '../../common/hr/FCareerList.js';
 import { FCareer } from '../../common/hr/FCareer.js';
 import { FvcCareer } from '../../sectors/hr/FvcCareer.js';
 import { Workshop } from '../../common/dba/Workshop.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export class FvcCareerList extends FScrollViewContent {
+  protected _fList: FCareerList;
+  protected _selectedId: string | null;
+
   constructor() {
     super();
     this._fList = new FCareerList();
@@ -16,18 +20,18 @@ export class FvcCareerList extends FScrollViewContent {
     this._selectedId = null;
   }
 
-  shouldHighlightInCareerFragment(fCareer, roleId) {
+  shouldHighlightInCareerFragment(fCareer: FCareer, roleId: string): boolean {
     return this._selectedId == roleId;
   }
-  getRoleForCareerFragment(fCareer, roleId) {
+  getRoleForCareerFragment(fCareer: FCareer, roleId: string): unknown {
     return Workshop.getTeam(roleId);
   }
-  getFragmentsDictForCareerListFragment(fCareerList) {
-    let m = new Map();
+  getFragmentsDictForCareerListFragment(fCareerList: FCareerList): Map<unknown, FCareer[]> {
+    let m = new Map<unknown, FCareer[]>();
     if (!Workshop.isOpen()) {
       return m;
     }
-    let fs = [];
+    let fs: FCareer[] = [];
     for (let id of Workshop.getOpenTeamIds()) {
       let f = new FCareer();
       f.setRoleId(id);
@@ -39,7 +43,7 @@ export class FvcCareerList extends FScrollViewContent {
     return m;
   }
 
-  onClickInCareerFragment(fCareer) {
+  onClickInCareerFragment(fCareer: FCareer): void {
     this._selectedId = fCareer.getRoleId();
     let v = new View();
     let f = new FvcCareer();
@@ -49,7 +53,7 @@ export class FvcCareerList extends FScrollViewContent {
     this.render();
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     this._fList.attachRender(render);
     this._fList.render();
   }

@@ -1,4 +1,3 @@
-
 window.CFM_NS_SETUP = {
   SUBMIT : "CFM_NS_SETUP_1",
   NS_HOW_TO : "CFM_NS_SETUP_2",
@@ -25,9 +24,17 @@ const _CVT_NS_SETUP = {
 }
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { R } from '../../common/constants/R.js';
+
+interface NsSetupDelegate {
+  onNsHowtoClicked(): void;
+  onRequestRegisterDomain(name: string): void;
+}
 
 export class FNsSetup extends Fragment {
-  action(type, ...args) {
+  protected _delegate!: NsSetupDelegate;
+
+  action(type: string, ...args: unknown[]): void {
     switch (type) {
     case CFM_NS_SETUP.SUBMIT:
       this.#onSubmit();
@@ -36,15 +43,15 @@ export class FNsSetup extends Fragment {
       this._delegate.onNsHowtoClicked();
       break;
     case CFM_NS_SETUP.SHOW_TIP:
-      this._displayMessage(args[0]);
+      this._displayMessage(args[0] as string);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderContent() {
+  _renderContent(): string {
     let s = _CVT_NS_SETUP.MAIN_PANEL;
     s = s.replace("__DOMAIN__",
                   this._renderTipLink("CFM_NS_SETUP.SHOW_TIP", R.t("Domain"),
@@ -56,8 +63,8 @@ export class FNsSetup extends Fragment {
     return s;
   }
 
-  #onSubmit() {
-    let e = document.getElementById("ID_DOMAIN_NAME");
+  #onSubmit(): void {
+    let e = document.getElementById("ID_DOMAIN_NAME") as HTMLInputElement;
     if (e) {
       this._delegate.onRequestRegisterDomain(e.value);
     }

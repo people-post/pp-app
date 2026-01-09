@@ -1,18 +1,30 @@
-
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import type Render from '../../lib/ui/renders/Render.js';
+
+interface Web3Agent {
+  getHostName(): string;
+  asIsNameRegistrable(name: string): Promise<boolean>;
+}
+
+interface ServerRegistrationDelegate {
+  onRegistrationCanceledInServerRegistrationContentFragment(f: FvcWeb3ServerRegistration): void;
+  onRegistrationSuccessInServerRegistrationContentFragment(f: FvcWeb3ServerRegistration): void;
+}
 
 export class FvcWeb3ServerRegistration extends FScrollViewContent {
-  #agent;
-  #fNameInput;
-  #btnSubmit;
-  #btnCancel;
+  #agent: Web3Agent | null;
+  #fNameInput: TextInput;
+  #btnSubmit: Button;
+  #btnCancel: Button;
+  protected _delegate!: ServerRegistrationDelegate;
 
   constructor() {
     super();
+    this.#agent = null;
     this.#fNameInput = new TextInput();
     this.#fNameInput.setConfig({hint : "Name", value : "", isRequired : true});
     this.#fNameInput.setDelegate(this);
@@ -29,9 +41,9 @@ export class FvcWeb3ServerRegistration extends FScrollViewContent {
     this.setChild("btnCancel", this.#btnCancel);
   }
 
-  setAgent(agent) { this.#agent = agent; }
+  setAgent(agent: Web3Agent): void { this.#agent = agent; }
 
-  onSimpleButtonClicked(fBtn) {
+  onSimpleButtonClicked(fBtn: Button): void {
     switch (fBtn) {
     case this.#btnSubmit:
       this.#onSubmit();
@@ -42,9 +54,12 @@ export class FvcWeb3ServerRegistration extends FScrollViewContent {
       break;
     }
   }
-  onInputChangeInTextInputFragment(fInput, value) { this.#testName(value); }
+  onInputChangeInTextInputFragment(fInput: TextInput, value: string): void { this.#testName(value); }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
+    if (!this.#agent) {
+      return;
+    }
     let pList = new ListPanel();
     render.wrapPanel(pList);
 
@@ -71,13 +86,16 @@ export class FvcWeb3ServerRegistration extends FScrollViewContent {
     this.#btnCancel.render();
   }
 
-  #testName(name) {
+  #testName(name: string): void {
+    if (!this.#agent) {
+      return;
+    }
     this.#agent.asIsNameRegistrable(name)
         .then(b => this.#onNameResult(b))
         .catch(e => this.#onNameResult(false));
   }
 
-  #onNameResult(b) {
+  #onNameResult(b: boolean): void {
     if (b) {
       this.#btnSubmit.setEnabled(true);
     } else {
@@ -87,20 +105,23 @@ export class FvcWeb3ServerRegistration extends FScrollViewContent {
     }
   }
 
-  #onSubmit() {
+  #onSubmit(): void {
     if (this.#fNameInput.validate()) {
+      if (!this.#agent) {
+        return;
+      }
       window.dba.Account.asRegister(this.#agent, this.#fNameInput.getValue())
           .then(() => this.#onRegisterSuccess())
           .catch(e => this.#onRegisterError(e));
     }
   }
 
-  #onRegisterSuccess() {
+  #onRegisterSuccess(): void {
     this._delegate.onRegistrationSuccessInServerRegistrationContentFragment(
         this);
   }
 
-  #onRegisterError(e) {
+  #onRegisterError(e: unknown): void {
     console.log(e);
     this.onLocalErrorInFragment(this, "Registration failed");
   }

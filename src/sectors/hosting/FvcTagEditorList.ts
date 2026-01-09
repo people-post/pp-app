@@ -12,8 +12,17 @@ import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
 import { FvcTagEditor } from './FvcTagEditor.js';
 import { FTagEditor } from './FTagEditor.js';
 import { Api } from '../../common/plt/Api.js';
+import type Render from '../../lib/ui/renders/Render.js';
+
+interface TagEditorListDelegate {
+  onClickInTagEditorFragment(fTagEditor: FTagEditor): void;
+}
 
 export class FvcTagEditorList extends FScrollViewContent {
+  protected _fList: FSimpleFragmentList;
+  protected _fBtnNew: ActionButton;
+  protected _delegate!: TagEditorListDelegate;
+
   constructor() {
     super();
     this._fList = new FSimpleFragmentList();
@@ -24,9 +33,9 @@ export class FvcTagEditorList extends FScrollViewContent {
     this._fBtnNew.setDelegate(this);
   }
 
-  getActionButton() { return this._fBtnNew }
+  getActionButton(): ActionButton { return this._fBtnNew }
 
-  onGuiActionButtonClick(fActionButton) {
+  onGuiActionButtonClick(fActionButton: ActionButton): void {
     let v = new View();
     let fvc = new FvcUserInput();
     let f = new TextInput();
@@ -46,7 +55,7 @@ export class FvcTagEditorList extends FScrollViewContent {
                                 false);
   }
 
-  onClickInTagEditorFragment(fTagEditor) {
+  onClickInTagEditorFragment(fTagEditor: FTagEditor): void {
     let v = new View();
     let f = new FvcTagEditor();
     f.setTagId(fTagEditor.getTagId());
@@ -54,7 +63,7 @@ export class FvcTagEditorList extends FScrollViewContent {
     this._owner.onFragmentRequestShowView(this, v, "Tag editor");
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case FwkT_DATA.WEB_CONFIG:
       this._owner.onContentFragmentRequestUpdateHeader(this);
@@ -66,10 +75,10 @@ export class FvcTagEditorList extends FScrollViewContent {
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let p = new PanelWrapper();
     render.wrapPanel(p);
     this._fList.clear();
@@ -90,15 +99,18 @@ export class FvcTagEditorList extends FScrollViewContent {
     this._fList.render();
   }
 
-  #asyncAddTag(tag) {
+  #asyncAddTag(tag: string): void {
     let url = "api/user/add_tag";
     let fd = new FormData();
     fd.append("name", tag);
     Api.asFragmentPost(this, url, fd).then(d => this.#onAddTagRRR(d));
   }
 
-  #onAddTagRRR(data) {
-    WebConfig.resetTags(data.groups);
+  #onAddTagRRR(data: unknown): void {
+    let groups = (data as { groups?: unknown }).groups;
+    if (groups) {
+      WebConfig.resetTags(groups);
+    }
     this.render();
   }
 };

@@ -1,4 +1,3 @@
-
 window.CF_GUEST_HOSTING_CONTENT = {
   REGISTER : "CF_GUEST_HOSTING_CONTENT_1",
   SHOW_TIP : "CF_GUEST_HOSTING_CONTENT_2",
@@ -22,23 +21,26 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ICONS } from '../../lib/ui/Icons.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
+import { R } from '../../common/constants/R.js';
+import { Utilities } from '../../common/Utilities.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export class FvcGuestHosting extends FScrollViewContent {
-  action(type, ...args) {
+  action(type: string, ...args: unknown[]): void {
     switch (type) {
     case CF_GUEST_HOSTING_CONTENT.REGISTER:
       Events.triggerTopAction(T_ACTION.LOGIN);
       break;
     case CF_GUEST_HOSTING_CONTENT.SHOW_TIP:
-      this._displayMessage(args[0]);
+      this._displayMessage(args[0] as string);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -56,7 +58,7 @@ export class FvcGuestHosting extends FScrollViewContent {
     pp.replaceContent(this.#renderFootNote());
   }
 
-  #renderMain() {
+  #renderMain(): string {
     let s = _CFT_GUEST_HOSTING_CONTENT.MAIN_PANEL;
     s = s.replace("__R_REGISTER__", R.t("Login"));
     s = s.replace("__R_PARK__", R.get("PARK_DOMAIN"));
@@ -67,7 +69,7 @@ export class FvcGuestHosting extends FScrollViewContent {
     return s;
   }
 
-  #renderFootNote() {
+  #renderFootNote(): string {
     let s = "*__MSG__ __REGISTRAR__";
     s = s.replace("__MSG__", R.get("HOSTING_MSG_FOOTNOTE"));
     s = s.replace("__REGISTRAR__",

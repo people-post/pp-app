@@ -36,27 +36,28 @@ const _CFT_NS_HOWTO = {
 };
 
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export class FvcNsHowto extends FScrollViewContent {
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
-    case hstn.CF_NS_HOWTO.TOGGLE:
-      this.#onToggle(args[0]);
+    case CF_NS_HOWTO.TOGGLE:
+      this.#onToggle(args[0] as HTMLElement);
       break;
     default:
       break;
     }
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let s = _CFT_NS_HOWTO.MAIN;
     s = s.replace("__NS_ENTRIES__", this.#renderNsEntries());
     s = s.replace("__NAME_SERVERS__", this.#renderNameServers());
     render.replaceContent(s);
   }
 
-  #renderNsEntries() {
-    let items = [];
+  #renderNsEntries(): string {
+    let items: string[] = [];
     for (let v of _CF_NS_HOWTO.VENDERS) {
       let s = _CFT_NS_HOWTO.NS_ENTRY;
       s = s.replace("__IMG_SRC__", v.ns_entry_src);
@@ -65,8 +66,8 @@ export class FvcNsHowto extends FScrollViewContent {
     return items.join("");
   }
 
-  #renderNameServers() {
-    let items = [];
+  #renderNameServers(): string {
+    let items: string[] = [];
     for (let v of _CF_NS_HOWTO.VENDERS) {
       let s = _CFT_NS_HOWTO.NS;
       s = s.replace("__IMG_SRC__", v.ns_src);
@@ -75,21 +76,23 @@ export class FvcNsHowto extends FScrollViewContent {
     return items.join("");
   }
 
-  #renderToggleBlock(title, content) {
+  #renderToggleBlock(title: string, content: string): string {
     let s = _CFT_NS_HOWTO.TOGGLE_BLOCK;
     s = s.replace("__TITLE__", title);
     s = s.replace("__CONTENT__", content);
     return s;
   }
 
-  #onToggle(rootNode) {
-    let eContent = rootNode.lastElementChild;                 // Content
-    let eIcon = rootNode.firstElementChild.firstElementChild; // Icon
-    eContent.hidden = !eContent.hidden;
-    if (eContent.hidden) {
-      eIcon.innerHTML = "+";
-    } else {
-      eIcon.innerHTML = "-";
+  #onToggle(rootNode: HTMLElement): void {
+    let eContent = rootNode.lastElementChild as HTMLElement;                 // Content
+    let eIcon = rootNode.firstElementChild?.firstElementChild as HTMLElement; // Icon
+    if (eContent && eIcon) {
+      eContent.hidden = !eContent.hidden;
+      if (eContent.hidden) {
+        eIcon.innerHTML = "+";
+      } else {
+        eIcon.innerHTML = "-";
+      }
     }
   }
 };

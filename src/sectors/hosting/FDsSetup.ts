@@ -1,9 +1,10 @@
-
 window.CFM_DS_SETUP = {
   SUBMIT : "CFM_DS_SETUP_1",
   DS_HOW_TO : "CFM_DS_SETUP_2",
   CANCEL : "CFM_DS_SETUP_3",
 }
+
+const CFM_DS_SETUP: { SUBMIT: string; DS_HOW_TO: string; CANCEL: string } = window.CFM_DS_SETUP as { SUBMIT: string; DS_HOW_TO: string; CANCEL: string };
 
 const _CFMT_DS_SETUP = {
   MAIN : `
@@ -39,6 +40,19 @@ const _CFMT_DS_SETUP = {
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
+interface DsRecord {
+  key_tag?: number;
+  algorithm?: number;
+  digest_type?: number;
+  digest?: string;
+}
+
+interface DsSetupDelegate {
+  onDsHowtoClicked(): void;
+  onRequestNotifyDsReady(): void;
+  onRequestRemoveDomain(): void;
+}
+
 export class FDsSetup extends Fragment {
   static T_DNSSEC = {
     ALGORITHM : {
@@ -47,20 +61,24 @@ export class FDsSetup extends Fragment {
       7: "RSASHA1-NSEC3-SHA1",
       8: "RSA/SHA-256",
       10: "RSA/SHA-512",
-    },
+    } as Record<number, string>,
     DIGEST_TYPE: {
       1: "SHA-1",
       2: "SHA-256",
-    }
+    } as Record<number, string>
   };
 
-  constructor(domainName, dsRecord) {
+  protected _domainName: string;
+  protected _dsRecord: DsRecord | null;
+  declare protected _delegate: DsSetupDelegate;
+
+  constructor(domainName: string, dsRecord: DsRecord | null) {
     super();
     this._domainName = domainName;
     this._dsRecord = dsRecord;
   }
 
-  action(type, ...args) {
+  action(type: string, ..._args: unknown[]): void {
     switch (type) {
     case CFM_DS_SETUP.SUBMIT:
       this.#onSubmit();
@@ -76,20 +94,20 @@ export class FDsSetup extends Fragment {
     }
   }
 
-  _renderContent() {
+  _renderContent(): string {
     let s = _CFMT_DS_SETUP.MAIN;
     s = s.replace("__DOMAIN_NAME__", this._domainName);
     s = s.replace("__DS_RECORD__", this.#renderDsRecord(this._dsRecord));
     return s;
   }
 
-  #onSubmit() { this._delegate.onRequestNotifyDsReady(); }
-  #onCancel() { this._delegate.onRequestRemoveDomain(); }
+  #onSubmit(): void { this._delegate.onRequestNotifyDsReady(); }
+  #onCancel(): void { this._delegate.onRequestRemoveDomain(); }
 
-  #renderDsRecord(record) {
+  #renderDsRecord(record: DsRecord | null): string {
     let s = _CFMT_DS_SETUP.DS_RECORD;
     if (record && record.key_tag) {
-      s = s.replace("__KEY_TAG__", record.key_tag);
+      s = s.replace("__KEY_TAG__", record.key_tag.toString());
     } else {
       s = s.replace("__KEY_TAG__", "");
     }
@@ -97,7 +115,7 @@ export class FDsSetup extends Fragment {
     if (record && record.algorithm) {
       s = s.replace("__ALGORITHM__",
                     record.algorithm.toString() + ":" +
-                        this.constructor.T_DNSSEC.ALGORITHM[record.algorithm]);
+                        (FDsSetup.T_DNSSEC.ALGORITHM[record.algorithm] || ""));
     } else {
       s = s.replace("__ALGORITHM__", "");
     }
@@ -106,7 +124,7 @@ export class FDsSetup extends Fragment {
       s = s.replace(
           "__DIGEST_TYPE__",
           record.digest_type.toString() + ":" +
-              this.constructor.T_DNSSEC.DIGEST_TYPE[record.digest_type]);
+              (FDsSetup.T_DNSSEC.DIGEST_TYPE[record.digest_type] || ""));
     } else {
       s = s.replace("__DIGEST_TYPE__", "");
     }

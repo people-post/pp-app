@@ -1,4 +1,3 @@
-
 window.CF_PROJECT_INFO = {
   VIEW_PROJECT : "CF_PROJECT_INFO_1",
 }
@@ -20,8 +19,29 @@ import { PProjectInfoLarge } from './PProjectInfoLarge.js';
 import { PProjectInfoSmallQuote } from './PProjectInfoSmallQuote.js';
 import { PProjectInfoLargeQuote } from './PProjectInfoLargeQuote.js';
 import { PProjectInfoMiddle } from './PProjectInfoMiddle.js';
+import { Project } from '../../common/datatypes/Project.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type { PProjectInfoBase } from './PProjectInfoBase.js';
+
+interface ProjectInfoDataSource {
+  isProjectSelectedInProjectInfoFragment(f: FProjectInfo, projectId: string): boolean;
+}
+
+interface ProjectInfoDelegate {
+  onClickInProjectInfoFragment(f: FProjectInfo, projectId: string): void;
+}
 
 export class FProjectInfo extends MajorSectorItem {
+  protected _sizeType: symbol | null;
+  protected _projectId: string | null;
+  protected _fThumbnail: FilesThumbnailFragment;
+  protected _fProgress: RichProgress;
+  protected _fUserIcon: FUserIcon;
+  protected _fUserName: FUserInfo;
+  protected _fSocial: FSocialBar;
+  protected _dataSource!: ProjectInfoDataSource;
+  protected _delegate!: ProjectInfoDelegate;
+
   constructor() {
     super();
     this._sizeType = null;
@@ -49,36 +69,43 @@ export class FProjectInfo extends MajorSectorItem {
     this.setChild("social", this._fSocial);
   }
 
-  getFilesForThumbnailFragment(fThumbnail) {
+  getFilesForThumbnailFragment(fThumbnail: FilesThumbnailFragment): unknown[] {
+    if (!this._projectId) {
+      return [];
+    }
     let project = Workshop.getProject(this._projectId);
     return project ? project.getFiles() : [];
   }
 
-  setProjectId(id) { this._projectId = id; }
-  setSizeType(t) { this._sizeType = t; }
+  setProjectId(id: string | null): void { this._projectId = id; }
+  setSizeType(t: symbol | null): void { this._sizeType = t; }
 
-  onThumbnailClickedInThumbnailFragment(fThumbnail, idx) {
+  onThumbnailClickedInThumbnailFragment(fThumbnail: FilesThumbnailFragment, idx: number): void {
     this.#showThumbnail(idx);
   }
-  onCommentClickedInSocialBar(fSocial) {
-    this._delegate.onClickInProjectInfoFragment(this, this._projectId);
+  onCommentClickedInSocialBar(fSocial: FSocialBar): void {
+    if (this._projectId) {
+      this._delegate.onClickInProjectInfoFragment(this, this._projectId);
+    }
   }
 
-  action(type, ...args) {
+  action(type: string, ...args: unknown[]): void {
     switch (type) {
     case CF_PROJECT_INFO.VIEW_PROJECT:
-      this._delegate.onClickInProjectInfoFragment(this, this._projectId);
+      if (this._projectId) {
+        this._delegate.onClickInProjectInfoFragment(this, this._projectId);
+      }
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.PROJECT:
-      if (data.getId() == this._projectId) {
+      if ((data as Project).getId() == this._projectId) {
         this.render();
       }
       break;
@@ -88,7 +115,14 @@ export class FProjectInfo extends MajorSectorItem {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Render): void {
+    if (!this._projectId) {
+      let p = new Panel();
+      p.setClassName("center-align");
+      render.wrapPanel(p);
+      p.replaceContent("Loading...");
+      return;
+    }
     let project = Workshop.getProject(this._projectId);
     if (!project) {
       let p = new Panel();
@@ -118,8 +152,8 @@ export class FProjectInfo extends MajorSectorItem {
     this.#renderProjectOnPanel(project, panel);
   }
 
-  #createPanel() {
-    let p;
+  #createPanel(): PProjectInfoBase {
+    let p: PProjectInfoBase;
     switch (this._sizeType) {
     case SocialItem.T_LAYOUT.LARGE:
       p = new PProjectInfoLarge();
@@ -137,32 +171,38 @@ export class FProjectInfo extends MajorSectorItem {
     return p;
   }
 
-  #isProjectHasImage(project) {
+  #isProjectHasImage(project: Project): boolean {
     return project && project.getFiles().length > 0;
   }
 
-  #renderProjectOnPanel(project, panel) {
-    let p;
+  #renderProjectOnPanel(project: Project, panel: PProjectInfoBase): void {
+    let p: Panel | ThumbnailPanelWrapper | null;
 
     if (this.#isProjectHasImage(project)) {
       panel.enableImage();
       p = panel.getImagePanel();
 
-      let pp = new ThumbnailPanelWrapper();
-      if (this.#isSquareImage()) {
-        pp.setClassName("aspect-1-1-frame");
-      }
-      p.wrapPanel(pp);
+      if (p) {
+        let pp = new ThumbnailPanelWrapper();
+        if (this.#isSquareImage()) {
+          pp.setClassName("aspect-1-1-frame");
+        }
+        p.wrapPanel(pp);
 
-      this._fThumbnail.attachRender(pp);
-      this._fThumbnail.render();
+        this._fThumbnail.attachRender(pp);
+        this._fThumbnail.render();
+      }
     }
 
     p = panel.getTitlePanel();
-    p.replaceContent(this.#renderTitle(project));
+    if (p) {
+      p.replaceContent(this.#renderTitle(project));
+    }
 
     p = panel.getContentPanel();
-    p.replaceContent(this.#renderContent(project));
+    if (p) {
+      p.replaceContent(this.#renderContent(project));
+    }
 
     p = panel.getCreationTimeSmartPanel();
     if (p) {
@@ -184,37 +224,39 @@ export class FProjectInfo extends MajorSectorItem {
     }
 
     p = panel.getProgressPanel();
-    this._fProgress.setDirection(panel.getProgressDirection());
-    this._fProgress.setValue(project.getProgress());
-    this._fProgress.setStateClassName(
-        Utilities.getStateClassName(project.getState(), project.getStatus()));
-    this._fProgress.attachRender(p);
-    this._fProgress.render();
+    if (p) {
+      this._fProgress.setDirection(panel.getProgressDirection());
+      this._fProgress.setValue(project.getProgress());
+      this._fProgress.setStateClassName(
+          Utilities.getStateClassName(project.getState(), project.getStatus()));
+      this._fProgress.attachRender(p);
+      this._fProgress.render();
+    }
 
     this.#renderSocialBar(panel.getSocialBarPanel(), panel.isColorInvertible());
   }
 
-  #isSquareImage() {
+  #isSquareImage(): boolean {
     return this._sizeType == SocialItem.T_LAYOUT.MEDIUM ||
            this._sizeType == SocialItem.T_LAYOUT.EXT_QUOTE_SMALL;
   }
 
-  #renderTitle(project) {
+  #renderTitle(project: Project): string {
     if (!project) {
       return "...";
     }
     return Utilities.renderContent(project.getName());
   }
 
-  #renderContent(project) {
+  #renderContent(project: Project): string {
     if (!project) {
       return "...";
     }
     return Utilities.renderContent(project.getDescription());
   }
 
-  #renderSocialBar(panel, inversable) {
-    if (!panel) {
+  #renderSocialBar(panel: Panel | null, inversable: boolean): void {
+    if (!panel || !this._projectId) {
       return;
     }
 
@@ -228,7 +270,10 @@ export class FProjectInfo extends MajorSectorItem {
     this._fSocial.render();
   }
 
-  #showThumbnail(idx) {
+  #showThumbnail(idx: number): void {
+    if (!this._projectId) {
+      return;
+    }
     let project = Workshop.getProject(this._projectId);
     if (!project) {
       return;

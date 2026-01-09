@@ -7,11 +7,18 @@ import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
+import type Render from '../../lib/ui/renders/Render.js';
+
+interface ExplorerDelegate {
+  onWorkshopExplorerFragmentRequestCreateProject(f: FvcExplorer): void;
+}
 
 export class FvcExplorer extends FScrollViewContent {
-  #fmSearch;
-  #fList;
-  #fBtnNew;
+  #fmSearch: FHeaderMenu;
+  #fList: FIdolProjectList;
+  #fBtnNew: ActionButton;
+  protected _delegate!: ExplorerDelegate;
 
   constructor() {
     super();
@@ -30,7 +37,7 @@ export class FvcExplorer extends FScrollViewContent {
     this.#fBtnNew.setDelegate(this);
   }
 
-  initFromUrl(urlParam) {
+  initFromUrl(urlParam: URLSearchParams): void {
     let id = urlParam.get(URL_PARAM.ID);
     if (id) {
       let sid = SocialItemId.fromEncodedStr(id);
@@ -40,7 +47,7 @@ export class FvcExplorer extends FScrollViewContent {
     }
   }
 
-  getUrlParamString() {
+  getUrlParamString(): string {
     let id = this.#fList.getCurrentId();
     if (id) {
       let sid = new SocialItemId(id, SocialItem.TYPE.PROJECT);
@@ -49,28 +56,28 @@ export class FvcExplorer extends FScrollViewContent {
     return "";
   }
 
-  isReloadable() { return true; }
-  hasHiddenTopBuffer() { return this.#fList.hasBufferOnTop(); }
+  isReloadable(): boolean { return true; }
+  hasHiddenTopBuffer(): boolean { return this.#fList.hasBufferOnTop(); }
 
-  getActionButton() {
+  getActionButton(): ActionButton | null {
     if (window.dba.Account.isAuthenticated() && window.dba.Account.isWebOwner()) {
       return this.#fBtnNew;
     }
     return null;
   }
 
-  getMenuFragments() { return [ this.#fmSearch ]; }
+  getMenuFragments(): FHeaderMenu[] { return [ this.#fmSearch ]; }
 
-  reload() { this.#fList.reload(); }
+  reload(): void { this.#fList.reload(); }
 
-  scrollToTop() { this.#fList.scrollToItemIndex(0); }
-  onScrollFinished() { this.#fList.onScrollFinished(); }
+  scrollToTop(): void { this.#fList.scrollToItemIndex(0); }
+  onScrollFinished(): void { this.#fList.onScrollFinished(); }
 
-  onGuiActionButtonClick(fActionButton) {
+  onGuiActionButtonClick(fActionButton: ActionButton): void {
     this._delegate.onWorkshopExplorerFragmentRequestCreateProject(this);
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     this.#fList.attachRender(render);
     this.#fList.render();
   }

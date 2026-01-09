@@ -6,8 +6,13 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Notifications } from '../../common/dba/Notifications.js';
 import { FRequestInfo } from '../../common/hr/FRequestInfo.js';
 import { T_DATA } from '../../lib/framework/Events.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export class FvcReport extends FScrollViewContent {
+  protected _fNoticeList: FNoticeList;
+  protected _fRequestList: FSimpleFragmentList;
+
   constructor() {
     super();
     this._fNoticeList = new FNoticeList();
@@ -18,11 +23,11 @@ export class FvcReport extends FScrollViewContent {
     this.setChild("requests", this._fRequestList);
   }
 
-  onNoticeListFragmentRequestShowView(fNoticeList, view, title) {
+  onNoticeListFragmentRequestShowView(fNoticeList: FNoticeList, view: View, title: string): void {
     this._owner.onFragmentRequestShowView(this, view, title);
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.NOTIFICATIONS:
       this.render();
@@ -33,14 +38,17 @@ export class FvcReport extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let panel = new ListPanel();
     render.wrapPanel(panel);
 
     let p = new SectionPanel("Notices");
     panel.pushPanel(p);
-    this._fNoticeList.attachRender(p.getContentPanel());
-    this._fNoticeList.render();
+    let contentPanel = p.getContentPanel();
+    if (contentPanel) {
+      this._fNoticeList.attachRender(contentPanel);
+      this._fNoticeList.render();
+    }
 
     let ids = Notifications.getWorkshopRequestIds();
     if (ids.length) {
@@ -53,8 +61,11 @@ export class FvcReport extends FScrollViewContent {
         f.setDelegate(this);
         this._fRequestList.append(f);
       }
-      this._fRequestList.attachRender(p.getContentPanel());
-      this._fRequestList.render();
+      contentPanel = p.getContentPanel();
+      if (contentPanel) {
+        this._fRequestList.attachRender(contentPanel);
+        this._fRequestList.render();
+      }
     }
   }
 };

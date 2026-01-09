@@ -8,8 +8,17 @@ import { Project } from '../../common/datatypes/Project.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { FvcProjectStageEditor } from './FvcProjectStageEditor.js';
 import { Api } from '../../common/plt/Api.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcCreateProjectStageChoice extends FScrollViewContent {
+  protected _fBtnSimple: Button;
+  protected _fBtnRef: Button;
+  protected _fBtnCheckin: Button;
+  protected _fBtnSwitch: Button;
+  protected _projectId: string | null;
+  protected _stageId: string | null;
+  protected _position: string | null;
+
   constructor() {
     super();
     this._fBtnSimple = new Button();
@@ -44,19 +53,19 @@ export class FvcCreateProjectStageChoice extends FScrollViewContent {
     this._position = null;
   }
 
-  onSimpleButtonClicked(fBtn) { this.#asyncAddNewStage(fBtn.getValue()); }
+  onSimpleButtonClicked(fBtn: Button): void { this.#asyncAddNewStage(fBtn.getValue() as symbol); }
 
-  setProjectId(id) { this._projectId = id; }
-  setBeforeStage(stageId) {
+  setProjectId(id: string | null): void { this._projectId = id; }
+  setBeforeStage(stageId: string | null): void {
     this._stageId = stageId;
     this._position = "BEFORE";
   }
-  setAfterStage(stageId) {
+  setAfterStage(stageId: string | null): void {
     this._stageId = stageId;
     this._position = "AFTER";
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     p.pushSpace(1);
@@ -71,17 +80,24 @@ export class FvcCreateProjectStageChoice extends FScrollViewContent {
     }
   }
 
-  #asyncAddNewStage(type) {
+  #asyncAddNewStage(type: symbol): void {
+    if (!this._projectId) {
+      return;
+    }
     let url = "api/workshop/add_project_stage";
     let fd = new FormData();
     fd.append("project_id", this._projectId);
-    fd.append("type", type);
+    fd.append("type", String(type));
     switch (this._position) {
     case "AFTER":
-      fd.append("after_stage_id", this._stageId);
+      if (this._stageId) {
+        fd.append("after_stage_id", this._stageId);
+      }
       break;
     case "BEFORE":
-      fd.append("before_stage_id", this._stageId);
+      if (this._stageId) {
+        fd.append("before_stage_id", this._stageId);
+      }
       break;
     default:
       break;
@@ -90,16 +106,23 @@ export class FvcCreateProjectStageChoice extends FScrollViewContent {
         .then(d => this.#onAddNewStageRRR(d));
   }
 
-  #onAddNewStageRRR(data) {
-    let project = new Project(data.project);
+  #onAddNewStageRRR(data: unknown): void {
+    let projectData = (data as { project?: unknown; stage_id?: string }).project;
+    if (!projectData) {
+      return;
+    }
+    let project = new Project(projectData as Parameters<typeof Project>[0]);
     Workshop.updateProject(project);
-    let stage = project.getStage(data.stage_id);
-    if (stage) {
-      let v = new View();
-      let f = new FvcProjectStageEditor();
-      f.setStage(stage);
-      v.setContentFragment(f);
-      this._owner.onContentFragmentRequestReplaceView(this, v, "Stage editor");
+    let stageId = (data as { project?: unknown; stage_id?: string }).stage_id;
+    if (stageId) {
+      let stage = project.getStage(stageId);
+      if (stage) {
+        let v = new View();
+        let f = new FvcProjectStageEditor();
+        f.setStage(stage);
+        v.setContentFragment(f);
+        this._owner.onContentFragmentRequestReplaceView(this, v, "Stage editor");
+      }
     }
   }
 };

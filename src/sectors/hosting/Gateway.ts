@@ -9,9 +9,10 @@ import { FvcGuestHosting } from './FvcGuestHosting.js';
 import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Env } from '../../common/plt/Env.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 export class Gateway extends SectorGateway {
-  createWebConfigMainViewContentFragment() {
+  createWebConfigMainViewContentFragment(): Fragment {
     let f = new FViewContentMux();
 
     let ff = new FvcBasicWebConfig();
@@ -24,7 +25,7 @@ export class Gateway extends SectorGateway {
     return f;
   }
 
-  createMemberMainViewContentFragment() {
+  createMemberMainViewContentFragment(): Fragment {
     if (Env.isWeb3()) {
       return this.#createWeb3MemberMainViewContentFragment();
     } else {
@@ -32,11 +33,11 @@ export class Gateway extends SectorGateway {
     }
   }
 
-  #createWeb3MemberMainViewContentFragment() {
+  #createWeb3MemberMainViewContentFragment(): FvcWeb3Network {
     return new FvcWeb3Network();
   }
 
-  #createWeb2MemberMainViewContentFragment() {
+  #createWeb2MemberMainViewContentFragment(): Fragment {
     let f = new FViewContentMux();
 
     let ff = new FvcReport();
@@ -51,7 +52,7 @@ export class Gateway extends SectorGateway {
     return f;
   }
 
-  createGuestMainViewContentFragment() {
+  createGuestMainViewContentFragment(): FvcGuestHosting {
     return new FvcGuestHosting();
   }
 };

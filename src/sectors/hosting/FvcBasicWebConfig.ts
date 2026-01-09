@@ -1,4 +1,3 @@
-
 window.CF_BASIC_WEB_CONFIG = {
   ON_DEFAULT_COLOR_CHANGE : "CF_BASIC_WEB_CONFIG_1",
   ON_ICON_CHANGE : "CF_BASIC_WEB_CONFIG_2",
@@ -25,26 +24,28 @@ import { Events, T_DATA as FwkT_DATA, T_ACTION } from '../../lib/framework/Event
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Api } from '../../common/plt/Api.js';
+import { R } from '../../common/constants/R.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export class FvcBasicWebConfig extends FScrollViewContent {
-  action(type, ...args) {
+  action(type: string, ...args: unknown[]): void {
     switch (type) {
     case CF_BASIC_WEB_CONFIG.ON_DEFAULT_COLOR_CHANGE:
-      this.#onDefaultThemeColorChange(args[0], args[1]);
+      this.#onDefaultThemeColorChange(args[0] as string, args[1] as HTMLInputElement);
       break;
     case CF_BASIC_WEB_CONFIG.ON_ICON_CHANGE:
-      this.#onUpdateIcon(args[0]);
+      this.#onUpdateIcon(args[0] as File);
       break;
     case CF_BASIC_WEB_CONFIG.ON_TITLE_SET:
-      this.#asyncUpdateHomePageTitle(args[0]);
+      this.#asyncUpdateHomePageTitle(args[0] as string);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case FwkT_DATA.WEB_CONFIG:
       this._owner.onContentFragmentRequestUpdateHeader(this);
@@ -56,34 +57,41 @@ export class FvcBasicWebConfig extends FScrollViewContent {
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
     let pp = new SectionPanel("Home page title");
     p.pushPanel(pp);
     let cp = pp.getContentPanel();
-    cp.replaceContent(_CFT_BASIC_WEB_CONFIG.HOME_PAGE_TITLE.replace(
-        "__VALUE__", WebConfig.getHomePageTitle()));
+    if (cp) {
+      cp.replaceContent(_CFT_BASIC_WEB_CONFIG.HOME_PAGE_TITLE.replace(
+          "__VALUE__", WebConfig.getHomePageTitle()));
+    }
 
     pp = new SectionPanel("Default theme");
     p.pushPanel(pp);
     cp = pp.getContentPanel();
-    cp.replaceContent(this.#renderDefaultThemeConfig());
+    if (cp) {
+      cp.replaceContent(this.#renderDefaultThemeConfig());
+    }
   }
 
-  #onUpdateIcon(file) { this.#asyncUpdateIcon(file); }
+  #onUpdateIcon(file: File): void { this.#asyncUpdateIcon(file); }
 
-  #renderDefaultThemeConfig() {
+  #renderDefaultThemeConfig(): string {
     let config = WebConfig.getDefaultTheme();
     let owner = WebConfig.getOwner();
     let iconUrl = owner ? owner.getIconUrl() : "";
     let cPrimary = config.getPrimaryColor();
     let cSecondary = config.getSecondaryColor();
     let eTest = document.getElementById("ID_COLOR_TEST");
+    if (!eTest) {
+      return "";
+    }
     eTest.className = "inline-block";
     let cMenu = config.getMenuColor(eTest);
     let cFunc = config.getFuncColor(eTest);
@@ -113,12 +121,12 @@ export class FvcBasicWebConfig extends FScrollViewContent {
     return table.outerHTML;
   }
 
-  #renderIconCell(cell, iconUrl) {
+  #renderIconCell(cell: HTMLTableCellElement, iconUrl: string): void {
     let tIcon = _CFT_BASIC_WEB_CONFIG.PROFILE_ICON;
     cell.innerHTML = tIcon.replace("__SRC__", iconUrl);
   }
 
-  #renderDefaultThemeColorCell(cell, color, bgColor, key) {
+  #renderDefaultThemeColorCell(cell: HTMLTableCellElement, color: string, bgColor: string, key: string): void {
     let s = _CFT_BASIC_WEB_CONFIG.THEME_COLOR.replace(/__VALUE__/g, bgColor);
     s = s.replace("__COLOR__", color);
     s = s.replace("__KEY__", key);
@@ -126,10 +134,13 @@ export class FvcBasicWebConfig extends FScrollViewContent {
     cell.style.backgroundColor = bgColor;
   }
 
-  #onDefaultThemeColorChange(key, inputElement) {
+  #onDefaultThemeColorChange(key: string, inputElement: HTMLInputElement): void {
     let c = inputElement.value;
     if (c == "") {
-      inputElement.value = inputElement.getAttribute("value-bak");
+      let bakValue = inputElement.getAttribute("value-bak");
+      if (bakValue) {
+        inputElement.value = bakValue;
+      }
       return;
     }
 
@@ -143,7 +154,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
     }
   }
 
-  #asyncUpdateIcon(file) {
+  #asyncUpdateIcon(file: File): void {
     let url = "/api/user/update_favicon";
     let fd = new FormData();
     fd.append('favicon', file)
@@ -151,11 +162,11 @@ export class FvcBasicWebConfig extends FScrollViewContent {
         .then(d => this.#onMajorUpdateRRR(d));
   }
 
-  #onMajorUpdateRRR(data) {
+  #onMajorUpdateRRR(data: unknown): void {
     Events.triggerTopAction(T_ACTION.RELOAD_URL, this);
   }
 
-  #asyncUpdateHomePageTitle(title) {
+  #asyncUpdateHomePageTitle(title: string): void {
     let fd = new FormData();
     fd.append("home_page_title", title);
     let url = "/api/user/update_web_config";
@@ -163,18 +174,23 @@ export class FvcBasicWebConfig extends FScrollViewContent {
         .then(d => this.#onMajorUpdateRRR(d));
   }
 
-  #asyncUpdateDefaultTheme(key, color) {
+  #asyncUpdateDefaultTheme(key: string, color: string): void {
     let fd = new FormData();
     fd.append("key", key);
     fd.append("color", color);
     this.#asyncUpdateConfig(fd);
   }
 
-  #asyncUpdateConfig(fd) {
+  #asyncUpdateConfig(fd: FormData): void {
     let url = "/api/user/update_web_config";
     Api.asFragmentPost(this, url, fd)
         .then(d => this.#onWebConfigDataReceived(d));
   }
 
-  #onWebConfigDataReceived(data) { WebConfig.reset(data.web_config); }
+  #onWebConfigDataReceived(data: unknown): void { 
+    let webConfig = (data as { web_config?: unknown }).web_config;
+    if (webConfig) {
+      WebConfig.reset(webConfig);
+    }
+  }
 };

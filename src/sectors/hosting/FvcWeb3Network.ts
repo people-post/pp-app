@@ -1,4 +1,3 @@
-
 const _CPT_WEB3_NETWORK = {
   MAIN : `<div>
     <p class="title">Resolvers</p>
@@ -26,12 +25,13 @@ import { Web3Resolver } from '../../common/pdb/Web3Resolver.js';
 import { Web3Publisher } from '../../common/pdb/Web3Publisher.js';
 import { Web3Ledger } from '../../common/pdb/Web3Ledger.js';
 import { Web3Storage } from '../../common/pdb/Web3Storage.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export class PWeb3Network extends Panel {
-  #pResolver;
-  #pBlockchain;
-  #pPublisher;
-  #pStorage;
+  #pResolver: ListPanel;
+  #pBlockchain: ListPanel;
+  #pPublisher: ListPanel;
+  #pStorage: ListPanel;
 
   constructor() {
     super();
@@ -41,12 +41,12 @@ export class PWeb3Network extends Panel {
     this.#pStorage = new ListPanel();
   }
 
-  getResolverPanel() { return this.#pResolver; }
-  getBlockchainPanel() { return this.#pBlockchain; }
-  getPublisherPanel() { return this.#pPublisher; }
-  getStoragePanel() { return this.#pStorage; }
+  getResolverPanel(): ListPanel { return this.#pResolver; }
+  getBlockchainPanel(): ListPanel { return this.#pBlockchain; }
+  getPublisherPanel(): ListPanel { return this.#pPublisher; }
+  getStoragePanel(): ListPanel { return this.#pStorage; }
 
-  _renderFramework() {
+  _renderFramework(): string {
     let s = _CPT_WEB3_NETWORK.MAIN;
     s = s.replace("__ID_RESOLVER__", this._getSubElementId("R"));
     s = s.replace("__ID_PUBLISHER__", this._getSubElementId("P"));
@@ -55,7 +55,7 @@ export class PWeb3Network extends Panel {
     return s;
   }
 
-  _onFrameworkDidAppear() {
+  _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
     this.#pResolver.attach(this._getSubElementId("R"));
     this.#pBlockchain.attach(this._getSubElementId("B"));
@@ -67,11 +67,11 @@ export class PWeb3Network extends Panel {
 export class FvcWeb3Network extends FScrollViewContent {
   constructor() { super(); }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let panel = new PWeb3Network();
     render.wrapPanel(panel);
 
-    const glb = (typeof window !== 'undefined' && window.glb) ? window.glb : {};
+    const glb = (typeof window !== 'undefined' && window.glb) ? window.glb : {} as { web3Resolver?: Web3Resolver; web3Publisher?: Web3Publisher; web3Ledger?: Web3Ledger; web3Storage?: Web3Storage };
     const web3Resolver = glb.web3Resolver || null;
     const web3Publisher = glb.web3Publisher || null;
     const web3Ledger = glb.web3Ledger || null;
@@ -110,11 +110,10 @@ export class FvcWeb3Network extends FScrollViewContent {
     }
   }
 
-  #renderServer(name, panel, addr) {
+  #renderServer(name: string, panel: PanelWrapper, addr: string): void {
     if (!panel) {
       return;
     }
     panel.replaceContent(name + ": " + addr);
   }
 };
-
