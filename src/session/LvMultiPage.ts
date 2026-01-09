@@ -2,15 +2,16 @@ import { Gateway } from './Gateway.js';
 import { FvcExtras } from '../common/gui/FvcExtras.js';
 import { View } from '../lib/ui/controllers/views/View.js';
 import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
-import { PageViewController } from '../lib/ui/controllers/PageViewController.js';
+import { PageViewController, PageViewControllerDataSource, PageViewControllerDelegate, PageViewControllerOwner } from '../lib/ui/controllers/PageViewController.js';
 import { Page } from '../lib/ui/controllers/Page.js';
 import { Logger } from '../lib/ext/Logger.js';
 import { Badge } from '../common/dba/Badge.js';
 import { ID } from '../common/constants/Constants.js';
-import { FHomeBtn } from './FHomeBtn.js';
+import { FHomeBtn } from './FHomeBtn.js'; 
 import { Panel } from '../lib/ui/renders/panels/Panel.js';
+import { PageConfig } from '../common/plt/SectorGateway.js';
 
-export class LvMultiPage extends ViewLayer {
+export class LvMultiPage extends ViewLayer implements PageViewControllerOwner, PageViewControllerDataSource, PageViewControllerDelegate {
   #fBtnHome: FHomeBtn | null = null;
   #fAbDefault: unknown = null;
   #logger: Logger;
@@ -138,7 +139,7 @@ export class LvMultiPage extends ViewLayer {
   }
   _getAllChildControllers(): PageViewController[] { return [ this._vc ]; }
 
-  _getVisiblePageConfigs(): unknown[] {
+  _getVisiblePageConfigs(): PageConfig[] {
     let configs = this._gateway.getPageConfigs();
     if (this._isExtrasPageNeeded()) {
       configs.push(Gateway.T_CONFIG.EXTRAS);

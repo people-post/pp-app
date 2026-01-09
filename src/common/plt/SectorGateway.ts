@@ -1,5 +1,11 @@
 import Controller from '../../lib/ext/Controller.js';
 
+export interface PageConfig {
+  ID: string;
+  NAME: string;
+  ICON: string | null;
+}
+
 export abstract class SectorGateway extends Controller {
   isLoginRequired(): boolean {
     return false;
@@ -25,7 +31,7 @@ export abstract class SectorGateway extends Controller {
     return null;
   }
 
-  getPageConfigs(): unknown[] {
+  getPageConfigs(): PageConfig[] {
     return [];
   }
 

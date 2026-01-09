@@ -3,7 +3,7 @@ import { FNavigation } from './fragments/FNavigation.js';
 import { Page } from './Page.js';
 import { T_DATA, T_ACTION, Events } from '../../framework/Events.js';
 import { WebConfig } from '../../../common/dba/WebConfig.js';
-import { ViewStack } from './ViewStack.js';
+import { ViewStack, ViewStackOwner } from './ViewStack.js';
 import { PanelWrapper } from '../renders/panels/PanelWrapper.js';
 import { View } from './views/View.js';
 
@@ -13,19 +13,23 @@ interface PageConfig {
   [key: string]: unknown;
 }
 
-interface PageViewControllerDataSource {
-  getNPageNotificationsForPageViewController(pvc: PageViewController, pageId: string): number;
+export interface PageViewControllerOwner {
+  onPageViewControllerRequestPopView(pvc: PageViewController): void;
+}
+
+export interface PageViewControllerDataSource {
   isPageNavPageInPageViewController(pvc: PageViewController, pageId: string): boolean;
+  getNPageNotificationsForPageViewController(pvc: PageViewController, pageId: string): number;
   createPageForPageViewController(pvc: PageViewController, pageId: string): Page;
 }
 
-interface PageViewControllerDelegate {
+export interface PageViewControllerDelegate {
   onPageViewControllerOverlayPermissionChange(pvc: PageViewController, allowed: boolean): void;
   onPageViewControllerWillUpdateNavView(pvc: PageViewController): void;
   onPageSwitchedInPageViewController(pvc: PageViewController): void;
 }
 
-export class PageViewController extends RenderController {
+export class PageViewController extends RenderController implements ViewStackOwner {
   #mPageConfig: Map<string, PageConfig>;
   #mPage: Map<string, Page>;
   #currentPage: Page | null = null;
@@ -71,10 +75,10 @@ export class PageViewController extends RenderController {
         ID : c.ID,
         ICON : c.ICON,
         NNOTIFICATIONS :
-            this._dataSource.getNPageNotificationsForPageViewController(this,
+            this.getDataSource<PageViewControllerDataSource>().getNPageNotificationsForPageViewController(this,
                                                                         c.ID),
         IS_OPEN_ADDON :
-            this._dataSource.isPageNavPageInPageViewController(this, c.ID),
+            this.getDataSource<PageViewControllerDataSource>().isPageNavPageInPageViewController(this, c.ID),
       });
     }
     return items;
@@ -90,8 +94,11 @@ export class PageViewController extends RenderController {
   setDefaultPageId(id: string | null): void { this.#defaultPageId = id; }
 
   onViewStackStackSizeChange(_nc: ViewStack): void {
-    this._delegate.onPageViewControllerOverlayPermissionChange(
+    const delegate = this.getDelegate<PageViewControllerDelegate>();
+    if (delegate) {
+      delegate.onPageViewControllerOverlayPermissionChange(
         this, this.#isOverlayAllowed());
+    }
   }
 
   onNavPageSelectedInNavigationFragment(_fNav: FNavigation, pageId: string): void {
@@ -100,8 +107,9 @@ export class PageViewController extends RenderController {
 
   onViewStackRequestPopView(nc: ViewStack): void {
     if (nc == this.#currentPage) {
-      if (this._owner) {
-        (this._owner as any).onPageViewControllerRequestPopView(this);
+      const owner = this.getOwner<PageViewControllerOwner>();
+      if (owner) {
+        owner.onPageViewControllerRequestPopView(this);
       }
     }
   }
@@ -186,7 +194,10 @@ export class PageViewController extends RenderController {
     }
     this.#updateNavView();
     Events.triggerTopAction(T_ACTION.REPLACE_STATE, {}, "tab");
-    this._delegate.onPageSwitchedInPageViewController(this);
+    const delegate = this.getDelegate<PageViewControllerDelegate>();
+    if (delegate) {
+      delegate.onPageSwitchedInPageViewController(this);
+    }
   }
 
   _getAllChildControllers(): any[] {
@@ -216,7 +227,7 @@ export class PageViewController extends RenderController {
   }
 
   #getOrInitPage(pageId: string): Page {
-    let page = this._dataSource.createPageForPageViewController(this, pageId);
+    let page = this.getDataSource<PageViewControllerDataSource>().createPageForPageViewController(this, pageId);
     page.setOwner(this);
     this.#mPage.set(pageId, page);
     return page;
@@ -243,10 +254,15 @@ export class PageViewController extends RenderController {
   }
 
   #updateNavView(): void {
-    this._delegate.onPageViewControllerWillUpdateNavView(this);
+    const delegate = this.getDelegate<PageViewControllerDelegate>();
+    if (delegate) {
+      delegate.onPageViewControllerWillUpdateNavView(this);
+    }
     this.#fNav.render();
-    this._delegate.onPageViewControllerOverlayPermissionChange(
+    if (delegate) {
+      delegate.onPageViewControllerOverlayPermissionChange(
         this, this.#isOverlayAllowed());
+    }
   }
 }
 

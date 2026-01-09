@@ -28,12 +28,7 @@ import { FvcUserInfo } from '../sectors/hr/FvcUserInfo.js';
 import { FvcResetPassword } from '../sectors/auth/FvcResetPassword.js';
 import { FvcAccountActivation } from '../sectors/auth/FvcAccountActivation.js';
 import { Env } from '../common/plt/Env.js';
-
-interface PageConfig {
-  ID: string;
-  NAME: string;
-  ICON: string | null;
-}
+import { SectorGateway, PageConfig } from '../common/plt/SectorGateway.js';
 
 export class Gateway extends Controller {
   static T_CONFIG: {
@@ -107,52 +102,43 @@ export class Gateway extends Controller {
 
   #sectorId: string | null = null; // sectorId here is more close to code, different concept than the
              // one used in url
-  #sGateway: unknown = null;
+  #sGateway: SectorGateway | null = null;
 
   isLoginRequired(): boolean {
-    // @ts-expect-error - sGateway may have this method
-    return this.#sGateway && this.#sGateway.isLoginRequired?.();
+    return this.#sGateway ? this.#sGateway.isLoginRequired?.() : false;
   }
 
   isPageNavItem(pageId: string): boolean {
-    // @ts-expect-error - sGateway may have this method
     return this.#sGateway ? this.#sGateway.isPageNavItem?.(pageId)
                           : this.#isPageNavItem(pageId);
   }
   shouldEnableSessionAction(pageId: string): boolean {
-    // @ts-expect-error - sGateway may have this method
     return this.#sGateway ? this.#sGateway.shouldEnableSessionAction?.(pageId)
                           : this.#shouldEnableSessionAction(pageId);
   }
 
   getSectorId(): string | null { return this.#sectorId; }
   getIcon(): string | null {
-    // @ts-expect-error - sGateway may have this method
     return this.#sGateway ? this.#sGateway.getIcon?.() : null;
   }
   getBannerFragment(): unknown | null {
-    // @ts-expect-error - sGateway may have this method
     return this.#sGateway ? this.#sGateway.getBannerFragment?.() : null;
   }
   getDefaultPageId(): string | null {
-    // @ts-expect-error - sGateway may have this method
     return this.#sGateway ? this.#sGateway.getDefaultPageId?.() : null;
   }
   getPageConfigs(): PageConfig[] {
-    // @ts-expect-error - sGateway may have this method
     return this.#sGateway ? this.#sGateway.getPageConfigs?.()
                           : this.#getPageConfigs();
   }
 
   getNPageNotifications(pageId: string): number {
-    // @ts-expect-error - sGateway may have this method
     return this.#sGateway ? this.#sGateway.getNPageNotifications?.(pageId)
                           : this.#getNPageNotifications(pageId);
   }
 
   getExtrasPageConfigs(): PageConfig[] {
     // TODO: sGateway currently do not have such method
-    // @ts-expect-error - sGateway may have this method
     return this.#sGateway ? [] : this.#getExtrasPageConfigs();
   }
 
@@ -162,7 +148,6 @@ export class Gateway extends Controller {
   }
 
   createPageEntryViews(pageId: string): View[] {
-    // @ts-expect-error - sGateway may have this method
     return this.#sGateway ? this.#sGateway.createPageEntryViews?.(pageId)
                           : this.#createPageEntryViews(pageId);
   }
@@ -387,8 +372,8 @@ export class Gateway extends Controller {
     return items;
   }
 
-  #createSectorGateway(sectorId: string | null): unknown {
-    let gw: unknown = null;
+  #createSectorGateway(sectorId: string | null): SectorGateway | null {
+    let gw: SectorGateway | null = null;
     switch (sectorId) {
     case ID.SECTOR.GADGET:
       // Gadget share same gateway as main.

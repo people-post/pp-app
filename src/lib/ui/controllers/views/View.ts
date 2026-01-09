@@ -19,6 +19,13 @@ if (typeof window !== 'undefined') {
   (window as any).CR_VIEW_FRAME = CR_VIEW_FRAME;
 }
 
+export interface ViewOwner {
+  onViewRequestPop(v: View): void;
+  onViewRequestReplace(v: View, view: any, title: string): void;
+  onViewRequestPush(v: View, view: any, title: string): void;
+  getDefaultActionButtonForView(v: View): Fragment | null;
+}
+
 export class View extends RenderController implements ViewContentFragmentOwner {
   #fHeader: FViewHeader;
   #fBanner: Fragment;
@@ -66,28 +73,32 @@ export class View extends RenderController implements ViewContentFragmentOwner {
     if (this.#fContent && this.#fContent instanceof FViewContentBase) {
       f = this.#fContent.getActionButton();
     }
-    if (!f && this._owner) {
-      f = (this._owner as any).getDefaultActionButtonForView(this);
+    const owner = this.getOwner<ViewOwner>();
+    if (!f && owner) {
+      f = owner.getDefaultActionButtonForView(this);
     }
     return f;
   }
 
   onMagicClickInHeaderFragment(_fHeader: FViewHeader): void { this.knockKnock(); }
   onFragmentRequestShowView(_f: Fragment, view: any, title: string): void {
-    if (this._owner) {
-      (this._owner as any).onViewRequestPush(this, view, title);
+    const owner = this.getOwner<ViewOwner>();
+    if (owner) {
+      owner.onViewRequestPush(this, view, title);
     }
   }
   onContentFragmentRequestUpdateHeader(_fContent: Fragment): void { this.#updateHeader(); }
   onContentFragmentRequestCloseMenu(_fContent: Fragment): void { this.#fHeader.closeMenu(); }
   onContentFragmentRequestReplaceView(_fContent: Fragment, view: any, title: string): void {
-    if (this._owner) {
-      (this._owner as any).onViewRequestReplace(this, view, title);
+    const owner = this.getOwner<ViewOwner>();
+    if (owner) {
+      owner.onViewRequestReplace(this, view, title);
     }
   }
   onContentFragmentRequestPopView(_fContent: Fragment): void {
-    if (this._owner) {
-      (this._owner as any).onViewRequestPop(this);
+    const owner = this.getOwner<ViewOwner>();
+    if (owner) {
+      owner.onViewRequestPop(this);
     }
   }
 
@@ -187,8 +198,9 @@ export class View extends RenderController implements ViewContentFragmentOwner {
     (f as any).setKey(key);
     let v = new View();
     v.setContentFragment(f);
-    if (this._owner) {
-      (this._owner as any).onViewRequestPush(this, v, "Search result");
+    const owner = this.getOwner<ViewOwner>();
+    if (owner) {
+      owner.onViewRequestPush(this, v, "Search result");
     }
   }
 

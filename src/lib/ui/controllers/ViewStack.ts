@@ -8,34 +8,29 @@ import { Events, T_ACTION } from '../../framework/Events.js';
 import { View } from './views/View.js';
 import { ListPanel } from '../renders/panels/ListPanel.js';
 import { PreferredWidth } from './fragments/FViewContentBase.js';
-
-//const _CRC_NAVIGATION = {
-//  BIT : {NARROW : 1 << 1, WIDE_EXTRA : 1 << 0},
-//} as const;
+import { ViewOwner } from './views/View.js';
+import { Fragment } from './fragments/Fragment.js';
 
 interface FrameSize {
   offset: number;
   width: number;
 }
 
-interface ViewStackDataSource {
-  getDefaultActionButtonForViewStack(vs: ViewStack): any;
+export interface ViewStackDataSource {
+  getDefaultActionButtonForViewStack(vs: ViewStack): Fragment | null;
 }
 
-interface ViewStackDelegate {
+export interface ViewStackOwner {
   onViewStackStackSizeChange(vs: ViewStack): void;
   onViewStackRequestPopView(vs: ViewStack): void;
 }
 
-export class ViewStack extends RenderController {
+export class ViewStack extends RenderController implements ViewOwner {
   #logger: Logger;
   #childStack: View[] = []; // First element as the top most view
   #shouldLockLastView: boolean = true;
   #shouldEnableSessionAction: boolean = false;
   #optionalViews: View[] = []; // Views only show up when there are free frames
-
-  protected declare _dataSource: ViewStackDataSource;
-  protected declare _delegate: ViewStackDelegate;
 
   constructor() {
     super();
@@ -50,7 +45,10 @@ export class ViewStack extends RenderController {
   getDefaultActionButtonForView(view: View): any {
     if (this.#shouldEnableSessionAction) {
       if (this.#childStack[0] == view) {
-        return this._dataSource.getDefaultActionButtonForViewStack(this);
+        const dataSource = this.getDataSource<ViewStackDataSource>();
+        if (dataSource) {
+          return dataSource.getDefaultActionButtonForViewStack(this);
+        }
       }
     }
     return null;
@@ -91,8 +89,9 @@ export class ViewStack extends RenderController {
   onResize(): void { this.render(); }
 
   onNavBackFragmentClick(_fNavBack: FNavBack): void {
-    if (this._owner) {
-      (this._owner as any).onViewStackRequestPopView(this);
+    const owner = this.getOwner<ViewStackOwner>();
+    if (owner) {
+      owner.onViewStackRequestPopView(this);
     }
   }
 
@@ -142,8 +141,9 @@ export class ViewStack extends RenderController {
 
   onViewRequestPop(view: View): void {
     if (view == this.#getTopRealView()) {
-      if (this._owner) {
-        (this._owner as any).onViewStackRequestPopView(this);
+      const owner = this.getOwner<ViewStackOwner>();
+      if (owner) {
+        owner.onViewStackRequestPopView(this);
       }
     }
   }
@@ -231,8 +231,9 @@ export class ViewStack extends RenderController {
   }
 
   #onStackSizeChange(): void {
-    if (this._owner) {
-      (this._owner as any).onViewStackStackSizeChange(this);
+    const owner = this.getOwner<ViewStackOwner>();
+    if (owner) {
+      owner.onViewStackStackSizeChange(this);
     }
   }
 
