@@ -1,0 +1,42 @@
+const _CPT_COMMUNITY_HEADER_EDITOR = {
+  MAIN : `<div class="aspect-5-1-frame bglightgrey">
+    <div id="__ID_BG_IMAGE__" class="aspect-content"></div>
+    <div id="__ID_COMMUNITY_ICON__" class="community-icon s-icon2"></div>
+    <div id="__ID_BG_UPLOAD__" class="community-bg-image-upload"></div>
+  </div>`,
+} as const;
+
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export class PHeaderEditor extends Panel {
+  protected _pBgImage: PanelWrapper;
+  protected _pCommunityIcon: PanelWrapper;
+  protected _pBgUpload: PanelWrapper;
+
+  constructor() {
+    super();
+    this._pBgImage = new PanelWrapper();
+    this._pCommunityIcon = new PanelWrapper();
+    this._pBgUpload = new PanelWrapper();
+  }
+
+  getBackgroundImagePanel(): PanelWrapper { return this._pBgImage; }
+  getCommunityIconPanel(): PanelWrapper { return this._pCommunityIcon; }
+  getUploadButtonPanel(): PanelWrapper { return this._pBgUpload; }
+
+  _renderFramework(): string {
+    let s = _CPT_COMMUNITY_HEADER_EDITOR.MAIN;
+    s = s.replace("__ID_BG_IMAGE__", this._getSubElementId("B"));
+    s = s.replace("__ID_COMMUNITY_ICON__", this._getSubElementId("I"));
+    s = s.replace("__ID_BG_UPLOAD__", this._getSubElementId("U"));
+    return s;
+  }
+
+  _onFrameworkDidAppear(): void {
+    super._onFrameworkDidAppear();
+    this._pBgImage.attach(this._getSubElementId("B"));
+    this._pCommunityIcon.attach(this._getSubElementId("I"));
+    this._pBgUpload.attach(this._getSubElementId("U"));
+  }
+}
