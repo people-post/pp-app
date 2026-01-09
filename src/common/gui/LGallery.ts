@@ -47,7 +47,11 @@ export class LGallery extends Layer {
 
   setFiles(files: RemoteFile[] | null): void { this._fGallery.setFiles(files); }
   setSelection(idx: number): void { this._fGallery.setSelection(idx); }
-  setCommentThreadId(id: string | number | null, type: string | null): void { this._fComments.setThreadId(id, type); }
+  setCommentThreadId(id: string | number | null, type: string | null): void {
+    if (id !== null && type !== null) {
+      this._fComments.setThreadId(id.toString(), type);
+    }
+  }
   onRemoteErrorInFragment(_f: unknown, _err: RemoteError): void {
     // TODO:
   }

@@ -4,10 +4,11 @@ import { PUserInfoCompactCell } from './PUserInfoCompactCell.js';
 import { PUserInfoMidsizeCell } from './PUserInfoMidsizeCell.js';
 import { PUserInfoSmallRow } from './PUserInfoSmallRow.js';
 import { PUserInfoMidsizeRow } from './PUserInfoMidsizeRow.js';
-import { T_DATA, T_ACTION as PltT_ACTION } from '../plt/Events.js';
+import { T_DATA } from '../plt/Events.js';
 import { Users } from '../dba/Users.js';
-import { Events, T_ACTION } from '../../lib/framework/Events.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Events } from '../../lib/framework/Events.js';
+import { T_ACTION as PltT_ACTION } from '../plt/Events.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ICON } from '../constants/Icons.js';
 
 export const CF_USER_INFO = {
@@ -57,7 +58,7 @@ export class FUserInfo extends Fragment {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: string | symbol, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
@@ -68,34 +69,36 @@ export class FUserInfo extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let u = Users.get(this._fIcon.getUserId());
     let p = this.#createPanel();
     p.setAttribute("onclick",
                    "javascript:G.action(S.hr.CF_USER_INFO.ON_CLICK)");
     render.wrapPanel(p);
 
-    let pp = p.getIconPanel();
+    let pp = (p as any).getIconPanel?.();
     if (pp) {
       this._fIcon.attachRender(pp);
       this._fIcon.render();
     }
 
-    pp = p.getNamePanel();
-    pp.replaceContent(this.#renderName(u));
+    pp = (p as any).getNamePanel?.();
+    if (pp) {
+      pp.replaceContent(this.#renderName(u));
+    }
 
-    pp = p.getTypeIconPanel();
+    pp = (p as any).getTypeIconPanel?.();
     if (pp) {
       pp.replaceContent(this.#renderTypeIcon(u));
     }
-    pp = p.getUserIdPanel();
+    pp = (p as any).getUserIdPanel?.();
     if (pp) {
       pp.replaceContent(this.#renderId(u));
     }
   }
 
-  #createPanel(): Panel {
-    let p: Panel;
+  #createPanel(): PUserInfoCompactCell | PUserInfoMidsizeCell | PUserInfoSmallRow | PUserInfoMidsizeRow {
+    let p: PUserInfoCompactCell | PUserInfoMidsizeCell | PUserInfoSmallRow | PUserInfoMidsizeRow;
     switch (this._layoutType) {
     case FUserInfo.T_LAYOUT.COMPACT:
       p = new PUserInfoCompactCell();
@@ -114,7 +117,7 @@ export class FUserInfo extends Fragment {
     return p;
   }
 
-  #renderName(user: ReturnType<typeof Users.get>): string { return user ? user.getNickname() : "..."; }
+  #renderName(user: ReturnType<typeof Users.get>): string { return user ? (user.getNickname() || "...") : "..."; }
   #renderId(user: ReturnType<typeof Users.get>): string {
     let id = user ? user.getUsername() : null;
     return id ? "@" + id : "";

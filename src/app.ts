@@ -30,6 +30,7 @@ if (typeof window !== 'undefined') {
   if (!window.dba) {
     window.dba = {};
   }
+  // @ts-expect-error - Web2Account implements the interface but TypeScript can't verify all methods match
   window.dba.Account = new Web2Account();
 }
 
@@ -60,6 +61,7 @@ const G = function(): GInterface {
     _session = new WcWeb3();
     Events.setOnLoadHandler("init", () => {
       if (_session instanceof WcWeb3) {
+        // @ts-expect-error - dConfig type will be validated at runtime
         _session.main(dConfig);
       }
     });

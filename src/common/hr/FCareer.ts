@@ -55,9 +55,9 @@ export class FCareer extends Fragment {
     p.replaceContent(this.#renderName(role));
 
     p = panel.getStatusPanel();
-    if (window.dba.Account.isRoleApplicationPending(this._roleId as string || "")) {
+    if (window.dba?.Account?.isRoleApplicationPending?.(this._roleId || "")) {
       p.replaceContent("Applied");
-    } else if (window.dba.Account.isInGroup(this._roleId as string || "")) {
+    } else if (window.dba?.Account?.isInGroup?.(this._roleId || "")) {
       p.replaceContent("Joined");
     }
   }

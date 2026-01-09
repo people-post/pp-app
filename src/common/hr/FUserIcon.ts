@@ -38,13 +38,13 @@ export class FUserIcon extends Fragment {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: string | symbol, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
       break;
     case T_DATA.USER_PUBLIC_PROFILE:
-      if (this.#userId == data) {
+      if (this.#userId == (data as string | null)) {
         this.render();
       }
       break;

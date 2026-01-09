@@ -171,8 +171,22 @@ declare global {
         saveCheckPoint?(): void;
         setPublishers?(agents: unknown): void;
         setStorage?(agent: unknown): void;
+        // Additional Account methods
+        isWebOwner?(): boolean;
+        isBetaTester?(): boolean;
+        hasDomain?(): boolean;
+        isRoleApplicationPending?(roleId: string): boolean;
+        isInGroup?(groupId: string): boolean;
+        getUserNickname?(userId: string): string | null;
         [key: string]: unknown;
       };
+      [key: string]: unknown;
+    };
+    glb?: {
+      web3Resolver?: unknown;
+      web3Publisher?: unknown;
+      web3Ledger?: unknown;
+      web3Storage?: unknown;
       [key: string]: unknown;
     };
   }

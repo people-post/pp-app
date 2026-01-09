@@ -12,11 +12,11 @@ export class CardanoAccount {
   } as const;
 
   #networkId: number;
-  #kPayment: Uint8Array | null = null;
-  #kStaking: Uint8Array | null = null;
+  #kPayment: CardanoBip32PrivateKey | null = null;
+  #kStaking: CardanoBip32PrivateKey | null = null;
   #address: unknown = null;
 
-  constructor(kPayment: Uint8Array, kStaking: Uint8Array) {
+  constructor(kPayment: CardanoBip32PrivateKey, kStaking: CardanoBip32PrivateKey) {
     this.#kPayment = kPayment;
     this.#kStaking = kStaking;
     this.#networkId = Cardano.NetworkInfo.testnet_preview().network_id;

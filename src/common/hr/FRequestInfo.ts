@@ -85,6 +85,9 @@ export class FRequestInfo extends Fragment {
   }
 
   _renderOnRender(render: PanelWrapper): void {
+    if (!this._requestId) {
+      return;
+    }
     let request = Notifications.getRequest(this._requestId);
     if (!request) {
       return;
@@ -119,22 +122,29 @@ export class FRequestInfo extends Fragment {
     default:
       break;
     }
-    return request.getMessage();
+    return request.getMessage() || "";
   }
 
   #renderJoinGroupRequest(request: UserRequest): string {
     let s = _CFT_REQUEST_INFO.JOIN_GROUP;
     let uid = request.getFromId();
-    let nickname = window.dba.Account.getUserNickname(uid);
+    if (!uid) {
+      return s;
+    }
+    let nickname = window.dba?.Account?.getUserNickname?.(uid) || null;
     s = s.replace("__USER__",
                   Utilities.renderSmallButton("S.hr.CF_REQUEST_INFO.USER_INFO",
-                                              uid, nickname));
+                                              uid, nickname || ""));
     let gid = request.getTargetId();
+    if (!gid) {
+      s = s.replace("__GROUP__", "");
+      return s;
+    }
     let g = Groups.get(gid);
     if (g) {
       s = s.replace("__GROUP__",
                     Utilities.renderSmallButton(
-                        "S.hr.CF_REQUEST_INFO.GROUP_INFO", gid, g.getName()));
+                        "S.hr.CF_REQUEST_INFO.GROUP_INFO", gid, g.getName() || ""));
     } else {
       s = s.replace("__GROUP__", "");
     }
@@ -150,7 +160,7 @@ export class FRequestInfo extends Fragment {
     let fd = new FormData();
     fd.append("id", id || "");
     Api.asFragmentPost(this, url, fd)
-        .then(d => this.#onRequestOperationRRR(d));
+        .then((d: unknown) => this.#onRequestOperationRRR(d as { profile?: unknown }));
   }
 
   #asyncDecline(id: string | null): void {
@@ -158,7 +168,7 @@ export class FRequestInfo extends Fragment {
     let fd = new FormData();
     fd.append("id", id || "");
     Api.asFragmentPost(this, url, fd)
-        .then(d => this.#onRequestOperationRRR(d));
+        .then((d: unknown) => this.#onRequestOperationRRR(d as { profile?: unknown }));
   }
 
   #asyncIgnore(id: string | null): void {
@@ -166,10 +176,14 @@ export class FRequestInfo extends Fragment {
     let fd = new FormData();
     fd.append("id", id || "");
     Api.asFragmentPost(this, url, fd)
-        .then(d => this.#onRequestOperationRRR(d));
+        .then((d: unknown) => this.#onRequestOperationRRR(d as { profile?: unknown }));
   }
 
-  #onRequestOperationRRR(data: { profile: unknown }): void { window.dba.Account.reset(data.profile); }
+  #onRequestOperationRRR(data: { profile?: unknown }): void {
+    if (window.dba?.Account?.reset) {
+      window.dba.Account.reset(data.profile);
+    }
+  }
 
   #onShowUserInfo(userId: string): void {
       Events.triggerTopAction(PltT_ACTION.SHOW_USER_INFO, userId);

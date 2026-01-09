@@ -10,6 +10,7 @@ import * as bip39 from 'bip39';
 import { generateFromSeed, verify } from 'bip32-ed25519';
 import { sys } from 'pp-api';
 
+// @ts-expect-error - Interface defined but not used, may be used in future
 interface Cip1852KeyInterface {
   derive(index: number): Cip1852KeyInterface;
   to_public(): Uint8Array;

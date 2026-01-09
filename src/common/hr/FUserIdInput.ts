@@ -45,9 +45,12 @@ export class FUserIdInput extends Fragment {
   }
 
   #renderUser(): string {
-    let nickname = window.dba.Account.getUserNickname(this.#userId);
+    if (!this.#userId) {
+      return "";
+    }
+    let nickname = window.dba?.Account?.getUserNickname?.(this.#userId) || null;
     return Utilities.renderSmallButton("S.hr.CF_USER_ID_INPUT.USER_INFO",
-                                       this.#userId as string || "", nickname || "");
+                                       this.#userId, nickname || "");
   }
 
   #showUserInfo(userId: string): void {
