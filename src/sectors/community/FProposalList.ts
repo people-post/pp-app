@@ -5,7 +5,7 @@ import { Communities } from '../../common/dba/Communities.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { FProposal } from './FProposal.js';
 import { FvcProposal } from './FvcProposal.js';
-import { api } from '../../lib/framework/Global.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FProposalList extends DefaultLongList {
   protected _communityId: string | null = null;
@@ -67,7 +67,7 @@ export class FProposalList extends DefaultLongList {
     if (this._ids.length) {
       url += "&before_id=" + this._ids[this._ids.length - 1];
     }
-    api.asyncRawCall(url, r => this.#onProposalsRRR(r));
+    Api.asyncRawCall(url, r => this.#onProposalsRRR(r));
   }
 
   #onProposalsRRR(responseText: string): void {

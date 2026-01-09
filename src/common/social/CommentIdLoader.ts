@@ -2,6 +2,7 @@ import { LongListIdLoader } from '../plt/LongListIdLoader.js';
 import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 import { SocialItemId } from '../datatypes/SocialItemId.js';
 import { Blog } from '../dba/Blog.js';
+import { Api } from '../plt/Api.js';
 
 export class CommentIdLoader extends LongListIdLoader {
   #isBatchLoading = false;
@@ -36,8 +37,7 @@ export class CommentIdLoader extends LongListIdLoader {
       fd.append("before_id",
                 SocialItemId.fromEncodedStr(fromId).getValue());
     }
-    // @ts-expect-error - api is a global
-    api.asyncRawPost(url, fd, (r: string) => this.#onLoadRRR(r));
+    Api.asyncRawPost(url, fd, (r: string) => this.#onLoadRRR(r));
   }
 
   #onLoadRRR(responseText: string): void {

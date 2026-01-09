@@ -4,7 +4,7 @@ import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Users } from '../../common/dba/Users.js';
-import { api } from '../../lib/framework/Global.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class OwnerPostIdLoader extends LongListIdLoader {
   #idRecord = new BiLongListIdRecord();
@@ -57,7 +57,7 @@ export class OwnerPostIdLoader extends LongListIdLoader {
       params.push("to=" + Math.round(this.#tTo.getTime() / 1000));
     }
     url += params.join("&");
-    api.asyncRawCall(url, r => this.#onFrontPostsRRR(r));
+    Api.asyncRawCall(url, r => this.#onFrontPostsRRR(r));
   }
 
   asyncLoadBackItems(): void {
@@ -85,7 +85,7 @@ export class OwnerPostIdLoader extends LongListIdLoader {
       params.push("to=" + Math.round(this.#tTo.getTime() / 1000));
     }
     url += params.join("&");
-    api.asyncRawCall(url, r => this.#onBackPostsRRR(r));
+    Api.asyncRawCall(url, r => this.#onBackPostsRRR(r));
   }
 
   #addPinnedPostIds(): void {

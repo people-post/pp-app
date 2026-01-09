@@ -2,7 +2,7 @@ import { ClientSignal } from '../../common/datatypes/ClientSignal.js';
 import { MessageHandler } from './MessageHandler.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Signal } from '../../common/dba/Signal.js';
-import { C } from '../../common/constants/Constants.js';
+import { STUN_URLS } from '../../common/constants/Constants.js';
 import type { ClientSignalData } from '../../common/datatypes/ClientSignal.js';
 
 export class PeerMessageHandler extends MessageHandler {
@@ -50,7 +50,7 @@ export class PeerMessageHandler extends MessageHandler {
   #initPeerConnection(toUserId: string): RTCPeerConnection {
     let config: RTCConfiguration = {
       iceServers : [
-        {urls : C.STUN_URLS}, {
+        {urls : [...STUN_URLS]}, {
           urls : [ WebConfig.getIceUrl() ],
           username : "myuser",
           credential : "mypass"

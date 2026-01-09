@@ -12,12 +12,7 @@ import { Notifications } from '../common/dba/Notifications.js';
 import { Gateway as HrGateway } from '../sectors/hr/Gateway.js';
 import { Env } from '../common/plt/Env.js';
 import { AbAccount } from './AbAccount.js';
-
-declare global {
-  var api: {
-    asyncRawCall(url: string, callback: (responseText: string) => void): void;
-  };
-}
+import { Api } from '../common/plt/Api.js';
 
 export class WcMain extends WcSession {
   onLoginClickInAccountActionButtonFragment(_fAbAccount: AbAccount): void {
@@ -27,8 +22,7 @@ export class WcMain extends WcSession {
   }
 
   onLogoutClickInActionButtonFragment(_fAbAccount: AbAccount): void {
-    // @ts-expect-error - api is a global
-    api.asyncRawCall("/api/auth/logout", (r: string) => this.#onLogoutRRR(r));
+    Api.asyncRawCall("/api/auth/logout", (r: string) => this.#onLogoutRRR(r));
   }
 
   topAction(type: string | symbol, ...args: unknown[]): void {

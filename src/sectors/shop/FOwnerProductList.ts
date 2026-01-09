@@ -4,7 +4,7 @@ import { FProductList } from './FProductList.js';
 import { FvcProductEditor } from './FvcProductEditor.js';
 import { FProduct } from './FProduct.js';
 import { Shop } from '../../common/dba/Shop.js';
-import { api } from '../../common/plt/Api.js';
+import { Api } from '../../common/plt/Api.js';
 
 interface OwnerProductListDataSource {
   getTagIdsForProductListFragment(f: FOwnerProductList): string[];
@@ -59,7 +59,7 @@ export class FOwnerProductList extends FProductList {
     }
     url += params.join("&");
     this.#isBatchLoading = true;
-    api.asyncRawCall(url, (r: string) => this.#onProductsRRR(r));
+    Api.asyncRawCall(url, (r: string) => this.#onProductsRRR(r));
   }
 
   #onProductsRRR(responseText: string): void {

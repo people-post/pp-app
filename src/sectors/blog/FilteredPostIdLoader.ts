@@ -3,7 +3,7 @@ import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import { Groups } from '../../common/dba/Groups.js';
 import { Blog } from '../../common/dba/Blog.js';
-import { api } from '../../lib/framework/Global.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FilteredPostIdLoader extends LongListIdLoader {
   #isBatchLoading = false;
@@ -34,7 +34,7 @@ export class FilteredPostIdLoader extends LongListIdLoader {
     if (t) {
       url += "&owner_id=" + t.getOwnerId();
     }
-    api.asyncRawCall(url, r => this.#onPostsRRR(r));
+    Api.asyncRawCall(url, r => this.#onPostsRRR(r));
   }
 
   #onPostsRRR(responseText: string): void {

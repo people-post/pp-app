@@ -17,7 +17,7 @@ import { Env } from '../../common/plt/Env.js';
 import { Api } from '../../common/plt/Api.js';
 import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
 import { Utilities } from '../../common/Utilities.js';
-import { C } from '../../common/constants/Constants.js';
+import { ICON } from '../../common/constants/Icons.js';
 import { R } from '../../common/constants/R.js';
 
 export const CF_USER_INFO_HERO_BANNER = {
@@ -266,7 +266,7 @@ export class FUserInfoHeroBanner extends Fragment {
   #renderName(user: User): string {
     let s = _CFT_USER_INFO_HERO_BANNER.NAME;
     if (user.isFeed()) {
-      s = s.replace("__ICON__", C.ICON.FEED);
+      s = s.replace("__ICON__", ICON.FEED);
     } else {
       s = s.replace("__ICON__", "");
     }
@@ -320,9 +320,9 @@ export class FUserInfoHeroBanner extends Fragment {
       return "";
     }
     let s = _CFT_USER_INFO_HERO_BANNER.OWNER_PRIVATE_INFO;
-    s = s.replace("__COIN_ICON__", Utilities.renderSvgFuncIcon(C.ICON.COIN));
+    s = s.replace("__COIN_ICON__", Utilities.renderSvgFuncIcon(ICON.COIN));
     s = s.replace("__CREDIT_ICON__",
-                  Utilities.renderSvgFuncIcon(C.ICON.CREDIT));
+                  Utilities.renderSvgFuncIcon(ICON.CREDIT));
     s = s.replace("__N_COIN__", "0");
     s = s.replace("__N_CREDIT__", "0");
     s = s.replace("__N_CASH__", "0");
@@ -340,14 +340,14 @@ export class FUserInfoHeroBanner extends Fragment {
 
   #renderMessageBtn(userId: string): string {
     let s = _CFT_USER_INFO_HERO_BANNER.MESSAGE_BTN;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(C.ICON.MESSENGER));
+    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.MESSENGER));
     s = s.replace("__USER_ID__", userId);
     return s;
   }
 
   #renderSendFundBtn(userId: string): string {
     let s = _CFT_USER_INFO_HERO_BANNER.SEND_FUND_BTN;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(C.ICON.SEND_MONEY));
+    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.SEND_MONEY));
     s = s.replace("__USER_ID__", userId);
     return s;
   }

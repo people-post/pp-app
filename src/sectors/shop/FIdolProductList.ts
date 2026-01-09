@@ -3,7 +3,7 @@ import { Product } from '../../common/datatypes/Product.js';
 import { FProductList } from './FProductList.js';
 import { FProduct } from './FProduct.js';
 import { Shop } from '../../common/dba/Shop.js';
-import { api } from '../../common/plt/Api.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FIdolProductList extends FProductList {
   #isBatchLoading: boolean = false;
@@ -28,7 +28,7 @@ export class FIdolProductList extends FProductList {
     if (fromId) {
       url += "?before_id=" + fromId;
     }
-    api.asyncRawCall(url, (r: string) => this.#onProductsRRR(r));
+    Api.asyncRawCall(url, (r: string) => this.#onProductsRRR(r));
   }
 
   #onProductsRRR(responseText: string): void {

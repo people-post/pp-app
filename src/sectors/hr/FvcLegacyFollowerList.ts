@@ -2,7 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { SimpleLongListFragment } from '../../common/gui/SimpleLongListFragment.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
-import { FUserInfo } from './FUserInfo.js';
+import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcLegacyFollowerList extends FScrollViewContent {

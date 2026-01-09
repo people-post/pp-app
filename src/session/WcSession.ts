@@ -23,6 +23,7 @@ import { URL_PARAM } from '../common/constants/Constants.js';
 import { R } from '../common/constants/R.js';
 import { Logger } from '../lib/ext/Logger.js';
 import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
+import { Api } from '../common/plt/Api.js';
 import { FvcUserInfo } from '../sectors/hr/FvcUserInfo.js';
 import { FvcUserGroup } from '../common/hr/FvcUserGroup.js';
 import { Env } from '../common/plt/Env.js';
@@ -358,8 +359,7 @@ export class WcSession extends WindowController {
 
   #asyncLoadWebConfig(): void {
     let url = "api/user/web_config";
-    // @ts-expect-error - api is a global
-    api.asyncRawCall(url, (r: string) => this.#onWebConfigRRR(r));
+    Api.asyncRawCall(url, (r: string) => this.#onWebConfigRRR(r));
   }
 
   #onWebConfigRRR(responseText: string): void {
@@ -373,8 +373,7 @@ export class WcSession extends WindowController {
 
   #asyncMarkDomainVisit(): void {
     let url = "api/stat/mark_visit";
-    // @ts-expect-error - api is a global
-    api.asyncRawCall(url);
+    Api.asyncRawCall(url);
   }
 
   #closeDialog(): void {

@@ -12,7 +12,7 @@ import { FvcOwner as ShopFvcOwner } from '../shop/FvcOwner.js';
 import { FvcUserCommunity } from '../community/FvcUserCommunity.js';
 import { FvcChat } from '../messenger/FvcChat.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
-import { api } from '../../lib/framework/Global.js';
+import { Api } from '../../common/plt/Api.js';
 
 interface UserInfoDataSource {
   getUserId(): string | null;
@@ -116,7 +116,7 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
       return;
     }
     let url = "api/stat/mark_account_visit?user_id=" + this.#userId;
-    api.asyncRawCall(url);
+    Api.asyncRawCall(url);
   }
 
   #resetTabs(): void {

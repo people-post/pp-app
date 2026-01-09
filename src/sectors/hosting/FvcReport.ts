@@ -2,23 +2,25 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
-import { stat } from '../../common/statistics/index.js';
+import { FVisit } from '../../common/statistics/FVisit.js';
+import { FvcVisit } from '../../common/statistics/FvcVisit.js';
+import { R } from '../../common/constants/R.js';
 import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export class FvcReport extends FScrollViewContent {
-  protected _fVisit: stat.FVisit;
+  protected _fVisit: FVisit;
 
   constructor() {
     super();
-    this._fVisit = new stat.FVisit();
+    this._fVisit = new FVisit();
     this._fVisit.setQueryInfo("DOMAIN");
     this._fVisit.setDelegate(this);
     this.setChild("summary", this._fVisit);
   }
 
-  onVisitSummaryFragmentRequestShowSubSummary(fVisitSummary: stat.FVisit, visitSummary: unknown): void {
+  onVisitSummaryFragmentRequestShowSubSummary(fVisitSummary: FVisit, visitSummary: unknown): void {
     let v = new View();
-    let f = new stat.FvcVisit();
+    let f = new FvcVisit();
     f.setQueryInfo("DOMAIN", (visitSummary as { getSubQueryKey(): string; getSubQueryValue(): string; getDuration(): unknown }).getSubQueryKey(),
                    (visitSummary as { getSubQueryKey(): string; getSubQueryValue(): string; getDuration(): unknown }).getSubQueryValue(),
                    fVisitSummary.getDuration());

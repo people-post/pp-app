@@ -3,7 +3,7 @@ import { FProjectInfo } from './FProjectInfo.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { Workshop } from '../../common/dba/Workshop.js';
-import { api } from '../../lib/framework/Global.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FOwnerProjectList extends FProjectList {
   #ownerId: string | null = null;
@@ -40,7 +40,7 @@ export class FOwnerProjectList extends FProjectList {
     }
     url += params.join("&");
     this.#isBatchLoading = true;
-    api.asyncRawCall(url, r => this.#onProjectsRRR(r));
+    Api.asyncRawCall(url, r => this.#onProjectsRRR(r));
   }
 
   #onProjectsRRR(responseText: string): void {

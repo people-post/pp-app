@@ -2,7 +2,7 @@ import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import { Blog } from '../../common/dba/Blog.js';
-import { api } from '../../lib/framework/Global.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class OwnerJournalIssueIdLoader extends LongListIdLoader {
   #isBatchLoading = false;
@@ -21,7 +21,7 @@ export class OwnerJournalIssueIdLoader extends LongListIdLoader {
     if (fromId) {
       url += "?before_id=" + SocialItemId.fromEncodedStr(fromId).getValue();
     }
-    api.asyncRawCall(url, r => this.#onIssuesRRR(r));
+    Api.asyncRawCall(url, r => this.#onIssuesRRR(r));
   }
 
   #onIssuesRRR(responseText: string): void {

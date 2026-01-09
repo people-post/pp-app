@@ -4,7 +4,7 @@ import { DefaultLongList } from '../../common/gui/DefaultLongList.js';
 import { FSupplierOrder } from './FSupplierOrder.js';
 import { FvcSupplierOrder } from './FvcSupplierOrder.js';
 import { Shop } from '../../common/dba/Shop.js';
-import { api } from '../../common/plt/Api.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class FSupplierOrderList extends DefaultLongList {
   isOrderSelected(orderId: string): boolean { return this._currentId == orderId; }
@@ -38,7 +38,7 @@ export class FSupplierOrderList extends DefaultLongList {
     if (this._ids.length) {
       url += "?before_id=" + this._ids[this._ids.length - 1];
     }
-    api.asyncRawCall(url, (r: string) => this.#onOrdersRRR(r));
+    Api.asyncRawCall(url, (r: string) => this.#onOrdersRRR(r));
   }
 
   #onOrdersRRR(responseText: string): void {

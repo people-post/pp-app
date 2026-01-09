@@ -8,8 +8,8 @@ import { T_DATA, T_ACTION } from '../common/plt/Events.js';
 import { Events } from '../lib/framework/Events.js';
 import UtilitiesExt from '../lib/ext/Utilities.js';
 import { Keys } from '../common/dba/Keys.js';
-import { WebConfig } from '../common/dba/Web3Config.js';
 import { Web3Config } from '../common/dba/Web3Config.js';
+import { WebConfig } from '../common/dba/WebConfig.js';
 import { STORAGE } from '../common/constants/Constants.js';
 import { FvcWeb3UserInfo } from '../sectors/hr/FvcWeb3UserInfo.js';
 import { Web3Resolver } from '../common/pdb/Web3Resolver.js';
@@ -17,7 +17,6 @@ import { Web3Publisher } from '../common/pdb/Web3Publisher.js';
 import { Web3Ledger } from '../common/pdb/Web3Ledger.js';
 import { Web3Storage } from '../common/pdb/Web3Storage.js';
 import { asInit, Owner } from 'pp-api';
-import { Env } from '../common/plt/Env.js';
 
 interface Web3ConfigData {
   default_theme: {

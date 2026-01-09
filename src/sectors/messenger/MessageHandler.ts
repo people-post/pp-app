@@ -4,7 +4,7 @@ import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 import Controller from '../../lib/ext/Controller.js';
-import { api } from '../../lib/framework/Global.js';
+import { Api } from '../../common/plt/Api.js';
 
 export class MessageHandler extends Controller {
   protected _target: ChatTarget;
@@ -44,7 +44,7 @@ export class MessageHandler extends Controller {
     if (this._target.isGroup()) {
       fd.append("is_group", "1");
     }
-    api.asyncRawPost(url, fd, r => this.#onPullRRR(r));
+    Api.asyncRawPost(url, fd, r => this.#onPullRRR(r));
   }
 
   #createMessage(data: string): ChatMessage {
@@ -70,7 +70,7 @@ export class MessageHandler extends Controller {
       fd.append("is_group", "1");
     }
     fd.append("data", data);
-    api.asyncRawPost(url, fd,
+    Api.asyncRawPost(url, fd,
                      r => this.#onPostRRR(r, data, onSuccess, onFail));
   }
 
@@ -85,7 +85,7 @@ export class MessageHandler extends Controller {
     let fd = new FormData();
     fd.append("target_id", this._target.getId());
     fd.append("target_type", this._target.getIdType());
-    api.asyncRawPost(url, fd, r => this.#onPullRRR(r));
+    Api.asyncRawPost(url, fd, r => this.#onPullRRR(r));
   }
 
   #asyncUpdateReadership(untilMessageId: string | null): void {
@@ -95,7 +95,7 @@ export class MessageHandler extends Controller {
     if (this._target.isGroup()) {
       url += "&is_group=1";
     }
-    api.asyncRawCall(url);
+    Api.asyncRawCall(url);
   }
 
   #onPostRRR(responseText: string, data: string, onSuccess: (m: ChatMessage) => void, onFail: (err: string) => void): void {

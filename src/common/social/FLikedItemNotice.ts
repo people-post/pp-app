@@ -10,6 +10,7 @@ import { PLikedItemNotice } from './PLikedItemNotice.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
 import { Blog } from '../dba/Blog.js';
 import { LikedItemNotice } from '../datatypes/LikedItemNotice.js';
+import { Api } from '../plt/Api.js';
 
 export class FLikedItemNotice extends Fragment {
   private _notice: LikedItemNotice | null = null;
@@ -137,8 +138,7 @@ export class FLikedItemNotice extends Fragment {
     for (let id of notice.getNotificationIds()) {
       fd.append("ids", id);
     }
-    // @ts-expect-error - api is a global
-    api.asyncRawPost(url, fd, (_r: string) => this.#onMarkReadershipRRR());
+    Api.asyncRawPost(url, fd, (_r: string) => this.#onMarkReadershipRRR());
   }
 
   #onMarkReadershipRRR(): void {}
