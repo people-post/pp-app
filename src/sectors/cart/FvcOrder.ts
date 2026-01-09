@@ -1,7 +1,10 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FOrder } from './FOrder.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export class FvcOrder extends FScrollViewContent {
+  protected _fOrder: FOrder;
+
   constructor() {
     super();
     this._fOrder = new FOrder();
@@ -9,9 +12,9 @@ export class FvcOrder extends FScrollViewContent {
     this.setChild("order", this._fOrder);
   }
 
-  setOrderId(id) { this._fOrder.setOrderId(id); }
+  setOrderId(id: string | null): void { this._fOrder.setOrderId(id); }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     this._fOrder.attachRender(render);
     this._fOrder.render();
   }

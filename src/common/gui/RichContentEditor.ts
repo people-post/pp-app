@@ -1,6 +1,5 @@
 import { FInput } from '../../lib/ui/controllers/fragments/FInput.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
-import { T_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Env } from '../plt/Env.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
@@ -54,7 +53,7 @@ export class RichContentEditor extends FInput {
 
   getValue(): string { return this._editor ? this._editor.getData() : ""; }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case PltT_DATA.ADDON_SCRIPT:
       if (data == Env.SCRIPT.EDITOR.id) {
@@ -80,7 +79,9 @@ export class RichContentEditor extends FInput {
     s = s.replace("__ID__", this._getInputElementId());
     s = s.replace("__VALUE__", this._config.value ? this._config.value : "");
 
-    pp.replaceContent(s);
+    if (pp) {
+      pp.replaceContent(s);
+    }
 
     this.#loadJsEditor();
   }

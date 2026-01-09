@@ -16,7 +16,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FTeam } from './FTeam.js';
 
-interface FvcConfigDelegate {
+export interface FvcConfigDelegate {
   onWorkshopConfigFragmentRequestAddTeam(f: FvcConfig): void;
   onWorkshopConfigFragmentRequestEditTeam(f: FvcConfig, teamId: string): void;
   onWorkshopConfigFragmentRequestCloseWorkshop(f: FvcConfig): void;
@@ -29,7 +29,6 @@ export class FvcConfig extends FScrollViewContent {
   protected _fBtnAddTeam: Button;
   protected _fBtnClose: Button;
   protected _selectedTeamId: string | null = null;
-  protected _delegate!: FvcConfigDelegate;
 
   constructor() {
     super();
@@ -61,19 +60,19 @@ export class FvcConfig extends FScrollViewContent {
     this._selectedTeamId = null;
   }
 
-  shouldHighlightInTeamFragment(fTeam: FTeam, teamId: string | null): boolean {
+  shouldHighlightInTeamFragment(_fTeam: FTeam, teamId: string | null): boolean {
     return teamId !== null && (teamId == this._selectedTeamId);
   }
-  getTeamForTeamFragment(fTeam: FTeam, teamId: string | null): any { 
+  getTeamForTeamFragment(_fTeam: FTeam, teamId: string | null): any { 
     return Workshop.getTeam(teamId); 
   }
-  onClickInTeamFragment(fTeam: FTeam): void {
+  onClickInTeamFragment(_fTeam: FTeam): void {
     let teamId = fTeam.getTeamId();
     this._selectedTeamId = teamId;
     this.#onEditTeam(teamId);
     this._fTeams.render();
   }
-  onSimpleButtonClicked(fBtn: Button): void {
+  onSimpleButtonClicked(_fBtn: Button): void {
     switch (fBtn) {
     case this._fBtnAddTeam:
       this.#onAddTeam();
@@ -86,19 +85,19 @@ export class FvcConfig extends FScrollViewContent {
     }
   }
 
-  getMenuForGuiMenuConfig(fMenuConfig: MenuConfig): any {
+  getMenuForGuiMenuConfig(_fMenuConfig: MenuConfig): any {
     let menus = Menus.get(ID.SECTOR.WORKSHOP, window.dba.Account.getId());
     return menus.length ? menus[0] : null;
   }
 
-  onOptionChangeInOptionsFragment(fOptions: OptionSwitch, value: string, isChecked: boolean): void {
+  onOptionChangeInOptionsFragment(_fOptions: OptionSwitch, value: string, isChecked: boolean): void {
     if (value == "HOME") {
       WebConfig.asyncSetHomeSector(isChecked ? ID.SECTOR.WORKSHOP
                                                  : ID.SECTOR.BLOG);
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: any): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.GROUPS:
     case FwkT_DATA.WEB_CONFIG:
@@ -108,10 +107,10 @@ export class FvcConfig extends FScrollViewContent {
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: any): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -155,17 +154,24 @@ export class FvcConfig extends FScrollViewContent {
   }
 
   #onAddTeam(): void { 
-    this._delegate.onWorkshopConfigFragmentRequestAddTeam(this); 
+    const delegate = this.getDelegate<FvcConfigDelegate>();
+    if (delegate) {
+      delegate.onWorkshopConfigFragmentRequestAddTeam(this); 
+    }
   }
   #onEditTeam(teamId: string | null): void {
-    if (teamId) {
-      this._delegate.onWorkshopConfigFragmentRequestEditTeam(this, teamId);
+    const delegate = this.getDelegate<FvcConfigDelegate>();
+    if (teamId && delegate) {
+      delegate.onWorkshopConfigFragmentRequestEditTeam(this, teamId);
     }
   }
   #onCloseWorkshop(): void {
-    this._confirmDangerousOperation(
-        R.get("CLOSE_WORKSHOP_PROMPT"),
-        () =>
-            this._delegate.onWorkshopConfigFragmentRequestCloseWorkshop(this));
+    const delegate = this.getDelegate<FvcConfigDelegate>();
+    if (delegate) {
+      this._confirmDangerousOperation(
+          R.get("CLOSE_WORKSHOP_PROMPT"),
+          () =>
+              delegate.onWorkshopConfigFragmentRequestCloseWorkshop(this));
+    }
   }
 }

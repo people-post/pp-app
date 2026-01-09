@@ -6,13 +6,13 @@ import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
 import { Api } from '../../common/plt/Api.js';
 
 export class FOrderList extends DefaultLongList {
-  isOrderSelected(orderId) { return this._currentId == orderId; }
+  isOrderSelected(orderId: string): boolean { return this._currentId == orderId; }
 
-  onCustomerOrderInfoFragmentRequestShowOrder(fOrderInfo, orderId) {
+  onCustomerOrderInfoFragmentRequestShowOrder(fOrderInfo: FOrder, orderId: string): void {
     this.switchToItem(orderId);
   }
 
-  _createInfoFragment(id) {
+  _createInfoFragment(id: string): FOrder {
     let f = new FOrder();
     f.setDataSource(this);
     f.setDelegate(this);
@@ -20,7 +20,7 @@ export class FOrderList extends DefaultLongList {
     return f;
   }
 
-  _createItemView(itemId) {
+  _createItemView(itemId: string): View {
     let v = new View();
     let f = new FvcOrder();
     f.setOrderId(itemId);
@@ -28,7 +28,7 @@ export class FOrderList extends DefaultLongList {
     return v;
   }
 
-  _asyncLoadItems() {
+  _asyncLoadItems(): void {
     if (this._isBatchLoading) {
       return;
     }
@@ -40,15 +40,17 @@ export class FOrderList extends DefaultLongList {
     Api.asyncRawCall(url, r => this.#onOrdersRRR(r));
   }
 
-  #onOrdersRRR(responseText) {
+  #onOrdersRRR(responseText: string): void {
     this._isBatchLoading = false;
-    let response = JSON.parse(responseText);
+    let response = JSON.parse(responseText) as { error?: unknown; data?: { orders?: unknown[] } };
     if (response.error) {
       this._owner.onRemoteErrorInFragment(this, response.error);
     } else {
-      let orders = [];
-      for (let o of response.data.orders) {
-        orders.push(new CustomerOrder(o));
+      let orders: CustomerOrder[] = [];
+      if (response.data?.orders) {
+        for (let o of response.data.orders) {
+          orders.push(new CustomerOrder(o as Parameters<typeof CustomerOrder>[0]));
+        }
       }
 
       if (orders.length) {

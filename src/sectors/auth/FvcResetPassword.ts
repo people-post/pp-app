@@ -3,6 +3,8 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { Api } from '../../common/plt/Api.js';
+import { R } from '../../common/constants/R.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export const CF_RESET_PASSWORD = {
   SUBMIT : Symbol(),
@@ -31,47 +33,51 @@ const _CFT_RESET_PASSWORD = {
   </table>
   <br>
   <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(auth.CF_RESET_PASSWORD.SUBMIT)">Submit</a>`,
-}
+};
 
 export class FvcResetPassword extends FScrollViewContent {
+  protected _resetCode: string | null;
+
   constructor() {
     super();
     this._resetCode = null;
   }
 
-  initFromUrl(urlParam) { this._resetCode = urlParam.get(URL_PARAM.CODE); }
+  initFromUrl(urlParam: URLSearchParams): void { this._resetCode = urlParam.get(URL_PARAM.CODE); }
 
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_RESET_PASSWORD.SUBMIT:
       this.#onSubmit();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     render.replaceContent(_CFT_RESET_PASSWORD.MAIN);
   }
 
-  #onSubmit() {
+  #onSubmit(): void {
     if (!this.#validateInputs()) {
       return;
     }
-    let password = document.getElementById("ID_PASSWORD").value;
+    let password = (document.getElementById("ID_PASSWORD") as HTMLInputElement).value;
     let url = "api/auth/reset_password";
     let fd = new FormData();
     fd.append("password", password);
-    fd.append("code", this._resetCode);
+    if (this._resetCode) {
+      fd.append("code", this._resetCode);
+    }
     Api.asFragmentPost(this, url, fd)
         .then(d => this.#onResetPasswordRRR(d));
   }
 
-  #validateInputs() {
-    let password = document.getElementById("ID_PASSWORD").value;
-    let password2 = document.getElementById("ID_PASSWORD_2").value;
+  #validateInputs(): boolean {
+    let password = (document.getElementById("ID_PASSWORD") as HTMLInputElement).value;
+    let password2 = (document.getElementById("ID_PASSWORD_2") as HTMLInputElement).value;
     if (password != password2) {
       this._owner.onLocalErrorInFragment(this, R.get("EL_PASSWORD_MISMATCH"));
       return false;
@@ -79,7 +85,7 @@ export class FvcResetPassword extends FScrollViewContent {
     return true;
   }
 
-  #onResetSuccess() {
+  #onResetSuccess(): void {
     let v = new View();
     let f = new FvcNotice();
     f.setMessage(R.get("RESET_PASSWORD_SUCCESS"));
@@ -89,5 +95,5 @@ export class FvcResetPassword extends FScrollViewContent {
                                                     "Reset password success");
   }
 
-  #onResetPasswordRRR(data) { this.#onResetSuccess();   }
+  #onResetPasswordRRR(data: unknown): void { this.#onResetSuccess();   }
 }

@@ -1,12 +1,9 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
-import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { View } from '../../lib/ui/controllers/views/View.js';
-import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { Wallet } from '../../common/datatypes/Wallet.js';
 import { Keys } from '../../common/dba/Keys.js';
 import { T_DATA } from '../../common/plt/Events.js';
@@ -85,14 +82,14 @@ export class FvcWeb3Wallet extends FScrollViewContent {
       this.#onTransfer();
       break;
     case "Top Up":
-      this.#onTopUp(this.#input_addr);
+      this.#onTopUp(this.#input_addr as string || "");
       break;
     default:
       break;
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: any): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.KEY_UPDATE:
       this.render();
@@ -100,15 +97,15 @@ export class FvcWeb3Wallet extends FScrollViewContent {
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
   _renderContentOnRender(render: any): void {
     let pList = new ListPanel();
     render.wrapPanel(pList);
     console.log("render");
-    let kPayment = Keys.getCip1852(this.#paymentKeyPath);
-    let kStaking = Keys.getCip1852(this.#stakingKeyPath);
+    let kPayment = Keys.getCip1852(this.#paymentKeyPath as number[]);
+    let kStaking = Keys.getCip1852(this.#stakingKeyPath as number[]);
     if (!kPayment || !kStaking) {
       pList.replaceContent("Preparing keys");
       return;

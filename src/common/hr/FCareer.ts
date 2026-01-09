@@ -1,11 +1,20 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { PCareerInfo } from './PCareerInfo.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { UserRole } from '../datatypes/UserRole.js';
 
 export const CF_CAREER = {
   ON_CLICK : Symbol(),
 };
+
+export interface FCareerDataSource {
+  getRoleForCareerFragment(f: FCareer, roleId: string): UserRole | null;
+  shouldHighlightInCareerFragment(f: FCareer, roleId: string): boolean;
+}
+
+export interface FCareerDelegate {
+  onClickInCareerFragment(f: FCareer): void;
+}
 
 export class FCareer extends Fragment {
   private _roleId: string | null = null;
@@ -26,7 +35,7 @@ export class FCareer extends Fragment {
   }
 
   _renderOnRender(render: PanelWrapper): void {
-    let role = this._dataSource.getRoleForCareerFragment(this, this._roleId);
+    let role = this.getDataSource<FCareerDataSource>()?.getRoleForCareerFragment(this, this._roleId as string || "") || null;
     if (!role) {
       return;
     }
@@ -36,8 +45,8 @@ export class FCareer extends Fragment {
 
     if (panel.isHighlightable()) {
       panel.setAttribute("onclick", "G.action(S.hr.CF_CAREER.ON_CLICK)");
-      if (this._dataSource.shouldHighlightInCareerFragment(this,
-                                                           this._roleId)) {
+      if (this.getDataSource<FCareerDataSource>()?.shouldHighlightInCareerFragment(this,
+                                                           this._roleId as string || "")) {
         panel.highlight();
       }
     }
@@ -46,16 +55,16 @@ export class FCareer extends Fragment {
     p.replaceContent(this.#renderName(role));
 
     p = panel.getStatusPanel();
-    if (window.dba.Account.isRoleApplicationPending(this._roleId)) {
+    if (window.dba.Account.isRoleApplicationPending(this._roleId as string || "")) {
       p.replaceContent("Applied");
-    } else if (window.dba.Account.isInGroup(this._roleId)) {
+    } else if (window.dba.Account.isInGroup(this._roleId as string || "")) {
       p.replaceContent("Joined");
     }
   }
 
-  #renderName(role: ReturnType<typeof this._dataSource.getRoleForCareerFragment>): string {
+  #renderName(role: UserRole): string {
     let s = `__NAME__(__TOTAL__)`;
-    s = s.replace("__NAME__", role.getName());
+    s = s.replace("__NAME__", role.getName() || "");
     s = s.replace("__TOTAL__", role.getNMembers().toString());
     return s;
   }

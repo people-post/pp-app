@@ -9,6 +9,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Auth } from '../../common/dba/Auth.js';
 import { R } from '../../common/constants/R.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export const CF_LOGIN = {
   REGISTER : Symbol(),
@@ -35,8 +36,8 @@ const _CFT_LOGIN = {
 };
 
 export class FvcLogin extends FvcWeb2LoginBase {
-  #btnLogin;
-  #btnSkip;
+  #btnLogin: Button;
+  #btnSkip: Button;
   constructor() {
     super();
     this.#btnLogin = new Button();
@@ -52,7 +53,7 @@ export class FvcLogin extends FvcWeb2LoginBase {
     this.setChild("btnSkip", this.#btnSkip);
   }
 
-  onSimpleButtonClicked(fBtn) {
+  onSimpleButtonClicked(fBtn: Button): void {
     switch (fBtn.getValue()) {
     case "LOGIN":
       this.#onLoginClicked();
@@ -65,7 +66,7 @@ export class FvcLogin extends FvcWeb2LoginBase {
     }
   }
 
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_LOGIN.REGISTER:
       this.#onRegister();
@@ -80,23 +81,23 @@ export class FvcLogin extends FvcWeb2LoginBase {
       this.#onRetrievePassword();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.LOGIN:
       this.#onActionFinished();
       break;
     default:
-      super.handleSessionDataUpdate.apply(this, arguments);
+      super.handleSessionDataUpdate(dataType, data);
       break;
     }
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -142,7 +143,7 @@ export class FvcLogin extends FvcWeb2LoginBase {
     p.pushSpace(2);
   }
 
-  #renderForm() {
+  #renderForm(): string {
     let s = _CFT_LOGIN.FORM;
     s = s.replace("__R_U_NAME__", R.t("Email") + "/" + R.t("Username"));
     s = s.replace("__R_U_NAME_HINT__", R.t("Email") + "/" + R.t("Username"));
@@ -154,7 +155,7 @@ export class FvcLogin extends FvcWeb2LoginBase {
     return s;
   }
 
-  #onLoginClicked() {
+  #onLoginClicked(): void {
     let e = this.#getUsernameInputElement();
     let username = e.value;
     e = this.#getPasswordInputElement();
@@ -162,21 +163,21 @@ export class FvcLogin extends FvcWeb2LoginBase {
     Auth.asyncLogin(username, password, r => this._onLoginSuccess(r));
   }
 
-  #onRegister() {
+  #onRegister(): void {
     let v = new View();
     v.setContentFragment(new FvcRegister());
     this._owner.onFragmentRequestShowView(this, v, "Register");
   }
 
-  #onRetrievePassword() {
+  #onRetrievePassword(): void {
     let v = new View();
     v.setContentFragment(new FvcRetrievePassword());
     this._owner.onFragmentRequestShowView(this, v, "Retrieve password");
   }
 
-  #onSkip() { this.#onActionFinished(); }
+  #onSkip(): void { this.#onActionFinished(); }
 
-  #onActionFinished() {
+  #onActionFinished(): void {
     // Login skipped
     if (this._nextView) {
       this._owner.onContentFragmentRequestReplaceView(this, this._nextView,
@@ -186,21 +187,21 @@ export class FvcLogin extends FvcWeb2LoginBase {
     }
   }
 
-  #getUsernameInputElement() { return document.getElementById("username"); }
-  #getPasswordInputElement() { return document.getElementById("password"); }
+  #getUsernameInputElement(): HTMLInputElement { return document.getElementById("username") as HTMLInputElement; }
+  #getPasswordInputElement(): HTMLInputElement { return document.getElementById("password") as HTMLInputElement; }
 
-  #onUsernameKeyDown() {
-    if (this.#isEnterEvt(event)) {
+  #onUsernameKeyDown(): void {
+    if (this.#isEnterEvt(event as KeyboardEvent)) {
       let e = this.#getPasswordInputElement();
       e.focus();
     }
   }
 
-  #onPasswordKeyDown() {
-    if (this.#isEnterEvt(event)) {
+  #onPasswordKeyDown(): void {
+    if (this.#isEnterEvt(event as KeyboardEvent)) {
       this.#onLoginClicked();
     }
   }
 
-  #isEnterEvt(evt) { return !evt.shiftKey && evt.key === "Enter";   }
+  #isEnterEvt(evt: KeyboardEvent): boolean { return !evt.shiftKey && evt.key === "Enter";   }
 }

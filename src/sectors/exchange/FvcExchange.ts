@@ -7,8 +7,20 @@ import { FVoucherInfo } from './FVoucherInfo.js';
 import { Communities } from '../../common/dba/Communities.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
+
+interface ExchangeItemDelegate {
+  onExchangeItemInfoFragmentRequestShowView(f: FExchangeItemInfo, view: View, title: string): void;
+}
 
 export class FvcExchange extends FScrollViewContent {
+  protected _fCoin: FExchangeItemInfo;
+  protected _fCash: FCashierInfo;
+  protected _fFood: FVoucherInfo;
+  protected _fAmusement: FVoucherInfo;
+  protected _delegate!: ExchangeItemDelegate;
+
   constructor() {
     super();
     this._fCoin = new FExchangeItemInfo();
@@ -22,11 +34,11 @@ export class FvcExchange extends FScrollViewContent {
     this.setChild("amusement", this._fAmusement);
   }
 
-  onExchangeItemInfoFragmentRequestShowView(fItem, view, title) {
+  onExchangeItemInfoFragmentRequestShowView(fItem: FExchangeItemInfo, view: View, title: string): void {
     this._owner.onFragmentRequestShowView(this, view, title);
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.GLOBAL_COMMUNITY_PROFILE:
       this.render();
@@ -37,7 +49,7 @@ export class FvcExchange extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     this.#updateData();
     let p = new ListPanel();
     render.wrapPanel(p);
@@ -59,13 +71,13 @@ export class FvcExchange extends FScrollViewContent {
     this._fAmusement.render();
   }
 
-  #updateData() {
+  #updateData(): void {
     let p = Communities.getGlobalProfile();
-    let dCoin = {icon : ICON.COIN, name : "CabinCoin"};
-    let dCash = {icon : ICON.CASH, name : "CabinCash"};
+    let dCoin: { icon: string; name: string; total?: number } = {icon : ICON.COIN, name : "CabinCoin"};
+    let dCash: { icon: string; name: string; total?: number } = {icon : ICON.CASH, name : "CabinCash"};
     // TODO: Make const for id
-    let dFood = {id : "FOOD", icon : ICON.VOUCHER_FOOD, name : "CabinFood"};
-    let dZest = {
+    let dFood: { id: string; icon: string; name: string; data?: unknown } = {id : "FOOD", icon : ICON.VOUCHER_FOOD, name : "CabinFood"};
+    let dZest: { id: string; icon: string; name: string; data?: unknown } = {
       id : "ZEST",
       icon : ICON.VOUCHER_AMUSEMENT,
       name : "CabinZest"

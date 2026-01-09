@@ -3,13 +3,13 @@ import { FvcWeb3Wallet } from './FvcWeb3Wallet.js';
 import { FvcExchange } from './FvcExchange.js';
 import { FvcWallet } from './FvcWallet.js';
 import { SectorGateway } from '../../common/plt/SectorGateway.js';
-import { glb } from '../../lib/framework/Global.js';
 import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Env } from '../../common/plt/Env.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 export class Gateway extends SectorGateway {
-  createMainViewContentFragment() {
+  createMainViewContentFragment(): Fragment {
     if (Env.isWeb3()) {
       return this.#createWeb3MainViewContentFragment();
     } else {
@@ -17,10 +17,10 @@ export class Gateway extends SectorGateway {
     }
   }
 
-  #createWeb3MainViewContentFragment() { return new FvcWeb3Wallet(); }
+  #createWeb3MainViewContentFragment(): FvcWeb3Wallet { return new FvcWeb3Wallet(); }
 
-  #createWeb2MainViewContentFragment() {
-    let f;
+  #createWeb2MainViewContentFragment(): Fragment {
+    let f: Fragment;
     if (window.dba.Account.isWebOwner()) {
       f = new FViewContentMux();
 

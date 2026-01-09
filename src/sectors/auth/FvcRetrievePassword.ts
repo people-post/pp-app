@@ -6,6 +6,8 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { Api } from '../../common/plt/Api.js';
+import { R } from '../../common/constants/R.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 const _CFT_RETRIEVE_PASSWORD = {
   MAIN : `<table class="automargin">
@@ -24,9 +26,11 @@ const _CFT_RETRIEVE_PASSWORD = {
   SUCCESS_MSG : `<div>__R_SUCCESS__!</div>
     <div>__R_RESET_SUCCESS__</div>
     <div>__R_THANK_YOU__!</div>`,
-}
+};
 
 export class FvcRetrievePassword extends FScrollViewContent {
+  protected _fSubmit: Button;
+
   constructor() {
     super();
     this._fSubmit = new Button();
@@ -36,18 +40,18 @@ export class FvcRetrievePassword extends FScrollViewContent {
     this.setChild("submit", this._fSubmit);
   }
 
-  getActionButton() {
+  getActionButton(): Fragment {
     // Return empty fragment to avoid being assigned with default action button
     return new Fragment();
   }
 
-  onSimpleButtonClicked(fButton) {
+  onSimpleButtonClicked(fButton: Button): void {
     if (fButton.getValue() == "SUBMIT") {
       this.#asyncSubmit();
     }
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -71,14 +75,14 @@ export class FvcRetrievePassword extends FScrollViewContent {
     this._fSubmit.render();
   }
 
-  #renderForm() {
+  #renderForm(): string {
     let s = _CFT_RETRIEVE_PASSWORD.MAIN;
     s = s.replace("__R_YOUR_EMAIL__", R.t("Your email address"));
     s = s.replace("__R_EMAIL__", R.t("Email address"));
     return s;
   }
 
-  #renderSuccessMsg() {
+  #renderSuccessMsg(): string {
     let s = _CFT_RETRIEVE_PASSWORD.SUCCESS_MSG;
     s = s.replace("__R_SUCCESS__", R.t("Success"));
     s = s.replace("__R_RESET_SUCCESS__", R.get("RESET_PASS_SUCCESS"));
@@ -86,14 +90,14 @@ export class FvcRetrievePassword extends FScrollViewContent {
     return s;
   }
 
-  #asyncSubmit() {
-    let email = document.getElementById("email").value;
+  #asyncSubmit(): void {
+    let email = (document.getElementById("email") as HTMLInputElement).value;
     var url = "api/auth/retrieve_password?email=" + encodeURIComponent(email);
     Api.asFragmentCall(this, url).then(
         d => this.#onRetrievePasswordRRR(d));
   }
 
-  #onRetrievePasswordRRR(data) {
+  #onRetrievePasswordRRR(data: unknown): void {
     let v = new View();
     let f = new FvcNotice();
     f.setMessage(this.#renderSuccessMsg());

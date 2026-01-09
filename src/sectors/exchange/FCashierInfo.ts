@@ -1,4 +1,3 @@
-
 window.CF_CASHIER_INFO = {
   DEPOSIT : "CF_CASHIER_INFO_1",
   WITHDRAW : "CF_CASHIER_INFO_2",
@@ -15,8 +14,15 @@ import { FExchangeItemInfo } from './FExchangeItemInfo.js';
 import { FvcDeposit } from './FvcDeposit.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
+interface CashierItem {
+  icon: string;
+  name: string;
+  total?: string | number;
+  [key: string]: unknown;
+}
+
 export class FCashierInfo extends FExchangeItemInfo {
-  action(type, ...args) {
+  action(type: string, ...args: unknown[]): void {
     switch (type) {
     case CF_CASHIER_INFO.DEPOSIT:
       this.#onDepositClicked();
@@ -25,31 +31,31 @@ export class FCashierInfo extends FExchangeItemInfo {
       this.#onWithdrawClicked();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderDetail(item) {
+  _renderDetail(item: CashierItem): string {
     let s = `<div>Issued: __ISSUED__</div>
       <div>Active: __ACTIVE__</div>
       <div>Recycled: __RECYCLED__</div>`;
-    s = s.replace("__ISSUED__", 12345);
-    s = s.replace("__ACTIVE__", item.total);
-    s = s.replace("__RECYCLED__", 123456);
+    s = s.replace("__ISSUED__", "12345");
+    s = s.replace("__ACTIVE__", String(item.total || ""));
+    s = s.replace("__RECYCLED__", "123456");
     return s;
   }
-  _renderActions(item) {
+  _renderActions(item: CashierItem): string {
     let s = _CVF_CASHIER_INFO.BTN_DEPOSIT;
     s += _CVF_CASHIER_INFO.BTN_WITHDRAW;
     return s;
   }
 
-  #onDepositClicked() {
+  #onDepositClicked(): void {
     let v = new View();
     v.setContentFragment(new FvcDeposit());
     Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Deposit",
                                 true);
   }
-  #onWithdrawClicked() { console.log("Withdraw"); }
+  #onWithdrawClicked(): void { console.log("Withdraw"); }
 };

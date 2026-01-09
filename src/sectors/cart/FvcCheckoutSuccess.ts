@@ -16,16 +16,19 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Utilities } from '../../common/Utilities.js';
 import { FvcOrder } from './FvcOrder.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export class FvcCheckoutSuccess extends FScrollViewContent {
+  protected _orderId: string | null;
+
   constructor() {
     super();
     this._orderId = null;
   }
 
-  setOrderId(id) { this._orderId = id; }
+  setOrderId(id: string | null): void { this._orderId = id; }
 
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_CHECKOUT_SUCCESS.CONTINUE:
       this._owner.onViewRequestPop(this);
@@ -34,18 +37,18 @@ export class FvcCheckoutSuccess extends FScrollViewContent {
       this.#onShowOrder();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let s = _CFT_CHECKOUT_SUCCESS.MAIN;
-    s = s.replace("__REF_ID__", Utilities.orderIdToReferenceId(this._orderId));
+    s = s.replace("__REF_ID__", Utilities.orderIdToReferenceId(this._orderId || ""));
     render.replaceContent(s);
   }
 
-  #onShowOrder() {
+  #onShowOrder(): void {
     let v = new View();
     let f = new FvcOrder();
     f.setOrderId(this._orderId);

@@ -6,6 +6,7 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { MAX } from '../constants/Constants.js';
 import { R } from '../constants/R.js';
+import { Tag } from '../datatypes/Tag.js';
 
 export const CF_TAGS_EDITOR = {
   TOGGLE : Symbol(),
@@ -25,6 +26,16 @@ const _CFT_TAGS_EDITOR = {
   EXTRA_TAG :
       `<span class="tag selected">__TEXT__ <span class="button-like tiny" onclick="javascript:G.action(gui.CF_TAGS_EDITOR.REMOVE_EXTRA_TAG, '__VALUE__')">x</span></span>`,
 };
+
+export interface TagsEditorFragmentDataSource {
+  getTagsForTagsEditorFragment(f: TagsEditorFragment): Tag[];
+  getInitialCheckedIdsForTagsEditorFragment(f: TagsEditorFragment): string[];
+}
+
+export interface TagsEditorFragmentDelegate {
+  onRequestNewTagInTagsEditorFragment(f: TagsEditorFragment): void;
+  onRequestRemoveExtraTagInTagsEditorFragment(f: TagsEditorFragment, name: string): void;
+}
 
 export class TagsEditorFragment extends Fragment {
   #elementName: string;
@@ -54,13 +65,13 @@ export class TagsEditorFragment extends Fragment {
   setEnableNewTags(b: boolean): void { this.#shouldEnableNewTags = b; }
 
   _renderContent(): string {
-    let allTags = this._dataSource.getTagsForTagsEditorFragment(this);
+    let allTags = this.getDataSource<TagsEditorFragmentDataSource>()?.getTagsForTagsEditorFragment(this) || [];
     let checkedTagIds =
-        this._dataSource.getInitialCheckedIdsForTagsEditorFragment(this);
+        this.getDataSource<TagsEditorFragmentDataSource>()?.getInitialCheckedIdsForTagsEditorFragment(this) || [];
     let s = _CFT_TAGS_EDITOR.MAIN;
     let items: string[] = [];
     for (let tag of allTags) {
-      let ss = this.#renderTag(tag, checkedTagIds.includes(tag.getId()));
+      let ss = this.#renderTag(tag, checkedTagIds.includes(tag.getId() as string || ""));
       items.push(ss);
     }
     s = s.replace("__TAGS__", items.join(""));
@@ -185,16 +196,16 @@ export class TagsEditorFragment extends Fragment {
     }
   }
 
-  #renderTag(tag: ReturnType<typeof this._dataSource.getTagsForTagsEditorFragment>, isChecked: boolean): string {
+  #renderTag(tag: Tag, isChecked: boolean): string {
     let s = _CFT_TAGS_EDITOR.TAG;
     s = s.replace("__NAME__", this.#elementName);
-    s = s.replace("__VALUE__", tag.getId());
+    s = s.replace("__VALUE__", tag.getId() as string || "");
     if (isChecked) {
       s = s.replace("__CLASS__", "tag selected");
     } else {
       s = s.replace("__CLASS__", "tag");
     }
-    s = s.replace("__TEXT__", tag.getName());
+    s = s.replace("__TEXT__", tag.getName() || "");
     return s;
   }
 }

@@ -6,6 +6,10 @@ import { Events } from '../../lib/framework/Events.js';
 import { URL_PARAM, ID } from '../../common/constants/Constants.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Auth } from '../../common/dba/Auth.js';
+import { R } from '../../common/constants/R.js';
+import { Utilities } from '../../common/Utilities.js';
+import { Api } from '../../common/plt/Api.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export const CF_LOGIN_PROXY = {
   TRIGGER_CHECK : Symbol(),
@@ -17,6 +21,11 @@ const _CFT_LOGIN_PROXY = {
 };
 
 export class FvcLoginProxy extends FvcWeb2LoginBase {
+  protected _fBtn: Button;
+  protected _pMsg: Panel | null;
+  protected _pContent: Panel | null;
+  protected _token: string | null;
+
   constructor() {
     super();
     this._fBtn = new Button();
@@ -30,29 +39,29 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
     this._token = null;
   }
 
-  onSimpleButtonClicked(fButton) {
+  onSimpleButtonClicked(fButton: Button): void {
     // Event driven open window, don't do async work here
     this.#startProxy(this._token);
   }
 
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
-    case auth.CF_LOGIN_PROXY.TRIGGER_CHECK:
-      this.#asyncCheckToken(args[0]);
+    case CF_LOGIN_PROXY.TRIGGER_CHECK:
+      this.#asyncCheckToken(args[0] as string);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _onContentDidAppear() {
+  _onContentDidAppear(): void {
     if (!this._token) {
       this.#asyncRequestLoginToken();
     }
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new Panel();
@@ -78,12 +87,15 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
     this._fBtn.disable();
   }
 
-  #onTokenReady(token) {
+  #onTokenReady(token: string): void {
     this._token = token;
     this._fBtn.enable();
   }
 
-  #startProxy(token) {
+  #startProxy(token: string | null): void {
+    if (!token) {
+      return;
+    }
     let params = [
       URL_PARAM.SECTOR + "=" + ID.SECTOR.LOGIN,
       URL_PARAM.TOKEN + "=" + token,
@@ -92,74 +104,84 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
     let url = WebConfig.getLoginProxyUrl() + "/" + ID.SECTOR.GADGET +
               "?" + params.join("&");
     let opt = _CFT_LOGIN_PROXY.OPTIONS;
-    opt = opt.replace("__LEFT__", window.screenX + window.outerWidth / 2);
-    opt = opt.replace("__TOP__", window.screenY + 100);
+    opt = opt.replace("__LEFT__", (window.screenX + window.outerWidth / 2).toString());
+    opt = opt.replace("__TOP__", (window.screenY + 100).toString());
     window.open(url, 'login', opt);
     this.#onStart(token);
   }
 
-  #onStart(token) {
-    this._pMsg.setVisible(true);
-    this._pMsg.replaceContent(R.get("PROXY_MSG_WAITING_LOG_IN"));
-    this._asyncActivateToken(token);
+  #onStart(token: string): void {
+    if (this._pMsg) {
+      this._pMsg.setVisible(true);
+      this._pMsg.replaceContent(R.get("PROXY_MSG_WAITING_LOG_IN"));
+      this._asyncActivateToken(token);
+    }
   }
 
-  #onReady(token) {
-    this._pMsg.replaceContent(R.get("PROXY_MSG_LOGGING_IN"));
+  #onReady(token: string): void {
+    if (this._pMsg) {
+      this._pMsg.replaceContent(R.get("PROXY_MSG_LOGGING_IN"));
+    }
     Auth.asyncLoginWithToken(token, r => this.#onLoginRRR(r));
   }
 
-  #onLoginError(err) {
+  #onLoginError(err: unknown): void {
     this._token = null;
     this._owner.onRemoteErrorInFragment(this, err);
     this.#asyncRequestLoginToken();
   }
 
-  #onLoginSuccess(profile) {
-    this._pMsg.replaceContent(R.get("PROXY_MSG_LOGIN_SUCCESS"));
+  #onLoginSuccess(profile: unknown): void {
+    if (this._pMsg) {
+      this._pMsg.replaceContent(R.get("PROXY_MSG_LOGIN_SUCCESS"));
+    }
     this._onLoginSuccess(profile);
   }
 
-  #onLoginRRR(responseText) {
-    let response = JSON.parse(responseText);
+  #onLoginRRR(responseText: string): void {
+    let response = JSON.parse(responseText) as { error?: unknown; data?: { profile?: unknown } };
     if (response.error) {
       this.#onLoginError(response.error);
     } else {
-      this.#onLoginSuccess(response.data.profile);
+      this.#onLoginSuccess(response.data?.profile);
     }
   }
 
-  #asyncRequestLoginToken() {
-    this._pMsg.replaceContent(R.get("PROXY_MSG_INITING"));
+  #asyncRequestLoginToken(): void {
+    if (this._pMsg) {
+      this._pMsg.replaceContent(R.get("PROXY_MSG_INITING"));
+    }
     let url = "/api/auth/login_token";
-    api.asyncRawCall(url, r => this.#onLoginTokenRRR(r));
+    Api.asyncRawCall(url, r => this.#onLoginTokenRRR(r));
   }
 
-  #onLoginTokenRRR(responseText) {
-    this._pMsg.replaceContent("");
-    this._pMsg.setVisible(false);
-    let response = JSON.parse(responseText);
+  #onLoginTokenRRR(responseText: string): void {
+    if (this._pMsg) {
+      this._pMsg.replaceContent("");
+      this._pMsg.setVisible(false);
+    }
+    let response = JSON.parse(responseText) as { error?: unknown; data?: { token?: string } };
     if (response.error) {
       this._owner.onRemoteErrorInFragment(this, response.error);
     } else {
-      this.#onTokenReady(response.data.token);
+      this.#onTokenReady(response.data?.token || "");
     }
   }
 
-  #scheduleCheck(time, token) {
-    Events.scheduleAction(time, this, auth.CF_LOGIN_PROXY.TRIGGER_CHECK,
+  #scheduleCheck(time: number, token: string): void {
+    Events.scheduleAction(time, this, CF_LOGIN_PROXY.TRIGGER_CHECK,
                               token);
   }
 
-  _asyncActivateToken(token) {
+  _asyncActivateToken(token: string): void {
     let url = "/api/auth/activate_login_token";
     let fd = new FormData();
     fd.append("token", token);
-    api.asyncRawPost(url, fd, r => this.#onActivateTokenRRR(token, r));
+    Api.asyncRawPost(url, fd, r => this.#onActivateTokenRRR(token, r));
   }
 
-  #onActivateTokenRRR(token, responseText) {
-    let response = JSON.parse(responseText);
+  #onActivateTokenRRR(token: string, responseText: string): void {
+    let response = JSON.parse(responseText) as { error?: unknown; data?: unknown };
     if (response.error) {
       this.#onLoginError(response.error);
     } else {
@@ -167,19 +189,19 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
     }
   }
 
-  #asyncCheckToken(token) {
+  #asyncCheckToken(token: string): void {
     let url = "/api/auth/check_login_token";
     let fd = new FormData();
     fd.append("token", token);
-    api.asyncRawPost(url, fd, r => this.#onTokenCheckRRR(token, r));
+    Api.asyncRawPost(url, fd, r => this.#onTokenCheckRRR(token, r));
   }
 
-  #onTokenCheckRRR(token, responseText) {
-    let response = JSON.parse(responseText);
+  #onTokenCheckRRR(token: string, responseText: string): void {
+    let response = JSON.parse(responseText) as { error?: unknown; data?: { is_ready?: boolean } };
     if (response.error) {
       this.#onLoginError(response.error);
     } else {
-      if (response.data.is_ready) {
+      if (response.data?.is_ready) {
         this.#onReady(token);
       } else {
         this.#scheduleCheck(2000, token);

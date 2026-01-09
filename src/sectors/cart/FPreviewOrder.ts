@@ -7,34 +7,45 @@ import { Exchange } from '../../common/dba/Exchange.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Utilities } from '../../common/Utilities.js';
 import { FPreviewItem } from './FPreviewItem.js';
+import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
+
+interface PreviewOrderDataSource {
+  getOrderForPreviewOrderFragment(f: FPreviewOrder): CustomerOrder;
+}
 
 export class FPreviewOrder extends Fragment {
+  protected _fItems: FSimpleFragmentList;
+  protected _dataSource!: PreviewOrderDataSource;
+
   constructor() {
     super();
     this._fItems = new FSimpleFragmentList();
     this._fItems.setDelegate(this);
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.CURRENCIES:
       this.render();
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Render): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     this._fItems.clear();
     let order = this._dataSource.getOrderForPreviewOrderFragment(this);
     for (let item of order.getItems()) {
-      let f = new FPreviewItem();
-      f.setCurrencyId(order.getCurrencyId());
-      f.setItem(item);
-      this._fItems.append(f);
+      for (let subItem of item.getItems()) {
+        let f = new FPreviewItem();
+        f.setCurrencyId(order.getCurrencyId());
+        f.setItem(subItem);
+        this._fItems.append(f);
+      }
     }
     let pp = new PanelWrapper();
     p.pushPanel(pp);
@@ -45,6 +56,6 @@ export class FPreviewOrder extends Fragment {
     pp.setClassName("right-align");
     let c = Exchange.getCurrency(order.getCurrencyId());
     p.pushPanel(pp);
-    pp.replaceContent("Total: " + Utilities.renderPrice(c, order.getTotal()));
+    pp.replaceContent("Total: " + Utilities.renderPrice(c, order.getTotalPrice() || 0));
   }
 };

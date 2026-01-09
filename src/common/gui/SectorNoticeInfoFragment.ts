@@ -6,7 +6,6 @@ import { RepostItemNotice } from '../datatypes/RepostItemNotice.js';
 import { FCommentNotice } from '../social/FCommentNotice.js';
 import { FLikedItemNotice } from '../social/FLikedItemNotice.js';
 import { FRepostItemNotice } from '../social/FRepostItemNotice.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Fragment as FragmentBase } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 export class SectorNoticeInfoFragment extends Fragment {

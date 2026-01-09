@@ -136,7 +136,7 @@ export class KeysClass implements KeysInterface {
       this.#busyKeys.add(k);
       this.#asyncDeriveBip44Ed25519RootKey(this.#entropy!)
         //__deriveBip44Ed25519RootKeyFromSeed()
-        .then((v) => this.#updateLib(k, new KeyNode(new Cip1852Key(v as Cip1852KeyInterface))))
+        .then((v) => this.#updateLib(k, new KeyNode(new Cip1852Key(v))))
         .finally(() => this.#busyKeys.delete(k));
       return null;
     }
@@ -157,12 +157,12 @@ export class KeysClass implements KeysInterface {
     return new MlDsa44Key(sys.utl.mlDsa44KeyGen(seed));
   }
 
-  async #asyncDeriveBip44Ed25519RootKey(entropy: string): Promise<unknown> {
+  async #asyncDeriveBip44Ed25519RootKey(entropy: string): Promise<CardanoBip32PrivateKey> {
     // TODO: Operation is CPU intensive, should use Worker()
     return this.#deriveBip44Ed25519RootKey(entropy);
   }
 
-  #deriveBip44Ed25519RootKey(entropy: string): unknown {
+  #deriveBip44Ed25519RootKey(entropy: string): CardanoBip32PrivateKey {
     return Cardano.Bip32PrivateKey.from_bip39_entropy(
       Utilities.uint8ArrayFromHex(entropy),
       new Uint8Array()

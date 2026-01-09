@@ -18,6 +18,15 @@ const _CFT_SECTOR_CONFIG_BAR = {
     </tbody>
   </table>`,
 }
+export interface SectorConfigBarDataSource {
+  isEnableSetInConfigBarFragment(f: SectorConfigBar): boolean;
+  getSectorIdForConfigBarFragment(f: SectorConfigBar): string;
+}
+
+export interface SectorConfigBarDelegate {
+  onRequestSetEnabledInConfigBar(f: SectorConfigBar, v: boolean): void;
+  onRequestSetHomeInConfigBar(f: SectorConfigBar, v: boolean): void;
+}
 
 export class SectorConfigBar extends Fragment {
   action(type: string | symbol, ...args: unknown[]): void {
@@ -37,16 +46,16 @@ export class SectorConfigBar extends Fragment {
   _renderContent(): string {
     let table = document.createElement("TABLE");
     table.className = "config-bar";
-    let row = table.insertRow(-1);
-    let cell = row.insertCell(-1);
+    let row = (table as HTMLTableElement).insertRow(-1);
+    let cell = (row as HTMLTableRowElement).insertCell(-1);
 
-    let isChecked = this._dataSource.isEnableSetInConfigBarFragment(this);
+    let isChecked = this.getDataSource<SectorConfigBarDataSource>()?.isEnableSetInConfigBarFragment(this) || false;
     cell.innerHTML = this.#renderCell(
         "Enable", isChecked, "gui.CF_SECTOR_CONFIG_BAR.ON_ENABLE_CLICKED");
 
     if (isChecked &&
         WebConfig.getHomeSector() !=
-            this._dataSource.getSectorIdForConfigBarFragment(this)) {
+            this.getDataSource<SectorConfigBarDataSource>()?.getSectorIdForConfigBarFragment(this) || "") {
       cell = row.insertCell(-1);
       cell.innerHTML = this.#renderCell(
           "Home page", false, "gui.CF_SECTOR_CONFIG_BAR.ON_HOME_CLICKED");
@@ -68,13 +77,17 @@ export class SectorConfigBar extends Fragment {
   }
 
   #onSetEnabled(v: boolean): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onRequestSetEnabledInConfigBar?.(this, v);
+    const delegate = this.getDelegate<SectorConfigBarDelegate>();
+    if (delegate) {
+      delegate.onRequestSetEnabledInConfigBar(this, v);
+    }
   }
 
   #onSetHome(v: boolean): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onRequestSetHomeInConfigBar?.(this, v);
+    const delegate = this.getDelegate<SectorConfigBarDelegate>();
+    if (delegate) {
+      delegate.onRequestSetHomeInConfigBar(this, v);
+    }
   }
 }
 

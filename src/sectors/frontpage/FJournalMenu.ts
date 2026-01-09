@@ -2,17 +2,23 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { MenuContent } from '../../common/menu/MenuContent.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Blog } from '../../common/dba/Blog.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export class FJournalMenu extends MenuContent {
-  #journalIds;
-  #currentJournalId = null;
-  #currentIssueId = null;
+  #journalIds: string[];
+  #currentJournalId: string | null = null;
+  #currentIssueId: string | null = null;
 
-  getQuickLinkMinWidth() { return 100; }
+  constructor() {
+    super();
+    this.#journalIds = [];
+  }
 
-  setJournalIds(ids) { this.#journalIds = ids; }
+  getQuickLinkMinWidth(): number { return 100; }
 
-  handleSessionDataUpdate(dataType, data) {
+  setJournalIds(ids: string[]): void { this.#journalIds = ids; }
+
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.JOURNAL:
       this.render();
@@ -20,15 +26,15 @@ export class FJournalMenu extends MenuContent {
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Render): void {
     let p = new Panel();
     render.wrapPanel(p);
 
     if (!this.#currentJournalId) {
-      this.#currentJournalId = this.#journalIds[0];
+      this.#currentJournalId = this.#journalIds[0] || null;
     }
     if (!this.#currentJournalId) {
       return;

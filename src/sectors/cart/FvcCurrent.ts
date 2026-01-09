@@ -1,4 +1,3 @@
-
 const _CFT_CART_CONTENT = {
   EMPTY : `<div class="info-message">Cart is empty.</div>`,
 };
@@ -16,8 +15,12 @@ import { URL_PARAM, URL_PARAM_ADDON_VALUE } from '../../common/constants/Constan
 import { FvcCheckout } from './FvcCheckout.js';
 import { Gateway as AuthGateway } from '../auth/Gateway.js';
 import { Api } from '../../common/plt/Api.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export class FvcCurrent extends FScrollViewContent {
+  protected _fPayables: FSimpleFragmentList;
+  protected _fReserved: FCart;
+
   constructor() {
     super();
     this._fPayables = new FSimpleFragmentList();
@@ -33,30 +36,32 @@ export class FvcCurrent extends FScrollViewContent {
     this.setChild("reserved", this._fReserved);
   }
 
-  getUrlParamString() {
+  getUrlParamString(): string {
     return URL_PARAM.ADDON + "=" + URL_PARAM_ADDON_VALUE.CART;
   }
 
-  getCartForCartFragment(fCart, cartId) { return Cart.getCart(cartId); }
+  getCartForCartFragment(fCart: FCart, cartId: string | null): CartDataType | null { return Cart.getCart(cartId); }
 
-  onCartFragmentRequestShowView(fCart, view, title) {
+  onCartFragmentRequestShowView(fCart: FCart, view: View, title: string): void {
     this._owner.onFragmentRequestShowView(this, view, title);
   }
-  onCartFragmentRequestChangeItemQuantity(fCart, cartId, itemId, dQty) {
+  onCartFragmentRequestChangeItemQuantity(fCart: FCart, cartId: string | null, itemId: string, dQty: number): void {
     Cart.asyncChangeItemQuantity(itemId, dQty);
   }
-  onCartFragmentRequestRemoveItem(fCart, cartId, itemId) {
+  onCartFragmentRequestRemoveItem(fCart: FCart, cartId: string | null, itemId: string): void {
     Cart.asyncRemoveItem(cartId, itemId);
   }
-  onCartFragmentRequestCheckout(fCart, cartId, currencyId) {
+  onCartFragmentRequestCheckout(fCart: FCart, cartId: string | null, currencyId: string | null): void {
     let c = Cart.getCart(cartId);
     let items = c ? c.getItems() : [];
     let ids = items.filter(i => i.getPreferredCurrencyId() == currencyId)
                   .map(i => i.getId());
-    this.#asyncRequestOrderPreview(currencyId, ids);
+    if (currencyId) {
+      this.#asyncRequestOrderPreview(currencyId, ids);
+    }
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.DRAFT_ORDERS:
       this.render();
@@ -64,10 +69,10 @@ export class FvcCurrent extends FScrollViewContent {
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -99,12 +104,12 @@ export class FvcCurrent extends FScrollViewContent {
     this._fReserved.render();
   }
 
-  #getPayableCurrencyIds() {
+  #getPayableCurrencyIds(): string[] {
     let c = Cart.getCart(CartDataType.T_ID.ACTIVE);
     return c ? c.getAllCurrencyIds() : [];
   }
 
-  #asyncRequestOrderPreview(currencyId, itemIds) {
+  #asyncRequestOrderPreview(currencyId: string, itemIds: string[]): void {
     let fd = new FormData();
     fd.append('currency_id', currencyId);
     for (let id of itemIds) {
@@ -118,15 +123,18 @@ export class FvcCurrent extends FScrollViewContent {
         .then(d => this.#onOrderPreviewRRR(d));
   }
 
-  #onOrderPreviewRRR(data) {
-    this.#goCheckout(new PreviewOrder(data.order));
+  #onOrderPreviewRRR(data: unknown): void {
+    let orderData = (data as { order?: unknown }).order;
+    if (orderData) {
+      this.#goCheckout(new PreviewOrder(orderData));
+    }
   }
 
-  #goCheckout(order) {
+  #goCheckout(order: PreviewOrder): void {
     if (window.dba.Account.isAuthenticated()) {
       let v = new View();
       let f = new FvcCheckout();
-      f.setOrder(order);
+      f.setOrder(order as unknown as CustomerOrder);
       v.setContentFragment(f);
       this._owner.onFragmentRequestShowView(this, v, "Checkout");
     } else {

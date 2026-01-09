@@ -8,8 +8,19 @@ import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { FSquareOnline } from '../../common/pay/FSquareOnline.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
+
+interface SelectionItem {
+  text: string;
+  value: string;
+}
 
 export class FvcDeposit extends FScrollViewContent {
+  protected _fCurrencies: Selection;
+  protected _fInput: NumberInput;
+  protected _fSquare: FSquareOnline;
+  protected _selectedCurrency: string;
+
   constructor() {
     super();
     this._fCurrencies = new Selection();
@@ -28,20 +39,20 @@ export class FvcDeposit extends FScrollViewContent {
     this._selectedCurrency = "USD";
   }
 
-  getSelectedValueForSelection(fSelection) { this._selectedCurrency; }
-  getItemsForSelection(fSelection) { return [ {text : "USD", value : "USD"} ]; }
+  getSelectedValueForSelection(fSelection: Selection): string { return this._selectedCurrency; }
+  getItemsForSelection(fSelection: Selection): SelectionItem[] { return [ {text : "USD", value : "USD"} ]; }
 
-  onSelectionChangedInSelection(fSelection, value) {
+  onSelectionChangedInSelection(fSelection: Selection, value: string): void {
     this._selectedCurrency = value;
   }
 
-  onSquareOnlinePayFragmentRequestPay(fSquare, locationId, sourceId) {
+  onSquareOnlinePayFragmentRequestPay(fSquare: FSquareOnline, locationId: string, sourceId: string): void {
     let amount = this._fInput.getValue();
     this.#asyncSubmitPayment(locationId, sourceId, amount,
                              this._selectedCurrency);
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new PanelWrapper();
@@ -55,18 +66,18 @@ export class FvcDeposit extends FScrollViewContent {
     this._fSquare.render();
   }
 
-  #asyncSubmitPayment(locationId, sourceId, amount, currency) {
+  #asyncSubmitPayment(locationId: string, sourceId: string, amount: number, currency: string): void {
     let url = '/api/exchange/deposit';
     let fd = new FormData();
     fd.append("location_id", locationId);
     fd.append("source_id", sourceId);
-    fd.append("amount", amount);
+    fd.append("amount", amount.toString());
     fd.append("currency", currency);
 
     Api.asFragmentPost(this, url, fd).then(d => this.#onPayRRR(d));
   }
 
-  #onPayRRR(data) {
+  #onPayRRR(data: unknown): void {
     let v = new View();
     let f = new FvcNotice();
     f.setMessage(R.get("ACK_DEPOSIT"));

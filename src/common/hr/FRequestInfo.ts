@@ -6,9 +6,10 @@ import { Notifications } from '../dba/Notifications.js';
 import { UserRequest } from '../datatypes/UserRequest.js';
 import { Groups } from '../dba/Groups.js';
 import { Utilities } from '../Utilities.js';
-import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Events } from '../../lib/framework/Events.js';
 import { T_ACTION as PltT_ACTION } from '../plt/Events.js';
 import { Api } from '../plt/Api.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export const CF_REQUEST_INFO = {
   ACCEPT : "CF_GUI_REQUEST_INFO_1",
@@ -29,6 +30,18 @@ const _CFT_REQUEST_INFO = {
   BTN_IGNORE :
       `<span class="button-like small s-secondary" onclick="javascript:G.action(S.hr.CF_REQUEST_INFO.IGNORE)">Ignore</span>`,
   JOIN_GROUP : `__USER__ request to join __GROUP__.`,
+}
+
+export interface FRequestInfoDataSource {
+  getRequestForRequestInfoFragment(f: FRequestInfo, requestId: string): UserRequest | null;
+}
+
+export interface FRequestInfoDelegate {
+  onRequestAcceptRequestInfoFragment(f: FRequestInfo, requestId: string): void;
+  onRequestDeclineRequestInfoFragment(f: FRequestInfo, requestId: string): void;
+  onRequestIgnoreRequestInfoFragment(f: FRequestInfo, requestId: string): void;
+  onRequestShowUserInfoRequestInfoFragment(f: FRequestInfo, userId: string): void;
+  onRequestShowGroupInfoRequestInfoFragment(f: FRequestInfo, groupId: string): void;
 }
 
 export class FRequestInfo extends Fragment {
@@ -59,7 +72,7 @@ export class FRequestInfo extends Fragment {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.GROUPS:
     case T_DATA.USER_PUBLIC_PROFILES:
@@ -71,7 +84,7 @@ export class FRequestInfo extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let request = Notifications.getRequest(this._requestId);
     if (!request) {
       return;
@@ -99,7 +112,7 @@ export class FRequestInfo extends Fragment {
     pp.replaceContent(_CFT_REQUEST_INFO.BTN_IGNORE);
   }
 
-  #renderRequestContent(request: ReturnType<typeof Notifications.getRequest>): string {
+  #renderRequestContent(request: UserRequest): string {
     switch (request.getCategory()) {
     case UserRequest.T_CATEGORY.JOIN_GROUP:
       return this.#renderJoinGroupRequest(request);
@@ -109,7 +122,7 @@ export class FRequestInfo extends Fragment {
     return request.getMessage();
   }
 
-  #renderJoinGroupRequest(request: ReturnType<typeof Notifications.getRequest>): string {
+  #renderJoinGroupRequest(request: UserRequest): string {
     let s = _CFT_REQUEST_INFO.JOIN_GROUP;
     let uid = request.getFromId();
     let nickname = window.dba.Account.getUserNickname(uid);

@@ -2,8 +2,9 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { T_DATA } from '../plt/Events.js';
 import { Utilities } from '../Utilities.js';
-import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Events } from '../../lib/framework/Events.js';
 import { T_ACTION as PltT_ACTION } from '../plt/Events.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export const CF_USER_ID_INPUT = {
   USER_INFO : Symbol()
@@ -26,7 +27,7 @@ export class FUserIdInput extends Fragment {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
@@ -37,7 +38,7 @@ export class FUserIdInput extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new Panel();
     render.wrapPanel(p);
     p.replaceContent(this.#renderUser());
@@ -46,7 +47,7 @@ export class FUserIdInput extends Fragment {
   #renderUser(): string {
     let nickname = window.dba.Account.getUserNickname(this.#userId);
     return Utilities.renderSmallButton("S.hr.CF_USER_ID_INPUT.USER_INFO",
-                                       this.#userId, nickname);
+                                       this.#userId as string || "", nickname || "");
   }
 
   #showUserInfo(userId: string): void {

@@ -8,6 +8,7 @@ import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { Auth } from '../../common/dba/Auth.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export const CF_REGISTER_CONTENT = {
   VALIDATE_EMAIL : "CF_REGISTER_CONTENT_1",
@@ -45,6 +46,8 @@ const _CFT_REGISTER_CONTENT = {
 }
 
 export class FvcRegister extends FScrollViewContent {
+  protected _fSubmit: Button;
+
   constructor() {
     super();
     this._fSubmit = new Button();
@@ -55,31 +58,31 @@ export class FvcRegister extends FScrollViewContent {
     this.setChild("submit", this._fSubmit);
   }
 
-  getActionButton() {
+  getActionButton(): Fragment {
     // Return empty fragment to avoid being assigned with default action button
     return new Fragment();
   }
 
-  onSimpleButtonClicked(fButton) { this.#onSubmit(); }
+  onSimpleButtonClicked(fButton: Button): void { this.#onSubmit(); }
 
-  action(type, ...args) {
+  action(type: string, ...args: unknown[]): void {
     switch (type) {
     case CF_REGISTER_CONTENT.VALIDATE_EMAIL:
       this.#asyncValidateEmail();
       break;
     case CF_REGISTER_CONTENT.ON_TOGGLE_AGREE:
-      this.#onToggleAgree(args[0]);
+      this.#onToggleAgree(args[0] as boolean);
       break;
     case CF_REGISTER_CONTENT.SHOW_TERM:
-      this._displayMessage(args[0]);
+      this._displayMessage(args[0] as string);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     p.pushSpace(1);
@@ -110,7 +113,7 @@ export class FvcRegister extends FScrollViewContent {
     this._fSubmit.render();
   }
 
-  #renderForm() {
+  #renderForm(): string {
     let s = _CFT_REGISTER_CONTENT.MAIN;
     s = s.replace("__R_EMAIL__", R.t("Email address"));
     s = s.replace("__R_EMAIL_HINT__", R.t("Email address"));
@@ -121,7 +124,7 @@ export class FvcRegister extends FScrollViewContent {
     return s;
   }
 
-  #renderTerms() {
+  #renderTerms(): string {
     let s = _CFT_REGISTER_CONTENT.TERM;
     s = s.replace("__TERM__",
                   this._renderTipLink("CF_REGISTER_CONTENT.SHOW_TERM",
@@ -131,7 +134,7 @@ export class FvcRegister extends FScrollViewContent {
     return s;
   }
 
-  #onToggleAgree(b) {
+  #onToggleAgree(b: boolean): void {
     if (b) {
       this._fSubmit.enable();
     } else {
@@ -139,18 +142,18 @@ export class FvcRegister extends FScrollViewContent {
     }
   }
 
-  #onSubmit() {
+  #onSubmit(): void {
     if (!this.#validateInputs()) {
       return;
     }
-    let email = document.getElementById("ID_EMAIL").value;
-    let password = document.getElementById("ID_PASSWORD").value;
+    let email = (document.getElementById("ID_EMAIL") as HTMLInputElement).value;
+    let password = (document.getElementById("ID_PASSWORD") as HTMLInputElement).value;
 
     Auth.asyncRegisterUser(email, password,
                                () => this.#onRegisterSuccess());
   }
 
-  #onRegisterSuccess() {
+  #onRegisterSuccess(): void {
     let v = new View();
     let f = new FvcNotice();
     f.setMessage(R.get("REGISTER_SUCCESS"));
@@ -158,10 +161,10 @@ export class FvcRegister extends FScrollViewContent {
     this._owner.onFragmentRequestShowView(this, v, "Register success");
   }
 
-  #validateInputs() {
-    let email = document.getElementById("ID_EMAIL").value;
-    let password = document.getElementById("ID_PASSWORD").value;
-    let password2 = document.getElementById("ID_PASSWORD_2").value;
+  #validateInputs(): boolean {
+    let email = (document.getElementById("ID_EMAIL") as HTMLInputElement).value;
+    let password = (document.getElementById("ID_PASSWORD") as HTMLInputElement).value;
+    let password2 = (document.getElementById("ID_PASSWORD_2") as HTMLInputElement).value;
     if (password != password2) {
       this.onLocalErrorInFragment(this, R.get("EL_PASSWORD_MISMATCH"));
       return false;
@@ -169,11 +172,11 @@ export class FvcRegister extends FScrollViewContent {
     return true;
   }
 
-  #asyncValidateEmail() {
-    let email = document.getElementById("ID_EMAIL").value;
+  #asyncValidateEmail(): void {
+    let email = (document.getElementById("ID_EMAIL") as HTMLInputElement).value;
     let url = "/api/auth/test_email?email=" + encodeURIComponent(email);
-    Api.asFragmentCall(this, url).then(d => this.#onValidateEmailRRR(d));
+    Api.asFragmentCall(this, url).then((d: unknown) => this.#onValidateEmailRRR(d));
   }
 
-  #onValidateEmailRRR(data) {  }
+  #onValidateEmailRRR(data: unknown): void {  }
 }

@@ -1,4 +1,3 @@
-
 window.CF_EXCHANGE_ITEM_INFO = {
   BUY : "CF_EXCHANGE_ITEM_INFO_1",
   SELL : "CF_EXCHANGE_ITEM_INFO_2",
@@ -34,18 +33,27 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
-import { glb } from '../../lib/framework/Global.js';
 import { Env } from '../../common/plt/Env.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
+
+interface ExchangeItem {
+  icon: string;
+  name: string;
+  total?: string | number;
+  [key: string]: unknown;
+}
 
 export class FExchangeItemInfo extends Fragment {
+  protected _item: ExchangeItem | null;
+
   constructor() {
     super();
     this._item = null;
   }
 
-  setItem(item) { this._item = item; }
+  setItem(item: ExchangeItem): void { this._item = item; }
 
-  action(type, ...args) {
+  action(type: string, ...args: unknown[]): void {
     switch (type) {
     case CF_EXCHANGE_ITEM_INFO.BUY:
       this.#onBuyClicked();
@@ -54,12 +62,12 @@ export class FExchangeItemInfo extends Fragment {
       this.#onSellClicked();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Render): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new Panel();
@@ -72,7 +80,7 @@ export class FExchangeItemInfo extends Fragment {
     }
   }
 
-  #renderItem(item) {
+  #renderItem(item: ExchangeItem): string {
     let s = _CVF_EXCHANGE_ITEM.MAIN;
     s = s.replace("__ICON__", item.icon);
     s = s.replace("__NAME__", item.name);
@@ -90,20 +98,20 @@ export class FExchangeItemInfo extends Fragment {
     return s;
   }
 
-  _renderDetail(item) {
+  _renderDetail(item: ExchangeItem): string {
     let s = `<div>Latest: 33.40</div>
         <div>Volume: 332333</div>
         <div>Total: __TOTAL__</div>`;
-    s = s.replace("__TOTAL__", item.total);
+    s = s.replace("__TOTAL__", String(item.total || ""));
     return s;
   }
 
-  _renderActions(item) {
+  _renderActions(item: ExchangeItem): string {
     let s = _CVF_EXCHANGE_ITEM.BTN_BUY;
     s += _CVF_EXCHANGE_ITEM.BTN_SELL;
     return s;
   }
 
-  #onBuyClicked() { console.log("Buy"); }
-  #onSellClicked() { console.log("Sell"); }
+  #onBuyClicked(): void { console.log("Buy"); }
+  #onSellClicked(): void { console.log("Sell"); }
 };

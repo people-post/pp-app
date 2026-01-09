@@ -1,11 +1,5 @@
 // Cardano types are provided by the cardano.min.js library (defined in global.d.ts)
 
-interface CardanoKey {
-  to_raw_key(): {
-    hash(): Uint8Array;
-  };
-}
-
 export class CardanoAccount {
   // m/purpose'/coin_type'/account'/role/index
   static readonly T_ROLE = {
@@ -18,11 +12,11 @@ export class CardanoAccount {
   } as const;
 
   #networkId: number;
-  #kPayment: CardanoKey | null = null;
-  #kStaking: CardanoKey | null = null;
+  #kPayment: Uint8Array | null = null;
+  #kStaking: Uint8Array | null = null;
   #address: unknown = null;
 
-  constructor(kPayment: CardanoKey, kStaking: CardanoKey) {
+  constructor(kPayment: Uint8Array, kStaking: Uint8Array) {
     this.#kPayment = kPayment;
     this.#kStaking = kStaking;
     this.#networkId = Cardano.NetworkInfo.testnet_preview().network_id;

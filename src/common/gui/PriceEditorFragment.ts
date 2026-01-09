@@ -104,7 +104,7 @@ export class PriceEditorFragment extends Fragment {
       if (p.list_price == "" || p.sales_price == "") {
         let c = Exchange.getCurrency(p.currency_id);
         let s = R.get("EL_INCOMPLETE_PRICE");
-        s = s.replace("__CURRENCY__", c ? c.getName() : p.currency_id);
+        s = s.replace("__CURRENCY__", c ? c.getName() || "" : p.currency_id);
         this.#markError(s);
         return false;
       }
@@ -225,8 +225,8 @@ export class PriceEditorFragment extends Fragment {
       return "";
     }
     let s = `__NAME__(__CODE__)`;
-    s = s.replace("__NAME__", currency.getName());
-    s = s.replace("__CODE__", currency.getCode());
+    s = s.replace("__NAME__", currency.getName() || "");
+    s = s.replace("__CODE__", currency.getCode() || "");
     return s;
   }
 }

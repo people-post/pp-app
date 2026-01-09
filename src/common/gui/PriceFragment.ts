@@ -2,7 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Exchange } from '../dba/Exchange.js';
-import Utilities from '../../lib/ext/Utilities.js';
+import { Utilities } from '../Utilities.js';
 import { PPriceBase } from './PPriceBase.js';
 
 interface PriceItem {
@@ -43,7 +43,7 @@ export class PriceFragment extends Fragment {
     for (let id of ids) {
       let c = Exchange.getCurrency(id);
       if (c) {
-        units.push({text : c.getCode(), value : id});
+        units.push({text : c.getCode() || "", value : id});
       }
     }
     return units;
@@ -58,7 +58,7 @@ export class PriceFragment extends Fragment {
     this.render();
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case PltT_DATA.CURRENCIES:
       this.render();
@@ -79,7 +79,7 @@ export class PriceFragment extends Fragment {
       pp.setClassName("small-info-text center-align");
       if (this._prices.length) {
         let c = Exchange.getCurrency(this._prices[0].currency_id);
-        pp.replaceContent(c ? c.getCode() : "...");
+        pp.replaceContent(c ? c.getCode() || "..." : "...");
       } else {
         pp.replaceContent("N/A");
       }
@@ -88,18 +88,18 @@ export class PriceFragment extends Fragment {
     let price = this.#getCurrentPriceItem();
     let c = price ? Exchange.getCurrency(price.currency_id) : null;
 
-    pp = render.getListPricePanel();
+    let ppListPrice = render.getListPricePanel();
     if (price) {
-      pp.replaceContent(Utilities.renderPrice(c, price.list_price));
+      ppListPrice.replaceContent(Utilities.renderPrice(c || null, price.list_price as number));
     } else {
-      pp.replaceContent("N/A");
+      ppListPrice.replaceContent("N/A");
     }
 
-    pp = render.getSalesPricePanel();
+    let ppSalesPrice = render.getSalesPricePanel();
     if (price) {
-      pp.replaceContent(Utilities.renderPrice(c, price.sales_price));
+      ppSalesPrice.replaceContent(Utilities.renderPrice(c || null, price.sales_price as number));
     } else {
-      pp.replaceContent("N/A");
+      ppSalesPrice.replaceContent("N/A");
     }
   }
 
@@ -107,6 +107,7 @@ export class PriceFragment extends Fragment {
     return this._prices.find(p => p.currency_id == this._currentCurrencyId);
   }
 
+  /*
   #clearEmptyPrices(): void {
     let ps: PriceItem[] = [];
     for (let p of this._prices) {
@@ -116,6 +117,7 @@ export class PriceFragment extends Fragment {
     }
     this._prices = ps;
   }
+  */
 }
 
 export default PriceFragment;

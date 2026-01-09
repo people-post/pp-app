@@ -3,6 +3,8 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { Api } from '../../common/plt/Api.js';
+import { R } from '../../common/constants/R.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export const CF_CHANGE_PASSWORD = {
   SUBMIT : Symbol(),
@@ -40,27 +42,27 @@ const _CFT_CHANGE_PASSWORD = {
 };
 
 export class FvcChangePassword extends FScrollViewContent {
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_CHANGE_PASSWORD.SUBMIT:
       this.#onSubmit();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  _renderContentOnRender(render) {
+  _renderContentOnRender(render: Render): void {
     render.replaceContent(_CFT_CHANGE_PASSWORD.MAIN);
   }
 
-  #onSubmit() {
+  #onSubmit(): void {
     if (!this.#validateInputs()) {
       return;
     }
-    let password = document.getElementById("ID_PASSWORD_OLD").value;
-    let password_new = document.getElementById("ID_PASSWORD").value;
+    let password = (document.getElementById("ID_PASSWORD_OLD") as HTMLInputElement).value;
+    let password_new = (document.getElementById("ID_PASSWORD") as HTMLInputElement).value;
     let url = "api/auth/change_password";
     let fd = new FormData();
     fd.append("password", password);
@@ -69,14 +71,14 @@ export class FvcChangePassword extends FScrollViewContent {
         .then(d => this.#onChangePasswordRRR(d));
   }
 
-  #validateInputs() {
-    let password = document.getElementById("ID_PASSWORD").value;
-    let password2 = document.getElementById("ID_PASSWORD_2").value;
+  #validateInputs(): boolean {
+    let password = (document.getElementById("ID_PASSWORD") as HTMLInputElement).value;
+    let password2 = (document.getElementById("ID_PASSWORD_2") as HTMLInputElement).value;
     if (password != password2) {
       this.onLocalErrorInFragment(this, R.get("EL_PASSWORD_MISMATCH"));
       return false;
     }
-    password2 = document.getElementById("ID_PASSWORD_OLD").value;
+    password2 = (document.getElementById("ID_PASSWORD_OLD") as HTMLInputElement).value;
     if (password == password2) {
       this.onLocalErrorInFragment(this, R.get("EL_NEW_PASSWORD_SAME"));
       return false;
@@ -84,7 +86,7 @@ export class FvcChangePassword extends FScrollViewContent {
     return true;
   }
 
-  #onChangeSuccess() {
+  #onChangeSuccess(): void {
     let v = new View();
     let f = new FvcNotice();
     f.setMessage(R.get("CHANGE_PASSWORD_SUCCESS"));
@@ -94,5 +96,5 @@ export class FvcChangePassword extends FScrollViewContent {
                                                     "Change password success");
   }
 
-  #onChangePasswordRRR(data) { this.#onChangeSuccess();   }
+  #onChangePasswordRRR(data: unknown): void { this.#onChangeSuccess();   }
 }

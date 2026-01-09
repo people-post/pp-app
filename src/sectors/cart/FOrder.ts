@@ -26,12 +26,31 @@ import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
 import { POrder } from './POrder.js';
 import { POrderInfo } from './POrderInfo.js';
 import { FOrderItem } from './FOrderItem.js';
+import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
+import { SupplierOrderPublic } from '../../common/datatypes/SupplierOrderPublic.js';
+import { Currency } from '../../common/datatypes/Currency.js';
+import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type { POrderBase } from './POrderBase.js';
+
+interface OrderDataSource {
+  getOrderForOrderFragment(f: FOrder, orderId: string | null): CustomerOrder | null;
+}
+
+interface OrderDelegate {
+  onCustomerOrderInfoFragmentRequestShowOrder(f: FOrder, orderId: string | null): void;
+}
 
 export class FOrder extends Fragment {
   static T_LAYOUT = {
     FULL : Symbol(),
     INFO: Symbol(),
   };
+
+  protected _fItems: FSimpleFragmentList;
+  protected _orderId: string | null;
+  protected _tLayout: symbol | null;
+  protected _dataSource!: OrderDataSource;
+  protected _delegate!: OrderDelegate;
 
   constructor() {
     super();
@@ -42,24 +61,24 @@ export class FOrder extends Fragment {
     this._tLayout = null;
   }
 
-  setOrderId(id) { this._orderId = id; }
-  setLayoutType(t) { this._tLayout = t; }
+  setOrderId(id: string | null): void { this._orderId = id; }
+  setLayoutType(t: symbol | null): void { this._tLayout = t; }
 
-  action(type, ...args) {
+  action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_CUSTOMER_ORDER.ON_CLICK:
       this.#onClick();
       break;
     case CF_CUSTOMER_ORDER.USER_INFO:
-      this.#showUserInfo(args[0]);
+      this.#showUserInfo(args[0] as string);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
 
-  handleSessionDataUpdate(dataType, data) {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
     case T_DATA.CURRENCIES:
@@ -69,10 +88,10 @@ export class FOrder extends Fragment {
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render) {
+  _renderOnRender(render: Render): void {
     let order = window.dba.Account.getOrder(this._orderId);
     if (!order) {
       return;
@@ -81,7 +100,7 @@ export class FOrder extends Fragment {
     render.wrapPanel(pMain);
 
     // Header
-    let p = pMain.getShopNamePanel();
+    let p: Panel | SectionPanel | null = pMain.getShopNamePanel();
     if (p) {
       this.#renderShopName(order, p);
     }
@@ -115,27 +134,27 @@ export class FOrder extends Fragment {
     // Price summary
     p = pMain.getSubtotalPanel();
     if (p) {
-      this.#renderSubtotal(c, order.getSubtotal(), p);
+      this.#renderSubtotal(c, order.getSubtotal() || 0, p);
     }
 
     p = pMain.getShippingHandlingPanel();
     if (p) {
-      this.#renderShippingHandling(c, order.getShippingHandlingCost(), p);
+      this.#renderShippingHandling(c, order.getShippingHandlingCost() || 0, p);
     }
 
     p = pMain.getDiscountPanel();
     if (p) {
-      this.#renderDiscount(c, order.getDiscount(), p);
+      this.#renderDiscount(c, order.getDiscount() || 0, p);
     }
 
     p = pMain.getRefundPanel();
     if (p) {
-      this.#renderRefund(c, order.getRefund(), p);
+      this.#renderRefund(c, order.getRefund() || 0, p);
     }
 
     p = pMain.getTotalPanel();
     if (p) {
-      this.#renderTotal(c, order.getTotalPrice(), p);
+      this.#renderTotal(c, order.getTotalPrice() || 0, p);
     }
 
     // Shipping
@@ -165,8 +184,8 @@ export class FOrder extends Fragment {
     }
   }
 
-  #createPanel() {
-    let p;
+  #createPanel(): POrderBase {
+    let p: POrderBase;
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.FULL:
       p = new POrder();
@@ -178,9 +197,9 @@ export class FOrder extends Fragment {
     return p;
   }
 
-  #createInfoPanel() { return new POrderInfo(); }
+  #createInfoPanel(): POrderInfo { return new POrderInfo(); }
 
-  #renderTimeInfo(order, panel) {
+  #renderTimeInfo(order: CustomerOrder, panel: Panel): void {
     let s = "";
     if (order.getState() == STATE.ACTIVE) {
       s = _CFT_CUSTOMER_ORDER.T_UPDATE;
@@ -193,14 +212,14 @@ export class FOrder extends Fragment {
     panel.replaceContent(s);
   }
 
-  #renderOrderItem(item) {
+  #renderOrderItem(item: SupplierOrderPublic): string {
     let s = _CFT_CUSTOMER_ORDER.ITEM;
     s = s.replace("__NAME__", item.getDescription());
-    s = s.replace("__QUANTITY__", item.getQuantity());
+    s = s.replace("__QUANTITY__", item.getQuantity().toString());
     return s;
   }
 
-  #renderShopNameInfo(order, panel) {
+  #renderShopNameInfo(order: CustomerOrder, panel: Panel): void {
     let userId = order.getShopId();
     let name = window.dba.Account.getUserShopName(userId, "...");
     let s =
@@ -209,7 +228,7 @@ export class FOrder extends Fragment {
     panel.replaceContent(s);
   }
 
-  #renderShopName(order, panel) {
+  #renderShopName(order: CustomerOrder, panel: Panel): void {
     let userId = order.getShopId();
     let name = window.dba.Account.getUserShopName(userId, "...");
     let s = "Shop: ";
@@ -218,31 +237,31 @@ export class FOrder extends Fragment {
     panel.replaceContent(s);
   }
 
-  #renderOrderId(order, panel) {
+  #renderOrderId(order: CustomerOrder, panel: Panel): void {
     let s = "Order id: ";
     s += Utilities.orderIdToReferenceId(order.getId());
     panel.replaceContent(s);
   }
 
-  #renderCreationTime(order, panel) {
+  #renderCreationTime(order: CustomerOrder, panel: Panel): void {
     let s = "Created at: ";
     s +=
         UtilitiesExt.timestampToDateTimeString(order.getCreationTime() / 1000);
     panel.replaceContent(s);
   }
 
-  #renderStatusInfo(order, panel) {
+  #renderStatusInfo(order: CustomerOrder, panel: Panel): void {
     let s = Utilities.renderStatus(order.getState(), order.getStatus());
     panel.replaceContent(s);
   }
 
-  #renderStatus(order, panel) {
+  #renderStatus(order: CustomerOrder, panel: Panel): void {
     let s = "Status: ";
     s += Utilities.renderStatus(order.getState(), order.getStatus());
     panel.replaceContent(s);
   }
 
-  #renderItemInfos(order, panel) {
+  #renderItemInfos(order: CustomerOrder, panel: Panel): void {
     let pItems = new ListPanel();
     pItems.setClassName("clickable");
     pItems.setAttribute("onclick", _CFT_CUSTOMER_ORDER.ACT_ONCLICK);
@@ -257,7 +276,7 @@ export class FOrder extends Fragment {
     }
   }
 
-  #renderItems(order, panel) {
+  #renderItems(order: CustomerOrder, panel: Panel): void {
     this._fItems.clear();
     for (let item of order.getItems()) {
       let f = new FOrderItem();
@@ -268,52 +287,54 @@ export class FOrder extends Fragment {
     this._fItems.render();
   }
 
-  #renderSubtotal(currency, value, panel) {
+  #renderSubtotal(currency: Currency, value: number, panel: Panel): void {
     let s = "Subtotal: ";
     s += Utilities.renderPrice(currency, value);
     panel.replaceContent(s);
   }
 
-  #renderShippingHandling(currency, value, panel) {
+  #renderShippingHandling(currency: Currency, value: number, panel: Panel): void {
     let s = "Shipping&handling(+): ";
     s += Utilities.renderPrice(currency, value);
     panel.replaceContent(s);
   }
 
-  #renderDiscount(currency, value, panel) {
+  #renderDiscount(currency: Currency, value: number, panel: Panel): void {
     let s = "Discount(-): ";
     s += Utilities.renderPrice(currency, value);
     panel.replaceContent(s);
   }
 
-  #renderRefund(currency, value, panel) {
+  #renderRefund(currency: Currency, value: number, panel: Panel): void {
     let s = "Refund(-): ";
     s += Utilities.renderPrice(currency, value);
     panel.replaceContent(s);
   }
 
-  #renderTotal(currency, value, panel) {
+  #renderTotal(currency: Currency, value: number, panel: Panel): void {
     let s = "Total: ";
     s += Utilities.renderPrice(currency, value);
     panel.replaceContent(s);
   }
 
-  #renderShippingAddress(order, panel) {
+  #renderShippingAddress(order: CustomerOrder, panel: Panel): void {
     let addr = order.getShippingAddress();
     if (addr) {
       let p = new SectionPanel("Shipping address");
       panel.wrapPanel(p);
       p = p.getContentPanel();
-      p.replaceContent(addr.data);
+      if (p) {
+        p.replaceContent((addr as { data?: string }).data || "");
+      }
     }
   }
 
-  #onClick() {
+  #onClick(): void {
     this._delegate.onCustomerOrderInfoFragmentRequestShowOrder(this,
                                                                this._orderId);
   }
 
-  #showUserInfo(userId) {
+  #showUserInfo(userId: string): void {
     Events.triggerTopAction(PltT_ACTION.SHOW_USER_INFO, userId);
   }
 };
