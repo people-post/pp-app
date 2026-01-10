@@ -13,7 +13,7 @@ import { Web2FileUploader } from '../common/plt/Web2FileUploader.js';
 import { Events as FwkEvents, T_ACTION as FwkT_ACTION, T_DATA } from '../lib/framework/Events.js';
 import { PWindow } from './PWindow.js';
 import { Web3FileUploader } from '../common/dba/Web3FileUploader.js';
-import { WebConfig } from '../common/dba/WebConfig.js';
+import { WebConfig, WebConfigData } from '../common/dba/WebConfig.js';
 import { Blog } from '../common/dba/Blog.js';
 import { Users } from '../common/dba/Users.js';
 import { Cart } from '../common/dba/Cart.js';
@@ -23,7 +23,6 @@ import { URL_PARAM } from '../common/constants/Constants.js';
 import { R } from '../common/constants/R.js';
 import { Logger } from '../lib/ext/Logger.js';
 import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
-import { Api } from '../common/plt/Api.js';
 import { FvcUserInfo } from '../sectors/hr/FvcUserInfo.js';
 import { FvcUserGroup } from '../common/hr/FvcUserGroup.js';
 import { Env } from '../common/plt/Env.js';
@@ -213,7 +212,7 @@ export class WcSession extends WindowController {
 
   _shouldClearInitialUrl(): boolean { return false; }
 
-  _main(dConfig: { web_config?: unknown; blog_config?: unknown }): void {
+  _main(dConfig: { web_config?: WebConfigData; blog_config?: unknown }): void {
     this._clearDbAgents();
     WebConfig.reset(dConfig.web_config);
     if (dConfig.blog_config) {

@@ -1,7 +1,7 @@
 import { Panel } from '../lib/ui/renders/panels/Panel.js';
 import { ViewPanel } from '../lib/ui/renders/panels/ViewPanel.js';
 import { ListPanel } from '../lib/ui/renders/panels/ListPanel.js';
-import { ConsoleColPanel } from '../lib/ui/renders/panels/ConsoleColPanel.js';
+import { ConsolePanel } from '../lib/ui/renders/panels/ConsolePanel.js';
 import { ConsoleOverlayPanel } from '../lib/ui/renders/panels/ConsoleOverlayPanel.js';
 
 export abstract class PMain extends Panel {
@@ -17,5 +17,5 @@ export abstract class PMain extends Panel {
   getConsoleOverlayPanel(): ConsoleOverlayPanel | undefined { return undefined; }
   isConsoleOverlay(): boolean | null { return null; }
   setEnableConsoleOverlay(_b: boolean): void {}
-  getNavWrapperPanel(): ConsoleColPanel | ConsoleOverlayPanel | null { return null; }
+  getNavWrapperPanel(): ConsolePanel | null { return null; }
 }

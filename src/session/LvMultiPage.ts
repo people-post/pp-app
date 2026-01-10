@@ -96,7 +96,6 @@ export class LvMultiPage extends ViewLayer implements PageViewControllerOwner, P
   onPageViewControllerOverlayPermissionChange(_pvc: PageViewController, _isOverlayAllowed: boolean): void {}
   onPageViewControllerWillUpdateNavView(_pvc: PageViewController): void {
     if (this.#fBtnHome && this._pMain) {
-      // @ts-expect-error - pMain may have this method
       let p = this._pMain.getHomeBtnPanel?.();
       if (p) {
         this.#fBtnHome.attachRender(p);

@@ -9,7 +9,12 @@ import { ID, URL_PARAM } from '../constants/Constants.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
 
-interface WebConfigData {
+export interface FrameConfig {
+  type?: string;
+  [key: string]: unknown;
+}
+
+export interface WebConfigData {
   is_shop_open?: boolean;
   is_workshop_open?: boolean;
   is_dev_site?: boolean;
@@ -27,8 +32,8 @@ interface WebConfigData {
   default_theme?: unknown;
   front_page?: unknown;
   side_frames?: {
-    left?: unknown;
-    right?: unknown;
+    left?: FrameConfig;
+    right?: FrameConfig;
   };
   tags?: Array<{ id?: string; [key: string]: unknown }>;
   roles?: Array<{
@@ -214,14 +219,14 @@ export class WebConfigClass implements WebConfigInterface {
     return this.#data && this.#data.front_page ? new FrontPageConfig(this.#data.front_page as Record<string, unknown>) : null;
   }
 
-  getLeftSideFrameConfig(): unknown {
+  getLeftSideFrameConfig(): FrameConfig | null {
     const d = this.#data ? this.#data.side_frames : null;
-    return d ? d.left : null;
+    return d?.left ?? null;
   }
 
-  getRightSideFrameConfig(): unknown {
+  getRightSideFrameConfig(): FrameConfig | null {
     const d = this.#data ? this.#data.side_frames : null;
-    return d ? d.right : null;
+    return d?.right ?? null;
   }
 
   getTags(): Tag[] {

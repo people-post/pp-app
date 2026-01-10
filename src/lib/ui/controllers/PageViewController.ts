@@ -4,14 +4,9 @@ import { Page } from './Page.js';
 import { T_DATA, T_ACTION, Events } from '../../framework/Events.js';
 import { WebConfig } from '../../../common/dba/WebConfig.js';
 import { ViewStack, ViewStackOwner } from './ViewStack.js';
-import { PanelWrapper } from '../renders/panels/PanelWrapper.js';
 import { View } from './views/View.js';
-
-interface PageConfig {
-  ID: string;
-  ICON: string;
-  [key: string]: unknown;
-}
+import { PageConfig } from '../../../common/plt/SectorGateway.js';
+import { ConsolePanel } from '../renders/panels/ConsolePanel.js';
 
 export interface PageViewControllerOwner {
   onPageViewControllerRequestPopView(pvc: PageViewController): void;
@@ -70,15 +65,16 @@ export class PageViewController extends RenderController implements ViewStackOwn
   }
   getNavItemsForNavigationFragment(_fNav: FNavigation): any[] {
     let items: any[] = [];
+    const dataSource = this.getDataSource<PageViewControllerDataSource>();
     for (let c of this.#mPageConfig.values()) {
       items.push({
         ID : c.ID,
         ICON : c.ICON,
         NNOTIFICATIONS :
-            this.getDataSource<PageViewControllerDataSource>().getNPageNotificationsForPageViewController(this,
+            dataSource?.getNPageNotificationsForPageViewController(this,
                                                                         c.ID),
         IS_OPEN_ADDON :
-            this.getDataSource<PageViewControllerDataSource>().isPageNavPageInPageViewController(this, c.ID),
+            dataSource?.isPageNavPageInPageViewController(this, c.ID),
       });
     }
     return items;
@@ -120,7 +116,7 @@ export class PageViewController extends RenderController implements ViewStackOwn
     }
   }
 
-  replaceNavWrapperPanel(panel: PanelWrapper): void {
+  replaceNavWrapperPanel(panel: ConsolePanel): void {
     this.attachExtraRender("nav", panel);
     this.#fNav.attachRender(panel);
     this.#updateNavView();
@@ -227,7 +223,12 @@ export class PageViewController extends RenderController implements ViewStackOwn
   }
 
   #getOrInitPage(pageId: string): Page {
-    let page = this.getDataSource<PageViewControllerDataSource>().createPageForPageViewController(this, pageId);
+    const dataSource = this.getDataSource<PageViewControllerDataSource>();
+    if (!dataSource) {
+      console.error("DataSource is not set in PageViewController");
+      throw new Error("DataSource is not set");
+    }
+    let page = dataSource.createPageForPageViewController(this, pageId);
     page.setOwner(this);
     this.#mPage.set(pageId, page);
     return page;

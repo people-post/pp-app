@@ -1,7 +1,9 @@
 import { LvMultiPage } from './LvMultiPage.js';
 import { PMainTabbed } from './PMainTabbed.js';
 import { VBlank } from '../lib/ui/controllers/views/VBlank.js';
-import { WebConfig } from '../common/dba/WebConfig.js';
+import { ViewPanel } from '../lib/ui/renders/panels/ViewPanel.js';
+import { PanelWrapper } from '../lib/ui/renders/panels/PanelWrapper.js';
+import { FrameConfig, WebConfig } from '../common/dba/WebConfig.js';
 import { PageViewController } from '../lib/ui/controllers/PageViewController.js';
 import { PMain } from './PMain.js';
 
@@ -33,7 +35,7 @@ export class LvTabbedPage extends LvMultiPage {
     super.onResize();
   }
 
-  onPageViewControllerOverlayPermissionChange(pvc: PageViewController, isOverlayAllowed: boolean): void {
+  onPageViewControllerOverlayPermissionChange(_pvc: PageViewController, isOverlayAllowed: boolean): void {
     if (this._pMain?.isNavOverlay()) {
       // TODO: setVisible not working here because of grid display
       this._pMain.getConsoleOverlayPanel()?.getTabPanel()?.setDisplay(
@@ -48,7 +50,7 @@ export class LvTabbedPage extends LvMultiPage {
 
   _createMainPanel(): PMain | null { return new PMainTabbed(); }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
     // This is before init()
     if (!this._pMain) {
       return;
@@ -59,7 +61,7 @@ export class LvTabbedPage extends LvMultiPage {
     this._vc.render();
   }
 
-  #initSideFrame(name: string, panel: ReturnType<PMainTabbed['getLeftSidePanel']>, config: ReturnType<typeof WebConfig.getLeftSideFrameConfig>): void {
+  #initSideFrame(name: string, panel: ViewPanel, config: FrameConfig | null): void {
     let v;
     if (config) {
       switch (config.type) {
@@ -99,7 +101,10 @@ export class LvTabbedPage extends LvMultiPage {
     // If narrow, reduce pages to 4 and use extra sector
     if (this._pMain.isConsoleOverlay?.() != wasOverlay) {
       this._vc.init(this._getVisiblePageConfigs());
-      this._vc.replaceNavWrapperPanel(this._pMain.getNavWrapperPanel?.() ?? null);
+      let navWrapperPanel = this._pMain.getNavWrapperPanel?.();
+      if (navWrapperPanel) {
+        this._vc.replaceNavWrapperPanel(navWrapperPanel);
+      }
     }
   }
 }

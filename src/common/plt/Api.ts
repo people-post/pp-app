@@ -96,7 +96,7 @@ class ApiClass implements IApi {
     );
   }
 
-  asyncRawCall(url: string, onOk: ((txt: string) => void) | null, onErr: ((txt: string) => void) | null): void {
+  asyncRawCall(url: string, onOk: ((txt: string) => void) | null, onErr: ((txt: string) => void) | null = null): void {
     this.#extApi.asyncCall(
       this.#wrapUrl(url),
       onOk ? onOk : this.#dummyFunc,
