@@ -32,6 +32,7 @@ import { FvcProduct } from '../shop/FvcProduct.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type { Render } from '../../lib/ui/controllers/RenderController.js';
 import type { PCartItemInfo } from './PCartItemInfo.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface CartItemDataSource {
   getItemForCartItemFragment(f: FCartItem, itemId: string): CartItem | null;
@@ -195,7 +196,7 @@ export class FCartItem extends Fragment {
 
     if (this._isTransferButtonEnabled) {
       p = panel.getSaveForLaterBtnPanel();
-      if (p && window.dba.Account.isAuthenticated()) {
+      if (p && Account.isAuthenticated()) {
         this._fBtnSaveForLater.attachRender(p);
         this._fBtnSaveForLater.render();
       }

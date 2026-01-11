@@ -6,6 +6,7 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FvcChat } from './FvcChat.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcContactList extends FScrollViewContent {
   protected _fList: SimpleLongListFragment;
@@ -19,8 +20,8 @@ export class FvcContactList extends FScrollViewContent {
 
   getUrlForLongListFragment(_fGrid: unknown, fromId: string | null): string {
     let url = "api/user/followers?user_id=";
-    if (window.dba?.Account) {
-      url += window.dba.Account.getId();
+    if (Account) {
+      url += Account.getId();
     }
     if (fromId) {
       url += "&before_id=" + fromId;

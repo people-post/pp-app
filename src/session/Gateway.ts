@@ -29,6 +29,7 @@ import { FvcResetPassword } from '../sectors/auth/FvcResetPassword.js';
 import { FvcAccountActivation } from '../sectors/auth/FvcAccountActivation.js';
 import { Env } from '../common/plt/Env.js';
 import { SectorGateway, PageConfig } from '../common/plt/SectorGateway.js';
+import { Account } from '../common/dba/Account.js';
 
 export class Gateway extends Controller {
   static T_CONFIG: {
@@ -218,25 +219,25 @@ export class Gateway extends Controller {
     }
 
     // Customized frontpage
-    if (!window.dba.Account?.isAuthenticated() && WebConfig.getFrontPageConfig()) {
+    if (!Account.isAuthenticated() && WebConfig.getFrontPageConfig()) {
       return [ Gateway.T_CONFIG.FRONT_PAGE ];
     }
 
     // Default
     let configs: PageConfig[] = [ Gateway.T_CONFIG.BLOG ];
-    if (window.dba.Account?.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       configs.push(Gateway.T_CONFIG.MESSENGER);
     }
 
     // Shop, still in development
-    if (window.dba.Account?.isBetaTester() || WebConfig.isDevSite()) {
-      if (window.dba.Account?.isWebOwner() || Shop.isOpen()) {
+    if (Account.isBetaTester() || WebConfig.isDevSite()) {
+      if (Account.isWebOwner() || Shop.isOpen()) {
         configs.push(Gateway.T_CONFIG.SHOP);
       }
     }
 
     // Workshop
-    if (window.dba.Account?.isWebOwner() || Workshop.isOpen()) {
+    if (Account.isWebOwner() || Workshop.isOpen()) {
       configs.push(Gateway.T_CONFIG.WORKSHOP);
     }
     return configs;
@@ -251,14 +252,14 @@ export class Gateway extends Controller {
 
   #getExtrasPageConfigs(): PageConfig[] {
     if (Env.isWeb3()) {
-      if (window.dba.Account?.isAuthenticated()) {
+      if (Account.isAuthenticated()) {
         return this.#getWeb3OwnerPageConfigs();
       } else {
         return this.#getWeb3GuestPageConfigs();
       }
     } else {
-      if (window.dba.Account?.isAuthenticated()) {
-        if (window.dba.Account.isWebOwner()) {
+      if (Account.isAuthenticated()) {
+        if (Account.isWebOwner()) {
           return this.#getOwnerPageConfigs();
         } else if (Env.isTrustedSite()) {
           return this.#getMemberPageConfigs();
@@ -314,7 +315,7 @@ export class Gateway extends Controller {
     }
 
     if (Shop.isOpen()) {
-      if (window.dba.Account?.isBetaTester() || WebConfig.isDevSite()) {
+      if (Account.isBetaTester() || WebConfig.isDevSite()) {
         items.push(Gateway.T_CONFIG.CART);
       }
     }
@@ -328,7 +329,7 @@ export class Gateway extends Controller {
       items.push(Gateway.T_CONFIG.EXCHANGE);
     }
     items.push(Gateway.T_CONFIG.EMAIL);
-    if (window.dba.Account?.hasDomain()) {
+    if (Account.hasDomain()) {
       // Required here in case user lost access to their own website
       items.push(Gateway.T_CONFIG.HOSTING);
     } else {
@@ -336,7 +337,7 @@ export class Gateway extends Controller {
     }
     items.push(Gateway.T_CONFIG.PROFILE);
     items.push(Gateway.T_CONFIG.ACCOUNT);
-    if (window.dba.Account?.isBetaTester() || WebConfig.isDevSite()) {
+    if (Account.isBetaTester() || WebConfig.isDevSite()) {
       items.push(Gateway.T_CONFIG.CART);
     }
     return items;
@@ -359,7 +360,7 @@ export class Gateway extends Controller {
     items.push(Gateway.T_CONFIG.HOSTING);
     items.push(Gateway.T_CONFIG.PROFILE);
     items.push(Gateway.T_CONFIG.ACCOUNT);
-    if (window.dba.Account?.isBetaTester() || WebConfig.isDevSite()) {
+    if (Account.isBetaTester() || WebConfig.isDevSite()) {
       items.push(Gateway.T_CONFIG.CART);
     }
     items.push(Gateway.T_CONFIG.CONFIG);
@@ -450,7 +451,7 @@ export class Gateway extends Controller {
     case ID.SECTOR.PROFILE:
       vs = [ new View() ];
       f = new FvcUserInfo();
-      (f as FvcUserInfo).setUserId(window.dba.Account?.getId() || "");
+      (f as FvcUserInfo).setUserId(Account.getId() || "");
       vs[0].setContentFragment(f);
       break;
     case ID.SECTOR.HOSTING:

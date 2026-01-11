@@ -1,11 +1,12 @@
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { FDraftList } from './FDraftList.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FInsiderTaskDraftList extends FDraftList {
   _renderOnRender(render: Panel): void {
     let title = "Tasks";
-    if (window.dba?.Account?.isWebOwner) {
+    if (Account.isWebOwner) {
       title = "External tasks";
     }
     let pMain = new SectionPanel(title);

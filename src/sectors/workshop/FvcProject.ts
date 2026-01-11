@@ -44,6 +44,7 @@ import { Api } from '../../common/plt/Api.js';
 import type { Project as ProjectType } from '../../common/datatypes/Project.js';
 import type { ProjectActor as ProjectActorType } from '../../common/datatypes/ProjectActor.js';
 import type { ProjectStage } from '../../common/datatypes/ProjectStage.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcProject extends FScrollViewContent {
   private _fThumbnail: FilesThumbnailFragment;
@@ -136,10 +137,10 @@ export class FvcProject extends FScrollViewContent {
   }
 
   getActionButton(): ActionButton | null {
-    if (window.dba.Account.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       let project = this.#getProject();
       if (project && !project.isFinished() &&
-          project.isFacilitator(window.dba.Account.getId())) {
+          project.isFacilitator(Account.getId())) {
         return this._fBtnEdit;
       }
     }
@@ -174,7 +175,7 @@ export class FvcProject extends FScrollViewContent {
     let actions: Array<{name: string; type: string}> = [];
     let project = this.#getProject();
     if (project) {
-      actions = project.getActionsForUserOnActor(window.dba.Account.getId(), actor);
+      actions = project.getActionsForUserOnActor(Account.getId(), actor);
     }
 
     if (actions.length) {
@@ -313,7 +314,7 @@ export class FvcProject extends FScrollViewContent {
 
     this._fComments.setThreadId(project.getId(), project.getSocialItemType());
     this._fComments.setIsAdmin(
-        this.#isUserProjectAdmin(window.dba.Account.getId(), project));
+        this.#isUserProjectAdmin(Account.getId(), project));
 
     pp = new PanelWrapper();
     p.pushPanel(pp);
@@ -347,7 +348,7 @@ export class FvcProject extends FScrollViewContent {
         Utilities.renderStatus(project.getState(), project.getStatus()));
 
     p = panel.getProjectActionPanel();
-    let actions = project.getActionsForUser(window.dba.Account.getId());
+    let actions = project.getActionsForUser(Account.getId());
     if (actions.length) {
       this._fProjectActions.clearOptions();
       for (let a of actions) {
@@ -357,7 +358,7 @@ export class FvcProject extends FScrollViewContent {
       this._fProjectActions.render();
     }
 
-    let stages = project.getActionableStagesForUser(window.dba.Account.getId());
+    let stages = project.getActionableStagesForUser(Account.getId());
     if (stages.length == 0) {
       stages = project.getActiveStages();
     }
@@ -435,7 +436,7 @@ export class FvcProject extends FScrollViewContent {
     }
 
     if (!project.isFinished() && project.getAgents().length < MAX.N_AGENTS &&
-        project.isFacilitator(window.dba.Account.getId())) {
+        project.isFacilitator(Account.getId())) {
       p = new PanelWrapper();
       p.setClassName("left-pad5px");
       panel.pushPanel(p);

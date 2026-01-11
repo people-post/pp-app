@@ -17,6 +17,7 @@ import { FvcExplorer } from './FvcExplorer.js';
 import { FvcWeb3Report } from './FvcWeb3Report.js';
 import { R } from '../../common/constants/R.js';
 import { Env } from '../../common/plt/Env.js';
+import { Account } from '../../common/dba/Account.js';
 
 const _CG_BLOG = {
   NEWS : {ID : "NEWS", NAME : "News", ICON : ICON.EXPLORER},
@@ -53,14 +54,14 @@ export class Gateway implements SectorGateway {
 
   createMainViewContentFragment(): FViewContentBase {
     if (Env.isWeb3()) {
-      if (window.dba.Account.isAuthenticated()) {
+      if (Account.isAuthenticated()) {
         return this.#createMainViewContentFragmentForWeb3Owner();
       } else {
         return this.#createMainViewContentFragmentForWeb3Guest();
       }
     } else {
-      if (window.dba.Account.isAuthenticated()) {
-        if (window.dba.Account.isWebOwner()) {
+      if (Account.isAuthenticated()) {
+        if (Account.isWebOwner()) {
           return this.#createMainViewContentFragmentForOwner();
         } else {
           return this.#createMainViewContentFragmentForVisitor();
@@ -108,7 +109,7 @@ export class Gateway implements SectorGateway {
     f.addTab(this.#makeTabConfig(_CG_BLOG.NEWS), ff);
 
     ff = new FvcWeb3OwnerPosts();
-    ff.setOwnerId(window.dba.Account.getId());
+    ff.setOwnerId(Account.getId());
     f.addTab(this.#makeTabConfig(_CG_BLOG.OWNER), ff);
 
     ff = new FvcWeb3Report();

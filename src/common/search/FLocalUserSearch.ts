@@ -3,6 +3,7 @@ import { T_DATA } from '../plt/Events.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
 import { SearchResult } from '../datatypes/SearchResult.js';
 import { Users } from '../dba/Users.js';
+import { Account } from '../dba/Account.js';
 
 export class FLocalUserSearch extends FSearch {
   private _userIds: string[] | null = null;
@@ -43,7 +44,7 @@ export class FLocalUserSearch extends FSearch {
     content: { elements: unknown[] };
   } {
     // TODO: This return is a hack result
-    let nickname = window.dba.Account?.getUserNickname?.(userId, "...") || "...";
+    let nickname = Account.getUserNickname?.(userId, "...") || "...";
     return {
       id : userId,
       type : SocialItem.TYPE.USER,

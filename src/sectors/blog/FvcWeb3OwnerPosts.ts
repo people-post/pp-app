@@ -8,6 +8,7 @@ import { AbWeb3New } from './AbWeb3New.js';
 import type { ActionButton } from '../../common/gui/ActionButton.js';
 import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcWeb3OwnerPosts extends FScrollViewContent {
   #loader: OwnerWeb3PostIdLoader;
@@ -54,7 +55,7 @@ export class FvcWeb3OwnerPosts extends FScrollViewContent {
   handleSessionDataUpdate(dataType: string, data: unknown): void {
     switch (dataType) {
     case T_DATA.NEW_OWNER_POST:
-      if (window.dba?.Account && this.#loader.getOwnerId() == window.dba.Account.getId()) {
+      if (Account && this.#loader.getOwnerId() == Account.getId()) {
         this.#fPosts.reset();
       }
       break;

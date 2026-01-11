@@ -24,6 +24,7 @@ import { Env } from '../../common/plt/Env.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Post } from '../../common/datatypes/Post.js';
 import type { Article as ArticleType } from '../../common/datatypes/Article.js';
+import { Account } from '../../common/dba/Account.js';
 
 const _CPT_POST = {
   MAIN : `<div id="__ID_POST__"></div>
@@ -151,7 +152,7 @@ export class FvcPost extends FScrollViewContent {
     }
 
     let post = Blog.getPost(this.#postId);
-    let uid = window.dba.Account.getId();
+    let uid = Account.getId();
     return !!(uid && post && uid == post.getOwnerId());
   }
 
@@ -245,7 +246,7 @@ export class FvcPost extends FScrollViewContent {
     // Currently only owner can edit article
     // TODO: Support users with permissions, there are legal considerations
     let userIds = [ post.getOwnerId() ];
-    if (userIds.indexOf(window.dba.Account.getId()) < 0) {
+    if (userIds.indexOf(Account.getId()) < 0) {
       return false;
     }
     return true;
@@ -313,7 +314,7 @@ export class FvcPost extends FScrollViewContent {
     let tagIds = post.getCommentTags();
     if (tagIds.length > 0) {
       let isAdmin =
-          window.dba.Account.isWebOwner() && post.getOwnerId() == window.dba.Account.getId();
+          Account.isWebOwner() && post.getOwnerId() == Account.getId();
 
       this.#fTabbedComments = new FTabbedPane();
       this.#fTabbedComments.addPane({name : "All", value : "ALL"},
@@ -344,7 +345,7 @@ export class FvcPost extends FScrollViewContent {
     let ops: Array<{name: string; value: string}> = [];
 
     // User must be webOwner
-    if (!window.dba.Account.isWebOwner()) {
+    if (!Account.isWebOwner()) {
       return ops;
     }
 
@@ -354,7 +355,7 @@ export class FvcPost extends FScrollViewContent {
     }
 
     // Post owner must be user
-    if (post.getOwnerId() != window.dba.Account.getId()) {
+    if (post.getOwnerId() != Account.getId()) {
       return ops;
     }
 

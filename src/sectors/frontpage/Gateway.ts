@@ -7,6 +7,7 @@ import { FvcBlockchain } from './FvcBlockchain.js';
 import { Env } from '../../common/plt/Env.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class Gateway implements SectorGateway {
   isLoginRequired(): boolean { return false; }
@@ -20,8 +21,8 @@ export class Gateway implements SectorGateway {
   createPageEntryViews(_pageId: string): View[] { return []; }
   createPageOptionalViews(_pageId: string): View[] { return []; }
   createMainViewContentFragment(): Fragment {
-    if (window.dba.Account.isAuthenticated()) {
-      if (window.dba.Account.isWebOwner()) {
+    if (Account.isAuthenticated()) {
+      if (Account.isWebOwner()) {
         return this._createMainViewContentFragmentForOwner();
       } else {
         return this._createMainViewContentFragmentForVisitor();

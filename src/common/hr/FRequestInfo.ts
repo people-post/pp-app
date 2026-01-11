@@ -10,6 +10,7 @@ import { Events } from '../../lib/framework/Events.js';
 import { T_ACTION as PltT_ACTION } from '../plt/Events.js';
 import { Api } from '../plt/Api.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Account } from '../dba/Account.js';
 
 export const CF_REQUEST_INFO = {
   ACCEPT : "CF_GUI_REQUEST_INFO_1",
@@ -131,7 +132,7 @@ export class FRequestInfo extends Fragment {
     if (!uid) {
       return s;
     }
-    let nickname = window.dba?.Account?.getUserNickname?.(uid) || null;
+    let nickname = Account.getUserNickname?.(uid) || null;
     s = s.replace("__USER__",
                   Utilities.renderSmallButton("S.hr.CF_REQUEST_INFO.USER_INFO",
                                               uid, nickname || ""));
@@ -180,8 +181,8 @@ export class FRequestInfo extends Fragment {
   }
 
   #onRequestOperationRRR(data: { profile?: unknown }): void {
-    if (window.dba?.Account?.reset) {
-      window.dba.Account.reset(data.profile);
+    if (Account.reset) {
+      Account.reset(data.profile);
     }
   }
 

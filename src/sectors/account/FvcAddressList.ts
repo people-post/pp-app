@@ -10,6 +10,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Address as AddressType } from '../../common/datatypes/Address.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcAddressList extends FScrollViewContent {
   private _fItems: FSimpleFragmentList;
@@ -60,7 +61,7 @@ export class FvcAddressList extends FScrollViewContent {
   }
 
   _renderContentOnRender(render: Panel): void {
-    let ids = window.dba.Account.getAddressIds();
+    let ids = Account.getAddressIds();
     this._fItems.clear();
     for (let id of ids) {
       let f = new Address();
@@ -88,5 +89,5 @@ export class FvcAddressList extends FScrollViewContent {
     Api.asFragmentPost(this, url, fd).then((d: {address_ids: string[]}) => this.#onDeleteRRR(d));
   }
 
-  #onDeleteRRR(data: {address_ids: string[]}): void { window.dba.Account.resetAddressIds(data.address_ids); }
+  #onDeleteRRR(data: {address_ids: string[]}): void { Account.resetAddressIds(data.address_ids); }
 }

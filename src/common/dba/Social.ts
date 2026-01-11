@@ -4,6 +4,7 @@ import { Users } from './Users.js';
 import { SocialInfo } from '../datatypes/SocialInfo.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
+import { Account } from './Account.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -86,7 +87,7 @@ export class SocialClass implements SocialInterface {
 
     // Search from owner data
     // Note: asyncFindMark and asyncGetIdolIds are Web3-specific methods
-    const account = window.dba?.Account as unknown as { asyncFindMark?: (itemId: string) => Promise<{ like?: boolean; comments?: unknown[] } | null> };
+    const account = Account as unknown as { asyncFindMark?: (itemId: string) => Promise<{ like?: boolean; comments?: unknown[] } | null> };
     const m = account?.asyncFindMark ? await account.asyncFindMark(itemId) : null;
     if (m) {
       if (m.like) {
@@ -99,7 +100,7 @@ export class SocialClass implements SocialInterface {
     }
 
     // Search from all idols
-    const accountWithIdols = window.dba?.Account as unknown as { asyncGetIdolIds?: () => Promise<string[]> };
+    const accountWithIdols = Account as unknown as { asyncGetIdolIds?: () => Promise<string[]> };
     const ids = accountWithIdols.asyncGetIdolIds ? await accountWithIdols.asyncGetIdolIds() : [];
     let u;
     for (const id of ids) {

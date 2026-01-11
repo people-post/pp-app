@@ -4,6 +4,7 @@ import { FOrder } from './FOrder.js';
 import { FvcOrder } from './FvcOrder.js';
 import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
 import { Api } from '../../common/plt/Api.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FOrderList extends DefaultLongList {
   isOrderSelected(orderId: string): boolean { return this._currentId == orderId; }
@@ -55,7 +56,7 @@ export class FOrderList extends DefaultLongList {
 
       if (orders.length) {
         for (let o of orders) {
-          window.dba.Account.updateOrder(o);
+          Account.updateOrder(o);
           this._ids.push(o.getId());
         }
       } else {

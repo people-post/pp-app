@@ -34,6 +34,7 @@ import { R } from '../../common/constants/R.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import type { PProposalBase } from './PProposalBase.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface ProposalDataSource {
   isProposalSelectedInProposalFragment(f: FProposal, proposalId: string): boolean;
@@ -213,11 +214,11 @@ export class FProposal extends Fragment {
 
   #renderVote(proposal: Proposal, panel: Panel): void {
     let s: string;
-    let v = Votes.get(window.dba.Account.getId(), proposal.getId());
+    let v = Votes.get(Account.getId(), proposal.getId());
     if (v) {
       s = this.#renderUserVoteStatus(v.getValue());
     } else {
-      let rId = window.dba.Account.getRepresentativeId();
+      let rId = Account.getRepresentativeId();
       if (rId) {
         v = Votes.get(rId, proposal.getId());
       }
@@ -263,7 +264,7 @@ export class FProposal extends Fragment {
   #renderSubtitle(proposal: Proposal, panel: Panel): void {
     let s = _CFT_PROPOSAL.SUBTITLE;
     let userId = proposal.getAuthorId();
-    let nickname = window.dba.Account.getUserNickname(userId);
+    let nickname = Account.getUserNickname(userId);
     s = s.replace("__AUTHOR__", Utilities.renderSmallButton(
                                     "cmut.CF_PROPOSAL.USER_INFO", userId,
                                     nickname, "low-profile s-cinfotext bold"));

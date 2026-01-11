@@ -18,6 +18,7 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { FvcCurrent } from '../../sectors/cart/FvcCurrent.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {
@@ -109,7 +110,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
   }
 
   #getPageType(): symbol {
-    if (window.dba.Account?.isWebOwner()) {
+    if (Account.isWebOwner()) {
       if (Shop.isOpen()) {
         return FvcMain.#T_PAGE.OWNER_OPEN;
       } else {

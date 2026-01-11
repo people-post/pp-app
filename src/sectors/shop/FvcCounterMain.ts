@@ -9,6 +9,7 @@ import { Counter } from '../../common/dba/Counter.js';
 import { Gateway as AuthGateway } from '../../sectors/auth/Gateway.js';
 import type { UrlParam } from '../../common/constants/Constants.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcCounterMain extends FScrollViewContent {
   protected _fQueue: FWalkinQueue;
@@ -57,7 +58,7 @@ export class FvcCounterMain extends FScrollViewContent {
   }
 
   _renderContentOnRender(render: Render): void {
-    if (!window.dba.Account.isAuthenticated()) {
+    if (!Account.isAuthenticated()) {
       // TODO: Only allow users with permission to login
       return;
     }
@@ -71,7 +72,7 @@ export class FvcCounterMain extends FScrollViewContent {
 
   _onContentDidAppear(): void {
     super._onContentDidAppear();
-    if (!window.dba.Account.isAuthenticated()) {
+    if (!Account.isAuthenticated()) {
       this.#showLoginView();
       return;
     }

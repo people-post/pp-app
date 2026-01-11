@@ -21,6 +21,7 @@ import { Notifications } from '../../common/dba/Notifications.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { FRequestInfo } from '../../common/hr/FRequestInfo.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface BlogProfile {
   most_commented_articles: Array<{ uuid: string; title: string; count: number }>;
@@ -58,10 +59,10 @@ export class FvcReport extends FScrollViewContent {
   onClickInFPostStatisticsInfo(_fInfo: FPostStatisticsInfo, data: PostStatisticsData): void { this.#onViewPost(data.uuid); }
 
   getNextPostIdForPostContentFragment(_fvcPost: FvcPost): SocialItemId | null {
-    if (!window.dba?.Account) {
+    if (!Account) {
       return null;
     }
-    let profile = window.dba.Account.getBlogProfile() as BlogProfile | null;
+    let profile = Account.getBlogProfile() as BlogProfile | null;
     if (!profile) {
       return null;
     }
@@ -81,10 +82,10 @@ export class FvcReport extends FScrollViewContent {
   }
 
   getPreviousPostIdForPostContentFragment(_fvcPost: FvcPost): SocialItemId | null {
-    if (!window.dba?.Account) {
+    if (!Account) {
       return null;
     }
-    let profile = window.dba.Account.getBlogProfile() as BlogProfile | null;
+    let profile = Account.getBlogProfile() as BlogProfile | null;
     if (!profile) {
       return null;
     }
@@ -142,10 +143,10 @@ export class FvcReport extends FScrollViewContent {
       this._fRequestList.render();
     }
 
-    if (!window.dba?.Account) {
+    if (!Account) {
       return;
     }
-    let profile = window.dba.Account.getBlogProfile() as BlogProfile | null;
+    let profile = Account.getBlogProfile() as BlogProfile | null;
     if (profile) {
       let items = profile.most_commented_articles;
       if (items && items.length) {

@@ -7,6 +7,7 @@ import { Events } from '../../lib/framework/Events.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FvcAddIdol } from './FvcAddIdol.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcLegacyIdolList extends FScrollViewContent {
   protected _fList: SimpleLongListFragment;
@@ -26,7 +27,7 @@ export class FvcLegacyIdolList extends FScrollViewContent {
   }
 
   getActionButton(): ActionButton | null {
-    if (window.dba.Account.getId() == this._userId) {
+    if (Account.getId() == this._userId) {
       return this._fBtnAdd;
     }
     return null;

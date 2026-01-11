@@ -5,6 +5,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { FProduct } from './FProduct.js';
 import { FvcProductEditor } from './FvcProductEditor.js';
 import { Shop } from '../../common/dba/Shop.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcProduct extends FScrollViewContent {
   private _fBtnEdit: ActionButton;
@@ -23,9 +24,9 @@ export class FvcProduct extends FScrollViewContent {
 
   getUrlParamString(): string { return "id=" + this._fProduct.getProductId(); }
   getActionButton(): ActionButton | null {
-    if (window.dba.Account?.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       let p = Shop.getProduct(this._fProduct.getProductId());
-      if (p && p.isEditableByUser(window.dba.Account.getId())) {
+      if (p && p.isEditableByUser(Account.getId())) {
         return this._fBtnEdit;
       }
     }

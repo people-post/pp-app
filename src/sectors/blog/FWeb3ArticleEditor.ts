@@ -8,6 +8,7 @@ import { PWeb3ArticleEditor } from './PWeb3ArticleEditor.js';
 import { R } from '../../common/constants/R.js';
 import { dat } from 'pp-api';
 import type { Article } from '../../common/datatypes/Article.js';
+import { Account } from '../../common/dba/Account.js';
 
 const { OArticle, OAttachmentMeta } = dat;
 
@@ -117,7 +118,7 @@ export class FWeb3ArticleEditor extends Fragment {
     if (this.#isUploadBusy()) {
       this._owner.onLocalErrorInFragment(this, R.get("EL_FILE_UPLOAD_BUSY"));
     } else if (this.#validate()) {
-      if (window.dba.Account.hasPublished()) {
+      if (Account.hasPublished()) {
         this.#doSubmit();
       } else {
         this._confirmDangerousOperation(R.get("CONFIRM_FIRST_WEB3_POST"),
@@ -142,7 +143,7 @@ export class FWeb3ArticleEditor extends Fragment {
     oArticle.setId(this.#baseArticle.getId());
     oArticle.setTitle(this.#fTitle.getValue());
     oArticle.setContent(this.#fContent.getValue());
-    oArticle.setOwnerId(window.dba.Account.getId());
+    oArticle.setOwnerId(Account.getId());
     let jd = this.#fAttachment.getJsonData();
     if (jd) {
       let oMeta = new OAttachmentMeta();
@@ -158,7 +159,7 @@ export class FWeb3ArticleEditor extends Fragment {
   #validate(): boolean { return this.#fAttachment.validate(); }
 
   async #asSubmit(oArticle: OArticle): Promise<void> {
-    await window.dba.Account.asPublishArticle(oArticle);
+    await Account.asPublishArticle(oArticle);
     (this._delegate as any).onNewArticlePostedInArticleEditorFragment(this);
   }
 

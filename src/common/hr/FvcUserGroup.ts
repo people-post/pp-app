@@ -12,6 +12,7 @@ import { T_DATA, T_ACTION as PltT_ACTION } from '../plt/Events.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Api } from '../plt/Api.js';
 import { R } from '../constants/R.js';
+import { Account } from '../dba/Account.js';
 
 const _CF_USER_GROUP_CONTENT = {
   HEAD : `<div>
@@ -104,8 +105,8 @@ export class FvcUserGroup extends FScrollViewContent {
     this._fMembers.attachRender(pp.getContentPanel());
     this._fMembers.render();
 
-    if (window.dba.Account.isInGroup(group.getId()) &&
-        window.dba.Account.getId() != group.getOwnerId()) {
+    if (Account.isInGroup(group.getId()) &&
+        Account.getId() != group.getOwnerId()) {
       p.pushSpace(1);
       pp = new PanelWrapper();
       p.pushPanel(pp);
@@ -132,7 +133,7 @@ export class FvcUserGroup extends FScrollViewContent {
   }
 
   #onLeaveGroupRRR(data: { profile: unknown; web_config: unknown }): void {
-    window.dba.Account.reset(data.profile);
+    Account.reset(data.profile);
     WebConfig.reset(data.web_config);
     // @ts-expect-error - owner may have this method
     this._owner?.onContentFragmentRequestPopView?.(this);

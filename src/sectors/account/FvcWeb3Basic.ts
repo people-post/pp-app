@@ -7,6 +7,7 @@ import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FIconUploader } from '../../common/gui/FIconUploader.js';
 import { Env } from '../../common/plt/Env.js';
 import type { Panel as PanelType } from '../../lib/ui/renders/panels/Panel.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcWeb3Basic extends FScrollViewContent {
   #fName: FUserInfo;
@@ -38,7 +39,7 @@ export class FvcWeb3Basic extends FScrollViewContent {
   }
 
   _renderOnRender(render: PanelType): void {
-    if (!window.dba?.Account) {
+    if (!Account) {
       return;
     }
 
@@ -47,7 +48,7 @@ export class FvcWeb3Basic extends FScrollViewContent {
     let p = new PanelWrapper();
     pList.pushPanel(p);
 
-    this.#fName.setUserId(window.dba.Account.getId());
+    this.#fName.setUserId(Account.getId());
     this.#fName.attachRender(p);
     this.#fName.render();
 
@@ -55,7 +56,7 @@ export class FvcWeb3Basic extends FScrollViewContent {
       p = new Panel();
       pList.pushPanel(p);
       p.setClassName("ellipsis");
-      p.replaceContent("Public key:" + window.dba.Account.getPublicKey());
+      p.replaceContent("Public key:" + Account.getPublicKey());
 
       pList.pushSpace(1);
 
@@ -73,34 +74,34 @@ export class FvcWeb3Basic extends FScrollViewContent {
 
     p = new PanelWrapper();
     pList.pushPanel(p);
-    this.#fNickname.setValue(window.dba.Account.getNickname());
+    this.#fNickname.setValue(Account.getNickname());
     this.#fNickname.attachRender(p);
     this.#fNickname.render();
 
     p = new PanelWrapper();
     pList.pushPanel(p);
-    this.#fIcon.setIconUrl(window.dba.Account.getIconUrl());
+    this.#fIcon.setIconUrl(Account.getIconUrl());
     this.#fIcon.attachRender(p);
     this.#fIcon.render();
   }
 
   async #asyncUpdateNickname(value: string): Promise<void> {
-    if (!window.dba?.Account) {
+    if (!Account) {
       return;
     }
-    let d = window.dba.Account.getProfile();
+    let d = Account.getProfile();
     d.nickname = value;
-    const accountWithUpdate = window.dba.Account as unknown as { asUpdateProfile?: (profile: unknown, cids: string[]) => Promise<void> };
+    const accountWithUpdate = Account as unknown as { asUpdateProfile?: (profile: unknown, cids: string[]) => Promise<void> };
     if (accountWithUpdate.asUpdateProfile) {
       await accountWithUpdate.asUpdateProfile(d, []);
     }
   }
 
   async #asyncUpdateIconFile(file: File): Promise<void> {
-    if (!window.dba?.Account) {
+    if (!Account) {
       return;
     }
-    const accountWithUpload = window.dba.Account as unknown as { asUploadFile?: (file: File) => Promise<string>; asUpdateProfile?: (profile: unknown, cids: string[]) => Promise<void>; getProfile: () => { icon_cid?: string } };
+    const accountWithUpload = Account as unknown as { asUploadFile?: (file: File) => Promise<string>; asUpdateProfile?: (profile: unknown, cids: string[]) => Promise<void>; getProfile: () => { icon_cid?: string } };
     if (accountWithUpload.asUploadFile && accountWithUpload.asUpdateProfile) {
       let cid = await accountWithUpload.asUploadFile(file);
       let d = accountWithUpload.getProfile();

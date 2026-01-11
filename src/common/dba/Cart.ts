@@ -3,6 +3,7 @@ import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { CartItem } from '../datatypes/CartItem.js';
 import { Cart as CartDataType } from '../datatypes/Cart.js';
 import { Api } from '../plt/Api.js';
+import { Account } from './Account.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -64,7 +65,7 @@ export class CartClass implements CartInterface {
     }
     this.#isLoading = true;
     let url = '/api/cart/guest_draft_orders';
-    if (window.dba?.Account?.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       url = '/api/cart/draft_orders';
     }
     Api.asyncRawCall(url, (r) => this.#onLoadOrderItemsRRR(r), null);
@@ -77,7 +78,7 @@ export class CartClass implements CartInterface {
 
   asyncAddItem(productId: string, currencyId: string | null, specifications: string[], quantity: number): void {
     let url = '/api/cart/guest_add_item';
-    if (window.dba?.Account?.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       url = '/api/cart/add_item';
     }
     const fd = new FormData();
@@ -108,7 +109,7 @@ export class CartClass implements CartInterface {
 
   asyncChangeItemQuantity(itemId: string, delta: number): void {
     let url = '/api/cart/guest_update_item';
-    if (window.dba?.Account?.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       url = '/api/cart/update_item';
     }
     const fd = new FormData();

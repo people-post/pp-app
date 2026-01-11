@@ -5,6 +5,7 @@ import { View } from '../lib/ui/controllers/views/View.js';
 import { FvcCountdownAction } from '../common/gui/FvcCountdownAction.js';
 import { T_ACTION } from '../common/plt/Events.js';
 import { ID } from '../common/constants/Constants.js';
+import { Account } from '../common/dba/Account.js';
 
 export class WcGadget extends WcSession {
   onCountdownCancelledInCountdownContentFragment(_fvcCountdown: FvcCountdownAction): void {
@@ -51,8 +52,8 @@ export class WcGadget extends WcSession {
   #closeWindow(): void { window.close(); }
 
   #onProxyLoginSuccess(profile: any): void {
-    window.dba.Account.reset(profile);
-    if (window.dba.Account.hasDomain()) {
+    Account.reset(profile);
+    if (Account.hasDomain()) {
       // Auto close for any domain owners
       let v = new View();
       let f = new FvcCountdownAction(
@@ -66,7 +67,7 @@ export class WcGadget extends WcSession {
   }
 
   #onLoginSuccess(profile: any): void {
-    window.dba.Account.reset(profile);
+    Account.reset(profile);
     this._initLanguage();
     let f = this._getTopLayerFragment();
     f.init();

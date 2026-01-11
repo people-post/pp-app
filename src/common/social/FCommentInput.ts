@@ -12,6 +12,7 @@ import { dat } from 'pp-api';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Account } from '../dba/Account.js';
 
 const { OArticle } = dat;
 
@@ -71,7 +72,7 @@ export class FCommentInput extends Fragment {
   }
 
   #onPostMessage(message: string): void {
-    if (window.dba.Account.getId()) {
+    if (Account.getId()) {
       // User, ask to choose comment vs article
       this.#tmpMessage = message;
       this.#lc.clearOptions();
@@ -94,7 +95,7 @@ export class FCommentInput extends Fragment {
       f.setConfig({
         title : R.get("GUEST_NICKNAME_PROMPT"),
         hint : "Nickname",
-        value : window.dba.Account.getGuestName(),
+        value : Account.getGuestName(),
         isRequired : true
       });
       fvc.addInputCollector(f);
@@ -109,7 +110,7 @@ export class FCommentInput extends Fragment {
   }
 
   #postGuestComment(message: string, guestName: string): void {
-    window.dba.Account.setGuestName(guestName);
+    Account.setGuestName(guestName);
     this.#asyncPostGuestComment(message, guestName);
   }
 
@@ -159,10 +160,10 @@ export class FCommentInput extends Fragment {
     // Make article out of comment text.
     let oArticle = new OArticle();
     oArticle.setContent(message);
-    oArticle.setOwnerId(window.dba.Account.getId());
+    oArticle.setOwnerId(Account.getId());
     oArticle.markCreation();
 
-    await window.dba.Account.asComment(this.#threadId.getValue(), oArticle, asPost);
+    await Account.asComment(this.#threadId.getValue(), oArticle, asPost);
   }
 
   #asyncWeb2PostUserComment(message: string, asPost: boolean): void {

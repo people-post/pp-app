@@ -16,6 +16,7 @@ import { FvcCheckout } from './FvcCheckout.js';
 import { Gateway as AuthGateway } from '../auth/Gateway.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcCurrent extends FScrollViewContent {
   protected _fPayables: FSimpleFragmentList;
@@ -116,7 +117,7 @@ export class FvcCurrent extends FScrollViewContent {
       fd.append('item_ids', id);
     }
     let url = "/api/cart/guest_order_preview";
-    if (window.dba.Account.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       url = "/api/cart/order_preview";
     }
     Api.asFragmentPost(this, url, fd)
@@ -131,7 +132,7 @@ export class FvcCurrent extends FScrollViewContent {
   }
 
   #goCheckout(order: PreviewOrder): void {
-    if (window.dba.Account.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       let v = new View();
       let f = new FvcCheckout();
       f.setOrder(order as unknown as CustomerOrder);

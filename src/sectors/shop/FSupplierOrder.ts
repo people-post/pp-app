@@ -33,6 +33,7 @@ import { Events } from '../../lib/framework/Events.js';
 import type Render from '../../lib/ui/renders/Render.js';
 import { SupplierOrderPrivate } from '../../common/datatypes/SupplierOrderPrivate.js';
 import { Currency } from '../../common/datatypes/Currency.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface SupplierOrderDelegate {
   onSupplierOrderFragmentRequestShowOrder(f: FSupplierOrder, orderId: string | null): void;
@@ -305,7 +306,7 @@ export class FSupplierOrder extends Fragment {
   }
 
   #renderUserName(userId: string): string {
-    let nickname = window.dba.Account.getUserNickname(userId, "...");
+    let nickname = Account.getUserNickname(userId, "...");
     return Utilities.renderSmallButton(
         "shop.CF_SUPPLIER_ORDER_CONTENT.USER_INFO", userId, nickname,
         "low-profile s-cinfotext bold");

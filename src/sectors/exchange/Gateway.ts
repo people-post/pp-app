@@ -8,6 +8,7 @@ import { ICON } from '../../common/constants/Icons.js';
 import { Env } from '../../common/plt/Env.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class Gateway implements SectorGateway {
   isLoginRequired(): boolean { return false; }
@@ -32,7 +33,7 @@ export class Gateway implements SectorGateway {
 
   #createWeb2MainViewContentFragment(): Fragment {
     let f: Fragment;
-    if (window.dba.Account.isWebOwner()) {
+    if (Account.isWebOwner()) {
       f = new FViewContentMux();
 
       let ff = new FvcExchange();

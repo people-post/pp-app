@@ -16,6 +16,7 @@ import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
 import { sys } from 'pp-api';
 import type { SocialItemId } from '../datatypes/SocialItemId.js';
+import { Account } from './Account.js';
 
 type PostType = Article | FeedArticle | JournalIssue | Comment | EmptyPost;
 
@@ -75,7 +76,7 @@ export class BlogClass implements BlogInterface {
 
   isSocialEnabled(): boolean {
     if (Env.isWeb3()) {
-      return (window.dba?.Account?.isAuthenticated() || false);
+      return (Account.isAuthenticated() || false);
     } else {
       const c = this.#config;
       return !!(c && c.isSocialActionEnabled());

@@ -6,6 +6,7 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FChatGroupInfo } from './FChatGroupInfo.js';
 import { FvcChat } from './FvcChat.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcChatGroupList extends FScrollViewContent {
   protected _fList: FSimpleFragmentList;
@@ -25,8 +26,8 @@ export class FvcChatGroupList extends FScrollViewContent {
 
   _renderContentOnRender(render: Render): void {
     this._fList.clear();
-    if (window.dba?.Account) {
-      for (let id of window.dba.Account.getGroupIds()) {
+    if (Account) {
+      for (let id of Account.getGroupIds()) {
         let f = new FChatGroupInfo();
         f.setDelegate(this);
         f.setThreadId(id);

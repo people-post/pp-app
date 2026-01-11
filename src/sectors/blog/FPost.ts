@@ -25,6 +25,7 @@ import { Env } from '../../common/plt/Env.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Post } from '../../common/datatypes/Post.js';
 import type { Fragment as FragmentType } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Account } from '../../common/dba/Account.js';
 
 export const CF_POST = {
   TOGGLE_PIN : Symbol(),
@@ -141,7 +142,7 @@ export class FPost extends Fragment {
     }
 
     if (!post.getLinkTo() &&
-        this.#shouldShowApplyRoleAction(post, window.dba.Account.getId())) {
+        this.#shouldShowApplyRoleAction(post, Account.getId())) {
       p = panel.getJobAdPanel();
       this.#btnApply.attachRender(p);
       this.#btnApply.render();
@@ -222,12 +223,12 @@ export class FPost extends Fragment {
     if (!post.isPinnable()) {
       return;
     }
-    if (!window.dba.Account.isWebOwner()) {
+    if (!Account.isWebOwner()) {
       // Only web owner can pin
       return;
     }
 
-    if (window.dba.Account.getId() != post.getOwnerId()) {
+    if (Account.getId() != post.getOwnerId()) {
       // Only pin owner's post
       return;
     }

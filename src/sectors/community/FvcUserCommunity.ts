@@ -28,6 +28,7 @@ import { Users } from '../../common/dba/Users.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { FvcCreateCommunity } from './FvcCreateCommunity.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface UserCommunityDelegate {
   onNewProposalRequestedInUserCommunityContentFragment(f: FvcUserCommunity): void;
@@ -91,8 +92,8 @@ export class FvcUserCommunity extends FScrollViewContent {
         this._fOverview.attachRender(p);
         this._fOverview.render();
       } else {
-        if (window.dba.Account.isAuthenticated() &&
-            window.dba.Account.getId() == user.getId() &&
+        if (Account.isAuthenticated() &&
+            Account.getId() == user.getId() &&
             user.getId() == WebConfig.getOwnerId()) {
           p.replaceContent(_CFT_USER_COMMUNITY_CONTENT.BTN_CREATE);
         }

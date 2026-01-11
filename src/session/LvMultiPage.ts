@@ -10,6 +10,7 @@ import { ID } from '../common/constants/Constants.js';
 import { FHomeBtn } from './FHomeBtn.js'; 
 import { PMain } from './PMain.js';
 import { PageConfig } from '../common/plt/SectorGateway.js';
+import { Account } from '../common/dba/Account.js';
 
 export class LvMultiPage extends ViewLayer implements PageViewControllerOwner, PageViewControllerDataSource, PageViewControllerDelegate {
   #fBtnHome: FHomeBtn | null = null;
@@ -49,7 +50,7 @@ export class LvMultiPage extends ViewLayer implements PageViewControllerOwner, P
       this.#fBtnHome.detachRender();
     }
     this.onResize();
-    window.dba.Account?.asyncReload?.();
+    Account.asyncReload();
     super.init();
   }
 
@@ -83,7 +84,7 @@ export class LvMultiPage extends ViewLayer implements PageViewControllerOwner, P
   setSectorId(id: string | null): void { this._gateway.setSectorId(id); }
 
   onPageSwitchedInPageViewController(_pvc: PageViewController): void {
-    if (window.dba.Account?.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       Badge.checkPermission();
     }
   }

@@ -15,6 +15,7 @@ import { MainIconOperator } from '../../lib/ui/animators/MainIconOperator.js';
 import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
 import type { MenuItem } from '../../common/menu/MenuItem.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface WorkshopOwnerDelegate {
   onWorkshopOwnerFragmentRequestCreateProject(f: FvcOwner): void;
@@ -80,7 +81,7 @@ export class FvcOwner extends FScrollViewContent {
   getMenuFragments(): FHeaderMenu[] { return [ this.#fmMain, this.#fmSearch ]; }
 
   getActionButton(): ActionButton | null {
-    if (window.dba.Account.isAuthenticated() && window.dba.Account.isWebOwner()) {
+    if (Account.isAuthenticated() && Account.isWebOwner()) {
       return this.#fBtnNew;
     }
     return null;

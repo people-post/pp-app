@@ -4,6 +4,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Utilities as MessengerUtilities } from './Utilities.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import type { Panel as PanelType } from '../../lib/ui/renders/panels/Panel.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FChatHeader extends Fragment {
   protected _target: ChatTarget | null = null;
@@ -38,8 +39,8 @@ export class FChatHeader extends Fragment {
     if (this._target.isGroup()) {
       return MessengerUtilities.getGroupName(this._target.getId());
     } else {
-      if (window.dba?.Account) {
-        return window.dba.Account.getUserNickname(this._target.getId(), "Unknown user");
+      if (Account) {
+        return Account.getUserNickname(this._target.getId(), "Unknown user");
       }
       return "Unknown user";
     }

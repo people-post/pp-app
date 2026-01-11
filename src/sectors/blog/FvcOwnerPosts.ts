@@ -19,6 +19,7 @@ import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import type { MenuItem } from '../../common/datatypes/MenuItem.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcOwnerPosts extends FScrollViewContent {
   #currentMenuItem: MenuItem | null = null;
@@ -156,7 +157,7 @@ export class FvcOwnerPosts extends FScrollViewContent {
   handleSessionDataUpdate(dataType: string, data: unknown): void {
     switch (dataType) {
     case T_DATA.NEW_OWNER_POST:
-      if (window.dba?.Account && this.#loader.getOwnerId() == window.dba.Account.getId()) {
+      if (Account && this.#loader.getOwnerId() == Account.getId()) {
         this.#fPosts.reset();
       }
       break;

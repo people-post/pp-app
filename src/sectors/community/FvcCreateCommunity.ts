@@ -16,6 +16,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Users } from '../../common/dba/Users.js';
 import { Api } from '../../common/plt/Api.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcCreateCommunity extends FScrollViewContent {
   action(type: string | symbol, ..._args: unknown[]): void {
@@ -70,8 +71,8 @@ export class FvcCreateCommunity extends FScrollViewContent {
 
   #onSubmitRRR(data: unknown): void {
     let dataObj = data as { profile: unknown };
-    window.dba.Account.reset(dataObj.profile);
-    Users.reload(window.dba.Account.getId());
+    Account.reset(dataObj.profile);
+    Users.reload(Account.getId());
     this._owner.onContentFragmentRequestPopView(this);
   }
 }

@@ -5,6 +5,7 @@ import { Utilities } from '../Utilities.js';
 import { Events } from '../../lib/framework/Events.js';
 import { T_ACTION as PltT_ACTION } from '../plt/Events.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Account } from '../dba/Account.js';
 
 export const CF_USER_ID_INPUT = {
   USER_INFO : Symbol()
@@ -48,7 +49,7 @@ export class FUserIdInput extends Fragment {
     if (!this.#userId) {
       return "";
     }
-    let nickname = window.dba?.Account?.getUserNickname?.(this.#userId) || null;
+    let nickname = Account.getUserNickname?.(this.#userId) || null;
     return Utilities.renderSmallButton("S.hr.CF_USER_ID_INPUT.USER_INFO",
                                        this.#userId, nickname || "");
   }

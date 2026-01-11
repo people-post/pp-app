@@ -1,4 +1,5 @@
 import { Groups } from '../../common/dba/Groups.js';
+import { Account } from '../../common/dba/Account.js';
 
 export const Utilities = {
   getGroupName(groupId: string): string {
@@ -14,10 +15,10 @@ export const Utilities = {
 
     let items: string[] = [];
     for (let id of g.getMemberIds()) {
-      if (id == window.dba.Account.getId()) {
+      if (id == Account.getId()) {
         continue;
       }
-      let nn = window.dba.Account.getUserNickname(id, null);
+      let nn = Account.getUserNickname(id, null);
       if (nn && nn.length) {
         if (items.length > 3) {
           items.push("...");

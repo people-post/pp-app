@@ -8,6 +8,7 @@ import { WebConfig } from '../dba/WebConfig.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { R } from '../constants/R.js';
 import { Api } from '../plt/Api.js';
+import { Account } from '../dba/Account.js';
 
 export const CF_LIVE_STREAM_CONFIG = {
   ADD_FILE : "CF_GUI_LIVE_STREAM_CONFIG_1",
@@ -138,7 +139,7 @@ export class LiveStreamConfigFragment extends Fragment {
   #renderInstructions(): string {
     let s = _CFT_LIVE_STREAM_CONFIG.INSTRUCTION;
     s = s.replace("__RTMP_URL__", WebConfig.getRtmpUrl() || "");
-    s = s.replace("__KEY__", (window.dba?.Account?.getLiveStreamKey() || "") || "");
+    s = s.replace("__KEY__", (Account.getLiveStreamKey() || "") || "");
     s = s.replace("__TIP_LINK__",
                   this._renderTipLink("gui.CF_LIVE_STREAM_CONFIG.SHOW_TIP",
                                       "how to", "TIP_LIVE_STREAM"));
@@ -152,7 +153,7 @@ export class LiveStreamConfigFragment extends Fragment {
   }
 
   #onRegenerateStreamKeyRRR(data: RegenerateKeyResponse): void {
-    window.dba?.Account?.setLiveStreamKey(data.live_stream_key);
+    Account.setLiveStreamKey(data.live_stream_key);
     this.render();
   }
 }

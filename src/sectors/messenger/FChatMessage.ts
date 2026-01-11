@@ -43,6 +43,7 @@ import { Groups } from '../../common/dba/Groups.js';
 import { Utilities } from '../../common/Utilities.js';
 import type { User } from '../../common/datatypes/User.js';
 import type { ChatTarget } from '../../common/datatypes/ChatTarget.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FChatMessage extends Fragment {
   protected _message: ChatMessage | null = null;
@@ -74,7 +75,7 @@ export class FChatMessage extends Fragment {
       return "";
     }
 
-    if (this._message.getFromUserId() == window.dba.Account.getId()) {
+    if (this._message.getFromUserId() == Account.getId()) {
       return this.#renderOwnerMessage();
     } else {
       return this.#renderSenderMessage();
@@ -116,7 +117,7 @@ export class FChatMessage extends Fragment {
   #renderMessageContentWithUserName(message: ChatMessage): string {
     let s = _CFT_CHAT_MESSAGE.GROUP_MSG_BODY;
     s = s.replace("__FROM_USER_NAME__",
-                  window.dba.Account.getUserNickname(message.getFromUserId()));
+                  Account.getUserNickname(message.getFromUserId()));
     s = s.replace("__TEXT__", this.#renderMessageContent(message));
     return s;
   }

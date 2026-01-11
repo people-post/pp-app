@@ -23,6 +23,7 @@ import { PProjectStage } from './PProjectStage.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Render } from '../../lib/ui/controllers/RenderController.js';
 import type { PProjectStageBase } from './PProjectStageBase.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface ProjectStageDelegate {
   onClickInProjectStageFragment(f: FProjectStage): void;
@@ -199,7 +200,7 @@ export class FProjectStage extends Fragment {
     }
     let project = Workshop.getProject(this._stage.getProjectId());
     if (project) {
-      return project.getActionsForUserInStage(window.dba.Account.getId(), this._stage);
+      return project.getActionsForUserInStage(Account.getId(), this._stage);
     }
     return [];
   }

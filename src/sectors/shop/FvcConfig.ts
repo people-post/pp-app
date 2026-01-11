@@ -32,6 +32,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { R } from '../../common/constants/R.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface ShopConfigDelegate {
   onShopConfigFragmentRequestAddTeam(f: FvcConfig): void;
@@ -108,7 +109,7 @@ export class FvcConfig extends FScrollViewContent {
   }
   getTeamForTeamFragment(_fTeam: FTeam, teamId: string): any { return Shop.getTeam(teamId); }
   getMenuForGuiMenuConfig(_fMenuConfig: MenuConfig): any {
-    let menus = Menus.get(ID.SECTOR.SHOP, window.dba.Account.getId());
+    let menus = Menus.get(ID.SECTOR.SHOP, Account.getId());
     return menus.length ? menus[0] : null;
   }
 

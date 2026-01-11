@@ -35,6 +35,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Env } from '../../common/plt/Env.js';
 import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface ExchangeItem {
   icon: string;
@@ -85,8 +86,8 @@ export class FExchangeItemInfo extends Fragment {
     s = s.replace("__ICON__", item.icon);
     s = s.replace("__NAME__", item.name);
     s = s.replace("__DETAIL__", this._renderDetail(item));
-    if (window.dba.Account.isAuthenticated()) {
-      if (window.dba.Account.isWebOwner() || Env.isTrustedSite() ||
+    if (Account.isAuthenticated()) {
+      if (Account.isWebOwner() || Env.isTrustedSite() ||
           WebConfig.isDevSite()) {
         s = s.replace("__ACTIONS__", this._renderActions(item));
       } else {
