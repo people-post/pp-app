@@ -16,7 +16,7 @@ export class SocialItem extends ServerDataObject {
     GROUP: 'GROUP',
     COMMENT: 'COMMENT',
     HASHTAG: 'HASHTAG',
-    INVALID: Symbol(), // Local, not synced
+    INVALID: "INVALID", // Local, not synced
   } as const;
 
   static readonly T_LAYOUT = {

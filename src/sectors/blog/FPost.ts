@@ -2,7 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FSocialBar } from '../../common/social/FSocialBar.js';
@@ -13,7 +13,7 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { Utilities } from '../../common/Utilities.js';
 import { ICON } from '../../common/constants/Icons.js';
-import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Events } from '../../lib/framework/Events.js';
 import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
 import { PPost } from './PPost.js';
 import { FArticle } from './FArticle.js';
@@ -28,12 +28,12 @@ import type { Fragment as FragmentType } from '../../lib/ui/controllers/fragment
 import { Account } from '../../common/dba/Account.js';
 
 export const CF_POST = {
-  TOGGLE_PIN : Symbol(),
+  TOGGLE_PIN : "CF_POST_1",
 } as const;
 
 const _CFT_POST = {
   PIN :
-      `<span class="__CLASS__" onclick="javascript:G.action(CF_POST.TOGGLE_PIN)">__ICON__</span>`,
+      `<span class="__CLASS__" onclick="javascript:G.action("${CF_POST.TOGGLE_PIN}")">__ICON__</span>`,
 } as const;
 
 export class FPost extends Fragment {
@@ -104,7 +104,7 @@ export class FPost extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_POST.TOGGLE_PIN:
       this.#onTogglePin();
@@ -115,7 +115,7 @@ export class FPost extends Fragment {
     }
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this.#postId) {
       return;
     }

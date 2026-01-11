@@ -2,7 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FAttachmentFile } from '../../lib/ui/controllers/fragments/FAttachmentFile.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { FGallery } from '../../common/gui/FGallery.js';
@@ -12,8 +12,7 @@ import { Groups } from '../../common/dba/Groups.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Utilities } from '../../common/Utilities.js';
-import type { Article } from '../../common/datatypes/Article.js';
-import type { PostInfoPanel } from './PPost.js';
+import { PostInfoPanel } from './PPost.js';
 
 export class FArticle extends Fragment {
   #fQuote: FQuoteElement;

@@ -1,6 +1,6 @@
 import { WebConfig } from './WebConfig.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
-import { BlogRole } from '../datatypes/BlogRole.js';
+import { BlogRole, BlogRoleData } from '../datatypes/BlogRole.js';
 import { Tag } from '../datatypes/Tag.js';
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
@@ -119,7 +119,7 @@ export class BlogClass implements BlogInterface {
     return this.#getRoles().map((r) => (r as { id: string }).id);
   }
 
-  hackGetOpenRoles(): unknown[] {
+  hackGetOpenRoles(): BlogRoleData[] {
     return this.#getOpenRoles();
   }
 
@@ -259,11 +259,11 @@ export class BlogClass implements BlogInterface {
     FwkEvents.trigger(PltT_DATA.BLOG_CONFIG, this.#config);
   }
 
-  #getRoles(): unknown[] {
+  #getRoles(): BlogRoleData[] {
     return WebConfig.getRoleDatasByTagId(Tag.T_ID.BLOG);
   }
 
-  #getOpenRoles(): unknown[] {
+  #getOpenRoles(): BlogRoleData[] {
     return this.#getRoles().filter((r) => (r as { is_open?: boolean }).is_open);
   }
 

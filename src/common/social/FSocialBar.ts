@@ -1,4 +1,5 @@
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
@@ -9,19 +10,21 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Utilities } from '../Utilities.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { URL_PARAM } from '../constants/Constants.js';
+import { R } from '../constants/R.js';
+import { ICON } from '../constants/Icons.js';
 import { FvcQuoteEditor } from '../../sectors/blog/FvcQuoteEditor.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
 import { Account } from '../dba/Account.js';
 
 export const CF_SOCIAL_BAR = {
-  ON_COMMENT_CLICK : Symbol(),
-  LIKE : Symbol(),
-  UNLIKE : Symbol(),
-  LINK : Symbol(),
-  UNLINK : Symbol(),
-  SHARE : Symbol(),
-  SHOW_CONTEXT : Symbol(),
+  ON_COMMENT_CLICK : "CF_SOCIAL_BAR_1",
+  LIKE : "CF_SOCIAL_BAR_2",
+  UNLIKE : "CF_SOCIAL_BAR_3",
+  LINK : "CF_SOCIAL_BAR_4",
+  UNLINK : "CF_SOCIAL_BAR_5",
+  SHARE : "CF_SOCIAL_BAR_6",
+  SHOW_CONTEXT : "CF_SOCIAL_BAR_7",
 };
 
 const _CPT_SOCIAL_BAR = {
@@ -152,10 +155,10 @@ export class FSocialBar extends Fragment {
 
   onQuotePostedInQuoteEditorContentFragment(_fvcQuoteEditor: Fragment): void {
     Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
-    Events.trigger(T_DATA.NEW_OWNER_POST);
+    Events.trigger(T_DATA.NEW_OWNER_POST, this);
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol, data: unknown): void {
     switch (dataType) {
     case T_DATA.SOCIAL_INFO:
       if ((data as { getId(): string }).getId() == this.#itemId) {
@@ -198,7 +201,7 @@ export class FSocialBar extends Fragment {
     }
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this.#itemId) {
       return;
     }
@@ -218,11 +221,11 @@ export class FSocialBar extends Fragment {
       this.#renderAction(t, p, social);
     }
 
-    if (this.#actions.length > 0) {
+    if (pItems.size() > 0) {
       p = pItems.getPanel(0) as PSocialBarItem;
       p.setClassName("flex-grow flex flex-start center-align-items clickable");
-      if (this.#actions.length > 1) {
-        p = pItems.getPanel(this.#actions.length - 1) as PSocialBarItem;
+      if (pItems.size() > 1) {
+        p = pItems.getPanel(pItems.size() - 1) as PSocialBarItem;
         p.setClassName("flex-grow flex flex-end center-align-items clickable");
       }
     }
@@ -255,13 +258,13 @@ export class FSocialBar extends Fragment {
       return;
     }
     panel.setAttribute(
-        "onclick", "javascript:G.action(socl.CF_SOCIAL_BAR.ON_COMMENT_CLICK)");
+        "onclick", "javascript:G.action('" + CF_SOCIAL_BAR.ON_COMMENT_CLICK + "')");
     let p = panel.getIconPanel();
     p.replaceContent(
-        Utilities.renderSvgFuncIcon(C.ICON.COMMENT, this.#invertColor));
+        Utilities.renderSvgFuncIcon(ICON.COMMENT, this.#invertColor));
 
     p = panel.getLabelPanel();
-    p.replaceContent(UtilitiesExt.nToShortString(social.getNComments()));
+    p.replaceContent(UtilitiesExt.nToShortString(social?.getNComments() || 0));
   }
 
   #renderLike(panel: PSocialBarItem, social: ReturnType<typeof Social.get>): void {
@@ -269,46 +272,46 @@ export class FSocialBar extends Fragment {
       return;
     }
     let p = panel.getIconPanel();
-    if (social.isLiked()) {
+    if (social?.isLiked()) {
       panel.setAttribute("onclick",
-                         "javascript:G.action(socl.CF_SOCIAL_BAR.UNLIKE)");
+                         "javascript:G.action('" + CF_SOCIAL_BAR.UNLIKE + "')");
       p.replaceContent(
-          Utilities.renderSvgFuncIcon(C.ICON.HEART_SOLID, this.#invertColor));
+          Utilities.renderSvgFuncIcon(ICON.HEART_SOLID, this.#invertColor));
     } else {
       panel.setAttribute("onclick",
-                         "javascript:G.action(socl.CF_SOCIAL_BAR.LIKE)");
+                         "javascript:G.action('" + CF_SOCIAL_BAR.LIKE + "')");
       p.replaceContent(
-          Utilities.renderSvgFuncIcon(C.ICON.HEART_HOLLOW, this.#invertColor));
+          Utilities.renderSvgFuncIcon(ICON.HEART_HOLLOW, this.#invertColor));
     }
 
     p = panel.getLabelPanel();
-    p.replaceContent(UtilitiesExt.nToShortString(social.getNLikes()));
+    p.replaceContent(UtilitiesExt.nToShortString(social?.getNLikes() || 0));
   }
 
   #renderLink(panel: PSocialBarItem, social: ReturnType<typeof Social.get>): void {
     if (!panel) {
       return;
     }
-    if (social.isLinked()) {
+    if (social?.isLinked()) {
       panel.setAttribute("onclick",
-                         "javascript:G.action(socl.CF_SOCIAL_BAR.UNLINK)");
+                         "javascript:G.action('" + CF_SOCIAL_BAR.UNLINK + "')");
     } else {
       panel.setAttribute("onclick",
-                         "javascript:G.action(socl.CF_SOCIAL_BAR.LINK)");
+                         "javascript:G.action('" + CF_SOCIAL_BAR.LINK + "')");
     }
 
     let p = panel.getIconPanel();
     if (this.#invertColor) {
-      p.replaceContent(Utilities.renderSvgFuncIcon(C.ICON.REFRESH, true));
+      p.replaceContent(Utilities.renderSvgFuncIcon(ICON.REFRESH, true));
     } else {
-      if (social.isLinked()) {
-        p.replaceContent(Utilities.renderSvgFuncIcon(C.ICON.REFRESH));
+      if (social?.isLinked()) {
+        p.replaceContent(Utilities.renderSvgFuncIcon(ICON.REFRESH));
       } else {
-        p.replaceContent(Utilities.renderSvgIcon(C.ICON.REFRESH, "stkdimgray"));
+        p.replaceContent(Utilities.renderSvgIcon(ICON.REFRESH, "stkdimgray"));
       }
     }
     p = panel.getLabelPanel();
-    p.replaceContent(UtilitiesExt.nToShortString(social.getNLinks()));
+    p.replaceContent(UtilitiesExt.nToShortString(social?.getNLinks() || 0));
   }
 
   #renderShare(panel: PSocialBarItem, _social: ReturnType<typeof Social.get>): void {
@@ -316,10 +319,10 @@ export class FSocialBar extends Fragment {
       return;
     }
     panel.setAttribute("onclick",
-                       "javascript:G.action(socl.CF_SOCIAL_BAR.SHARE)");
+                       "javascript:G.action('" + CF_SOCIAL_BAR.SHARE + "')");
     let p = panel.getIconPanel();
     p.replaceContent(
-        Utilities.renderSvgFuncIcon(C.ICON.SHARE, this.#invertColor));
+        Utilities.renderSvgFuncIcon(ICON.SHARE, this.#invertColor));
   }
 
   #renderContext(panel: PSocialBarItem, _social: ReturnType<typeof Social.get>): void {
@@ -327,10 +330,10 @@ export class FSocialBar extends Fragment {
       return;
     }
     panel.setAttribute("onclick",
-                       "javascript:G.action(socl.CF_SOCIAL_BAR.SHOW_CONTEXT)");
+                       "javascript:G.action('" + CF_SOCIAL_BAR.SHOW_CONTEXT + "')");
     let p = panel.getIconPanel();
     p.replaceContent(
-        Utilities.renderSvgFuncIcon(C.ICON.CIRCLED_MORE, this.#invertColor));
+        Utilities.renderSvgFuncIcon(ICON.CIRCLED_MORE, this.#invertColor));
   }
 
   #onLike(): void {
@@ -352,9 +355,9 @@ export class FSocialBar extends Fragment {
   #onLink(): void {
     if (Account.isAuthenticated()) {
       this.#lc.setTargetName(R.get("repost"));
-      this.#lc.setDescription(null);
+      this.#lc.setDescription("");
       this.#lc.clearOptions();
-      this.#lc.addOption("Repost", "REPOST", C.ICON.REFRESH);
+      this.#lc.addOption("Repost", "REPOST", ICON.REFRESH);
       this.#lc.addOption("Quote", "QUOTE");
       Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lc,
                                   "Context");
@@ -366,9 +369,9 @@ export class FSocialBar extends Fragment {
   #onUnlink(): void {
     if (Account.isAuthenticated()) {
       this.#lc.setTargetName(R.get("repost"));
-      this.#lc.setDescription(null);
+      this.#lc.setDescription("");
       this.#lc.clearOptions();
-      this.#lc.addOption("Undo repost", "UNREPOST", C.ICON.REFRESH);
+      this.#lc.addOption("Undo repost", "UNREPOST", ICON.REFRESH);
       this.#lc.addOption("Quote", "QUOTE");
       Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lc,
                                   "Context");
@@ -388,7 +391,7 @@ export class FSocialBar extends Fragment {
     this.#lc.addOption("停止关注", "QUICK_COMMENT");
     this.#lc.addOption("提供图片", "QUICK_COMMENT");
     this.#lc.addOption("提供视频", "QUICK_COMMENT");
-    this.#lc.addOption("添加批注", "AUDIO_COMMENT", C.ICON.MIC);
+    this.#lc.addOption("添加批注", "AUDIO_COMMENT", ICON.MIC);
     Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lc,
                                 "Context");
   }

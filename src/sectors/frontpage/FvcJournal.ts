@@ -49,7 +49,7 @@ const _CPT_JOURNAL = {
   </div>`,
 } as const;
 
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';

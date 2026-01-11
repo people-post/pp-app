@@ -14,6 +14,12 @@ export interface FrameConfig {
   [key: string]: unknown;
 }
 
+export interface RoleData {
+  id?: string;
+  tag_ids?: string[];
+  [key: string]: unknown;
+}
+
 export interface WebConfigData {
   is_shop_open?: boolean;
   is_workshop_open?: boolean;
@@ -36,11 +42,7 @@ export interface WebConfigData {
     right?: FrameConfig;
   };
   tags?: Array<{ id?: string; [key: string]: unknown }>;
-  roles?: Array<{
-    id?: string;
-    tag_ids?: string[];
-    [key: string]: unknown;
-  }>;
+  roles?: Array<RoleData>;
   groups?: unknown;
   [key: string]: unknown;
 }
@@ -250,24 +252,22 @@ export class WebConfigClass implements WebConfigInterface {
     return null;
   }
 
-  getRoleDatasByTagId(tagId: string): unknown[] {
+  getRoleDatasByTagId(tagId: string): RoleData[] {
     // TODO: This is a hack, use objects
-    const ds: unknown[] = [];
+    const ds: RoleData[] = [];
     for (const d of this.#getRoleDatas()) {
-      const roleData = d as { tag_ids?: string[] };
-      if (roleData.tag_ids && roleData.tag_ids.indexOf(tagId) >= 0) {
+      if (d.tag_ids && d.tag_ids.indexOf(tagId) >= 0) {
         ds.push(d);
       }
     }
     return ds;
   }
 
-  getRoleData(id: string | null): unknown {
+  getRoleData(id: string | null): RoleData | null {
     // TODO: This is a hack, use object
     if (id) {
       for (const d of this.#getRoleDatas()) {
-        const roleData = d as { id?: string };
-        if (roleData.id === id) {
+        if (d.id === id) {
           return d;
         }
       }
@@ -345,7 +345,7 @@ export class WebConfigClass implements WebConfigInterface {
     Api.asyncRawPost(url, fd, (r) => this.#onUpdateGroupRRR(r), null);
   }
 
-  #getRoleDatas(): unknown[] {
+  #getRoleDatas(): RoleData[] {
     return this.#data && this.#data.roles ? this.#data.roles : [];
   }
 

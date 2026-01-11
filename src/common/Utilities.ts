@@ -85,7 +85,7 @@ class UtilitiesClass {
     return name;
   }
 
-  renderSvgIcon(tIcon: string, stroke: string | null, fill: string | null): string {
+  renderSvgIcon(tIcon: string, stroke: string | null = null, fill: string | null = null): string {
     let s = tIcon;
     s = s.replace(/__C_STROKE__/g, stroke ? stroke : "");
     s = s.replace(/__C_FILL__/g, fill ? fill : "");

@@ -1,4 +1,5 @@
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ICONS } from '../../lib/ui/Icons.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
@@ -34,7 +35,7 @@ import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import type { Article } from '../../common/datatypes/Article.js';
 
 export const CF_POST_INFO = {
-  ON_CLICK : Symbol(),
+  ON_CLICK : "CF_POST_INFO_1",
 } as const;
 
 const _CFT_POST_INFO = {
@@ -113,7 +114,7 @@ export class FPostInfo extends MajorSectorItem {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_POST_INFO.ON_CLICK:
       this.#onClick();
@@ -124,7 +125,7 @@ export class FPostInfo extends MajorSectorItem {
     }
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let post = Blog.getPost(this.#postId);
     let realPost = this.#getRealPost(post);
     if (!realPost) {
@@ -147,7 +148,7 @@ export class FPostInfo extends MajorSectorItem {
     if (this.#fPost && (this.#fPost as any).isInfoClickable && panel.isClickable()) {
       panel.setClassName("clickable");
       panel.setAttribute("onclick",
-                         "javascript:G.action(CF_POST_INFO.ON_CLICK)");
+                         `javascript:G.action("${CF_POST_INFO.ON_CLICK}")`);
     }
 
     render.wrapPanel(panel);

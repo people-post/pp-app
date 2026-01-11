@@ -13,11 +13,6 @@ declare global {
   }
 }
 
-if (typeof window !== 'undefined') {
-  window.CF_CHAT_INPUT_MENU = CF_CHAT_INPUT_MENU;
-  window._CFT_CHAT_INPUT_MENU = _CFT_CHAT_INPUT_MENU;
-}
-
 const _CFT_CHAT_INPUT_MENU = {
   ACTION_ICON :
       `<span class="inline-block s-icon3 clickable" onclick="javascript:G.action(__ACTION__)">__ICON__</span>`,
@@ -25,6 +20,11 @@ const _CFT_CHAT_INPUT_MENU = {
       `<span class="inline-block s-icon3 clickable" onclick="javascript:this.nextElementSibling.click()">__ICON__</span>
     <input type="file" style="display:none" onchange="javascript:G.action(CF_CHAT_INPUT_MENU.SEND_FILE, this)">`,
 } as const;
+
+if (typeof window !== 'undefined') {
+  window.CF_CHAT_INPUT_MENU = CF_CHAT_INPUT_MENU;
+  window._CFT_CHAT_INPUT_MENU = _CFT_CHAT_INPUT_MENU;
+}
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';

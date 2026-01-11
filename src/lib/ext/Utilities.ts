@@ -280,7 +280,7 @@ function _shuffle<T>(array: T[]): T[] {
   return array;
 }
 
-function _nToShortString(n: number): string | number {
+function _nToShortString(n: number): string {
   const lookup = [
     { value: 1e17, symbol: 'E' },
     { value: 1e14, symbol: 'P' },
@@ -290,7 +290,7 @@ function _nToShortString(n: number): string | number {
     { value: 1e2, symbol: 'k' },
   ];
   const item = lookup.find((i) => n >= i.value);
-  return item ? (n / 10 / item.value).toPrecision(2) + item.symbol : n;
+  return item ? (n / 10 / item.value).toPrecision(2) + item.symbol : n.toString();
 }
 
 function _timeDiffString(dt: number): string {

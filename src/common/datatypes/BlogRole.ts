@@ -1,6 +1,6 @@
 import { UserRole } from './UserRole.js';
 
-interface BlogRoleData {
+export interface BlogRoleData {
   status?: string;
   data?: {
     allowed_tag_ids?: string[];
