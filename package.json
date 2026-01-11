@@ -18,8 +18,12 @@
     "doc": "doc"
   },
   "scripts": {
-    "build": "node build.js",
-    "clean": "rm -rf obj",
+    "build": "npm run build:web2 && npm run build:web3 && npm run build:sw",
+    "build:web2": "vite build --config vite.config.web2.ts",
+    "build:web3": "node build-web3.js",
+    "build:sw": "node build-sw.js",
+    "dev:web2": "vite --config vite.config.web2.ts",
+    "clean": "rm -rf obj dist",
     "package": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "type-check": "tsc --noEmit",
@@ -35,9 +39,11 @@
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
+    "@vitejs/plugin-legacy": "^7.2.1",
     "cbor-x": "^1.6.0",
     "esbuild": "^0.19.12",
     "typescript": "^5.3.3",
+    "vite": "^7.3.1",
     "webrtc-adapter": "^9.0.0"
   },
   "engines": {
