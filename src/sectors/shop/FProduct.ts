@@ -31,6 +31,7 @@ import { FProductDelivery } from './FProductDelivery.js';
 import { Product } from '../../common/datatypes/Product.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface ProductDelegate {
   onClickInProductInfoFragment(f: FProduct, productId: string | null): void;
@@ -254,7 +255,7 @@ export class FProduct extends MajorSectorItem {
     }
 
     if (this._tLayout != this.constructor.T_LAYOUT.FULL &&
-        product.isEditableByUser(window.dba.Account.getId())) {
+        product.isEditableByUser(Account.getId())) {
       panel.replaceContent(_CFT_PRODUCT.EDIT_BUTTON);
       return;
     }

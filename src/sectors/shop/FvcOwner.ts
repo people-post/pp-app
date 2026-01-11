@@ -20,6 +20,7 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FvcCurrent } from '../../sectors/cart/FvcCurrent.js';
 import { Api } from '../../common/plt/Api.js';
+import { Account } from '../../common/dba/Account.js';
 
 declare global {
   var MainIconOperator: new () => { [key: string]: unknown };
@@ -90,8 +91,8 @@ export class FvcOwner extends FScrollViewContent {
   getMenuFragments(): FHeaderMenu[] { return [ this.#fmMain, this.#fmSearch ]; }
 
   getActionButton(): ActionButton | FCartButton | null {
-    if (window.dba.Account?.isAuthenticated()) {
-      if (window.dba.Account.isWebOwner()) {
+    if (Account.isAuthenticated()) {
+      if (Account.isWebOwner()) {
         return this.#fBtnNew;
       } else {
         return this.#fBtnCart;

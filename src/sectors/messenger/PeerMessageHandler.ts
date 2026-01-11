@@ -4,6 +4,7 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Signal } from '../../common/dba/Signal.js';
 import { STUN_URLS } from '../../common/constants/Constants.js';
 import type { ClientSignalData } from '../../common/datatypes/ClientSignal.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class PeerMessageHandler extends MessageHandler {
   protected _peerConnection: RTCPeerConnection | null = null;
@@ -67,7 +68,7 @@ export class PeerMessageHandler extends MessageHandler {
         this.#onIceGatheringStageChange(conn);
     conn.createOffer({offerToReceiveAudio : true}).then(offer => {
       conn.setLocalDescription(offer);
-      Signal.sendPeerConnectionOffer(window.dba.Account.getId(), toUserId, offer);
+      Signal.sendPeerConnectionOffer(Account.getId(), toUserId, offer);
     });
     return conn;
   }
@@ -82,7 +83,7 @@ export class PeerMessageHandler extends MessageHandler {
   #onIceConnectionStageChange(_conn: RTCPeerConnection): void {}
   #onIceCandidate(conn: RTCPeerConnection, e: RTCPeerConnectionIceEvent): void {
     if (e.candidate) {
-      Signal.sendIceCandidate(window.dba.Account.getId(), this._target.getId(),
+      Signal.sendIceCandidate(Account.getId(), this._target.getId(),
                                   e.candidate);
     }
   }
@@ -93,7 +94,7 @@ export class PeerMessageHandler extends MessageHandler {
       this._peerConnection.createAnswer().then(answer => {
         if (this._peerConnection) {
           this._peerConnection.setLocalDescription(answer);
-          Signal.sendPeerConnectionAnswer(window.dba.Account.getId(),
+          Signal.sendPeerConnectionAnswer(Account.getId(),
                                             this._target.getId(), answer);
         }
       });

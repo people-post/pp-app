@@ -4,6 +4,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface Web3Agent {
   getHostName(): string;
@@ -110,7 +111,7 @@ export class FvcWeb3ServerRegistration extends FScrollViewContent {
       if (!this.#agent) {
         return;
       }
-      window.dba.Account.asRegister(this.#agent, this.#fNameInput.getValue())
+      Account.asRegister(this.#agent, this.#fNameInput.getValue())
           .then(() => this.#onRegisterSuccess())
           .catch(e => this.#onRegisterError(e));
     }

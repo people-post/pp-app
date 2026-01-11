@@ -13,6 +13,7 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Env } from '../plt/Env.js';
 import { R } from '../constants/R.js';
+import { Account } from '../dba/Account.js';
 
 const _CPT_REAL_TIME_COMMENTS = {
   MAIN : `<div id="__ID_COMMENTS__"></div>
@@ -180,13 +181,13 @@ export class FRealTimeComments extends Fragment {
     if (isBottom) {
       this.#pMain.scrollToBottom();
     }
-    if (window.dba.Account?.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       this.#hComments.updateReadership(this.#isAdmin);
     }
   }
 
   #postMessage(message: string): void {
-    if (window.dba.Account?.getId()) {
+    if (Account.getId()) {
       this.#hComments.asyncPost(message);
     } else {
       // Guest
@@ -196,7 +197,7 @@ export class FRealTimeComments extends Fragment {
       f.setConfig({
         title : R.get("GUEST_NICKNAME_PROMPT"),
         hint : "Nickname",
-        value : window.dba.Account?.getGuestName?.() || "",
+        value : Account.getGuestName?.() || "",
         isRequired : true
       });
       fvc.addInputCollector(f);
@@ -211,7 +212,7 @@ export class FRealTimeComments extends Fragment {
   }
 
   #onPostComment(message: string, guestName: string): void {
-    window.dba.Account?.setGuestName?.(guestName);
+    Account.setGuestName?.(guestName);
     this.#hComments.asyncPost(message, guestName);
   }
 }

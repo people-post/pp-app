@@ -12,6 +12,7 @@ import { URL_PARAM } from '../constants/Constants.js';
 import { FvcQuoteEditor } from '../../sectors/blog/FvcQuoteEditor.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
+import { Account } from '../dba/Account.js';
 
 export const CF_SOCIAL_BAR = {
   ON_COMMENT_CLICK : Symbol(),
@@ -333,7 +334,7 @@ export class FSocialBar extends Fragment {
   }
 
   #onLike(): void {
-    if (window.dba.Account.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       this.#asyncLike(this.#itemId || "", this.#itemType || "");
     } else {
       this._displayMessage("LOGIN_BEFORE_LIKE");
@@ -341,7 +342,7 @@ export class FSocialBar extends Fragment {
   }
 
   #onUnlike(): void {
-    if (window.dba.Account.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       this.#asyncUnlike(this.#itemId || "");
     } else {
       this._displayMessage("LOGIN_BEFORE_LIKE");
@@ -349,7 +350,7 @@ export class FSocialBar extends Fragment {
   }
 
   #onLink(): void {
-    if (window.dba.Account.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       this.#lc.setTargetName(R.get("repost"));
       this.#lc.setDescription(null);
       this.#lc.clearOptions();
@@ -363,7 +364,7 @@ export class FSocialBar extends Fragment {
   }
 
   #onUnlink(): void {
-    if (window.dba.Account.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       this.#lc.setTargetName(R.get("repost"));
       this.#lc.setDescription(null);
       this.#lc.clearOptions();
@@ -466,7 +467,7 @@ export class FSocialBar extends Fragment {
     }
   }
 
-  async #asyncWeb3Like(itemId: string): Promise<void> { await window.dba.Account.asLike(itemId); }
+  async #asyncWeb3Like(itemId: string): Promise<void> { await Account.asLike(itemId); }
 
   #asyncWeb2Like(itemId: string, itemType: string): void {
     let url = "api/social/like";
@@ -484,7 +485,7 @@ export class FSocialBar extends Fragment {
     }
   }
 
-  async #asyncWeb3Unlike(itemId: string): Promise<void> { await window.dba.Account.asUnlike(itemId); }
+  async #asyncWeb3Unlike(itemId: string): Promise<void> { await Account.asUnlike(itemId); }
 
   #asyncWeb2Unlike(itemId: string): void {
     let url = "api/social/unlike";

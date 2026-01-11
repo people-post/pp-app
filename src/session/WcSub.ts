@@ -4,6 +4,7 @@ import { T_ACTION } from '../common/plt/Events.js';
 import { Notifications } from '../common/dba/Notifications.js';
 import { Env } from '../common/plt/Env.js';
 import { View } from '../lib/ui/controllers/views/View.js';
+import { Account } from '../common/dba/Account.js';
 
 export class WcSub extends WcSession {
   topAction(type: string | symbol, ...args: unknown[]): void {
@@ -32,7 +33,7 @@ export class WcSub extends WcSession {
   #onLoginSuccess(profile: unknown, nextView: View | undefined): void {
     let urlParam = new URLSearchParams(window.location.search);
 
-    window.dba.Account?.reset?.(profile);
+    Account.reset(profile);
     this._clearDbAgents();
 
     this._initLanguage();

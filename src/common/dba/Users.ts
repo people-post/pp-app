@@ -5,6 +5,7 @@ import { PATH } from '../constants/Constants.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
 import { User as PpUser } from 'pp-api';
+import { Account } from './Account.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -45,8 +46,8 @@ export class UserLib {
       return null;
     }
 
-    if (Env.isWeb3() && window.dba?.Account?.isAuthenticated() && window.dba.Account.getId() === id) {
-      return window.dba.Account as unknown as User;
+    if (Env.isWeb3() && Account.isAuthenticated() && Account.getId() === id) {
+      return Account.getImplementation() as unknown as User;
     }
 
     if (this.#mUsers.has(id)) {
@@ -58,8 +59,8 @@ export class UserLib {
   }
 
   async asyncGet(id: string): Promise<User | PpUser> {
-    if (Env.isWeb3() && window.dba?.Account?.isAuthenticated() && window.dba.Account.getId() === id) {
-      return window.dba.Account as unknown as User;
+    if (Env.isWeb3() && Account.isAuthenticated() && Account.getId() === id) {
+      return Account.getImplementation() as unknown as User;
     }
 
     if (!this.#mUsers.has(id)) {

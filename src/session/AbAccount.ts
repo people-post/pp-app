@@ -1,5 +1,6 @@
 import { Fragment } from '../lib/ui/controllers/fragments/Fragment.js';
 import { ActionButton } from '../common/gui/ActionButton.js';
+import { Account } from '../common/dba/Account.js';
 
 // ActionButton needs some redesign
 export class AbAccount extends Fragment {
@@ -34,7 +35,7 @@ export class AbAccount extends Fragment {
 
   _renderOnRender(render: ReturnType<typeof this.getRender>): void {
     let f: ActionButton;
-    if (window.dba.Account?.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       f = this._fLogout;
     } else {
       f = this._fLogin;

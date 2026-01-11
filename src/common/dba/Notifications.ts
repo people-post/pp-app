@@ -12,6 +12,7 @@ import { Signal } from './Signal.js';
 import { Badge } from './Badge.js';
 import { CHANNEL } from '../constants/Constants.js';
 import { Api } from '../plt/Api.js';
+import { Account } from './Account.js';
 
 interface NotificationsData {
   message_threads: Array<{
@@ -209,8 +210,8 @@ export class NotificationsClass implements NotificationsInterface {
   }
 
   reload(): void {
-    if (window.dba?.Account?.isAuthenticated()) {
-      const accountId = window.dba.Account.getId();
+    if (Account.isAuthenticated()) {
+      const accountId = Account.getId();
       if (accountId && !Signal.isChannelSet(CHANNEL.USER_INBOX)) {
         Signal.subscribe(CHANNEL.USER_INBOX, accountId, (m) => this.#handleSignal(m));
       }

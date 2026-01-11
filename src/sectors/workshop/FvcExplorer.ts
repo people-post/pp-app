@@ -9,6 +9,7 @@ import { URL_PARAM } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface ExplorerDelegate {
   onWorkshopExplorerFragmentRequestCreateProject(f: FvcExplorer): void;
@@ -60,7 +61,7 @@ export class FvcExplorer extends FScrollViewContent {
   hasHiddenTopBuffer(): boolean { return this.#fList.hasBufferOnTop(); }
 
   getActionButton(): ActionButton | null {
-    if (window.dba.Account.isAuthenticated() && window.dba.Account.isWebOwner()) {
+    if (Account.isAuthenticated() && Account.isWebOwner()) {
       return this.#fBtnNew;
     }
     return null;

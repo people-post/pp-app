@@ -27,6 +27,7 @@ import { FvcUserInfo } from '../sectors/hr/FvcUserInfo.js';
 import { FvcUserGroup } from '../common/hr/FvcUserGroup.js';
 import { Env } from '../common/plt/Env.js';
 import { Api } from '../common/plt/Api.js';
+import { Account } from '../common/dba/Account.js';
 
 const _CRCT_SESSION = {
   // Prime, secondary: User defined
@@ -111,7 +112,7 @@ export class WcSession extends WindowController {
     WebConfig.setBootTheme(
         {primary_color : primaryColor, secondary_color : secondaryColor});
     if (userId && userId.length > 0) {
-      window.dba.Account?.setUserId?.(userId);
+      Account.setUserId(userId);
     }
     let w = new PWindow();
     // ID value is synced with backend
@@ -242,7 +243,7 @@ export class WcSession extends WindowController {
     if (urlParam.has(URL_PARAM.LANGUAGE)) {
       Env.setPreferredLanguage(urlParam.get(URL_PARAM.LANGUAGE));
     }
-    let lang = window.dba.Account?.getPreferredLanguage?.();
+    let lang = Account.getPreferredLanguage();
     if (!lang) {
       lang = Env.getLanguage();
     }

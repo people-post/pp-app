@@ -15,6 +15,7 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FTeam } from './FTeam.js';
+import { Account } from '../../common/dba/Account.js';
 
 export interface FvcConfigDelegate {
   onWorkshopConfigFragmentRequestAddTeam(f: FvcConfig): void;
@@ -86,7 +87,7 @@ export class FvcConfig extends FScrollViewContent {
   }
 
   getMenuForGuiMenuConfig(_fMenuConfig: MenuConfig): any {
-    let menus = Menus.get(ID.SECTOR.WORKSHOP, window.dba.Account.getId());
+    let menus = Menus.get(ID.SECTOR.WORKSHOP, Account.getId());
     return menus.length ? menus[0] : null;
   }
 

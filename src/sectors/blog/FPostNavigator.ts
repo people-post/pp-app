@@ -8,6 +8,7 @@ import { FPost } from './FPost.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { Utilities } from './Utilities.js';
 import { FRealTimeComments } from '../../common/social/FRealTimeComments.js';
+import { Account } from '../../common/dba/Account.js';
 
 const _CPT_POST_NAVIGATOR = {
   MAIN : `<div id="__ID_POST__"></div>
@@ -192,9 +193,9 @@ class FPostNavigator extends Fragment {
       return;
     }
     this.#fComments.setThreadId(realPost.getId(), realPost.getSocialItemType());
-    if (window.dba?.Account) {
+    if (Account) {
       this.#fComments.setIsAdmin(
-          this.#isUserPostAdmin(window.dba.Account.getId(), realPost));
+          this.#isUserPostAdmin(Account.getId(), realPost));
     }
     this.#fComments.attachRender(panel);
     this.#fComments.render();

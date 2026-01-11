@@ -252,7 +252,7 @@ export class FvcWeb3Wallet extends FScrollViewContent {
   }
   async #onTransfer(): Promise<void> {
     this.#pBalance.replaceContent("Transfering fund ...");
-    this.#pBalance.replaceContent("Querying window.dba.Account...");
+    this.#pBalance.replaceContent("Querying Account...");
     var o = await this.#queryBalance(this.#input_addr);
     if (o.hasOwnProperty("inputs")) {
       this.#input_hashs = o.inputs;

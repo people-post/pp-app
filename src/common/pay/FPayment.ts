@@ -10,6 +10,7 @@ import { T_DATA } from '../plt/Events.js';
 import { Exchange } from '../dba/Exchange.js';
 import { Cart } from '../dba/Cart.js';
 import { Api } from '../plt/Api.js';
+import { Account } from '../dba/Account.js';
 
 const _CFT_PAYMENT = {
   TITLE : `<div class="payment-choice-title">__TEXT__</div>`,
@@ -128,7 +129,7 @@ export class FPayment extends Fragment {
 
   #asyncSubmitSquareOnlinePay(locationId: string, sourceId: string, orderId: string): void {
     let url = "/api/cart/guest_square_pay";
-    if (window.dba.Account?.isAuthenticated()) {
+    if (Account.isAuthenticated()) {
       url = "/api/cart/square_pay";
     }
     let fd = new FormData();

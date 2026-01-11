@@ -41,6 +41,7 @@ import { Events } from '../../lib/framework/Events.js';
 import { Users } from '../../common/dba/Users.js';
 import { Utilities } from '../../common/Utilities.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcGlobalCommunity extends FScrollViewContent {
   protected _userId: string | null = null;
@@ -107,7 +108,7 @@ export class FvcGlobalCommunity extends FScrollViewContent {
           return "Referred by: " +
                  Utilities.renderSmallButton(
                      "CF_GLOBAL_COMMUNITY_CONTENT.VIEW_USER", u.getId(),
-                     window.dba.Account.getUserNickname(u.getId(), u.getNickname()));
+                     Account.getUserNickname(u.getId(), u.getNickname()));
         }
       }
     }

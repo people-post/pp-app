@@ -7,6 +7,7 @@ import { FvcUserCommunity } from './FvcUserCommunity.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface CommunityMainDelegate {
   onNewProposalRequestedInUserCommunityContentFragment(f: FvcUserCommunity): void;
@@ -48,15 +49,15 @@ export class FvcMain extends FViewContentMux {
   #resetTabs(): void {
     this.clearContents();
     this.#fOverview.setUserId(WebConfig.getOwnerId());
-    this.#fProposals.setCommunityId(window.dba.Account.getCommunityId());
-    this.#fMemberList.setCommunityId(window.dba.Account.getCommunityId());
-    this.#fGlobal.setUserId(window.dba.Account.getId());
+    this.#fProposals.setCommunityId(Account.getCommunityId());
+    this.#fMemberList.setCommunityId(Account.getCommunityId());
+    this.#fGlobal.setUserId(Account.getId());
 
     this.addTab(
         {name : R.t("Overview"), value : "OVERVIEW", icon : ICON.COMMUNITY},
         this.#fOverview);
 
-    if (window.dba.Account.isInCommunity(WebConfig.getOwner().getCommunityId())) {
+    if (Account.isInCommunity(WebConfig.getOwner().getCommunityId())) {
       this.addTab(
           {name : R.t("Proposals"), value : "PROPOSALS", icon : ICON.ARTICLE},
           this.#fProposals);

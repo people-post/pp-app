@@ -32,6 +32,7 @@ import { BlogRole } from '../../common/datatypes/BlogRole.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcConfig extends FScrollViewContent {
   private _fInsiders: FRoleList;
@@ -127,7 +128,7 @@ export class FvcConfig extends FScrollViewContent {
   }
 
   getMenuForGuiMenuConfig(_fMenuConfig: MenuConfig): unknown {
-    let menus = Menus.get(ID.SECTOR.BLOG, window.dba.Account.getId());
+    let menus = Menus.get(ID.SECTOR.BLOG, Account.getId());
     return menus.length ? menus[0] : null;
   }
 

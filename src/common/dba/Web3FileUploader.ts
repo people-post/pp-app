@@ -1,5 +1,6 @@
 import { FileUploader } from '../plt/FileUploader.js';
 import { Api } from '../plt/Api.js';
+import { Account } from './Account.js';
 
 interface Web3FileUploaderDelegate {
   onFileUploadProgressUpdateInFileUploader(uploader: Web3FileUploader, percent: number): void;
@@ -39,16 +40,15 @@ export class Web3FileUploader extends FileUploader {
 
     // TODO: there is no progress track in fetch api, need to find p2p version
     // of XMLHttpRequest similar to p2pFetch
-    // Note: asUploadFile is a Web3-specific method that may not exist in Web2Account
-    const account = window.dba?.Account as unknown as { asUploadFile?: (file: File) => Promise<string> };
-    if (account.asUploadFile) {
-      account.asUploadFile(file)
+    // Note: asUploadFile is a Web3-specific method
+    if (Account.isWeb3Mode()) {
+      Account.asUploadFile(file)
         .then((cid: string) => this.#onUploadFileDone(cid))
         .finally(() => (this._isFileUploading = false));
     } else {
       // Fallback: mark as done if method doesn't exist
       this._isFileUploading = false;
-      console.warn('window.dba.Account.asUploadFile is not available');
+      console.warn('Account.asUploadFile is not available in Web2 mode');
     }
   }
 

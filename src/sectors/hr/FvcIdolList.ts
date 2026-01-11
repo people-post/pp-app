@@ -5,6 +5,7 @@ import { Web3UserIdolIdListLoader } from './Web3UserIdolIdListLoader.js';
 import { FUserList } from './FUserList.js';
 import { FvcAddIdol } from './FvcAddIdol.js';
 import { Env } from '../../common/plt/Env.js';
+import { Account } from '../../common/dba/Account.js';
 import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import type Render from '../../lib/ui/renders/Render.js';
 
@@ -35,7 +36,7 @@ export class FvcIdolList extends FScrollViewContent {
   }
 
   getActionButton(): ActionButton | null {
-    if (this.#idLoader && window.dba.Account.getId() == this.#idLoader.getUserId()) {
+    if (this.#idLoader && Account.getId() == this.#idLoader.getUserId()) {
       return this.#fBtnAdd;
     }
     return null;

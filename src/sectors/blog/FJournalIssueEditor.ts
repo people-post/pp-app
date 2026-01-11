@@ -55,6 +55,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { Api } from '../../common/plt/Api.js';
 import type { JournalIssueSection } from '../../common/datatypes/JournalIssueSection.js';
 import type { JournalIssue as JournalIssueType } from '../../common/datatypes/JournalIssue.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class PEditor extends Panel {
   #pIssueId: PanelWrapper;
@@ -382,7 +383,7 @@ export class FJournalIssueEditor extends Fragment {
       return [];
     }
     let ownerId = this.#journalIssue.getOwnerId();
-    if (window.dba.Account.getId() == ownerId && window.dba.Account.isWebOwner()) {
+    if (Account.getId() == ownerId && Account.isWebOwner()) {
       this.#tags = WebConfig.getTags();
       return this.#tags;
     } else {
@@ -433,7 +434,7 @@ export class FJournalIssueEditor extends Fragment {
     this.#renderContent(panel.getSectionListPanel(), this.#journalIssue);
 
     p = panel.getTagsPanel();
-    if (window.dba.Account.isWebOwner()) {
+    if (Account.isWebOwner()) {
       this.#fTags.setEnableNewTags(true);
     }
     this.#fTags.attachRender(p.getContentPanel());

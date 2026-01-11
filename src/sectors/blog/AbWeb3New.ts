@@ -10,6 +10,7 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { glb } from '../../lib/framework/Global.js';
 import { Env } from '../../common/plt/Env.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface Web3Agent {
   getHostName(): string;
@@ -41,7 +42,7 @@ export class AbWeb3New extends Fragment {
   }
 
   isAvailable(): boolean {
-    return window.dba?.Account?.isAuthenticated() || false;
+    return Account.isAuthenticated() || false;
   }
 
   onGuiActionButtonClick(_fButton: ActionButton): void { this.#onActionClick(); }
@@ -111,11 +112,11 @@ export class AbWeb3New extends Fragment {
   }
 
   #onPublisherAgentsChosen(agents: Web3Agent[]): void {
-    if (!window.dba?.Account) {
+    if (!Account) {
       return;
     }
     for (let a of agents) {
-      if (a.getInitUserId() != window.dba.Account.getId()) {
+      if (a.getInitUserId() != Account.getId()) {
         // Should not happen, but need to be handled
         console.error("Account id not match record in publisher agent");
         return;
@@ -125,7 +126,7 @@ export class AbWeb3New extends Fragment {
         return;
       }
     }
-    const accountWithPublishers = window.dba.Account as unknown as { setPublishers?: (agents: Web3Agent[]) => void };
+    const accountWithPublishers = Account as unknown as { setPublishers?: (agents: Web3Agent[]) => void };
     if (accountWithPublishers.setPublishers) {
       accountWithPublishers.setPublishers(agents);
     }
@@ -133,13 +134,13 @@ export class AbWeb3New extends Fragment {
   }
 
   #evaluateStorageAgents(): void {
-    if (!window.dba?.Account) {
+    if (!Account) {
       return;
     }
     const web3Storage = (typeof window !== 'undefined' && window.glb && (window.glb as { web3Storage?: { getAgents: (id: string) => Web3Agent[] } }).web3Storage) 
       ? (window.glb as { web3Storage: { getAgents: (id: string) => Web3Agent[] } }).web3Storage 
       : null;
-    const agents = web3Storage ? web3Storage.getAgents(window.dba.Account.getId()) : [];
+    const agents = web3Storage ? web3Storage.getAgents(Account.getId()) : [];
     if (agents.length > 0) {
       this.#onChooseStorageAgent(agents);
     } else {
@@ -162,10 +163,10 @@ export class AbWeb3New extends Fragment {
   }
 
   #onStorageAgentChosen(agent: Web3Agent): void {
-    if (!window.dba?.Account) {
+    if (!Account) {
       return;
     }
-    const accountWithStorage = window.dba.Account as unknown as { setStorage?: (agent: Web3Agent) => void };
+    const accountWithStorage = Account as unknown as { setStorage?: (agent: Web3Agent) => void };
     if (accountWithStorage.setStorage) {
       accountWithStorage.setStorage(agent);
     }

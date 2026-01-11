@@ -8,6 +8,7 @@ import { PBasic } from './PBasic.js';
 import { FvcChangePassword } from '../auth/FvcChangePassword.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Api } from '../../common/plt/Api.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface ConfigData {
   nickname: string;
@@ -75,13 +76,13 @@ export class FvcBasic extends FScrollViewContent {
   }
 
   #renderNickname(panel: Panel): void {
-    this._fNickname.setValue(window.dba.Account.getNickname());
+    this._fNickname.setValue(Account.getNickname());
     this._fNickname.attachRender(panel);
     this._fNickname.render();
   }
 
   #renderOptions(panel: Panel): void {
-    this._fOptions.setOption("BETA_TESTER", window.dba.Account.isBetaTester());
+    this._fOptions.setOption("BETA_TESTER", Account.isBetaTester());
     this._fOptions.attachRender(panel);
     this._fOptions.render();
   }
@@ -116,5 +117,5 @@ export class FvcBasic extends FScrollViewContent {
         .then(() => this.#onUpdateConfigRRR());
   }
 
-  #onUpdateConfigRRR(): void { window.dba.Account.asyncReload(); }
+  #onUpdateConfigRRR(): void { Account.asyncReload(); }
 };

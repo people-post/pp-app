@@ -7,6 +7,7 @@ import { TimeClock } from '../../common/datatypes/TimeClock.js';
 import { TimeClockRecord } from '../../common/datatypes/TimeClockRecord.js';
 import { CronJob } from '../../lib/ext/CronJob.js';
 import { Api } from '../../common/plt/Api.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FTimeClock extends Fragment {
   protected _fBtn: Button;
@@ -44,7 +45,7 @@ export class FTimeClock extends Fragment {
 
   _renderOnRender(render: any): void {
     if (!this._isInitialized) {
-      if (window.dba.Account.isAuthenticated()) {
+      if (Account.isAuthenticated()) {
         this._isInitialized = true;
         this.#asyncFetchClockStatus();
         return;
@@ -70,7 +71,7 @@ export class FTimeClock extends Fragment {
     p = new PanelWrapper();
     p.setClassName("w40 center-align");
     panel.pushPanel(p);
-    this._fBtn.setEnabled(window.dba.Account.isAuthenticated());
+    this._fBtn.setEnabled(Account.isAuthenticated());
     if (this._beeper.isSet()) {
       this._fBtn.setName("Out");
       this._fBtn.setValue("OUT");

@@ -31,6 +31,7 @@ import { SupplierOrderPublic } from '../../common/datatypes/SupplierOrderPublic.
 import { Currency } from '../../common/datatypes/Currency.js';
 import type { Render } from '../../lib/ui/controllers/RenderController.js';
 import type { POrderBase } from './POrderBase.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface OrderDataSource {
   getOrderForOrderFragment(f: FOrder, orderId: string | null): CustomerOrder | null;
@@ -92,7 +93,7 @@ export class FOrder extends Fragment {
   }
 
   _renderOnRender(render: Render): void {
-    let order = window.dba.Account.getOrder(this._orderId);
+    let order = Account.getOrder(this._orderId);
     if (!order) {
       return;
     }
@@ -221,7 +222,7 @@ export class FOrder extends Fragment {
 
   #renderShopNameInfo(order: CustomerOrder, panel: Panel): void {
     let userId = order.getShopId();
-    let name = window.dba.Account.getUserShopName(userId, "...");
+    let name = Account.getUserShopName(userId, "...");
     let s =
         Utilities.renderSmallButton("cart.CF_CUSTOMER_ORDER.USER_INFO", userId,
                                     name, "low-profile s-cinfotext bold");
@@ -230,7 +231,7 @@ export class FOrder extends Fragment {
 
   #renderShopName(order: CustomerOrder, panel: Panel): void {
     let userId = order.getShopId();
-    let name = window.dba.Account.getUserShopName(userId, "...");
+    let name = Account.getUserShopName(userId, "...");
     let s = "Shop: ";
     s += Utilities.renderSmallButton("cart.CF_CUSTOMER_ORDER.USER_INFO", userId,
                                      name, "low-profile s-cinfotext bold");

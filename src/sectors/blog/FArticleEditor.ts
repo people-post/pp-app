@@ -23,6 +23,7 @@ import { Api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
 import type { Article as ArticleType } from '../../common/datatypes/Article.js';
 import type { DraftArticle } from '../../common/datatypes/DraftArticle.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FArticleEditor extends Fragment {
   #fTitle: TextArea;
@@ -172,7 +173,7 @@ export class FArticleEditor extends Fragment {
       return [];
     }
     let ownerId = this.#baseArticle.getOwnerId();
-    if (window.dba.Account.getId() == ownerId && window.dba.Account.isWebOwner()) {
+    if (Account.getId() == ownerId && Account.isWebOwner()) {
       this.#tags = WebConfig.getTags();
       return this.#tags;
     } else {
@@ -236,7 +237,7 @@ export class FArticleEditor extends Fragment {
     this.#fContent.render();
 
     p = panel.getTagsPanel();
-    if (window.dba.Account.isWebOwner()) {
+    if (Account.isWebOwner()) {
       this.#fTags.setEnableNewTags(true);
     }
     this.#fTags.attachRender(p.getContentPanel());

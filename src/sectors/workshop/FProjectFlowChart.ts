@@ -19,6 +19,7 @@ import { R } from '../../common/constants/R.js';
 import { STATE } from '../../common/constants/Constants.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import type { Project } from '../../common/datatypes/Project.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface FlowChartDataSource {
   getProjectForFlowChartFragment(f: FProjectFlowChart): Project | null;
@@ -235,9 +236,9 @@ export class FProjectFlowChart extends Fragment {
 
   #onClickAtBegin(): void {
     let project = this._dataSource.getProjectForFlowChartFragment(this);
-    if (project && window.dba?.Account) {
+    if (project && Account) {
       let actions =
-          project.getActionsForUserInBeginTerminal(window.dba.Account.getId());
+          project.getActionsForUserInBeginTerminal(Account.getId());
       if (actions.length) {
         this.#showContextMenu(R.get("begin terminal"), actions);
       }
@@ -246,8 +247,8 @@ export class FProjectFlowChart extends Fragment {
 
   #onClickAtEnd(): void {
     let project = this._dataSource.getProjectForFlowChartFragment(this);
-    if (project && window.dba?.Account) {
-      let actions = project.getActionsForUserInEndTerminal(window.dba.Account.getId());
+    if (project && Account) {
+      let actions = project.getActionsForUserInEndTerminal(Account.getId());
       if (actions.length) {
         this.#showContextMenu(R.get("end terminal"), actions);
       }

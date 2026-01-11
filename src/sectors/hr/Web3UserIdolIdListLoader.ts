@@ -1,5 +1,6 @@
 import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
 import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class Web3UserIdolIdListLoader extends LongListIdLoader {
   #idRecord = new UniLongListIdRecord();
@@ -24,12 +25,12 @@ export class Web3UserIdolIdListLoader extends LongListIdLoader {
   }
 
   async #asyncLoadIdols(): Promise<void> {
-    if (!this.#userId || !window.dba?.Account) {
+    if (!this.#userId || !Account) {
       return;
     }
     // For Web3, get idol IDs from the account if it's the current user
-    if (window.dba.Account.getId() === this.#userId) {
-      const accountWithIdols = window.dba.Account as unknown as { asyncGetIdolIds?: () => Promise<string[]> };
+    if (Account.getId() === this.#userId) {
+      const accountWithIdols = Account as unknown as { asyncGetIdolIds?: () => Promise<string[]> };
       if (accountWithIdols.asyncGetIdolIds) {
         let ids = await accountWithIdols.asyncGetIdolIds();
         for (let id of ids) {

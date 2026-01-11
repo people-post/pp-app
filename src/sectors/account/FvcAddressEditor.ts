@@ -8,6 +8,7 @@ import { Address as AddressDBA } from '../../common/dba/Address.js';
 import { Address as AddressDataType } from '../../common/datatypes/Address.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Address } from '../../common/datatypes/Address.js';
+import { Account } from '../../common/dba/Account.js';
 
 export class FvcAddressEditor extends FScrollViewContent {
   #fAddress: AddressEditor;
@@ -102,7 +103,7 @@ export class FvcAddressEditor extends FScrollViewContent {
   }
 
   #onAddAddressRRR(data: {address_ids: string[]}): void {
-    window.dba.Account.resetAddressIds(data.address_ids);
+    Account.resetAddressIds(data.address_ids);
     this._owner.onContentFragmentRequestPopView(this);
   }
 }

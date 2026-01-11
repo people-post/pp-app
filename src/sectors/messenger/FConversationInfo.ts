@@ -1,6 +1,7 @@
 import { T_DATA } from '../../common/plt/Events.js';
 import { FChatThreadInfo } from './FChatThreadInfo.js';
 import { Users } from '../../common/dba/Users.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface ConversationInfoDelegate {
   onClickInConversationInfoFragment(f: FConversationInfo, threadId: string): void;
@@ -31,8 +32,8 @@ export class FConversationInfo extends FChatThreadInfo {
   }
 
   _renderTitle(): string {
-    if (window.dba?.Account) {
-      return window.dba.Account.getUserNickname(this._threadId, "Unknown user");
+    if (Account) {
+      return Account.getUserNickname(this._threadId, "Unknown user");
     }
     return "Unknown user";
   }

@@ -16,6 +16,7 @@ import { Users } from '../../common/dba/Users.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
+import { Account } from '../../common/dba/Account.js';
 import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcCareer extends FScrollViewContent {
@@ -131,9 +132,9 @@ export class FvcCareer extends FScrollViewContent {
   }
 
   #renderActions(role: UserRole, panel: PanelWrapper): void {
-    if (window.dba.Account.isRoleApplicationPending(role.getId())) {
+    if (Account.isRoleApplicationPending(role.getId())) {
       panel.replaceContent("Your application is pending approval.");
-    } else if (window.dba.Account.isInGroup(role.getId())) {
+    } else if (Account.isInGroup(role.getId())) {
       this._fBtnLeave.attachRender(panel);
       this._fBtnLeave.render();
     } else {
@@ -151,7 +152,7 @@ export class FvcCareer extends FScrollViewContent {
 
   #onApplyRoleRRR(data: unknown): void {
     let dataObj = data as { profile: unknown };
-    window.dba.Account.reset(dataObj.profile);
+    Account.reset(dataObj.profile);
     Events.triggerTopAction(T_ACTION.SHOW_NOTICE, this,
                                 R.get("ROLE_APPLICATION_SENT"));
   }
@@ -166,7 +167,7 @@ export class FvcCareer extends FScrollViewContent {
 
   #onResignRoleRRR(data: unknown): void {
     let dataObj = data as { profile: unknown; web_config: unknown };
-    window.dba.Account.reset(dataObj.profile);
+    Account.reset(dataObj.profile);
     WebConfig.reset(dataObj.web_config);
     this._owner.onContentFragmentRequestPopView(this);
   }

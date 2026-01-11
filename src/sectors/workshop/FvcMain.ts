@@ -17,6 +17,7 @@ import { FvcReport } from './FvcReport.js';
 import { FvcProjectEditor } from './FvcProjectEditor.js';
 import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { Api } from '../../common/plt/Api.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface FvcMainDelegate {
   onWorkshopConfigFragmentRequestAddTeam(f: FvcConfig): void;
@@ -115,7 +116,7 @@ export class FvcMain extends FViewContentWithHeroBanner implements FvcConfigDele
   }
 
   #getPageType(): symbol {
-    if (window.dba?.Account?.isWebOwner?.()) {
+    if (Account.isWebOwner?.()) {
       if (Workshop.isOpen()) {
         return FvcMain.T_PAGE.OWNER_OPEN;
       } else {

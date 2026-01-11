@@ -11,6 +11,7 @@ import { FvcProjectStageEditor } from './FvcProjectStageEditor.js';
 import { Project } from '../../common/datatypes/Project.js';
 import type Render from '../../lib/ui/renders/Render.js';
 import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface ProjectStageDelegate {
   onClickInProjectStageFragment(fStage: FProjectStage): void;
@@ -35,8 +36,8 @@ export class FvcProjectStage extends FScrollViewContent {
   }
 
   getActionButton(): ActionButton | null {
-    if (window.dba.Account.isAuthenticated()) {
-      if (this._fStage && this.#isEditableByUser(window.dba.Account.getId())) {
+    if (Account.isAuthenticated()) {
+      if (this._fStage && this.#isEditableByUser(Account.getId())) {
         return this._fBtnEdit;
       }
     }

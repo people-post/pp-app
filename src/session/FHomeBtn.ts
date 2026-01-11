@@ -3,6 +3,7 @@ import { T_DATA } from '../common/plt/Events.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
 import { Utilities } from '../common/Utilities.js';
 import Render from '../lib/ui/renders/Render.js';
+import { Account } from '../common/dba/Account.js';
 
 const _CFT_HOME_BTN = {
   ICON : `<div class="pad5px">
@@ -32,7 +33,7 @@ export class FHomeBtn extends FHeaderMenu {
   handleSessionDataUpdate(dataType: symbol, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILE:
-      if (data == WebConfig.getOwnerId() || data == (window.dba?.Account?.getId() || null)) {
+      if (data == WebConfig.getOwnerId() || data == (Account.getId() || null)) {
         this.render();
       }
       break;

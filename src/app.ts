@@ -17,8 +17,8 @@ import { Env } from './common/plt/Env.js';
 import { Api } from './common/plt/Api.js';
 import { Events } from './lib/framework/Events.js';
 import { TYPE } from './common/constants/Constants.js';
-import { Web2Account } from './common/dba/Web2Account.js';
 import { WcSession } from './session/WcSession.js';
+import { Account } from './common/dba/Account.js';
 
 // Set initial Api config
 Api.setConfig({
@@ -27,14 +27,15 @@ Api.setConfig({
   isTrustedSite: Env.isTrustedSite(),
 });
 
-// Initialize window.dba.Account for non-Web3 mode
-// (Web3 mode will replace this in WcWeb3.js)
+// Initialize window.dba.Account to use the Account wrapper
+// This maintains backwards compatibility for any code still using window.dba.Account
 if (typeof window !== 'undefined') {
   if (!window.dba) {
     window.dba = {};
   }
-  // @ts-expect-error - Web2Account implements the interface but TypeScript can't verify all methods match
-  window.dba.Account = new Web2Account();
+  // Point window.dba.Account to the Account singleton wrapper
+  // @ts-expect-error - Account wrapper implements the interface
+  window.dba.Account = Account;
 }
 
 interface GInterface {

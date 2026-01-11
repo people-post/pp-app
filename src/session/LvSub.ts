@@ -5,6 +5,7 @@ import { WebConfig } from '../common/dba/WebConfig.js';
 import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
 import { Api } from '../common/plt/Api.js';
 import { AbAccount } from './AbAccount.js';
+import { Account } from '../common/dba/Account.js';
 
 export class LvSub extends LvTabbedPage {
   initFromUrl(urlParam: URLSearchParams): void {
@@ -47,7 +48,7 @@ export class LvSub extends LvTabbedPage {
     }
     this._vc.initFromUrl(urlParam);
 
-    if (this._gateway.isLoginRequired() && !(window.dba?.Account?.isAuthenticated() || false)) {
+    if (this._gateway.isLoginRequired() && !(Account.isAuthenticated() || false)) {
       this.#onLogin();
     }
   }

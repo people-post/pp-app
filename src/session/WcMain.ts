@@ -13,6 +13,7 @@ import { Gateway as HrGateway } from '../sectors/hr/Gateway.js';
 import { Env } from '../common/plt/Env.js';
 import { AbAccount } from './AbAccount.js';
 import { Api } from '../common/plt/Api.js';
+import { Account } from '../common/dba/Account.js';
 
 export class WcMain extends WcSession {
   onLoginClickInAccountActionButtonFragment(_fAbAccount: AbAccount): void {
@@ -76,7 +77,7 @@ export class WcMain extends WcSession {
   #onLoginSuccess(profile: unknown, nextView: View | undefined): void {
     let urlParam = new URLSearchParams(window.location.search);
 
-    window.dba.Account?.reset?.(profile);
+    Account.reset(profile);
     this._clearDbAgents();
 
     this._initLanguage();

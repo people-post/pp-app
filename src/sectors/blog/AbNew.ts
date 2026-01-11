@@ -18,6 +18,7 @@ import { Blog } from '../../common/dba/Blog.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Api } from '../../common/plt/Api.js';
+import { Account } from '../../common/dba/Account.js';
 
 // ActionButton needs some redesign
 export class AbNew extends Fragment {
@@ -38,10 +39,10 @@ export class AbNew extends Fragment {
   }
 
   isAvailable(): boolean {
-    if (window.dba.Account.isAuthenticated()) {
-      if (window.dba.Account.isWebOwner() ||
+    if (Account.isAuthenticated()) {
+      if (Account.isWebOwner() ||
           Blog.getRoleIdsByType(BlogRole.T_ROLE.EXCLUSIVE)
-              .some(id => window.dba.Account.isInGroup(id))) {
+              .some(id => Account.isInGroup(id))) {
         return true;
       }
     }
@@ -82,8 +83,8 @@ export class AbNew extends Fragment {
   }
 
   #onClick(): void {
-    if (window.dba.Account.isWebOwner()) {
-      let gIds = window.dba.Account.getGroupIds();
+    if (Account.isWebOwner()) {
+      let gIds = Account.getGroupIds();
       if (!Groups.loadMissing(gIds)) {
         this.#showCreateOptions(gIds);
       } else {
@@ -98,7 +99,7 @@ export class AbNew extends Fragment {
   #onGroupDataReceived(): void {
     if (this.#isPendingChoices) {
       this.#isPendingChoices = false;
-      let gIds = window.dba.Account.getGroupIds();
+      let gIds = Account.getGroupIds();
       this.#showCreateOptions(gIds);
     }
   }
@@ -113,7 +114,7 @@ export class AbNew extends Fragment {
     }
 
     let ownerIds = Array.from(new Set(ids));
-    let journalIds = window.dba.Account.getJournalIds();
+    let journalIds = Account.getJournalIds();
     if (journalIds.length > 0) {
       // With journal
       if (ownerIds.length > 1) {
