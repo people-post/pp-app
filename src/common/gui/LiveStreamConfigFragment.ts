@@ -14,12 +14,12 @@ export const CF_LIVE_STREAM_CONFIG = {
   ADD_FILE : "CF_GUI_LIVE_STREAM_CONFIG_1",
   SHOW_TIP : "CF_GUI_LIVE_STREAM_CONFIG_2",
   REGENERATE_KEY : "CF_GUI_LIVE_STREAM_CONFIG_3",
-}
+} as const;
 
 const _CFT_LIVE_STREAM_CONFIG = {
   BTN_ADD_FILE :
       `<label class="s-font5" for="__ID__"><span class="icon-btn-wrapper inline-block s-icon1 clickable">__ICON__</span></label>
-    <input id="__ID__" type="file" accept="image/*" style="display:none" onchange="javascript:G.action(gui.CF_LIVE_STREAM_CONFIG.ADD_FILE, this)">`,
+    <input id="__ID__" type="file" accept="image/*" style="display:none" onchange="javascript:G.action('${CF_LIVE_STREAM_CONFIG.ADD_FILE}', this)">`,
   INSTRUCTION : `<table class="w100">
       <tbody>
         <tr>
@@ -30,7 +30,7 @@ const _CFT_LIVE_STREAM_CONFIG = {
         <tr>
           <td>Stream key:</td>
           <td>__KEY__</td>
-          <td><span class="button-like small s-primary" onclick="javascript:G.action(gui.CF_LIVE_STREAM_CONFIG.REGENERATE_KEY)">Regenerate</span></td>
+          <td><span class="button-like small s-primary" onclick="javascript:G.action('${CF_LIVE_STREAM_CONFIG.REGENERATE_KEY}')">Regenerate</span></td>
         </tr>
       </tbody>
     </table>
@@ -141,7 +141,7 @@ export class LiveStreamConfigFragment extends Fragment {
     s = s.replace("__RTMP_URL__", WebConfig.getRtmpUrl() || "");
     s = s.replace("__KEY__", (Account.getLiveStreamKey() || "") || "");
     s = s.replace("__TIP_LINK__",
-                  this._renderTipLink("gui.CF_LIVE_STREAM_CONFIG.SHOW_TIP",
+                  this._renderTipLink(CF_LIVE_STREAM_CONFIG.SHOW_TIP,
                                       "how to", "TIP_LIVE_STREAM"));
     return s;
   }

@@ -9,10 +9,10 @@ import { R } from '../constants/R.js';
 import { Tag } from '../datatypes/Tag.js';
 
 export const CF_TAGS_EDITOR = {
-  TOGGLE : Symbol(),
-  NEW_TAG : Symbol(),
-  REMOVE_EXTRA_TAG : Symbol(),
-};
+  TOGGLE : "CF_TAGS_EDITOR_1",
+  NEW_TAG : "CF_TAGS_EDITOR_2",
+  REMOVE_EXTRA_TAG : "CF_TAGS_EDITOR_3",
+} as const;
 
 const _CFT_TAGS_EDITOR = {
   MAIN : `<div>
@@ -20,11 +20,11 @@ const _CFT_TAGS_EDITOR = {
       <span id="ID_EXTRA_TAGS">__EXTRA_TAGS__</span>
     </div>`,
   BTN_NEW_TAG :
-      `<span class="button-like small s-primary" onclick="javascript:G.action(gui.CF_TAGS_EDITOR.NEW_TAG)">+New tag</span>`,
+      `<span class="button-like small s-primary" onclick="javascript:G.action('${CF_TAGS_EDITOR.NEW_TAG}')">+New tag</span>`,
   TAG :
-      `<span name="__NAME__" class="__CLASS__" value="__VALUE__" onclick="javascript:G.action(gui.CF_TAGS_EDITOR.TOGGLE, this)">__TEXT__</span>`,
+      `<span name="__NAME__" class="__CLASS__" value="__VALUE__" onclick="javascript:G.action('${CF_TAGS_EDITOR.TOGGLE}', this)">__TEXT__</span>`,
   EXTRA_TAG :
-      `<span class="tag selected">__TEXT__ <span class="button-like tiny" onclick="javascript:G.action(gui.CF_TAGS_EDITOR.REMOVE_EXTRA_TAG, '__VALUE__')">x</span></span>`,
+      `<span class="tag selected">__TEXT__ <span class="button-like tiny" onclick="javascript:G.action('${CF_TAGS_EDITOR.REMOVE_EXTRA_TAG}', '__VALUE__')">x</span></span>`,
 };
 
 export interface TagsEditorFragmentDataSource {

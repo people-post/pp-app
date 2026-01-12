@@ -1,12 +1,13 @@
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Fragment, FragmentOwner } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
 import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
 import { FAttachmentFileUploader } from '../../lib/ui/controllers/fragments/FAttachmentFileUploader.js';
 import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { VIS } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
@@ -53,7 +54,7 @@ export class FArticleEditor extends Fragment {
     this.setChild("content", this.#fContent);
 
     this.#fFiles = new FMultiMediaFileUploader();
-    this.#fFiles.setCacheIds([ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]);
+    this.#fFiles.setCacheIds([ "0", "1", "2", "3", "4", "5", "6", "7", "8" ]);
     this.#fFiles.setDataSource(this);
     this.#fFiles.setDelegate(this);
     this.setChild("files", this.#fFiles);
@@ -82,7 +83,7 @@ export class FArticleEditor extends Fragment {
     this.setChild("fileChoices", this.#fFileChoices);
 
     this.#fAttachment = new FAttachmentFileUploader();
-    this.#fAttachment.setCacheId(9);
+    this.#fAttachment.setCacheId("9");
     this.#fAttachment.setDelegate(this);
     this.setChild("attachment", this.#fAttachment);
 
@@ -177,13 +178,13 @@ export class FArticleEditor extends Fragment {
       this.#tags = WebConfig.getTags();
       return this.#tags;
     } else {
-      this.#asyncGetTags(ownerId);
+      this.#asyncGetTags(ownerId || "");
       return [];
     }
   }
 
   getInitialCheckedIdsForTagsEditorFragment(_fEditor: TagsEditorFragment): string[] {
-    return this.#baseArticle ? this.#baseArticle.getTagIds() : [];
+    return this.#baseArticle ? this.#baseArticle.getTagIds() || [] : [];
   }
 
   setArticle(baseArticle: ArticleType | DraftArticle): void { this.#baseArticle = baseArticle; }
@@ -199,56 +200,56 @@ export class FArticleEditor extends Fragment {
     super.handleSessionDataUpdate(dataType, _data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this.#baseArticle) {
       return;
     }
     let panel = new PArticleEditor();
     render.wrapPanel(panel);
-    let p = panel.getTitlePanel();
+    let pTitle = panel.getTitlePanel();
     this.#fTitle.setConfig({
       title : "Message",
       value : this.#baseArticle.getTitle(),
       hint : "",
       isRequred : false
     });
-    this.#fTitle.attachRender(p);
+    this.#fTitle.attachRender(pTitle);
     this.#fTitle.render();
 
-    p = panel.getFilesPanel();
+    let pFiles = panel.getFilesPanel();
     this.#fFiles.setToHrefFiles(this.#baseArticle.getFiles());
     if (this.#baseArticle.isDraft()) {
-      this.#fFileChoices.attachRender(p);
+      this.#fFileChoices.attachRender(pFiles);
       this.#fFileChoices.render();
     } else {
-      this.#fFiles.attachRender(p);
+      this.#fFiles.attachRender(pFiles);
       this.#fFiles.render();
     }
 
-    p = panel.getAttachmentPanel();
+    let pAttachment = panel.getAttachmentPanel();
     this.#fAttachment.resetToUrlFile(this.#baseArticle.getAttachment());
-    this.#fAttachment.attachRender(p);
+    this.#fAttachment.attachRender(pAttachment);
     this.#fAttachment.render();
 
-    p = panel.getContentPanel();
+    let pContent = panel.getContentPanel();
     this.#fContent.setConfig(
         {title : "Detail", value : this.#baseArticle.getContent(), hint : ""});
-    this.#fContent.attachRender(p);
+    this.#fContent.attachRender(pContent);
     this.#fContent.render();
 
-    p = panel.getTagsPanel();
+    let pTags = panel.getTagsPanel();
     if (Account.isWebOwner()) {
       this.#fTags.setEnableNewTags(true);
     }
-    this.#fTags.attachRender(p.getContentPanel());
+    this.#fTags.attachRender(pTags.getContentPanel());
     this.#fTags.render();
 
-    p = panel.getQuoteUrlPanel();
+    let pQuoteUrl = panel.getQuoteUrlPanel();
     this.#fQuote.setConfig({
       hint : "Paste url here",
       value : this.#baseArticle.getExternalQuoteUrl()
     });
-    this.#fQuote.attachRender(p);
+    this.#fQuote.attachRender(pQuoteUrl);
     this.#fQuote.render();
 
     this.#pQuotePreview = panel.getQuotePreviewPanel();
@@ -261,22 +262,22 @@ export class FArticleEditor extends Fragment {
       }
     }
 
-    p = panel.getOptionsPanel();
+    let pOptions = panel.getOptionsPanel();
     this.#fOptions.setOption("O_VIS",
                              this.#baseArticle.getVisibility() == VIS.PUBLIC);
-    this.#fOptions.attachRender(p.getContentPanel());
+    this.#fOptions.attachRender(pOptions.getContentPanel());
     this.#fOptions.render();
 
-    p = panel.getBtnListPanel();
-    let pp = new Panel();
-    p.pushPanel(pp);
+    let pBtnList = panel.getBtnListPanel();
+    let pp = new PanelWrapper();
+    pBtnList.pushPanel(pp);
     this.#fSubmit.attachRender(pp);
     this.#fSubmit.render();
 
     if (!this.#baseArticle.isDraft()) {
-      p.pushSpace(2);
-      pp = new Panel();
-      p.pushPanel(pp);
+      pBtnList.pushSpace(2);
+      pp = new PanelWrapper();
+      pBtnList.pushPanel(pp);
       this.#fDelete.attachRender(pp);
       this.#fDelete.render();
     }
@@ -288,7 +289,10 @@ export class FArticleEditor extends Fragment {
 
   #onSubmit(): void {
     if (this.#isUploadBusy()) {
-      this._owner.onLocalErrorInFragment(this, R.get("EL_FILE_UPLOAD_BUSY"));
+      const owner = this.getOwner<FragmentOwner>();
+      if (owner) {
+        owner.onLocalErrorInFragment(this, R.get("EL_FILE_UPLOAD_BUSY"));
+      }
     } else {
       this.#lockActionBtns();
       let data = this.#collectData();

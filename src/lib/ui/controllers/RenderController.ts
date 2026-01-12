@@ -6,7 +6,7 @@ import type Render from '../renders/Render.js';
 
 const _CRC_RENDER_CONTROLLER = {
   TIP_LINK :
-      `<a class="knowledge-tip" href="javascript:void(0)" onclick="javascript:G.action(__ACTION_ID__, '__TIP_MSG_ID__')">__TEXT__</a>`,
+      `<a class="knowledge-tip" href="javascript:void(0)" onclick="javascript:G.action('__ACTION_ID__', '__TIP_MSG_ID__')">__TEXT__</a>`,
   FATAL_MSG :
       `We are sorry, there is an unexpected error when __FUNC__: __TEXT__.`,
 } as const;

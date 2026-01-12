@@ -1,6 +1,7 @@
 import { Fragment } from './Fragment.js';
 import { SimpleProgress } from './SimpleProgress.js';
 import { Factory, T_CATEGORY, T_OBJ } from '../../../framework/Factory.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
 interface FileUploader {
   isBusy(): boolean;
@@ -63,7 +64,7 @@ export class FFileUploader extends Fragment {
     this._fProgress.render();
   }
 
-  _renderProgress(panel: any): void {
+  _renderProgress(panel: PanelWrapper): void {
     if (this._urlFile || this.#getOrInitUploader().isUploaded()) {
       this._fProgress.setValue(100);
     } else {

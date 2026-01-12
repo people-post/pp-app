@@ -45,7 +45,7 @@ export class OptionSwitch extends Fragment {
     this._optionMap = new Map();
   }
 
-  addOption(name: string, value: string, isOn: boolean): void {
+  addOption(name: string, value: string, isOn: boolean = false): void {
     this._optionMap.set(value, {"name" : name, "isOn" : isOn})
   }
   isOptionOn(value: string): boolean { 

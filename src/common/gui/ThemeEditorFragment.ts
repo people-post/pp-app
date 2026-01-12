@@ -5,7 +5,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export const CF_THEME_EDITOR = {
   ON_COLOR_CHANGE : "CF_GUI_THEME_EDITOR_1",
-};
+} as const;
 
 const _CFT_THEME_EDITOR = {
   ICON_PREVIEW : `<span class="menu-item-config-name">Icon preview:</span>
@@ -14,7 +14,7 @@ const _CFT_THEME_EDITOR = {
     </span>`,
   COLOR : `<span class="menu-item-config-name">__NAME__:</span>
     <span class="menu-item-config-text-input">
-      <input type="text" class="tight-label-like" value="__VALUE__" style="color: __COLOR__;background-color: __BG_COLOR__;" onchange="javascript:G.action(gui.CF_THEME_EDITOR.ON_COLOR_CHANGE, '__KEY__', this.value)">
+      <input type="text" class="tight-label-like" value="__VALUE__" style="color: __COLOR__;background-color: __BG_COLOR__;" onchange="javascript:G.action('${CF_THEME_EDITOR.ON_COLOR_CHANGE}', '__KEY__', this.value)">
     </span>`,
 };
 

@@ -4,6 +4,7 @@ import { ListPanel } from '../../renders/panels/ListPanel.js';
 import { Panel } from '../../renders/panels/Panel.js';
 import { ICONS } from '../../Icons.js';
 import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
 export const CF_ATTACHMENT_FILE_UPLOAD = {
   ADD_FILE : "CF_ATTACHMENT_FILE_UPLOAD_1",
@@ -88,7 +89,7 @@ export class FAttachmentFileUploader extends FFileUploader {
     }
   }
 
-  _renderOnRender(render: any): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -108,9 +109,9 @@ export class FAttachmentFileUploader extends FFileUploader {
       }
 
       // Progress
-      pp = new Panel();
-      p.pushPanel(pp);
-      this._renderProgress(pp);
+      const pProgress = new PanelWrapper();
+      p.pushPanel(pProgress);
+      this._renderProgress(pProgress);
     }
   }
 

@@ -1,5 +1,6 @@
 import { Fragment } from './Fragment.js';
 import { Panel } from '../../renders/panels/Panel.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
 const _CFT_SIMPLE_PROGRESS = {
   BAR :
@@ -28,7 +29,7 @@ export class SimpleProgress extends Fragment {
     this._percent = Math.floor(value);
   }
 
-  _renderOnRender(render: any): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new Panel();
     p.setClassName("simple-progress-bg");
     render.wrapPanel(p);

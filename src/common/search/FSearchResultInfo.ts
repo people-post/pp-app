@@ -1,6 +1,6 @@
 export const CF_SEARCH_RESULT_INFO = {
-  ON_CLICK : Symbol(),
-};
+  ON_CLICK : "CF_SEARCH_RESULT_INFO_1",
+} as const;
 
 const _CPT_SEARCH_RESULT_INFO = {
   TITLE_ONLY_MAIN : `<div class="search-result-info pad5px clickable">
@@ -166,7 +166,7 @@ export class FSearchResultInfo extends Fragment {
       this.#onClick();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
@@ -199,7 +199,7 @@ export class FSearchResultInfo extends Fragment {
       break;
     }
     p.setAttribute("onclick",
-                   "javascript:G.action(srch.CF_SEARCH_RESULT_INFO.ON_CLICK)");
+                   `javascript:G.action("${CF_SEARCH_RESULT_INFO.ON_CLICK}")`);
     return p;
   }
 
