@@ -2,40 +2,7 @@
  * Blog-related type definitions
  */
 
-/**
- * SocialItemId interface representing the public API of the SocialItemId class
- */
-export interface SocialItemId {
-  /**
-   * Get the value (ID) of the social item
-   * @returns The value as a string, or null if not available
-   */
-  getValue(): string | null;
-
-  /**
-   * Get the type of the social item
-   * @returns The type as a string, or null if not available
-   */
-  getType(): string | null;
-
-  /**
-   * Set the value (ID) of the social item
-   * @param v The value to set
-   */
-  setValue(v: string | null): void;
-
-  /**
-   * Set the type of the social item
-   * @param t The type to set
-   */
-  setType(t: string | null): void;
-
-  /**
-   * Convert the social item ID to an encoded string
-   * @returns The encoded string representation
-   */
-  toEncodedStr(): string;
-}
+import type { SocialItemId } from './basic.js';
 
 /**
  * BlogConfig data structure

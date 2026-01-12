@@ -1,6 +1,7 @@
 import { SocialItem } from './SocialItem.js';
+import type { SocialItemId as SocialItemIdType } from '../../types/basic.js';
 
-export class SocialItemId {
+export class SocialItemId implements SocialItemIdType {
   #value: string | null;
   #type: string | null;
 

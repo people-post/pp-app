@@ -2,7 +2,7 @@ import { UserBase } from './UserBase.js';
 import { BlogConfig } from './BlogConfig.js';
 import { ColorTheme } from './ColorTheme.js';
 import { URL_PARAM, ID } from '../constants/Constants.js';
-import type { User as UserType } from '../../types/User.js';
+import type { User as UserType } from '../../types/user.js';
 
 // Lazy import to avoid circular dependency
 // Use dynamic import with caching for synchronous access pattern

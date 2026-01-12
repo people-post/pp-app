@@ -1,5 +1,5 @@
-import type { ColorTheme } from './Basic.js';
-import type { BlogConfig } from './Blog.js';
+import type { ColorTheme } from './basic.js';
+import type { BlogConfig } from './blog.js';
 
 /**
  * Common interface for User objects returned by Users.

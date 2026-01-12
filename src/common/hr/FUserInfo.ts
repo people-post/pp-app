@@ -1,5 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import type { User as UserType } from '../../types/User.js';
+import type { User as UserType } from '../../types/user.js';
 import { FUserIcon, FUserIconDelegate } from './FUserIcon.js';
 import { PUserInfoCompactCell } from './PUserInfoCompactCell.js';
 import { PUserInfoMidsizeCell } from './PUserInfoMidsizeCell.js';

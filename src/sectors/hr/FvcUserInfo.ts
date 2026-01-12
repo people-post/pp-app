@@ -1,4 +1,4 @@
-import type { ColorTheme as ColorThemeType } from '../../types/Basic.js';
+import type { ColorTheme as ColorThemeType } from '../../types/basic.js';
 import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/FViewContentWithHeroBanner.js';
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import { View } from '../../lib/ui/controllers/views/View.js';

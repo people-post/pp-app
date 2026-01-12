@@ -1,7 +1,7 @@
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { User } from '../datatypes/User.js';
-import type { User as UserType } from '../../types/User.js';
+import type { User as UserType } from '../../types/user.js';
 import { PATH } from '../constants/Constants.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';

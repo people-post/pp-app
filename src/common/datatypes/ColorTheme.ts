@@ -1,5 +1,5 @@
 import Utilities from '../../lib/ext/Utilities.js';
-import type { ColorThemeData, ColorTheme as ColorThemeType } from '../../types/Basic.js';
+import type { ColorThemeData, ColorTheme as ColorThemeType } from '../../types/basic.js';
 
 export class ColorTheme implements ColorThemeType {
   #cWhite = '#FFF';
