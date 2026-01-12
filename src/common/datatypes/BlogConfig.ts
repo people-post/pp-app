@@ -1,15 +1,8 @@
 import { SocialItemId } from './SocialItemId.js';
 import { SocialItem } from './SocialItem.js';
+import type { BlogConfigData, BlogConfig as BlogConfigType } from '../../types/Blog.js';
 
-interface BlogConfigData {
-  is_social_action_enabled?: boolean;
-  pinned_items?: Array<{ id: string; type: string }>;
-  item_layout?: { type: string };
-  pinned_item_layout?: { type: string };
-  [key: string]: unknown;
-}
-
-export class BlogConfig {
+export class BlogConfig implements BlogConfigType {
   #pinnedIds: SocialItemId[] = [];
   protected _data: BlogConfigData;
 

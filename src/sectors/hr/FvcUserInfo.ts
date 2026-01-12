@@ -1,6 +1,6 @@
+import type { ColorTheme as ColorThemeType } from '../../types/Basic.js';
 import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/FViewContentWithHeroBanner.js';
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
-import { FragmentOwner } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
@@ -60,11 +60,11 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
   getUserId(): string | null { return this.#userId; }
   getTagIdsForPostListFragment(_fPostList: unknown): string[] { return []; }
 
-  getCustomTheme(): string | null {
+  getCustomTheme(): ColorThemeType | null {
     if (!WebConfig.isWebOwner(this.#userId)) {
       let u = Users.get(this.#userId);
       if (u) {
-        return u.getColorTheme();
+        return u.getColorTheme?.() || null;
       }
     }
     return null;
@@ -126,20 +126,20 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
     this.#fMain.addTab({name : "Blog", value : "BLOG", icon : ICON.BLOG},
                        this.#fBlog);
     let user = Users.get(this.#userId);
-    if (user && user.isWorkshopOpen()) {
+    if (user && user.isWorkshopOpen?.() === true) {
       this.#fMain.addTab(
           {name : "Workshop", value : "WORKSHOP", icon : ICON.WORKSHOP},
           this.#fWorkshop);
     }
 
     if (WebConfig.isDevSite()) {
-      if (user && user.isShopOpen()) {
+      if (user && user.isShopOpen?.() === true) {
         this.#fMain.addTab({name : "Shop", value : "SHOP", icon : ICON.SHOP},
                            this.#fShop);
       }
     }
 
-    if (user && user.getCommunityId()) {
+    if (user && user.getCommunityId?.() !== undefined) {
       this.#fMain.addTab(
           {name : "Community", value : "COMMUNITY", icon : ICON.COMMUNITY},
           this.#fCommunity);

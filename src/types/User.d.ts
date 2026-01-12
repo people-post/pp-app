@@ -1,4 +1,5 @@
 import type { ColorTheme } from './Basic.js';
+import type { BlogConfig } from './Blog.js';
 
 /**
  * Common interface for User objects returned by Users.
@@ -44,15 +45,29 @@ export interface User {
 
   /**
    * Get the user's color theme
-   * @returns The ColorTheme object, string (for PpUser), or null if not available
+   * @returns The ColorTheme object, or null if not available
    */
-  getColorTheme?(): ColorTheme | string | null;
+  getColorTheme?(): ColorTheme | null;
 
   /**
    * Get the user's background color
    * @returns The background color as a string, or empty string/null/undefined
    */
   getBackgroundColor?(): string | null | undefined;
+
+  getCommunityId?(): string | undefined;
+
+  getShopName?(): string | undefined;
+
+  getBlogConfig?(): BlogConfig | null;
+
+  getNIdols?(): number | undefined;
+
+  getNFollowers?(): number | undefined;
+
+  getImageUrl?(): string | undefined;
+
+  getBriefBiography?(): string | undefined;
 
   /**
    * Check if the user is following the current logged-in user

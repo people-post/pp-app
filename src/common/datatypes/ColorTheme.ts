@@ -1,11 +1,7 @@
 import Utilities from '../../lib/ext/Utilities.js';
+import type { ColorThemeData, ColorTheme as ColorThemeType } from '../../types/Basic.js';
 
-interface ColorThemeData {
-  primary_color: string;
-  secondary_color: string;
-}
-
-export class ColorTheme {
+export class ColorTheme implements ColorThemeType {
   #cWhite = '#FFF';
   #cDark = '#333';
   #cDimGray = '#696969';
