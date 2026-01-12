@@ -13,6 +13,12 @@ interface FileUploader {
   isUploaded(): boolean;
 }
 
+export interface FFileUploaderDelegate {
+  onFileUploadProgressUpdateInFileUploader(f: FFileUploader, percent: number): void;
+  onFileUploadErrorInFileUploader(f: FFileUploader, text: string): void;
+  onFileUploadFinished(f: FFileUploader): void;
+}
+
 export class FFileUploader extends Fragment {
   protected _fProgress: SimpleProgress;
   protected _uploader: FileUploader | null = null;

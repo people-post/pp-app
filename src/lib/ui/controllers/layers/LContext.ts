@@ -61,7 +61,7 @@ const _CL_CONTEXT = {
   TITLE : `__TITLE__:`,
 } as const;
 
-interface LContextDelegate {
+export interface LContextDelegate {
   onOptionClickedInContextLayer(l: LContext, value: unknown): void;
 }
 

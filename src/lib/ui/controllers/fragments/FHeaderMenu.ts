@@ -2,24 +2,21 @@ import { Fragment } from './Fragment.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
 export const CF_UI_HEADER_MENU = {
-  ON_CLICK : Symbol(),
+  ON_CLICK : "CF_UI_HEADER_MENU_1",
 };
-
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_UI_HEADER_MENU?: typeof CF_UI_HEADER_MENU;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_UI_HEADER_MENU = CF_UI_HEADER_MENU;
-}
 
 interface IconOperator {
   press(element: HTMLElement): void;
   release(element: HTMLElement, shouldAnimate: boolean): void;
+}
+
+export interface FHeaderMenuOwner {
+  onMenuFragmentRequestShowContent(f: FHeaderMenu, fContent: Fragment): void;
+  onMenuFragmentRequestCloseContent(f: FHeaderMenu): void;
+}
+
+export interface FHeaderMenuDelegate {
+  onClickInHeaderMenuFragment(f: FHeaderMenu): void;
 }
 
 export class FHeaderMenu extends Fragment {
@@ -47,15 +44,23 @@ export class FHeaderMenu extends Fragment {
     if (this.#isOpen) {
       return;
     }
+
+    if (!this.#fContent) {
+      return;
+    }
+
     if (this.#iconOperator && this.#pMain) {
       let e = this.#pMain.getDomElement();
       if (e) {
         this.#iconOperator.press(e);
       }
     }
-    if (this._owner) {
-      (this._owner as any).onMenuFragmentRequestShowContent(this, this.#fContent);
+
+    const owner = this.getOwner<FHeaderMenuOwner>();
+    if (owner) {
+      owner.onMenuFragmentRequestShowContent(this, this.#fContent);
     }
+
     this.#isOpen = true;
   }
 
@@ -63,25 +68,29 @@ export class FHeaderMenu extends Fragment {
     if (!this.#isOpen) {
       return;
     }
+
     if (this.#iconOperator && this.#pMain) {
       let e = this.#pMain.getDomElement();
       if (e) {
         this.#iconOperator.release(e, shouldAnimate);
       }
     }
-    if (this._owner) {
-      (this._owner as any).onMenuFragmentRequestCloseContent(this);
+
+    const owner = this.getOwner<FHeaderMenuOwner>();
+    if (owner) {
+      owner.onMenuFragmentRequestCloseContent(this);
     }
+
     this.#isOpen = false;
   }
 
-  action(type: symbol | string, ..._args: any[]): void {
+  action(type: symbol | string, ...args: any[]): void {
     switch (type) {
     case CF_UI_HEADER_MENU.ON_CLICK:
       this.#onClick();
       break;
     default:
-      super.action.apply(this, arguments as any);
+      super.action(type, ...args);
       break;
     }
   }
@@ -100,7 +109,7 @@ export class FHeaderMenu extends Fragment {
         this.#pMain.setClassName("clickable");
       }
       this.#pMain.setAttribute(
-          "onclick", "javascript:G.action(window.CF_UI_HEADER_MENU.ON_CLICK)");
+          "onclick", `javascript:G.action('${CF_UI_HEADER_MENU.ON_CLICK}')`);
       this.#isOpen = false;
       this.#pMain.replaceContent(this.#icon);
     } else {
@@ -118,8 +127,9 @@ export class FHeaderMenu extends Fragment {
     if (this.#fContent) {
       this.#toggleMenu();
     } else {
-      if (this._delegate && typeof (this._delegate as any).onClickInHeaderMenuFragment === 'function') {
-        (this._delegate as any).onClickInHeaderMenuFragment(this);
+      const delegate = this.getDelegate<FHeaderMenuDelegate>();
+      if (delegate) {
+        delegate.onClickInHeaderMenuFragment(this);
       }
     }
   }

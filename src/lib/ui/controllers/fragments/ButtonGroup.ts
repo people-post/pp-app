@@ -5,23 +5,11 @@ import { Panel } from '../../renders/panels/Panel.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
 export const CF_BUTTON_GROUP = {
-  ON_CLICK : Symbol(),
+  ON_CLICK : "CF_BUTTON_GROUP_1",
 };
 
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_BUTTON_GROUP?: typeof CF_BUTTON_GROUP;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_BUTTON_GROUP = CF_BUTTON_GROUP;
-}
-
 const _CFT_BUTTON_GROUP = {
-  F_ONCLICK : `javascript:G.action(window.CF_BUTTON_GROUP.ON_CLICK, __IDX__)`,
+  F_ONCLICK : `javascript:G.action('${CF_BUTTON_GROUP.ON_CLICK}', __IDX__)`,
   ICON_WRAPPER :
       `<span class="inline-block s-icon5 v-middle-align">__ICON__</span>`,
 } as const;
@@ -31,6 +19,10 @@ interface ChoiceInfo {
   value: string;
   icon?: string;
   fDetail?: Fragment | null;
+}
+
+export interface ButtonGroupDelegate {
+  onButtonGroupSelectionChanged(f: ButtonGroup, value: string | null): void;
 }
 
 export class ButtonGroup extends Fragment {
@@ -69,13 +61,13 @@ export class ButtonGroup extends Fragment {
     this._selectedIdx = null;
   }
 
-  action(type: symbol | string, ...args: any[]): void {
+  action(type: string | symbol, ...args: any[]): void {
     switch (type) {
     case CF_BUTTON_GROUP.ON_CLICK:
       this.#onClick(args[0]);
       break;
     default:
-      super.action.apply(this, arguments as any);
+      super.action(type, ...args);
       break;
     }
   }
@@ -85,13 +77,14 @@ export class ButtonGroup extends Fragment {
       return;
     }
     this._selectedIdx = idx;
-    if (this._delegate && typeof (this._delegate as any).onButtonGroupSelectionChanged === 'function') {
-      (this._delegate as any).onButtonGroupSelectionChanged(this, this.getSelectedValue());
+    const delegate = this.getDelegate<ButtonGroupDelegate>();
+    if (delegate) {
+      delegate.onButtonGroupSelectionChanged(this, this.getSelectedValue());
     }
     this.render();
   }
 
-  _renderOnRender(render: any): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new Panel();

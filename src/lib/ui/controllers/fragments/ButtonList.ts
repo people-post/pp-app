@@ -4,18 +4,6 @@ export const CF_BUTTON_LIST = {
   ONCLICK : "CF_BUTTON_LIST_1",
 } as const;
 
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_BUTTON_LIST?: typeof CF_BUTTON_LIST;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_BUTTON_LIST = CF_BUTTON_LIST;
-}
-
 const _CVT_BUTTON_LIST = {
   BTN :
       `<a class="button-bar __STYLE__" href="javascript:void(0)" onclick="javascript:G.action('${CF_BUTTON_LIST.ONCLICK}', __ID__)">__TEXT__</a>
@@ -26,6 +14,10 @@ interface ButtonConfig {
   text: string;
   func?: () => void;
   watchful: boolean;
+}
+
+export interface ButtonListDelegate {
+  onButtonClickedInButtonList(f: ButtonList, id: number): void;
 }
 
 export class ButtonList extends Fragment {
@@ -72,8 +64,9 @@ export class ButtonList extends Fragment {
       c.func();
     }
 
-    if (this._delegate && typeof (this._delegate as any).onButtonClickedInButtonList === "function") {
-      (this._delegate as any).onButtonClickedInButtonList(this, id);
+    const delegate = this.getDelegate<ButtonListDelegate>();
+    if (delegate) {
+      delegate.onButtonClickedInButtonList(this, id);
     }
   }
 }

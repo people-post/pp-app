@@ -1,14 +1,14 @@
 import { Fragment } from './Fragment.js';
-import { LContext } from '../layers/LContext.js';
-import { Button } from './Button.js';
+import { LContext, LContextDelegate } from '../layers/LContext.js';
+import { Button, ButtonDelegate } from './Button.js';
 import { FTimeInput } from './FTimeInput.js';
-import { FDateSelector } from './FDateSelector.js';
+import { FDateSelector, FDateSelectorDelegate } from './FDateSelector.js';
 import { ListPanel } from '../../renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { T_ACTION } from '../../../framework/Events.js';
 import { Events } from '../../../framework/Events.js';
 
-export class FDateTimeSelector extends Fragment {
+export class FDateTimeSelector extends Fragment implements LContextDelegate, ButtonDelegate, FDateSelectorDelegate {
   #lc: LContext;
   #fDate: FDateSelector;
   #fTime: FTimeInput;
@@ -85,6 +85,9 @@ export class FDateTimeSelector extends Fragment {
   }
 
   onSimpleButtonClicked(_fBtn: Button): void { this.#popupDateSelector(); }
+
+  onOptionClickedInContextLayer(_lContext: LContext, _value: unknown): void {
+  }
 
   _renderOnRender(render: any): void {
     let panel = new ListPanel();

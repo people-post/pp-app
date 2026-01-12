@@ -10,24 +10,17 @@ export const CF_ATTACHMENT_FILE_UPLOAD = {
   ADD_FILE : "CF_ATTACHMENT_FILE_UPLOAD_1",
 } as const;
 
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_ATTACHMENT_FILE_UPLOAD?: typeof CF_ATTACHMENT_FILE_UPLOAD;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_ATTACHMENT_FILE_UPLOAD = CF_ATTACHMENT_FILE_UPLOAD;
-}
-
 export const _CFT_ATTACHMENT_FILE_UPLOAD = {
   BTN_ADD_FILE : `<label class="s-font5" for="__ID__">
     <span class="icon-legacy inline-block s-icon3">__ICON__</span>
   </label>
-  <input id="__ID__" type="file" style="display:none" onchange="javascript:G.action(window.CF_ATTACHMENT_FILE_UPLOAD.ADD_FILE, this)">`,
+  <input id="__ID__" type="file" style="display:none" onchange="javascript:G.action('${CF_ATTACHMENT_FILE_UPLOAD.ADD_FILE}', this)">`,
 } as const;
+
+export interface FAttachmentFileUploaderDelegate {
+  onAttachmentFileUploadWillBegin(f: FAttachmentFileUploader): void;
+  onAttachmentFileUploadFinished(f: FAttachmentFileUploader): void;
+}
 
 export class FAttachmentFileUploader extends FFileUploader {
   protected _fName: TextInput;
@@ -73,19 +66,22 @@ export class FAttachmentFileUploader extends FFileUploader {
       this.#addFile(args[0]);
       break;
     default:
-      super.action.apply(this, arguments as any);
+      super.action(type, ...args);
       break;
     }
   }
 
   _onFileUploadWillBegin(): void {
-    if (this._delegate && typeof (this._delegate as any).onAttachmentFileUploadWillBegin === 'function') {
-      (this._delegate as any).onAttachmentFileUploadWillBegin(this);
+    const delegate = this.getDelegate<FAttachmentFileUploaderDelegate>();
+    if (delegate) {
+      delegate.onAttachmentFileUploadWillBegin(this);
     }
   }
+
   _onFileUploadFinished(): void {
-    if (this._delegate && typeof (this._delegate as any).onAttachmentFileUploadFinished === 'function') {
-      (this._delegate as any).onAttachmentFileUploadFinished(this);
+    const delegate = this.getDelegate<FAttachmentFileUploaderDelegate>();
+    if (delegate) {
+      delegate.onAttachmentFileUploadFinished(this);
     }
   }
 

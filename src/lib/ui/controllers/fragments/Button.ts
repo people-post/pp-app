@@ -1,29 +1,21 @@
 import { Fragment } from './Fragment.js';
 import { Utilities } from '../../../../common/Utilities.js';
 
-export const CF_UI_BUTTON = {
-  ON_CLICK : Symbol(),
+const CF_UI_BUTTON = {
+  ON_CLICK : "CF_UI_BUTTON_1",
 };
 
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_UI_BUTTON?: typeof CF_UI_BUTTON;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_UI_BUTTON = CF_UI_BUTTON;
-}
-
 const _CFT_UI_BUTTON = {
-  ACTION : "javascript:G.action(window.CF_UI_BUTTON.ON_CLICK)",
+  ACTION : `javascript:G.action('${CF_UI_BUTTON.ON_CLICK}')`,
 } as const;
 
 interface Theme {
   getPrimaryColor(): string;
   getSecondaryColor(): string;
+}
+
+export interface ButtonDelegate {
+  onSimpleButtonClicked(f: Button): void;
 }
 
 export class Button extends Fragment {
@@ -67,9 +59,7 @@ export class Button extends Fragment {
   action(type: symbol | string, ..._args: any[]): void {
     switch (type) {
     case CF_UI_BUTTON.ON_CLICK:
-      if (this._delegate && typeof (this._delegate as any).onSimpleButtonClicked === 'function') {
-        (this._delegate as any).onSimpleButtonClicked(this);
-      }
+      this.#onClick();
       break;
     default:
       super.action.apply(this, arguments as any);
@@ -208,6 +198,13 @@ export class Button extends Fragment {
       return "bd1px bdsolid bdlightgray s-cinfotext";
     default:
       return "s-cfuncbg s-csecondary";
+    }
+  }
+
+  #onClick(): void {
+    const delegate = this.getDelegate<ButtonDelegate>();
+    if (delegate) {
+      delegate.onSimpleButtonClicked(this);
     }
   }
 }

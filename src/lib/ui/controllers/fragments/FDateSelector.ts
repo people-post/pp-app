@@ -10,25 +10,13 @@ import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
 import { T_ACTION } from '../../../framework/Events.js';
 import { Events } from '../../../framework/Events.js';
 
-export const CF_DATE_SELECTOR = {
-  TODAY : Symbol(),
-  D_CHOOSE : Symbol(),
-  M_CHOOSE : Symbol(),
-  PREV : Symbol(),
-  NEXT : Symbol(),
+const CF_DATE_SELECTOR = {
+  TODAY : "CF_DATE_SELECTOR_1",
+  D_CHOOSE : "CF_DATE_SELECTOR_2",
+  M_CHOOSE : "CF_DATE_SELECTOR_3",
+  PREV : "CF_DATE_SELECTOR_4",
+  NEXT : "CF_DATE_SELECTOR_5",
 };
-
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_DATE_SELECTOR?: typeof CF_DATE_SELECTOR;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_DATE_SELECTOR = CF_DATE_SELECTOR;
-}
 
 const _CPT_DATE_SELECTOR = {
   MAIN : `<div class="v-pad5px flex space-between">
@@ -88,6 +76,11 @@ class PDateSelector extends Panel {
     this.#pDates.attach(this._getSubElementId("D"));
     this.#pActions.attach(this._getSubElementId("A"));
   }
+}
+
+export interface FDateSelectorDelegate {
+  onDateSelectorRequestClearDate(f: FDateSelector): void;
+  onDateSelectedInDateSelector(f: FDateSelector, date: Date): void;
 }
 
 export class FDateSelector extends Fragment {
@@ -173,21 +166,21 @@ export class FDateSelector extends Fragment {
 
     let p = panel.getMonthPanel();
     p.setAttribute("onclick",
-                   `javascript:G.action(window.CF_DATE_SELECTOR.M_CHOOSE)`);
+                   `javascript:G.action('${CF_DATE_SELECTOR.M_CHOOSE}')`);
     p.replaceContent(
         this.#date.toLocaleString([], {month : "2-digit", year : "numeric"}));
 
     p = panel.getBtnTodayPanel();
-    p.setAttribute("onclick", `javascript:G.action(window.CF_DATE_SELECTOR.TODAY)`);
+    p.setAttribute("onclick", `javascript:G.action('${CF_DATE_SELECTOR.TODAY}')`);
     p.replaceContent("Today");
 
     p = panel.getBtnPrevPanel();
-    p.setAttribute("onclick", `javascript:G.action(window.CF_DATE_SELECTOR.PREV)`);
+    p.setAttribute("onclick", `javascript:G.action('${CF_DATE_SELECTOR.PREV}')`);
     // TODO: Fix dependency of downstream utilities
     p.replaceContent(CommonUtilities.renderSvgFuncIcon(ICON.PREV));
 
     p = panel.getBtnNextPanel();
-    p.setAttribute("onclick", `javascript:G.action(window.CF_DATE_SELECTOR.NEXT)`);
+    p.setAttribute("onclick", `javascript:G.action('${CF_DATE_SELECTOR.NEXT}')`);
     // TODO: Fix dependency of downstream utilities
     p.replaceContent(CommonUtilities.renderSvgFuncIcon(ICON.NEXT));
 
@@ -225,7 +218,7 @@ export class FDateSelector extends Fragment {
         p.setClassName(names.join(" "));
         p.setAttribute(
             "onclick",
-            `javascript:G.action(window.CF_DATE_SELECTOR.D_CHOOSE, ${d})`);
+            `javascript:G.action('${CF_DATE_SELECTOR.D_CHOOSE}', ${d})`);
         pList.pushPanel(p);
         p.replaceContent(String(d));
       } else {
@@ -264,8 +257,9 @@ export class FDateSelector extends Fragment {
   #onChooseDate(v: number): void {
     this.#date.setDate(v);
     this.render();
-    if (this._delegate && typeof (this._delegate as any).onDateSelectedInDateSelector === 'function') {
-      (this._delegate as any).onDateSelectedInDateSelector(this, this.#date);
+    const delegate = this.getDelegate<FDateSelectorDelegate>();
+    if (delegate) {
+      delegate.onDateSelectedInDateSelector(this, this.#date);
     }
   }
 
