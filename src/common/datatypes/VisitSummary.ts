@@ -1,6 +1,6 @@
 import { ServerDataObject } from './ServerDataObject.js';
 
-interface VisitSummaryData {
+export interface VisitSummaryData {
   sub_query_key?: string;
   sub_query_value?: string;
   name?: string;

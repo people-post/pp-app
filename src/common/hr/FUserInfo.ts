@@ -73,7 +73,7 @@ export class FUserInfo extends Fragment {
     let u = Users.get(this._fIcon.getUserId());
     let p = this.#createPanel();
     p.setAttribute("onclick",
-                   "javascript:G.action('${CF_USER_INFO.ON_CLICK}')");
+                   `javascript:G.action('${CF_USER_INFO.ON_CLICK}')`);
     render.wrapPanel(p);
 
     let pp = (p as any).getIconPanel?.();

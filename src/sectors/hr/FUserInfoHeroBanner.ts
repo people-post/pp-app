@@ -20,6 +20,7 @@ import { Utilities } from '../../common/Utilities.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { R } from '../../common/constants/R.js';
 import { Account } from '../../common/dba/Account.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export const CF_USER_INFO_HERO_BANNER = {
   FOLLOW : Symbol(),
@@ -89,19 +90,17 @@ const _CFT_USER_INFO_HERO_BANNER = {
   </table>`,
 } as const;
 
-interface UserInfoHeroBannerDataSource {
+export interface FUserInfoHeroBannerDataSource {
   getUserId(): string | null;
 }
 
-interface UserInfoHeroBannerDelegate {
+export interface FUserInfoHeroBannerDelegate {
   onUserInfoHeroBannerFragmentRequestStartChat(f: FUserInfoHeroBanner, target: ChatTarget): void;
   onUserInfoHeroBannerFragmentRequestShowView(f: FUserInfoHeroBanner, view: View, title: string): void;
 }
 
 export class FUserInfoHeroBanner extends Fragment {
   protected _fBioEditor: TextArea;
-  protected _dataSource!: UserInfoHeroBannerDataSource;
-  protected _delegate!: UserInfoHeroBannerDelegate;
 
   constructor() {
     super();
@@ -143,7 +142,7 @@ export class FUserInfoHeroBanner extends Fragment {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: string | symbol, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
     case T_DATA.USER_PROFILE:
@@ -151,9 +150,7 @@ export class FUserInfoHeroBanner extends Fragment {
       break;
     case T_DATA.USER_IDOLS:
     case T_DATA.USER_PUBLIC_PROFILE:
-      if (data == Account.getId() || data == this._dataSource.getUserId()) {
-        this.render();
-      }
+      this.#onUserIdUpdate(data);
       break;
     default:
       break;
@@ -161,62 +158,64 @@ export class FUserInfoHeroBanner extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: ListPanel): void {
-    let p = new ListPanel();
-    p.setClassName("sticky-bottom-header");
-    render.wrapPanel(p);
+  _renderOnRender(render: PanelWrapper): void {
+    let pList = new ListPanel();
+    pList.setClassName("sticky-bottom-header");
+    render.wrapPanel(pList);
 
-    let user = Users.get(this._dataSource.getUserId());
+    const dataSource = this.getDataSource<FUserInfoHeroBannerDataSource>();
+    const userId = dataSource?.getUserId();
+    let user = Users.get(userId ?? null);
 
     // Top
-    let pp = new PUserOverview();
-    p.pushPanel(pp);
-    let ppp = pp.getBackgroundImagePanel();
+    let pOverview = new PUserOverview();
+    pList.pushPanel(pOverview);
+    let ppp = pOverview.getBackgroundImagePanel();
     ppp.replaceContent(this.#renderBackgroundImage(user));
-    ppp = pp.getUserIconPanel();
+    ppp = pOverview.getUserIconPanel();
     ppp.replaceContent(this.#renderUserIcon(user));
-    this.#renderUploadButton(pp.getUploadButtonPanel(), user);
+    this.#renderUploadButton(pOverview.getUploadButtonPanel(), user);
 
     // Name
-    pp = new Panel();
-    pp.setClassName("user-info-name center-align");
-    p.pushPanel(pp);
+    let pName = new Panel();
+    pName.setClassName("user-info-name center-align");
+    pList.pushPanel(pName);
     if (user) {
-      pp.replaceContent(this.#renderName(user));
+      pName.replaceContent(this.#renderName(user));
     } else {
-      pp.replaceContent("...");
+      pName.replaceContent("...");
     }
 
     // Social connections
-    pp = new Panel();
-    pp.setClassName("small-info-text center-align");
-    p.pushPanel(pp);
-    pp.replaceContent(this.#renderSocialConnections(user));
+    let pSocialConnections = new Panel();
+    pSocialConnections.setClassName("small-info-text center-align");
+    pList.pushPanel(pSocialConnections);
+    pSocialConnections.replaceContent(this.#renderSocialConnections(user));
 
     // Domain
     if (user) {
-      pp = new Panel();
-      p.pushPanel(pp);
+      let pDomain = new Panel();
+      pList.pushPanel(pDomain);
       if (Account.getId() == user.getId()) {
         if (WebConfig.getOwnerId() == user.getId()) {
-          pp.replaceContent(this.#renderOwnerPrivateInfo());
+          pDomain.replaceContent(this.#renderOwnerPrivateInfo());
         } else {
-          pp.setClassName("small-info-text center-align");
-          pp.replaceContent("Yourself");
+          pDomain.setClassName("small-info-text center-align");
+          pDomain.replaceContent("Yourself");
         }
       } else {
-        pp.setClassName("small-info-text center-align");
+        pDomain.setClassName("small-info-text center-align");
         if (WebConfig.getOwnerId() == user.getId()) {
-          pp.replaceContent("Current website");
+          pDomain.replaceContent("Current website");
         } else {
-          pp.replaceContent(this.#renderDomain(user));
+          pDomain.replaceContent(this.#renderDomain(user));
         }
       }
     }
 
-    pp = new Panel();
-    p.pushPanel(pp);
-    pp.setClassName("small-info-text center-align");
+    let pBio = new Panel();
+    pList.pushPanel(pBio);
+    pBio.setClassName("small-info-text center-align");
     if (user) {
       let bio = user.getBriefBio();
       bio = bio ? bio : "";
@@ -224,20 +223,28 @@ export class FUserInfoHeroBanner extends Fragment {
           WebConfig.getOwnerId() == user.getId()) {
         this._fBioEditor.setConfig(
             {value : bio, hint : "Your short description"});
-        this._fBioEditor.attachRender(pp);
+        this._fBioEditor.attachRender(pBio);
         this._fBioEditor.render();
       } else {
-        pp.replaceContent(bio);
+        pBio.replaceContent(bio);
       }
     } else {
-      pp.replaceContent("...");
+      pBio.replaceContent("...");
     }
   }
 
-  #renderBackgroundImage(user: User | null): string {
-    let s = _CFT_USER_INFO_HERO_BANNER.BG_IMAGE;
+  #onUserIdUpdate(data: unknown): void {
+    const dataSource = this.getDataSource<FUserInfoHeroBannerDataSource>();
+    const userId = dataSource?.getUserId();
+    if (data == Account.getId() || data == userId) {
+      this.render();
+    }
+  }
+
+  #renderBackgroundImage(user: User | undefined): string {
+    let s: string = _CFT_USER_INFO_HERO_BANNER.BG_IMAGE;
     if (user) {
-      s = s.replace("__BG_URL__", user.getInfoImageUrl());
+      s = s.replace("__BG_URL__", user.getInfoImageUrl() || "");
     } else {
       s = s.replace("__BG_URL__", "");
     }
@@ -265,21 +272,22 @@ export class FUserInfoHeroBanner extends Fragment {
   }
 
   #renderName(user: User): string {
-    let s = _CFT_USER_INFO_HERO_BANNER.NAME;
+    let userId: string = user.getId() || "";
+    let s: string = _CFT_USER_INFO_HERO_BANNER.NAME;
     if (user.isFeed()) {
       s = s.replace("__ICON__", ICON.FEED);
     } else {
       s = s.replace("__ICON__", "");
     }
-    s = s.replace("__NAME__", Account.getUserNickname(user.getId(),
+    s = s.replace("__NAME__", Account.getUserNickname(userId,
                                                           user.getNickname()));
 
     let sMsg = "";
     let sSendFund = "";
     if (Account.isIdolOf(user)) {
-      sMsg = this.#renderMessageBtn(user.getId());
+      sMsg = this.#renderMessageBtn(userId);
       if (WebConfig.isDevSite()) {
-        sSendFund = this.#renderSendFundBtn(user.getId());
+        sSendFund = this.#renderSendFundBtn(userId);
       }
     }
     s = s.replace("__MSG_BTN__", sMsg);
@@ -287,12 +295,12 @@ export class FUserInfoHeroBanner extends Fragment {
 
     let sAction = "";
     if (Account.isAuthenticated() && Account.getId() != user.getId()) {
-      if (Account.isFollowing(user.getId())) {
+      if (Account.isFollowing(userId)) {
         sAction = _CFT_USER_INFO_HERO_BANNER.UNFOLLOW_BTN;
       } else {
         sAction = _CFT_USER_INFO_HERO_BANNER.FOLLOW_BTN;
       }
-      sAction = sAction.replace("__USER_ID__", user.getId());
+      sAction = sAction.replace("__USER_ID__", userId);
     }
     s = s.replace("__ACTION_BTN__", sAction);
     return s;
@@ -302,8 +310,8 @@ export class FUserInfoHeroBanner extends Fragment {
     if (!user) {
       return "";
     }
-    let s = _CFT_USER_INFO_HERO_BANNER.SOCIAL_CONNECTIONS;
-    s = s.replace(/__USER_ID__/g, user.getId());
+    let s: string = _CFT_USER_INFO_HERO_BANNER.SOCIAL_CONNECTIONS;
+    s = s.replace(/__USER_ID__/g, user.getId() || "");
     s = s.replace("__N_IDOLS__", String(user.getNIdols()));
     s = s.replace("__N_FOLLOWERS__", String(user.getNFollowers()));
     return s;
@@ -334,7 +342,10 @@ export class FUserInfoHeroBanner extends Fragment {
     let target = new ChatTarget();
     target.setId(userId);
     target.setIdType(SocialItem.TYPE.USER);
-    this._delegate.onUserInfoHeroBannerFragmentRequestStartChat(this, target);
+    const delegate = this.getDelegate<FUserInfoHeroBannerDelegate>();
+    if (delegate) {
+      delegate.onUserInfoHeroBannerFragmentRequestStartChat(this, target);
+    }
   }
 
   #onSendFund(_userId: string): void {}
@@ -372,9 +383,13 @@ export class FUserInfoHeroBanner extends Fragment {
     }
     f.setUserId(userId);
     v.setContentFragment(f);
-    this._delegate.onUserInfoHeroBannerFragmentRequestShowView(this, v,
+    const delegate = this.getDelegate<FUserInfoHeroBannerDelegate>();
+    if (delegate) {
+      delegate.onUserInfoHeroBannerFragmentRequestShowView(this, v,
                                                                "Followers");
+    }
   }
+
   #onShowIdols(userId: string): void {
     let v = new View();
     let f;
@@ -386,8 +401,11 @@ export class FUserInfoHeroBanner extends Fragment {
     }
     f.setUserId(userId);
     v.setContentFragment(f);
-    this._delegate.onUserInfoHeroBannerFragmentRequestShowView(this, v,
+    const delegate = this.getDelegate<FUserInfoHeroBannerDelegate>();
+    if (delegate) {
+      delegate.onUserInfoHeroBannerFragmentRequestShowView(this, v,
                                                                "Idols");
+    }
   }
 
   #asyncUpdateInfoImage(file: File): void {

@@ -16,13 +16,13 @@ const _CFT_BUTTON_GROUP = {
 
 interface ChoiceInfo {
   name: string;
-  value: string;
+  value: any;
   icon?: string;
   fDetail?: Fragment | null;
 }
 
 export interface ButtonGroupDelegate {
-  onButtonGroupSelectionChanged(f: ButtonGroup, value: string | null): void;
+  onButtonGroupSelectionChanged(f: ButtonGroup, value: any): void;
 }
 
 export class ButtonGroup extends Fragment {
@@ -35,7 +35,7 @@ export class ButtonGroup extends Fragment {
     this._selectedIdx = null;
   }
 
-  getSelectedValue(): string | null {
+  getSelectedValue(): any {
     let c = this._choices[this._selectedIdx ?? -1];
     return c ? c.value : null;
   }
@@ -44,10 +44,11 @@ export class ButtonGroup extends Fragment {
     this._choices.push(choiceInfo);
   }
 
-  setSelectedValue(value: string): void {
+  setSelectedValue(value: any): void {
     this._selectedIdx = this._choices.findIndex(x => x.value == value);
   }
-  updateChoice(value: string, info: ChoiceInfo): void {
+
+  updateChoice(value: any, info: ChoiceInfo): void {
     let idx = this._choices.findIndex(x => x.value == value);
     if (idx < 0) {
       return;
@@ -61,7 +62,7 @@ export class ButtonGroup extends Fragment {
     this._selectedIdx = null;
   }
 
-  action(type: string | symbol, ...args: any[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_BUTTON_GROUP.ON_CLICK:
       this.#onClick(args[0]);
@@ -72,7 +73,7 @@ export class ButtonGroup extends Fragment {
     }
   }
 
-  #onClick(idx: number): void {
+  #onClick(idx: any): void {
     if (this._selectedIdx == idx) {
       return;
     }

@@ -41,7 +41,7 @@ export class UserLib {
     }
   }
 
-  get(id: string | null): User | PpUser | null | undefined {
+  get(id: string | null): User | PpUser | null {
     if (!id) {
       return null;
     }

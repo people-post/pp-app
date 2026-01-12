@@ -1,15 +1,19 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
+import { ButtonGroup, ButtonGroupDelegate } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
 import { FLoading } from '../../lib/ui/controllers/fragments/FLoading.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { FVisitInfo } from './FVisitInfo.js';
-import { VisitSummary } from '../datatypes/VisitSummary.js';
+import { FVisitInfo, FVisitInfoDelegate } from './FVisitInfo.js';
+import { VisitSummary, VisitSummaryData } from '../datatypes/VisitSummary.js';
 import { R } from '../constants/R.js';
 import { Api } from '../plt/Api.js';
 
-export class FVisit extends Fragment {
+export interface FVisitDelegate {
+  onVisitSummaryFragmentRequestShowSubSummary(fVisitSummary: FVisit, visitSummary: VisitSummary): void;
+}
+
+export class FVisit extends Fragment implements ButtonGroupDelegate, FVisitInfoDelegate {
   private _fDuration: ButtonGroup;
   private _fLoading: FLoading;
   private _fList: FSimpleFragmentList | null = null;
@@ -50,11 +54,13 @@ export class FVisit extends Fragment {
   }
 
   onClickInVisitSummaryInfoFragment(_fSummaryInfo: FVisitInfo, visitSummary: VisitSummary): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onVisitSummaryFragmentRequestShowSubSummary?.(this, visitSummary);
+    const delegate = this.getDelegate<FVisitDelegate>();
+    if (delegate) {
+      delegate.onVisitSummaryFragmentRequestShowSubSummary(this, visitSummary);
+    }
   }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -92,14 +98,15 @@ export class FVisit extends Fragment {
     }
     fd.append("duration", this._fDuration.getSelectedValue().toString());
     fd.append("type", this._queryType || "");
-    Api.asFragmentPost(this, url, fd).then(d => this.#onLoadDataRRR(d));
+
+    Api.asFragmentPost<{ items: VisitSummaryData[] }>(this, url, fd).then(d => this.#onLoadDataRRR(d.items));
   }
 
-  #onLoadDataRRR(data: { items: unknown[] }): void {
+  #onLoadDataRRR(ds: VisitSummaryData[]): void {
     this._fList = new FSimpleFragmentList();
     this.setChild("list", this._fList);
     let f: FVisitInfo;
-    for (let d of data.items) {
+    for (let d of ds) {
       f = new FVisitInfo();
       f.setData(new VisitSummary(d));
       f.setDelegate(this);

@@ -15,7 +15,6 @@ import { Api } from './common/plt/Api.js';
 import { Events } from './lib/framework/Events.js';
 import { TYPE } from './common/constants/Constants.js';
 import { WcSession } from './session/WcSession.js';
-import { Account } from './common/dba/Account.js';
 
 // Set initial Api config
 Api.setConfig({
@@ -23,17 +22,6 @@ Api.setConfig({
   ownerId: null,
   isTrustedSite: Env.isTrustedSite(),
 });
-
-// Initialize window.dba.Account to use the Account wrapper
-// This maintains backwards compatibility for any code still using window.dba.Account
-if (typeof window !== 'undefined') {
-  if (!window.dba) {
-    window.dba = {};
-  }
-  // Point window.dba.Account to the Account singleton wrapper
-  // @ts-expect-error - Account wrapper implements the interface
-  window.dba.Account = Account;
-}
 
 interface GInterface {
   initAsWeb3(dConfig: unknown): void;

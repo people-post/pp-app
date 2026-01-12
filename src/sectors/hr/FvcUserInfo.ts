@@ -1,5 +1,6 @@
 import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/FViewContentWithHeroBanner.js';
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
+import { FragmentOwner } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
@@ -14,12 +15,11 @@ import { FvcChat } from '../messenger/FvcChat.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { Api } from '../../common/plt/Api.js';
 
-interface UserInfoDataSource {
+export interface FvcUserInfoDataSource {
   getUserId(): string | null;
 }
 
-interface UserInfoDelegate {
-  onFragmentRequestShowView(f: FvcUserInfo, view: View, title: string): void;
+export interface FvcUserInfoDelegate {
   onNewProposalRequestedInUserCommunityContentFragment(f: FvcUserCommunity): void;
 }
 
@@ -31,8 +31,6 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
   #fCommunity: FvcUserCommunity;
   #fMain: FViewContentMux;
   #userId: string | null = null;
-  protected _dataSource!: UserInfoDataSource;
-  protected _delegate!: UserInfoDelegate;
 
   constructor() {
     super();
@@ -86,18 +84,21 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
     let f = new FvcChat();
     f.setTarget(target);
     v.setContentFragment(f);
-    this._delegate.onFragmentRequestShowView(this, v, "Chat");
+    this.onFragmentRequestShowView(this, v, "Chat");
   }
 
   onUserInfoHeroBannerFragmentRequestShowView(_fBanner: FUserInfoHeroBanner, view: View, title: string): void {
-    this._delegate.onFragmentRequestShowView(this, view, title);
+    this.onFragmentRequestShowView(this, view, title);
   }
 
   onNewProposalRequestedInUserCommunityContentFragment(fUCC: FvcUserCommunity): void {
-    this._delegate.onNewProposalRequestedInUserCommunityContentFragment(fUCC);
+    const delegate = this.getDelegate<FvcUserInfoDelegate>();
+    if (delegate) {
+      delegate.onNewProposalRequestedInUserCommunityContentFragment(fUCC);
+    }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: string | symbol, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
     case T_DATA.USER_PROFILE:

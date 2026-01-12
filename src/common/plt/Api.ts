@@ -3,9 +3,9 @@ import { URL_PARAM } from '../constants/Constants.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
 import type { IApi, FragmentDelegate } from '../../lib/framework/Global.js';
 
-interface ApiResponse {
+interface ApiResponse<T> {
   error?: unknown;
-  data?: unknown;
+  data?: T;
 }
 
 export interface ApiConfig {
@@ -30,66 +30,66 @@ class ApiClass implements IApi {
     this.#config = config;
   }
 
-  asCall(url: string): Promise<unknown> {
+  asCall<T>(url: string): Promise<T> {
     return new Promise((onOk, onErr) =>
       this.#extApi.asyncCall(
         this.#wrapUrl(url),
-        (txt: string) => this.#onRRR(txt, onOk, onErr),
+        (txt: string) => this.#onRRR<T>(txt, onOk, onErr),
         (_txt: string) => this.#onConnErr(_txt, onErr)
       )
     );
   }
 
-  asPost(url: string, data: unknown, onProg: ((loaded: number) => void) | null = null): Promise<unknown> {
+  asPost<T>(url: string, data: unknown, onProg: ((loaded: number) => void) | null = null): Promise<T> {
     return new Promise((onOk, onErr) =>
       this.#extApi.asyncFormPost(
         this.#wrapUrl(url),
         data,
-        (txt: string) => this.#onRRR(txt, onOk, onErr),
+        (txt: string) => this.#onRRR<T>(txt, onOk, onErr),
         () => onErr({ type: RemoteError.T_TYPE.CONN }),
         (onProg as unknown) as null | undefined
       )
     );
   }
 
-  asFragmentCall(f: FragmentDelegate, url: string): Promise<unknown> {
+  asFragmentCall<T>(f: FragmentDelegate, url: string): Promise<T> {
     return new Promise((_onOk, _onErr) =>
       this.#extApi.asyncCall(
         this.#wrapUrl(url),
-        (txt: string) => this.#onFragmentRRR(f, txt, _onOk),
+        (txt: string) => this.#onFragmentRRR<T>(f, txt, _onOk),
         (txt: string) => this.#onFragmentConnErr(txt, f)
       )
     );
   }
 
-  asFragmentJsonPost(
+  asFragmentJsonPost<T>(
     f: FragmentDelegate,
     url: string,
     data: unknown,
     onProg: ((loaded: number) => void) | null = null
-  ): Promise<unknown> {
+  ): Promise<T> {
     return new Promise((_onOk, _onErr) =>
       this.#extApi.asyncJsonPost(
         this.#wrapUrl(url),
         data,
-        (txt: string) => this.#onFragmentRRR(f, txt, _onOk),
+        (txt: string) => this.#onFragmentRRR<T>(f, txt, _onOk),
         (txt: string) => this.#onFragmentConnErr(txt, f),
         (onProg as unknown) as null | undefined
       )
     );
   }
 
-  asFragmentPost(
+  asFragmentPost<T>(
     f: FragmentDelegate,
     url: string,
     data: unknown,
     onProg: ((loaded: number) => void) | null = null
-  ): Promise<unknown> {
+  ): Promise<T> {
     return new Promise((_onOk, _onErr) =>
       this.#extApi.asyncFormPost(
         this.#wrapUrl(url),
         data,
-        (txt: string) => this.#onFragmentRRR(f, txt, _onOk),
+        (txt: string) => this.#onFragmentRRR<T>(f, txt, _onOk),
         (txt: string) => this.#onFragmentConnErr(txt, f),
         (onProg as unknown) as null | undefined
       )
@@ -130,17 +130,17 @@ class ApiClass implements IApi {
     this.#onConnErr(_txt, (e) => f.onRemoteErrorInFragment(f, e));
   }
 
-  #onRRR(txt: string, onOk: (data: unknown) => void, onErr: (error: unknown) => void): void {
-    const r = JSON.parse(txt) as ApiResponse;
+  #onRRR<T>(txt: string, onOk: (data: T) => void, onErr: (error: unknown) => void): void {
+    const r = JSON.parse(txt) as ApiResponse<T>;
     if (r.error) {
       onErr(r.error);
     } else {
-      onOk(r.data);
+      onOk(r.data as T);
     }
   }
 
-  #onFragmentRRR(f: FragmentDelegate, txt: string, onOk: (data: unknown) => void): void {
-    this.#onRRR(txt, onOk, (e) => f.onRemoteErrorInFragment(f, e));
+  #onFragmentRRR<T>(f: FragmentDelegate, txt: string, onOk: (data: T) => void): void {
+    this.#onRRR<T>(txt, onOk, (e) => f.onRemoteErrorInFragment(f, e));
   }
 
   #wrapUrl(url: string): string {
