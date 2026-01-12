@@ -10,6 +10,8 @@ import {fileURLToPath} from 'url';
 import {dirname} from 'path';
 import {execSync} from 'child_process';
 import * as esbuild from 'esbuild';
+import postcss from 'postcss';
+import tailwindcss from '@tailwindcss/postcss';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -47,6 +49,37 @@ async function bundleJs(entryPoint, outputFile, options = {}) {
   }
 
   console.log(`[SUCCESS] Bundled ${entryPoint} -> ${outputFile}`);
+}
+
+/**
+ * Process Tailwind CSS using PostCSS
+ * @param {string} inputFile - Input CSS file (e.g., 'src/css/tailwind.css')
+ * @param {string} outputFile - Output processed CSS file
+ */
+async function processTailwindCss(inputFile, outputFile) {
+  console.log(`Processing Tailwind CSS: ${inputFile}...`);
+  
+  try {
+    const css = fs.readFileSync(inputFile, 'utf8');
+    
+    const result = await postcss([tailwindcss()]).process(css, {
+      from: inputFile,
+      to: outputFile
+    });
+    
+    // Write the processed CSS
+    fs.writeFileSync(outputFile, result.css);
+    
+    // Write source map if available
+    if (result.map) {
+      fs.writeFileSync(outputFile + '.map', result.map.toString());
+    }
+    
+    console.log(`[SUCCESS] Processed Tailwind CSS: ${inputFile} -> ${outputFile}`);
+  } catch (error) {
+    console.error(`Error processing Tailwind CSS: ${error.message}`);
+    throw error;
+  }
 }
 
 /**
@@ -93,11 +126,15 @@ async function buildWeb3() {
   const WEB3_BUNDLE_JS_PATH = path.join(WEB3_WORK_DIR, 'app.js');
   await bundleJs(ENTRY_APP_JS, WEB3_BUNDLE_JS_PATH);
 
-  // Minify CSS for web3
-  console.log('Minifying CSS for web3...');
-  const cssInputFile = 'css/hst.css';
+  // Process Tailwind CSS for web3
+  console.log('Processing CSS for web3...');
+  const cssInputFile = 'src/css/tailwind.css';
+  const cssProcessedFile = path.join(WEB3_WORK_DIR, 'app-processed.css');
+  await processTailwindCss(cssInputFile, cssProcessedFile);
+  
+  // Minify the processed CSS
   const cssOutputFile = path.join(WEB3_WORK_DIR, 'app.css');
-  await minifyCss(cssInputFile, cssOutputFile);
+  await minifyCss(cssProcessedFile, cssOutputFile);
 
   // Prepare web3 output directory
   const WEB3_DIR = path.join('dist', 'web3');

@@ -7,7 +7,7 @@
 | ext/                         | 3rd party codes                                                                            |
 | img/                         | Static images                                                                              |
 | doc/                         | Documents                                                                                  |
-| css/                         | Css styling files                                                                          |
+| src/css/                     | CSS styling files (moved from css/ for Tailwind CSS v4 migration)                         |
 | app/                         | Main javascript source code folder                                                         |
 | sw/                          | Service worker source code folder                                                          |
 | html/                        | Entry files                                                                                |
@@ -45,9 +45,27 @@ The build script (`build.js`) performs the following steps:
 
 1. **Generate entry points**: Creates ES module entry points (`src/index.js`, `src/sw.js`) from `app/file_list.txt` and `sw/file_list.txt`
 2. **Bundle JavaScript**: Uses `esbuild` to bundle all modules into a single file with tree-shaking and minification
-3. **Minify CSS**: Uses `uglifycss` to minify `css/hst.css`
+3. **Process CSS**: Uses `esbuild` to minify CSS from `src/css/hst.css`
 4. **Package outputs**: Creates web2 and web3 deployment packages in the `dist/` directory
 5. **Create tarball**: Generates `dist/web3.tar.gz` for web3 deployment
+
+### CSS and Tailwind CSS v4
+
+The project uses Tailwind CSS v4 for styling:
+
+- **CSS Location**: CSS files are located in `src/css/`
+- **Tailwind Entry Point**: `src/css/tailwind.css` is the main CSS entry point that:
+  - Imports Tailwind CSS v4 using `@import "tailwindcss"`
+  - Includes existing custom styles from `hst.css`
+  - Supports custom theme configuration via `@theme` directive
+- **Build Process**: The build automatically:
+  1. Processes `src/css/tailwind.css` with PostCSS and Tailwind CSS plugin
+  2. Minifies the processed CSS using esbuild
+  3. Outputs the final CSS to `dist/web2/static/css/` and `dist/web3/static/`
+- **Migration Path**: To gradually migrate to Tailwind utility classes:
+  1. Replace custom classes in `hst.css` with Tailwind utility classes in your TypeScript/HTML
+  2. Use `@theme` in `tailwind.css` for custom theme values
+  3. Remove unused custom classes from `hst.css` as you migrate
 
 ### Module-Based Architecture
 

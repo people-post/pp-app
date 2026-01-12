@@ -1,0 +1,13 @@
+/* Tailwind CSS v4 Entry Point */
+@import "tailwindcss";
+
+/* Import existing styles */
+@import "./hst.css";
+
+/* Custom theme configuration can be added here using @theme */
+@theme {
+  /* Example theme customization:
+   * --color-primary: #4169E1;
+   * --font-family-sans: Arial, Helvetica, SimHei, STXihei, sans-serif;
+   */
+}
