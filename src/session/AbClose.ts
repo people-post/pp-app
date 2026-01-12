@@ -1,4 +1,5 @@
 import { Fragment } from '../lib/ui/controllers/fragments/Fragment.js';
+import Render from '../lib/ui/renders/Render.js';
 import { ActionButton } from '../common/gui/ActionButton.js';
 import { Account } from '../common/dba/Account.js';
 
@@ -24,7 +25,7 @@ export class AbClose extends Fragment {
     }
   }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: Render): void {
     let f: ActionButton | null = null;
     if (Account.isAuthenticated()) {
       f = this._fClose;

@@ -29,7 +29,7 @@ export class PProjectInfoBase extends Panel {
   getSocialBarPanel(): Panel | null { return null; }
   getProgressDirection(): string { return "H"; }
 
-  setVisibilityClassName(name: string): void {}
+  setVisibilityClassName(_name: string): void {}
   enableImage(): void {}
   invertColor(): void {}
 }

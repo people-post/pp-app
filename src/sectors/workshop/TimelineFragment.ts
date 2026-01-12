@@ -2,7 +2,6 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { TimelineVerticalPanel } from './TimelineVerticalPanel.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type { Fragment as FragmentType } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 export class TimelineFragment extends Fragment {
@@ -24,7 +23,7 @@ export class TimelineFragment extends Fragment {
   append(f: FragmentType): void { this._fItems.append(f); }
   clear(): void { this._fItems.clear(); }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     // Hack to make fItems as event source, may need better design
     this._fItems.attachRender(render);
 
