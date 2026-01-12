@@ -1,5 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { FUserIcon } from './FUserIcon.js';
+import { FUserIcon, FUserIconDelegate } from './FUserIcon.js';
 import { PUserInfoCompactCell } from './PUserInfoCompactCell.js';
 import { PUserInfoMidsizeCell } from './PUserInfoMidsizeCell.js';
 import { PUserInfoSmallRow } from './PUserInfoSmallRow.js';
@@ -10,12 +10,17 @@ import { Events } from '../../lib/framework/Events.js';
 import { T_ACTION as PltT_ACTION } from '../plt/Events.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ICON } from '../constants/Icons.js';
+import { PUserInfoBase } from './PUserInfoBase.js';
 
 export const CF_USER_INFO = {
   ON_CLICK : "CF_USER_INFO_1",
 };
 
-export class FUserInfo extends Fragment {
+export interface FUserInfoDelegate {
+  onClickInUserInfoFragment(f: FUserInfo, userId: string | null): void;
+}
+
+export class FUserInfo extends Fragment implements FUserIconDelegate {
   static T_LAYOUT = {
     SMALL_ROW : Symbol(),
     COMPACT: Symbol(),
@@ -71,34 +76,34 @@ export class FUserInfo extends Fragment {
 
   _renderOnRender(render: PanelWrapper): void {
     let u = Users.get(this._fIcon.getUserId());
-    let p = this.#createPanel();
-    p.setAttribute("onclick",
+    let pInfo = this.#createPanel();
+    pInfo.setAttribute("onclick",
                    `javascript:G.action('${CF_USER_INFO.ON_CLICK}')`);
-    render.wrapPanel(p);
+    render.wrapPanel(pInfo);
 
-    let pp = (p as any).getIconPanel?.();
-    if (pp) {
-      this._fIcon.attachRender(pp);
+    let pIcon = pInfo.getIconPanel();
+    if (pIcon) {
+      this._fIcon.attachRender(pIcon);
       this._fIcon.render();
     }
 
-    pp = (p as any).getNamePanel?.();
-    if (pp) {
-      pp.replaceContent(this.#renderName(u));
+    let pName = pInfo.getNamePanel();
+    if (pName) {
+      pName.replaceContent(this.#renderName(u));
     }
 
-    pp = (p as any).getTypeIconPanel?.();
-    if (pp) {
-      pp.replaceContent(this.#renderTypeIcon(u));
+    let pTypeIcon = pInfo.getTypeIconPanel();
+    if (pTypeIcon) {
+      pTypeIcon.replaceContent(this.#renderTypeIcon(u));
     }
-    pp = (p as any).getUserIdPanel?.();
-    if (pp) {
-      pp.replaceContent(this.#renderId(u));
+    let pUserId = pInfo.getUserIdPanel();
+    if (pUserId) {
+      pUserId.replaceContent(this.#renderId(u));
     }
   }
 
-  #createPanel(): PUserInfoCompactCell | PUserInfoMidsizeCell | PUserInfoSmallRow | PUserInfoMidsizeRow {
-    let p: PUserInfoCompactCell | PUserInfoMidsizeCell | PUserInfoSmallRow | PUserInfoMidsizeRow;
+  #createPanel(): PUserInfoBase {
+    let p: PUserInfoBase;
     switch (this._layoutType) {
     case FUserInfo.T_LAYOUT.COMPACT:
       p = new PUserInfoCompactCell();
@@ -133,9 +138,9 @@ export class FUserInfo extends Fragment {
 
   #onClick(): void {
     let userId = this._fIcon.getUserId();
-    if (this._delegate) {
-      // @ts-expect-error - delegate may have this method
-      this._delegate.onClickInUserInfoFragment?.(this, userId);
+    const delegate = this.getDelegate<FUserInfoDelegate>();
+    if (delegate) {
+      delegate.onClickInUserInfoFragment(this, userId);
     } else {
       Events.triggerTopAction(PltT_ACTION.SHOW_USER_INFO, userId);
     }

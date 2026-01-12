@@ -14,6 +14,10 @@ const _CFT_USER_ICON = {
   </span>`,
 };
 
+export interface FUserIconDelegate {
+  onIconClickedInUserIconFragment(f: FUserIcon, userId: string | null): void;
+}
+
 export class FUserIcon extends Fragment {
   static ST_SMALL = "SMALL";
   static ST_MIDDLE = "MIDDLE";
@@ -85,9 +89,9 @@ export class FUserIcon extends Fragment {
   }
 
   #onClick(): void {
-    if (this._delegate) {
-      // @ts-expect-error - delegate may have this method
-      this._delegate.onIconClickedInUserIconFragment?.(this, this.#userId);
+    const delegate = this.getDelegate<FUserIconDelegate>();
+    if (delegate) {
+      delegate.onIconClickedInUserIconFragment(this, this.#userId);
     } else {
       Events.triggerTopAction(T_ACTION.SHOW_USER_INFO, this.#userId);
     }
