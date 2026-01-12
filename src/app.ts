@@ -1,6 +1,3 @@
-// Import CSS
-import '../css/hst.css';
-
 // Polyfill Buffer for browser environment (required by bip39)
 import { Buffer } from 'buffer';
 if (typeof window !== 'undefined') {
