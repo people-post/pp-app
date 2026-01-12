@@ -1,6 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ICONS } from '../../lib/ui/Icons.js';
@@ -69,7 +69,7 @@ export class FDraftArticleInfo extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let draft = Blog.getDraftArticle(this.#draftId);
     if (!draft) {
       let p = new Panel();
@@ -105,7 +105,7 @@ export class FDraftArticleInfo extends Fragment {
     this.#renderDateTime(panel.getCreationDateTimePanel(), draft);
   }
 
-  #renderTags(panel: Panel | null, draft: DraftArticle): void {
+  #renderTags(panel: PanelWrapper | null, draft: DraftArticle): void {
     if (!panel) {
       return;
     }
