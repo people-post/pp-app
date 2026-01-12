@@ -276,7 +276,6 @@ export class FProduct extends MajorSectorItem {
 
   #createThumbnailPanel(): ThumbnailPanelWrapper {
     let p = new ThumbnailPanelWrapper();
-    p.setClassName("thumbnail small");
     if (this.#isSquareThumbnail()) {
       p.setClassName("aspect-1-1-frame");
     }
@@ -288,6 +287,9 @@ export class FProduct extends MajorSectorItem {
   }
 
   #onAddToCart(): void {
+    if (!this._productId || !this._fPrice.getSelectedCurrencyId()) {
+      return;
+    }
     Cart.asyncAddItem(this._productId, this._fPrice.getSelectedCurrencyId(),
                           [], 1);
   }

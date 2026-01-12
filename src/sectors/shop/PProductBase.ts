@@ -1,3 +1,4 @@
+import { PPrice } from '../../common/gui/PPrice.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
@@ -17,7 +18,7 @@ export class PProductBase extends Panel {
   getNamePanel(): PanelWrapper { return this._pName; }
   getDescriptionPanel(): PanelWrapper { return this._pDescription; }
   getThumbnailPanel(): PanelWrapper | null { return null; }
-  getGalleryPanel(): Panel | null { return null; }
-  getPricePanel(): Panel | null { return null; }
+  getGalleryPanel(): PanelWrapper | null { return null; }
+  getPricePanel(): PPrice | null { return null; }
   getActionPanel(): Panel | null { return null; }
 };

@@ -33,12 +33,12 @@ export class PProduct extends PProductBase {
     this._pAction = new PanelWrapper();
   }
 
-  getGalleryPanel(): PanelWrapper { return this._pGallery; }
-  getPricePanel(): PPrice { return this._pPrice; }
-  getActionPanel(): PanelWrapper { return this._pAction; }
+  override getGalleryPanel(): PanelWrapper { return this._pGallery; }
+  override getPricePanel(): PPrice { return this._pPrice; }
+  override getActionPanel(): PanelWrapper { return this._pAction; }
 
   _renderFramework(): string {
-    let s = _CPT_PRODUCT.MAIN;
+    let s: string = _CPT_PRODUCT.MAIN;
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_GALLERY__", this._getSubElementId("G"));
     s = s.replace("__ID_DESCRIPTION__", this._getSubElementId("D"));
