@@ -55,9 +55,11 @@ The project uses Tailwind CSS v4 for styling:
 
 - **CSS Location**: CSS files are located in `src/css/`
 - **Tailwind Entry Point**: `src/css/tailwind.css` is the main CSS entry point that:
-  - Imports Tailwind CSS v4 using `@import "tailwindcss" prefix(tw)` - all Tailwind utility classes are prefixed with `tw-` (e.g., `tw-flex`, `tw-text-center`, `tw-bg-blue-500`)
+  - Imports Tailwind CSS v4 theme and utilities (preflight/base styles are disabled to preserve existing custom styles)
+  - Uses `@import "tailwindcss/theme.css"` and `@import "tailwindcss/utilities.css"` (excluding `preflight.css`)
   - Includes existing custom styles from `hst.css`
   - Supports custom theme configuration via `@theme` directive
+  - **Note**: Preflight is disabled to avoid conflicts with existing custom CSS styles
 - **Build Process**: The build automatically:
   1. Processes `src/css/tailwind.css` with PostCSS and Tailwind CSS plugin
   2. Minifies the processed CSS using esbuild

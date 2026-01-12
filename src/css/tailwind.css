@@ -1,5 +1,7 @@
 /* Tailwind CSS v4 Entry Point */
-@import "tailwindcss" prefix(tw);
+/* Import only theme and utilities, excluding base (preflight) styles */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) prefix(tw-);
 
 /* Custom theme configuration can be added here using @theme */
 @theme {
