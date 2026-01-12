@@ -1,15 +1,17 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { URL_PARAM } from '../../common/constants/Constants.js';
+import { URL_PARAM } from '../../lib/ui/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FIdolProductList } from './FIdolProductList.js';
 import { FCartButton } from './FCartButton.js';
 import { FSearchMenu } from '../../common/search/FSearchMenu.js';
 import { FvcCurrent } from '../../sectors/cart/FvcCurrent.js';
+import Render from '../../lib/ui/renders/Render.js';
 
 declare global {
   var SearchIconOperator: new () => { [key: string]: unknown };
@@ -88,7 +90,7 @@ export class FvcExplorer extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: Render): void {
     this.#fList.attachRender(render);
     this.#fList.render();
   }

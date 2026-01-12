@@ -1,4 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { MainIconOperator } from '../../lib/ui/animators/MainIconOperator.js';
+import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
@@ -6,14 +8,14 @@ import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Product } from '../../common/datatypes/Product.js';
 import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
-import { ID, URL_PARAM } from '../../common/constants/Constants.js';
+import { ID } from '../../common/constants/Constants.js';
+import { URL_PARAM } from '../../lib/ui/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { MainMenu } from '../../common/menu/MainMenu.js';
 import { FSearchMenu } from '../../common/search/FSearchMenu.js';
 import { FOwnerProductList } from './FOwnerProductList.js';
 import { FCartButton } from './FCartButton.js';
 import { FvcProductEditor } from './FvcProductEditor.js';
-import { Shop } from '../../common/dba/Shop.js';
 import { Cart } from '../../common/dba/Cart.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
@@ -21,6 +23,8 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FvcCurrent } from '../../sectors/cart/FvcCurrent.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
+import Render from '../../lib/ui/renders/Render.js';
+
 
 declare global {
   var MainIconOperator: new () => { [key: string]: unknown };
@@ -48,9 +52,9 @@ export class FvcOwner extends FScrollViewContent {
 
     this.#fmSearch = new FHeaderMenu();
     this.#fmSearch.setIcon(ICON.M_SEARCH, new SearchIconOperator());
-    f = new FSearchMenu();
-    f.setDelegate(this);
-    this.#fmSearch.setContentFragment(f);
+    let fSearchMenu = new FSearchMenu();
+    fSearchMenu.setDelegate(this);
+    this.#fmSearch.setContentFragment(fSearchMenu);
     this.#fmSearch.setExpansionPriority(1);
 
     this.#fList = new FOwnerProductList();
@@ -143,7 +147,7 @@ export class FvcOwner extends FScrollViewContent {
     Events.triggerTopAction(T_ACTION.REPLACE_STATE, {}, "Products");
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.DRAFT_ORDERS:
       // @ts-expect-error - owner may have this method
@@ -155,12 +159,12 @@ export class FvcOwner extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _onRenderAttached(_render: ReturnType<typeof this.getRender>): void {
+  _onRenderAttached(_render: Render): void {
     super._onRenderAttached(_render);
     this.#applyTheme();
   }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: Render): void {
     this.#fList.attachRender(render);
     this.#fList.render();
   }

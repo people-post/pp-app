@@ -9,26 +9,25 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Auth } from '../../common/dba/Auth.js';
 import { R } from '../../common/constants/R.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export const CF_LOGIN = {
-  REGISTER : Symbol(),
-  RETRIEVE_PASSWORD : Symbol(),
-  ON_USERNAME_KEY_DOWN : Symbol(),
-  ON_PASSWD_KEY_DOWN : Symbol(),
+  REGISTER : "CF_LOGIN_1",
+  RETRIEVE_PASSWORD : "CF_LOGIN_2",
+  ON_USERNAME_KEY_DOWN : "CF_LOGIN_3",
+  ON_PASSWD_KEY_DOWN : "CF_LOGIN_4",
 };
 
 const _CFT_LOGIN = {
   FORM : `<div class="flex flex-column center-align-items">
   <div>
     <div><label class="s-font5" for="username">__R_U_NAME__:</label></div>
-    <div><input id="username" name="username" type="text" autocomplete="username" placeholder="__R_U_NAME_HINT__" onkeydown="javascript:G.action(auth.CF_LOGIN.ON_USERNAME_KEY_DOWN)"></div>
+    <div><input id="username" name="username" type="text" autocomplete="username" placeholder="__R_U_NAME_HINT__" onkeydown="javascript:G.action('${CF_LOGIN.ON_USERNAME_KEY_DOWN}')"></div>
     <div><label class="s-font5" for="password">__R_PASS__:</label></div>
-    <div><input id="password" name="password" type="password" autocomplete="current-password" placeholder="__R_PASS_HINT__" onkeydown="javascript:G.action(auth.CF_LOGIN.ON_PASSWD_KEY_DOWN, this)"></div>
+    <div><input id="password" name="password" type="password" autocomplete="current-password" placeholder="__R_PASS_HINT__" onkeydown="javascript:G.action('${CF_LOGIN.ON_PASSWD_KEY_DOWN}', this)"></div>
     <div>
-      <a class="s-font7" href="javascript:void(0)" onclick="javascript:G.action(auth.CF_LOGIN.RETRIEVE_PASSWORD)">__R_FORGET_PASS__?</a>
+      <a class="s-font7" href="javascript:void(0)" onclick="javascript:G.action('${CF_LOGIN.RETRIEVE_PASSWORD}')">__R_FORGET_PASS__?</a>
       <span class="s-font7">__R_NO_ACCOUNT__?</span>
-      <a class="s-font7" href="javascript:void(0)" onclick="javascript:G.action(auth.CF_LOGIN.REGISTER)">__R_REGISTER__.</a>
+      <a class="s-font7" href="javascript:void(0)" onclick="javascript:G.action('${CF_LOGIN.REGISTER}')">__R_REGISTER__.</a>
     </div>
   </div>
   </div>`,
