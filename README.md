@@ -46,8 +46,8 @@ The build script (`build.js`) performs the following steps:
 1. **Generate entry points**: Creates ES module entry points (`src/index.js`, `src/sw.js`) from `app/file_list.txt` and `sw/file_list.txt`
 2. **Bundle JavaScript**: Uses `esbuild` to bundle all modules into a single file with tree-shaking and minification
 3. **Minify CSS**: Uses `uglifycss` to minify `css/hst.css`
-4. **Package outputs**: Creates web2 and web3 deployment packages in the `obj/` directory
-5. **Create tarball**: Generates `obj/web3.tar.gz` for web3 deployment
+4. **Package outputs**: Creates web2 and web3 deployment packages in the `dist/` directory
+5. **Create tarball**: Generates `dist/web3.tar.gz` for web3 deployment
 
 ### Module-Based Architecture
 
