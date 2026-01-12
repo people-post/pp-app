@@ -11,7 +11,7 @@ import { SocialItem } from '../datatypes/SocialItem.js';
 import { dat } from 'pp-api';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { R } from '../constants/R.js';
 import { Account } from '../dba/Account.js';
 
 const { OArticle } = dat;
@@ -47,7 +47,7 @@ export class FCommentInput extends Fragment {
   onInputConsoleRequestPost(message: string): void { this.#onPostMessage(message); }
   onClickInHashtagFragment(fHashtag: FHashtag): void {
     this.#lc.dismiss();
-    this.#asyncPostUserHashtagComment(this.#tmpMessage || "", fHashtag.getTagId());
+    this.#asyncPostUserHashtagComment(this.#tmpMessage || "", fHashtag.getTagId() ?? "");
   }
 
   onOptionClickedInContextLayer(_lc: LContext, value: string): void {
@@ -63,9 +63,8 @@ export class FCommentInput extends Fragment {
     }
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new PanelWrapper();
-    p.setClassName("comment-input-console");
     render.wrapPanel(p);
     this.#fInput.attachRender(p);
     this.#fInput.render();
@@ -160,7 +159,7 @@ export class FCommentInput extends Fragment {
     // Make article out of comment text.
     let oArticle = new OArticle();
     oArticle.setContent(message);
-    oArticle.setOwnerId(Account.getId());
+    oArticle.setOwnerId(Account.getId() ?? "");
     oArticle.markCreation();
 
     await Account.asComment(this.#threadId.getValue(), oArticle, asPost);

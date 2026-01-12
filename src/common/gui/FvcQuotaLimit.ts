@@ -3,16 +3,16 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcUpgradeChoices } from './FvcUpgradeChoices.js';
 import Utilities from '../../lib/ext/Utilities.js';
 import { R } from '../constants/R.js';
-import Render from '../../lib/ui/renders/Render.js';
 import { FragmentOwner } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export const CF_QUOTA_LIMIT = {
-  UPGRADE : Symbol(),
+  UPGRADE : "CF_QUOTA_LIMIT_1",
 };
 
 const _CFT_QUOTA_LIMIT = {
   UPGRADE_BTN :
-      `<a class="internal-page-link" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_QUOTA_LIMIT.UPGRADE)">upgrade</a>`,
+      `<a class="internal-page-link" href="javascript:void(0)" onclick="javascript:G.action('${CF_QUOTA_LIMIT.UPGRADE}')">upgrade</a>`,
 };
 
 interface QuotaErrorData {
@@ -29,7 +29,7 @@ export class FvcQuotaLimit extends FScrollViewContent {
     this.#quotaError = quotaError;
   }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_QUOTA_LIMIT.UPGRADE:
       this.#onUpgradeClicked();
@@ -40,7 +40,7 @@ export class FvcQuotaLimit extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     const s = this.#renderErrorMsg(this.#quotaError.code, this.#quotaError.data);
     render.replaceContent(s);
   }

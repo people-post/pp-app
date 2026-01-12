@@ -55,7 +55,7 @@ The project uses Tailwind CSS v4 for styling:
 
 - **CSS Location**: CSS files are located in `src/css/`
 - **Tailwind Entry Point**: `src/css/tailwind.css` is the main CSS entry point that:
-  - Imports Tailwind CSS v4 using `@import "tailwindcss"`
+  - Imports Tailwind CSS v4 using `@import "tailwindcss" prefix(tw)` - all Tailwind utility classes are prefixed with `tw-` (e.g., `tw-flex`, `tw-text-center`, `tw-bg-blue-500`)
   - Includes existing custom styles from `hst.css`
   - Supports custom theme configuration via `@theme` directive
 - **Build Process**: The build automatically:
@@ -63,9 +63,10 @@ The project uses Tailwind CSS v4 for styling:
   2. Minifies the processed CSS using esbuild
   3. Outputs the final CSS to `dist/web2/static/css/` and `dist/web3/static/`
 - **Migration Path**: To gradually migrate to Tailwind utility classes:
-  1. Replace custom classes in `hst.css` with Tailwind utility classes in your TypeScript/HTML
+  1. Replace custom classes in `hst.css` with Tailwind utility classes prefixed with `tw-` (e.g., use `tw-flex` instead of `flex`, `tw-text-center` instead of `text-center`)
   2. Use `@theme` in `tailwind.css` for custom theme values
   3. Remove unused custom classes from `hst.css` as you migrate
+- **Prefix**: All Tailwind utility classes use the `tw-` prefix to avoid conflicts with existing custom CSS classes
 
 ### Module-Based Architecture
 

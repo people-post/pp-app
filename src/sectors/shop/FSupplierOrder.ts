@@ -1,13 +1,13 @@
 export const CF_SUPPLIER_ORDER = {
-  SHOW_ADDRESS : Symbol(),
-  ON_CLICK : Symbol(),
-  USER_INFO : Symbol(),
+  SHOW_ADDRESS : "CF_SUPPLIER_ORDER_1",
+  ON_CLICK : "CF_SUPPLIER_ORDER_2",
+  USER_INFO : "CF_SUPPLIER_ORDER_3",
 };
 
 const _CFT_SUPPLIER_ORDER = {
-  ACT_ONCLICK : `javascript:G.action(shop.CF_SUPPLIER_ORDER.ON_CLICK)`,
+  ACT_ONCLICK : `javascript:G.action('${CF_SUPPLIER_ORDER.ON_CLICK}')`,
   ADDERSS :
-      `<span class="button-like small" onclick="javascript:G.action(shop.CF_SUPPLIER_ORDER.SHOW_ADDRESS)">Address</span>`,
+      `<span class="button-like small" onclick="javascript:G.action('${CF_SUPPLIER_ORDER.SHOW_ADDRESS}')">Address</span>`,
   ITEM : `<div class="w60">__NAME__</div>
   <div>__QUANTITY__x</div>`,
 } as const;
@@ -308,7 +308,7 @@ export class FSupplierOrder extends Fragment {
   #renderUserName(userId: string): string {
     let nickname = Account.getUserNickname(userId, "...");
     return Utilities.renderSmallButton(
-        "shop.CF_SUPPLIER_ORDER_CONTENT.USER_INFO", userId, nickname,
+        "javascript:G.action('${CF_SUPPLIER_ORDER.USER_INFO}')", userId, nickname,
         "low-profile s-cinfotext bold");
   }
 

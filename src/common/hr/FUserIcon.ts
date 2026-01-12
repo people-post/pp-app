@@ -9,7 +9,7 @@ export const CF_USER_ICON = {
 
 const _CFT_USER_ICON = {
   ICON :
-      `<span class="user-icon-wrapper __SIZE_CLASS__" onclick="javascript:G.action(CF_USER_ICON.USER_INFO)">
+      `<span class="user-icon-wrapper __SIZE_CLASS__" onclick="javascript:G.action('${CF_USER_ICON.USER_INFO}')">
     <img class="user-icon" style="background-color:__BG_COLOR__;" src="__ICON_URL__"></img>
   </span>`,
 };

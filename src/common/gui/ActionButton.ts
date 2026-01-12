@@ -7,26 +7,10 @@ export const CF_ACTION_BUTTON = {
   ONCLICK : "CF_GUI_ACTION_BUTTON_1",
 };
 
-// Export to window for string template access
-declare global {
-  interface Window {
-    gui?: {
-      CF_ACTION_BUTTON?: typeof CF_ACTION_BUTTON;
-      CF_SIMPLE_LIST?: typeof import('./FSimpleList.js').CF_SIMPLE_LIST;
-      [key: string]: unknown;
-    };
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  window.gui.CF_ACTION_BUTTON = CF_ACTION_BUTTON;
-}
-
 // TODO: Relative is for badge, needs improvement
 const _CFT_ACTION_BUTTON = {
   MAIN : `<div class="menu-slot-icon-wrapper pad5px relative">
-      <a class="menu" href="javascript:void(0)" onclick="G.action(window.gui.CF_ACTION_BUTTON.ONCLICK)">__ICON__</a>
+      <a class="menu" href="javascript:void(0)" onclick="G.action('${CF_ACTION_BUTTON.ONCLICK}')">__ICON__</a>
   </div>`,
 };
 

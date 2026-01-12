@@ -4,10 +4,10 @@ import { ProductDeliveryChoice } from './ProductDeliveryChoice.js';
 import { SocialItemId } from './SocialItemId.js';
 import { OgpData } from './OgpData.js';
 
-interface BasePrice {
+export interface BasePrice {
   currency_id: string;
-  value: number;
-  [key: string]: unknown;
+  list_price: string | number;
+  sales_price: string | number;
 }
 
 interface ProductData {
@@ -88,7 +88,7 @@ export class Product extends SocialItem {
   }
 
   getBasePrices(): BasePrice[] {
-    return this._data.base_prices ? this._data.base_prices : [];
+    return this._data.base_prices ?? [];
   }
 
   getBasePrice(currencyId: string): BasePrice | undefined {

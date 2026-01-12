@@ -1,10 +1,10 @@
 export const CF_SHOP_CONFIG = {
-  ON_NAME_CHANGE : Symbol(),
+  ON_NAME_CHANGE : "CF_SHOP_CONFIG_1",
 };
 
 const _CFT_SHOP_CONFIG = {
   SHOP_NAME :
-      `<input type="text" class="tight-label-like border-box" placeholder="Your shop name" value="__VALUE__" onchange="javascript:G.action(shop.CF_SHOP_CONFIG.ON_NAME_CHANGE, this.value)">`,
+      `<input type="text" class="tight-label-like border-box" placeholder="Your shop name" value="__VALUE__" onchange="javascript:G.action('${CF_SHOP_CONFIG.ON_NAME_CHANGE}', this.value)">`,
 } as const;
 
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
@@ -31,7 +31,6 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { R } from '../../common/constants/R.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
 
 interface ShopConfigDelegate {
@@ -49,7 +48,6 @@ export class FvcConfig extends FScrollViewContent {
   #btnAddTeam: Button;
   #btnClose: Button;
   #selectedTeamId: string | null = null;
-  protected _delegate!: ShopConfigDelegate;
 
   constructor() {
     super();
@@ -158,7 +156,7 @@ export class FvcConfig extends FScrollViewContent {
     }
   }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_SHOP_CONFIG.ON_NAME_CHANGE:
       this.#onNameChange(args[0] as string);
@@ -182,7 +180,7 @@ export class FvcConfig extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, _data);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 

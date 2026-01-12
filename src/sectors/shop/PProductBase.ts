@@ -16,7 +16,7 @@ export class PProductBase extends Panel {
   getReferencePanel(): Panel | null { return null; }
   getNamePanel(): PanelWrapper { return this._pName; }
   getDescriptionPanel(): PanelWrapper { return this._pDescription; }
-  getThumbnailPanel(): Panel | null { return null; }
+  getThumbnailPanel(): PanelWrapper | null { return null; }
   getGalleryPanel(): Panel | null { return null; }
   getPricePanel(): Panel | null { return null; }
   getActionPanel(): Panel | null { return null; }

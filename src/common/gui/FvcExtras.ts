@@ -11,13 +11,13 @@ import { R } from '../constants/R.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 
 export const CF_EXTRAS_CONTENT = {
-  TEST : Symbol(),
+  TEST : "CF_EXTRAS_CONTENT_1",
 }
 
 const _CFT_EXTRAS_CONTENT = {
   BADGE : `<span class="inline-notification-badge">__BADGE__</span>`,
   BTN_TEST :
-      `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_EXTRAS_CONTENT.TEST)">Test</a>`,
+      `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action('${CF_EXTRAS_CONTENT.TEST}')">Test</a>`,
 }
 
 interface PageConfig {

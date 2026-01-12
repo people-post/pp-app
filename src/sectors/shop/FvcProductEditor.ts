@@ -3,7 +3,7 @@ export const CF_PRODUCT_EDITOR = {
 }
 
 const _CFT_PRODUCT_EDITOR = {
-  NAME : `<div class="textarea-wrapper">
+  NAME : `<div>
       <label class="s-font5" for="edit-product-name">Name</label>
       <br>
       <textarea id="edit-product-name" class="edit-product-name">__NAME__</textarea>
@@ -11,7 +11,7 @@ const _CFT_PRODUCT_EDITOR = {
     <br>`,
   ACTIONS : `<br>
     <br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(shop.CF_PRODUCT_EDITOR.SUBMIT)">Submit</a>
+    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action('${CF_PRODUCT_EDITOR.SUBMIT}')">Submit</a>
     <br>
     <br>
     __DELETE_BUTTON__
@@ -21,12 +21,10 @@ const _CFT_PRODUCT_EDITOR = {
       `<a class="button-bar danger" href="javascript:void(0)">Delete</a>`,
 }
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
-import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
-import { Product } from '../../common/datatypes/Product.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { BasePrice, Product } from '../../common/datatypes/Product.js';
 import { RichContentEditor } from '../../common/gui/RichContentEditor.js';
 import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
 import { PriceEditorFragment } from '../../common/gui/PriceEditorFragment.js';
@@ -35,12 +33,13 @@ import { PProductEditor } from './PProductEditor.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { Api } from '../../common/plt/Api.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface ProductData {
   id: string;
   name: string;
   description: string;
-  base_prices: Array<{ currency_id: string; sales_price: number; list_price: number }>;
+  base_prices: BasePrice[];
   tag_ids: string[];
   tag_names: string[];
   delivery_choices: string[];
@@ -60,7 +59,7 @@ export class FvcProductEditor extends FScrollViewContent {
     this.setChild("content", this._fContent);
 
     this._fFiles = new FMultiMediaFileUploader();
-    this._fFiles.setCacheIds([ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]);
+    this._fFiles.setCacheIds([ "0", "1", "2", "3", "4", "5", "6", "7", "8" ]);
     this._fFiles.setDataSource(this);
     this._fFiles.setDelegate(this);
     this.setChild("files", this._fFiles);
@@ -83,7 +82,7 @@ export class FvcProductEditor extends FScrollViewContent {
 
   getTagsForTagsEditorFragment(_fEditor: TagsEditorFragment): ReturnType<typeof WebConfig.getTags> { return WebConfig.getTags(); }
   getInitialCheckedIdsForTagsEditorFragment(_fEditor: TagsEditorFragment): string[] {
-    return this._product ? this._product.getTagIds() : [];
+    return this._product ? this._product.getTagIds() ?? [] : [];
   }
 
   onMultiMediaFileUploadWillBegin(_uploadView: unknown): void { this.#disableSubmitButton(); }
@@ -100,41 +99,38 @@ export class FvcProductEditor extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
-    let panel = new PProductEditor();
-    render.wrapPanel(panel);
+  _renderContentOnRender(render: PanelWrapper): void {
+    let pProductEditor = new PProductEditor();
+    render.wrapPanel(pProductEditor);
 
     let product = this._product;
 
-    let p = panel.getNamePanel();
-    this.#renderName(product, p);
+    let pName = pProductEditor.getNamePanel();
+    this.#renderName(product, pName);
 
-    p = panel.getFilesPanel();
-    this.#renderFiles(product, p);
+    let pFiles = pProductEditor.getFilesPanel();
+    this.#renderFiles(product, pFiles);
 
-    p = panel.getDescriptionPanel();
-    this.#renderDescription(product, p);
+    let pDescription = pProductEditor.getDescriptionPanel();
+    this.#renderDescription(product, pDescription);
 
-    p = panel.getMenuTagsPanel();
-    this.#renderMenuTags(product, p);
+    let pMenuTags = pProductEditor.getMenuTagsPanel();
+    this.#renderMenuTags(product, pMenuTags);
 
-    p = panel.getPricePanel();
-    this.#renderPrice(product, p);
+    let pPrice = pProductEditor.getPricePanel();
+    this.#renderPrice(product, pPrice);
 
-    p = panel.getDeliveryPanel();
-    this.#renderDelivery(product, p);
+    let pDelivery = pProductEditor.getDeliveryPanel();
+    this.#renderDelivery(product, pDelivery);
 
-    p = panel.getActionsPanel();
-    this.#renderActions(product, p);
+    let pActions = pProductEditor.getActionsPanel();
+    this.#renderActions(product, pActions);
   }
 
   #renderName(product: Product | null, panel: Panel): void {
     let s = _CFT_PRODUCT_EDITOR.NAME;
-    if (product && product.getName()) {
-      s = s.replace("__NAME__", product.getName());
-    } else {
-      s = s.replace("__NAME__", "");
-    }
+    const name = product ? product.getName() ?? "" : "";
+    s = s.replace("__NAME__", name);
     panel.replaceContent(s);
   }
 
@@ -175,7 +171,7 @@ export class FvcProductEditor extends FScrollViewContent {
     panel.replaceContent(s);
   }
 
-  #renderDelivery(product: Product | null, panel: Panel): void {
+  #renderDelivery(product: Product | null, panel: PanelWrapper): void {
     let p = new SectionPanel("Delivery");
     panel.wrapPanel(p);
     if (product) {

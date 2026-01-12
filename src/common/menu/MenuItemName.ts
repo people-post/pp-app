@@ -16,13 +16,13 @@ const _CFT_MENU_ITEM_NAME = {
         __NAME__
         </td>
         <td class="right-align">
-          <span class="button-like small danger" onclick="javascript:G.action(gui.CF_MENU_ITEM_NAME.DELETE)">Delete...</span>
+          <span class="button-like small danger" onclick="javascript:G.action('${CF_MENU_ITEM_NAME.DELETE}')">Delete...</span>
         </td>
       </tr>
     </tbody>
   </table>`,
   DIR_NAME :
-      `<span class="clickable underline" onclick="javascript:G.action(gui.CF_MENU_ITEM_NAME.ONCLICK)">__TEXT__</span>`,
+      `<span class="clickable underline" onclick="javascript:G.action('${CF_MENU_ITEM_NAME.ONCLICK}')">__TEXT__</span>`,
 }
 
 export class MenuItemName extends Fragment {

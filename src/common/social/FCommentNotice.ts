@@ -3,7 +3,7 @@ export const CF_COMMENT_NOTICE_INFO = {
 };
 
 const _CFT_COMMENT_NOTICE_INFO = {
-  COMMENT_INFO : `<div class="comment-notice">
+  COMMENT_INFO : `<div>
   <span class="badge-holder">
     <span class="article-title">
       <a class="article-link" href="javascript:void(0)" onclick="javascript:G.action(socl.CF_COMMENT_NOTICE_INFO.ON_CLICK)">__TITLE__</a>

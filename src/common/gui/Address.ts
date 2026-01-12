@@ -6,7 +6,7 @@ import { T_DATA } from '../plt/Events.js';
 import type { Address as AddressDataType } from '../datatypes/Address.js';
 
 export const CF_ADDRESS = {
-  ON_CLICK : Symbol(),
+  ON_CLICK : "CF_ADDRESS_1",
 };
 
 export class Address extends Fragment {
@@ -85,7 +85,7 @@ export class Address extends Fragment {
     }
     const panel = this.#createPanel();
     panel.setAttribute("onclick",
-                       "javascript:G.action(gui.CF_ADDRESS.ON_CLICK)");
+                       "javascript:G.action('${CF_ADDRESS.ON_CLICK}')");
     (render as { wrapPanel(p: unknown): void }).wrapPanel(panel);
     let p = panel.getNicknamePanel();
     if (p) {

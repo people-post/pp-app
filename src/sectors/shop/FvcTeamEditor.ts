@@ -6,7 +6,7 @@ const _CFT_SHOP_TEAM_EDITOR = {
   SEC_NAME :
       `<input id="ID_SHOP_TEAM_NAME" type="text" placeholder="Name" value="__NAME__">`,
   SEC_SUBMIT : `<br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(shop.CF_SHOP_TEAM_EDITOR.SUBMIT)">Submit<a>`,
+    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action('${CF_SHOP_TEAM_EDITOR.SUBMIT}')">Submit<a>`,
 }
 
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';

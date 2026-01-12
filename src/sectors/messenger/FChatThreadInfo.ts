@@ -63,49 +63,48 @@ export class FChatThreadInfo extends Fragment {
 
   _getIconInfos(): Array<{ url: string; bg: string }> { return []; }
 
-  _renderOnRender(render: Panel): void {
-    let p = new ListPanel();
-    p.setClassName("flex flex-start clickable chat-thread-info");
-    p.setAttribute("onclick",
+  _renderOnRender(render: PanelWrapper): void {
+    let pList = new ListPanel();
+    pList.setClassName("flex flex-start clickable chat-thread-info");
+    pList.setAttribute("onclick",
                    "javascript:G.action(CF_CHAT_THREAD_INFO.ON_CLICK)");
-    render.wrapPanel(p);
+    render.wrapPanel(pList);
 
-    let pp = new ListPanel();
-    pp.setClassName("chat-thread-cover-icon");
-    p.pushPanel(pp);
+    let ppIcon = new ListPanel();
+    ppIcon.setClassName("chat-thread-cover-icon");
+    pList.pushPanel(ppIcon);
 
     let pThumbnail = new PanelWrapper();
     pThumbnail.setClassName("thumbnail s-icon1");
-    pp.pushPanel(pThumbnail);
+    ppIcon.pushPanel(pThumbnail);
     this._fThumbnail.attachRender(pThumbnail);
     this._fThumbnail.render();
 
     let info: MessageThreadInfo | null = null;
     if (this._threadId) {
-      info = Notifications.getMessageThreadInfo(this._threadId);
+      info = Notifications.getMessageThreadInfo(this._threadId) ?? null;
     }
 
     if (info && info.getNUnread() > 0) {
-      let ppp = new Panel();
-      ppp.setClassName("notification-badge");
-      pp.pushPanel(ppp);
-      ppp.replaceContent(info.getNUnread().toString());
+      let ppNotificationBadge = new Panel();
+      ppNotificationBadge.setClassName("notification-badge");
+      ppIcon.pushPanel(ppNotificationBadge);
+      ppNotificationBadge.replaceContent(info.getNUnread().toString());
     }
 
-    pp = new ListPanel();
-    pp.setClassName("chat-thread-cover-content");
-    p.pushPanel(pp);
-    let ppp = new Panel();
-    ppp.setClassName("chat-thread-cover-nickname");
-    pp.pushPanel(ppp);
-    ppp.replaceContent(this._renderTitle());
+    let ppContent = new ListPanel();
+    ppContent.setClassName("chat-thread-cover-content");
+    pList.pushPanel(ppContent);
+    let pppTitle = new Panel();
+    ppContent.pushPanel(pppTitle);
+    pppTitle.replaceContent(this._renderTitle());
 
-    ppp = new Panel();
-    ppp.setClassName("s-font5 chat-thread-cover-message");
-    pp.pushPanel(ppp);
+    let pppMessage = new Panel();
+    pppMessage.setClassName("s-font5 chat-thread-cover-message");
+    ppContent.pushPanel(pppMessage);
 
     if (info) {
-      ppp.replaceContent(this.#renderThreadContent(info));
+      pppMessage.replaceContent(this.#renderThreadContent(info));
     }
   }
 

@@ -6,7 +6,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { WebConfig } from '../dba/WebConfig.js';
 
 export const CF_UPGRADE_CHOICES = {
-  SELECT : Symbol(),
+  SELECT : "CF_UPGRADE_CHOICES_1",
 };
 
 const _CFT_UPGRACE_CHOICES = {
@@ -65,7 +65,7 @@ export class FvcUpgradeChoices extends FScrollViewContent {
 
   onSimpleButtonClicked(_fBtn: Button): void {}
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_UPGRADE_CHOICES.SELECT:
       this.#onSelect(args[0] as number);
@@ -87,7 +87,7 @@ export class FvcUpgradeChoices extends FScrollViewContent {
         const pp = new ListPanel();
         pp.setClassName("w90 flex-noshrink scroll-snap-center");
         pp.setAttribute("onclick",
-                        "javascript:G.action(gui.CF_UPGRADE_CHOICES.SELECT, " +
+                        "javascript:G.action('${CF_UPGRADE_CHOICES.SELECT}', " +
                             i + ")");
         p.pushPanel(pp);
         this.#renderChoice(pp, c);

@@ -1,5 +1,5 @@
 export const CF_REGISTER = {
-  ON_CLICK : Symbol(),
+  ON_CLICK : "CF_REGISTER_1",
 };
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
@@ -17,6 +17,7 @@ import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { PRegisterBase } from './PRegisterBase.js';
 
 interface RegisterDelegate {
   onRegisterFragmentRequestShowView(f: FRegister, view: View, title: string): void;
@@ -38,8 +39,6 @@ export class FRegister extends Fragment {
   protected _tLayout: symbol | null = null;
   protected _registerId: string | null = null;
   protected _isEditEnabled: boolean = false;
-  protected _dataSource!: RegisterDataSource;
-  protected _delegate!: RegisterDelegate;
 
   constructor() {
     super();
@@ -71,7 +70,7 @@ export class FRegister extends Fragment {
                                                      "Terminal config");
   }
 
-  action(type: symbol, ..._args: unknown[]): void {
+  action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {
     case CF_REGISTER.ON_CLICK:
       this._delegate.onClickInRegisterFragment(this, this._registerId);
@@ -139,13 +138,13 @@ export class FRegister extends Fragment {
     }
   }
 
-  #createPanel(): Panel {
-    let p: Panel;
+  #createPanel(): PRegisterBase {
+    let p: PRegisterBase;
     switch (this._tLayout) {
-    case this.constructor.T_LAYOUT.SMALL:
+    case FRegister.T_LAYOUT.SMALL:
       p = new PRegisterSmall();
       p.setAttribute("onclick",
-                     "javascript:G.action(shop.CF_REGISTER.ON_CLICK)");
+                     "javascript:G.action('${CF_REGISTER.ON_CLICK}')");
       break;
     default:
       p = new PRegister();

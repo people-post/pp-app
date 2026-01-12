@@ -13,23 +13,16 @@ export const CF_INPUT_CONSOLE = {
   ON_POST_FILE : "CF_GUI_INPUT_CONSOLE_5",
 }
 
-// Window.gui is already declared in ActionButton.ts, just extend it
-
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  (window.gui as { CF_INPUT_CONSOLE: typeof CF_INPUT_CONSOLE }).CF_INPUT_CONSOLE = CF_INPUT_CONSOLE;
-}
-
 const _CFT_INPUT_CONSOLE = {
   TEXT_INPUT_NORMAL :
-      `<textarea id="ID_INPUT_CONSOLE___FID__" class="console-text" onkeydown="javascript:G.action(gui.CF_INPUT_CONSOLE.ON_KEY_DOWN)" onkeyup="javascript:G.action(gui.CF_INPUT_CONSOLE.ON_KEY_UP)" placeholder="__TEXT_PLACE_HOLDER__">__VALUE__</textarea>`,
+      `<textarea id="ID_INPUT_CONSOLE___FID__" class="console-text" onkeydown="javascript:G.action('${CF_INPUT_CONSOLE.ON_KEY_DOWN}')" onkeyup="javascript:G.action('${CF_INPUT_CONSOLE.ON_KEY_UP}')" placeholder="__TEXT_PLACE_HOLDER__">__VALUE__</textarea>`,
   TEXT_INPUT_DISABLED :
       `<textarea class="console-text" placeholder="__TEXT_PLACE_HOLDER__" disabled></textarea>`,
   ICON : `<span class="inline-block s-icon6 clickable">__ICON__</span>`,
   BTN_IMG : `<label class="s-font5" for="_ID_INPUT_CONSOLE_IMG_INPUT">
       <span class="inline-block s-icon3 clickable">__IMG_ICON__</span>
     </label>
-    <input id="_ID_INPUT_CONSOLE_IMG_INPUT" type="file" style="display:none" onchange="javascript:G.action(gui.CF_INPUT_CONSOLE.ON_POST_FILE, this)">`,
+    <input id="_ID_INPUT_CONSOLE_IMG_INPUT" type="file" style="display:none" onchange="javascript:G.action('${CF_INPUT_CONSOLE.ON_POST_FILE}', this)">`,
   BTN_IMG_DISABLED : `<label class="s-font5">
     <span class="inline-block s-icon3 clickable">__IMG_ICON__</span>
    </label>`,
@@ -72,7 +65,7 @@ export class InputConsoleFragment extends Fragment {
     this.setChild("menu", f);
   }
 
-  action(type: string, ...args: unknown[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_INPUT_CONSOLE.ON_KEY_DOWN:
       this.#onKeyDown();
@@ -133,7 +126,7 @@ export class InputConsoleFragment extends Fragment {
     pp = new Panel();
     if (this.#isEnabled) {
       pp.setAttribute("onclick",
-                      "javascript:G.action(gui.CF_INPUT_CONSOLE.ON_POST)");
+                      "javascript:G.action('${CF_INPUT_CONSOLE.ON_POST}')");
     }
     p.pushPanel(pp);
     pp.setClassName("input-console-icon");
@@ -150,7 +143,7 @@ export class InputConsoleFragment extends Fragment {
       }
       if (this.#isEnabled) {
         pp.setAttribute(
-            "onclick", "javascript:G.action(gui.CF_INPUT_CONSOLE.TOGGLE_MORE)");
+            "onclick", "javascript:G.action('${CF_INPUT_CONSOLE.TOGGLE_MORE}')");
       }
       p.pushPanel(pp);
       pp.replaceContent(this.#renderMoreButton());

@@ -11,20 +11,20 @@ import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
 
 export const CF_GALLERY = {
-  PREV_IMAGE_SLIDE : Symbol(),
-  NEXT_IMAGE_SLIDE : Symbol(),
-  SHOW_IMAGE_SLIDE : Symbol(),
-  ON_SCROLL : Symbol(),
+  PREV_IMAGE_SLIDE : "CF_GALLERY_1",
+  NEXT_IMAGE_SLIDE : "CF_GALLERY_2",
+  SHOW_IMAGE_SLIDE : "CF_GALLERY_3",
+  ON_SCROLL : "CF_GALLERY_4",
 };
 
 const _CFT_GALLERY = {
   PREPROC :
       `<div class="info-message">Preprocessing files, please wait...__PROGRESS__</div>`,
   SLIDE_SHOW : `<div class="center-align h100">
-      <div id="__ID_SLIDES__" class="h100 relative x-scroll x-scroll-snap no-wrap flex flex-start" onscroll="javascript:G.action(gui.CF_GALLERY.ON_SCROLL, this)">
+      <div id="__ID_SLIDES__" class="h100 relative x-scroll x-scroll-snap no-wrap flex flex-start" onscroll="javascript:G.action('${CF_GALLERY.ON_SCROLL}', this)">
       </div>
-      <div class="slide-show-nav slide-show-prev" onclick="javascript:G.action(gui.CF_GALLERY.PREV_IMAGE_SLIDE)">&#10094;</div>
-      <div class="slide-show-nav slide-show-next" onclick="javascript:G.action(gui.CF_GALLERY.NEXT_IMAGE_SLIDE)">&#10095;</div>
+      <div class="slide-show-nav slide-show-prev" onclick="javascript:G.action('${CF_GALLERY.PREV_IMAGE_SLIDE}')">&#10094;</div>
+      <div class="slide-show-nav slide-show-next" onclick="javascript:G.action('${CF_GALLERY.NEXT_IMAGE_SLIDE}')">&#10095;</div>
       <div id="__ID_DOTS__" class="absolute w100 bottom0px center-align"></div>
     </div>`,
   SLIDE_SHOW_SLIDE : `<div id="__ID_LABEL__" class="slide-show-label"></div>
@@ -150,8 +150,7 @@ export class FGallery extends Fragment {
     }
   }
 
-  action(type: symbol, ...args: unknown[]): void {
-    // eslint-disable-next-line prefer-rest-params
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_GALLERY.NEXT_IMAGE_SLIDE:
       this.#switchToNextSlide();
@@ -184,7 +183,7 @@ export class FGallery extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (this.#fFiles.length < 1) {
       return;
     }
@@ -359,7 +358,7 @@ export class FGallery extends Fragment {
 
       const pDot = new Panel();
       pDot.setAttribute("onclick",
-                     "javascript:G.action(gui.CF_GALLERY.SHOW_IMAGE_SLIDE, " +
+                     "javascript:G.action('${CF_GALLERY.SHOW_IMAGE_SLIDE}', " +
                          i + ")");
       let className = "slide-show-dot";
       if (i == 0) {

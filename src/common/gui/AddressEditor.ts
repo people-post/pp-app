@@ -3,6 +3,7 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Address } from '../datatypes/Address.js';
+
 export class AddressEditor extends Fragment {
   #fNickname: TextInput;
   #fName: TextInput;

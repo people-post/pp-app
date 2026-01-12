@@ -1,5 +1,5 @@
 export const CF_SERVICE_LOCATION = {
-  ON_CLICK : Symbol(),
+  ON_CLICK : "CF_SERVICE_LOCATION_1",
 };
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
@@ -25,7 +25,6 @@ export class FServiceLocation extends Fragment {
   protected _fBranch: FBranch;
   protected _fBtnViewQueue: FBtnViewQueue;
   protected _data: ServiceLocationData | null = null;
-  protected _dataSource!: ServiceLocationDataSource;
 
   constructor() {
     super();
@@ -75,7 +74,7 @@ export class FServiceLocation extends Fragment {
   }
   onBranchFragmentRequestShowView(_fBranch: FBranch, _view: unknown, _title: string): void {}
 
-  action(type: symbol, ..._args: unknown[]): void {
+  action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {
     case CF_SERVICE_LOCATION.ON_CLICK:
       // @ts-expect-error - delegate may have this method
@@ -93,7 +92,7 @@ export class FServiceLocation extends Fragment {
     render.wrapPanel(panel);
 
     panel.setAttribute(
-        "onclick", "javascript:G.action(shop.CF_SERVICE_LOCATION.ON_CLICK)");
+        "onclick", "javascript:G.action('${CF_SERVICE_LOCATION.ON_CLICK}')");
     if (this._dataSource.shouldServiceLocationFragmentHighlight(this)) {
       panel.invertColor();
     }

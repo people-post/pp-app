@@ -13,7 +13,7 @@ const _CPT_MAIN = {
       <div id="__ID_CONTENT__" class="h100 flex-grow relative hide-overflow"></div>
       <div id="__ID_SIDE_RIGHT__" class="h100"></div>
     </div>
-    <div id="__ID_NAV_OVERLAY__" class="layer f-nav-overlay clickthrough" style="z-index: 2"></div>
+    <div id="__ID_NAV_OVERLAY__" class="layer clickthrough" style="z-index: 2"></div>
   </div>`,
 };
 

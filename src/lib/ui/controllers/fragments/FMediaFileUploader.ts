@@ -93,7 +93,6 @@ export class FMediaFileUploader extends FFileUploader {
     p.setClassName("file-preview-block");
     render.wrapPanel(p);
     let pp = new Panel();
-    pp.setClassName("file-preview-icon");
     p.pushPanel(pp);
     this._fPreview.attachRender(pp);
 

@@ -270,7 +270,7 @@ export class FOrder extends Fragment {
     for (let item of order.getItems()) {
       for (let subItem of item.getItems()) {
         let p = new Panel();
-        p.setClassName("customer-order-info-item flex space-between");
+        p.setClassName("flex space-between");
         pItems.pushPanel(p);
         p.replaceContent(this.#renderOrderItem(subItem));
       }

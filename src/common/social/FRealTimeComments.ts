@@ -87,7 +87,7 @@ export class FRealTimeComments extends Fragment {
   onCommentPostedInRealTimeCommentAgent(_agent: RealTimeCommentAgent): void {}
   onCommentsLoadedInRealTimeCommentAgent(agent: RealTimeCommentAgent): void {
     this.#updateMain();
-    Social.reload(agent.getThreadId());
+    Social.reload(agent.getThreadId() ?? "");
   }
   onPostFailedInRealTimeCommentAgent(_agent: RealTimeCommentAgent, msg: string, err: unknown): void {
     this.#fInput.setText(msg);
@@ -120,7 +120,7 @@ export class FRealTimeComments extends Fragment {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: string | symbol, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
@@ -136,7 +136,7 @@ export class FRealTimeComments extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
     let pList = new ListPanel();
     pList.setClassName("h100");
     pList.setAttribute("onclick", "javascript:G.anchorClick()");
@@ -147,15 +147,14 @@ export class FRealTimeComments extends Fragment {
         "onclick", "javascript:G.action(socl.CF_COMMENTS.TOGGLE_CLICK)");
     pList.pushPanel(this.#pMain);
 
-    let p = this.#pMain.getHintPanel();
-    p.replaceContent("Click to toggle input...");
+    let pHint = this.#pMain.getHintPanel();
+    pHint.replaceContent("Click to toggle input...");
 
     this.#updateMain();
 
-    p = new PanelWrapper();
-    p.setClassName("comment-input-console");
-    pList.pushPanel(p);
-    this.#fInput.attachRender(p);
+    let pInput = new PanelWrapper();
+    pList.pushPanel(pInput);
+    this.#fInput.attachRender(pInput);
     this.#fInput.render();
   }
 

@@ -10,7 +10,7 @@ export const CF_FOLDABLE_ITEM = {
 }
 
 const _CFT_FOLDABLE_ITEM = {
-  ON_CLICK_ACTION : `javascript:G.action(gui.CF_FOLDABLE_ITEM.ITEM_CLICK)`,
+  ON_CLICK_ACTION : `javascript:G.action('${CF_FOLDABLE_ITEM.ITEM_CLICK}')`,
 }
 
 export class FoldableItemFragment extends Fragment {

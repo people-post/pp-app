@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FWalkinQueueItem } from './FWalkinQueueItem.js';
 import { WalkinQueue } from '../../common/dba/WalkinQueue.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcWalkinQueueItem extends FScrollViewContent {
   #fItem: FWalkinQueueItem;
@@ -24,7 +25,7 @@ export class FvcWalkinQueueItem extends FScrollViewContent {
 
   setItemId(id: string): void { this.#fItem.setItemId(id); }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     this.#fItem.attachRender(render);
     this.#fItem.render();
   }

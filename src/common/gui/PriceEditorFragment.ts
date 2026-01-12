@@ -9,18 +9,13 @@ import { Shop } from '../dba/Shop.js';
 import { Exchange } from '../dba/Exchange.js';
 import { R } from '../constants/R.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-
-interface PriceItem {
-  currency_id: string;
-  list_price: string | number;
-  sales_price: string | number;
-}
+import { BasePrice } from '../datatypes/Product.js';
 
 export class PriceEditorFragment extends Fragment {
   private _fListPriceUnits: Selection;
   private _fListPriceInput: NumberInput;
   private _fSalesPriceInput: NumberInput;
-  private _prices: PriceItem[] = [];
+  private _prices: BasePrice[] = [];
   private _currentCurrencyId: string | null = null;
   private _hasError = false;
 
@@ -38,8 +33,8 @@ export class PriceEditorFragment extends Fragment {
     this.setChild("spinput", this._fSalesPriceInput);
   }
 
-  getPrices(): PriceItem[] { return this._prices; }
-  setPrices(prices: PriceItem[]): void {
+  getPrices(): BasePrice[] { return this._prices; }
+  setPrices(prices: BasePrice[]): void {
     this._prices = prices;
     if (this._prices.length) {
       this._currentCurrencyId = this._prices[0].currency_id;
@@ -69,7 +64,7 @@ export class PriceEditorFragment extends Fragment {
         currency_id : this._currentCurrencyId || "",
         list_price : "",
         sales_price : ""
-      };
+      } as BasePrice;
       this._prices.push(price);
     }
 
@@ -206,12 +201,12 @@ export class PriceEditorFragment extends Fragment {
     }
   }
 
-  #getCurrentPriceItem(): PriceItem | undefined {
+  #getCurrentPriceItem(): BasePrice | undefined {
     return this._prices.find(p => p.currency_id == this._currentCurrencyId);
   }
 
   #clearEmptyPrices(): void {
-    let ps: PriceItem[] = [];
+    let ps: BasePrice[] = [];
     for (let p of this._prices) {
       if (p.list_price != "" || p.sales_price != "") {
         ps.push(p);

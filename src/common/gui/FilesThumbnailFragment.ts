@@ -1,10 +1,11 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import Render from '../../lib/ui/renders/Render.js';
 import { RemoteFile } from '../datatypes/RemoteFile.js';
 
 export const CF_FILES_THUMBNAIL = {
-  ON_CLICK : Symbol(),
+  ON_CLICK : "CF_FILES_THUMBNAIL_1",
 };
 
 const _CFC_FILES_THUMBNAIL = {
@@ -25,7 +26,7 @@ const _CFC_FILES_THUMBNAIL = {
 
 const _CFT_FILES_THUMBNAIL = {
   ITEM :
-      `<span class="thumbnail-grid thumbnail-grid-__THUMBNAIL_GRID_TYPE__" onclick="javascript:G.action(gui.CF_FILES_THUMBNAIL.ON_CLICK, __IDX__)" style="background-image:url('__URL__');__BG_COLOR__">__CONTENT__</span>
+      `<span class="thumbnail-grid thumbnail-grid-__THUMBNAIL_GRID_TYPE__" onclick="javascript:G.action('${CF_FILES_THUMBNAIL.ON_CLICK}', __IDX__)" style="background-image:url('__URL__');__BG_COLOR__">__CONTENT__</span>
     `,
   LIVE_ICON_MASK : `
     <div class="live-thumbnail-mask top0px"></div>
@@ -39,7 +40,7 @@ const _CFT_FILES_THUMBNAIL = {
 };
 
 export class FilesThumbnailFragment extends Fragment {
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_FILES_THUMBNAIL.ON_CLICK:
       (this._delegate as { onThumbnailClickedInThumbnailFragment(f: FilesThumbnailFragment, idx: number): void }).onThumbnailClickedInThumbnailFragment(this, args[0] as number);
@@ -50,16 +51,14 @@ export class FilesThumbnailFragment extends Fragment {
     }
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     const files = (this._dataSource as { getFilesForThumbnailFragment(f: FilesThumbnailFragment): RemoteFile[] | null }).getFilesForThumbnailFragment(this);
     if (!files) {
       return;
     }
     const p = new Panel();
     p.setClassName("thumbnail-grid-wrapper");
-    if ('wrapPanel' in render) {
-      (render as any).wrapPanel(p);
-    }
+    render.wrapPanel(p);
     this.#renderFiles(files, p);
   }
 

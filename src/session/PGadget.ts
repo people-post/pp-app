@@ -6,7 +6,7 @@ import { Panel } from '../lib/ui/renders/panels/Panel.js';
 const _CPT_GADGET = {
   MAIN : `<div class="f-gadget">
     <div id="__ID_CONTENT__" class="f-page" style="z-index: 1"></div>
-    <div id="__ID_NAV_OVERLAY__" class="layer f-nav-overlay clickthrough" style="z-index: 2"></div>
+    <div id="__ID_NAV_OVERLAY__" class="layer clickthrough" style="z-index: 2"></div>
   </div>`,
 };
 

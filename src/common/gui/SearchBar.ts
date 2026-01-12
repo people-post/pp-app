@@ -7,17 +7,17 @@ import { ICON } from '../constants/Icons.js';
 import { Utilities } from '../Utilities.js';
 
 export const CF_SEARCH_BAR = {
-  ON_CLEAR : Symbol(),
-  ON_CHANGE : Symbol(),
-  ON_KEYDOWN : Symbol(),
+  ON_CLEAR : "CF_SEARCH_BAR_1",
+  ON_CHANGE : "CF_SEARCH_BAR_2",
+  ON_KEYDOWN : "CF_SEARCH_BAR_3",
 };
 
 const _CFT_SEARCH_BAR = {
   SEARCH_ICON : `<span class="inline-block s-icon6">__ICON__</span>`,
   CLEAR_ICON :
-      `<span class="inline-block s-icon6 clickable" onclick="javascript:G.action(gui.CF_SEARCH_BAR.ON_CLEAR)">__ICON__</span>`,
+      `<span class="inline-block s-icon6 clickable" onclick="javascript:G.action('${CF_SEARCH_BAR.ON_CLEAR}')">__ICON__</span>`,
   INPUT :
-      `<input id="__ID__" class="search-bar bgtransparent __THEME_CLASS_NAMES__" type="text" onchange="javascript:G.action(gui.CF_SEARCH_BAR.ON_CHANGE, this.value)" onkeydown="javascript:G.action(gui.CF_SEARCH_BAR.ON_KEYDOWN, this.value)" value="__VALUE__"/>`,
+      `<input id="__ID__" class="search-bar bgtransparent __THEME_CLASS_NAMES__" type="text" onchange="javascript:G.action('${CF_SEARCH_BAR.ON_CHANGE}', this.value)" onkeydown="javascript:G.action('${CF_SEARCH_BAR.ON_KEYDOWN}', this.value)" value="__VALUE__"/>`,
 };
 
 export class SearchBar extends Fragment {
@@ -49,9 +49,9 @@ export class SearchBar extends Fragment {
   _renderOnRender(render: PanelWrapper): void {
     let p = new PanelWrapper();
     if (this.#isFatMode) {
-      p.setClassName("search-bar-panel h-pad5px fat");
+      p.setClassName("h-pad5px fat");
     } else {
-      p.setClassName("search-bar-panel h-pad5px");
+      p.setClassName("h-pad5px");
     }
     render.wrapPanel(p);
 

@@ -1,8 +1,5 @@
 /* Tailwind CSS v4 Entry Point */
-@import "tailwindcss";
-
-/* Import existing styles */
-@import "./hst.css";
+@import "tailwindcss" prefix(tw);
 
 /* Custom theme configuration can be added here using @theme */
 @theme {
@@ -11,3 +8,6 @@
    * --font-family-sans: Arial, Helvetica, SimHei, STXihei, sans-serif;
    */
 }
+
+/* Import existing styles */
+@import "./hst.css";

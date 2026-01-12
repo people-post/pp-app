@@ -5,18 +5,12 @@ import { Utilities } from '../Utilities.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export const CF_SIMPLE_LIST = {
-  ITEM_CLICK : Symbol(),
-}
-
-// Export to window for string template access
-if (typeof window !== 'undefined') {
-  window.gui = window.gui || {};
-  (window.gui as { CF_SIMPLE_LIST: typeof CF_SIMPLE_LIST }).CF_SIMPLE_LIST = CF_SIMPLE_LIST;
+  ITEM_CLICK : "CF_SIMPLE_LIST_1",
 }
 
 const _CFT_SIMPLE_LIST = {
   ON_CLICK_ACTION :
-      `javascript:G.action(gui.CF_SIMPLE_LIST.ITEM_CLICK, '__ITEM_ID__')`,
+      `javascript:G.action('${CF_SIMPLE_LIST.ITEM_CLICK}', '__ITEM_ID__')`,
   ICON : `<span class="inline-block s-icon3 clickable">__ICON__</span>`,
 }
 
@@ -41,7 +35,7 @@ export class FSimpleList extends Fragment {
   declare _dataSource: SimpleListDataSource;
   declare _delegate: SimpleListDelegate;
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_SIMPLE_LIST.ITEM_CLICK:
       this.#onItemClick(args[0] as string);

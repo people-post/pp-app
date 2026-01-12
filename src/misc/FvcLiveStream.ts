@@ -30,7 +30,7 @@ const C_LIVE_STREAM = window.C_LIVE_STREAM;
 
 const _CVT_LIVE_STREAM = {
   MAIN : `<div>
-      <div class="textarea-wrapper">
+      <div>
         <label class="s-font5" for="ID_TITLE">Title:</label>
         <br>
         <textarea id="ID_TITLE" class="livestream-title"></textarea>

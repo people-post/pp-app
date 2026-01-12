@@ -4,21 +4,20 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Events } from '../../lib/framework/Events.js';
-import Render from '../../lib/ui/renders/Render.js';
 
 export const CF_SMART_INPUT = {
-  ON_CHANGE : Symbol(),
-  ON_BLUR : Symbol(),
-  ON_HINT_ITEM_CHOSEN : Symbol(),
-  CLEAR_CHOICES : Symbol(),
+  ON_CHANGE : "CF_SMART_INPUT_1",
+  ON_BLUR : "CF_SMART_INPUT_2",
+  ON_HINT_ITEM_CHOSEN : "CF_SMART_INPUT_3",
+  CLEAR_CHOICES : "CF_SMART_INPUT_4",
 };
 
 const _CFT_SMART_INPUT = {
   INPUT : `<span class="menu-item-config-text-input">
-    <input type="text" class="tight-label-like" oninput="javascript:G.action(gui.CF_SMART_INPUT.ON_CHANGE, this.value)" onblur="javascript:G.action(gui.CF_SMART_INPUT.ON_BLUR)" placeholder="__PLACEHOLDER__">
+    <input type="text" class="tight-label-like" oninput="javascript:G.action('${CF_SMART_INPUT.ON_CHANGE}', this.value)" onblur="javascript:G.action('${CF_SMART_INPUT.ON_BLUR}')" placeholder="__PLACEHOLDER__">
   </span>`,
   HINT_TAG :
-      `<span class="clickable bd1px bdsolid bdlightblue bdradius5px pad2px" onclick="javascript:G.action(gui.CF_SMART_INPUT.ON_HINT_ITEM_CHOSEN, '__ITEM_ID__')">__VALUE__</span>`,
+      `<span class="clickable bd1px bdsolid bdlightblue bdradius5px pad2px" onclick="javascript:G.action('${CF_SMART_INPUT.ON_HINT_ITEM_CHOSEN}', '__ITEM_ID__')">__VALUE__</span>`,
 };
 
 interface FilteredItem {
@@ -38,7 +37,7 @@ export class FSmartInput extends Fragment {
 
   setHintText(text: string): void { this.#hintText = text; }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_SMART_INPUT.ON_CHANGE:
       this.#onNameInput(args[0] as string);
@@ -58,11 +57,9 @@ export class FSmartInput extends Fragment {
     }
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     const panel = new ListPanel();
-    if ('wrapPanel' in render) {
-      (render as any).wrapPanel(panel);
-    }
+    render.wrapPanel(panel);
     let p = new Panel();
     panel.pushPanel(p);
     let s = _CFT_SMART_INPUT.INPUT;

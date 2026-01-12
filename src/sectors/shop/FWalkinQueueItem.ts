@@ -1,5 +1,5 @@
 export const CF_SHOP_WALKIN_QUEUE_ITEM = {
-  ON_CLICK : Symbol(),
+  ON_CLICK : "CF_SHOP_WALKIN_QUEUE_ITEM_1",
 };
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
@@ -45,7 +45,7 @@ export class FWalkinQueueItem extends Fragment {
     super();
     this._itemId = null;
     this._isActionEnabled = false;
-    this._tLayout = this.constructor.T_LAYOUT.INFO;
+    this._tLayout = FWalkinQueueItem.T_LAYOUT.INFO;
 
     this._fAction1 = new Button();
     this._fAction1.setDelegate(this);
@@ -116,7 +116,7 @@ export class FWalkinQueueItem extends Fragment {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
     case T_DATA.WALKIN_QUEUE_ITEM:
@@ -128,7 +128,7 @@ export class FWalkinQueueItem extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._itemId) return;
     let item = WalkinQueue.get(this._itemId);
     if (!item) {
@@ -203,7 +203,7 @@ export class FWalkinQueueItem extends Fragment {
       if (this._isActionEnabled) {
         p = new PWalkinQueueItemInfo();
         p.setAttribute("onclick",
-                       "G.action(shop.CF_SHOP_WALKIN_QUEUE_ITEM.ON_CLICK)");
+                       "javascript:G.action('${CF_SHOP_WALKIN_QUEUE_ITEM.ON_CLICK}')");
       } else {
         p = new PWalkinQueueItemInfoPublic();
       }

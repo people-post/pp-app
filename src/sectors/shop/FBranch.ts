@@ -1,5 +1,5 @@
 export const CF_BRANCH = {
-  ON_CLICK : Symbol(),
+  ON_CLICK : "CF_BRANCH_1",
 };
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
@@ -20,6 +20,8 @@ import { FvcAddressEditor } from '../../sectors/account/FvcAddressEditor.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { PBranchBase } from './PBranchBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface BranchDelegate {
   onBranchFragmentRequestShowView(f: FBranch, view: View, title: string): void;
@@ -42,8 +44,6 @@ export class FBranch extends Fragment {
   protected _tLayout: symbol | null = null;
   protected _branchId: string | null = null;
   protected _isEditEnabled: boolean = false;
-  protected _dataSource!: BranchDataSource;
-  protected _delegate!: BranchDelegate;
 
   constructor() {
     super();
@@ -72,7 +72,7 @@ export class FBranch extends Fragment {
 
   onInputChangeInTextInputFragment(_fTextInput: TextInput, _value: string): void { this.#asyncUpdate(); }
   onClickInAddressFragment(_fAddress: Address, addressId: string): void {
-    if (!this._tLayout || this._tLayout == this.constructor.T_LAYOUT.FULL) {
+    if (!this._tLayout || this._tLayout == FBranch.T_LAYOUT.FULL) {
       this.#showAddressEditor(addressId);
     } else {
       this._delegate.onClickInBranchFragment(this, this._branchId);
@@ -96,7 +96,7 @@ export class FBranch extends Fragment {
     this._delegate.onBranchFragmentRequestShowView(this, v, "Register config");
   }
 
-  action(type: symbol, ..._args: unknown[]): void {
+  action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {
     case CF_BRANCH.ON_CLICK:
       this._delegate.onClickInBranchFragment(this, this._branchId);
@@ -120,7 +120,7 @@ export class FBranch extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let branch = Shop.getBranch(this._branchId);
     if (!branch) {
       return;
@@ -171,12 +171,12 @@ export class FBranch extends Fragment {
     }
   }
 
-  #createPanel(): Panel {
-    let p: Panel;
+  #createPanel(): PBranchBase {
+    let p: PBranchBase;
     switch (this._tLayout) {
-    case this.constructor.T_LAYOUT.SMALL:
+    case FBranch.T_LAYOUT.SMALL:
       p = new PBranchSmall();
-      p.setAttribute("onclick", "javascript:G.action(shop.CF_BRANCH.ON_CLICK)");
+      p.setAttribute("onclick", "javascript:G.action('${CF_BRANCH.ON_CLICK}')");
       break;
     default:
       p = new PBranch();

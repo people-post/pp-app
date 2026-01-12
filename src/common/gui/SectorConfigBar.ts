@@ -51,14 +51,14 @@ export class SectorConfigBar extends Fragment {
 
     let isChecked = this.getDataSource<SectorConfigBarDataSource>()?.isEnableSetInConfigBarFragment(this) || false;
     cell.innerHTML = this.#renderCell(
-        "Enable", isChecked, "gui.CF_SECTOR_CONFIG_BAR.ON_ENABLE_CLICKED");
+        "Enable", isChecked, CF_SECTOR_CONFIG_BAR.ON_ENABLE_CLICKED);
 
     if (isChecked &&
         WebConfig.getHomeSector() !=
             this.getDataSource<SectorConfigBarDataSource>()?.getSectorIdForConfigBarFragment(this) || "") {
       cell = row.insertCell(-1);
       cell.innerHTML = this.#renderCell(
-          "Home page", false, "gui.CF_SECTOR_CONFIG_BAR.ON_HOME_CLICKED");
+          "Home page", false, CF_SECTOR_CONFIG_BAR.ON_HOME_CLICKED);
     }
     return table.outerHTML;
   }
@@ -71,7 +71,7 @@ export class SectorConfigBar extends Fragment {
     if (isChecked) {
       c.setAttribute("checked", "");
     }
-    c.setAttribute("onclick", "G.action(" + actionId + ", this.checked)");
+    c.setAttribute("onclick", "G.action('" + actionId + "', this.checked)");
     s = s.replace("__CHECKBOX__", c.outerHTML);
     return s;
   }

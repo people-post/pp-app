@@ -2,18 +2,19 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { CronJob } from '../../lib/ext/CronJob.js';
 import Render from '../../lib/ui/renders/Render.js';
 import { ViewContentFragmentOwner } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export const CF_COUNTDOWN_ACTION = {
-  ACTION : Symbol(),
-  CANCEL : Symbol(),
+  ACTION : "CF_COUNTDOWN_ACTION_1",
+  CANCEL : "CF_COUNTDOWN_ACTION_2",
 };
 
 const _CFT_COUNTDOWN_ACTION = {
   MAIN : `__TEXT__ in <span id="ID_INTERVAL_VALUE">__TIME__</span> seconds...
     <br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_COUNTDOWN_ACTION.ACTION)">__ACTION_TITLE__</a>
+    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action('${CF_COUNTDOWN_ACTION.ACTION}')">__ACTION_TITLE__</a>
     <br>
-    <a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_COUNTDOWN_ACTION.CANCEL)">Cancel</a>`,
+    <a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action('${CF_COUNTDOWN_ACTION.CANCEL}')">Cancel</a>`,
 };
 
 interface CountdownConfig {
@@ -40,7 +41,7 @@ export class FvcCountdownAction extends FScrollViewContent {
 
   onContentDidAppear(): void { this._timer.reset(() => this.#onInterval(), 1000, null, null); }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_COUNTDOWN_ACTION.ACTION:
       this.#onAction();
@@ -59,7 +60,7 @@ export class FvcCountdownAction extends FScrollViewContent {
     super._onBeforeRenderDetach();
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let s = _CFT_COUNTDOWN_ACTION.MAIN;
     s = s.replace("__TEXT__", this._config.message);
     s = s.replace("__ACTION_TITLE__", this._config.actionTitle);

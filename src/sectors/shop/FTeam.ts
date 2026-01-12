@@ -1,5 +1,5 @@
 export const CF_TEAM = {
-  ON_CLICK : Symbol(),
+  ON_CLICK : "CF_TEAM_1",
 };
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
@@ -17,8 +17,6 @@ interface TeamDataSource {
 
 export class FTeam extends Fragment {
   protected _teamId: string | null = null;
-  protected _dataSource!: TeamDataSource;
-  protected _delegate!: TeamDelegate;
 
   constructor() {
     super();
@@ -27,7 +25,7 @@ export class FTeam extends Fragment {
   getTeamId(): string | null { return this._teamId; }
   setTeamId(id: string | null): void { this._teamId = id; }
 
-  action(type: symbol, _data?: unknown): void {
+  action(type: string | symbol, _data?: unknown): void {
     switch (type) {
     case CF_TEAM.ON_CLICK:
       this._delegate.onClickInTeamFragment(this);
@@ -49,7 +47,7 @@ export class FTeam extends Fragment {
     render.wrapPanel(panel);
 
     if (panel.isHighlightable()) {
-      panel.setAttribute("onclick", "G.action(shop.CF_TEAM.ON_CLICK)");
+      panel.setAttribute("onclick", "javascript:G.action('${CF_TEAM.ON_CLICK}')");
       if (this._dataSource.shouldHighlightInTeamFragment(this, this._teamId)) {
         panel.highlight();
       }

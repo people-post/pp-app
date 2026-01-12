@@ -1,11 +1,11 @@
 export const CF_PRODUCT = {
-  VIEW : Symbol(),
-  EDIT : Symbol(),
+  VIEW : "CF_PRODUCT_1",
+  EDIT : "CF_PRODUCT_2",
 };
 
 const _CFT_PRODUCT = {
   EDIT_BUTTON : `<div class="center-align">
-    <span class="button-like small s-primary" onclick="javascript:G.action(shop.CF_PRODUCT.EDIT)">Edit</span>
+    <span class="button-like small s-primary" onclick="javascript:G.action('${CF_PRODUCT.EDIT}')">Edit</span>
   </div>`,
 } as const;
 
@@ -29,9 +29,11 @@ import { PProductInfoLargeQuote } from './PProductInfoLargeQuote.js';
 import { PProductInfoMiddle } from './PProductInfoMiddle.js';
 import { FProductDelivery } from './FProductDelivery.js';
 import { Product } from '../../common/datatypes/Product.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { PProductInfoBase } from './PProductInfoBase.js';
+import { PProductBase } from './PProductBase.js';
 
 interface ProductDelegate {
   onClickInProductInfoFragment(f: FProduct, productId: string | null): void;
@@ -51,9 +53,8 @@ export class FProduct extends MajorSectorItem {
   protected _fDelivery: FProductDeliveryManager;
   protected _fPrice: PriceFragment;
   protected _tLayout: symbol | null = null;
-  protected _tInfoSize: symbol | null = null;
+  protected _tInfoSize: string | null = null;
   protected _productId: string | null = null;
-  protected _delegate!: ProductDelegate;
 
   constructor() {
     super();
@@ -84,7 +85,7 @@ export class FProduct extends MajorSectorItem {
   }
 
   getProductId(): string | null { return this._productId; }
-  getSizeType(): symbol | null { return this._tInfoSize; }
+  getSizeType(): string | null { return this._tInfoSize; }
 
   getProductForDeliveryManagerFragment(_fDelivery: FProductDeliveryManager): Product | null | undefined {
     return Shop.getProduct(this._productId);
@@ -96,7 +97,7 @@ export class FProduct extends MajorSectorItem {
 
   setProductId(id: string | null): void { this._productId = id; }
   setLayoutType(t: symbol | null): void { this._tLayout = t; }
-  setSizeType(t: symbol | null): void { this._tInfoSize = t; }
+  setSizeType(t: string | null): void { this._tInfoSize = t; }
 
   onProductDeliveryManagerFragmentRequestAddToCart(_fManager: FProductDeliveryManager): void {
     this.#onAddToCart();
@@ -105,7 +106,7 @@ export class FProduct extends MajorSectorItem {
     this._delegate.onClickInProductInfoFragment(this, this._productId);
   }
 
-  action(type: symbol, ..._args: unknown[]): void {
+  action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {
     case CF_PRODUCT.VIEW:
       this._delegate.onClickInProductInfoFragment(this, this._productId);
@@ -135,7 +136,7 @@ export class FProduct extends MajorSectorItem {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let pMain = this.#createPanel();
     render.wrapPanel(pMain);
 
@@ -144,52 +145,58 @@ export class FProduct extends MajorSectorItem {
       return;
     }
 
-    let p = pMain.getSellerIconPanel();
-    if (p) {
-      this._fUserIcon.setUserId(product.getSupplierId());
-      this._fUserIcon.attachRender(p);
+    let pSellerIcon = pMain.getSellerIconPanel();
+    if (pSellerIcon) {
+      this._fUserIcon.setUserId(product.getSupplierId() ?? null);
+      this._fUserIcon.attachRender(pSellerIcon);
       this._fUserIcon.render();
     }
 
-    p = pMain.getSellerNamePanel();
-    if (p) {
-      this._fUserName.setUserId(product.getSupplierId());
-      this._fUserName.attachRender(p);
+    let pSellerName = pMain.getSellerNamePanel();
+    if (pSellerName) {
+      this._fUserName.setUserId(product.getSupplierId() ?? null);
+      this._fUserName.attachRender(pSellerName);
       this._fUserName.render();
     }
 
-    p = pMain.getThumbnailPanel();
-    if (p && product.getFiles().length > 0) {
+    let pThumbnailPanel = pMain.getThumbnailPanel();
+    if (pThumbnailPanel && product.getFiles().length > 0) {
       let pThumbnail = this.#createThumbnailPanel();
-      p.wrapPanel(pThumbnail);
+      pThumbnailPanel.wrapPanel(pThumbnail);
       this._fThumbnail.attachRender(pThumbnail);
       this._fThumbnail.render();
     }
 
-    p = pMain.getNamePanel();
-    this.#renderName(product, p);
-
-    p = pMain.getGalleryPanel();
-    if (p) {
-      this.#renderGallery(product, p);
+    let pNamePanel = pMain.getNamePanel();
+    if (pNamePanel) {
+      this.#renderName(product, pNamePanel);
     }
 
-    p = pMain.getDescriptionPanel();
-    this.#renderDescription(product, p);
+    let pGalleryPanel = pMain.getGalleryPanel();
+    if (pGalleryPanel) {
+      this.#renderGallery(product, pGalleryPanel);
+    }
 
-    p = pMain.getPricePanel();
-    this.#renderPrice(product, p);
+    let pDescription = pMain.getDescriptionPanel();
+    if (pDescription) {
+      this.#renderDescription(product, pDescription);
+    }
 
-    p = pMain.getActionPanel();
-    if (p) {
-      this.#renderActions(product, p);
+    let pPrice = pMain.getPricePanel();
+    if (pPrice) {
+      this.#renderPrice(product, pPrice);
+    }
+
+    let pAction = pMain.getActionPanel();
+    if (pAction) {
+      this.#renderActions(product, pAction);
     }
   }
 
-  #createPanel(): Panel {
-    let p: Panel;
+  #createPanel(): PProductBase {
+    let p: PProductBase;
     switch (this._tLayout) {
-    case this.constructor.T_LAYOUT.FULL:
+    case FProduct.T_LAYOUT.FULL:
       p = new PProduct();
       break;
     default:
@@ -198,8 +205,8 @@ export class FProduct extends MajorSectorItem {
     return p;
   }
 
-  #createInfoPanel(): Panel {
-    let p: Panel;
+  #createInfoPanel(): PProductInfoBase {
+    let p: PProductInfoBase;
     switch (this._tInfoSize) {
     case SocialItem.T_LAYOUT.LARGE:
       p = new PProductInfoLarge();
@@ -215,7 +222,7 @@ export class FProduct extends MajorSectorItem {
       break;
     }
     p.setClassName("clickable");
-    p.setAttribute("onclick", "javascript:G.action(shop.CF_PRODUCT.VIEW)");
+    p.setAttribute("onclick", `javascript:G.action('${CF_PRODUCT.VIEW}')`);
     return p;
   }
 
@@ -254,13 +261,13 @@ export class FProduct extends MajorSectorItem {
       return;
     }
 
-    if (this._tLayout != this.constructor.T_LAYOUT.FULL &&
+    if (this._tLayout != FProduct.T_LAYOUT.FULL &&
         product.isEditableByUser(Account.getId())) {
       panel.replaceContent(_CFT_PRODUCT.EDIT_BUTTON);
       return;
     }
 
-    if (this._tLayout != this.constructor.T_LAYOUT.FULL) {
+    if (this._tLayout != FProduct.T_LAYOUT.FULL) {
       this._fDelivery.setLayoutType(FProductDelivery.T_LAYOUT.COMPACT);
     }
     this._fDelivery.attachRender(panel);

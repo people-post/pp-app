@@ -7,12 +7,12 @@ import { T_ACTION } from '../plt/Events.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
 
 export const CF_ERROR = {
-  DISMISS_ERROR : Symbol(),
+  DISMISS_ERROR : "CF_ERROR_1",
 }
 
 const _CFT_ERROR = {
   BTN :
-      `<a class="button-like bgdanger cwhite" href="javascript:void(0)" onclick="javascript:G.action(gui.CF_ERROR.DISMISS_ERROR)">Dismiss</a>`,
+      `<a class="button-like bgdanger cwhite" href="javascript:void(0)" onclick="javascript:G.action('${CF_ERROR.DISMISS_ERROR}')">Dismiss</a>`,
 }
 
 export class FError extends Fragment {
@@ -25,7 +25,7 @@ export class FError extends Fragment {
     this.#beeper = new CronJob();
   }
 
-  action(type: symbol): void {
+  action(type: string | symbol): void {
     switch (type) {
     case CF_ERROR.DISMISS_ERROR:
       this.#dismiss();

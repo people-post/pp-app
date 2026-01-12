@@ -1475,8 +1475,6 @@ div.rpe-content.pipe.vertical.lower {
     bottom: 0px;
 }
 
-div.rpe-content.new {}
-
 div.rpe-content.active {
     background-color: RoyalBlue;
 }
@@ -1965,8 +1963,6 @@ div.f-nav-column {
     overflow-y: auto;
 }
 
-div.f-nav-overlay {}
-
 div.f-footer {
     width: 100%;
     color: black;
@@ -2149,8 +2145,6 @@ div.context-content {
     bottom: 0px;
 }
 
-div.public {}
-
 div.restricted {
     border: 2px dashed ForestGreen;
 }
@@ -2323,7 +2317,6 @@ div.view-content-title {
     padding: 10px 0px 8px 5px;
 }
 
-div.textarea-wrapper {}
 
 span.status-text {
     border-width: 1px;
@@ -2480,7 +2473,6 @@ div.separator:not(:empty)::after {
 }
 
 /* search */
-div.search-bar-panel {}
 
 div.search-bar-panel.fat {
     padding: 20px;
@@ -2612,7 +2604,6 @@ div.customer-order-info {
     overflow: hidden;
 }
 
-div.customer-order-info-item {}
 
 div.supplier-order-info {
     border: 1px solid lightgrey;
@@ -2622,7 +2613,6 @@ div.supplier-order-info {
     overflow: hidden;
 }
 
-div.customer-order-info-item {}
 
 div.service-time-slot {
     border: 1px solid lightgray;
@@ -2630,7 +2620,6 @@ div.service-time-slot {
 }
 
 /* workshop */
-div.stage-description {}
 
 div.project-info-wrapper.middle {
     padding-right: 2%;
@@ -2767,7 +2756,6 @@ div.file-preview-block {
     display: inline-block;
 }
 
-div.file-preivew-icon {}
 
 /* User */
 div.user-info-header-user-icon {
@@ -2895,7 +2883,6 @@ div.comment-hint {
     font-style: italic;
 }
 
-div.comment-input-console {}
 
 div.comment-info-text {
     color: black;
@@ -2921,7 +2908,6 @@ div.address-block {
     padding: 5px;
 }
 
-table.address {}
 
 table.address>tbody>tr>td:first-child {
     width: 120px;
@@ -2934,7 +2920,6 @@ div.sector-notice {
     padding: 10px;
 }
 
-div.comment-notice {}
 
 div.comment-notice a.article-link {
     display: inline-block;
@@ -2998,7 +2983,6 @@ div.post-info-big-head-wrapper {
     padding: 0% 4% 0% 3%;
 }
 
-div.post-info.embed {}
 
 div.post-info.compact {
     padding-bottom: 5px;
@@ -3143,7 +3127,6 @@ div.chat-thread-cover-content {
     overflow: hidden;
 }
 
-div.chat-thread-cover-nickname {}
 
 div.chat-thread-cover-message {
     color: grey;
@@ -3439,7 +3422,6 @@ svg .live-text {
     font-size: 10px;
 }
 
-svg .attachment {}
 
 svg .flow-connection {
     fill: transparent;
@@ -3454,7 +3436,6 @@ svg .email {
     stroke-width: 2;
 }
 
-svg .contact {}
 
 svg .close {
     stroke-width: 2;
@@ -3523,7 +3504,6 @@ svg .manuscript {
     stroke-width: 4px;
 }
 
-svg .language {}
 
 svg .fire {
     fill: none;
