@@ -2,6 +2,7 @@ import { UserBase } from './UserBase.js';
 import { BlogConfig } from './BlogConfig.js';
 import { ColorTheme } from './ColorTheme.js';
 import { URL_PARAM, ID } from '../constants/Constants.js';
+import type { User as UserType } from '../../types/User.js';
 
 // Lazy import to avoid circular dependency
 // Use dynamic import with caching for synchronous access pattern
@@ -40,7 +41,7 @@ interface UserData {
   [key: string]: unknown;
 }
 
-export class User extends UserBase {
+export class User extends UserBase implements UserType {
   static readonly C_ID = {
     SYSTEM: 'SYSTEM', // Synced with backend
     L_ADD_USER: 'L_ADD_USER', // Local

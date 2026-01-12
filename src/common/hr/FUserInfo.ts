@@ -1,4 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import type { User as UserType } from '../../types/User.js';
 import { FUserIcon, FUserIconDelegate } from './FUserIcon.js';
 import { PUserInfoCompactCell } from './PUserInfoCompactCell.js';
 import { PUserInfoMidsizeCell } from './PUserInfoMidsizeCell.js';
@@ -122,14 +123,14 @@ export class FUserInfo extends Fragment implements FUserIconDelegate {
     return p;
   }
 
-  #renderName(user: ReturnType<typeof Users.get>): string { return user ? (user.getNickname() || "...") : "..."; }
-  #renderId(user: ReturnType<typeof Users.get>): string {
+  #renderName(user: UserType | null): string { return user ? (user.getNickname() || "...") : "..."; }
+  #renderId(user: UserType | null): string {
     let id = user ? user.getUsername() : null;
     return id ? "@" + id : "";
   }
 
-  #renderTypeIcon(user: ReturnType<typeof Users.get>): string {
-    if (user && user.isFeed()) {
+  #renderTypeIcon(user: UserType | null): string {
+    if (user && user.isFeed?.() === true) {
       let s = `<span class="inline-block s-icon7">__ICON__</span>`;
       return s.replace("__ICON__", ICON.FEED);
     }

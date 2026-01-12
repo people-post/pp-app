@@ -1,6 +1,7 @@
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { User } from '../datatypes/User.js';
+import type { User as UserType } from '../../types/User.js';
 import { PATH } from '../constants/Constants.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
@@ -21,27 +22,27 @@ interface Web3Resolver {
 // Public users' information
 export class UserLib {
   #isLoading = false;
-  #mUsers = new Map<string, User | PpUser | null>();
+  #mUsers = new Map<string, UserType | null>();
 
   constructor() {
     this.#initMap();
   }
 
-  onWeb3UserIdolsLoaded(user: User | PpUser): void {
+  onWeb3UserIdolsLoaded(user: UserType): void {
     const id = user.getId();
     if (id !== undefined) {
       FwkEvents.trigger(PltT_DATA.USER_IDOLS, String(id));
     }
   }
 
-  onWeb3UserProfileLoaded(user: User | PpUser): void {
+  onWeb3UserProfileLoaded(user: UserType): void {
     const id = user.getId();
     if (id !== undefined) {
       FwkEvents.trigger(PltT_DATA.USER_PUBLIC_PROFILE, String(id));
     }
   }
 
-  get(id: string | null): User | PpUser | null {
+  get(id: string | null): UserType | null {
     if (!id) {
       return null;
     }
@@ -58,7 +59,7 @@ export class UserLib {
     }
   }
 
-  async asyncGet(id: string): Promise<User | PpUser> {
+  async asyncGet(id: string): Promise<UserType> {
     if (Env.isWeb3() && Account.isAuthenticated() && Account.getId() === id) {
       return Account.getImplementation() as unknown as User;
     }
@@ -75,7 +76,7 @@ export class UserLib {
     return this.#mUsers.get(id)!;
   }
 
-  update(user: User | PpUser): void {
+  update(user: UserType): void {
     const id = user.getId();
     if (id !== undefined) {
       this.#mUsers.set(String(id), user);
