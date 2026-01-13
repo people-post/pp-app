@@ -49,8 +49,8 @@ export class SupplierOrderBase extends ServerDataObject {
     return this._data.total as number | undefined;
   }
 
-  getCurrencyId(): string | number | undefined {
-    return this._data.currency_id as string | number | undefined;
+  getCurrencyId(): string | undefined {
+    return this._data.currency_id as string | undefined;
   }
 
   getState(): string | undefined {

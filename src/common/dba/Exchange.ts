@@ -12,7 +12,7 @@ interface ApiResponse {
 }
 
 interface ExchangeInterface {
-  getCurrency(id: string | null): Currency | null | undefined;
+  getCurrency(id: string | undefined): Currency | null | undefined;
   getAsset(id: string | null): unknown;
   loadMissingCurrencies(ids: string[]): void;
 }
@@ -21,7 +21,7 @@ export class ExchangeClass implements ExchangeInterface {
   #currencyLib = new Map<string, Currency | null>();
   #assetLib = new Map<string, unknown>();
 
-  getCurrency(id: string | null): Currency | null | undefined {
+  getCurrency(id: string | undefined): Currency | null | undefined {
     if (!id) {
       return null;
     }

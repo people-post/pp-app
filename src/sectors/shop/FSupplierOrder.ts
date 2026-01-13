@@ -30,12 +30,13 @@ import { T_ACTION } from '../../common/plt/Events.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Utilities } from '../../common/Utilities.js';
 import { Events } from '../../lib/framework/Events.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { SupplierOrderPrivate } from '../../common/datatypes/SupplierOrderPrivate.js';
 import { Currency } from '../../common/datatypes/Currency.js';
 import { Account } from '../../common/dba/Account.js';
+import { PSupplierOrderBase } from './PSupplierOrderBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-interface SupplierOrderDelegate {
+export interface SupplierOrderDelegate {
   onSupplierOrderFragmentRequestShowOrder(f: FSupplierOrder, orderId: string | null): void;
 }
 
@@ -49,7 +50,6 @@ export class FSupplierOrder extends Fragment {
   protected _fAddress: GuiAddress;
   protected _orderId: string | null = null;
   protected _tLayout: symbol | null = null;
-  protected _delegate!: SupplierOrderDelegate;
 
   constructor() {
     super();
@@ -68,7 +68,7 @@ export class FSupplierOrder extends Fragment {
     return Address.get(addressId);
   }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: symbol | string, ...args: unknown[]): void {
     switch (type) {
     case CF_SUPPLIER_ORDER.SHOW_ADDRESS:
       break;
@@ -97,7 +97,7 @@ export class FSupplierOrder extends Fragment {
     super.handleSessionDataUpdate(dataType, _data);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let order = Shop.getOrder(this._orderId);
     if (!order) {
       return;
@@ -204,10 +204,10 @@ export class FSupplierOrder extends Fragment {
     }
   }
 
-  #createPanel(): Panel {
-    let p: Panel;
+  #createPanel(): PSupplierOrderBase {
+    let p: PSupplierOrderBase;
     switch (this._tLayout) {
-    case this.constructor.T_LAYOUT.FULL:
+    case FSupplierOrder.T_LAYOUT.FULL:
       p = new PSupplierOrder();
       break;
     default:
