@@ -8,7 +8,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Account } from '../dba/Account.js';
 
 export const CF_USER_ID_INPUT = {
-  USER_INFO : Symbol()
+  USER_INFO : "CF_USER_ID_INPUT_1",
 };
 
 export class FUserIdInput extends Fragment {
@@ -50,7 +50,7 @@ export class FUserIdInput extends Fragment {
       return "";
     }
     let nickname = Account.getUserNickname?.(this.#userId) || null;
-    return Utilities.renderSmallButton("S.hr.CF_USER_ID_INPUT.USER_INFO",
+    return Utilities.renderSmallButton(CF_USER_ID_INPUT.USER_INFO,
                                        this.#userId, nickname || "");
   }
 

@@ -26,11 +26,11 @@ const _CFT_REQUEST_INFO = {
       <p>__NAME__</p>
     </div>`,
   BTN_ACCEPT :
-      `<span class="button-like small s-primary" onclick="javascript:G.action(S.hr.CF_REQUEST_INFO.ACCEPT)">Accept</span>`,
+      `<span class="button-like small s-primary" onclick="javascript:G.action('${CF_REQUEST_INFO.ACCEPT}')">Accept</span>`,
   BTN_DECLINE :
-      `<span class="button-like small danger" onclick="javascript:G.action(S.hr.CF_REQUEST_INFO.DECLINE)">Reject</span>`,
+      `<span class="button-like small danger" onclick="javascript:G.action('${CF_REQUEST_INFO.DECLINE}')">Reject</span>`,
   BTN_IGNORE :
-      `<span class="button-like small s-secondary" onclick="javascript:G.action(S.hr.CF_REQUEST_INFO.IGNORE)">Ignore</span>`,
+      `<span class="button-like small s-secondary" onclick="javascript:G.action('${CF_REQUEST_INFO.IGNORE}')">Ignore</span>`,
   JOIN_GROUP : `__USER__ request to join __GROUP__.`,
 }
 
@@ -135,7 +135,7 @@ export class FRequestInfo extends Fragment {
     }
     let nickname = Account.getUserNickname?.(uid) || null;
     s = s.replace("__USER__",
-                  Utilities.renderSmallButton("S.hr.CF_REQUEST_INFO.USER_INFO",
+                  Utilities.renderSmallButton(CF_REQUEST_INFO.USER_INFO,
                                               uid, nickname || ""));
     let gid = request.getTargetId();
     if (!gid) {
@@ -146,7 +146,7 @@ export class FRequestInfo extends Fragment {
     if (g) {
       s = s.replace("__GROUP__",
                     Utilities.renderSmallButton(
-                        "S.hr.CF_REQUEST_INFO.GROUP_INFO", gid, g.getName() || ""));
+                        CF_REQUEST_INFO.GROUP_INFO, gid, g.getName() || ""));
     } else {
       s = s.replace("__GROUP__", "");
     }

@@ -308,7 +308,7 @@ export class FSupplierOrder extends Fragment {
   #renderUserName(userId: string): string {
     let nickname = Account.getUserNickname(userId, "...");
     return Utilities.renderSmallButton(
-        "javascript:G.action('${CF_SUPPLIER_ORDER.USER_INFO}')", userId, nickname,
+        CF_SUPPLIER_ORDER.USER_INFO, userId, nickname,
         "low-profile s-cinfotext bold");
   }
 

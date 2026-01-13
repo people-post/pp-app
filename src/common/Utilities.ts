@@ -105,7 +105,7 @@ class UtilitiesClass {
 
   renderSmallButton(actionId: string, id: string, name: string, className: string = "s-primary"): string {
     let s =
-        `<span class="button-like small __CLASS_NAME__" onclick="javascript:G.action(__ACTION_ID__, '__ID__')">__NAME__</span>`;
+        `<span class="button-like small __CLASS_NAME__" onclick="javascript:G.action('__ACTION_ID__', '__ID__')">__NAME__</span>`;
     s = s.replace("__ACTION_ID__", actionId);
     s = s.replace("__NAME__", name);
     s = s.replace("__ID__", id);

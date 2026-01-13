@@ -1,7 +1,7 @@
 export const CF_PROPOSAL = {
-  VIEW_PROPOSAL : Symbol(),
-  VOTE : Symbol(),
-  USER_INFO : Symbol(),
+  VIEW_PROPOSAL : "CF_PROPOSAL_1",
+  VOTE : "CF_PROPOSAL_2",
+  USER_INFO : "CF_PROPOSAL_3",
 } as const;
 
 const _CFT_PROPOSAL = {
@@ -18,6 +18,7 @@ const _CFT_PROPOSAL = {
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcConfirmAction } from '../../lib/ui/controllers/views/FvcConfirmAction.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FProposalTitle } from './FProposalTitle.js';
 import { VotingSummaryFragment } from '../../common/gui/VotingSummaryFragment.js';
 import { Communities } from '../../common/dba/Communities.js';
@@ -94,7 +95,7 @@ export class FProposal extends Fragment {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.COMMUNITY_PROFILE:
     case T_DATA.USER_PUBLIC_PROFILES:
@@ -116,7 +117,7 @@ export class FProposal extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._proposalId) {
       return;
     }
@@ -183,7 +184,7 @@ export class FProposal extends Fragment {
   #createInfoPanel(): PProposalInfo {
     let p = new PProposalInfo();
     p.setAttribute("onclick",
-                   "javascript:G.action(cmut.CF_PROPOSAL.VIEW_PROPOSAL)");
+                   `javascript:G.action("${CF_PROPOSAL.VIEW_PROPOSAL}")`);
     return p;
   }
 
@@ -266,7 +267,7 @@ export class FProposal extends Fragment {
     let userId = proposal.getAuthorId();
     let nickname = Account.getUserNickname(userId);
     s = s.replace("__AUTHOR__", Utilities.renderSmallButton(
-                                    "cmut.CF_PROPOSAL.USER_INFO", userId,
+                                    CF_PROPOSAL.USER_INFO, userId,
                                     nickname, "low-profile s-cinfotext bold"));
     s = s.replace("__T_CREATE__", UtilitiesExt.timestampToDateTimeString(
                                       proposal.getCreationTime() / 1000));
@@ -300,7 +301,7 @@ export class FProposal extends Fragment {
   }
 
   #renderUserVoteAction(): string {
-    return Utilities.renderSmallButton("cmut.CF_PROPOSAL.VOTE", "", "Vote...");
+    return Utilities.renderSmallButton(CF_PROPOSAL.VOTE, "", "Vote...");
   }
 
   #makeChangeConfigContent(communityId: string, data: unknown): string {

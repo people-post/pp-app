@@ -3,6 +3,7 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { ButtonList } from '../../lib/ui/controllers/fragments/ButtonList.js';
 import { Label } from '../../lib/ui/controllers/fragments/Label.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface FvcUserInputConfig {
   fcnValidate?: (() => boolean) | null;
@@ -41,7 +42,7 @@ export class FvcUserInput extends FScrollViewContent {
 
   setConfig(config: FvcUserInputConfig): void { this._config = config; }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
     this._fAll.attachRender(render);
     this._fAll.render();
   }

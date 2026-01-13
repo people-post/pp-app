@@ -1,6 +1,6 @@
 export const CF_CUSTOMER_ORDER = {
-  ON_CLICK : Symbol(),
-  USER_INFO : Symbol(),
+  ON_CLICK : "CF_CUSTOMER_ORDER_1",
+  USER_INFO : "CF_CUSTOMER_ORDER_2",
 };
 
 const _CFT_CUSTOMER_ORDER = {
@@ -8,7 +8,7 @@ const _CFT_CUSTOMER_ORDER = {
   T_CREATE : `Created __DT__ ago`,
   ITEM : `<div class="w60">__NAME__</div>
   <div>__QUANTITY__x</div>`,
-  ACT_ONCLICK : `javascript:G.action(cart.CF_CUSTOMER_ORDER.ON_CLICK)`,
+  ACT_ONCLICK : `javascript:G.action("${CF_CUSTOMER_ORDER.ON_CLICK}")`,
 };
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
@@ -33,11 +33,11 @@ import type { Render } from '../../lib/ui/controllers/RenderController.js';
 import type { POrderBase } from './POrderBase.js';
 import { Account } from '../../common/dba/Account.js';
 
-interface OrderDataSource {
+export interface OrderDataSource {
   getOrderForOrderFragment(f: FOrder, orderId: string | null): CustomerOrder | null;
 }
 
-interface OrderDelegate {
+export interface OrderDelegate {
   onCustomerOrderInfoFragmentRequestShowOrder(f: FOrder, orderId: string | null): void;
 }
 
@@ -50,8 +50,6 @@ export class FOrder extends Fragment {
   protected _fItems: FSimpleFragmentList;
   protected _orderId: string | null;
   protected _tLayout: symbol | null;
-  protected _dataSource!: OrderDataSource;
-  protected _delegate!: OrderDelegate;
 
   constructor() {
     super();
@@ -188,7 +186,7 @@ export class FOrder extends Fragment {
   #createPanel(): POrderBase {
     let p: POrderBase;
     switch (this._tLayout) {
-    case this.constructor.T_LAYOUT.FULL:
+    case FOrder.T_LAYOUT.FULL:
       p = new POrder();
       break;
     default:
@@ -224,7 +222,7 @@ export class FOrder extends Fragment {
     let userId = order.getShopId();
     let name = Account.getUserShopName(userId, "...");
     let s =
-        Utilities.renderSmallButton("cart.CF_CUSTOMER_ORDER.USER_INFO", userId,
+        Utilities.renderSmallButton(CF_CUSTOMER_ORDER.USER_INFO, userId,
                                     name, "low-profile s-cinfotext bold");
     panel.replaceContent(s);
   }
@@ -233,7 +231,7 @@ export class FOrder extends Fragment {
     let userId = order.getShopId();
     let name = Account.getUserShopName(userId, "...");
     let s = "Shop: ";
-    s += Utilities.renderSmallButton("cart.CF_CUSTOMER_ORDER.USER_INFO", userId,
+    s += Utilities.renderSmallButton(CF_CUSTOMER_ORDER.USER_INFO, userId,
                                      name, "low-profile s-cinfotext bold");
     panel.replaceContent(s);
   }

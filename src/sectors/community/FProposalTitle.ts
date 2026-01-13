@@ -2,18 +2,6 @@ export const CF_PROPOSAL_TITLE = {
   USER_INFO : "CF_PROPOSAL_TITLE_1",
 } as const;
 
-// Export to window for HTML string templates
-declare global {
-  interface Window {
-    CF_PROPOSAL_TITLE?: typeof CF_PROPOSAL_TITLE;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_PROPOSAL_TITLE = CF_PROPOSAL_TITLE;
-}
-
 const _CFT_PROPOSAL_TITLE = {
   NEW_MEMBER : `Membership request by __USER__`,
   ISSUE_COINS : `Issue __TOTAL__M coins`,
@@ -26,12 +14,11 @@ import { Events } from '../../lib/framework/Events.js';
 import { Utilities } from '../../common/Utilities.js';
 import { Account } from '../../common/dba/Account.js';
 
-interface ProposalTitleDataSource {
+export interface ProposalTitleDataSource {
   getProposalForProposalTitleFragment(): Proposal | null;
 }
 
 export class FProposalTitle extends Fragment {
-  protected _dataSource!: ProposalTitleDataSource;
 
   action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
@@ -44,7 +31,7 @@ export class FProposalTitle extends Fragment {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
       this.render();
@@ -93,7 +80,7 @@ export class FProposalTitle extends Fragment {
     let userId = proposal.getAuthorId();
     let nickname = Account.getUserNickname(userId);
     s = s.replace("__USER__",
-                  Utilities.renderSmallButton("CF_PROPOSAL_TITLE.USER_INFO",
+                  Utilities.renderSmallButton(CF_PROPOSAL_TITLE.USER_INFO,
                                               userId, nickname));
     return s;
   }

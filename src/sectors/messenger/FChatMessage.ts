@@ -3,18 +3,6 @@ export const CF_CHAT_MESSAGE = {
   USER_INFO : "CF_CHAT_MESSAGE_2",
 } as const;
 
-// Export to window for HTML string templates
-declare global {
-  interface Window {
-    CF_CHAT_MESSAGE?: typeof CF_CHAT_MESSAGE;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_CHAT_MESSAGE = CF_CHAT_MESSAGE;
-}
-
 const _CFT_CHAT_MESSAGE = {
   SENDER_MAIN : `<div class="flex flex-start">
     <div class="msg-sender-icon">__SENDER__</div>
@@ -29,7 +17,7 @@ const _CFT_CHAT_MESSAGE = {
   </div>`,
   TEXT : `<span class="chat-message-text">__TEXT__</span>`,
   FROM_USER :
-      `<span class="user-info-icon-small" onclick="javascript:G.action(CF_CHAT_MESSAGE.USER_INFO, '__ID__')">
+      `<span class="user-info-icon-small" onclick="javascript:G.action('${CF_CHAT_MESSAGE.USER_INFO}', '__ID__')">
     <img src="__ICON__">
   </span>`,
 } as const;
@@ -174,7 +162,7 @@ export class FChatMessage extends Fragment {
     if (g) {
       name = g.getName();
     }
-    return Utilities.renderSmallButton("CF_CHAT_MESSAGE.GROUP_INFO", groupId,
+    return Utilities.renderSmallButton(CF_CHAT_MESSAGE.GROUP_INFO, groupId,
                                        name);
   }
 

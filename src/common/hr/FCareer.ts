@@ -5,8 +5,8 @@ import { UserRole } from '../datatypes/UserRole.js';
 import { Account } from '../dba/Account.js';
 
 export const CF_CAREER = {
-  ON_CLICK : Symbol(),
-};
+  ON_CLICK : "CF_CAREER_1",
+} as const;
 
 export interface FCareerDataSource {
   getRoleForCareerFragment(f: FCareer, roleId: string): UserRole | null;
@@ -45,7 +45,7 @@ export class FCareer extends Fragment {
     render.wrapPanel(panel);
 
     if (panel.isHighlightable()) {
-      panel.setAttribute("onclick", "G.action(S.hr.CF_CAREER.ON_CLICK)");
+      panel.setAttribute("onclick", `G.action("${CF_CAREER.ON_CLICK}")`);
       if (this.getDataSource<FCareerDataSource>()?.shouldHighlightInCareerFragment(this,
                                                            this._roleId as string || "")) {
         panel.highlight();

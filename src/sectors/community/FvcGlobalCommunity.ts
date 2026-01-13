@@ -2,18 +2,6 @@ export const CF_GLOBAL_COMMUNITY_CONTENT = {
   VIEW_USER : "CF_COMMUNITY_CONTENT_1",
 } as const;
 
-// Export to window for HTML string templates
-declare global {
-  interface Window {
-    CF_GLOBAL_COMMUNITY_CONTENT?: typeof CF_GLOBAL_COMMUNITY_CONTENT;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_GLOBAL_COMMUNITY_CONTENT = CF_GLOBAL_COMMUNITY_CONTENT;
-}
-
 const _CFT_GLOBAL_COMMUNITY_CONTENT = {
   HOF : `<ol>
     <li>By lifetime credit</li>
@@ -42,6 +30,7 @@ import { Users } from '../../common/dba/Users.js';
 import { Utilities } from '../../common/Utilities.js';
 import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcGlobalCommunity extends FScrollViewContent {
   protected _userId: string | null = null;
@@ -66,7 +55,7 @@ export class FvcGlobalCommunity extends FScrollViewContent {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
     case T_DATA.USER_PROFILE:
@@ -78,7 +67,7 @@ export class FvcGlobalCommunity extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -107,7 +96,7 @@ export class FvcGlobalCommunity extends FScrollViewContent {
         if (u) {
           return "Referred by: " +
                  Utilities.renderSmallButton(
-                     "CF_GLOBAL_COMMUNITY_CONTENT.VIEW_USER", u.getId(),
+                     CF_GLOBAL_COMMUNITY_CONTENT.VIEW_USER, u.getId(),
                      Account.getUserNickname(u.getId(), u.getNickname()));
         }
       }
