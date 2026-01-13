@@ -28,7 +28,7 @@ export class EmptyPost extends Post {
     GROUP: 'GROUP',
     COMMENT: 'COMMENT',
     HASHTAG: 'HASHTAG',
-    INVALID: Symbol(),
+    INVALID: 'INVALID',
   } as const;
 
   protected _data: EmptyPostData;

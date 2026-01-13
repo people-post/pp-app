@@ -5,39 +5,7 @@ import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { CustomerOrder } from '../datatypes/CustomerOrder.js';
 import { Api } from '../plt/Api.js';
 import type { User } from '../datatypes/User.js';
-
-interface Idol {
-  user_id: string;
-  nickname?: string;
-}
-
-interface OutRequest {
-  target_group_id: string;
-}
-
-interface BlogProfile {
-  [key: string]: unknown;
-}
-
-interface UserProfile {
-  uuid: string;
-  is_followed?: boolean;
-  idols?: Idol[];
-  group_ids?: string[];
-  journal_ids?: string[];
-  blog?: BlogProfile;
-  lang?: string;
-  representative_id?: string;
-  nickname?: string;
-  referrer_id?: string;
-  community_id?: string;
-  applied_community_id?: string;
-  is_beta_tester?: boolean;
-  domain_name?: string;
-  live_stream_key?: string;
-  address_ids?: string[];
-  o_requests?: OutRequest[];
-}
+import type { UserProfile, Idol, OutRequest, BlogProfile } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;

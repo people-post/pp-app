@@ -71,7 +71,7 @@ export class FvcExtras extends FScrollViewContent {
         this.#renderTitle(R.t(config.page.NAME), config.nNotifications));
   }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: symbol | string, ...args: unknown[]): void {
     switch (type) {
     case CF_EXTRAS_CONTENT.TEST:
       this.#onTest();

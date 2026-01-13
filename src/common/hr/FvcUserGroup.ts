@@ -8,11 +8,14 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FUserIcon } from './FUserIcon.js';
 import { Groups } from '../dba/Groups.js';
 import { WebConfig } from '../dba/WebConfig.js';
+import type { WebConfigData, UserProfile } from '../../types/backend2.js';
 import { T_DATA, T_ACTION as PltT_ACTION } from '../plt/Events.js';
-import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Events } from '../../lib/framework/Events.js';
 import { Api } from '../plt/Api.js';
 import { R } from '../constants/R.js';
 import { Account } from '../dba/Account.js';
+import { UserGroup } from '../datatypes/UserGroup.js';
+import { ViewContentFragmentOwner } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 
 const _CF_USER_GROUP_CONTENT = {
   HEAD : `<div>
@@ -69,7 +72,7 @@ export class FvcUserGroup extends FScrollViewContent {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.GROUPS:
       this.render();
@@ -80,21 +83,21 @@ export class FvcUserGroup extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Panel): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let group = Groups.get(this._groupId);
     if (!group) {
       return;
     }
 
-    let p = new ListPanel();
-    render.wrapPanel(p);
+    let pList = new ListPanel();
+    render.wrapPanel(pList);
 
-    let pp = new Panel();
-    p.pushPanel(pp);
-    pp.replaceContent(this.#renderHead(group));
+    let pHead = new Panel();
+    pList.pushPanel(pHead);
+    pHead.replaceContent(this.#renderHead(group));
 
-    pp = new SectionPanel("Members");
-    p.pushPanel(pp);
+    let pMembers = new SectionPanel("Members");
+    pList.pushPanel(pMembers);
     this._fMembers.clear();
     for (let id of group.getMemberIds()) {
       let f = new FUserIcon();
@@ -102,41 +105,44 @@ export class FvcUserGroup extends FScrollViewContent {
       f.setDelegate(this);
       this._fMembers.append(f);
     }
-    this._fMembers.attachRender(pp.getContentPanel());
+    this._fMembers.attachRender(pMembers.getContentPanel());
     this._fMembers.render();
 
     if (Account.isInGroup(group.getId()) &&
         Account.getId() != group.getOwnerId()) {
-      p.pushSpace(1);
-      pp = new PanelWrapper();
-      p.pushPanel(pp);
-      this._fLeave.attachRender(pp);
+      pList.pushSpace(1);
+      let pLeave = new PanelWrapper();
+      pList.pushPanel(pLeave);
+      this._fLeave.attachRender(pLeave);
       this._fLeave.render();
     }
 
-    p.pushSpace(2);
+    pList.pushSpace(2);
   }
 
-  #renderHead(group: ReturnType<typeof Groups.get>): string {
+  #renderHead(group: UserGroup): string {
     let s = _CF_USER_GROUP_CONTENT.HEAD;
-    s = s.replace("__NAME__", group.getName());
+    s = s.replace("__NAME__", group.getName() ?? "");
     s = s.replace("__N_MEMBERS__", group.getNMembers().toString());
     return s;
   }
 
-  #asyncLeaveGroup(groupId: string): void {
+  #asyncLeaveGroup(groupId: string | number | undefined): void {
+    if (groupId === undefined) {
+      return;
+    }
     let fd = new FormData();
-    fd.append("id", groupId);
+    fd.append("id", String(groupId));
     let url = "api/career/resign_role";
-    Api.asFragmentPost(this, url, fd)
-        .then(d => this.#onLeaveGroupRRR(d));
+    Api.asFragmentPost<{ profile: UserProfile; web_config: WebConfigData }>(this, url, fd)
+        .then((d: { profile: UserProfile; web_config: WebConfigData }) => this.#onLeaveGroupRRR(d));
   }
 
-  #onLeaveGroupRRR(data: { profile: unknown; web_config: unknown }): void {
+  #onLeaveGroupRRR(data: { profile: UserProfile; web_config: WebConfigData }): void {
     Account.reset(data.profile);
     WebConfig.reset(data.web_config);
-    // @ts-expect-error - owner may have this method
-    this._owner?.onContentFragmentRequestPopView?.(this);
+    const owner = this.getOwner<ViewContentFragmentOwner>();
+    owner?.onContentFragmentRequestPopView(this);
   }
 }
 

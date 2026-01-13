@@ -63,7 +63,7 @@ export class FUserIcon extends Fragment {
     let s = _CFT_USER_ICON.ICON;
     if (user) {
       s = s.replace("__ICON_URL__", user.getIconUrl() || "");
-      s = s.replace("__BG_COLOR__", user.getBackgroundColor() || "");
+      s = s.replace("__BG_COLOR__", user.getBackgroundColor?.() ?? "");
     } else {
       s = s.replace("__ICON_URL__", "");
       s = s.replace("__BG_COLOR__", "");

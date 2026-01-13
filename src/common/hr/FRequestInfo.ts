@@ -1,6 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { UserProfile as UserProfileData } from '../../types/backend2.js';
 import { T_DATA } from '../plt/Events.js';
 import { Notifications } from '../dba/Notifications.js';
 import { UserRequest } from '../datatypes/UserRequest.js';
@@ -160,29 +161,29 @@ export class FRequestInfo extends Fragment {
     let url = "api/career/accept_request";
     let fd = new FormData();
     fd.append("id", id || "");
-    Api.asFragmentPost(this, url, fd)
-        .then((d: unknown) => this.#onRequestOperationRRR(d as { profile?: unknown }));
+    Api.asFragmentPost<{ profile?: UserProfileData }>(this, url, fd)
+        .then((d: { profile?: UserProfileData }) => this.#onRequestOperationRRR(d?.profile));
   }
 
   #asyncDecline(id: string | null): void {
     let url = "api/career/decline_request";
     let fd = new FormData();
     fd.append("id", id || "");
-    Api.asFragmentPost(this, url, fd)
-        .then((d: unknown) => this.#onRequestOperationRRR(d as { profile?: unknown }));
+    Api.asFragmentPost<{ profile?: UserProfileData }>(this, url, fd)
+        .then((d: { profile?: UserProfileData }) => this.#onRequestOperationRRR(d?.profile));
   }
 
   #asyncIgnore(id: string | null): void {
     let url = "/api/career/ignore_request";
     let fd = new FormData();
     fd.append("id", id || "");
-    Api.asFragmentPost(this, url, fd)
-        .then((d: unknown) => this.#onRequestOperationRRR(d as { profile?: unknown }));
+    Api.asFragmentPost<{ profile?: UserProfileData }>(this, url, fd)
+        .then((d: { profile?: UserProfileData }) => this.#onRequestOperationRRR(d?.profile));
   }
 
-  #onRequestOperationRRR(data: { profile?: unknown }): void {
+  #onRequestOperationRRR(data: UserProfileData | undefined): void {
     if (Account.reset) {
-      Account.reset(data.profile);
+      Account.reset(data);
     }
   }
 

@@ -15,6 +15,8 @@ export class SectionPanel extends PanelWrapper {
     this._content = new PanelWrapper();
   }
 
+  override getContentPanel(): PanelWrapper { return this._content; }
+
   _getWrapperFramework(wrapperElementId: string): string {
     let s: string = _CPT_SECTION.FRAMEWORK;
     s = s.replace("__TITLE__", this._title) as string;

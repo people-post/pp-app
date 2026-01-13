@@ -7,6 +7,7 @@
 import { Web2Account } from './Web2Account.js';
 import type { User } from '../datatypes/User.js';
 import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
+import type { UserProfile as UserProfileType } from '../../types/backend2.js';
 
 // Web3 Owner type from pp-api (imported dynamically in WcWeb3)
 interface Web3Owner {
@@ -21,6 +22,7 @@ interface Web3Owner {
   getProfile?(): Record<string, unknown>;
   getPreferredLanguage?(): string | null;
   getLiveStreamKey?(): string | null;
+  reset(profile: UserProfileType | null): void;
   
   // Social
   isFollowing?(userId: string): boolean;
@@ -33,7 +35,6 @@ interface Web3Owner {
   setDelegate?(delegate: unknown): void;
   loadCheckPoint?(): void;
   saveCheckPoint?(): void;
-  reset?(profile?: unknown): void;
   
   // Publishing
   asPublishArticle?(article: unknown): Promise<void>;
@@ -383,7 +384,7 @@ class AccountWrapper {
 
   // ==================== State Management Methods ====================
 
-  reset(profile?: unknown): void {
+  reset(profile: UserProfileType | null = null): void {
     if ('reset' in this.#impl && typeof this.#impl.reset === 'function') {
       this.#impl.reset(profile);
     }

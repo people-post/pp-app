@@ -8,44 +8,9 @@ import { Menus } from './Menus.js';
 import { ID, URL_PARAM } from '../constants/Constants.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
+import type { FrameConfig, RoleData, WebConfigData } from '../../types/backend2.js';
 
-export interface FrameConfig {
-  type?: string;
-  [key: string]: unknown;
-}
-
-export interface RoleData {
-  id?: string;
-  tag_ids?: string[];
-  [key: string]: unknown;
-}
-
-export interface WebConfigData {
-  is_shop_open?: boolean;
-  is_workshop_open?: boolean;
-  is_dev_site?: boolean;
-  web_socket_url?: string;
-  login_proxy_url?: string;
-  rtmp_url?: string;
-  ice_url?: string;
-  max_n_frames?: number;
-  home_sector?: string;
-  home_page_title?: string;
-  owner?: {
-    uuid?: string;
-    [key: string]: unknown;
-  };
-  default_theme?: unknown;
-  front_page?: unknown;
-  side_frames?: {
-    left?: FrameConfig;
-    right?: FrameConfig;
-  };
-  tags?: Array<{ id?: string; [key: string]: unknown }>;
-  roles?: Array<RoleData>;
-  groups?: unknown;
-  [key: string]: unknown;
-}
+export type { FrameConfig, RoleData, WebConfigData };
 
 interface ApiResponse {
   error?: unknown;

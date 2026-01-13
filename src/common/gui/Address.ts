@@ -54,13 +54,13 @@ export class Address extends Fragment {
     }
   }
 
-  action(type: symbol): void {
+  action(type: symbol | string, ...args: unknown[]): void {
     switch (type) {
     case CF_ADDRESS.ON_CLICK:
       this.#onClick();
       break;
     default:
-      super.action(type);
+      super.action(type, ...args);
       break;
     }
   }

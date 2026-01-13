@@ -1,7 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import Render from '../../lib/ui/renders/Render.js';
 import { RemoteFile } from '../datatypes/RemoteFile.js';
 
 export const CF_FILES_THUMBNAIL = {

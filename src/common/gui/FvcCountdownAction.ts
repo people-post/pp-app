@@ -1,6 +1,5 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { CronJob } from '../../lib/ext/CronJob.js';
-import Render from '../../lib/ui/renders/Render.js';
 import { ViewContentFragmentOwner } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
