@@ -1,13 +1,13 @@
 import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FPostBase } from './FPostBase.js';
 import { R } from '../../common/constants/R.js';
 import { FUserIcon } from '../../common/hr/FUserIcon.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { ICON } from '../../common/constants/Icons.js';
-import { Utilities } from './Utilities.js';
 import { Utilities as CommonUtilities } from '../../common/Utilities.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Comment } from '../../common/datatypes/Comment.js';
@@ -16,11 +16,11 @@ const _CFT_COMMENT = {
   ICON : `<span class="inline-block s-icon6">__ICON__</span>`,
 } as const;
 
-interface CommentDataSource {
+export interface CommentDataSource {
   isUserAdminOfCommentTargetInCommentFragment(f: FComment, itemId: string): boolean;
 }
 
-interface CommentDelegate {
+export interface CommentDelegate {
   onGuestCommentStatusChangeInCommentFragment(f: FComment): void;
 }
 
@@ -29,8 +29,6 @@ export class FComment extends FPostBase {
   #fUserIcon: FUserIcon;
   #fUserName: FUserInfo;
   #commentId: string | null = null;
-  protected _dataSource!: CommentDataSource;
-  protected _delegate!: CommentDelegate;
 
   constructor() {
     super();
@@ -94,7 +92,11 @@ export class FComment extends FPostBase {
   }
 
   #isCommentAdmin(comment: Comment): boolean {
-    return this._dataSource.isUserAdminOfCommentTargetInCommentFragment(
+    const dataSource = this.getDataSource<CommentDataSource>();
+    if (!dataSource) {
+      return false;
+    }
+    return dataSource.isUserAdminOfCommentTargetInCommentFragment(
         this, comment.getTargetItemId());
   }
 
@@ -128,7 +130,7 @@ export class FComment extends FPostBase {
     }
   }
 
-  #renderCommentText(panel: Panel | null, comment: Comment): void {
+  #renderCommentText(panel: PanelWrapper | null, comment: Comment): void {
     if (!panel) {
       return;
     }
@@ -158,7 +160,11 @@ export class FComment extends FPostBase {
   }
 
   #renderTime(comment: Comment): string {
-    return CommonUtilities.renderSmartTime(comment.getCreationTime());
+    const creationTime = comment.getCreationTime();
+    if (!creationTime) {
+      return "";
+    }
+    return CommonUtilities.renderSmartTime(creationTime);
   }
 
   #asyncKeep(comment: Comment): void {

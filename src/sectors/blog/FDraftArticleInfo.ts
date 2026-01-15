@@ -145,9 +145,14 @@ export class FDraftArticleInfo extends Fragment {
     if (pContent) {
       let s = draft.getContent();
       if (UtilitiesExt.isEmptyString(s)) {
-        s = UtilitiesExt.timestampToDateString(draft.getCreationTime() / 1000);
+        const creationTime = draft.getCreationTime();
+        if (creationTime) {
+          s = UtilitiesExt.timestampToDateString(creationTime.getTime() / 1000);
+        }
       } else {
-        s = blogUtilities.stripSimpleTag(s, "p");
+        if (s) {
+          s = blogUtilities.stripSimpleTag(s, "p");
+        }
       }
       pContent.replaceContent(Utilities.renderContent(s));
     }
@@ -158,7 +163,7 @@ export class FDraftArticleInfo extends Fragment {
         // Use content if no title and no content panel
         s = draft.getContent();
       }
-      if (!UtilitiesExt.isEmptyString(s)) {
+      if (s && !UtilitiesExt.isEmptyString(s)) {
         s = blogUtilities.stripSimpleTag(s, "p");
         pTitle.replaceContent(Utilities.renderContent(s));
       }
@@ -172,7 +177,11 @@ export class FDraftArticleInfo extends Fragment {
     if (!draft) {
       return;
     }
-    panel.replaceContent(Utilities.renderTimeDiff(draft.getCreationTime()));
+    const creationTime = draft.getCreationTime();
+    if (!creationTime) {
+      return;
+    }
+    panel.replaceContent(Utilities.renderTimeDiff(creationTime.getTime()));
   }
 
   #renderDateTime(panel: Panel | null, draft: DraftArticle): void {
@@ -182,8 +191,12 @@ export class FDraftArticleInfo extends Fragment {
     if (!draft) {
       return;
     }
+    const creationTime = draft.getCreationTime();
+    if (!creationTime) {
+      return;
+    }
     panel.replaceContent(UtilitiesExt.timestampToDateTimeString(
-        draft.getCreationTime() / 1000));
+        creationTime.getTime() / 1000));
   }
 
   #renderOwnerIcon(panel: Panel | null, draft: DraftArticle): void {

@@ -1,4 +1,4 @@
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Fragment, FragmentOwner } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { BlogRole } from '../../common/datatypes/BlogRole.js';
 import { FCareerList as HrFCareerList } from '../../common/hr/FCareerList.js';
@@ -7,14 +7,9 @@ import { Blog } from '../../common/dba/Blog.js';
 import { FvcCareer } from '../../sectors/hr/FvcCareer.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-interface CareerListDelegate {
-  onFragmentRequestShowView(f: FCareerList, view: View, title: string): void;
-}
-
 export class FCareerList extends Fragment {
   #fList: HrFCareerList;
   #selectedId: string | null = null;
-  protected _delegate!: CareerListDelegate;
 
   constructor() {
     super();
@@ -60,7 +55,10 @@ export class FCareerList extends Fragment {
     let f = new FvcCareer();
     f.setRoleId(this.#selectedId);
     v.setContentFragment(f);
-    this._delegate.onFragmentRequestShowView(this, v, "role");
+    const owner = this.getOwner<FragmentOwner>();
+    if (owner) {
+      owner.onFragmentRequestShowView(this, v, "role");
+    }
     this.render();
   }
 

@@ -149,7 +149,7 @@ export class BlogClass implements BlogInterface {
     return this.#draftLib.get(id);
   }
 
-  getPost(postId: SocialItemId | null): PostType | null | undefined {
+  getPost(postId: SocialItemId | null): PostType | null {
     // postId is object of SocialItemId
     if (!postId) {
       return null;
@@ -162,14 +162,14 @@ export class BlogClass implements BlogInterface {
     return null;
   }
 
-  #doGetPost(id: string, type: string): PostType | null | undefined {
+  #doGetPost(id: string, type: string): PostType | null {
     if (!this.#postLib.has(id)) {
       this.#asyncLoadPost(id, type);
     }
-    return this.#postLib.get(id);
+    return this.#postLib.get(id) || null;
   }
 
-  getJournal(id: string | null): Journal | null | undefined {
+  getJournal(id: string | null): Journal | null {
     if (!id) {
       return null;
     }
@@ -179,24 +179,24 @@ export class BlogClass implements BlogInterface {
     return this.#journalLib.get(id) || null;
   }
 
-  getComment(id: string | null): Comment | null | undefined {
+  getComment(id: string | null): Comment | null {
     if (!id) return null;
-    return this.#doGetPost(id, SocialItem.TYPE.COMMENT) as Comment | null | undefined;
+    return this.#doGetPost(id, SocialItem.TYPE.COMMENT) as Comment | null;
   }
 
-  getArticle(id: string | null): Article | null | undefined {
+  getArticle(id: string | null): Article | null {
     if (!id) return null;
-    return this.#doGetPost(id, SocialItem.TYPE.ARTICLE) as Article | null | undefined;
+    return this.#doGetPost(id, SocialItem.TYPE.ARTICLE) as Article | null;
   }
 
-  getFeedArticle(id: string | null): FeedArticle | null | undefined {
+  getFeedArticle(id: string | null): FeedArticle | null {
     if (!id) return null;
-    return this.#doGetPost(id, SocialItem.TYPE.FEED_ARTICLE) as FeedArticle | null | undefined;
+    return this.#doGetPost(id, SocialItem.TYPE.FEED_ARTICLE) as FeedArticle | null;
   }
 
-  getJournalIssue(id: string | null): JournalIssue | null | undefined {
+  getJournalIssue(id: string | null): JournalIssue | null {
     if (!id) return null;
-    return this.#doGetPost(id, SocialItem.TYPE.JOURNAL_ISSUE) as JournalIssue | null | undefined;
+    return this.#doGetPost(id, SocialItem.TYPE.JOURNAL_ISSUE) as JournalIssue | null;
   }
 
   #updateDraft(draft: DraftArticle): void {

@@ -24,7 +24,7 @@ export class FDraftList extends Fragment {
     this.render();
   }
 
-  _renderDrafts(panel: Panel, ids: string[]): void {
+  _renderDrafts(panel: PanelWrapper, ids: string[]): void {
     if (ids.length) {
       this.#fList.clear();
 

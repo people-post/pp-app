@@ -43,6 +43,16 @@ const _CFT_POST_INFO = {
       `<span class="pin-icon inline-block s-icon5 v-middle-align">__ICON__</span>`,
 } as const;
 
+export interface PostInfoDataSource {
+  isUserAdminOfCommentTargetInPostInfoFragment(f: FPostInfo, targetId: string): boolean;
+  getContextOptionsForPostInfoFragment(f: FPostInfo, article: Article): Array<{name: string; value: string}> | null;
+}
+
+export interface PostInfoDelegate {
+  onContextOptionClickedInPostInfoFragment(f: FPostInfo, value: string): void;
+  onVisibilityChangeInPostInfoFragment(f: FPostInfo): void;
+}
+
 export class FPostInfo extends MajorSectorItem {
   #fPost: Fragment | null = null;
   #fRefOwnerName: FUserInfo;
@@ -77,29 +87,37 @@ export class FPostInfo extends MajorSectorItem {
   }
   setSizeType(t: string | null): void { this.#sizeType = t; }
 
-  isUserAdminOfCommentTargetInCommentFragment(_fComment: Fragment, targetId: string): boolean {
-    return UtilitiesExt.optCall(this._dataSource,
-                                 "isUserAdminOfCommentTargetInPostInfoFragment",
-                                 this, targetId) as boolean;
+  isUserAdminOfCommentTargetInPostInfoFragment(targetId: string): boolean {
+    const dataSource = this.getDataSource<PostInfoDataSource>();
+    if (!dataSource) {
+      return false;
+    }
+    return dataSource.isUserAdminOfCommentTargetInPostInfoFragment(this, targetId);
   }
 
-  getContextOptionsForArticleInfoFragment(_fArticle: Fragment, article: Article): Array<{name: string; value: string}> | null {
-    return UtilitiesExt.optCall(this._dataSource,
-                                 "getContextOptionsForPostInfoFragment", this,
-                                 article) as Array<{name: string; value: string}> | null;
+  getContextOptionsForPostInfoFragment(article: Article): Array<{name: string; value: string}> | null {
+    const dataSource = this.getDataSource<PostInfoDataSource>();
+    if (!dataSource) {
+      return null;
+    }
+    return dataSource.getContextOptionsForPostInfoFragment(this, article);
   }
 
-  onClickInArticleInfoFragment(_fArticle: Fragment, _articleId: string): void { this.#onClick(); }
-  onContextOptionClickedInArticleInfoFragment(fArticle: Fragment, value: string): void {
-    UtilitiesExt.optCall(this._delegate,
-                          "onContextOptionClickedInPostInfoFragment", this,
-                          value, (fArticle as any).getArticleId());
+  onClickInPostInfoFragment(): void { this.#onClick(); }
+  onContextOptionClickedInPostInfoFragment(value: string): void {
+    const delegate = this.getDelegate<PostInfoDelegate>();
+    if (!delegate) {
+      return;
+    }
+    delegate.onContextOptionClickedInPostInfoFragment(this, value);
   }
-  onGuestCommentStatusChangeInCommentFragment(_fComment: Fragment): void {
-    UtilitiesExt.optCall(this._delegate,
-                          "onVisibilityChangeInPostInfoFragment", this);
+  onVisibilityChangeInPostInfoFragment(): void {
+    const delegate = this.getDelegate<PostInfoDelegate>();
+    if (!delegate) {
+      return;
+    }
+    delegate.onVisibilityChangeInPostInfoFragment(this);
   }
-  onCommentClickedInSocialBar(_fSocial: FSocialBar): void { this.#onClick(); }
 
   handleSessionDataUpdate(dataType: symbol, data: unknown): void {
     switch (dataType) {
