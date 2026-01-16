@@ -93,3 +93,26 @@ export interface WebConfigData {
   groups?: unknown;
   [key: string]: unknown;
 }
+
+/**
+ * ArticleBaseData data structure from backend API
+ */
+export interface ArticleBaseData {
+  files?: unknown[];
+  attachments?: unknown[];
+  link_to?: string;
+  link_type?: string | null;
+  title?: string | null;
+  content?: string | null;
+  visibility?: string;
+  owner_id?: string;
+  author_id?: string;
+  tag_ids?: string[];
+  publish_mode?: string;
+  author_tag_ids?: string[];
+  author_new_tag_names?: string[];
+  new_tag_names?: string[];
+  classification?: string;
+  updated_at?: number;
+  [key: string]: unknown;
+}

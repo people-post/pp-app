@@ -1,149 +1,58 @@
 import { Post } from './Post.js';
 import { RemoteFile } from './RemoteFile.js';
-import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
+import { ArticleBaseData } from '../../types/backend2.js';
 
-interface ArticleBaseData {
-  files?: unknown[];
-  attachments?: unknown[];
-  link_to?: string;
-  link_type?: string | null;
-  title?: string | null;
-  content?: string | null;
-  visibility?: string;
-  owner_id?: string;
-  author_id?: string;
-  tag_ids?: string[];
-  publish_mode?: string;
-  author_tag_ids?: string[];
-  author_new_tag_names?: string[];
-  new_tag_names?: string[];
-  classification?: string;
-  updated_at?: number;
-  [key: string]: unknown;
-}
-
-export class ArticleBase extends Post {
-  #files: RemoteFile[] = [];
-  #attachments: RemoteFile[] = [];
+export abstract class ArticleBase extends Post {
   protected _data: ArticleBaseData;
 
   constructor(data: ArticleBaseData) {
     super(data);
     this._data = data;
-    if (data.files) {
-      for (const f of data.files) {
-        this.#files.push(new RemoteFile(f as Record<string, unknown>));
-      }
-    }
-
-    if (data.attachments) {
-      for (const d of data.attachments) {
-        this.#attachments.push(new RemoteFile(d as Record<string, unknown>));
-      }
-    }
   }
 
-  isDraft(): boolean {
-    throw new Error('isDraft is required in ArticleBase');
-  }
+  abstract isDraft(): boolean;
 
-  isRepost(): boolean {
-    return (
-      !!this._data.link_to &&
-      (this._data.link_type == null ||
-        this._data.link_type == SocialItem.TYPE.ARTICLE ||
-        this._data.link_type == SocialItem.TYPE.FEED_ARTICLE) &&
-      this.#isEmpty()
-    );
-  }
+  abstract isRepost(): boolean;
 
-  isQuotePost(): boolean {
-    return !!this._data.link_to && !this.isRepost();
-  }
+  abstract isQuotePost(): boolean;
 
-  getLinkTo(): string | null {
-    return this._data.link_to || null;
-  }
+  abstract getLinkTo(): string | null;
 
-  getLinkType(): string | null | undefined {
-    return this._data.link_type;
-  }
+  abstract getLinkType(): string | null | undefined;
 
-  getLinkToSocialId(): SocialItemId {
-    return new SocialItemId(this._data.link_to, this._data.link_type || null);
-  }
+  abstract getLinkToSocialId(): SocialItemId;
 
-  getSocialItemType(): string {
-    return SocialItem.TYPE.ARTICLE;
-  }
+  abstract getSocialItemType(): string;
 
-  getTitle(): string | null | undefined {
-    return this._data.title;
-  }
+  abstract getTitle(): string | null | undefined;
 
-  getContent(): string | null | undefined {
-    return this._data.content;
-  }
+  abstract getContent(): string | null | undefined;
 
-  getFiles(): RemoteFile[] {
-    return this.#files;
-  }
+  abstract getFiles(): RemoteFile[];
 
-  getAttachment(): RemoteFile | undefined {
-    return this.#attachments[0];
-  }
+  abstract getAttachment(): RemoteFile | undefined;
 
-  getVisibility(): string | null {
-    return this._data.visibility || null;
-  }
+  abstract getVisibility(): string | null;
 
-  getOwnerId(): string | null {
-    return this._data.owner_id || null;
-  }
+  abstract getOwnerId(): string | null;
 
-  getAuthorId(): string | null {
-    return this._data.author_id || null;
-  }
+  abstract getAuthorId(): string | null;
 
-  getTagIds(): string[] | undefined {
-    return this._data.tag_ids;
-  }
+  abstract getTagIds(): string[] | undefined;
 
-  getPublishMode(): string | undefined {
-    return this._data.publish_mode;
-  }
+  abstract getPublishMode(): string | undefined;
 
-  getPendingAuthorTagIds(): string[] | undefined {
-    return this._data.author_tag_ids;
-  }
+  abstract getPendingAuthorTagIds(): string[] | undefined;
 
-  getPendingAuthorNewTagNames(): string[] | undefined {
-    return this._data.author_new_tag_names;
-  }
+  abstract getPendingAuthorNewTagNames(): string[] | undefined;
 
-  getPendingNewTagNames(): string[] | undefined {
-    return this._data.new_tag_names;
-  }
+  abstract getPendingNewTagNames(): string[] | undefined;
 
-  getClassification(): string | undefined {
-    return this._data.classification;
-  }
+  abstract getClassification(): string | undefined;
 
-  getUpdateTime(): Date {
-    return new Date((this._data.updated_at || 0) * 1000);
-  }
+  abstract getUpdateTime(): Date;
 
-  getExternalQuoteUrl(): string | null {
-    if (this._data.link_type == SocialItem.TYPE.URL) {
-      return this._data.link_to || null;
-    } else {
-      return null;
-    }
-  }
-
-  #isEmpty(): boolean {
-    return this._data.title == null && this._data.content == null;
-  }
+  abstract getExternalQuoteUrl(): string | null;
 }
 
