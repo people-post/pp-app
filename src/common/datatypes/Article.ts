@@ -3,12 +3,7 @@ import { OgpData } from './OgpData.js';
 import { RemoteFile } from './RemoteFile.js';
 import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
-import { ArticleBaseData } from '../../types/backend2.js';
-
-interface CommentTagData {
-  tag_id: string;
-  comment_ids: Array<{ id: string; type: string }>;
-}
+import { ArticleBaseData, CommentTagData } from '../../types/backend2.js';
 
 interface ArticleData extends ArticleBaseData {
   comment_tags?: CommentTagData[];

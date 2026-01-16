@@ -1,15 +1,6 @@
 import { JournalIssueBase } from './JournalIssueBase.js';
 import { SocialItemId } from './SocialItemId.js';
-
-interface CommentTagData {
-  tag_id: string;
-  comment_ids: Array<{ id: string; type: string }>;
-}
-
-interface JournalIssueData {
-  comment_tags?: CommentTagData[];
-  [key: string]: unknown;
-}
+import { JournalIssueData } from '../../types/backend2.js';
 
 export class JournalIssue extends JournalIssueBase {
   #mTagComments = new Map<string, SocialItemId[]>();

@@ -1,17 +1,7 @@
 import { Post } from './Post.js';
 import { JournalIssueSection } from './JournalIssueSection.js';
 import { SocialItem } from './SocialItem.js';
-
-interface JournalIssueBaseData {
-  sections?: Array<{ id?: string; item_ids?: Array<{ id: string; type: string }>; [key: string]: unknown }>;
-  owner_id?: string;
-  journal_id?: string;
-  issue_id?: string;
-  abstract?: string;
-  summary?: string;
-  tag_ids?: string[];
-  [key: string]: unknown;
-}
+import { JournalIssueBaseData } from '../../types/backend2.js';
 
 export class JournalIssueBase extends Post {
   #sections: JournalIssueSection[] = [];

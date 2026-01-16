@@ -116,3 +116,33 @@ export interface ArticleBaseData {
   updated_at?: number;
   [key: string]: unknown;
 }
+
+/**
+ * JournalIssueBaseData data structure from backend API
+ */
+export interface JournalIssueBaseData {
+  sections?: Array<{ id?: string; item_ids?: Array<{ id: string; type: string }>; [key: string]: unknown }>;
+  owner_id?: string;
+  journal_id?: string;
+  issue_id?: string;
+  abstract?: string;
+  summary?: string;
+  tag_ids?: string[];
+  [key: string]: unknown;
+}
+
+/**
+ * CommentTagData data structure from backend API
+ */
+export interface CommentTagData {
+  tag_id: string;
+  comment_ids: Array<{ id: string; type: string }>;
+}
+
+/**
+ * JournalIssueData data structure from backend API
+ */
+export interface JournalIssueData extends JournalIssueBaseData {
+  comment_tags?: CommentTagData[];
+  [key: string]: unknown;
+}
