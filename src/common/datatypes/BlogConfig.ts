@@ -1,6 +1,6 @@
 import { SocialItemId } from './SocialItemId.js';
 import { SocialItem } from './SocialItem.js';
-import type { BlogConfigData, BlogConfig as BlogConfigType } from '../../types/blog.js';
+import type { BlogConfigData, BlogConfig as BlogConfigType } from '../../types/basic.js';
 
 export class BlogConfig implements BlogConfigType {
   #pinnedIds: SocialItemId[] = [];

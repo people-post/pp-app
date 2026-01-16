@@ -1,5 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-import { Post } from './Post.js';
+import { Post } from '../../types/blog.js';
 import { SocialItemId } from './SocialItemId.js';
 
 interface EmptyPostData {

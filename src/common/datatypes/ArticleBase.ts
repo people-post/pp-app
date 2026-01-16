@@ -1,5 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-import { Post } from './Post.js';
+import { Post } from '../../types/blog.js';
 import { RemoteFile } from './RemoteFile.js';
 import { SocialItemId } from './SocialItemId.js';
 import { ArticleBaseData } from '../../types/backend2.js';

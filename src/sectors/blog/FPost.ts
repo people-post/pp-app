@@ -23,7 +23,7 @@ import { FEmptyPost } from './FEmptyPost.js';
 import { Utilities as BlogUtilities } from './Utilities.js';
 import { Env } from '../../common/plt/Env.js';
 import { Api } from '../../common/plt/Api.js';
-import type { Post } from '../../common/datatypes/Post.js';
+import type { Post } from '../../types/blog.js';
 import type { Fragment as FragmentType } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Account } from '../../common/dba/Account.js';
 

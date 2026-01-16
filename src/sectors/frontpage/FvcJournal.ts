@@ -69,8 +69,8 @@ import { FPostInfo } from '../blog/FPostInfo.js';
 import { FTaggedCommentList } from '../blog/FTaggedCommentList.js';
 import { Blog } from '../../common/dba/Blog.js';
 import type { JournalPageConfig } from '../../common/datatypes/JournalPageConfig.js';
-import type { Post } from '../../common/datatypes/Post.js';
-import type { JournalIssue } from '../../common/datatypes/JournalIssue.js';
+import type { Post } from '../../types/blog.js';
+import type { JournalIssue } from '../../types/blog.js';
 
 export class PJournal extends Panel {
   #pMain: PanelWrapper;

@@ -1,5 +1,5 @@
 import { Blog } from '../../common/dba/Blog.js';
-import type { Post } from '../../common/datatypes/Post.js';
+import type { Post } from '../../types/blog.js';
 
 export const Utilities = {
   isPostRelated(post: Post | null, toPost: Post | null, cascade: boolean = true): boolean {

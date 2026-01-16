@@ -30,7 +30,7 @@ import { PPostInfoEmbed } from './PPostInfoEmbed.js';
 import { PPostInfoFullPage } from './PPostInfoFullPage.js';
 import { PPostInfoCompact } from './PPostInfoCompact.js';
 import { ICON } from '../../common/constants/Icons.js';
-import type { Post } from '../../common/datatypes/Post.js';
+import type { Post } from '../../types/blog.js';
 import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import type { Article } from '../../common/datatypes/Article.js';
 

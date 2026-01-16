@@ -8,7 +8,7 @@ import { SectorNoticeInfoFragment } from '../../common/gui/SectorNoticeInfoFragm
 import { FvcPost } from './FvcPost.js';
 import { Notifications } from '../../common/dba/Notifications.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import type { Post } from '../../common/datatypes/Post.js';
+import type { Post } from '../../types/blog.js';
 
 export class FWeb3NoticeList extends Fragment {
   #selectedPostId: string | null = null;

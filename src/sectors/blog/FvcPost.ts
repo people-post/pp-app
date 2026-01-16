@@ -22,7 +22,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { Utilities as blogUtilities } from './Utilities.js';
 import { Env } from '../../common/plt/Env.js';
 import { Api } from '../../common/plt/Api.js';
-import type { Post } from '../../common/datatypes/Post.js';
+import type { Post } from '../../types/blog.js';
 import type { Article as ArticleType } from '../../common/datatypes/Article.js';
 import { Account } from '../../common/dba/Account.js';
 
