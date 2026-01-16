@@ -4,7 +4,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
-import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { SocialItem } from '../../common/interface/SocialItem.js';
 import { Blog } from '../../common/dba/Blog.js';
 import type { FPostInfo } from './FPostInfo.js';
 

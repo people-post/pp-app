@@ -1,6 +1,6 @@
 import { Post } from './Post.js';
 import { ChatMessage } from './ChatMessage.js';
-import { SocialItem } from './SocialItem.js';
+import { SocialItem } from '../interface/SocialItem.js';
 
 interface CommentData {
   type?: string;

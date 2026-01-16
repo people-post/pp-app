@@ -1,6 +1,6 @@
 import { Post } from './Post.js';
 import { RemoteFile } from './RemoteFile.js';
-import { SocialItem } from './SocialItem.js';
+import { SocialItem } from '../interface/SocialItem.js';
 
 interface FeedArticleData {
   files?: unknown[];

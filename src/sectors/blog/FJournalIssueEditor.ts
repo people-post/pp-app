@@ -37,7 +37,7 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { SearchConfig } from '../../common/datatypes/SearchConfig.js';
-import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { SocialItem } from '../../common/interface/SocialItem.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { Journal } from '../../common/datatypes/Journal.js';
 import { Tag } from '../../common/datatypes/Tag.js';

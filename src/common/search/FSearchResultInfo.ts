@@ -27,7 +27,7 @@ const _CPT_SEARCH_RESULT_INFO = {
 
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { SocialItem } from '../datatypes/SocialItem.js';
+import { SocialItem } from '../interface/SocialItem.js';
 import { Utilities } from '../Utilities.js';
 
 interface MatchInfoElement {

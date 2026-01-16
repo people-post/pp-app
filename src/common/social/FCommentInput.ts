@@ -7,7 +7,7 @@ import { FvcUserInput } from '../hr/FvcUserInput.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FHashtag } from '../gui/FHashtag.js';
-import { SocialItem } from '../datatypes/SocialItem.js';
+import { SocialItem } from '../interface/SocialItem.js';
 import { dat } from 'pp-api';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';

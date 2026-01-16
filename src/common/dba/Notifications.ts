@@ -1,5 +1,5 @@
 import CronJob from '../../lib/ext/CronJob.js';
-import { SocialItem } from '../datatypes/SocialItem.js';
+import { SocialItem } from '../interface/SocialItem.js';
 import { Tag } from '../datatypes/Tag.js';
 import { MessageThreadInfo } from '../datatypes/MessageThreadInfo.js';
 import { UserRequest } from '../datatypes/UserRequest.js';

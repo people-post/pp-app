@@ -1,6 +1,6 @@
 import { FAttachmentFile } from '../../lib/ui/controllers/fragments/FAttachmentFile.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
-import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { SocialItem } from '../../common/interface/SocialItem.js';
 import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
 import { LGallery } from '../../common/gui/LGallery.js';
 import { FPostBase } from './FPostBase.js';

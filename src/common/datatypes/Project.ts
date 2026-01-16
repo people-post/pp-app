@@ -1,4 +1,5 @@
-import { SocialItem } from './SocialItem.js';
+import { ServerDataObject } from './ServerDataObject.js';
+import { SocialItem } from '../interface/SocialItem.js';
 import { RemoteFile } from './RemoteFile.js';
 import { ProjectActor } from './ProjectActor.js';
 import { Story } from './Story.js';
@@ -37,7 +38,7 @@ interface ProjectData {
   [key: string]: unknown;
 }
 
-export class Project extends SocialItem {
+export class Project extends ServerDataObject implements SocialItem {
   static readonly ACTIONS = {
     ASSIGN: { name: 'Assign...', type: 'ASSIGN' }, // Assign facilitator
     ADD_AGENT: { name: 'Add agent...', type: 'ADD_AGENT' }, // Add agent

@@ -1,9 +1,16 @@
-import { ServerDataObject } from './ServerDataObject.js';
 import { ICON } from '../constants/Icons.js';
 
-export class SocialItem extends ServerDataObject {
+export interface SocialItem {
+  // For social actions like comment, like, repost or quote
+  getSocialItemType(): string;
+
+  getOgpData(): unknown;
+}
+
+// Namespace for static members
+export namespace SocialItem {
   // Synced with backend
-  static readonly TYPE = {
+  export const TYPE = {
     ARTICLE: 'ARTICLE',
     JOURNAL_ISSUE: 'JOURNAL_ISSUE',
     PROJECT: 'PROJECT',
@@ -19,7 +26,7 @@ export class SocialItem extends ServerDataObject {
     INVALID: "INVALID", // Local, not synced
   } as const;
 
-  static readonly T_LAYOUT = {
+  export const T_LAYOUT = {
     COMPACT: 'COMPACT', // Synced with backend
     SMALL: 'SMALL', // Synced with backend
     MEDIUM: 'MEDIUM', // Synced with backend
@@ -35,7 +42,7 @@ export class SocialItem extends ServerDataObject {
     EXT_FULL_PAGE: '_FULL_PAGE',
   } as const;
 
-  static getIcon(type: string | symbol): string {
+  export function getIcon(type: string | symbol): string {
     let i: string;
     switch (type) {
       case SocialItem.TYPE.USER:
@@ -62,14 +69,4 @@ export class SocialItem extends ServerDataObject {
     }
     return i;
   }
-
-  // For social actions like comment, like, repost or quote
-  getSocialItemType(): string {
-    throw new Error('getSocialItemType() is required');
-  }
-
-  getOgpData(): unknown {
-    return null;
-  }
 }
-

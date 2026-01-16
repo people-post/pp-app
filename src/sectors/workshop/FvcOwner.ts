@@ -7,7 +7,7 @@ import { MainMenu } from '../../common/menu/MainMenu.js';
 import { FSearchMenu } from '../../common/search/FSearchMenu.js';
 import { FOwnerProjectList } from './FOwnerProjectList.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
-import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { SocialItem } from '../../common/interface/SocialItem.js';
 import { ID, URL_PARAM } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';

@@ -5,7 +5,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
-import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { SocialItem } from '../../common/interface/SocialItem.js';
 import { Article } from '../../common/datatypes/Article.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { FPost } from './FPost.js';

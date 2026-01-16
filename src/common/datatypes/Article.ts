@@ -1,7 +1,7 @@
 import { ArticleBase } from './ArticleBase.js';
 import { OgpData } from './OgpData.js';
 import { RemoteFile } from './RemoteFile.js';
-import { SocialItem } from './SocialItem.js';
+import { SocialItem } from '../interface/SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
 import { ArticleBaseData, CommentTagData } from '../../types/backend2.js';
 

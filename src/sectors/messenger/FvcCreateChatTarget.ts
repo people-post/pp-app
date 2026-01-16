@@ -9,7 +9,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Groups } from '../../common/dba/Groups.js';
 import { FUserIcon } from '../../common/hr/FUserIcon.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
-import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { SocialItem } from '../../common/interface/SocialItem.js';
 import { Api } from '../../common/plt/Api.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import type Render from '../../lib/ui/renders/Render.js';

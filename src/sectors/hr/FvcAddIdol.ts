@@ -3,7 +3,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SearchConfig } from '../../common/datatypes/SearchConfig.js';
-import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { SocialItem } from '../../common/interface/SocialItem.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 import { Env } from '../../common/plt/Env.js';

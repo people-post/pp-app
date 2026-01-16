@@ -3,7 +3,7 @@ import { FUserInfo } from '../hr/FUserInfo.js';
 import Timer from '../../lib/ext/Timer.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { PRepostItemNotice } from './PRepostItemNotice.js';
-import { SocialItem } from '../datatypes/SocialItem.js';
+import { SocialItem } from '../interface/SocialItem.js';
 import { Blog } from '../dba/Blog.js';
 import { RepostItemNotice } from '../datatypes/RepostItemNotice.js';
 import { Api } from '../plt/Api.js';

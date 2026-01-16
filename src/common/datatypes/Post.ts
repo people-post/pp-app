@@ -1,7 +1,8 @@
-import { SocialItem } from './SocialItem.js';
+import { ServerDataObject } from './ServerDataObject.js';
+import { SocialItem } from '../interface/SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
 
-export class Post extends SocialItem {
+export class Post extends ServerDataObject implements SocialItem {
   isRepost(): boolean {
     return false;
   }
@@ -52,6 +53,15 @@ export class Post extends SocialItem {
 
   getTaggedCommentIds(_tagId: string): SocialItemId[] {
     return [];
+  }
+
+  // For social actions like comment, like, repost or quote
+  getSocialItemType(): string {
+    throw new Error('getSocialItemType() is required');
+  }
+
+  getOgpData(): unknown {
+    return null;
   }
 }
 

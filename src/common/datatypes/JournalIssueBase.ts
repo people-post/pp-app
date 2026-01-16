@@ -1,6 +1,6 @@
 import { Post } from './Post.js';
 import { JournalIssueSection } from './JournalIssueSection.js';
-import { SocialItem } from './SocialItem.js';
+import { SocialItem } from '../interface/SocialItem.js';
 import { JournalIssueBaseData } from '../../types/backend2.js';
 
 export class JournalIssueBase extends Post {

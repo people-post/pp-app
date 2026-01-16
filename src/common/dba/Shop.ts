@@ -1,5 +1,5 @@
 import { WebConfig } from './WebConfig.js';
-import { SocialItem } from '../datatypes/SocialItem.js';
+import { SocialItem } from '../interface/SocialItem.js';
 import { ShopTeam } from '../datatypes/ShopTeam.js';
 import { Tag } from '../datatypes/Tag.js';
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';

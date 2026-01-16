@@ -4,7 +4,7 @@ import { ActionButton } from '../../common/gui/ActionButton.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcCreateChatTarget } from './FvcCreateChatTarget.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
-import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { SocialItem } from '../../common/interface/SocialItem.js';
 import { Events, T_ACTION, T_DATA } from '../../lib/framework/Events.js';
 import { Users } from '../../common/dba/Users.js';
 import { Notifications } from '../../common/dba/Notifications.js';

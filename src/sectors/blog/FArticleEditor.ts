@@ -10,7 +10,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { VIS } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
-import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { SocialItem } from '../../common/interface/SocialItem.js';
 import { Tag } from '../../common/datatypes/Tag.js';
 import { Article } from '../../common/datatypes/Article.js';
 import { RichContentEditor } from '../../common/gui/RichContentEditor.js';

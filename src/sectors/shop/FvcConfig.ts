@@ -17,7 +17,7 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { SocialItem } from '../../common/interface/SocialItem.js';
 import { ID, MAX } from '../../common/constants/Constants.js';
 import { MenuConfig } from '../../common/menu/MenuConfig.js';
 import { FBranchList } from './FBranchList.js';

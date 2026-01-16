@@ -3,7 +3,7 @@ import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
-import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { SocialItem } from '../../common/interface/SocialItem.js';
 import { URL_PARAM } from '../../lib/ui/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
