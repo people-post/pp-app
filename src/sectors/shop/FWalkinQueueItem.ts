@@ -9,7 +9,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FvcSimpleFragmentList } from '../../lib/ui/controllers/fragments/FvcSimpleFragmentList.js';
-import { SocialItem } from '../../common/interface/SocialItem.js';
+import type { SocialItem } from '../../types/basic.js';
 import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
 import { CartItem } from '../../common/datatypes/CartItem.js';
 import { WalkinQueueItem } from '../../common/datatypes/WalkinQueueItem.js';

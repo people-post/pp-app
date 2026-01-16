@@ -54,7 +54,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
-import { SocialItem } from '../../common/interface/SocialItem.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FrontPageLayoutConfig } from '../../common/datatypes/FrontPageLayoutConfig.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { T_DATA } from '../../common/plt/Events.js';

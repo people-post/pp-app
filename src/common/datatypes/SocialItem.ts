@@ -1,13 +1,10 @@
 import { ICON } from '../constants/Icons.js';
 
-export interface SocialItem {
-  // For social actions like comment, like, repost or quote
-  getSocialItemType(): string;
-
-  getOgpData(): unknown;
-}
-
-// Namespace for static members
+/**
+ * SocialItem namespace implementation
+ * This file provides the runtime implementation for the SocialItem namespace
+ * declared in basic.d.ts
+ */
 export namespace SocialItem {
   // Synced with backend
   export const TYPE = {

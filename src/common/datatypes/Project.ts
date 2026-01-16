@@ -1,5 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-import { SocialItem } from '../interface/SocialItem.js';
+import { SocialItem } from './SocialItem.js';
 import { RemoteFile } from './RemoteFile.js';
 import { ProjectActor } from './ProjectActor.js';
 import { Story } from './Story.js';

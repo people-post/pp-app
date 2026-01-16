@@ -24,7 +24,7 @@ const _CFT_OGP = {
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { SocialItem } from '../../common/interface/SocialItem.js';
+import type { SocialItem } from '../../types/basic.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Ogp } from '../../common/dba/Ogp.js';
 import { POgpSmall } from './POgpSmall.js';

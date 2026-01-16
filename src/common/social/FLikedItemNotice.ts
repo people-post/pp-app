@@ -7,7 +7,7 @@ import { FUserInfo } from '../hr/FUserInfo.js';
 import Timer from '../../lib/ext/Timer.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { PLikedItemNotice } from './PLikedItemNotice.js';
-import { SocialItem } from '../interface/SocialItem.js';
+import type { SocialItem } from '../../types/basic.js';
 import { Blog } from '../dba/Blog.js';
 import { LikedItemNotice } from '../datatypes/LikedItemNotice.js';
 import { Api } from '../plt/Api.js';

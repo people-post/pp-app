@@ -1,9 +1,11 @@
+import { ServerDataObject } from './ServerDataObject.js';
 import { Post } from './Post.js';
 import { JournalIssueSection } from './JournalIssueSection.js';
-import { SocialItem } from '../interface/SocialItem.js';
+import { SocialItem } from './SocialItem.js';
+import { SocialItemId } from './SocialItemId.js';
 import { JournalIssueBaseData } from '../../types/backend2.js';
 
-export class JournalIssueBase extends Post {
+export class JournalIssueBase extends ServerDataObject implements Post {
   #sections: JournalIssueSection[] = [];
   protected _data: JournalIssueBaseData;
 
@@ -17,12 +19,60 @@ export class JournalIssueBase extends Post {
     }
   }
 
-  isDraft(): boolean {
+  isRepost(): boolean {
     return false;
   }
 
   isEditable(): boolean {
     return true;
+  }
+
+  isSocialable(): boolean {
+    return true;
+  }
+
+  isPinnable(): boolean {
+    return false;
+  }
+
+  getAuthorId(): string | null {
+    return null;
+  }
+
+  getLinkTo(): string | null {
+    return null;
+  }
+
+  getLinkToSocialId(): SocialItemId | null {
+    return null;
+  }
+
+  getSocialId(): SocialItemId {
+    return new SocialItemId(this.getId() as string, this.getSocialItemType());
+  }
+
+  getVisibility(): string | null {
+    return null;
+  }
+
+  getCommentTags(): string[] {
+    return [];
+  }
+
+  getHashtagIds(): string[] {
+    return [];
+  }
+
+  getTaggedCommentIds(_tagId: string): SocialItemId[] {
+    return [];
+  }
+
+  getOgpData(): unknown {
+    return null;
+  }
+
+  isDraft(): boolean {
+    return false;
   }
 
   containsPost(id: string): boolean {

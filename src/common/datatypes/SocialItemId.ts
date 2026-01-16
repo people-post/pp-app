@@ -1,4 +1,4 @@
-import { SocialItem } from '../interface/SocialItem.js';
+import { SocialItem } from './SocialItem.js';
 import type { SocialItemId as SocialItemIdType } from '../../types/basic.js';
 
 export class SocialItemId implements SocialItemIdType {

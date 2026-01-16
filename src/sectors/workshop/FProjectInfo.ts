@@ -10,7 +10,7 @@ import { FUserIcon } from '../../common/hr/FUserIcon.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FSocialBar } from '../../common/social/FSocialBar.js';
 import { Workshop } from '../../common/dba/Workshop.js';
-import { SocialItem } from '../../common/interface/SocialItem.js';
+import type { SocialItem } from '../../types/basic.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { LGallery } from '../../common/gui/LGallery.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';

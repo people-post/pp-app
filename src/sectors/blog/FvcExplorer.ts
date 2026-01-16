@@ -2,7 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
-import { SocialItem } from '../../common/interface/SocialItem.js';
+import type { SocialItem } from '../../types/basic.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
 import { FSearchMenu } from '../../common/search/FSearchMenu.js';

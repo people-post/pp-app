@@ -2,7 +2,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ICONS } from '../../lib/ui/Icons.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
-import { SocialItem } from '../../common/interface/SocialItem.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { MajorSectorItem } from '../../common/gui/MajorSectorItem.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FSocialBar } from '../../common/social/FSocialBar.js';

@@ -1,6 +1,8 @@
+import { ServerDataObject } from './ServerDataObject.js';
 import { Post } from './Post.js';
 import { RemoteFile } from './RemoteFile.js';
-import { SocialItem } from '../interface/SocialItem.js';
+import { SocialItem } from './SocialItem.js';
+import { SocialItemId } from './SocialItemId.js';
 
 interface FeedArticleData {
   files?: unknown[];
@@ -11,7 +13,7 @@ interface FeedArticleData {
   [key: string]: unknown;
 }
 
-export class FeedArticle extends Post {
+export class FeedArticle extends ServerDataObject implements Post {
   #files: RemoteFile[] = [];
   protected _data: FeedArticleData;
 
@@ -25,8 +27,52 @@ export class FeedArticle extends Post {
     }
   }
 
+  isRepost(): boolean {
+    return false;
+  }
+
+  isEditable(): boolean {
+    return false;
+  }
+
   isSocialable(): boolean {
     return false;
+  }
+
+  isPinnable(): boolean {
+    return false;
+  }
+
+  getLinkTo(): string | null {
+    return null;
+  }
+
+  getLinkToSocialId(): SocialItemId | null {
+    return null;
+  }
+
+  getSocialId(): SocialItemId {
+    return new SocialItemId(this.getId() as string, this.getSocialItemType());
+  }
+
+  getVisibility(): string | null {
+    return null;
+  }
+
+  getCommentTags(): string[] {
+    return [];
+  }
+
+  getHashtagIds(): string[] {
+    return [];
+  }
+
+  getTaggedCommentIds(_tagId: string): SocialItemId[] {
+    return [];
+  }
+
+  getOgpData(): unknown {
+    return null;
   }
 
   getSocialItemType(): string {

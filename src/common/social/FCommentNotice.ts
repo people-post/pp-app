@@ -14,7 +14,7 @@ const _CFT_COMMENT_NOTICE_INFO = {
 };
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { SocialItem } from '../interface/SocialItem.js';
+import type { SocialItem } from '../../types/basic.js';
 import { Blog } from '../dba/Blog.js';
 import { Workshop } from '../dba/Workshop.js';
 import { CommentNotice } from '../datatypes/CommentNotice.js';

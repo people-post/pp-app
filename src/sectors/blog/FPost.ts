@@ -9,7 +9,7 @@ import { FSocialBar } from '../../common/social/FSocialBar.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FvcFilteredPostList } from './FvcFilteredPostList.js';
-import { SocialItem } from '../../common/interface/SocialItem.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { Utilities } from '../../common/Utilities.js';
 import { ICON } from '../../common/constants/Icons.js';

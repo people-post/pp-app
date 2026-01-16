@@ -1,6 +1,8 @@
+import { ServerDataObject } from './ServerDataObject.js';
 import { Post } from './Post.js';
 import { ChatMessage } from './ChatMessage.js';
-import { SocialItem } from '../interface/SocialItem.js';
+import { SocialItem } from './SocialItem.js';
+import { SocialItemId } from './SocialItemId.js';
 
 interface CommentData {
   type?: string;
@@ -17,7 +19,7 @@ interface CommentDataWithStatus {
   data?: string;
 }
 
-export class Comment extends Post {
+export class Comment extends ServerDataObject implements Post {
   // Synced with backend
   static readonly T_STATUS = {
     PENDING: 'PENDING',
@@ -30,8 +32,60 @@ export class Comment extends Post {
     this._data = data;
   }
 
+  isRepost(): boolean {
+    return false;
+  }
+
+  isEditable(): boolean {
+    return false;
+  }
+
   isSocialable(): boolean {
     return false;
+  }
+
+  isPinnable(): boolean {
+    return false;
+  }
+
+  getOwnerId(): string | null {
+    return null;
+  }
+
+  getAuthorId(): string | null {
+    return null;
+  }
+
+  getLinkTo(): string | null {
+    return null;
+  }
+
+  getLinkToSocialId(): SocialItemId | null {
+    return null;
+  }
+
+  getSocialId(): SocialItemId {
+    return new SocialItemId(this.getId() as string, this.getSocialItemType());
+  }
+
+  getVisibility(): string | null {
+    return null;
+  }
+
+  getCommentTags(): string[] {
+    return [];
+  }
+
+  getHashtagIds(): string[] {
+    return [];
+  }
+
+  getTaggedCommentIds(_tagId: string): SocialItemId[] {
+    return [];
+  }
+
+  getOgpData(): unknown {
+    return null;
   }
 
   isFromGuest(): boolean {

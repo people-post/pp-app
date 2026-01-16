@@ -1,6 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { SocialItem } from '../../common/interface/SocialItem.js';
+import type { SocialItem } from '../../types/basic.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { OwnerWeb3PostIdLoader } from './OwnerWeb3PostIdLoader.js';
 import { FPostList } from './FPostList.js';

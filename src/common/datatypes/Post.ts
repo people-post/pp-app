@@ -1,67 +1,31 @@
-import { ServerDataObject } from './ServerDataObject.js';
-import { SocialItem } from '../interface/SocialItem.js';
-import { SocialItemId } from './SocialItemId.js';
+import type { SocialItem } from '../../types/basic.js';
+import { SocialItemId } from '../../types/basic.js';
 
-export class Post extends ServerDataObject implements SocialItem {
-  isRepost(): boolean {
-    return false;
-  }
+export interface Post extends SocialItem {
+  isRepost(): boolean;
 
-  isEditable(): boolean {
-    return false;
-  }
+  isEditable(): boolean;
 
-  isSocialable(): boolean {
-    return true;
-  }
+  isSocialable(): boolean;
 
-  isPinnable(): boolean {
-    return false;
-  }
+  isPinnable(): boolean;
 
-  getOwnerId(): string | null {
-    return null;
-  }
+  getOwnerId(): string | null;
 
-  getAuthorId(): string | null {
-    return null;
-  }
+  getAuthorId(): string | null;
 
-  getLinkTo(): string | null {
-    return null;
-  }
+  getLinkTo(): string | null;
 
-  getLinkToSocialId(): SocialItemId | null {
-    return null;
-  }
+  getLinkToSocialId(): SocialItemId | null;
 
-  getSocialId(): SocialItemId {
-    return new SocialItemId(this.getId() as string, this.getSocialItemType());
-  }
+  getSocialId(): SocialItemId;
 
-  getVisibility(): string | null {
-    return null;
-  }
+  getVisibility(): string | null;
 
-  getCommentTags(): string[] {
-    return [];
-  }
+  getCommentTags(): string[];
 
-  getHashtagIds(): string[] {
-    return [];
-  }
+  getHashtagIds(): string[];
 
-  getTaggedCommentIds(_tagId: string): SocialItemId[] {
-    return [];
-  }
-
-  // For social actions like comment, like, repost or quote
-  getSocialItemType(): string {
-    throw new Error('getSocialItemType() is required');
-  }
-
-  getOgpData(): unknown {
-    return null;
-  }
+  getTaggedCommentIds(tagId: string): SocialItemId[];
 }
 

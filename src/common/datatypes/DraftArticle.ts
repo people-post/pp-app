@@ -1,6 +1,6 @@
 import { ArticleBase } from './ArticleBase.js';
 import { RemoteFile } from './RemoteFile.js';
-import { SocialItem } from '../interface/SocialItem.js';
+import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
 import { ArticleBaseData } from '../../types/backend2.js';
 
@@ -119,6 +119,38 @@ export class DraftArticle extends ArticleBase {
     } else {
       return null;
     }
+  }
+
+  isEditable(): boolean {
+    return false;
+  }
+
+  isSocialable(): boolean {
+    return true;
+  }
+
+  isPinnable(): boolean {
+    return false;
+  }
+
+  getSocialId(): SocialItemId {
+    return new SocialItemId(this.getId() as string, this.getSocialItemType());
+  }
+
+  getCommentTags(): string[] {
+    return [];
+  }
+
+  getHashtagIds(): string[] {
+    return [];
+  }
+
+  getTaggedCommentIds(_tagId: string): SocialItemId[] {
+    return [];
+  }
+
+  getOgpData(): unknown {
+    return null;
   }
 
   #isEmpty(): boolean {

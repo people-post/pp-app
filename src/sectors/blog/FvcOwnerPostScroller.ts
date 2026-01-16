@@ -1,5 +1,5 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
-import { SocialItem } from '../../common/interface/SocialItem.js';
+import type { SocialItem } from '../../types/basic.js';
 import { OwnerPostIdLoader } from './OwnerPostIdLoader.js';
 import { FPostList } from './FPostList.js';
 import type { ActionButton } from '../../common/gui/ActionButton.js';

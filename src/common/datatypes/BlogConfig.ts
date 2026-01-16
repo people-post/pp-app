@@ -1,5 +1,5 @@
 import { SocialItemId } from './SocialItemId.js';
-import { SocialItem } from '../interface/SocialItem.js';
+import { SocialItem } from './SocialItem.js';
 import type { BlogConfigData, BlogConfig as BlogConfigType } from '../../types/blog.js';
 
 export class BlogConfig implements BlogConfigType {

@@ -1,4 +1,4 @@
-import { SocialItem } from '../../common/interface/SocialItem.js';
+import type { SocialItem } from '../../types/basic.js';
 import { Product } from '../../common/datatypes/Product.js';
 import { FProductList } from './FProductList.js';
 import { FProduct } from './FProduct.js';

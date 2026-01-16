@@ -3,7 +3,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
-import { SocialItem } from '../../common/interface/SocialItem.js';
+import type { SocialItem } from '../../types/basic.js';
 import { FTag } from '../../common/gui/FTag.js';
 import { FPostInfo } from './FPostInfo.js';
 import type { JournalIssueSection } from '../../common/datatypes/JournalIssueSection.js';

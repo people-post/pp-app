@@ -1,9 +1,10 @@
+import { ServerDataObject } from './ServerDataObject.js';
 import { Post } from './Post.js';
 import { RemoteFile } from './RemoteFile.js';
 import { SocialItemId } from './SocialItemId.js';
 import { ArticleBaseData } from '../../types/backend2.js';
 
-export abstract class ArticleBase extends Post {
+export abstract class ArticleBase extends ServerDataObject implements Post {
   protected _data: ArticleBaseData;
 
   constructor(data: ArticleBaseData) {
@@ -14,6 +15,12 @@ export abstract class ArticleBase extends Post {
   abstract isDraft(): boolean;
 
   abstract isRepost(): boolean;
+
+  abstract isEditable(): boolean;
+
+  abstract isSocialable(): boolean;
+
+  abstract isPinnable(): boolean;
 
   abstract isQuotePost(): boolean;
 
@@ -54,5 +61,15 @@ export abstract class ArticleBase extends Post {
   abstract getUpdateTime(): Date;
 
   abstract getExternalQuoteUrl(): string | null;
+
+  abstract getSocialId(): SocialItemId;
+
+  abstract getCommentTags(): string[];
+
+  abstract getHashtagIds(): string[];
+
+  abstract getTaggedCommentIds(tagId: string): SocialItemId[];
+
+  abstract getOgpData(): unknown;
 }
 

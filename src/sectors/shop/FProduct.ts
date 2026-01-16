@@ -19,7 +19,7 @@ import { FProductDeliveryManager } from './FProductDeliveryManager.js';
 import { PriceFragment } from '../../common/gui/PriceFragment.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { Cart } from '../../common/dba/Cart.js';
-import { SocialItem } from '../../common/interface/SocialItem.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Utilities } from '../../common/Utilities.js';
 import { PProduct } from './PProduct.js';
