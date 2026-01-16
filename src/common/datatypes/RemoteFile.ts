@@ -1,7 +1,8 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import { STATE } from '../constants/Constants.js';
+import { RemoteFile as RemoteFileInterface } from '../../types/basic.js';
 
-export class RemoteFile extends ServerDataObject {
+export class RemoteFile extends ServerDataObject implements RemoteFileInterface {
   // Synced with backend
   static readonly T_STATUS = {
     LIVE: 'LIVE',

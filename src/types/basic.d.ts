@@ -172,3 +172,130 @@ export namespace SocialItem {
    */
   export function getIcon(type: string | symbol): string;
 }
+
+/**
+ * RemoteFile interface representing the public API of the RemoteFile class
+ */
+export interface RemoteFile {
+  /**
+   * Check if the file processing is finished
+   * @returns true if the file is finished
+   */
+  isFinished(): boolean;
+
+  /**
+   * Check if the file is active
+   * @returns true if the file is active
+   */
+  isActive(): boolean;
+
+  /**
+   * Check if the file is an image
+   * @returns true if the file is an image
+   */
+  isImage(): boolean;
+
+  /**
+   * Check if the file is a video
+   * @returns true if the file is a video
+   */
+  isVideo(): boolean;
+
+  /**
+   * Check if the file is livestreaming
+   * @returns true if the file is livestreaming
+   */
+  isLivestreaming(): boolean;
+
+  /**
+   * Check if the file is pending
+   * @returns true if the file is pending
+   */
+  isPending(): boolean;
+
+  /**
+   * Get the name of the file
+   * @returns The file name or undefined
+   */
+  getName(): string | undefined;
+
+  /**
+   * Get the CID (Content ID) of the file
+   * @returns The CID or undefined
+   */
+  getCid(): string | undefined;
+
+  /**
+   * Get the image URL of the file
+   * @returns The image URL or undefined
+   */
+  getImageUrl(): string | undefined;
+
+  /**
+   * Get the download URL of the file
+   * @returns The download URL or undefined
+   */
+  getDownloadUrl(): string | undefined;
+
+  /**
+   * Get the thumbnail URL for a specific width
+   * @param forWidth The width to get the thumbnail for
+   * @returns The thumbnail URL or undefined
+   */
+  getThumbnailUrl(forWidth: number): string | undefined;
+
+  /**
+   * Get the video manifest type
+   * @returns The video manifest type
+   */
+  getVideoManifestType(): string;
+
+  /**
+   * Get the video manifest URL
+   * @returns The video manifest URL or undefined
+   */
+  getVideoManifestUrl(): string | undefined;
+
+  /**
+   * Get the background color
+   * @returns The background color
+   */
+  getBackgroundColor(): string;
+
+  /**
+   * Get the progress of file processing
+   * @returns The progress as a number or undefined
+   */
+  getProgress(): number | undefined;
+
+  /**
+   * Set the state of the file
+   * @param s The state to set
+   */
+  setState(s: string): void;
+
+  /**
+   * Set the status of the file
+   * @param s The status to set
+   */
+  setStatus(s: string): void;
+
+  /**
+   * Set the progress of file processing
+   * @param p The progress to set
+   */
+  setProgress(p: number): void;
+}
+
+/**
+ * RemoteFile namespace containing static constants
+ */
+export namespace RemoteFile {
+  /**
+   * File status constants
+   */
+  export const T_STATUS: {
+    readonly LIVE: 'LIVE';
+    readonly PREPROC: 'PROC';
+  };
+}

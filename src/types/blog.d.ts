@@ -2,7 +2,7 @@
  * Blog-related type definitions
  */
 
-import type { SocialItem, SocialItemId } from './basic.js';
+import type { SocialItem, SocialItemId, RemoteFile } from './basic.js';
 
 /**
  * BlogConfig data structure
@@ -194,4 +194,190 @@ export interface JournalIssue extends Post {
    * @returns Array of JournalIssueSection objects
    */
   getSections(): unknown[];
+}
+
+/**
+ * Article interface for articles
+ */
+export interface Article extends Post {
+  /**
+   * Check if this is a draft article
+   * @returns true if the article is a draft
+   */
+  isDraft(): boolean;
+
+  /**
+   * Check if this article is a repost
+   * @returns true if the article is a repost
+   */
+  isRepost(): boolean;
+
+  /**
+   * Check if this article is editable
+   * @returns true if the article is editable
+   */
+  isEditable(): boolean;
+
+  /**
+   * Check if this article is socialable
+   * @returns true if the article is socialable
+   */
+  isSocialable(): boolean;
+
+  /**
+   * Check if this article is pinnable
+   * @returns true if the article is pinnable
+   */
+  isPinnable(): boolean;
+
+  /**
+   * Check if this article is a quote post
+   * @returns true if the article is a quote post
+   */
+  isQuotePost(): boolean;
+
+  /**
+   * Get the link target of the article
+   * @returns The link target or null
+   */
+  getLinkTo(): string | null;
+
+  /**
+   * Get the link type of the article
+   * @returns The link type or null/undefined
+   */
+  getLinkType(): string | null | undefined;
+
+  /**
+   * Get the link target as a SocialItemId
+   * @returns The SocialItemId
+   */
+  getLinkToSocialId(): SocialItemId;
+
+  /**
+   * Get the social item type
+   * @returns The social item type as a string
+   */
+  getSocialItemType(): string;
+
+  /**
+   * Get the title of the article
+   * @returns The title or null/undefined
+   */
+  getTitle(): string | null | undefined;
+
+  /**
+   * Get the content of the article
+   * @returns The content or null/undefined
+   */
+  getContent(): string | null | undefined;
+
+  /**
+   * Get files associated with the article
+   * @returns Array of RemoteFile objects
+   */
+  getFiles(): RemoteFile[];
+
+  /**
+   * Get the attachment file
+   * @returns The RemoteFile attachment or undefined
+   */
+  getAttachment(): RemoteFile | undefined;
+
+  /**
+   * Get the visibility of the article
+   * @returns The visibility string or null
+   */
+  getVisibility(): string | null;
+
+  /**
+   * Get the owner ID of the article
+   * @returns The owner ID or null
+   */
+  getOwnerId(): string | null;
+
+  /**
+   * Get the author ID of the article
+   * @returns The author ID or null
+   */
+  getAuthorId(): string | null;
+
+  /**
+   * Get tag IDs associated with this article
+   * @returns Array of tag IDs or undefined
+   */
+  getTagIds(): string[] | undefined;
+
+  /**
+   * Get the publish mode
+   * @returns The publish mode or undefined
+   */
+  getPublishMode(): string | undefined;
+
+  /**
+   * Get pending author tag IDs
+   * @returns Array of tag IDs or undefined
+   */
+  getPendingAuthorTagIds(): string[] | undefined;
+
+  /**
+   * Get pending author new tag names
+   * @returns Array of tag names or undefined
+   */
+  getPendingAuthorNewTagNames(): string[] | undefined;
+
+  /**
+   * Get pending new tag names
+   * @returns Array of tag names or undefined
+   */
+  getPendingNewTagNames(): string[] | undefined;
+
+  /**
+   * Get the classification of the article
+   * @returns The classification or undefined
+   */
+  getClassification(): string | undefined;
+
+  /**
+   * Get the update time of the article
+   * @returns The update time as a Date
+   */
+  getUpdateTime(): Date;
+
+  /**
+   * Get the external quote URL
+   * @returns The external quote URL or null
+   */
+  getExternalQuoteUrl(): string | null;
+
+  /**
+   * Get the social ID of this article
+   * @returns The SocialItemId
+   */
+  getSocialId(): SocialItemId;
+
+  /**
+   * Get comment tags associated with this article
+   * @returns Array of comment tag IDs
+   */
+  getCommentTags(): string[];
+
+  /**
+   * Get hashtag IDs associated with this article
+   * @returns Array of hashtag IDs
+   */
+  getHashtagIds(): string[];
+
+  /**
+   * Get tagged comment IDs for a specific tag
+   * @param tagId The tag ID to get comments for
+   * @returns Array of SocialItemIds for tagged comments
+   */
+  getTaggedCommentIds(tagId: string): SocialItemId[];
+
+  /**
+   * Get OGP data for this article
+   * @returns OGP data or null
+   */
+  getOgpData(): unknown;
 }

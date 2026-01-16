@@ -1,15 +1,18 @@
-import { ArticleBase } from './ArticleBase.js';
+import { ServerDataObject } from './ServerDataObject.js';
+import { Article } from '../../types/blog.js';
 import { RemoteFile } from './RemoteFile.js';
 import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
 import { ArticleBaseData } from '../../types/backend2.js';
 
-export class DraftArticle extends ArticleBase {
+export class DraftArticle extends ServerDataObject implements Article {
+  protected _data: ArticleBaseData;
   #files: RemoteFile[] = [];
   #attachments: RemoteFile[] = [];
 
   constructor(data: ArticleBaseData) {
     super(data);
+    this._data = data;
     if (data.files) {
       for (const f of data.files) {
         this.#files.push(new RemoteFile(f as Record<string, unknown>));

@@ -1,4 +1,5 @@
-import { ArticleBase } from './ArticleBase.js';
+import { ServerDataObject } from './ServerDataObject.js';
+import { Article as ArticleInterface } from '../../types/blog.js';
 import { OgpData } from './OgpData.js';
 import { RemoteFile } from './RemoteFile.js';
 import { SocialItem } from './SocialItem.js';
@@ -11,13 +12,15 @@ interface ArticleData extends ArticleBaseData {
   [key: string]: unknown;
 }
 
-export class Article extends ArticleBase {
+export class Article extends ServerDataObject implements ArticleInterface {
+  protected _data: ArticleData;
   #files: RemoteFile[] = [];
   #attachments: RemoteFile[] = [];
   #mTagComments = new Map<string, SocialItemId[]>();
 
   constructor(data: ArticleData) {
     super(data);
+    this._data = data;
     if (data.files) {
       for (const f of data.files) {
         this.#files.push(new RemoteFile(f as Record<string, unknown>));
