@@ -2,7 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FGeneralSearch } from './FGeneralSearch.js';
 import { FSearchResultInfo } from './FSearchResultInfo.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../datatypes/SocialItem.js';
 import { SocialItemId } from '../datatypes/SocialItemId.js';
 import { Blog } from '../dba/Blog.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';

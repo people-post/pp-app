@@ -2,7 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FChatGroupInfo } from './FChatGroupInfo.js';
 import { FvcChat } from './FvcChat.js';
 import type Render from '../../lib/ui/renders/Render.js';

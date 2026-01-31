@@ -1,6 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { ConstListIdLoader } from '../../common/plt/ConstListIdLoader.js';
 import { FPostList } from './FPostList.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';

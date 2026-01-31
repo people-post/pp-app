@@ -5,7 +5,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
 import { FTag } from '../../common/gui/FTag.js';
 import { LGallery } from '../../common/gui/LGallery.js';

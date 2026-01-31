@@ -27,7 +27,7 @@ import { FRoleList } from './FRoleList.js';
 import { FPostInfo } from './FPostInfo.js';
 import { FPostInfoLayoutPreview } from './FPostInfoLayoutPreview.js';
 import { FvcRoleEditor } from './FvcRoleEditor.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { BlogRole } from '../../common/datatypes/BlogRole.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';

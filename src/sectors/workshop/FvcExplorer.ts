@@ -4,7 +4,7 @@ import { ActionButton } from '../../common/gui/ActionButton.js';
 import { FSearchMenu } from '../../common/search/FSearchMenu.js';
 import { FIdolProjectList } from './FIdolProjectList.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';

@@ -2,7 +2,7 @@ import { LvTabbedPage } from './LvTabbedPage.js';
 import { FHomeBtn } from './FHomeBtn.js';
 import { URL_PARAM } from '../lib/ui/Constants.js';
 import { SocialItemId } from '../common/datatypes/SocialItemId.js';
-import type { SocialItem } from '../types/basic.js';
+import { SocialItem } from '../common/datatypes/SocialItem.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
 import { ID, URL_PARAM as URL_PARAM_CONST } from '../common/constants/Constants.js';
 
@@ -52,7 +52,7 @@ export class LvMain extends LvTabbedPage {
     switch (type) {
     case SocialItem.TYPE.ARTICLE:
     case SocialItem.TYPE.FEED_ARTICLE:
-    case SocialItem.TYPE.JOURNAL_ARTICLE:
+    case SocialItem.TYPE.JOURNAL_ISSUE:
       id = ID.SECTOR.BLOG;
       break;
     case SocialItem.TYPE.PROJECT:

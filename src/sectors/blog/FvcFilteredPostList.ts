@@ -1,6 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FilteredPostIdLoader } from './FilteredPostIdLoader.js';
 import { FPostList } from './FPostList.js';
 

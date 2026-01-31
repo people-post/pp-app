@@ -1,5 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FPostInfo } from './FPostInfo.js';
 import type { JournalIssueSection } from '../../common/datatypes/JournalIssueSection.js';

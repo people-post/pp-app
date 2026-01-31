@@ -1,5 +1,5 @@
 import { WebConfig } from './WebConfig.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../datatypes/SocialItem.js';
 import { BlogRole, BlogRoleData } from '../datatypes/BlogRole.js';
 import { Tag } from '../datatypes/Tag.js';
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';

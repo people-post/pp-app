@@ -1,6 +1,6 @@
 import { FSearch } from './FSearch.js';
 import { T_DATA } from '../plt/Events.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../datatypes/SocialItem.js';
 import { SearchResult } from '../datatypes/SearchResult.js';
 import { Users } from '../dba/Users.js';
 import { Account } from '../dba/Account.js';

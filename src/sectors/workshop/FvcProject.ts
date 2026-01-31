@@ -20,7 +20,7 @@ import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FLocalUserSearch } from '../../common/search/FLocalUserSearch.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { User } from '../../common/datatypes/User.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { ProjectActor } from '../../common/datatypes/ProjectActor.js';
 import { Utilities } from '../../common/Utilities.js';

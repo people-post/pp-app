@@ -1,5 +1,5 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FArticleEditor } from './FArticleEditor.js';
 import { FJournalIssueEditor } from './FJournalIssueEditor.js';
 import { T_DATA } from '../../common/plt/Events.js';

@@ -1,5 +1,6 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import { SocialItem } from './SocialItem.js';
+import type { SocialItem as SocialItemInterface } from '../../types/basic.js';
 import { RemoteFile } from './RemoteFile.js';
 import { ProductDeliveryChoice } from './ProductDeliveryChoice.js';
 import { SocialItemId } from './SocialItemId.js';
@@ -23,7 +24,7 @@ interface ProductData {
   [key: string]: unknown;
 }
 
-export class Product extends ServerDataObject implements SocialItem {
+export class Product extends ServerDataObject implements SocialItemInterface {
   #files: RemoteFile[] = [];
   #delivery_choices: ProductDeliveryChoice[] = [];
   protected _data: ProductData;

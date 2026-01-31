@@ -12,7 +12,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Env } from '../../common/plt/Env.js';
 import { Api } from '../../common/plt/Api.js';
 import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';

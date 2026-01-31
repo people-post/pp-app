@@ -1,13 +1,12 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
-import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { MainMenu } from '../../common/menu/MainMenu.js';
 import { FSearchMenu } from '../../common/search/FSearchMenu.js';
 import { FOwnerProjectList } from './FOwnerProjectList.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { ID, URL_PARAM } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';

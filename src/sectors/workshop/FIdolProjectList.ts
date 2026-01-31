@@ -1,6 +1,6 @@
 import { FProjectList } from './FProjectList.js';
 import { FProjectInfo } from './FProjectInfo.js';
-import type { SocialItem } from '../../types/basic.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { Api } from '../../common/plt/Api.js';
