@@ -1,5 +1,8 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { sys } from 'pp-api';
 
@@ -56,15 +59,94 @@ function escapeHtml(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+const PLACEHOLDER_RESULT = 'Enter a value and click Fetch to load.';
+
 export class FvcWeb3Exchange extends FScrollViewContent {
   #apiBase = API_BASE;
   #options: { method: string; headers: { 'Content-Type': string } } = {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   };
+  #fBlockId: TextInput;
+  #fAccountId: TextInput;
+  #fWalletId: TextInput;
+  #btnFetchBlock: Button;
+  #btnFetchAccount: Button;
+  #btnFetchTx: Button;
+  #pBlockResult: Panel | null = null;
+  #pAccountResult: Panel | null = null;
+  #pTxResult: Panel | null = null;
 
   constructor() {
     super();
+    this.#fBlockId = new TextInput();
+    this.#fBlockId.setConfig({ title: 'Block ID', hint: 'e.g. 0', value: '', isRequired: false });
+    this.setChild('fBlockId', this.#fBlockId);
+
+    this.#fAccountId = new TextInput();
+    this.#fAccountId.setConfig({ title: 'Account ID', hint: 'e.g. 0', value: '', isRequired: false });
+    this.setChild('fAccountId', this.#fAccountId);
+
+    this.#fWalletId = new TextInput();
+    this.#fWalletId.setConfig({ title: 'Wallet ID', hint: 'e.g. 0', value: '', isRequired: false });
+    this.setChild('fWalletId', this.#fWalletId);
+
+    this.#btnFetchBlock = new Button();
+    this.#btnFetchBlock.setName('Fetch Block');
+    this.#btnFetchBlock.setLayoutType(Button.LAYOUT_TYPE.SMALL);
+    this.#btnFetchBlock.setValue('FetchBlock');
+    this.#btnFetchBlock.setDelegate(this);
+    this.setChild('btnFetchBlock', this.#btnFetchBlock);
+
+    this.#btnFetchAccount = new Button();
+    this.#btnFetchAccount.setName('Fetch Account');
+    this.#btnFetchAccount.setLayoutType(Button.LAYOUT_TYPE.SMALL);
+    this.#btnFetchAccount.setValue('FetchAccount');
+    this.#btnFetchAccount.setDelegate(this);
+    this.setChild('btnFetchAccount', this.#btnFetchAccount);
+
+    this.#btnFetchTx = new Button();
+    this.#btnFetchTx.setName('Fetch Transactions');
+    this.#btnFetchTx.setLayoutType(Button.LAYOUT_TYPE.SMALL);
+    this.#btnFetchTx.setValue('FetchTx');
+    this.#btnFetchTx.setDelegate(this);
+    this.setChild('btnFetchTx', this.#btnFetchTx);
+  }
+
+  onSimpleButtonClicked(fBtn: Button): void {
+    const v = fBtn.getValue();
+    if (v === 'FetchBlock' && this.#pBlockResult) {
+      const raw = this.#fBlockId.getValue().trim();
+      const id = raw === '' ? NaN : parseInt(raw, 10);
+      if (Number.isNaN(id)) {
+        this.#pBlockResult.replaceContent(formatSectionTitle('Block') + '<br/><small style="color:red">Enter a numeric block ID.</small>');
+        return;
+      }
+      this.#pBlockResult.replaceContent(formatSectionTitle('Block') + '<br/><small>Loading…</small>');
+      this.#fetchBlock(id, this.#pBlockResult);
+      return;
+    }
+    if (v === 'FetchAccount' && this.#pAccountResult) {
+      const raw = this.#fAccountId.getValue().trim();
+      const id = raw === '' ? NaN : parseInt(raw, 10);
+      if (Number.isNaN(id)) {
+        this.#pAccountResult.replaceContent(formatSectionTitle('Account') + '<br/><small style="color:red">Enter a numeric account ID.</small>');
+        return;
+      }
+      this.#pAccountResult.replaceContent(formatSectionTitle('Account') + '<br/><small>Loading…</small>');
+      this.#fetchAccount(id, this.#pAccountResult);
+      return;
+    }
+    if (v === 'FetchTx' && this.#pTxResult) {
+      const raw = this.#fWalletId.getValue().trim();
+      const id = raw === '' ? NaN : parseInt(raw, 10);
+      if (Number.isNaN(id)) {
+        this.#pTxResult.replaceContent(formatSectionTitle('Transactions by wallet') + '<br/><small style="color:red">Enter a numeric wallet ID.</small>');
+        return;
+      }
+      this.#pTxResult.replaceContent(formatSectionTitle('Transactions by wallet') + '<br/><small>Loading…</small>');
+      this.#fetchTxByWallet(id, this.#pTxResult);
+    }
   }
 
   async #requestJson<T>(url: string): Promise<T> {
@@ -77,31 +159,64 @@ export class FvcWeb3Exchange extends FScrollViewContent {
     const pList = new ListPanel();
     render.wrapPanel(pList);
 
-    const pBeaconState = new Panel();
-    pList.pushPanel(pBeaconState);
-    pBeaconState.replaceContent(formatSectionTitle('Chain State') + '<br/><small>Loading…</small>');
-    this.#fetchBeaconState(pBeaconState);
-
-    const pBlock = new Panel();
-    pList.pushPanel(pBlock);
-    pBlock.replaceContent(formatSectionTitle('Block (id=0)') + '<br/><small>Loading…</small>');
-    this.#fetchBlock(0, pBlock);
-
     const pGenesisCard = new Panel();
     pList.pushPanel(pGenesisCard);
     pGenesisCard.setClassName('pad10px');
     pGenesisCard.replaceContent(this.#renderGenesisCardLoading());
     this.#fetchGenesisCard(pGenesisCard);
 
-    const pAccount = new Panel();
-    pList.pushPanel(pAccount);
-    pAccount.replaceContent(formatSectionTitle('Account (id=0)') + '<br/><small>Loading…</small>');
-    this.#fetchAccount(0, pAccount);
+    const pBeaconState = new Panel();
+    pList.pushPanel(pBeaconState);
+    pBeaconState.replaceContent(formatSectionTitle('Chain State') + '<br/><small>Loading…</small>');
+    this.#fetchBeaconState(pBeaconState);
 
-    const pTxByWallet = new Panel();
-    pList.pushPanel(pTxByWallet);
-    pTxByWallet.replaceContent(formatSectionTitle('Transactions by wallet (walletId=0)') + '<br/><small>Loading…</small>');
-    this.#fetchTxByWallet(0, pTxByWallet);
+    let pp = new PanelWrapper();
+    pList.pushPanel(pp);
+    pp.replaceContent(formatSectionTitle('Block'));
+    pp = new PanelWrapper();
+    pList.pushPanel(pp);
+    this.#fBlockId.attachRender(pp);
+    this.#fBlockId.render();
+    pp = new PanelWrapper();
+    pList.pushPanel(pp);
+    this.#btnFetchBlock.attachRender(pp);
+    this.#btnFetchBlock.render();
+    const pBlockResult = new Panel();
+    pList.pushPanel(pBlockResult);
+    this.#pBlockResult = pBlockResult;
+    pBlockResult.replaceContent(formatSectionTitle('Block') + '<br/><small>' + escapeHtml(PLACEHOLDER_RESULT) + '</small>');
+
+    pp = new PanelWrapper();
+    pList.pushPanel(pp);
+    pp.replaceContent(formatSectionTitle('Account'));
+    pp = new PanelWrapper();
+    pList.pushPanel(pp);
+    this.#fAccountId.attachRender(pp);
+    this.#fAccountId.render();
+    pp = new PanelWrapper();
+    pList.pushPanel(pp);
+    this.#btnFetchAccount.attachRender(pp);
+    this.#btnFetchAccount.render();
+    const pAccountResult = new Panel();
+    pList.pushPanel(pAccountResult);
+    this.#pAccountResult = pAccountResult;
+    pAccountResult.replaceContent(formatSectionTitle('Account') + '<br/><small>' + escapeHtml(PLACEHOLDER_RESULT) + '</small>');
+
+    pp = new PanelWrapper();
+    pList.pushPanel(pp);
+    pp.replaceContent(formatSectionTitle('Transactions by wallet'));
+    pp = new PanelWrapper();
+    pList.pushPanel(pp);
+    this.#fWalletId.attachRender(pp);
+    this.#fWalletId.render();
+    pp = new PanelWrapper();
+    pList.pushPanel(pp);
+    this.#btnFetchTx.attachRender(pp);
+    this.#btnFetchTx.render();
+    const pTxResult = new Panel();
+    pList.pushPanel(pTxResult);
+    this.#pTxResult = pTxResult;
+    pTxResult.replaceContent(formatSectionTitle('Transactions by wallet') + '<br/><small>' + escapeHtml(PLACEHOLDER_RESULT) + '</small>');
   }
 
   async #fetchBeaconState(panel: Panel): Promise<void> {
