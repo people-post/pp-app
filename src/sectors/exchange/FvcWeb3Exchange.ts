@@ -15,11 +15,6 @@ interface BeaconState {
   nextBlockId: number;
 }
 
-interface BeaconCalibration {
-  msTimestamp: number;
-  nextBlockId: number;
-}
-
 interface BlockResponse {
   block: {
     index: number;
@@ -84,7 +79,7 @@ export class FvcWeb3Exchange extends FScrollViewContent {
 
     const pBeaconState = new Panel();
     pList.pushPanel(pBeaconState);
-    pBeaconState.replaceContent(formatSectionTitle('Beacon State') + '<br/><small>Loading…</small>');
+    pBeaconState.replaceContent(formatSectionTitle('Chain State') + '<br/><small>Loading…</small>');
     this.#fetchBeaconState(pBeaconState);
 
     const pBlock = new Panel();
@@ -92,10 +87,11 @@ export class FvcWeb3Exchange extends FScrollViewContent {
     pBlock.replaceContent(formatSectionTitle('Block (id=0)') + '<br/><small>Loading…</small>');
     this.#fetchBlock(0, pBlock);
 
-    const pCalibration = new Panel();
-    pList.pushPanel(pCalibration);
-    pCalibration.replaceContent(formatSectionTitle('Beacon Calibration') + '<br/><small>Loading…</small>');
-    this.#fetchCalibration(pCalibration);
+    const pGenesisCard = new Panel();
+    pList.pushPanel(pGenesisCard);
+    pGenesisCard.setClassName('pad10px');
+    pGenesisCard.replaceContent(this.#renderGenesisCardLoading());
+    this.#fetchGenesisCard(pGenesisCard);
 
     const pAccount = new Panel();
     pList.pushPanel(pAccount);
@@ -120,9 +116,9 @@ export class FvcWeb3Exchange extends FScrollViewContent {
         `nStakeholders: ${data.nStakeholders}`,
         `nextBlockId: ${data.nextBlockId}`,
       ];
-      panel.replaceContent(formatSectionTitle('Beacon State') + '<br/><pre style="margin:0.25em 0">' + escapeHtml(lines.join('\n')) + '</pre>');
+      panel.replaceContent(formatSectionTitle('Chain State') + '<br/><pre style="margin:0.25em 0">' + escapeHtml(lines.join('\n')) + '</pre>');
     } catch (e) {
-      panel.replaceContent(formatSectionTitle('Beacon State') + '<br/><small style="color:red">Error: ' + escapeHtml(String(e)) + '</small>');
+      panel.replaceContent(formatSectionTitle('Chain State') + '<br/><small style="color:red">Error: ' + escapeHtml(String(e)) + '</small>');
     }
   }
 
@@ -144,16 +140,30 @@ export class FvcWeb3Exchange extends FScrollViewContent {
     }
   }
 
-  async #fetchCalibration(panel: Panel): Promise<void> {
+  #renderGenesisCardLoading(): string {
+    return '<div style="border:1px solid #ddd;border-radius:8px;padding:12px 16px;background:#fafafa">' +
+      '<strong>Genesis</strong><br/><small>Loading…</small></div>';
+  }
+
+  #renderGenesisCard(name: string, totalCirculatingToken0: number): string {
+    return '<div style="border:1px solid #ddd;border-radius:8px;padding:12px 16px;background:#fafafa">' +
+      '<strong>' + escapeHtml(name) + '</strong><br/>' +
+      '<span style="color:#555">Tokens in circulation: </span>' +
+      '<span>' + escapeHtml(String(totalCirculatingToken0)) + '</span></div>';
+  }
+
+  async #fetchGenesisCard(panel: Panel): Promise<void> {
     try {
-      const data = await this.#requestJson<BeaconCalibration>(`${this.#apiBase}/beacon/calibration`);
-      const lines = [
-        `msTimestamp: ${data.msTimestamp}`,
-        `nextBlockId: ${data.nextBlockId}`,
-      ];
-      panel.replaceContent(formatSectionTitle('Beacon Calibration') + '<br/><pre style="margin:0.25em 0">' + escapeHtml(lines.join('\n')) + '</pre>');
+      const data = await this.#requestJson<AccountResponse>(`${this.#apiBase}/account/0`);
+      const w = data.wallet;
+      const token0Balance = w.mBalances['0'];
+      const totalCirculating = token0Balance !== undefined ? -token0Balance : 0;
+      panel.replaceContent(this.#renderGenesisCard('Genesis', totalCirculating));
     } catch (e) {
-      panel.replaceContent(formatSectionTitle('Beacon Calibration') + '<br/><small style="color:red">Error: ' + escapeHtml(String(e)) + '</small>');
+      panel.replaceContent(
+        '<div style="border:1px solid #ddd;border-radius:8px;padding:12px 16px;background:#fafafa">' +
+        '<strong>Genesis</strong><br/><small style="color:red">Error: ' + escapeHtml(String(e)) + '</small></div>'
+      );
     }
   }
 
