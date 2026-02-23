@@ -62,6 +62,10 @@ function escapeHtml(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+function formatBalance(n: number): string {
+  return new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(n);
+}
+
 const PLACEHOLDER_RESULT = 'Enter a value and click Fetch to load.';
 
 interface QueryGroupHost {
@@ -350,14 +354,14 @@ export class FvcWeb3Exchange extends FScrollViewContent implements ButtonGroupDe
     return '<div style="border:1px solid #ddd;border-radius:8px;padding:12px 16px;background:#fafafa">' +
       this.#renderGenesisTokenIcon() + ' <strong>' + escapeHtml(name) + '</strong><br/>' +
       '<span style="color:#555">Tokens in circulation: </span>' +
-      '<span>' + escapeHtml(String(totalCirculatingToken0)) + '</span></div>';
+      '<span>' + escapeHtml(formatBalance(totalCirculatingToken0)) + '</span></div>';
   }
 
   #renderAccountCard(name: string, balanceToken0: number): string {
     return '<div style="border:1px solid #ddd;border-radius:8px;padding:12px 16px;background:#fafafa">' +
       this.#renderGenesisTokenIcon() + ' <strong>' + escapeHtml(name) + '</strong><br/>' +
       '<span style="color:#555">Balance: </span>' +
-      '<span>' + escapeHtml(String(balanceToken0)) + '</span></div>';
+      '<span>' + escapeHtml(formatBalance(balanceToken0)) + '</span></div>';
   }
 
   #renderAccountCardLoading(name: string): string {
