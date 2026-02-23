@@ -211,7 +211,7 @@ export class Gateway extends Controller {
     }
   }
 
-  #getWeb3PageConfigs(): PageConfig[] { return [ Gateway.T_CONFIG.BLOG ]; }
+  #getWeb3PageConfigs(): PageConfig[] { return [ Gateway.T_CONFIG.BLOG, Gateway.T_CONFIG.EXCHANGE]; }
 
   #getWeb2PageConfigs(): PageConfig[] {
     if (this.#sectorId == ID.SECTOR.GADGET) {

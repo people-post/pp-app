@@ -1,5 +1,5 @@
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
-import { FvcWeb3Wallet } from './FvcWeb3Wallet.js';
+import { FvcWeb3Exchange } from './FvcWeb3Exchange.js';
 import { FvcExchange } from './FvcExchange.js';
 import { FvcWallet } from './FvcWallet.js';
 import { SectorGateway, PageConfig } from '../../common/plt/SectorGateway.js';
@@ -9,6 +9,7 @@ import { Env } from '../../common/plt/Env.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Account } from '../../common/dba/Account.js';
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 
 export class Gateway implements SectorGateway {
   isLoginRequired(): boolean { return false; }
@@ -29,14 +30,13 @@ export class Gateway implements SectorGateway {
     }
   }
 
-  #createWeb3MainViewContentFragment(): FvcWeb3Wallet { return new FvcWeb3Wallet(); }
+  #createWeb3MainViewContentFragment(): FViewContentBase { return new FvcWeb3Exchange(); }
 
-  #createWeb2MainViewContentFragment(): Fragment {
-    let f: Fragment;
+  #createWeb2MainViewContentFragment(): FViewContentBase {
     if (Account.isWebOwner()) {
-      f = new FViewContentMux();
+      let f = new FViewContentMux();
 
-      let ff = new FvcExchange();
+      let ff: FViewContentBase = new FvcExchange();
       f.addTab({name : R.t("Market"), value : "MARKET", icon : ICON.EXPLORER},
                ff);
 
@@ -45,9 +45,9 @@ export class Gateway implements SectorGateway {
                ff);
 
       f.switchTo("MARKET");
+      return f;
     } else {
-      f = new FvcExchange();
+      return new FvcExchange();
     }
-    return f;
   }
 };
