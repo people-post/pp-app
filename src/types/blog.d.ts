@@ -238,15 +238,15 @@ export interface Article extends Post {
 
   /**
    * Get the link target of the article
-   * @returns The link target or null
+   * @returns The link target or undefined
    */
-  getLinkTo(): string | null;
+  getLinkTo(): string | undefined;
 
   /**
    * Get the link type of the article
-   * @returns The link type or null/undefined
+   * @returns The link type or undefined
    */
-  getLinkType(): string | null | undefined;
+  getLinkType(): string | undefined;
 
   /**
    * Get the link target as a SocialItemId
@@ -264,13 +264,13 @@ export interface Article extends Post {
    * Get the title of the article
    * @returns The title or null/undefined
    */
-  getTitle(): string | null | undefined;
+  getTitle(): string | undefined;
 
   /**
    * Get the content of the article
-   * @returns The content or null/undefined
+   * @returns The content or undefined
    */
-  getContent(): string | null | undefined;
+  getContent(): string | undefined;
 
   /**
    * Get files associated with the article
@@ -286,57 +286,57 @@ export interface Article extends Post {
 
   /**
    * Get the visibility of the article
-   * @returns The visibility string or null
+   * @returns The visibility string or undefined
    */
-  getVisibility(): string | null;
+  getVisibility(): string | undefined;
 
   /**
    * Get the owner ID of the article
-   * @returns The owner ID or null
+   * @returns The owner ID or undefined
    */
-  getOwnerId(): string | null;
+  getOwnerId(): string | undefined;
 
   /**
    * Get the author ID of the article
-   * @returns The author ID or null
+   * @returns The author ID or undefined
    */
-  getAuthorId(): string | null;
+  getAuthorId(): string | undefined;
 
   /**
    * Get tag IDs associated with this article
-   * @returns Array of tag IDs or undefined
+   * @returns Array of tag IDs
    */
-  getTagIds(): string[] | undefined;
+  getTagIds(): string[];
 
   /**
    * Get the publish mode
-   * @returns The publish mode or undefined
+   * @returns The publish mode
    */
-  getPublishMode(): string | undefined;
+  getPublishMode(): string;
 
   /**
    * Get pending author tag IDs
-   * @returns Array of tag IDs or undefined
+   * @returns Array of tag IDs
    */
-  getPendingAuthorTagIds(): string[] | undefined;
+  getPendingAuthorTagIds(): string[];
 
   /**
    * Get pending author new tag names
-   * @returns Array of tag names or undefined
+   * @returns Array of tag names
    */
-  getPendingAuthorNewTagNames(): string[] | undefined;
+  getPendingAuthorNewTagNames(): string[];
 
   /**
    * Get pending new tag names
-   * @returns Array of tag names or undefined
+   * @returns Array of tag names
    */
-  getPendingNewTagNames(): string[] | undefined;
+  getPendingNewTagNames(): string[];
 
   /**
    * Get the classification of the article
-   * @returns The classification or undefined
+   * @returns The classification
    */
-  getClassification(): string | undefined;
+  getClassification(): string;
 
   /**
    * Get the update time of the article
@@ -346,9 +346,9 @@ export interface Article extends Post {
 
   /**
    * Get the external quote URL
-   * @returns The external quote URL or null
+   * @returns The external quote URL
    */
-  getExternalQuoteUrl(): string | null;
+  getExternalQuoteUrl(): string | undefined;
 
   /**
    * Get the social ID of this article

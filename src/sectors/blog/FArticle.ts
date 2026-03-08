@@ -13,6 +13,16 @@ import { T_DATA } from '../../common/plt/Events.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Utilities } from '../../common/Utilities.js';
 import { PostInfoPanel } from './PPost.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+
+export interface FArticleDelegate {
+  onQuotedElementRequestShowView(f: FArticle, view: View, title: string): void;
+  onTagClickedInArticleFragment(f: FArticle, tagId: string): void;
+}
+
+export interface FArticleDataSource {
+  isArticleSelectedInArticleFragment(f: FArticle, articleId: string): boolean;
+}
 
 export class FArticle extends Fragment {
   #fQuote: FQuoteElement;
@@ -43,13 +53,16 @@ export class FArticle extends Fragment {
   setArticleId(id: string | null): void { this.#articleId = id; }
 
   onQuotedElementRequestShowView(_fQuote: FQuoteElement, view: unknown): void {
-    this.onFragmentRequestShowView(this, view);
+    this.onFragmentRequestShowView(this, view, "Quoted element");
   }
   onSimpleButtonClicked(fBtn: Button): void {
     let v = fBtn.getValue();
     switch (v) {
     default:
-      this._delegate.onTagClickedInArticleFragment(this, v);
+      const delegate = this.getDelegate<FArticleDelegate>();
+      if (delegate) {
+        delegate.onTagClickedInArticleFragment(this, v);
+      }
       break;
     }
   }
@@ -70,45 +83,40 @@ export class FArticle extends Fragment {
     if (!article) {
       return;
     }
-    let p = postPanel.getTitlePanel();
-    p.replaceContent(this.#renderTitle(article.getTitle()));
+    let pTitle = postPanel.getTitlePanel();
+    pTitle.replaceContent(this.#renderTitle(article.getTitle() || ""));
 
-    p = postPanel.getTCreateDecorPanel();
-    p.replaceContent("Created at");
+    let pCreateDecor = postPanel.getTCreateDecorPanel();
+    pCreateDecor.replaceContent("Created at");
 
-    p = postPanel.getCreationDateTimePanel();
-    p.replaceContent(UtilitiesExt.timestampToDateTimeString(
-        article.getCreationTime() / 1000));
-
-    p = postPanel.getTUpdateDecorPanel();
-    p.replaceContent("Updated at");
-
-    p = postPanel.getUpdateDateTimePanel();
-    p.replaceContent(UtilitiesExt.timestampToDateTimeString(
-        article.getUpdateTime() / 1000));
+    let pCreationDateTime = postPanel.getCreationDateTimePanel();
+    const creationTime = article.getCreationTime();
+    if (creationTime) {
+      pCreationDateTime.replaceContent(UtilitiesExt.timestampToDateTimeString(creationTime.getTime() / 1000));
+    }
 
     this.#renderTags(postPanel.getTagsPanel(), article.getTagIds());
 
     if (article.getAttachment()) {
-      p = postPanel.getAttachmentPanel();
+      let pAttachment = postPanel.getAttachmentPanel();
       this.#fAttachment.setFile(article.getAttachment());
-      this.#fAttachment.attachRender(p);
+      this.#fAttachment.attachRender(pAttachment);
       this.#fAttachment.render();
     }
 
-    p = postPanel.getContentPanel();
-    p.replaceContent(Utilities.renderContent(article.getContent()));
+    let pContent = postPanel.getContentPanel();
+    pContent.replaceContent(Utilities.renderContent(article.getContent()));
 
-    p = postPanel.getGalleryPanel();
+    let pGallery = postPanel.getGalleryPanel();
     this.#fGallery.setFiles(article.getFiles());
-    this.#fGallery.attachRender(p);
+    this.#fGallery.attachRender(pGallery);
     this.#fGallery.render();
 
     if (article.isQuotePost()) {
-      p = postPanel.getQuotePanel();
-      if (p) {
+      let pQuote = postPanel.getQuotePanel();
+      if (pQuote) {
         this.#fQuote.setItem(article.getLinkTo(), article.getLinkType());
-        this.#fQuote.attachRender(p);
+        this.#fQuote.attachRender(pQuote);
         this.#fQuote.render();
       }
     }
@@ -129,7 +137,7 @@ export class FArticle extends Fragment {
     }
   }
 
-  #renderTags(panel: Panel | null, tagIds: string[] | null): void {
+  #renderTags(panel: PanelWrapper | undefined, tagIds: string[] | null): void {
     if (!tagIds) {
       return;
     }
@@ -154,7 +162,7 @@ export class FArticle extends Fragment {
       let f = new Button();
       f.setDelegate(this);
       let t = Groups.getTag(id);
-      f.setName(t ? t.getName() : "...");
+      f.setName(t ? t.getName() || "" : "...");
       f.setValue(id);
       f.setLayoutType(Button.LAYOUT_TYPE.SMALL);
       if (t) {
@@ -166,7 +174,7 @@ export class FArticle extends Fragment {
     this.#fTags.render();
   }
 
-  #renderTitle(title: string | null): string {
+  #renderTitle(title: string | undefined): string {
     if (title && title.length) {
       return Utilities.renderContent(title);
     }

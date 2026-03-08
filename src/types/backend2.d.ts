@@ -101,9 +101,9 @@ export interface ArticleBaseData {
   files?: unknown[];
   attachments?: unknown[];
   link_to?: string;
-  link_type?: string | null;
-  title?: string | null;
-  content?: string | null;
+  link_type?: string;
+  title?: string;
+  content?: string;
   visibility?: string;
   owner_id?: string;
   author_id?: string;

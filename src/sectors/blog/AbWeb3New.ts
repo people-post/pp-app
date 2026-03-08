@@ -177,7 +177,7 @@ export class AbWeb3New extends Fragment {
     let f = new FvcWeb3PostEditor();
     f.setPost(new DraftArticle({}));
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Draft post");
+    this.onFragmentRequestShowView(this, v, "Draft post");
   }
 
   #showPublisherRegistration(agent: Web3Agent): void {

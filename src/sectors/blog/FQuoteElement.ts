@@ -12,22 +12,21 @@ import { FvcProduct } from '../shop/FvcProduct.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type { Fragment as FragmentType } from '../../lib/ui/controllers/fragments/Fragment.js';
 
-interface QuoteElementDelegate {
+export interface QuoteElementDelegate {
   onQuotedElementRequestShowView(f: FQuoteElement, view: View, title: string): void;
 }
 
 export class FQuoteElement extends Fragment {
   #fItem: FragmentType | null = null;
-  #item: string | null = null;
-  #type: string | null = null;
+  #item: string | undefined = undefined;
+  #type: string | undefined = undefined;
   #sizeType: string = "FULL";
-  protected _delegate!: QuoteElementDelegate;
 
-  getItem(): string | null { return this.#item; }
-  getType(): string | null { return this.#type; }
+  getItem(): string | undefined { return this.#item; }
+  getType(): string | undefined { return this.#type; }
 
   setSize(t: string): void { this.#sizeType = t; }
-  setItem(item: string, type: string): void {
+  setItem(item: string | undefined, type: string | undefined): void {
     this.#item = item;
     this.#type = type;
   }

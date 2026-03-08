@@ -53,27 +53,27 @@ export class Article extends ServerDataObject implements ArticleInterface {
     return !!this._data.link_to && !this.isRepost();
   }
 
-  getLinkTo(): string | null {
-    return this._data.link_to || null;
+  getLinkTo(): string | undefined {
+    return this._data.link_to;
   }
 
-  getLinkType(): string | null | undefined {
+  getLinkType(): string | undefined {
     return this._data.link_type;
   }
 
   getLinkToSocialId(): SocialItemId {
-    return new SocialItemId(this._data.link_to, this._data.link_type || null);
+    return new SocialItemId(this._data.link_to, this._data.link_type);
   }
 
   getSocialItemType(): string {
     return SocialItem.TYPE.ARTICLE;
   }
 
-  getTitle(): string | null | undefined {
+  getTitle(): string | undefined {
     return this._data.title;
   }
 
-  getContent(): string | null | undefined {
+  getContent(): string | undefined {
     return this._data.content;
   }
 
@@ -85,51 +85,51 @@ export class Article extends ServerDataObject implements ArticleInterface {
     return this.#attachments[0];
   }
 
-  getVisibility(): string | null {
-    return this._data.visibility || null;
+  getVisibility(): string | undefined {
+    return this._data.visibility;
   }
 
-  getOwnerId(): string | null {
-    return this._data.owner_id || null;
+  getOwnerId(): string | undefined {
+    return this._data.owner_id;
   }
 
-  getAuthorId(): string | null {
-    return this._data.author_id || null;
+  getAuthorId(): string | undefined {
+    return this._data.author_id;
   }
 
-  getTagIds(): string[] | undefined {
-    return this._data.tag_ids;
+  getTagIds(): string[] {
+    return this._data.tag_ids || [];
   }
 
-  getPublishMode(): string | undefined {
-    return this._data.publish_mode;
+  getPublishMode(): string {
+    return this._data.publish_mode || '';
   }
 
-  getPendingAuthorTagIds(): string[] | undefined {
-    return this._data.author_tag_ids;
+  getPendingAuthorTagIds(): string[] {
+    return this._data.author_tag_ids || [];
   }
 
-  getPendingAuthorNewTagNames(): string[] | undefined {
-    return this._data.author_new_tag_names;
+  getPendingAuthorNewTagNames(): string[] {
+    return this._data.author_new_tag_names || [];
   }
 
-  getPendingNewTagNames(): string[] | undefined {
-    return this._data.new_tag_names;
+  getPendingNewTagNames(): string[] {
+    return this._data.new_tag_names || [];
   }
 
-  getClassification(): string | undefined {
-    return this._data.classification;
+  getClassification(): string {
+    return this._data.classification || '';
   }
 
   getUpdateTime(): Date {
     return new Date((this._data.updated_at || 0) * 1000);
   }
 
-  getExternalQuoteUrl(): string | null {
+  getExternalQuoteUrl(): string | undefined {
     if (this._data.link_type == SocialItem.TYPE.URL) {
-      return this._data.link_to || null;
+      return this._data.link_to;
     } else {
-      return null;
+      return undefined;
     }
   }
 

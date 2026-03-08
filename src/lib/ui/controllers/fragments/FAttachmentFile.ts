@@ -1,35 +1,32 @@
 import { Fragment } from './Fragment.js';
 import { ICONS } from '../../Icons.js';
 import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+import { RemoteFile } from '../../../../common/datatypes/RemoteFile.js';
+import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
 const _CFT_ATTACHMENT_FILE = {
   MAIN :
       `<a href="__DOWNLOAD_URL__" target="_blank" onclick="javascript:G.anchorClick()"><span class="inline-block s-icon6">__ICON__</span>__NAME__</a>`,
 } as const;
 
-interface FileLike {
-  getDownloadUrl(): string;
-  getName(): string;
-}
-
 export class FAttachmentFile extends Fragment {
-  #file: FileLike | null = null;
+  #file: RemoteFile | undefined = undefined;
 
   constructor() {
     super();
   }
 
-  setFile(f: FileLike): void { this.#file = f; }
+  setFile(f: RemoteFile | undefined): void { this.#file = f; }
 
-  _renderContent(): string {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this.#file) {
-      return "";
+      return;
     }
     let s: string = _CFT_ATTACHMENT_FILE.MAIN;
     s = s.replace("__ICON__", CommonUtilities.renderSvgFuncIcon(ICONS.ATTACHMENT) as string);
-    s = s.replace("__DOWNLOAD_URL__", this.#file.getDownloadUrl() as string);
-    s = s.replace("__NAME__", this.#file.getName() as string);
-    return s;
+    s = s.replace("__DOWNLOAD_URL__", this.#file.getDownloadUrl() || "");
+    s = s.replace("__NAME__", this.#file.getName() || "");
+    render.replaceContent(s);
   }
 }
 

@@ -20,6 +20,13 @@ import { Utilities as blogUtilities } from './Utilities.js';
 import { Utilities } from '../../common/Utilities.js';
 import { R } from '../../common/constants/R.js';
 import type { Article } from '../../common/datatypes/Article.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+
+export interface ArticleInfoDelegate {
+  onClickInArticleInfoFragment(f: FArticleInfo, articleId: string): void;
+  onContextOptionClickedInArticleInfoFragment(f: FArticleInfo, value: unknown): void;
+}
 
 export class FArticleInfo extends FPostBase {
   #fAttachment: FAttachmentFile;
@@ -78,17 +85,26 @@ export class FArticleInfo extends FPostBase {
     return a ? a.getFiles() : [];
   }
 
-  onQuotedElementRequestShowView(_fQuote: FQuoteElement, _view: unknown): void {
-    this._delegate.onClickInArticleInfoFragment(this, this.#articleId);
+  onQuotedElementRequestShowView(_fQuote: FQuoteElement, _view: View): void {
+    if (!this.#articleId) {
+      return;
+    }
+    const delegate = this.getDelegate<ArticleInfoDelegate>();
+    if (delegate) {
+      delegate.onClickInArticleInfoFragment(this, this.#articleId!);
+    }
   }
   onThumbnailClickedInThumbnailFragment(_fThumbnail: FilesThumbnailFragment, idx: number): void {
     this.#showThumbnail(idx);
   }
   onOptionClickedInContextButtonFragment(_fBtn: OptionContextButton, value: unknown): void {
-    this._delegate.onContextOptionClickedInArticleInfoFragment(this, value);
+    const delegate = this.getDelegate<ArticleInfoDelegate>();
+    if (delegate) {
+      delegate.onContextOptionClickedInArticleInfoFragment(this, value);
+    }
   }
 
-  _renderOnRender(postInfoPanel: Panel): void {
+  _renderOnRender(postInfoPanel: PPostInfoBase): void {
     let article = Blog.getArticle(this.#articleId);
     if (!article) {
       return;
@@ -157,10 +173,15 @@ export class FArticleInfo extends FPostBase {
     if (pContent) {
       let s = article.getContent();
       if (UtilitiesExt.isEmptyString(s)) {
-        s = UtilitiesExt.timestampToDateString(article.getCreationTime() /
+        const creationTime = article.getCreationTime();
+        if (creationTime) {
+          s = UtilitiesExt.timestampToDateString(creationTime.getTime() /
                                                 1000);
+        }
       } else {
-        s = blogUtilities.stripSimpleTag(s, "p");
+        if (s) {
+          s = blogUtilities.stripSimpleTag(s, "p");
+        }
       }
       pContent.replaceContent(Utilities.renderContent(s));
     }
@@ -202,7 +223,7 @@ export class FArticleInfo extends FPostBase {
     }
   }
 
-  #renderThumbnail(panel: Panel | null, article: Article): void {
+  #renderThumbnail(panel: PanelWrapper | null, article: Article): void {
     if (!panel) {
       return;
     }
@@ -251,22 +272,32 @@ export class FArticleInfo extends FPostBase {
     if (!panel) {
       return;
     }
-    panel.replaceContent(Utilities.renderSmartTime(article.getCreationTime()));
+    const creationTime = article.getCreationTime();
+    if (creationTime) {
+      panel.replaceContent(Utilities.renderSmartTime(creationTime));
+    }
   }
 
   #renderDateTime(panel: Panel | null, article: Article): void {
     if (!panel) {
       return;
     }
-    panel.replaceContent(UtilitiesExt.timestampToDateTimeString(
-        article.getCreationTime() / 1000));
+    const creationTime = article.getCreationTime();
+    if (creationTime) {
+      panel.replaceContent(UtilitiesExt.timestampToDateTimeString(
+        creationTime.getTime() / 1000));
+    }
   }
 
   #renderOwnerIcon(panel: Panel | null, article: Article): void {
     if (!panel) {
       return;
     }
-    this.#fOwnerIcon.setUserId(article.getOwnerId());
+    const ownerId = article.getOwnerId();
+    if (!ownerId) {
+      return;
+    }
+    this.#fOwnerIcon.setUserId(ownerId);
     this.#fOwnerIcon.attachRender(panel);
     this.#fOwnerIcon.render();
   }
@@ -275,7 +306,11 @@ export class FArticleInfo extends FPostBase {
     if (!panel) {
       return;
     }
-    this.#fOwnerName.setUserId(article.getOwnerId());
+    const ownerId = article.getOwnerId();
+    if (!ownerId) {
+      return;
+    }
+    this.#fOwnerName.setUserId(ownerId);
     this.#fOwnerName.attachRender(panel);
     this.#fOwnerName.render();
   }
@@ -284,7 +319,11 @@ export class FArticleInfo extends FPostBase {
     if (!panel) {
       return;
     }
-    this.#fAuthorName.setUserId(article.getAuthorId());
+    const authorId = article.getAuthorId();
+    if (!authorId) {
+      return;
+    }
+    this.#fAuthorName.setUserId(authorId);
     this.#fAuthorName.attachRender(panel);
     this.#fAuthorName.render();
   }
@@ -294,6 +333,7 @@ export class FArticleInfo extends FPostBase {
     if (!a) {
       return;
     }
+
     let lc = new LGallery();
     lc.setFiles(a.getFiles());
     lc.setSelection(idx);
