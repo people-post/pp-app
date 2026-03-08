@@ -122,25 +122,16 @@ input {
     fill: Firebrick;
 }
 
-.bdlightblue {
-    border-color: lightblue;
-}
+/* Migrated to Tailwind (Bulk 4) */
+/* .bdlightblue { border-color: lightblue; } */
 
-.bdlightgray {
-    border-color: lightgray;
-}
+/* .bdlightgray { border-color: lightgray; } */
 
-.bdlightgrey {
-    border-color: lightgrey;
-}
+/* .bdlightgrey { border-color: lightgrey; } */
 
-.bdtransparent {
-    border-color: transparent;
-}
+/* .bdtransparent { border-color: transparent; } */
 
-.bdwhite {
-    border-color: white;
-}
+/* .bdwhite { border-color: white; } */
 
 /* Migrated to Tailwind (Bulk 2) */
 /* .bdsolid { border-style: solid; } */

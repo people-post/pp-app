@@ -1,7 +1,7 @@
 
 const _CPT_WALKIN_QUEUE_ITEM_INFO = {
   MAIN : `<div class="tw-p-[5px] clickable">
-    <div id="__ID_MAIN__" class="tw-flex tw-justify-between tw-border-b tw-border-b-[1px] tw-border-solid tw-border-lightgray">
+    <div id="__ID_MAIN__" class="tw-flex tw-justify-between tw-border-b tw-border-b-[1px] tw-border-solid tw-border-gray-300">
       <div id="__ID_NAME__" class="s-font001 tw-truncate"></div>
       <div id="__ID_STATUS__"></div>
       <div id="__ID_ACTION__"></div>
@@ -27,7 +27,7 @@ export class PWalkinQueueItemInfo extends PWalkinQueueItemBase {
   invertColor(): void {
     let e = document.getElementById(this._getSubElementId("M"));
     if (e) {
-      e.className = e.className.replace("bdlightgray", "s-cprimebd");
+      e.className = e.className.replace("tw-border-gray-300", "s-cprimebd");
     }
   }
 

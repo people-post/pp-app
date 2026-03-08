@@ -2,7 +2,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 const _CPT_CAREER_INFO = {
   MAIN :
-      `<div id="__ID_MAIN__" class="tw-p-[5px] tw-border-solid tw-border-lightgray tw-border tw-border-[1px] clickable">
+      `<div id="__ID_MAIN__" class="tw-p-[5px] tw-border-solid tw-border-gray-300 tw-border tw-border-[1px] clickable">
   <div class="tw-flex tw-justify-between">
     <div id="__ID_NAME__"></div>
     <div id="__ID_STATUS__"></div>
@@ -28,7 +28,7 @@ export class PCareerInfo extends Panel {
   highlight(): void {
     let e = document.getElementById(this._getSubElementId("M"));
     if (e) {
-      e.className = e.className.replace("bdlightgray", "s-cprimebd");
+      e.className = e.className.replace("tw-border-gray-300", "s-cprimebd");
     }
   }
 
