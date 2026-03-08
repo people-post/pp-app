@@ -30,15 +30,15 @@ export class TimelineVerticalNodePanel extends PanelWrapper {
   constructor() {
     super();
     this._pNode = new Panel();
-    this._pNode.setClassName("rpe-content node bggreen");
+    this._pNode.setClassName("rpe-content node tw-bg-green-600");
     this._pUpperPipe = new Panel();
     this._pUpperPipe.setClassName("rpe pipe vertical upper");
     this._pLowerPipe = new Panel();
     this._pLowerPipe.setClassName("rpe pipe vertical lower");
     this._pUpperFlow = new Panel();
-    this._pUpperFlow.setClassName("rpe-content pipe vertical upper bggreen");
+    this._pUpperFlow.setClassName("rpe-content pipe vertical upper tw-bg-green-600");
     this._pLowerFlow = new Panel();
-    this._pLowerFlow.setClassName("rpe-content pipe vertical lower bggreen");
+    this._pLowerFlow.setClassName("rpe-content pipe vertical lower tw-bg-green-600");
   }
 
   disableUpperPipe(): void {
@@ -52,7 +52,7 @@ export class TimelineVerticalNodePanel extends PanelWrapper {
   disableUpperFlow(): void { this._pUpperFlow.setClassName(""); }
   disableLowerFlow(): void { this._pLowerFlow.setClassName(""); }
   disableNodeFlow(): void {
-    this._pNode.setClassName("rpe-content node bglightgray");
+    this._pNode.setClassName("rpe-content node tw-bg-gray-300");
   }
 
   _getWrapperFramework(wrapperElementId: string): string {

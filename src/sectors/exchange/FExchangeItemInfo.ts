@@ -24,9 +24,9 @@ const _CVF_EXCHANGE_ITEM = {
   BTN_SELL :
       `<span class="button-like small danger" onclick="javascript:G.action(CF_EXCHANGE_ITEM_INFO.SELL)">Sell...</span>`,
   HINT_LOGIN :
-      `<span class="u-font5 bgwhite">Login or register for more options</span>`,
+      `<span class="u-font5 tw-bg-white">Login or register for more options</span>`,
   HINT_SAFE_SITE :
-      `<span class="u-font5 bgwhite">Go to <a target="_blank" href="https://gcabin.com/?sector=extras&page=exchange">G-Cabin&#x1f517;</a> for more options</span>`,
+      `<span class="u-font5 tw-bg-white">Go to <a target="_blank" href="https://gcabin.com/?sector=extras&page=exchange">G-Cabin&#x1f517;</a> for more options</span>`,
 }
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';

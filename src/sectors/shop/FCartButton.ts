@@ -3,7 +3,7 @@ import { ActionButton } from '../../common/gui/ActionButton.js';
 import { Cart } from '../../common/dba/Cart.js';
 
 const _CFT_CART_BUTTON = {
-  CART_BADGE : `<span class="cart-badge tw-inline-block bgtransparent s-font6 tw-font-bold cgold tw-text-center">__COUNT__</span>`,
+  CART_BADGE : `<span class="cart-badge tw-inline-block tw-bg-transparent s-font6 tw-font-bold tw-text-yellow-500 tw-text-center">__COUNT__</span>`,
 } as const;
 
 export class FCartButton extends ActionButton {

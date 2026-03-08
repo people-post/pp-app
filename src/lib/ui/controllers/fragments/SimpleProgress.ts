@@ -47,13 +47,13 @@ export class SimpleProgress extends Fragment {
 
   #getColorClass(): string {
     if (this._percent == 100) {
-      return "bggreen";
+      return "tw-bg-green-600";
     }
 
     if (this._percent < this._threshold) {
-      return "bgfirebrick";
+      return "tw-bg-red-700";
     }
-    return "bgyellow";
+    return "tw-bg-yellow-500";
   }
 }
 

@@ -142,13 +142,13 @@ export class RichProgress extends Fragment {
       return this._stateClassName;
     }
     if (percent == 100) {
-      return "bggreen";
+      return "tw-bg-green-600";
     }
 
     if (percent < this._threshold) {
-      return "bgfirebrick";
+      return "tw-bg-red-700";
     }
-    return "bgyellow";
+    return "tw-bg-yellow-500";
   }
 }
 

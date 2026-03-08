@@ -171,7 +171,7 @@ export class Button extends Fragment {
     case Button.T_THEME.FUNC:
       return "s-primary s-csecondarybg s-cfunc";
     case Button.T_THEME.RISKY:
-      return "cred risky";
+      return "tw-text-red-600 risky";
     case Button.T_THEME.DANGER:
       return "danger";
     case Button.T_THEME.PALE:
@@ -191,7 +191,7 @@ export class Button extends Fragment {
     case Button.T_THEME.FUNC:
       return "s-primary s-cfuncbg s-csecondary";
     case Button.T_THEME.RISKY:
-      return "cred risky";
+      return "tw-text-red-600 risky";
     case Button.T_THEME.DANGER:
       return "danger";
     case Button.T_THEME.PALE:
