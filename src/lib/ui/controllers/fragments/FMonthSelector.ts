@@ -23,8 +23,8 @@ if (typeof window !== 'undefined') {
 
 const _CPT_MONTH_SELECTOR = {
   MAIN : `<div class="tw-p-[5px] tw-flex tw-justify-start">
-    <div id="__ID_YEAR__" class="tw-w-1/2 hmax100px tw-overflow-y-auto no-scrollbar"></div>
-    <div id="__ID_MONTH__" class="tw-w-1/2 hmax100px tw-overflow-y-auto no-scrollbar"></div>
+    <div id="__ID_YEAR__" class="tw-w-1/2 tw-max-h-[100px] tw-overflow-y-auto no-scrollbar"></div>
+    <div id="__ID_MONTH__" class="tw-w-1/2 tw-max-h-[100px] tw-overflow-y-auto no-scrollbar"></div>
   </div>
   <div id="__ID_BTN_OK__"></div>`,
 } as const;

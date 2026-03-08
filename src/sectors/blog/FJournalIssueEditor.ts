@@ -340,14 +340,14 @@ export class FJournalIssueEditor extends Fragment {
     this.setChild("issueid", this.#fIssueId);
 
     this.#fAbstract = new TextArea();
-    this.#fAbstract.setClassName("tw-w-full h40px");
+    this.#fAbstract.setClassName("tw-w-full tw-h-[40px]");
     this.#fAbstract.setConfig(
         {title : "Abstract", hint : "", isRequred : false});
     this.#fAbstract.setDelegate(this);
     this.setChild("abstract", this.#fAbstract);
 
     this.#fSummary = new TextArea();
-    this.#fSummary.setClassName("tw-w-full h40px");
+    this.#fSummary.setClassName("tw-w-full tw-h-[40px]");
     this.#fSummary.setConfig({title : "Summary", hint : "", isRequred : false});
     this.#fSummary.setDelegate(this);
     this.setChild("summary", this.#fSummary);

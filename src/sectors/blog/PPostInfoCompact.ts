@@ -2,7 +2,7 @@ const _CPT_POST_INFO_COMPACT = {
   MAIN : `<div id="__ID_WRAPPER__" class="post-info-compact-wrapper">
   <div id="__ID_PIN__"></div>
   <div id="__ID_MAIN__" class="post-info compact tw-relative">
-    <div class="h60px tw-overflow-hidden tw-flex tw-justify-between">
+    <div class="tw-h-[60px] tw-overflow-hidden tw-flex tw-justify-between">
       <div class="tw-w-[60%] tw-flex-grow tw-flex tw-flex-col tw-justify-center">
         <div id="__ID_REF__" class="crosslink-note"></div>
         <div id="__ID_TITLE__" class="u-font1 tw-font-bold tw-truncate"></div>
@@ -48,7 +48,7 @@ export class PPostInfoCompact extends PPostInfoBase {
   getImagePanel(): PanelWrapper | null { return this._pImage; }
 
   enableImage(): void { this._pImage.setClassName("tw-w-fullpx tw-flex-shrink-0"); }
-  enableQuote(): void { this._pQuote.setClassName("hmax20px left-pad5 right-pad5"); }
+  enableQuote(): void { this._pQuote.setClassName("tw-max-h-[20px] left-pad5 right-pad5"); }
 
   setVisibilityClassName(name: string): void {
     let e = document.getElementById(this._getSubElementId("M"));

@@ -13,7 +13,7 @@ const _CPT_SCROLL_VIEW_CONTENT_HOOK = {
   <div class="tw-flex-shrink-0 tw-relative">
     <span id="__ID_BSTT__" class="tw-absolute left0px bottom72px left-side-button"></span>
   </div>`,
-  CONTENT : `<div id="__ID_CONTENT__" class="hmin100"></div>
+  CONTENT : `<div id="__ID_CONTENT__" class="tw-min-h-full"></div>
   <hr>
   <div class="s-font5 tw-text-center">
     <div>Powered by <a href="https://gcabin.com" target="_blank">G-Cabin&#x1f517;</a> community.</div>

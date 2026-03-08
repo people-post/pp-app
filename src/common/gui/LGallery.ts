@@ -85,7 +85,7 @@ export class LGallery extends Layer {
 
     let pp = new PanelWrapper();
     pp.setAttribute("onclick", "javascript:G.anchorClick()");
-    pp.setClassName("hmax100");
+    pp.setClassName("tw-max-h-full");
     p.pushPanel(pp);
     this._pContent = pp;
 

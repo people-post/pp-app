@@ -4,10 +4,10 @@ const _CPT_JOURNAL = {
     <div id="__ID_LEFT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
   </div>
   <div class="tw-w-[90%] tw-flex-shrink-0 tw-snap-center tw-flex tw-flex-col tw-overflow-hidden">
-    <div class="h60 tw-pt-[5px] tw-overflow-hidden">
+    <div class="tw-h-[60%] tw-pt-[5px] tw-overflow-hidden">
       <div id="__ID_MAIN__" class="tw-h-full s-csecondarybg bdradius25px tw-overflow-y-auto no-scrollbar"></div>
     </div>
-    <div class="h40 tw-py-[5px]">
+    <div class="tw-h-[40%] tw-py-[5px]">
       <div id="__ID_BOTTOM__" class="tw-h-full s-csecondarybg bdradius25px"></div>
     </div>
   </div>
@@ -20,10 +20,10 @@ const _CPT_JOURNAL = {
     <div id="__ID_LEFT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
   </div>
   <div class="w360px tw-flex-shrink-0 tw-snap-center tw-flex tw-flex-col tw-overflow-hidden">
-    <div class="h60 tw-pt-[5px] tw-overflow-hidden">
+    <div class="tw-h-[60%] tw-pt-[5px] tw-overflow-hidden">
       <div id="__ID_MAIN__" class="tw-h-full s-csecondarybg bdradius25px tw-overflow-y-auto no-scrollbar"></div>
     </div>
-    <div class="h40 tw-py-[5px]">
+    <div class="tw-h-[40%] tw-py-[5px]">
       <div id="__ID_BOTTOM__" class="tw-h-full s-csecondarybg bdradius25px"></div>
     </div>
   </div>
@@ -36,10 +36,10 @@ const _CPT_JOURNAL = {
     <div id="__ID_LEFT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
   </div>
   <div class="tw-flex tw-flex-col tw-overflow-hidden">
-    <div class="h60 tw-pt-[5px] tw-overflow-hidden">
+    <div class="tw-h-[60%] tw-pt-[5px] tw-overflow-hidden">
       <div id="__ID_MAIN__" class="tw-h-full s-csecondarybg bdradius25px tw-overflow-y-auto no-scrollbar"></div>
     </div>
-    <div class="h40 tw-py-[5px]">
+    <div class="tw-h-[40%] tw-py-[5px]">
       <div id="__ID_BOTTOM__" class="tw-h-full s-csecondarybg bdradius25px"></div>
     </div>
   </div>

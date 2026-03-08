@@ -3,7 +3,7 @@ import { PanelWrapper } from './PanelWrapper.js';
 import { Panel } from './Panel.js';
 
 const _CPT_HEADER_THIN = {
-  MAIN : `<div class="tw-flex h-header">
+  MAIN : `<div class="tw-flex tw-h-[48px]">
     <div id="__ID_NAV__" class="tw-flex tw-flex-col tw-justify-center"></div>
     <div id="__ID_MENU_0__" class="tw-flex tw-flex-col tw-justify-center"></div>
     <div id="__ID_MENU_1__" class="tw-flex tw-flex-col tw-justify-center"></div>

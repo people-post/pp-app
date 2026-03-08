@@ -46,7 +46,7 @@ export class FArticleEditor extends Fragment {
   constructor() {
     super();
     this.#fTitle = new TextArea();
-    this.#fTitle.setClassName("tw-w-full h40px");
+    this.#fTitle.setClassName("tw-w-full tw-h-[40px]");
     this.#fTitle.setDelegate(this);
     this.setChild("title", this.#fTitle);
 
