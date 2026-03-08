@@ -55,7 +55,7 @@ export class FLikedItemNotice extends Fragment {
   _renderOnRender(render: ReturnType<typeof this.getRender>): void {
     if (!this._notice) return;
     let pMain = new PLikedItemNotice();
-    pMain.setClassName("clickable");
+    pMain.setClassName("tw-cursor-pointer");
     pMain.setAttribute(
         "onclick", "javascript:G.action(socl.CF_LIKED_ITEM_NOTICE.ONCLICK)");
     render.wrapPanel(pMain);

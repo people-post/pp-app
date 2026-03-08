@@ -3,7 +3,7 @@ export const CF_STORY_EVENT_INFO = {
 } as const;
 
 const _CFT_STORY_EVENT_INFO = {
-  MAIN : `<div class="story-event-info tw-p-[5px] clickable __CLASS_NAME__">
+  MAIN : `<div class="story-event-info tw-p-[5px] tw-cursor-pointer __CLASS_NAME__">
     <div class="tw-text-s-font4 __NAME_CELL_CLASS__">__NAME__</div>
     <div class="small-info-text">__TIME__</div>
     <div class="tw-text-s-font5">__DETAIL__</div>

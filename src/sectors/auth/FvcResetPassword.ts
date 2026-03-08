@@ -15,7 +15,7 @@ const _CFT_RESET_PASSWORD = {
     <br>
     <div class="tw-text-center">Reset password</div>
     <br>
-    <table  class="automargin">
+    <table  class="tw-m-auto">
     <tbody> 
       <tr>
         <td><label class="tw-text-s-font5" for="ID_PASSWORD">New Password:</label></td>

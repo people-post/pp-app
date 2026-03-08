@@ -11,7 +11,7 @@ export const CF_SIMPLE_LIST = {
 const _CFT_SIMPLE_LIST = {
   ON_CLICK_ACTION :
       `javascript:G.action('${CF_SIMPLE_LIST.ITEM_CLICK}', '__ITEM_ID__')`,
-  ICON : `<span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 clickable">__ICON__</span>`,
+  ICON : `<span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 tw-cursor-pointer">__ICON__</span>`,
 }
 
 interface ListItem {
@@ -61,7 +61,7 @@ export class FSimpleList extends Fragment {
       let pItem = new ListPanel();
       let classNames: string[] = [ "simple-list-item tw-flex tw-text-center-items" ];
       if (item.isSelectable) {
-        classNames.push("clickable");
+        classNames.push("tw-cursor-pointer");
         if (selected) {
           classNames = classNames.concat([ "s-cfuncbg", "s-csecondary" ]);
         }

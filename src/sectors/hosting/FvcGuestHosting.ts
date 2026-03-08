@@ -8,7 +8,7 @@ const _CFT_GUEST_HOSTING_CONTENT = {
       <span class="steps-stage-module">__R_REGISTER__ <a class="internal-page-link" href="javascript:void(0)" onclick="javascript:G.action(CF_GUEST_HOSTING_CONTENT.REGISTER)">G-Cabin</a>.</span>
     </div>
     <div class="tw-text-center">
-      <span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 clickable">__DOWN_ICON__</span>
+      <span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 tw-cursor-pointer">__DOWN_ICON__</span>
     </div>
     <div class="tw-text-center">
       <span class="steps-stage-module">__R_PARK__</span>

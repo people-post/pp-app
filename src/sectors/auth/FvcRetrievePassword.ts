@@ -10,7 +10,7 @@ import { R } from '../../common/constants/R.js';
 import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 const _CFT_RETRIEVE_PASSWORD = {
-  MAIN : `<table class="automargin">
+  MAIN : `<table class="tw-m-auto">
     <tbody> 
       <tr>
         <td><label class="tw-text-s-font5" for="email">__R_YOUR_EMAIL__:</label></td>

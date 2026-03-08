@@ -8,7 +8,7 @@ import { FViewContentBase } from './FViewContentBase.js';
 
 const _CPT_SCROLL_VIEW_CONTENT_HOOK = {
   MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="tw-flex-shrink-0"></div>
-  <div id="__ID_CONTENT__" class="tw-flex-grow tw-min-w-0 tw-overflow-y-auto no-scrollbar">
+  <div id="__ID_CONTENT__" class="tw-flex-grow tw-min-w-0 tw-overflow-y-auto tw-scroll-none">
   </div>
   <div class="tw-flex-shrink-0 tw-relative">
     <span id="__ID_BSTT__" class="tw-absolute left0px bottom72px left-side-button"></span>

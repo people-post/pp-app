@@ -59,9 +59,9 @@ const _CFT_USER_INFO_HERO_BANNER = {
   NAME :
       `<span class="tw-inline-block tw-w-s-icon7 tw-h-s-icon7">__ICON__</span>&nbsp;<span>__NAME__</span> __ACTION_BTN__ __MSG_BTN__ __SEND_FUND_BTN__</div>`,
   MESSAGE_BTN :
-      `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6 clickable" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SEND_MESSAGE, '__USER_ID__')">__ICON__</span>`,
+      `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6 tw-cursor-pointer" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SEND_MESSAGE, '__USER_ID__')">__ICON__</span>`,
   SEND_FUND_BTN :
-      `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6 clickable" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SEND_FUND, '__USER_ID__')">__ICON__</span>`,
+      `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6 tw-cursor-pointer" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SEND_FUND, '__USER_ID__')">__ICON__</span>`,
   FOLLOW_BTN :
       `<span class="button-like small s-primary" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.FOLLOW, '__USER_ID__')">follow</span>`,
   UNFOLLOW_BTN :

@@ -221,7 +221,7 @@ export class FProduct extends MajorSectorItem {
       p = new PProductInfoMiddle();
       break;
     }
-    p.setClassName("clickable");
+    p.setClassName("tw-cursor-pointer");
     p.setAttribute("onclick", `javascript:G.action('${CF_PRODUCT.VIEW}')`);
     return p;
   }

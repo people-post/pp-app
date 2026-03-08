@@ -59,5 +59,13 @@
   --height-s-icon7: 12px;
 }
 
+/* Custom utilities for migrated hst.css classes (Bulk 7) */
+@utility scroll-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* Import existing styles */
 @import "./hst.css";

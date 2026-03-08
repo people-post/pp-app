@@ -1,6 +1,6 @@
 const _CPT_ROLE_INFO = {
   MAIN :
-      `<div id="__ID_MAIN__" class="tw-p-[5px] tw-border-solid tw-border-gray-300 tw-border tw-border-[1px] clickable">
+      `<div id="__ID_MAIN__" class="tw-p-[5px] tw-border-solid tw-border-gray-300 tw-border tw-border-[1px] tw-cursor-pointer">
   <div class="tw-flex tw-justify-between">
     <div id="__ID_NAME__"></div>
     <div id="__ID_STATUS__"></div>

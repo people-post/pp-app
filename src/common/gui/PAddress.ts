@@ -3,7 +3,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 const _CPT_ADDRESS = {
-  MAIN : `<div class="address-block clickable">
+  MAIN : `<div class="address-block tw-cursor-pointer">
   <table class="address">
     <tbody>
       <tr>

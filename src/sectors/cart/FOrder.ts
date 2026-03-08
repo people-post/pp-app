@@ -262,7 +262,7 @@ export class FOrder extends Fragment {
 
   #renderItemInfos(order: CustomerOrder, panel: Panel): void {
     let pItems = new ListPanel();
-    pItems.setClassName("clickable");
+    pItems.setClassName("tw-cursor-pointer");
     pItems.setAttribute("onclick", _CFT_CUSTOMER_ORDER.ACT_ONCLICK);
     panel.wrapPanel(pItems);
     for (let item of order.getItems()) {

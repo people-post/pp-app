@@ -133,7 +133,7 @@ export class FProjectInfo extends MajorSectorItem {
     }
 
     let panel = this.#createPanel();
-    panel.setClassName("clickable");
+    panel.setClassName("tw-cursor-pointer");
     panel.setAttribute("onclick",
                        "javascript:G.action(CF_PROJECT_INFO.VIEW_PROJECT)");
 

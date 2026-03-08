@@ -196,19 +196,22 @@ input {
 /* .h-subheader  { height: 36px; } */
 
 /* Margin, border and padding */
-.automargin {
+/* Migrated (Bulk 7): .automargin -> tw-m-auto */
+/* .automargin {
     margin: auto;
-}
+} */
 
 /* Migrated (Bulk 2): .border-box -> tw-box-border */
 
-.no-border {
+/* Migrated (Bulk 7): .no-border -> tw-border-none */
+/* .no-border {
     border: none;
-}
+} */
 
-.border-collapse {
+/* Migrated (Bulk 7): .border-collapse -> tw-border-collapse */
+/* .border-collapse {
     border-collapse: collapse;
-}
+} */
 
 /* Migrated (Bulk 2): pad2px, pad5px, pad10px, pad5, h-pad5px, h-pad10px, h-pad5, v-pad1px, v-pad5px, v-pad10px, v-pad5, top-pad5px, left-pad5px, right-pad5px -> tw-p-*, tw-px-*, tw-py-*, tw-pt-*, tw-pr-*, tw-pl-* */
 
@@ -278,30 +281,32 @@ input {
 /* Migrated (Bulk 2): .baseline-align-items, .center-align-items, .center-justify-items -> tw-items-baseline, tw-items-center, tw-justify-items-center */
 /* Migrated (Bulk 2): .inline-block, .no-display -> tw-inline-block, tw-hidden */
 
-.no-scrollbar {
+/* Migrated (Bulk 7): .no-scrollbar -> tw-scroll-none (custom @utility in tailwind.css) */
+/* .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
-}
+} */
 
-.no-scrollbar::-webkit-scrollbar {
+/* .no-scrollbar::-webkit-scrollbar {
     display: none;
-}
+} */
 
 /* Migrated (Bulk 2): .hide-overflow, .x-scroll, .y-scroll -> tw-overflow-hidden, tw-overflow-x-scroll, tw-overflow-y-auto */
 /* Migrated (Bulk 2): .x-scroll-snap, .scroll-snap-start, .scroll-snap-center, .scroll-snap-end -> tw-snap-x, tw-snap-mandatory, tw-snap-start, tw-snap-center, tw-snap-end */
 
 /* Transform */
-.rot90 {
+/* Migrated (Bulk 7): .rot90 -> tw-rotate-90, .rot180 -> tw-rotate-180, .rot270 -> tw-rotate-270 */
+/* .rot90 {
     transform: rotate(90deg);
-}
+} */
 
-.rot180 {
+/* .rot180 {
     transform: rotate(180deg);
-}
+} */
 
-.rot270 {
+/* .rot270 {
     transform: rotate(270deg);
-}
+} */
 
 /* Common classes */
 /* Migrated to Tailwind (Bulk 6): use tw-text-u-font1 */
@@ -464,21 +469,25 @@ input {
 /* 0px is to prevent display overflow */
 
 /* Cursor */
-.clickthrough {
+/* Migrated (Bulk 7): .clickthrough -> tw-pointer-events-none */
+/* .clickthrough {
     pointer-events: none;
-}
+} */
 
-.handleevent {
+/* Migrated (Bulk 7): .handleevent -> tw-pointer-events-auto */
+/* .handleevent {
     pointer-events: auto;
-}
+} */
 
-.clickable {
+/* Migrated (Bulk 7): .clickable -> tw-cursor-pointer */
+/* .clickable {
     cursor: pointer;
-}
+} */
 
-.cursornresize {
+/* Migrated (Bulk 7): .cursornresize -> tw-cursor-n-resize */
+/* .cursornresize {
     cursor: n-resize;
-}
+} */
 
 /* Common combo */
 .darkmode .s-primary {

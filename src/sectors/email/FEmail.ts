@@ -122,7 +122,7 @@ export class FEmail extends MajorSectorItem {
 
   #createInfoPanel(): PEmailInfo {
     let p = new PEmailInfo();
-    p.setClassName("clickable");
+    p.setClassName("tw-cursor-pointer");
     p.setAttribute("onclick", "javascript:G.action(CF_EMAIL_INFO.VIEW_EMAIL)");
     return p;
   }

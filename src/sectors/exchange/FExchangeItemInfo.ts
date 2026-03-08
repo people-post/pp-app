@@ -9,7 +9,7 @@ const _CVF_EXCHANGE_ITEM = {
       <tr>
         <td class="exchange-item-info-brief">
           <div>
-            <span class="exchange-item-info-icon tw-inline-block tw-w-s-icon3 tw-h-s-icon3 clickable">__ICON__</span>
+            <span class="exchange-item-info-icon tw-inline-block tw-w-s-icon3 tw-h-s-icon3 tw-cursor-pointer">__ICON__</span>
           </div>
           <div class="tw-text-s-font5">__NAME__</div>
         </td>

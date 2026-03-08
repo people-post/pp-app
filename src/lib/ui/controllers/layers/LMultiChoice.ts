@@ -14,7 +14,7 @@ const _CLT_MULTI_CHOICE = {
   MAIN : `<div id="__ID_TITLE__" class="tw-text-s-font3"></div>
   <div id="__ID_DESCRIPTION__" class="tw-text-s-font4"></div>
   <br>
-  <div class="tw-max-h-[300px] tw-overflow-y-auto no-scrollbar">
+  <div class="tw-max-h-[300px] tw-overflow-y-auto tw-scroll-none">
     <div id="__ID_CHOICES__"></div>
     <div id="__ID_ALTERNATIVES__"></div>
   </div>

@@ -62,11 +62,11 @@ export class FoldableItemFragment extends Fragment {
     const p = new ListPanel();
     render.wrapPanel(p);
     let pp = new ArrayPanel();
-    pp.setTableClassName("foldable-item tw-w-full border-collapse");
+    pp.setTableClassName("foldable-item tw-w-full tw-border-collapse");
     if (this._isOpen) {
-      pp.setClassName("foldable-item clickable selected");
+      pp.setClassName("foldable-item tw-cursor-pointer selected");
     } else {
-      pp.setClassName("foldable-item clickable");
+      pp.setClassName("foldable-item tw-cursor-pointer");
     }
     p.pushPanel(pp);
     let ppp = new PanelWrapper();

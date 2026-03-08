@@ -18,8 +18,8 @@ export const CLC_GALLERY = {
 
 const _CLCT_GALLERY = {
   CONTROL_BAR :
-      `<span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 clickable" onclick="javascript:G.action('${CLC_GALLERY.TOGGLE_COMMENT}')">__COMMENT_ICON__</span>
-    <span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 clickable" onclick="javascript:G.action('${CLC_GALLERY.CLOSE}')">__CLOSE_ICON__</span>`,
+      `<span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 tw-cursor-pointer" onclick="javascript:G.action('${CLC_GALLERY.TOGGLE_COMMENT}')">__COMMENT_ICON__</span>
+    <span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 tw-cursor-pointer" onclick="javascript:G.action('${CLC_GALLERY.CLOSE}')">__CLOSE_ICON__</span>`,
 }
 
 export class LGallery extends Layer {
