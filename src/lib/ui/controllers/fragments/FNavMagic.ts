@@ -18,7 +18,7 @@ if (typeof window !== 'undefined') {
 
 const _CFT_UI_NAV_MAGIC = {
   MAIN :
-      `<span class="tw-w-full h40px tw-inline-block cursornresize" onclick="javascript:G.action(window.CF_UI_NAV_MAGIC.ON_CLICK)"></span>`,
+      `<span class="tw-w-full tw-h-[40px] tw-inline-block cursornresize" onclick="javascript:G.action(window.CF_UI_NAV_MAGIC.ON_CLICK)"></span>`,
 } as const;
 
 export class FNavMagic extends Fragment {

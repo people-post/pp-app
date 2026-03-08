@@ -56,7 +56,7 @@ export class FvcQuiz extends FScrollViewContent {
     render.wrapPanel(pList);
 
     let p = new PanelWrapper();
-    p.setClassName("hmin300px");
+    p.setClassName("tw-min-h-[300px]");
     pList.pushPanel(p);
     this._fQuiz.attachRender(p);
     this._fQuiz.render();

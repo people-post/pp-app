@@ -75,7 +75,7 @@ export class PPostInfoMiddle extends PPostInfoBase {
     // Limit content height
     let e = document.getElementById(this._getSubElementId("TXT"));
     if (e) {
-      e.className = "content hmax40px tw-overflow-hidden";
+      e.className = "content tw-max-h-[40px] tw-overflow-hidden";
     }
     this._pQuote.setClassName("left-pad5 right-pad5");
   }

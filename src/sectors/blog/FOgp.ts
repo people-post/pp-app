@@ -16,7 +16,7 @@ if (typeof window !== 'undefined') {
 
 const _CFT_OGP = {
   URL :
-      `<span class="small-info-text tw-inline-block h12pt tw-overflow-hidden clickable" onclick="javascript:G.action(CF_OGP.ON_CLICK)">&#x1f517;__URL__</span>`,
+      `<span class="small-info-text tw-inline-block tw-h-[12pt] tw-overflow-hidden clickable" onclick="javascript:G.action(CF_OGP.ON_CLICK)">&#x1f517;__URL__</span>`,
   IMG :
       `<span class="thumbnail-grid thumbnail-grid-1-1" style="background-image:url('__URL__')" onclick="javascript:G.action(CF_OGP.ON_CLICK)"></span>`,
 } as const;

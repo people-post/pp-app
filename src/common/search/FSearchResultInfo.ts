@@ -19,7 +19,7 @@ const _CPT_SEARCH_RESULT_INFO = {
       <span id="__ID_TITLE__"></span>
     </span>
   </div>
-  <div id="__ID_CONTENT__" class="u-font4 tw-text-gray-600 hmax80px tw-overflow-hidden"></div>
+  <div id="__ID_CONTENT__" class="u-font4 tw-text-gray-600 tw-max-h-[80px] tw-overflow-hidden"></div>
   <div id="__ID_TIME__" class="small-info-text"></div>
   </div>`,
   KEYWORD : `<span class="search-result-match">__KEYWORD__</span>`,

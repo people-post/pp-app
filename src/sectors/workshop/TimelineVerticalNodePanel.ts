@@ -2,7 +2,7 @@ const _CPT_TIMELINE_VERTICAL_NODE = {
   MAIN : `<div class="flex">
   <div class="tw-w-[20%] tw-flex tw-justify-center">
     <div class= "v-progress-wrapper w30px">
-      <div class="rpe node frame vertical offset-top50" style="transform:translateY(-50%);">
+      <div class="rpe node frame vertical tw-top-[50%]" style="transform:translateY(-50%);">
         <div class="rpe-node-content-wrapper">
           <div id="__ID_NODE__"></div>
         </div>

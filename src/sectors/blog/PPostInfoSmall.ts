@@ -9,7 +9,7 @@
 const _CPT_POST_INFO_SMALL = {
   MAIN : `<div id="__ID_WRAPPER__" class="post-info-small-wrapper">
   <div id="__ID_PIN__"></div>
-  <div id="__ID_REF__" class="crosslink-note hmin10px"></div>
+  <div id="__ID_REF__" class="crosslink-note tw-min-h-[10px]"></div>
   <div id="__ID_MAIN__" class="post-info small">
     <div class="aspect-5-1-frame">
       <div class="aspect-content tw-overflow-hidden tw-flex tw-justify-between">

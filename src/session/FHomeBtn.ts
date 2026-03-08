@@ -13,7 +13,7 @@ const _CFT_HOME_BTN = {
   </div>`,
   ICON_URL : `<div class="tw-p-[5px]">
     <a href="__URL__">
-      <img class="hmax40px" src="__ICON_URL__"/>
+      <img class="tw-max-h-[40px]" src="__ICON_URL__"/>
     </a>
   </div>`,
 };

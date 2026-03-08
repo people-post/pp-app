@@ -460,7 +460,7 @@ export class FvcBrief extends FViewContentBase {
       for (let id of ids) {
         let pp = new PanelWrapper();
         pp.setClassName(
-            "tw-w-[90%] s-csecondarydecorbg tw-flex-shrink-0 tw-snap-start h200px tw-overflow-y-auto no-scrollbar");
+            "tw-w-[90%] s-csecondarydecorbg tw-flex-shrink-0 tw-snap-start tw-h-[200px] tw-overflow-y-auto no-scrollbar");
         p.pushPanel(pp);
         let f = new FPostInfo();
         f.setPostId(id);
