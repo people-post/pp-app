@@ -8,6 +8,10 @@
   /* Custom colors for migrated hst.css border utilities */
   --color-lightgray: lightgray;
   --color-lightgrey: lightgrey;
+
+  /* Custom heights for migrated hst.css header utilities */
+  --height-header: 48px;
+  --height-subheader: 36px;
 }
 
 /* Import existing styles */

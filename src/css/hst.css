@@ -190,7 +190,7 @@ input {
     max-width: 1024px;
 }
 
-/* Migrated (Bulk 5): .offset-top50 -> tw-top-[50%], .h-header -> tw-h-[48px], .h-subheader -> tw-h-[36px] */
+/* Migrated (Bulk 5): .offset-top50 -> tw-top-[50%], .h-header -> tw-h-header, .h-subheader -> tw-h-subheader */
 /* .offset-top50 { top: 50%; } */
 /* .h-header     { height: 48px; } */
 /* .h-subheader  { height: 36px; } */

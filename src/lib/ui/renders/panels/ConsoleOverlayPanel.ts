@@ -3,7 +3,7 @@ import { NavPanel } from './NavPanel.js';
 import { PanelWrapper } from './PanelWrapper.js';
 
 const _CPT_CONSOLE_OVERLAY = {
-  MAIN : `<div class="tw-flex tw-h-[48px] tw-justify-center tw-bg-transparent">
+  MAIN : `<div class="tw-flex tw-h-header tw-justify-center tw-bg-transparent">
     <div class="tw-flex-grow tw-basis-1/2"></div>
     <div id="__ID_HOME_BTN__" class="tw-flex tw-flex-col tw-justify-center handleevent"></div>
     <div class="tw-flex-grow tw-basis-1/2 tw-flex">
