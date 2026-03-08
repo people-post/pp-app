@@ -20,7 +20,7 @@ const _CPT_JOURNAL_ISSUE_EDITOR = {
   <br>
   <br>`,
   SECTOR_TAGGED : `<div class="tw-p-[5px] tw-flex tw-justify-start">
-    <div id="__ID_TAG__" class="tw-flex-shrink-0 u-font4"></div>
+    <div id="__ID_TAG__" class="tw-flex-shrink-0 tw-text-u-font4"></div>
     <div>:</div>
     <div id="__ID_CONTENT__"></div>
   </div>`,

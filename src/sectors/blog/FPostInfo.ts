@@ -40,7 +40,7 @@ export const CF_POST_INFO = {
 
 const _CFT_POST_INFO = {
   PIN :
-      `<span class="pin-icon tw-inline-block s-icon5 v-middle-align">__ICON__</span>`,
+      `<span class="pin-icon tw-inline-block tw-w-s-icon5 tw-h-s-icon5 v-middle-align">__ICON__</span>`,
 } as const;
 
 export interface PostInfoDataSource {

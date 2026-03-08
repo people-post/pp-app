@@ -2,7 +2,7 @@
 const _CPT_WALKIN_QUEUE_ITEM_INFO_PUBLIC = {
   MAIN : `<div class="tw-p-[5px]">
     <div class="tw-flex tw-justify-between tw-border-b tw-border-b-[1px] tw-border-solid tw-border-lightgray">
-      <div id="__ID_NAME__" class="s-font001 tw-truncate"></div>
+      <div id="__ID_NAME__" class="tw-text-s-font001 tw-truncate"></div>
       <div id="__ID_STATUS__"></div>
     </div>
   </div>`,

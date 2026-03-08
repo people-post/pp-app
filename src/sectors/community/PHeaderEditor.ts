@@ -1,7 +1,7 @@
 const _CPT_COMMUNITY_HEADER_EDITOR = {
   MAIN : `<div class="aspect-5-1-frame tw-bg-gray-300">
     <div id="__ID_BG_IMAGE__" class="aspect-content"></div>
-    <div id="__ID_COMMUNITY_ICON__" class="community-icon s-icon2"></div>
+    <div id="__ID_COMMUNITY_ICON__" class="community-icon tw-w-s-icon2 tw-h-s-icon2"></div>
     <div id="__ID_BG_UPLOAD__" class="community-bg-image-upload"></div>
   </div>`,
 } as const;

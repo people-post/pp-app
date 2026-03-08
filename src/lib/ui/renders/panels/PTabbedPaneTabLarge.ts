@@ -5,7 +5,7 @@ const _CPT_TABBED_PANE_TAB_LARGE = {
   MAIN :
       `<div id="__ID_MAIN__" class="tab-item tw-text-center tw-relative s-csecondarybg">
     <div class="tw-inline-block tw-p-[5px] clickable">
-      <div id="__ID_ICON__" class="tw-inline-block s-icon4"></div>
+      <div id="__ID_ICON__" class="tw-inline-block tw-w-s-icon4 tw-h-s-icon4"></div>
     </div>
     <div id="__ID_BADGE__" class="notification-badge"></div>
   </div>`,

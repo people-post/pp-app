@@ -23,7 +23,7 @@ const _CPT_PROJECT_INFO_MIDDLE = {
               <div id="__ID_THUMBNAIL__"></div>
               <div class="tw-flex-grow tw-h-full tw-box-border tw-pt-[5px] tw-pl-[5px] tw-overflow-hidden">
                 <div id="__ID_TITLE__" class="tw-font-bold"></div>
-                <div id="__ID_CONTENT__" class="u-font5"></div>
+                <div id="__ID_CONTENT__" class="tw-text-u-font5"></div>
               </div>
             </div>
           </div>

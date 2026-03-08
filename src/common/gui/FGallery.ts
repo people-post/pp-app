@@ -28,7 +28,7 @@ const _CFT_GALLERY = {
       <div id="__ID_DOTS__" class="tw-absolute tw-w-full tw-bottom-0 tw-text-center"></div>
     </div>`,
   SLIDE_SHOW_SLIDE : `<div id="__ID_LABEL__" class="slide-show-label"></div>
-    <div id="__ID_IMAGE__" class="s-photo tw-bg-black tw-h-full"></div>`
+    <div id="__ID_IMAGE__" class="tw-text-[0px] tw-bg-black tw-h-full"></div>`
 };
 
 class PSlide extends Panel {

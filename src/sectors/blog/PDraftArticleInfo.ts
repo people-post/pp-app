@@ -1,6 +1,6 @@
 const _CPT_DRAFT_ARTICLE_INFO = {
   MAIN : `<div id="__ID_WRAPPER__" class="info-panel draft">
-    <div class="tw-p-[5px] u-font5">
+    <div class="tw-p-[5px] tw-text-u-font5">
       <div class="tw-flex tw-justify-between">
         <div id="__ID_AUTHOR__"></div>
         <div id="__ID_TIME__" class="small-info-text"></div>

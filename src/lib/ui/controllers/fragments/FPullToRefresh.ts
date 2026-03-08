@@ -7,7 +7,7 @@ import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
 
 const _CFT_PULL_TO_REFRESH = {
   ICON :
-      `<span class="tw-inline-block s-icon6" style="transform:rotate(__DEG__deg);">__ICON__</span>`,
+      `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6" style="transform:rotate(__DEG__deg);">__ICON__</span>`,
 } as const;
 
 export class FPullToRefresh extends Fragment {

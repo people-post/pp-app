@@ -11,7 +11,7 @@ import type { Panel as PanelType } from '../../lib/ui/renders/panels/Panel.js';
 
 const _CPT_JOURNAL_ISSUE_SECTION_TAGGED = {
   MAIN : `<div class="tw-flex tw-justify-start">
-    <div id="__ID_TAG__" class="tw-flex-shrink-0 u-font4"></div>
+    <div id="__ID_TAG__" class="tw-flex-shrink-0 tw-text-u-font4"></div>
     <div>:</div>
     <div id="__ID_CONTENT__" class="tw-p-[5px]"></div>
   </div>`,

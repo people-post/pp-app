@@ -103,7 +103,7 @@ export class Button extends Fragment {
       return "";
     }
 
-    let ss = `<span class="tw-inline-block s-icon6">__ICON__</span>`;
+    let ss = `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6">__ICON__</span>`;
     ss = ss.replace("__ICON__", Utilities.renderSvgFuncIcon(icon, true));
     return ss;
   }

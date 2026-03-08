@@ -6,7 +6,7 @@ const _CPT_POST_INFO_COMMENT = {
       <div id="__ID_OWNER_NAME__" class="comment-info-text"></div>
       <div id="__ID_CONTEXT__" class="comment-info-extra"></div>
     </div>
-    <div id="__ID_CONTENT__" class="comment-info-text s-font5"></div>
+    <div id="__ID_CONTENT__" class="comment-info-text tw-text-s-font5"></div>
   </div>
   </div>`,
 } as const;

@@ -47,7 +47,7 @@ export class FvcPortalMain extends FScrollViewContent {
     let pMain = new ListPanel();
     render.wrapPanel(pMain);
     let p = new Panel();
-    p.setClassName("s-font001 tw-text-center");
+    p.setClassName("tw-text-s-font001 tw-text-center");
     pMain.pushPanel(p);
     p.replaceContent("Scan code to badge in:");
 

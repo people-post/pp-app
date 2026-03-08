@@ -5,7 +5,7 @@ const _CPT_POST_INFO_COMPACT = {
     <div class="tw-h-[60px] tw-overflow-hidden tw-flex tw-justify-between">
       <div class="tw-w-[60%] tw-flex-grow tw-flex tw-flex-col tw-justify-center">
         <div id="__ID_REF__" class="crosslink-note"></div>
-        <div id="__ID_TITLE__" class="u-font1 tw-font-bold tw-truncate"></div>
+        <div id="__ID_TITLE__" class="tw-text-u-font1 tw-font-bold tw-truncate"></div>
         <div id="__ID_DATE_TIME__" class="small-info-text"></div>
         <div id="__ID_QUOTE__"></div>
       </div>

@@ -104,7 +104,7 @@ export class FHeaderMenu extends Fragment {
       console.log("Render menu icon...");
       // Hack, svg currently don't have correct size
       if (this.#icon.indexOf("<svg") >= 0) {
-        this.#pMain.setClassName("s-icon32 clickable");
+        this.#pMain.setClassName("tw-w-s-icon32 tw-h-s-icon32 clickable");
       } else {
         this.#pMain.setClassName("clickable");
       }

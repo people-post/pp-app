@@ -64,7 +64,7 @@ export class FSearch extends Fragment {
     this.#fBar.render();
 
     pp = new Panel();
-    pp.setClassName("s-font5 tw-text-gray-600 search-result-brief");
+    pp.setClassName("tw-text-s-font5 tw-text-gray-600 search-result-brief");
     p.pushPanel(pp);
 
     let r = this.#getResult(this.#fBar.getKey());

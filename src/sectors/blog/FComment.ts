@@ -13,7 +13,7 @@ import { Api } from '../../common/plt/Api.js';
 import type { Comment } from '../../common/datatypes/Comment.js';
 
 const _CFT_COMMENT = {
-  ICON : `<span class="tw-inline-block s-icon6">__ICON__</span>`,
+  ICON : `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6">__ICON__</span>`,
 } as const;
 
 export interface CommentDataSource {

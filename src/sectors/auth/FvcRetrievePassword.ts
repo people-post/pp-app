@@ -13,7 +13,7 @@ const _CFT_RETRIEVE_PASSWORD = {
   MAIN : `<table class="automargin">
     <tbody> 
       <tr>
-        <td><label class="s-font5" for="email">__R_YOUR_EMAIL__:</label></td>
+        <td><label class="tw-text-s-font5" for="email">__R_YOUR_EMAIL__:</label></td>
       </tr>
       <tr>
         <td>

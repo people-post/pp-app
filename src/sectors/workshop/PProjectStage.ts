@@ -1,6 +1,6 @@
 
 const _CPT_PROJECT_STAGE = {
-  MAIN : `<div id="__ID_NAME__" class="u-font3"></div>
+  MAIN : `<div id="__ID_NAME__" class="tw-text-u-font3"></div>
     <div id="__ID_DESCRIPTION__"></div>
     <div id="__ID_COMMENT__" class="stage-comment"></div>`,
 }

@@ -13,8 +13,8 @@ const _CPT_PRODUCT_INFO_SMALL_QUOTE = {
     <div id="__ID_IMAGE__"></div>
     <div class="tw-flex-grow tw-p-[5px]">
       <div id="__ID_SELLER_NAME__"></div>
-      <div id="__ID_NAME__" class="u-font5"></div>
-      <div id="__ID_DESCRIPTION__" class="u-font5"></div>
+      <div id="__ID_NAME__" class="tw-text-u-font5"></div>
+      <div id="__ID_DESCRIPTION__" class="tw-text-u-font5"></div>
     </div>
   </div>
   </div>`,

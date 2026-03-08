@@ -16,7 +16,7 @@ const _CPT_PRODUCT_INFO_MIDDLE = {
       <div id="__ID_THUMBNAIL__" class="product-info-left tw-flex-shrink-0"></div>
       <div class="product-info-detail tw-flex-grow tw-h-full tw-overflow-hidden clickable">
         <div id="__ID_NAME__" class="tw-font-bold"></div>
-        <div id="__ID_DESCRIPTION__" class="u-font7"></div>
+        <div id="__ID_DESCRIPTION__" class="tw-text-u-font7"></div>
       </div>
       <div class="product-info-misc tw-flex-shrink-0">
         <div id="__ID_PRICE__"></div>

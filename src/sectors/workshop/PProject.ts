@@ -1,6 +1,6 @@
 
 const _CPT_PROJECT = {
-  MAIN : `<div id="__ID_TITLE__" class="u-font1 tw-font-bold tw-p-[5px]"></div>
+  MAIN : `<div id="__ID_TITLE__" class="tw-text-u-font1 tw-font-bold tw-p-[5px]"></div>
     <div class="tw-flex tw-justify-start tw-items-baseline">
       <div class="small-info-text">Created by: </div>
       <div id="__ID_CREATOR__"></div>
@@ -9,12 +9,12 @@ const _CPT_PROJECT = {
     <div class="tw-flex tw-justify-between tw-items-baseline">
       <div>
         <span class="small-info-text">Status:</span>
-        <span id="__ID_STATUS__" class="u-font5"></span>
+        <span id="__ID_STATUS__" class="tw-text-u-font5"></span>
       </div>
       <div id="__ID_PROJECT_ACTION__"></div>
     </div>
     <div id="__ID_QUICK_STAGES__"></div>
-    <div id="__ID_DESCRIPTION__" class="u-font4 tw-p-[5px]"></div>
+    <div id="__ID_DESCRIPTION__" class="tw-text-u-font4 tw-p-[5px]"></div>
     <div id="__ID_IMAGE__"></div>
     <div id="__ID_SOCIAL__"></div>
     `,

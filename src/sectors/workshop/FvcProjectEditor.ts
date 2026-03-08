@@ -17,7 +17,7 @@ if (typeof window !== 'undefined') {
 
 const _CFT_PROJECT_EDITOR_CONTENT = {
   TITLE : `<div>
-      <label class="s-font5" for="ID_PROJECT_EDITOR_NAME">Name</label>
+      <label class="tw-text-s-font5" for="ID_PROJECT_EDITOR_NAME">Name</label>
       <br>
       <textarea id="ID_PROJECT_EDITOR_NAME" class="edit-project-name">__NAME__</textarea>
     </div>

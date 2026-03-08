@@ -8,7 +8,7 @@ import { Account } from '../common/dba/Account.js';
 const _CFT_HOME_BTN = {
   ICON : `<div class="tw-p-[5px]">
     <a href="__URL__">
-      <span class="tw-inline-block s-icon32">__ICON__</span>
+      <span class="tw-inline-block tw-w-s-icon32 tw-h-s-icon32">__ICON__</span>
     </a>
   </div>`,
   ICON_URL : `<div class="tw-p-[5px]">

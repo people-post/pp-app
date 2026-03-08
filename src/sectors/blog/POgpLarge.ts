@@ -7,8 +7,8 @@ const _CPT_OGP_LARGE = {
     <div id="__ID_TIME__" class="small-info-text"></div>
   </div>
   <div class="quote-element-content tw-p-[5px]">
-    <div id="__ID_TITLE__" class="u-font5"></div>
-    <div id="__ID_CONTENT__" class="u-font5"></div>
+    <div id="__ID_TITLE__" class="tw-text-u-font5"></div>
+    <div id="__ID_CONTENT__" class="tw-text-u-font5"></div>
   </div>
   <div id="__ID_IMAGE__"></div>
   </div>`,

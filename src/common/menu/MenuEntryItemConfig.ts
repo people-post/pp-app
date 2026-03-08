@@ -113,7 +113,7 @@ export class MenuEntryItemConfig extends DirFragment {
     p.pushSpace(1);
 
     pp = new Panel();
-    pp.setClassName("s-font5");
+    pp.setClassName("tw-text-s-font5");
     p.pushPanel(pp);
     pp.replaceContent(
         this.#renderPath(this._subItemId ? this._subItemId : this._itemId));

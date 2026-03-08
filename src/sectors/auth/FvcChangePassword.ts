@@ -18,19 +18,19 @@ const _CFT_CHANGE_PASSWORD = {
     <table  class="automargin">
     <tbody> 
       <tr>
-        <td><label class="s-font5" for="ID_PASSWORD_OLD">Password:</label></td>
+        <td><label class="tw-text-s-font5" for="ID_PASSWORD_OLD">Password:</label></td>
       </tr>
       <tr>
         <td><input id="ID_PASSWORD_OLD" type="password" placeholder="Password"></td>
       </tr>
       <tr>
-        <td><label class="s-font5" for="ID_PASSWORD">New Password:</label></td>
+        <td><label class="tw-text-s-font5" for="ID_PASSWORD">New Password:</label></td>
       </tr>
       <tr>
         <td><input id="ID_PASSWORD" type="password" placeholder="New Password"></td>
       </tr>
       <tr>
-        <td><label class="s-font5" for="ID_PASSWORD_2">Confirm New Password:</label></td>
+        <td><label class="tw-text-s-font5" for="ID_PASSWORD_2">Confirm New Password:</label></td>
       </tr>
       <tr>
         <td><input id="ID_PASSWORD_2" type="password" placeholder="Confirm password"></td>

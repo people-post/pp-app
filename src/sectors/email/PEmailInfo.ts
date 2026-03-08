@@ -9,11 +9,11 @@ const _CPT_EMAIL_INFO = {
         </div>
         <div id="__ID_MAIN__" class="email-info tw-border-lightgray">
           <div class="tw-flex tw-justify-between">
-            <div id="__ID_SENDER__" class="u-font5 tw-font-bold"></div>
+            <div id="__ID_SENDER__" class="tw-text-u-font5 tw-font-bold"></div>
             <div id="__ID_TIME__" class="small-info-text"></div>
           </div>
-          <div id="__ID_TITLE__" class="u-font5"></div>
-          <div id="__ID_CONTENT__" class="u-font5 tw-text-gray-600"></div>
+          <div id="__ID_TITLE__" class="tw-text-u-font5"></div>
+          <div id="__ID_CONTENT__" class="tw-text-u-font5 tw-text-gray-600"></div>
         </div>
       </div>
     </div>

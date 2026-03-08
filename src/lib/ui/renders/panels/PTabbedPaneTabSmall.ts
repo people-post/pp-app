@@ -3,11 +3,11 @@ import { Panel } from './Panel.js';
 
 const _CPT_TABBED_PANE_TAB_SMALL = {
   MAIN :
-      `<div id="__ID_MAIN__" class="tabbed-pane-tab tw-flex tw-justify-start tw-items-center tw-border-solid clickable tw-p-[5px] s-font5 s-cinfotext tw-border tw-border-[1px] tw-border-lightgrey tw-border-b-0">
-    <div id="__ID_ICON__" class="tw-inline-block s-icon5 v-middle-align"></div>
+      `<div id="__ID_MAIN__" class="tabbed-pane-tab tw-flex tw-justify-start tw-items-center tw-border-solid clickable tw-p-[5px] tw-text-s-font5 s-cinfotext tw-border tw-border-[1px] tw-border-lightgrey tw-border-b-0">
+    <div id="__ID_ICON__" class="tw-inline-block tw-w-s-icon5 tw-h-s-icon5 v-middle-align"></div>
     <div id="__ID_NAME__"></div>
     <div id="__ID_BADGE__" class="tw-inline-block tw-bg-red-600 tw-text-white tw-rounded-full tw-px-[5px] tw-py-[1px]"></div>
-    <div id="__ID_BTN_CLOSE__" class="tw-inline-block s-icon5 v-middle-align"></div>
+    <div id="__ID_BTN_CLOSE__" class="tw-inline-block tw-w-s-icon5 tw-h-s-icon5 v-middle-align"></div>
   </div>`,
 } as const;
 
