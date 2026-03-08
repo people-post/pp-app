@@ -7,6 +7,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { MenuContent } from './MenuContent.js';
 import { SearchBar } from '../gui/SearchBar.js';
 import { Factory, T_CATEGORY, T_OBJ } from '../../lib/framework/Factory.js';
+import type { FSearch } from '../search/FSearch.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Menus } from '../dba/Menus.js';
 import { Groups } from '../dba/Groups.js';
@@ -144,7 +145,7 @@ export class MainMenu extends MenuContent {
     // @ts-expect-error - delegate may have this method
     this._delegate?.onMenuFragmentRequestCloseMenu?.(this);
     let cls = Factory.getClass(
-        T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
+        T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT) as typeof FSearch;
     let f = new cls();
     f.setKey(value);
     f.setResultLayoutType(this.#tResultLayout);

@@ -1,6 +1,6 @@
 import { SocialItemId } from './SocialItemId.js';
 import { SocialItem } from './SocialItem.js';
-import type { BlogConfigData, BlogConfig as BlogConfigType } from '../../types/basic.js';
+import type { BlogConfigData, BlogConfig as BlogConfigType } from '../../types/blog.js';
 
 export class BlogConfig implements BlogConfigType {
   #pinnedIds: SocialItemId[] = [];
@@ -9,7 +9,7 @@ export class BlogConfig implements BlogConfigType {
   constructor(data: BlogConfigData) {
     this._data = data;
     if (data.pinned_items) {
-      this.#pinnedIds = data.pinned_items.map((i) => new SocialItemId(i.id, i.type));
+      this.#pinnedIds = data.pinned_items.map((i: { id: string; type: string }) => new SocialItemId(i.id, i.type));
     }
   }
 

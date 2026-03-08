@@ -7,7 +7,6 @@ import { ActionButton } from '../../common/gui/ActionButton.js';
 import { FvcWeb3PostEditor } from './FvcWeb3PostEditor.js';
 import { FvcWeb3ServerRegistration } from '../../sectors/hosting/FvcWeb3ServerRegistration.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
-import { glb } from '../../lib/framework/Global.js';
 import { Env } from '../../common/plt/Env.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Account } from '../../common/dba/Account.js';

@@ -5,7 +5,6 @@ import { Users } from '../dba/Users.js';
 import { Account } from '../dba/Account.js';
 
 export class Web3CommentIdLoader extends LongListIdLoader {
-  #isBatchLoading = false;
   #threadId: SocialItemId | null = null;
   #hashtagIds: string[] = [];
   #idRecord = new UniLongListIdRecord();
@@ -18,6 +17,8 @@ export class Web3CommentIdLoader extends LongListIdLoader {
     this.#hashtagIds = hashtagIds;
     this.#idRecord.clear();
   }
+
+  getHashtagIds(): string[] { return this.#hashtagIds; }
 
   asyncLoadFrontItems(): void {}
   asyncLoadBackItems(): void {

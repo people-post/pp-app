@@ -6,6 +6,7 @@ import { FDateTimeSelector } from '../../lib/ui/controllers/fragments/FDateTimeS
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { Factory, T_CATEGORY, T_OBJ } from '../../lib/framework/Factory.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import type { FSearch } from '../search/FSearch.js';
 
 const _CPT_DATE_FILTER = {
   MAIN :
@@ -100,7 +101,7 @@ export class MCDateFilter extends MenuContent {
     // @ts-expect-error - delegate may have this method
     this._delegate?.onMenuFragmentRequestCloseMenu?.(this);
     let cls = Factory.getClass(
-        T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
+        T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT) as typeof FSearch;
     let f = new cls();
     f.setKey(value);
     let v = new View();

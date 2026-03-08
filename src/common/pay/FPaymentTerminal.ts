@@ -53,9 +53,9 @@ export class FPaymentTerminal extends Fragment {
   setLayoutType(t: symbol | null): void { this._tLayout = t; }
   setEnableEdit(b: boolean): void { this._isEditEnabled = b; }
 
-  onInputChangeInTextInputFragment(fTextInput: TextInput, value: string): void { this.#asyncUpdate(); }
+  onInputChangeInTextInputFragment(_fTextInput: TextInput, _value: string): void { this.#asyncUpdate(); }
 
-  action(type: string | symbol, ...args: any[]): void {
+  action(type: string | symbol, ..._args: any[]): void {
     switch (type) {
     case CF_PAYMENT_TERMINAL.ON_CLICK:
       this._delegate.onClickInPaymentTerminalFragment(this, this._terminalId);

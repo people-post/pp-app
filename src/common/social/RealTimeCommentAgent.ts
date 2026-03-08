@@ -8,7 +8,7 @@ import { Api } from '../plt/Api.js';
 export class RealTimeCommentAgent extends Controller {
   #threadId: string | null = null;
   #threadIdType: string | null = null;
-  #commentBuffer: BufferedList<RealTimeComment> | null = null;
+  #commentBuffer: BufferedList | null = null;
   #lastReadershipUpdatedId: string | null = null;
 
   getThreadId(): string | null { return this.#threadId; }
@@ -23,7 +23,7 @@ export class RealTimeCommentAgent extends Controller {
 
   getComments(): RealTimeComment[] {
     if (this.#commentBuffer) {
-      return this.#commentBuffer.getObjects();
+      return this.#commentBuffer.getObjects() as RealTimeComment[];
     } else {
       this.#asyncLoad();
       return [];
@@ -78,7 +78,7 @@ export class RealTimeCommentAgent extends Controller {
     let commentId: string | null = null;
     if (isAdmin) {
       let comments =
-          this.#commentBuffer.getObjects().filter(c => !c.isPending());
+          this.#commentBuffer.getObjects().filter((c: RealTimeComment) => !c.isPending());
       if (comments.length) {
         commentId = comments[comments.length - 1].getId();
       }
