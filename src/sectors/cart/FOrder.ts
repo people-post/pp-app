@@ -223,7 +223,7 @@ export class FOrder extends Fragment {
     let name = Account.getUserShopName(userId, "...");
     let s =
         Utilities.renderSmallButton(CF_CUSTOMER_ORDER.USER_INFO, userId,
-                                    name, "low-profile s-cinfotext bold");
+                                    name, "low-profile s-cinfotext tw-font-bold");
     panel.replaceContent(s);
   }
 
@@ -232,7 +232,7 @@ export class FOrder extends Fragment {
     let name = Account.getUserShopName(userId, "...");
     let s = "Shop: ";
     s += Utilities.renderSmallButton(CF_CUSTOMER_ORDER.USER_INFO, userId,
-                                     name, "low-profile s-cinfotext bold");
+                                     name, "low-profile s-cinfotext tw-font-bold");
     panel.replaceContent(s);
   }
 

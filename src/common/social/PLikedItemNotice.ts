@@ -4,7 +4,7 @@ import { Panel as BasePanel } from '../../lib/ui/renders/panels/Panel.js';
 
 const _CPT_LIKED_ITEM_NOTICE_INFO = {
   MAIN : `<div id="__ID_MSG__"></div>
-    <div id="__ID_TITLE__" class="bold ellipsis"></div>`,
+    <div id="__ID_TITLE__" class="tw-font-bold tw-truncate"></div>`,
 }
 
 export class PLikedItemNotice extends Panel {

@@ -6,7 +6,7 @@ const _CFT_SIMPLE_PROGRESS = {
   BAR :
       `<span class="simple-progress-fg __COLOR__" style="width:__PERCENT__%"></span>`,
   TEXT :
-      `<span class="w100 s-font7 bold center-align simple-progress-text">__VALUE__%</span>`,
+      `<span class="w100 s-font7 tw-font-bold center-align simple-progress-text">__VALUE__%</span>`,
 } as const;
 
 export class SimpleProgress extends Fragment {

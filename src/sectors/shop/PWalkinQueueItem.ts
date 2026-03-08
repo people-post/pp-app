@@ -4,7 +4,7 @@ const _CPT_WALKIN_QUEUE_ITEM = {
     <div id="__ID_STATUS__"></div>
     <br>
     <div id="__ID_NAME_DECOR__"></div>
-    <div id="__ID_NAME__" class="s-font001 ellipsis center-align"></div>
+    <div id="__ID_NAME__" class="s-font001 tw-truncate center-align"></div>
     <br>
     <div id="__ID_AGENT__"></div>
     <br>

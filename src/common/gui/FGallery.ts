@@ -21,7 +21,7 @@ const _CFT_GALLERY = {
   PREPROC :
       `<div class="info-message">Preprocessing files, please wait...__PROGRESS__</div>`,
   SLIDE_SHOW : `<div class="center-align h100">
-      <div id="__ID_SLIDES__" class="h100 relative x-scroll x-scroll-snap no-wrap flex flex-start" onscroll="javascript:G.action('${CF_GALLERY.ON_SCROLL}', this)">
+      <div id="__ID_SLIDES__" class="h100 relative x-scroll x-scroll-snap tw-whitespace-nowrap flex flex-start" onscroll="javascript:G.action('${CF_GALLERY.ON_SCROLL}', this)">
       </div>
       <div class="slide-show-nav slide-show-prev" onclick="javascript:G.action('${CF_GALLERY.PREV_IMAGE_SLIDE}')">&#10094;</div>
       <div class="slide-show-nav slide-show-next" onclick="javascript:G.action('${CF_GALLERY.NEXT_IMAGE_SLIDE}')">&#10095;</div>

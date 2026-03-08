@@ -309,7 +309,7 @@ export class FSupplierOrder extends Fragment {
     let nickname = Account.getUserNickname(userId, "...");
     return Utilities.renderSmallButton(
         CF_SUPPLIER_ORDER.USER_INFO, userId, nickname,
-        "low-profile s-cinfotext bold");
+        "low-profile s-cinfotext tw-font-bold");
   }
 
   #renderExtraPrice(currency: Currency, value: number, panel: Panel): void {

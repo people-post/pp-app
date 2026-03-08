@@ -22,7 +22,7 @@ const _CFT_MENU_ITEM_NAME = {
     </tbody>
   </table>`,
   DIR_NAME :
-      `<span class="clickable underline" onclick="javascript:G.action('${CF_MENU_ITEM_NAME.ONCLICK}')">__TEXT__</span>`,
+      `<span class="clickable tw-underline" onclick="javascript:G.action('${CF_MENU_ITEM_NAME.ONCLICK}')">__TEXT__</span>`,
 }
 
 export class MenuItemName extends Fragment {

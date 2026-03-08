@@ -1,7 +1,7 @@
 const _CFT_BLOG_REPORT = {
   TAG_STATISTICS : `<div class="flex space-between baseline-align-items">
-    <div class="ellipsis">__TAG_NAME__</div>
-    <div class="small-info-text no-wrap">__COUNT__</div>
+    <div class="tw-truncate">__TAG_NAME__</div>
+    <div class="small-info-text tw-whitespace-nowrap">__COUNT__</div>
   </div>`,
 } as const;
 

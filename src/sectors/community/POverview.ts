@@ -1,7 +1,7 @@
 const _CPT_OVERVIEW = {
   MAIN : `<div class="community-overview">
   <div id="__ID_HEADER__"></div>
-  <div id="__ID_NAME__" class="center-align bold"></div>
+  <div id="__ID_NAME__" class="center-align tw-font-bold"></div>
   <div id="__ID_DESCRIPTION__" class="center-align"></div>
   <div class="flex">
     <div class="w40 right-align small-info-text">Creator:</div>

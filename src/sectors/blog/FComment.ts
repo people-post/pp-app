@@ -118,7 +118,7 @@ export class FComment extends FPostBase {
     if (comment.isFromGuest()) {
       let p = new Panel();
       if (comment.isPending()) {
-        p.setClassName("italic");
+        p.setClassName("tw-font-italic");
       }
       panel.wrapPanel(p);
       let s = "[" + comment.getGuestName() + "]";
@@ -136,7 +136,7 @@ export class FComment extends FPostBase {
     }
     let p = new Panel();
     if (comment.isPending()) {
-      p.setClassName("italic");
+      p.setClassName("tw-font-italic");
     }
     panel.wrapPanel(p);
     p.replaceContent(CommonUtilities.escapeHtml(comment.getContent()));

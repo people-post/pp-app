@@ -32,31 +32,37 @@ input {
 
 /* Classes for styles */
 /* Font */
-.bold {
+/* Migrated to Tailwind (Bulk 1): use tw-font-bold instead */
+/* .bold {
     font-weight: bold;
-}
+} */
 
-.italic {
+/* Migrated to Tailwind (Bulk 1): use tw-font-italic instead */
+/* .italic {
     font-style: italic;
-}
+} */
 
-.underline {
+/* Migrated to Tailwind (Bulk 1): use tw-underline instead */
+/* .underline {
     text-decoration: underline;
-}
+} */
 
-.no-wrap {
+/* Migrated to Tailwind (Bulk 1): use tw-whitespace-nowrap instead */
+/* .no-wrap {
     white-space: nowrap;
-}
+} */
 
-.word-break-all {
+/* Migrated to Tailwind (Bulk 1): use tw-break-all instead */
+/* .word-break-all {
     word-break: break-all;
-}
+} */
 
-.ellipsis {
+/* Migrated to Tailwind (Bulk 1): use tw-truncate instead */
+/* .ellipsis {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-}
+} */
 
 /* color */
 .transparent {

@@ -120,7 +120,7 @@ export class FMonthSelector extends Fragment {
           "onclick",
           `javascript:G.action(window.CF_MONTH_SELECTOR.Y_CHOOSE, ${yy})`);
       if (i == 0) {
-        names = baseNames.concat([ "s-cfuncbg", "s-csecondary", "bold" ]);
+        names = baseNames.concat([ "s-cfuncbg", "s-csecondary", "tw-font-bold" ]);
         pCurrent = pp;
       } else {
         names = baseNames;
@@ -144,7 +144,7 @@ export class FMonthSelector extends Fragment {
           "onclick",
           `javascript:G.action(window.CF_MONTH_SELECTOR.M_CHOOSE, ${i})`);
       if (i == m) {
-        names = baseNames.concat([ "s-cfuncbg", "s-csecondary", "bold" ]);
+        names = baseNames.concat([ "s-cfuncbg", "s-csecondary", "tw-font-bold" ]);
         pCurrent = pp;
       } else {
         names = baseNames;

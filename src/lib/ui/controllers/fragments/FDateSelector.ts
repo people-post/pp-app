@@ -20,8 +20,8 @@ const CF_DATE_SELECTOR = {
 
 const _CPT_DATE_SELECTOR = {
   MAIN : `<div class="v-pad5px flex space-between">
-    <div id="__ID_MONTH__" class="s-font2 bold clickable"></div>
-    <div id="__ID_BTN_TODAY__" class="clickable no-wrap"></div>
+    <div id="__ID_MONTH__" class="s-font2 tw-font-bold clickable"></div>
+    <div id="__ID_BTN_TODAY__" class="clickable tw-whitespace-nowrap"></div>
     <div class="flex flex-start">
       <div id="__ID_BTN_PREV__" class="clickable s-icon5"></div>
       <div id="__ID_BTN_NEXT__" class="clickable s-icon5"></div>
@@ -191,7 +191,7 @@ export class FDateSelector extends Fragment {
 
     for (let t of ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]) {
       let pDay = new Panel();
-      pDay.setClassName("s-font5 bold");
+      pDay.setClassName("s-font5 tw-font-bold");
       pList.pushPanel(pDay);
       pDay.replaceContent(t);
     }
@@ -207,7 +207,7 @@ export class FDateSelector extends Fragment {
       let d = i - offset + 1;
       if (d > 0 && d <= n) {
         let names = [
-          "w100", "center-align", "v-pad5px", "no-wrap", "clickable", "s-font5"
+          "w100", "center-align", "v-pad5px", "tw-whitespace-nowrap", "clickable", "s-font5"
         ];
         if (d == current) {
           names.push("s-cfuncbg");

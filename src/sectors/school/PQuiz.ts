@@ -1,6 +1,6 @@
 const _CPT_QUIZ = {
   MAIN : `<div class="pad5">
-    <div id="__ID_QUESTION__" class="u-font3 bold"></div>
+    <div id="__ID_QUESTION__" class="u-font3 tw-font-bold"></div>
     <br>
     <div id="__ID_CHOICES__" class="u-font4"></div>
   </div>`,
