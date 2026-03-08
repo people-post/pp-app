@@ -20,7 +20,7 @@ const _CPT_POST_INFO_MIDDLE = {
             <div id="__ID_REF__" class="crosslink-note"></div>
             <div id="__ID_TEXT__" class="content">
               <div id="__ID_TITLE__" class="title"></div>
-              <div id="__ID_CONTENT__" class="u-font5"></div>
+              <div id="__ID_CONTENT__" class="tw-text-u-font5"></div>
             </div>
             <div id="__ID_QUOTE__"></div>
           </div>

@@ -12,6 +12,51 @@
   /* Custom heights for migrated hst.css header utilities */
   --height-header: 48px;
   --height-subheader: 36px;
+
+  /* Custom font sizes for migrated hst.css font utilities (Bulk 6) */
+  --font-size-u-font1: 20px;
+  --font-size-u-font2: 18px;
+  --font-size-u-font3: 16px;
+  --font-size-u-font4: 14px;
+  --font-size-u-font5: 12px;
+  --font-size-u-font6: 11px;
+  --font-size-u-font7: 10px;
+  --font-size-s-font001: 48px;
+  --font-size-s-font005: 24px;
+  --font-size-s-font1: 20px;
+  --font-size-s-font2: 18px;
+  --font-size-s-font3: 16px;
+  --font-size-s-font4: 14px;
+  --font-size-s-font5: 12px;
+  --font-size-s-font6: 11px;
+  --font-size-s-font7: 10px;
+
+  /* Custom font families for migrated hst.css font utilities (Bulk 6) */
+  --font-family-num-font: "Times New Roman";
+  --font-family-font-song: "SimSun";
+
+  /* Custom line height for migrated hst.css utilities (Bulk 6) */
+  --line-height-line-height32: 32px;
+
+  /* Custom icon sizes for migrated hst.css icon utilities (Bulk 6) */
+  --width-s-icon0: 96px;
+  --height-s-icon0: 96px;
+  --width-s-icon1: 64px;
+  --height-s-icon1: 64px;
+  --width-s-icon2: 48px;
+  --height-s-icon2: 48px;
+  --width-s-icon3: 36px;
+  --height-s-icon3: 36px;
+  --width-s-icon32: 32px;
+  --height-s-icon32: 32px;
+  --width-s-icon4: 28px;
+  --height-s-icon4: 28px;
+  --width-s-icon5: 20px;
+  --height-s-icon5: 20px;
+  --width-s-icon6: 18px;
+  --height-s-icon6: 18px;
+  --width-s-icon7: 12px;
+  --height-s-icon7: 12px;
 }
 
 /* Import existing styles */

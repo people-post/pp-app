@@ -22,8 +22,8 @@ if (typeof window !== 'undefined') {
 }
 
 export const _CFT_MULTI_MEDIA_FILE_UPLOAD = {
-  BTN_ADD_FILE : `<label class="s-font5" for="__ID__">
-      <span class="icon-btn-wrapper tw-inline-block s-icon1 clickable">__ICON__</span>
+  BTN_ADD_FILE : `<label class="tw-text-s-font5" for="__ID__">
+      <span class="icon-btn-wrapper tw-inline-block tw-w-s-icon1 tw-h-s-icon1 clickable">__ICON__</span>
     </label>
     <input id="__ID__" multiple="" type="file" accept="image/*,video/*" style="display:none" onchange="javascript:G.action(window.CF_MULTI_MEDIA_FILE_UPLOAD.ADD_FILES, this)">`,
 } as const;

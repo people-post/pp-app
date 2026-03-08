@@ -5,7 +5,7 @@ import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
 
 const _CPT_ELASTIC_REFRESH = {
   MAIN : `<div class="tw-flex tw-justify-around">
-    <span id="__ID_ICON__" class="tw-inline-block s-icon6"></span>
+    <span id="__ID_ICON__" class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6"></span>
   </div>`,
 } as const;
 

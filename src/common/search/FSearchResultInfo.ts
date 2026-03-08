@@ -7,19 +7,19 @@ const _CPT_SEARCH_RESULT_INFO = {
   <div id="__ID_TITLE__"></div>
   </div>`,
   BRIEF_MAIN : `<div class="info-panel brief clickable">
-  <div class="pad10px u-font2 line-height32">
+  <div class="pad10px tw-text-u-font2 tw-leading-line-height32">
     <div id="__ID_CONTENT__"></div>
   </div>
   <div id="__ID_TIME__" class="small-info-text"></div>
   </div>`,
   NORMAL_MAIN : `<div class="search-result-info tw-p-[10px] clickable">
   <div>
-    <span class="u-font3 s-cfunc">
-      <span id="__ID_ICON__" class="tw-inline-block s-icon6"></span>
+    <span class="tw-text-u-font3 s-cfunc">
+      <span id="__ID_ICON__" class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6"></span>
       <span id="__ID_TITLE__"></span>
     </span>
   </div>
-  <div id="__ID_CONTENT__" class="u-font4 tw-text-gray-600 tw-max-h-[80px] tw-overflow-hidden"></div>
+  <div id="__ID_CONTENT__" class="tw-text-u-font4 tw-text-gray-600 tw-max-h-[80px] tw-overflow-hidden"></div>
   <div id="__ID_TIME__" class="small-info-text"></div>
   </div>`,
   KEYWORD : `<span class="search-result-match">__KEYWORD__</span>`,

@@ -1,6 +1,6 @@
 const _CPT_POST_INFO_EMBED = {
   MAIN : `<div class="post-info">
-    <div id="__ID_TITLE__" class="u-font3"></div>
+    <div id="__ID_TITLE__" class="tw-text-u-font3"></div>
   </div>`,
 } as const;
 

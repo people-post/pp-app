@@ -8,8 +8,8 @@ const _CPT_POST_INFO_SMALL_QUOTE = {
         <div id="__ID_AUTHOR__"></div>
         <div id="__ID_TIME__" class="small-info-text"></div>
       </div>
-      <div id="__ID_TITLE__" class="u-font5"></div>
-      <div id="__ID_CONTENT__" class="u-font5"></div>
+      <div id="__ID_TITLE__" class="tw-text-u-font5"></div>
+      <div id="__ID_CONTENT__" class="tw-text-u-font5"></div>
     </div>
   </div>
   </div>`,

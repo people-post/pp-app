@@ -11,7 +11,7 @@ import { R } from '../constants/R.js';
 import { ICON } from '../constants/Icons.js';
 
 const _CFT_REAL_TIME_COMMENT = {
-  ICON : `<span class="tw-inline-block s-icon6">__ICON__</span>`,
+  ICON : `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6">__ICON__</span>`,
 };
 
 interface FRealTimeCommentDelegate {

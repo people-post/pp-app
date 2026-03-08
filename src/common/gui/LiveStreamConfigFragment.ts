@@ -18,7 +18,7 @@ export const CF_LIVE_STREAM_CONFIG = {
 
 const _CFT_LIVE_STREAM_CONFIG = {
   BTN_ADD_FILE :
-      `<label class="s-font5" for="__ID__"><span class="icon-btn-wrapper tw-inline-block s-icon1 clickable">__ICON__</span></label>
+      `<label class="tw-text-s-font5" for="__ID__"><span class="icon-btn-wrapper tw-inline-block tw-w-s-icon1 tw-h-s-icon1 clickable">__ICON__</span></label>
     <input id="__ID__" type="file" accept="image/*" style="display:none" onchange="javascript:G.action('${CF_LIVE_STREAM_CONFIG.ADD_FILE}', this)">`,
   INSTRUCTION : `<table class="tw-w-full">
       <tbody>

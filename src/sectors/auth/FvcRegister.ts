@@ -20,7 +20,7 @@ const _CFT_REGISTER_CONTENT = {
   MAIN : `<table class="automargin">
     <tbody> 
       <tr>
-        <td><label class="s-font5" for="ID_EMAIL">__R_EMAIL__:</label></td>
+        <td><label class="tw-text-s-font5" for="ID_EMAIL">__R_EMAIL__:</label></td>
       </tr>
       <tr>
         <td>
@@ -28,13 +28,13 @@ const _CFT_REGISTER_CONTENT = {
         </td>
       </tr>
       <tr>
-        <td><label class="s-font5" for="ID_PASSWORD">__R_PASS__:</label></td>
+        <td><label class="tw-text-s-font5" for="ID_PASSWORD">__R_PASS__:</label></td>
       </tr>
       <tr>
         <td><input id="ID_PASSWORD" type="password" autocomplete="new-password" placeholder="__R_PASS_HINT__"></td>
       </tr>
       <tr>
-        <td><label class="s-font5" for="ID_PASSWORD_2">__R_CONFIRM_PASS__:</label></td>
+        <td><label class="tw-text-s-font5" for="ID_PASSWORD_2">__R_CONFIRM_PASS__:</label></td>
       </tr>
       <tr>
         <td><input id="ID_PASSWORD_2" type="password" autocomplete="new-password" placeholder="__R_CONFIRM_PASS_HINT__"></td>
@@ -100,7 +100,7 @@ export class FvcRegister extends FScrollViewContent {
     p.pushSpace(1);
 
     pp = new Panel();
-    pp.setClassName("s-font7 tw-text-center");
+    pp.setClassName("tw-text-s-font7 tw-text-center");
     p.pushPanel(pp);
     pp.replaceContent(this.#renderTerms());
 

@@ -14,8 +14,8 @@ const _CPT_POST_INFO_SMALL = {
     <div class="aspect-5-1-frame">
       <div class="aspect-content tw-overflow-hidden tw-flex tw-justify-between">
         <div class="tw-w-[60%] tw-flex-grow">
-          <div id="__ID_TITLE__" class="u-font3 tw-font-bold tw-truncate"></div>
-          <div id="__ID_CONTENT__" class="u-font6 tw-truncate"></div>
+          <div id="__ID_TITLE__" class="tw-text-u-font3 tw-font-bold tw-truncate"></div>
+          <div id="__ID_CONTENT__" class="tw-text-u-font6 tw-truncate"></div>
           <div id="__ID_QUOTE__"></div>
         </div>
         <div id="__ID_IMAGE__"></div>

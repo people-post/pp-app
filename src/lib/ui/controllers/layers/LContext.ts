@@ -12,8 +12,8 @@ export const CL_CONTEXT = {
 } as const;
 
 const _CLT_CONTEXT = {
-  MAIN : `<div id="__ID_TITLE__" class="s-font3"></div>
-  <div id="__ID_DESCRIPTION__" class="s-font4"></div>
+  MAIN : `<div id="__ID_TITLE__" class="tw-text-s-font3"></div>
+  <div id="__ID_DESCRIPTION__" class="tw-text-s-font4"></div>
   <br>
   <div id="__ID_CONTENT__" class="tw-max-h-[300px] tw-overflow-y-auto no-scrollbar"></div>
   <br>

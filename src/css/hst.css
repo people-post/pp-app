@@ -304,133 +304,162 @@ input {
 }
 
 /* Common classes */
-.u-font1 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-u-font1 */
+/* .u-font1 {
     font-size: 20px;
-}
+} */
 
-.u-font2 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-u-font2 */
+/* .u-font2 {
     font-size: 18px;
-}
+} */
 
-.u-font3 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-u-font3 */
+/* .u-font3 {
     font-size: 16px;
-}
+} */
 
-.u-font4 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-u-font4 */
+/* .u-font4 {
     font-size: 14px;
-}
+} */
 
-.u-font5 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-u-font5 */
+/* .u-font5 {
     font-size: 12px;
-}
+} */
 
-.u-font6 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-u-font6 */
+/* .u-font6 {
     font-size: 11px;
-}
+} */
 
-.u-font7 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-u-font7 */
+/* .u-font7 {
     font-size: 10px;
-}
+} */
 
-.s-font001 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-s-font001 */
+/* .s-font001 {
     font-size: 48px;
-}
+} */
 
-.s-font005 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-s-font005 */
+/* .s-font005 {
     font-size: 24px;
-}
+} */
 
-.s-font1 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-s-font1 */
+/* .s-font1 {
     font-size: 20px;
-}
+} */
 
-.s-font2 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-s-font2 */
+/* .s-font2 {
     font-size: 18px;
-}
+} */
 
-.s-font3 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-s-font3 */
+/* .s-font3 {
     font-size: 16px;
-}
+} */
 
-.s-font4 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-s-font4 */
+/* .s-font4 {
     font-size: 14px;
-}
+} */
 
-.s-font5 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-s-font5 */
+/* .s-font5 {
     font-size: 12px;
-}
+} */
 
-.s-font6 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-s-font6 */
+/* .s-font6 {
     font-size: 11px;
-}
+} */
 
-.s-font7 {
+/* Migrated to Tailwind (Bulk 6): use tw-text-s-font7 */
+/* .s-font7 {
     font-size: 10px;
-}
+} */
 
-.num-font {
+/* Migrated to Tailwind (Bulk 6): use tw-font-num-font */
+/* .num-font {
     font-family: "Times New Roman";
-}
+} */
 
-.font-song {
+/* Migrated to Tailwind (Bulk 6): use tw-font-font-song */
+/* .font-song {
     font-family: "SimSun";
-}
+} */
 
-.line-height32 {
+/* Migrated to Tailwind (Bulk 6): use tw-leading-line-height32 */
+/* .line-height32 {
     line-height: 32px;
-}
+} */
 
 /* Icon */
-.s-icon0 {
+/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon0 tw-h-s-icon0 */
+/* .s-icon0 {
     width: 96px;
     height: 96px;
-}
+} */
 
-.s-icon1 {
+/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon1 tw-h-s-icon1 */
+/* .s-icon1 {
     width: 64px;
     height: 64px;
-}
+} */
 
-.s-icon2 {
+/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon2 tw-h-s-icon2 */
+/* .s-icon2 {
     width: 48px;
     height: 48px;
-}
+} */
 
-.s-icon3 {
+/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon3 tw-h-s-icon3 */
+/* .s-icon3 {
     width: 36px;
     height: 36px;
-}
+} */
 
-.s-icon32 {
+/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon32 tw-h-s-icon32 */
+/* .s-icon32 {
     width: 32px;
     height: 32px;
-}
+} */
 
-.s-icon4 {
+/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon4 tw-h-s-icon4 */
+/* .s-icon4 {
     width: 28px;
     height: 28px;
-}
+} */
 
-.s-icon5 {
+/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon5 tw-h-s-icon5 */
+/* .s-icon5 {
     width: 20px;
     height: 20px;
     font-size: 0px;
-}
+} */
 
-.s-icon6 {
+/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon6 tw-h-s-icon6 */
+/* .s-icon6 {
     width: 18px;
     height: 18px;
-}
+} */
 
-.s-icon7 {
+/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon7 tw-h-s-icon7 */
+/* .s-icon7 {
     width: 12px;
     height: 12px;
-}
+} */
 
 /* Photo */
-.s-photo {
+/* Migrated to Tailwind (Bulk 6): use tw-text-[0px] */
+/* .s-photo {
     font-size: 0px;
-}
+} */
 
 /* 0px is to prevent display overflow */
 

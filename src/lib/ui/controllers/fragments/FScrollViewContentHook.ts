@@ -15,7 +15,7 @@ const _CPT_SCROLL_VIEW_CONTENT_HOOK = {
   </div>`,
   CONTENT : `<div id="__ID_CONTENT__" class="tw-min-h-full"></div>
   <hr>
-  <div class="s-font5 tw-text-center">
+  <div class="tw-text-s-font5 tw-text-center">
     <div>Powered by <a href="https://gcabin.com" target="_blank">G-Cabin&#x1f517;</a> community.</div>
   <br>
   <br>`,

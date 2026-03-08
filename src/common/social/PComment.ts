@@ -9,7 +9,7 @@ const _CPT_COMMENT = {
       <div id="__ID_AUTHOR_NAME__" class="comment-info-text"></div>
       <div id="__ID_EXTRA__" class="comment-info-extra"></div>
     </div>
-    <div id="__ID_CONTENT__" class="comment-info-text s-font5"></div>
+    <div id="__ID_CONTENT__" class="comment-info-text tw-text-s-font5"></div>
   </div>
   </div>`,
 };

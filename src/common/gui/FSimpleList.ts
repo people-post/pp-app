@@ -11,7 +11,7 @@ export const CF_SIMPLE_LIST = {
 const _CFT_SIMPLE_LIST = {
   ON_CLICK_ACTION :
       `javascript:G.action('${CF_SIMPLE_LIST.ITEM_CLICK}', '__ITEM_ID__')`,
-  ICON : `<span class="tw-inline-block s-icon3 clickable">__ICON__</span>`,
+  ICON : `<span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 clickable">__ICON__</span>`,
 }
 
 interface ListItem {
@@ -89,7 +89,7 @@ export class FSimpleList extends Fragment {
       if (item.isSelectable) {
         // Last item
         let p = new Panel();
-        p.setClassName("s-font005 tw-text-right tw-text-gray-500");
+        p.setClassName("tw-text-s-font005 tw-text-right tw-text-gray-500");
         pItem.pushPanel(p);
         p.replaceContent("&rsaquo;");
       }

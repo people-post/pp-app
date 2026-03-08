@@ -238,9 +238,9 @@ export class FPost extends Fragment {
     s = s.replace("__ICON__", this.#renderPinIcon(isSelected));
     if (isSelected) {
       s = s.replace("__CLASS__",
-                    "tw-inline-block s-icon3 clickable s-cprimebg inset");
+                    "tw-inline-block tw-w-s-icon3 tw-h-s-icon3 clickable s-cprimebg inset");
     } else {
-      s = s.replace("__CLASS__", "tw-inline-block s-icon3 clickable outset");
+      s = s.replace("__CLASS__", "tw-inline-block tw-w-s-icon3 tw-h-s-icon3 clickable outset");
     }
     panel.replaceContent(s);
   }

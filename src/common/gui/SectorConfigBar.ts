@@ -12,7 +12,7 @@ const _CFT_SECTOR_CONFIG_BAR = {
       <tr>
         <td><span>__NAME__:</span></td>
         <td class="tw-text-right">
-          <label class="switch s-font5">__CHECKBOX__<span class="slider"></span></label>
+          <label class="switch tw-text-s-font5">__CHECKBOX__<span class="slider"></span></label>
         </td>
       </tr>
     </tbody>

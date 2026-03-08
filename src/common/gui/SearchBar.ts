@@ -13,9 +13,9 @@ export const CF_SEARCH_BAR = {
 };
 
 const _CFT_SEARCH_BAR = {
-  SEARCH_ICON : `<span class="tw-inline-block s-icon6">__ICON__</span>`,
+  SEARCH_ICON : `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6">__ICON__</span>`,
   CLEAR_ICON :
-      `<span class="tw-inline-block s-icon6 clickable" onclick="javascript:G.action('${CF_SEARCH_BAR.ON_CLEAR}')">__ICON__</span>`,
+      `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6 clickable" onclick="javascript:G.action('${CF_SEARCH_BAR.ON_CLEAR}')">__ICON__</span>`,
   INPUT :
       `<input id="__ID__" class="search-bar tw-bg-transparent __THEME_CLASS_NAMES__" type="text" onchange="javascript:G.action('${CF_SEARCH_BAR.ON_CHANGE}', this.value)" onkeydown="javascript:G.action('${CF_SEARCH_BAR.ON_KEYDOWN}', this.value)" value="__VALUE__"/>`,
 };

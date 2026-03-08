@@ -18,13 +18,13 @@ const _CFT_INPUT_CONSOLE = {
       `<textarea id="ID_INPUT_CONSOLE___FID__" class="console-text" onkeydown="javascript:G.action('${CF_INPUT_CONSOLE.ON_KEY_DOWN}')" onkeyup="javascript:G.action('${CF_INPUT_CONSOLE.ON_KEY_UP}')" placeholder="__TEXT_PLACE_HOLDER__">__VALUE__</textarea>`,
   TEXT_INPUT_DISABLED :
       `<textarea class="console-text" placeholder="__TEXT_PLACE_HOLDER__" disabled></textarea>`,
-  ICON : `<span class="tw-inline-block s-icon6 clickable">__ICON__</span>`,
-  BTN_IMG : `<label class="s-font5" for="_ID_INPUT_CONSOLE_IMG_INPUT">
-      <span class="tw-inline-block s-icon3 clickable">__IMG_ICON__</span>
+  ICON : `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6 clickable">__ICON__</span>`,
+  BTN_IMG : `<label class="tw-text-s-font5" for="_ID_INPUT_CONSOLE_IMG_INPUT">
+      <span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 clickable">__IMG_ICON__</span>
     </label>
     <input id="_ID_INPUT_CONSOLE_IMG_INPUT" type="file" style="display:none" onchange="javascript:G.action('${CF_INPUT_CONSOLE.ON_POST_FILE}', this)">`,
-  BTN_IMG_DISABLED : `<label class="s-font5">
-    <span class="tw-inline-block s-icon3 clickable">__IMG_ICON__</span>
+  BTN_IMG_DISABLED : `<label class="tw-text-s-font5">
+    <span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 clickable">__IMG_ICON__</span>
    </label>`,
 }
 

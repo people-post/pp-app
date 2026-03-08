@@ -20,11 +20,11 @@ const CF_DATE_SELECTOR = {
 
 const _CPT_DATE_SELECTOR = {
   MAIN : `<div class="tw-py-[5px] tw-flex tw-justify-between">
-    <div id="__ID_MONTH__" class="s-font2 tw-font-bold clickable"></div>
+    <div id="__ID_MONTH__" class="tw-text-s-font2 tw-font-bold clickable"></div>
     <div id="__ID_BTN_TODAY__" class="clickable tw-whitespace-nowrap"></div>
     <div class="tw-flex tw-justify-start">
-      <div id="__ID_BTN_PREV__" class="clickable s-icon5"></div>
-      <div id="__ID_BTN_NEXT__" class="clickable s-icon5"></div>
+      <div id="__ID_BTN_PREV__" class="clickable tw-w-s-icon5 tw-h-s-icon5"></div>
+      <div id="__ID_BTN_NEXT__" class="clickable tw-w-s-icon5 tw-h-s-icon5"></div>
     </div>
   </div>
   <div id="__ID_DATES__" class="tw-grid tw-grid-cols-7 tw-text-center-items tw-justify-items-center"></div>
@@ -191,7 +191,7 @@ export class FDateSelector extends Fragment {
 
     for (let t of ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]) {
       let pDay = new Panel();
-      pDay.setClassName("s-font5 tw-font-bold");
+      pDay.setClassName("tw-text-s-font5 tw-font-bold");
       pList.pushPanel(pDay);
       pDay.replaceContent(t);
     }
@@ -207,7 +207,7 @@ export class FDateSelector extends Fragment {
       let d = i - offset + 1;
       if (d > 0 && d <= n) {
         let names = [
-          "tw-w-full", "tw-text-center", "tw-py-[5px]", "tw-whitespace-nowrap", "clickable", "s-font5"
+          "tw-w-full", "tw-text-center", "tw-py-[5px]", "tw-whitespace-nowrap", "clickable", "tw-text-s-font5"
         ];
         if (d == current) {
           names.push("s-cfuncbg");

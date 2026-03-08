@@ -20,7 +20,7 @@ const _CFT_COMMUNITY_HEADER_EDITOR = {
   FCN_ONCLICK : `this.nextElementSibling.click()`,
   FCN_VOID : `void(0)`,
   ICON :
-      `<img class="user-info-icon s-icon2" src="__URL__" alt="Icon" onclick="javascript:__ONCLICK__">
+      `<img class="user-info-icon tw-w-s-icon2 tw-h-s-icon2" src="__URL__" alt="Icon" onclick="javascript:__ONCLICK__">
        <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action(CF_COMMUNITY_HEADER_EDITOR.ON_ICON_CHANGE, this.files[0])">`,
   INFO_IMAGE_UPLOAD :
       `<span onclick="javascript:this.nextElementSibling.click()">Upload</span>

@@ -2,7 +2,7 @@ const _CPT_PROPOSAL_INFO = {
   MAIN : `<div id="__ID_MAIN__" class="proposal-info">
   <div class="tw-flex tw-justify-between clickable">
     <div>
-     <span id="__ID_ICON__" class="tw-inline-block s-icon6 clickable"></span>
+     <span id="__ID_ICON__" class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6 clickable"></span>
      <span id="__ID_TITLE__"></span>
     </div>
     <div class="small-info-text tw-text-right">

@@ -12,7 +12,7 @@ const _CFT_CHAT_MESSAGE = {
     <span class="chat-message-text">__TEXT__</span>
   </div>`,
   GROUP_MSG_BODY : `<div>
-    <div class="s-font7">__FROM_USER_NAME__</div>
+    <div class="tw-text-s-font7">__FROM_USER_NAME__</div>
     <div>__TEXT__</div>
   </div>`,
   TEXT : `<span class="chat-message-text">__TEXT__</span>`,

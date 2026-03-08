@@ -131,7 +131,7 @@ export class FUserInfo extends Fragment implements FUserIconDelegate {
 
   #renderTypeIcon(user: UserType | null): string {
     if (user && user.isFeed?.() === true) {
-      let s = `<span class="tw-inline-block s-icon7">__ICON__</span>`;
+      let s = `<span class="tw-inline-block tw-w-s-icon7 tw-h-s-icon7">__ICON__</span>`;
       return s.replace("__ICON__", ICON.FEED);
     }
     return "";

@@ -142,7 +142,7 @@ class UtilitiesClass {
 
   renderPrice(currency: Currency | null, value: number | null | undefined): string {
     if (value || value == 0) {
-      let s = `<span class="num-font">__SYMBOL__&nbsp;__VALUE__</span>`;
+      let s = `<span class="tw-font-num-font">__SYMBOL__&nbsp;__VALUE__</span>`;
       s = s.replace("__SYMBOL__", this.renderCurrencyIcon(currency));
       let v = Math.round(value * 100) / 100.0;
       s = s.replace("__VALUE__", v.toString());

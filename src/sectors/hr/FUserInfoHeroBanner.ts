@@ -52,16 +52,16 @@ if (typeof window !== 'undefined') {
 
 const _CFT_USER_INFO_HERO_BANNER = {
   BG_IMAGE : `<img class="overview-header" src="__BG_URL__" alt=""></img>`,
-  USER_ICON : `<img class="user-info-icon s-icon2" src="__ICON_URL__"></img>`,
+  USER_ICON : `<img class="user-info-icon tw-w-s-icon2 tw-h-s-icon2" src="__ICON_URL__"></img>`,
   INFO_IMAGE_UPLOAD :
       `<span onclick="javascript:this.nextElementSibling.click()">Upload</span>
     <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.ON_INFO_IMAGE_CHANGE, this.files[0])">`,
   NAME :
-      `<span class="tw-inline-block s-icon7">__ICON__</span>&nbsp;<span>__NAME__</span> __ACTION_BTN__ __MSG_BTN__ __SEND_FUND_BTN__</div>`,
+      `<span class="tw-inline-block tw-w-s-icon7 tw-h-s-icon7">__ICON__</span>&nbsp;<span>__NAME__</span> __ACTION_BTN__ __MSG_BTN__ __SEND_FUND_BTN__</div>`,
   MESSAGE_BTN :
-      `<span class="tw-inline-block s-icon6 clickable" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SEND_MESSAGE, '__USER_ID__')">__ICON__</span>`,
+      `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6 clickable" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SEND_MESSAGE, '__USER_ID__')">__ICON__</span>`,
   SEND_FUND_BTN :
-      `<span class="tw-inline-block s-icon6 clickable" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SEND_FUND, '__USER_ID__')">__ICON__</span>`,
+      `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6 clickable" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SEND_FUND, '__USER_ID__')">__ICON__</span>`,
   FOLLOW_BTN :
       `<span class="button-like small s-primary" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.FOLLOW, '__USER_ID__')">follow</span>`,
   UNFOLLOW_BTN :
@@ -74,15 +74,15 @@ const _CFT_USER_INFO_HERO_BANNER = {
   OWNER_PRIVATE_INFO : `<table class="tw-w-full">
     <tbody>
       <tr>
-        <td class="tw-text-center num-font s-cprime">
-          <span class="tw-inline-block s-icon5 v-middle-align">__COIN_ICON__</span>
+        <td class="tw-text-center tw-font-num-font s-cprime">
+          <span class="tw-inline-block tw-w-s-icon5 tw-h-s-icon5 v-middle-align">__COIN_ICON__</span>
           __N_COIN__
         </td>
-        <td class="tw-text-center num-font s-cprime">
-          <span class="tw-inline-block s-icon5 v-middle-align">__CREDIT_ICON__</span>
+        <td class="tw-text-center tw-font-num-font s-cprime">
+          <span class="tw-inline-block tw-w-s-icon5 tw-h-s-icon5 v-middle-align">__CREDIT_ICON__</span>
           __N_CREDIT__
         </td>
-        <td class="tw-text-center num-font s-cprime">
+        <td class="tw-text-center tw-font-num-font s-cprime">
           $__N_CASH__
         </td>
       </tr>

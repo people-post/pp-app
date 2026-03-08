@@ -4,7 +4,7 @@ export const CF_PRODUCT_EDITOR = {
 
 const _CFT_PRODUCT_EDITOR = {
   NAME : `<div>
-      <label class="s-font5" for="edit-product-name">Name</label>
+      <label class="tw-text-s-font5" for="edit-product-name">Name</label>
       <br>
       <textarea id="edit-product-name" class="edit-product-name">__NAME__</textarea>
     </div>

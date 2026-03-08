@@ -29,7 +29,7 @@ export class OptionContextButton extends Fragment {
     this.#lc = new LContext();
     this.#lc.setDelegate(this);
     this.#icon =
-        `<span class="bd1px tw-border-solid s-cprimebd option-context-default-icon-wrapper tw-inline-block s-icon6">__ICON__</span>`
+        `<span class="bd1px tw-border-solid s-cprimebd option-context-default-icon-wrapper tw-inline-block tw-w-s-icon6 tw-h-s-icon6">__ICON__</span>`
             .replace("__ICON__", ICONS.MORE);
   }
 

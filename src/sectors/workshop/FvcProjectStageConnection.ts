@@ -63,7 +63,7 @@ export class FvcProjectStageConnection extends FScrollViewContent {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new Panel();
-    pp.setClassName("u-font3");
+    pp.setClassName("tw-text-u-font3");
     p.pushPanel(pp);
     pp.replaceContent("Select required stages:");
 

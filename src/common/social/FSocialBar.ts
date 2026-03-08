@@ -29,8 +29,8 @@ export const CF_SOCIAL_BAR = {
 
 const _CPT_SOCIAL_BAR = {
   MAIN : `<div id="__ID_MAIN__" class="social-bar tw-p-[5px] tw-flex"></div>`,
-  ITEM : `<div id="__ID_ICON__" class="s-icon5"></div>
-    <div id="__ID_LABEL__" class="s-font7"></div>`,
+  ITEM : `<div id="__ID_ICON__" class="tw-w-s-icon5 tw-h-s-icon5"></div>
+    <div id="__ID_LABEL__" class="tw-text-s-font7"></div>`,
 };
 
 export class PSocialBarItem extends Panel {

@@ -20,14 +20,14 @@ export const CF_LOGIN = {
 const _CFT_LOGIN = {
   FORM : `<div class="tw-flex tw-flex-col tw-text-center-items">
   <div>
-    <div><label class="s-font5" for="username">__R_U_NAME__:</label></div>
+    <div><label class="tw-text-s-font5" for="username">__R_U_NAME__:</label></div>
     <div><input id="username" name="username" type="text" autocomplete="username" placeholder="__R_U_NAME_HINT__" onkeydown="javascript:G.action('${CF_LOGIN.ON_USERNAME_KEY_DOWN}')"></div>
-    <div><label class="s-font5" for="password">__R_PASS__:</label></div>
+    <div><label class="tw-text-s-font5" for="password">__R_PASS__:</label></div>
     <div><input id="password" name="password" type="password" autocomplete="current-password" placeholder="__R_PASS_HINT__" onkeydown="javascript:G.action('${CF_LOGIN.ON_PASSWD_KEY_DOWN}', this)"></div>
     <div>
-      <a class="s-font7" href="javascript:void(0)" onclick="javascript:G.action('${CF_LOGIN.RETRIEVE_PASSWORD}')">__R_FORGET_PASS__?</a>
-      <span class="s-font7">__R_NO_ACCOUNT__?</span>
-      <a class="s-font7" href="javascript:void(0)" onclick="javascript:G.action('${CF_LOGIN.REGISTER}')">__R_REGISTER__.</a>
+      <a class="tw-text-s-font7" href="javascript:void(0)" onclick="javascript:G.action('${CF_LOGIN.RETRIEVE_PASSWORD}')">__R_FORGET_PASS__?</a>
+      <span class="tw-text-s-font7">__R_NO_ACCOUNT__?</span>
+      <a class="tw-text-s-font7" href="javascript:void(0)" onclick="javascript:G.action('${CF_LOGIN.REGISTER}')">__R_REGISTER__.</a>
     </div>
   </div>
   </div>`,
