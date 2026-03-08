@@ -5,7 +5,7 @@ const _CPT_QUIZ_INFO = {
     <div class="aspect-content border-box top-pad5px right-pad5px">
       <div class="flex flex-start h100">
         <div id="__ID_MAIN__" class="quiz-info bdlightgray">
-          <div id="__ID_QUESTION__" class="u-font3 bold cdimgray"></div>
+          <div id="__ID_QUESTION__" class="u-font3 tw-font-bold cdimgray"></div>
         </div>
       </div>
     </div>

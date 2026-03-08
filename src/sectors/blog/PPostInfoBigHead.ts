@@ -5,7 +5,7 @@ const _CPT_POST_INFO_BIG_HEAD = {
       <div class="aspect-5-1-frame">
         <div class="aspect-content hide-overflow">
           <div id="__ID_REF__" class="crosslink-note"></div>
-          <div id="__ID_TITLE__" class="u-font1 bold ellipsis"></div>
+          <div id="__ID_TITLE__" class="u-font1 tw-font-bold tw-truncate"></div>
           <div id="__ID_DATE_TIME__" class="small-info-text"></div>
           <div id="__ID_QUOTE__"></div>
         </div>

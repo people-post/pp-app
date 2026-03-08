@@ -15,7 +15,7 @@ const _CPT_PROJECT_ACTOR_INFO = {
       `<div id="__ID_MAIN__" class="pad5px clickable project-actor-info bdsolid">
     <div id="__ID_TITLE__"></div>
     <div id="__ID_ICON__" class="center-align"></div>
-    <div id="__ID_NAME__" class="small-info-text center-align ellipsis"></div>
+    <div id="__ID_NAME__" class="small-info-text center-align tw-truncate"></div>
   </div>`,
 }
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';

@@ -1,6 +1,6 @@
 
 const _CPT_PROJECT = {
-  MAIN : `<div id="__ID_TITLE__" class="u-font1 bold pad5px"></div>
+  MAIN : `<div id="__ID_TITLE__" class="u-font1 tw-font-bold pad5px"></div>
     <div class="flex flex-start baseline-align-items">
       <div class="small-info-text">Created by: </div>
       <div id="__ID_CREATOR__"></div>

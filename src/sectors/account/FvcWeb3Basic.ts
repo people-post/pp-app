@@ -55,14 +55,14 @@ export class FvcWeb3Basic extends FScrollViewContent {
     if (Env.isWeb3()) {
       p = new Panel();
       pList.pushPanel(p);
-      p.setClassName("ellipsis");
+      p.setClassName("tw-truncate");
       p.replaceContent("Public key:" + Account.getPublicKey());
 
       pList.pushSpace(1);
 
       p = new Panel();
       pList.pushPanel(p);
-      p.setClassName("ellipsis");
+      p.setClassName("tw-truncate");
       const web3Publisher = (typeof window !== 'undefined' && window.glb && (window.glb as { web3Publisher?: { getInitUserPeerId: () => string | null } }).web3Publisher);
       let peerId = web3Publisher ? web3Publisher.getInitUserPeerId() : null;
       if (peerId) {

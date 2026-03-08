@@ -406,7 +406,7 @@ export class FSocialBar extends Fragment {
           .then(() => {})
           .catch(err => this.#handleShareError(err));
     } else {
-      let s = `<p class="word-break-all">Url is: __URL__</p>`;
+      let s = `<p class="tw-break-all">Url is: __URL__</p>`;
       s = s.replace("__URL__", ogp.getUrl());
       this.#lc.setTargetName(R.get("share"));
       this.#lc.setDescription(s);

@@ -22,7 +22,7 @@ const _CPT_PROJECT_INFO_MIDDLE = {
             <div class="flex flex-start h100"> 
               <div id="__ID_THUMBNAIL__"></div>
               <div class="flex-grow h100 border-box top-pad5px left-pad5px hide-overflow">
-                <div id="__ID_TITLE__" class="bold"></div>
+                <div id="__ID_TITLE__" class="tw-font-bold"></div>
                 <div id="__ID_CONTENT__" class="u-font5"></div>
               </div>
             </div>

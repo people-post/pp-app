@@ -8,9 +8,9 @@ const _CFT_CART_ITEM = {
   NAME :
       `<span onclick="javascript:G.action(cart.CF_CART_ITEM.SHOW_PRODUCT, '__PRODUCT_ID__')">__NAME__</div>`,
   QUANTITY : `<span>
-    <span class="button-like tiny low-profile s-cinfotext bold" onclick="javascript:G.action(cart.CF_CART_ITEM.DESCREASE_ITEM, '__ITEM_ID__')">-</span>
+    <span class="button-like tiny low-profile s-cinfotext tw-font-bold" onclick="javascript:G.action(cart.CF_CART_ITEM.DESCREASE_ITEM, '__ITEM_ID__')">-</span>
     <span class="quantity-between-knob">__QUANTITY__</span>
-    <span class="button-like tiny low-profile s-cinfotext bold" onclick="javascript:G.action(cart.CF_CART_ITEM.INCREASE_ITEM, '__ITEM_ID__')">+</span>
+    <span class="button-like tiny low-profile s-cinfotext tw-font-bold" onclick="javascript:G.action(cart.CF_CART_ITEM.INCREASE_ITEM, '__ITEM_ID__')">+</span>
   </span>`,
 };
 

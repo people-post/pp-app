@@ -15,8 +15,8 @@ if (typeof window !== 'undefined') {
 }
 
 const _CFT_POST_STATISTICS_INFO = {
-  MAIN : `<div class="underline ellipsis">__NAME__</div>
-    <div class="small-info-text no-wrap">__COUNT__</div>`,
+  MAIN : `<div class="tw-underline tw-truncate">__NAME__</div>
+    <div class="small-info-text tw-whitespace-nowrap">__COUNT__</div>`,
 } as const;
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';

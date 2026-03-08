@@ -11,7 +11,7 @@ const _CPT_BRIEF = {
   TITLE :
       `<span class="inline-block s-icon5 v-bottom-align">__ICON__</span><span class="v-bottom-align">__TEXT__</span>`,
   COPYRIGHTS :
-      `<span>Copyright 2025 NFSC Brief. All rights reserved. The NFSC Brief is not responsible for the content of external sites.</span><span class="bold"> Read about our approach to external linking.</span>`,
+      `<span>Copyright 2025 NFSC Brief. All rights reserved. The NFSC Brief is not responsible for the content of external sites.</span><span class="tw-font-bold"> Read about our approach to external linking.</span>`,
   NARROW_MAIN : `<div class="pad10px h100 y-scroll no-scrollbar">
     <div id="__ID_BANNER__">Banner</div>
     <div id="__ID_PINNED_TITLE__"></div>
@@ -20,10 +20,10 @@ const _CPT_BRIEF = {
     <div id="__ID_POSTS__" class="h100 font-song"></div>
     <hr>
     <div class="center-align">
-      <span class="s-font1 bold">NFSC Brief</span>
+      <span class="s-font1 tw-font-bold">NFSC Brief</span>
       <span class="s-font3">24hr</span>
     </div>
-    <div id="__ID_SOCIAL__" class="s-font4 bold"></div>
+    <div id="__ID_SOCIAL__" class="s-font4 tw-font-bold"></div>
     <br>
     <div id="__ID_COPYRIGHTS__" class="s-font5"></div>
     <br>
@@ -43,10 +43,10 @@ const _CPT_BRIEF = {
     </div>
     <hr>
     <div class="center-align">
-      <span class="s-font1 bold">NFSC Brief</span>
+      <span class="s-font1 tw-font-bold">NFSC Brief</span>
       <span class="s-font3">24hr</span>
     </div>
-    <div class="s-font3 bold flex space-between">
+    <div class="s-font3 tw-font-bold flex space-between">
       <div>Home</div>
       <div>Focus</div>
       <div>NFSC</div>
@@ -57,7 +57,7 @@ const _CPT_BRIEF = {
     </div>
     <div></div>
     <br>
-    <div id="__ID_SOCIAL__" class="s-font4 bold"></div>
+    <div id="__ID_SOCIAL__" class="s-font4 tw-font-bold"></div>
     <br>
     <div class="s-font5 flex flex-start">
       <div>Term of Use</div>

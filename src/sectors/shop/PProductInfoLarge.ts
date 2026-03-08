@@ -17,7 +17,7 @@ const _CPT_PRODUCT_INFO_LARGE = {
       <div class="crosslink-note" id="__ID_REFERENCE__"></div>
       <div id="__ID_SELLER_NAME__"></div>
       <div class="product-detail-large">
-        <div id="__ID_NAME__" class="u-font5 bold"></div>
+        <div id="__ID_NAME__" class="u-font5 tw-font-bold"></div>
         <div id="__ID_DESCRIPTION__" class="u-font5"></div>
       </div>
       <div id="__ID_THUMBNAIL__"></div>

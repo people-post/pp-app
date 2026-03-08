@@ -43,7 +43,7 @@ export class FSimpleFragmentList extends FFragmentList {
   #initPanel(panel: ListPanel): void {
     switch (this.#mode) {
     case "H":
-      panel.setClassName("flex flex-start center-align-items x-scroll no-wrap");
+      panel.setClassName("flex flex-start center-align-items x-scroll tw-whitespace-nowrap");
       break;
     default:
       break;

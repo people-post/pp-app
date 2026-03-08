@@ -35,7 +35,7 @@ export class PTabbedPaneTabSmall extends PTabbedPaneTabBase {
     if (e) {
       if (b) {
         e.className =
-            e.className.replace("bd-b-0px", "bd-b-2px bold s-cfuncbd-b");
+            e.className.replace("bd-b-0px", "bd-b-2px tw-font-bold s-cfuncbd-b");
       }
     }
   }

@@ -11,7 +11,7 @@ const _CPT_EMAIL = {
       <div id="__ID_RECEIVER__" class="u-font4"></div>
       <div id="__ID_CC__" class="u-font4"></div>
     </div>
-    <div id="__ID_TITLE__" class="u-font3 bold"></div>
+    <div id="__ID_TITLE__" class="u-font3 tw-font-bold"></div>
     <br>
     <div id="__ID_CONTENT__" class="u-font4"></div>
   </div>`,

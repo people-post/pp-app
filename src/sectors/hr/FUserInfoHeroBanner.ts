@@ -69,8 +69,8 @@ const _CFT_USER_INFO_HERO_BANNER = {
   DOMAIN :
       `<span>Website: </span><a href="__URL__" target="_blank">__TEXT__&#x1f517;</a>`,
   SOCIAL_CONNECTIONS :
-      `<span class="button-like small low-profile s-cinfotext bold" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SHOW_FOLLOWERS, '__USER_ID__')">__N_FOLLOWERS__ followers</span>
-  <span class="button-like small low-profile s-cinfotext bold" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SHOW_IDOLS, '__USER_ID__')">Following __N_IDOLS__</span>`,
+      `<span class="button-like small low-profile s-cinfotext tw-font-bold" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SHOW_FOLLOWERS, '__USER_ID__')">__N_FOLLOWERS__ followers</span>
+  <span class="button-like small low-profile s-cinfotext tw-font-bold" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SHOW_IDOLS, '__USER_ID__')">Following __N_IDOLS__</span>`,
   OWNER_PRIVATE_INFO : `<table class="w100">
     <tbody>
       <tr>

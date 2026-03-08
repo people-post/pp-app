@@ -105,7 +105,7 @@ export class FRealTimeComment extends Fragment {
     if (comment.isFromGuest()) {
       let p = new Panel();
       if (comment.isPending()) {
-        p.setClassName("italic");
+        p.setClassName("tw-font-italic");
       }
       panel.wrapPanel(p);
       let s = "[" + (comment.getGuestName() || "") + "]";
@@ -123,7 +123,7 @@ export class FRealTimeComment extends Fragment {
   #renderCommentText(panel: Panel, comment: RealTimeComment): void {
     let p = new Panel();
     if (comment.isPending()) {
-      p.setClassName("italic");
+      p.setClassName("tw-font-italic");
     }
     panel.wrapPanel(p);
     p.replaceContent(Utilities.escapeHtml(comment.getContent()));

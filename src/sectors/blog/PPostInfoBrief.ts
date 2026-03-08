@@ -20,7 +20,7 @@ const _CPT_POST_INFO_BRIEF = {
       <div class="flex space-between">
         <div id="__ID_TIME__" class="small-info-text"></div>
         <div id="__ID_SOCIAL__" class="h-pad5px flex-grow"></div>
-        <div id="__ID_SOURCE_LINK__" class="u-font5 clickable underline s-cfunc"></div>
+        <div id="__ID_SOURCE_LINK__" class="u-font5 clickable tw-underline s-cfunc"></div>
       </div>
     </div>
   </div>`,

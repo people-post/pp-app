@@ -20,7 +20,7 @@ const _CPT_POST = {
     <div id="__ID_ABSTRACT__" class="pad10px u-font3"></div>
     <div id="__ID_CONTENT__" class="pad10px u-font3 hide-overflow post-content"></div>
     <div id="__ID_SUMMARY__" class="pad10px u-font3"></div>
-    <div id="__ID_SOURCE_LINK__" class="clickable underline s-cfunc"></div>
+    <div id="__ID_SOURCE_LINK__" class="clickable tw-underline s-cfunc"></div>
     <div id="__ID_GALLERY__" class="relative"></div>
     <div id="__ID_QUOTE__" class="left-pad10 right-pad10"></div>
     <br>
