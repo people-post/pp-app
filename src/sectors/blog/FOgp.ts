@@ -22,6 +22,7 @@ const _CFT_OGP = {
 } as const;
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
@@ -29,7 +30,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { Ogp } from '../../common/dba/Ogp.js';
 import { POgpSmall } from './POgpSmall.js';
 import { POgpLarge } from './POgpLarge.js';
-import type { Ogp as OgpType } from '../../common/datatypes/Ogp.js';
+import { OgpData } from '../../common/datatypes/OgpData.js';
 
 export class FOgp extends Fragment {
   protected _url: string | null = null;
@@ -53,11 +54,11 @@ export class FOgp extends Fragment {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: string | symbol, data: unknown): void {
     switch (dataType) {
     case T_DATA.OGP:
-      const ogpData = data as { getId: () => string };
-      if (ogpData.getId() == this._url) {
+      const ogpData = data as OgpData;
+      if (ogpData.getUrl() == this._url) {
         this.render();
       }
       break;
@@ -67,7 +68,7 @@ export class FOgp extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._url) {
       return;
     }
@@ -109,7 +110,7 @@ export class FOgp extends Fragment {
     pp.replaceContent(ogp.getDescription() || "");
   }
 
-  #hasImage(ogp: OgpType): boolean { return !!ogp.getImageUrl(); }
+  #hasImage(ogp: OgpData): boolean { return !!ogp.getImageUrl(); }
 
   #createPanel(): POgpSmall | POgpLarge {
     let p: POgpSmall | POgpLarge;
@@ -125,13 +126,13 @@ export class FOgp extends Fragment {
   }
 
   #renderImage(url: string): string {
-    let s = _CFT_OGP.IMG;
+    let s = _CFT_OGP.IMG as string;
     s = s.replace("__URL__", url);
     return s;
   }
 
   #renderUrl(url: string): string {
-    let s = _CFT_OGP.URL;
+    let s = _CFT_OGP.URL as string;
     s = s.replace("__URL__", url);
     return s;
   }
