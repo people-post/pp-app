@@ -9,11 +9,11 @@ const _CPT_MAIN = {
   MAIN : `<div class="tw-h-full tw-w-full">
     <div class="tw-h-full tw-w-full tw-flex" style="z-index: 1">
       <div id="__ID_SIDE_LEFT__" class="tw-h-full"></div>
-      <div id="__ID_NAV_COLUMN__" class="f-nav-column no-scrollbar"></div>
+      <div id="__ID_NAV_COLUMN__" class="f-nav-column tw-scroll-none"></div>
       <div id="__ID_CONTENT__" class="tw-h-full tw-flex-grow tw-relative tw-overflow-hidden"></div>
       <div id="__ID_SIDE_RIGHT__" class="tw-h-full"></div>
     </div>
-    <div id="__ID_NAV_OVERLAY__" class="layer clickthrough" style="z-index: 2"></div>
+    <div id="__ID_NAV_OVERLAY__" class="layer tw-pointer-events-none" style="z-index: 2"></div>
   </div>`,
 };
 

@@ -11,7 +11,7 @@ export const CF_OPTION_CONTEXT_BUTTON = {
 
 const _CFT_OPTION_CONTEXT_BUTTON = {
   BTN :
-      `<span class="clickable" onclick="javascript:G.action(window.CF_OPTION_CONTEXT_BUTTON.ONCLICK)">__ICON__</span>`,
+      `<span class="tw-cursor-pointer" onclick="javascript:G.action(window.CF_OPTION_CONTEXT_BUTTON.ONCLICK)">__ICON__</span>`,
 } as const;
 
 interface OptionContextButtonDelegate {

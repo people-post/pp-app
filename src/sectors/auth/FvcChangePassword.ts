@@ -15,7 +15,7 @@ const _CFT_CHANGE_PASSWORD = {
     <br>
     <div class="tw-text-center">Change password</div>
     <br>
-    <table  class="automargin">
+    <table  class="tw-m-auto">
     <tbody> 
       <tr>
         <td><label class="tw-text-s-font5" for="ID_PASSWORD_OLD">Password:</label></td>

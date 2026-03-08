@@ -250,7 +250,7 @@ export class MainMenu extends MenuContent {
     render.wrapPanel(pWrapper);
 
     let panel = new ListPanel();
-    let names = [ "tw-w-full", "flex", "x-scroll", "no-scrollbar" ];
+    let names = [ "tw-w-full", "flex", "x-scroll", "tw-scroll-none" ];
     if (this.#cMaxWidth) {
       names.push(this.#cMaxWidth);
     }

@@ -235,7 +235,7 @@ export class FSupplierOrder extends Fragment {
 
   #renderItemInfos(order: SupplierOrderPrivate, panel: Panel): void {
     let pItems = new ListPanel();
-    pItems.setClassName("clickable");
+    pItems.setClassName("tw-cursor-pointer");
     pItems.setAttribute("onclick", _CFT_SUPPLIER_ORDER.ACT_ONCLICK);
     panel.wrapPanel(pItems);
     for (let item of order.getItems()) {

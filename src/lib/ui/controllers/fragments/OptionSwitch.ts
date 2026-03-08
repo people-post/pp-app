@@ -17,7 +17,7 @@ if (typeof window !== 'undefined') {
 }
 
 const _CFT_OPTION_SWITCH = {
-  OPTION : `<table class="tw-w-full border-collapse">
+  OPTION : `<table class="tw-w-full tw-border-collapse">
     <tbody>
       <tr>
         <td>__NAME__:</td>

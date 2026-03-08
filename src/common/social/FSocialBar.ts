@@ -216,17 +216,17 @@ export class FSocialBar extends Fragment {
     let p: PSocialBarItem;
     for (let t of this.#actions) {
       p = new PSocialBarItem();
-      p.setClassName("tw-flex-grow tw-flex tw-justify-center tw-text-center-items clickable");
+      p.setClassName("tw-flex-grow tw-flex tw-justify-center tw-text-center-items tw-cursor-pointer");
       pItems.pushPanel(p);
       this.#renderAction(t, p, social);
     }
 
     if (pItems.size() > 0) {
       p = pItems.getPanel(0) as PSocialBarItem;
-      p.setClassName("tw-flex-grow tw-flex tw-justify-start tw-text-center-items clickable");
+      p.setClassName("tw-flex-grow tw-flex tw-justify-start tw-text-center-items tw-cursor-pointer");
       if (pItems.size() > 1) {
         p = pItems.getPanel(pItems.size() - 1) as PSocialBarItem;
-        p.setClassName("tw-flex-grow tw-flex tw-justify-end tw-text-center-items clickable");
+        p.setClassName("tw-flex-grow tw-flex tw-justify-end tw-text-center-items tw-cursor-pointer");
       }
     }
   }

@@ -7,7 +7,7 @@ export const CF_SECTOR_CONFIG_BAR = {
 }
 
 const _CFT_SECTOR_CONFIG_BAR = {
-  CELL : `<table class="tw-w-full border-collapse">
+  CELL : `<table class="tw-w-full tw-border-collapse">
     <tbody>
       <tr>
         <td><span>__NAME__:</span></td>

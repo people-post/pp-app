@@ -108,7 +108,7 @@ export class FQuiz extends MajorSectorItem {
 
   #createInfoPanel(): PQuizInfo {
     let p = new PQuizInfo();
-    p.setClassName("clickable");
+    p.setClassName("tw-cursor-pointer");
     p.setAttribute("onclick",
                    "javascript:G.action(window.CF_QUIZ_INFO.VIEW_QUIZ)");
     return p;

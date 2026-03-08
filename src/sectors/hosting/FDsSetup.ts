@@ -16,7 +16,7 @@ const _CFMT_DS_SETUP = {
     <br>
     <a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action(CFM_DS_SETUP.CANCEL)">Cancel</a>
     `,
-  DS_RECORD : `<table class="automargin">
+  DS_RECORD : `<table class="tw-m-auto">
       <tbody>
         <tr>
           <td class="tw-text-right">Key tag:</td>

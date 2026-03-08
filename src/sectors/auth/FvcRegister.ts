@@ -17,7 +17,7 @@ export const CF_REGISTER_CONTENT = {
 }
 
 const _CFT_REGISTER_CONTENT = {
-  MAIN : `<table class="automargin">
+  MAIN : `<table class="tw-m-auto">
     <tbody> 
       <tr>
         <td><label class="tw-text-s-font5" for="ID_EMAIL">__R_EMAIL__:</label></td>

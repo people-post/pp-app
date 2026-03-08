@@ -1,6 +1,6 @@
 const _CPT_TAG_EDITOR_INFO = {
   MAIN :
-      `<div class="tw-flex tw-justify-between tw-p-[5px] tw-border-lightgray tw-border tw-border-[1px] tw-border-solid clickable">
+      `<div class="tw-flex tw-justify-between tw-p-[5px] tw-border-lightgray tw-border tw-border-[1px] tw-border-solid tw-cursor-pointer">
     <div id="__ID_NAME__"></div>
     <div id="__ID_QUICK_BTN__"></div>
   </div>`,

@@ -164,7 +164,7 @@ export class FPostInfo extends MajorSectorItem {
     }
 
     if (this.#fPost && (this.#fPost as any).isInfoClickable && panel.isClickable()) {
-      panel.setClassName("clickable");
+      panel.setClassName("tw-cursor-pointer");
       panel.setAttribute("onclick",
                          `javascript:G.action("${CF_POST_INFO.ON_CLICK}")`);
     }
