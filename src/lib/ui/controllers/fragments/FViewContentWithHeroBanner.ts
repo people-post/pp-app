@@ -4,8 +4,8 @@ import { FViewContentWrapper } from './FViewContentWrapper.js';
 import { Fragment } from './Fragment.js';
 
 const _CPT_VIEW_CONTENT_WITH_HERO_BANNER = {
-  MAIN : `<div id="__ID_HEADER__" class="flex-noshrink"></div>
-  <div id="__ID_CONTENT__" class="flex-grow y-no-overflow"></div>`,
+  MAIN : `<div id="__ID_HEADER__" class="tw-flex-shrink-0"></div>
+  <div id="__ID_CONTENT__" class="tw-flex-grow tw-min-w-0"></div>`,
 } as const;
 
 class PViewContentWithHeroBanner extends Panel {
@@ -53,7 +53,7 @@ export class FViewContentWithHeroBanner extends FViewContentWrapper {
 
   _renderOnRender(render: any): void {
     let panel = new PViewContentWithHeroBanner();
-    panel.setClassName("h100 flex flex-column");
+    panel.setClassName("tw-h-full tw-flex tw-flex-col");
     render.wrapPanel(panel);
     if (this.#shouldAutoHide) {
       let e = panel.getDomElement();

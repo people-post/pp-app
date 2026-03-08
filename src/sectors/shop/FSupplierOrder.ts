@@ -240,7 +240,7 @@ export class FSupplierOrder extends Fragment {
     panel.wrapPanel(pItems);
     for (let item of order.getItems()) {
       let p = new Panel();
-      p.setClassName("supplier-order-info-item flex space-between");
+      p.setClassName("supplier-order-info-item tw-flex tw-justify-between");
       pItems.pushPanel(p);
       p.replaceContent(this.#renderOrderItem(item));
     }

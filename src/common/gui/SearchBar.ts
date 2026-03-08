@@ -13,9 +13,9 @@ export const CF_SEARCH_BAR = {
 };
 
 const _CFT_SEARCH_BAR = {
-  SEARCH_ICON : `<span class="inline-block s-icon6">__ICON__</span>`,
+  SEARCH_ICON : `<span class="tw-inline-block s-icon6">__ICON__</span>`,
   CLEAR_ICON :
-      `<span class="inline-block s-icon6 clickable" onclick="javascript:G.action('${CF_SEARCH_BAR.ON_CLEAR}')">__ICON__</span>`,
+      `<span class="tw-inline-block s-icon6 clickable" onclick="javascript:G.action('${CF_SEARCH_BAR.ON_CLEAR}')">__ICON__</span>`,
   INPUT :
       `<input id="__ID__" class="search-bar bgtransparent __THEME_CLASS_NAMES__" type="text" onchange="javascript:G.action('${CF_SEARCH_BAR.ON_CHANGE}', this.value)" onkeydown="javascript:G.action('${CF_SEARCH_BAR.ON_KEYDOWN}', this.value)" value="__VALUE__"/>`,
 };
@@ -49,22 +49,22 @@ export class SearchBar extends Fragment {
   _renderOnRender(render: PanelWrapper): void {
     let p = new PanelWrapper();
     if (this.#isFatMode) {
-      p.setClassName("h-pad5px fat");
+      p.setClassName("tw-px-[5px] fat");
     } else {
-      p.setClassName("h-pad5px");
+      p.setClassName("tw-px-[5px]");
     }
     render.wrapPanel(p);
 
     let pp = new ListPanel();
     if (this.isMenuRenderMode()) {
-      pp.setClassName("search-bar flex s-cprimedecorbd");
+      pp.setClassName("search-bar tw-flex s-cprimedecorbd");
     } else {
-      pp.setClassName("search-bar flex s-csecondarydecorbd");
+      pp.setClassName("search-bar tw-flex s-csecondarydecorbd");
     }
     p.wrapPanel(pp);
 
     let ppp = new Panel();
-    ppp.setClassName("left-pad5px flex center-align-items");
+    ppp.setClassName("left-tw-p-[5px] tw-flex tw-text-center-items");
     pp.pushPanel(ppp);
     let s = _CFT_SEARCH_BAR.SEARCH_ICON;
     if (this.isMenuRenderMode()) {
@@ -75,7 +75,7 @@ export class SearchBar extends Fragment {
     ppp.replaceContent(s);
 
     ppp = new Panel();
-    ppp.setClassName("flex-grow");
+    ppp.setClassName("tw-flex-grow");
     pp.pushPanel(ppp);
     s = _CFT_SEARCH_BAR.INPUT;
     if (this.isMenuRenderMode()) {
@@ -88,7 +88,7 @@ export class SearchBar extends Fragment {
     ppp.replaceContent(s);
 
     ppp = new Panel();
-    ppp.setClassName("right-pad5px flex center-align-items");
+    ppp.setClassName("right-tw-p-[5px] tw-flex tw-text-center-items");
     pp.pushPanel(ppp);
     s = _CFT_SEARCH_BAR.CLEAR_ICON;
     if (this.isMenuRenderMode()) {

@@ -43,7 +43,7 @@ export class FSimpleFragmentList extends FFragmentList {
   #initPanel(panel: ListPanel): void {
     switch (this.#mode) {
     case "H":
-      panel.setClassName("flex flex-start center-align-items x-scroll tw-whitespace-nowrap");
+      panel.setClassName("tw-flex tw-justify-start tw-items-center tw-overflow-x-scroll tw-whitespace-nowrap");
       break;
     default:
       break;
@@ -69,7 +69,7 @@ export class FSimpleFragmentList extends FFragmentList {
 
   #initHorizontalItemPanel(_panel: PanelWrapper): void {}
   #initGridItemPanel(panel: PanelWrapper, config: GridConfig): void {
-    panel.setClassName("inline-block");
+    panel.setClassName("tw-inline-block");
     if (config.nCols > 0) {
       // Grid layout
       let w = Math.floor(1000 / config.nCols) / 10.0;

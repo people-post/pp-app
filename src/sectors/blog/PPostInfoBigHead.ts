@@ -3,7 +3,7 @@ const _CPT_POST_INFO_BIG_HEAD = {
   <div class="post-info-big-head-wrapper">
     <div class="post-info big-head">
       <div class="aspect-5-1-frame">
-        <div class="aspect-content hide-overflow">
+        <div class="aspect-content tw-overflow-hidden">
           <div id="__ID_REF__" class="crosslink-note"></div>
           <div id="__ID_TITLE__" class="u-font1 tw-font-bold tw-truncate"></div>
           <div id="__ID_DATE_TIME__" class="small-info-text"></div>

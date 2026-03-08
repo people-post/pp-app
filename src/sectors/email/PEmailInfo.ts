@@ -3,12 +3,12 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 const _CPT_EMAIL_INFO = {
   MAIN : `<div class="aspect-5-1-frame">
-    <div class="aspect-content border-box top-pad5px right-pad5px">
-      <div class="flex flex-start h100">
-        <div id="__ID_ICON__" class="w5 flex-noshrink">
+    <div class="aspect-content tw-box-border tw-pt-[5px] tw-pr-[5px]">
+      <div class="tw-flex tw-justify-start tw-h-full">
+        <div id="__ID_ICON__" class="tw-w-[5%] tw-flex-shrink-0">
         </div>
-        <div id="__ID_MAIN__" class="email-info bdlightgray">
-          <div class="flex space-between">
+        <div id="__ID_MAIN__" class="email-info tw-border-lightgray">
+          <div class="tw-flex tw-justify-between">
             <div id="__ID_SENDER__" class="u-font5 tw-font-bold"></div>
             <div id="__ID_TIME__" class="small-info-text"></div>
           </div>

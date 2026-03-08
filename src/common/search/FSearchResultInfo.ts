@@ -3,7 +3,7 @@ export const CF_SEARCH_RESULT_INFO = {
 } as const;
 
 const _CPT_SEARCH_RESULT_INFO = {
-  TITLE_ONLY_MAIN : `<div class="search-result-info pad5px clickable">
+  TITLE_ONLY_MAIN : `<div class="search-result-info tw-p-[5px] clickable">
   <div id="__ID_TITLE__"></div>
   </div>`,
   BRIEF_MAIN : `<div class="info-panel brief clickable">
@@ -12,14 +12,14 @@ const _CPT_SEARCH_RESULT_INFO = {
   </div>
   <div id="__ID_TIME__" class="small-info-text"></div>
   </div>`,
-  NORMAL_MAIN : `<div class="search-result-info pad10px clickable">
+  NORMAL_MAIN : `<div class="search-result-info tw-p-[10px] clickable">
   <div>
     <span class="u-font3 s-cfunc">
-      <span id="__ID_ICON__" class="inline-block s-icon6"></span>
+      <span id="__ID_ICON__" class="tw-inline-block s-icon6"></span>
       <span id="__ID_TITLE__"></span>
     </span>
   </div>
-  <div id="__ID_CONTENT__" class="u-font4 cdimgray hmax80px hide-overflow"></div>
+  <div id="__ID_CONTENT__" class="u-font4 cdimgray hmax80px tw-overflow-hidden"></div>
   <div id="__ID_TIME__" class="small-info-text"></div>
   </div>`,
   KEYWORD : `<span class="search-result-match">__KEYWORD__</span>`,

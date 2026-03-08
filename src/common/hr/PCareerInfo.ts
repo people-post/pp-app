@@ -2,8 +2,8 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 const _CPT_CAREER_INFO = {
   MAIN :
-      `<div id="__ID_MAIN__" class="pad5px bd-b-solid bdlightgray bd1px clickable">
-  <div class="flex space-between">
+      `<div id="__ID_MAIN__" class="tw-p-[5px] tw-border-solid tw-border-lightgray tw-border tw-border-[1px] clickable">
+  <div class="tw-flex tw-justify-between">
     <div id="__ID_NAME__"></div>
     <div id="__ID_STATUS__"></div>
   </div>

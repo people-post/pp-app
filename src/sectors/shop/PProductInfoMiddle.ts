@@ -12,13 +12,13 @@
 const _CPT_PRODUCT_INFO_MIDDLE = {
   MAIN : `<div class="product-info-wrapper midsize">
   <div class="aspect-4-1-frame">
-    <div class="aspect-content border-box flex space-around product-info midsize">
-      <div id="__ID_THUMBNAIL__" class="product-info-left flex-noshrink"></div>
-      <div class="product-info-detail flex-grow h100 hide-overflow clickable">
+    <div class="aspect-content tw-box-border tw-flex tw-justify-around product-info midsize">
+      <div id="__ID_THUMBNAIL__" class="product-info-left tw-flex-shrink-0"></div>
+      <div class="product-info-detail tw-flex-grow tw-h-full tw-overflow-hidden clickable">
         <div id="__ID_NAME__" class="tw-font-bold"></div>
         <div id="__ID_DESCRIPTION__" class="u-font7"></div>
       </div>
-      <div class="product-info-misc flex-noshrink">
+      <div class="product-info-misc tw-flex-shrink-0">
         <div id="__ID_PRICE__"></div>
         <div id="__ID_ACTION__"></div>
       </div>

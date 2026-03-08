@@ -1,8 +1,8 @@
 
 const _CPT_PRODUCT_INFO_LARGE_QUOTE = {
-  MAIN : `<div class="quote-element pad5px">
+  MAIN : `<div class="quote-element tw-p-[5px]">
   <div id="__ID_SELLER_NAME__"></div>
-  <div class="quote-element-content pad5px">
+  <div class="quote-element-content tw-p-[5px]">
     <div id="__ID_NAME__" class="u-font5"></div>
     <div id="__ID_DESCRIPTION__" class="u-font5"></div>
   </div>

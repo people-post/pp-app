@@ -9,13 +9,13 @@ export const CF_MENU_ITEM_NAME = {
 }
 
 const _CFT_MENU_ITEM_NAME = {
-  MAIN : `<table class="w100">
+  MAIN : `<table class="tw-w-full">
     <tbody>
       <tr>
         <td>
         __NAME__
         </td>
-        <td class="right-align">
+        <td class="tw-text-right">
           <span class="button-like small danger" onclick="javascript:G.action('${CF_MENU_ITEM_NAME.DELETE}')">Delete...</span>
         </td>
       </tr>

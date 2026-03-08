@@ -4,7 +4,7 @@ import { Utilities } from '../Utilities.js';
 import { ICON } from '../constants/Icons.js';
 
 const _CPT_USER_REFERENCE = {
-  MAIN : `<span class="inline-block s-icon5 v-middle-align">__REF_ICON__</span>
+  MAIN : `<span class="tw-inline-block s-icon5 v-middle-align">__REF_ICON__</span>
     <span id="__ID_TEXT__"></span>
     <span id="__ID_USER__"></span>`,
 }

@@ -88,7 +88,7 @@ export class FvcRegister extends FScrollViewContent {
     p.pushSpace(1);
 
     let pp = new Panel();
-    pp.setClassName("center-align");
+    pp.setClassName("tw-text-center");
     p.pushPanel(pp);
     pp.replaceContent(R.t("Join us"));
     p.pushSpace(1);
@@ -100,7 +100,7 @@ export class FvcRegister extends FScrollViewContent {
     p.pushSpace(1);
 
     pp = new Panel();
-    pp.setClassName("s-font7 center-align");
+    pp.setClassName("s-font7 tw-text-center");
     p.pushPanel(pp);
     pp.replaceContent(this.#renderTerms());
 

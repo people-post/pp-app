@@ -7,12 +7,12 @@ window.CFM_NS_SETUP = {
 const _CVT_NS_SETUP = {
   MAIN_PANEL : `<div>
       <p class="title">__DOMAIN__:</p>
-      <div class="center-align">
+      <div class="tw-text-center">
         <input id="ID_DOMAIN_NAME" type="text" placeholder="Domain name"></input>
       </div>
 
       <p class="title">__NS__(<a class="knowledge-tip" href="javascript:void(0)" onclick="javascript:G.action(CFM_NS_SETUP.NS_HOW_TO)">__HOW_TO__</a>):</p>
-      <div class="center-align">
+      <div class="tw-text-center">
         <p>ns1.gcabin.com</p>
         <p>ns2.gcabin.com</p>
         <p>ns3.gcabin.com</p>

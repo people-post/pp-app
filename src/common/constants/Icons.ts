@@ -2,17 +2,17 @@ export const ICON = {
   M_CHAIN: `&#x1f517;`,
   M_CHECK: `&#9989;`,
   M_BOX: `&#9744;`,
-  M_MENU: `<div class="simple-line-icon menu relative">
+  M_MENU: `<div class="simple-line-icon menu tw-relative">
     <span class="top s-cmenubg"></span>
     <span class="middle s-cmenubg"></span>
     <span class="bottom s-cmenubg"></span>
   </div>`,
-  M_TIME_FILTER: `<div class="time-menu-icon relative">
+  M_TIME_FILTER: `<div class="time-menu-icon tw-relative">
     <span class="time-menu-icon-circle s-cmenubd"></span>
     <span class="time-menu-icon-hour s-cmenubg"></span>
     <span class="time-menu-icon-minute s-cmenubg"></span>
   </div>`,
-  M_SEARCH: `<div class="search-icon relative">
+  M_SEARCH: `<div class="search-icon tw-relative">
       <span class="circle s-cmenubd"></span>
       <span class="top-bar s-cmenubg"></span>
       <span class="bottom-bar s-cmenubg"></span>

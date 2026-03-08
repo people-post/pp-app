@@ -2,10 +2,10 @@ import { POgp } from './POgp.js';
 
 const _CPT_OGP_SMALL = {
   MAIN : `<div class="aspect-3-1-frame">
-  <div class="aspect-content h100 hide-overflow quote-element small flex flex-begin">
+  <div class="aspect-content tw-h-full tw-overflow-hidden quote-element small tw-flex tw-justify-start">
     <div id="__ID_IMAGE__"></div>
-    <div class="flex-grow pad5px">
-      <div class="flex space-between">
+    <div class="tw-flex-grow tw-p-[5px]">
+      <div class="tw-flex tw-justify-between">
         <div id="__ID_AUTHOR__"></div>
         <div id="__ID_TIME__" class="small-info-text"></div>
       </div>

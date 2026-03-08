@@ -3,13 +3,13 @@ import { PanelWrapper } from './PanelWrapper.js';
 import { Panel } from './Panel.js';
 
 const _CPT_HEADER_THIN = {
-  MAIN : `<div class="flex h-header">
-    <div id="__ID_NAV__" class="flex flex-column flex-center"></div>
-    <div id="__ID_MENU_0__" class="flex flex-column flex-center"></div>
-    <div id="__ID_MENU_1__" class="flex flex-column flex-center"></div>
-    <div id="__ID_MENU_2__" class="flex flex-column flex-center"></div>
-    <div id="__ID_SPACE__" class="flex-grow"></div>
-    <div id="__ID_ACTION__" class="flex flex-column flex-center"></div>
+  MAIN : `<div class="tw-flex h-header">
+    <div id="__ID_NAV__" class="tw-flex tw-flex-col tw-justify-center"></div>
+    <div id="__ID_MENU_0__" class="tw-flex tw-flex-col tw-justify-center"></div>
+    <div id="__ID_MENU_1__" class="tw-flex tw-flex-col tw-justify-center"></div>
+    <div id="__ID_MENU_2__" class="tw-flex tw-flex-col tw-justify-center"></div>
+    <div id="__ID_SPACE__" class="tw-flex-grow"></div>
+    <div id="__ID_ACTION__" class="tw-flex tw-flex-col tw-justify-center"></div>
   </div>
   <div id="__ID_MENU_CONTENT__" class="header-menu-content"></div>`,
 } as const;
@@ -40,7 +40,7 @@ export class PHeaderThin extends PHeader {
   expandPanelIfPossible(i: number): void {
     let p = this._pMenus[i];
     if (p) {
-      p.setClassName("flex flex-column flex-center flex-grow");
+      p.setClassName("tw-flex tw-flex-col tw-justify-center tw-tw-flex-grow");
       this._pSpace.setClassName("");
     }
   }

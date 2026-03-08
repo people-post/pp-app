@@ -9,7 +9,7 @@ export const CF_THEME_EDITOR = {
 
 const _CFT_THEME_EDITOR = {
   ICON_PREVIEW : `<span class="menu-item-config-name">Icon preview:</span>
-    <span class="menu-item-config-icon-preview inline-block s-icon1" style="background-color:__ICON_BG_COLOR__;">
+    <span class="menu-item-config-icon-preview tw-inline-block s-icon1" style="background-color:__ICON_BG_COLOR__;">
        <img class="photo" src="__SRC__" alt="Icon">
     </span>`,
   COLOR : `<span class="menu-item-config-name">__NAME__:</span>

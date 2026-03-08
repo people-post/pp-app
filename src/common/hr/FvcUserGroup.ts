@@ -20,11 +20,11 @@ import { ViewContentFragmentOwner } from '../../lib/ui/controllers/fragments/FVi
 const _CF_USER_GROUP_CONTENT = {
   HEAD : `<div>
     <br>
-    <div class="center-align group-info-name">
+    <div class="tw-text-center group-info-name">
       <span>__NAME__</span>
     </div>
     <br>
-    <div class="center-align">
+    <div class="tw-text-center">
       <span>Members: __N_MEMBERS__</span>
     </div>
   </div>`,

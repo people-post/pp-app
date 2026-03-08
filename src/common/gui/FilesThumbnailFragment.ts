@@ -29,13 +29,13 @@ const _CFT_FILES_THUMBNAIL = {
     `,
   LIVE_ICON_MASK : `
     <div class="live-thumbnail-mask top0px"></div>
-    <div class="live-thumbnail-mask bottom0px"></div>
-    <svg class="w100 h100" viewBox="0 0 32 32">
+    <div class="live-thumbnail-mask tw-bottom-0"></div>
+    <svg class="tw-w-full tw-h-full" viewBox="0 0 32 32">
       <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" class="live-text">LIVE</text>
     </svg>`,
   VIDEO_ICON_MASK : `
     <div class="video-thumbnail-mask top0px"></div>
-    <div class="video-thumbnail-mask bottom0px"></div>`,
+    <div class="video-thumbnail-mask tw-bottom-0"></div>`,
 };
 
 export class FilesThumbnailFragment extends Fragment {

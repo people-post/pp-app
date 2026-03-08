@@ -1,11 +1,11 @@
 const _CPT_POST_INFO_LARGE_QUOTE = {
-  MAIN : `<div class="quote-element pad5px">
+  MAIN : `<div class="quote-element tw-p-[5px]">
   <div id="__ID_REF__" class="crosslink-note"></div>
-  <div class="flex space-between">
+  <div class="tw-flex tw-justify-between">
     <div id="__ID_AUTHOR__"></div>
     <div id="__ID_TIME__" class="small-info-text"></div>
   </div>
-  <div class="quote-element-content pad5px">
+  <div class="quote-element-content tw-p-[5px]">
     <div id="__ID_TITLE__" class="u-font5"></div>
     <div id="__ID_CONTENT__" class="u-font5"></div>
   </div>

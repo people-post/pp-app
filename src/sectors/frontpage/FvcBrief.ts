@@ -9,17 +9,17 @@ if (typeof window !== 'undefined') {
 
 const _CPT_BRIEF = {
   TITLE :
-      `<span class="inline-block s-icon5 v-bottom-align">__ICON__</span><span class="v-bottom-align">__TEXT__</span>`,
+      `<span class="tw-inline-block s-icon5 v-bottom-align">__ICON__</span><span class="v-bottom-align">__TEXT__</span>`,
   COPYRIGHTS :
       `<span>Copyright 2025 NFSC Brief. All rights reserved. The NFSC Brief is not responsible for the content of external sites.</span><span class="tw-font-bold"> Read about our approach to external linking.</span>`,
-  NARROW_MAIN : `<div class="pad10px h100 y-scroll no-scrollbar">
+  NARROW_MAIN : `<div class="pad10px tw-h-full tw-overflow-y-auto no-scrollbar">
     <div id="__ID_BANNER__">Banner</div>
     <div id="__ID_PINNED_TITLE__"></div>
-    <div id="__ID_PINNED_H__" class="flex flex-start x-scroll no-scrollbar x-scroll-snap"></div>
-    <div id="__ID_CALENDAR_BTN__" class="clickable s-font3 v-pad5px"></div>
-    <div id="__ID_POSTS__" class="h100 font-song"></div>
+    <div id="__ID_PINNED_H__" class="tw-flex tw-justify-start tw-overflow-x-scroll no-scrollbar tw-snap-x tw-snap-mandatory"></div>
+    <div id="__ID_CALENDAR_BTN__" class="clickable s-font3 tw-py-[5px]"></div>
+    <div id="__ID_POSTS__" class="tw-h-full font-song"></div>
     <hr>
-    <div class="center-align">
+    <div class="tw-text-center">
       <span class="s-font1 tw-font-bold">NFSC Brief</span>
       <span class="s-font3">24hr</span>
     </div>
@@ -28,25 +28,25 @@ const _CPT_BRIEF = {
     <div id="__ID_COPYRIGHTS__" class="s-font5"></div>
     <br>
   </div>`,
-  WIDE_MAIN : `<div class="h100 y-scroll no-scrollbar">
+  WIDE_MAIN : `<div class="tw-h-full tw-overflow-y-auto no-scrollbar">
     <div id="__ID_BANNER__"></div>
-    <div class="h100 flex flex-center hide-overflow">
-      <div id="__ID_POSTS__" class="h100 pad5px flex-grow font-song"></div>
-      <div class="w240px pad5px bd-l-1px bd-l-solid bdlightgray flex-noshrink flex flex-column flex-start">
-        <div class="flex-noshrink">
+    <div class="tw-h-full tw-flex tw-justify-center tw-overflow-hidden">
+      <div id="__ID_POSTS__" class="tw-h-full tw-p-[5px] tw-flex-grow font-song"></div>
+      <div class="w240px tw-p-[5px] tw-border-l tw-border-l-[1px] tw-border-solid tw-border-lightgray tw-flex-shrink-0 tw-flex tw-flex-col tw-justify-start">
+        <div class="tw-flex-shrink-0">
           <div id="__ID_CALENDAR_TITLE__" class="s-font3"></div>
           <div id="__ID_CALENDAR__"></div>
           <div id="__ID_PINNED_TITLE__"></div>
         </div>
-        <div id="__ID_PINNED_V__" class="flex-grow hide-overflow"></div>
+        <div id="__ID_PINNED_V__" class="tw-flex-grow tw-overflow-hidden"></div>
       </div>
     </div>
     <hr>
-    <div class="center-align">
+    <div class="tw-text-center">
       <span class="s-font1 tw-font-bold">NFSC Brief</span>
       <span class="s-font3">24hr</span>
     </div>
-    <div class="s-font3 tw-font-bold flex space-between">
+    <div class="s-font3 tw-font-bold tw-flex tw-justify-between">
       <div>Home</div>
       <div>Focus</div>
       <div>NFSC</div>
@@ -59,7 +59,7 @@ const _CPT_BRIEF = {
     <br>
     <div id="__ID_SOCIAL__" class="s-font4 tw-font-bold"></div>
     <br>
-    <div class="s-font5 flex flex-start">
+    <div class="s-font5 tw-flex tw-justify-start">
       <div>Term of Use</div>
       <div>About us</div>
       <div>Privacy Policy</div>
@@ -424,7 +424,7 @@ export class FvcBrief extends FViewContentBase {
 
   _renderOnRender(render: Render): void {
     let panel = this.#createPanel();
-    panel.setClassName("h100");
+    panel.setClassName("tw-h-full");
     render.wrapPanel(panel);
 
     let e = panel.getDomElement();
@@ -460,7 +460,7 @@ export class FvcBrief extends FViewContentBase {
       for (let id of ids) {
         let pp = new PanelWrapper();
         pp.setClassName(
-            "w90 s-csecondarydecorbg flex-noshrink scroll-snap-start h200px y-scroll no-scrollbar");
+            "tw-w-[90%] s-csecondarydecorbg tw-flex-shrink-0 tw-snap-start h200px tw-overflow-y-auto no-scrollbar");
         p.pushPanel(pp);
         let f = new FPostInfo();
         f.setPostId(id);

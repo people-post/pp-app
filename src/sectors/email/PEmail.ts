@@ -4,7 +4,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 const _CPT_EMAIL = {
   MAIN : `<div class="pad5">
     <div class="email-header">
-      <div class="flex space-between">
+      <div class="tw-flex tw-justify-between">
         <div id="__ID_SENDER__" class="u-font4"></div>
         <div id="__ID_TIME__" class="u-font4"></div>
       </div>

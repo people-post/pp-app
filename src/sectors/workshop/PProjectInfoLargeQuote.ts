@@ -1,11 +1,11 @@
 
 const _CPT_PROJECT_INFO_LARGE_QUOTE = {
-  MAIN : `<div class="quote-element pad5px">
-  <div class="flex space-between">
+  MAIN : `<div class="quote-element tw-p-[5px]">
+  <div class="tw-flex tw-justify-between">
     <div id="__ID_USER__"></div>
     <div id="__ID_TIME__" class="small-info-text"></div>
   </div>
-  <div class="quote-element-content pad5px">
+  <div class="quote-element-content tw-p-[5px]">
     <div id="__ID_TITLE__" class="u-font5"></div>
     <div id="__ID_PROGRESS__" class="h-progress-wrapper"></div>
     <div id="__ID_CONTENT__" class="u-font5"></div>

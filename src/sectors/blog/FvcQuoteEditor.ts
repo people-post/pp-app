@@ -48,7 +48,7 @@ export class FvcQuoteEditor extends FScrollViewContent {
     render.wrapPanel(p);
     let pp = new PanelWrapper();
     p.pushPanel(pp);
-    this._fDetail.setClassName("w100");
+    this._fDetail.setClassName("tw-w-full");
     this._fDetail.attachRender(pp);
     this._fDetail.render();
 

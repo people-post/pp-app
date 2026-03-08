@@ -22,9 +22,9 @@ if (typeof window !== 'undefined') {
 }
 
 const _CPT_MONTH_SELECTOR = {
-  MAIN : `<div class="pad5px flex flex-start">
-    <div id="__ID_YEAR__" class="w50 hmax100px y-scroll no-scrollbar"></div>
-    <div id="__ID_MONTH__" class="w50 hmax100px y-scroll no-scrollbar"></div>
+  MAIN : `<div class="tw-p-[5px] tw-flex tw-justify-start">
+    <div id="__ID_YEAR__" class="tw-w-1/2 hmax100px tw-overflow-y-auto no-scrollbar"></div>
+    <div id="__ID_MONTH__" class="tw-w-1/2 hmax100px tw-overflow-y-auto no-scrollbar"></div>
   </div>
   <div id="__ID_BTN_OK__"></div>`,
 } as const;
@@ -111,7 +111,7 @@ export class FMonthSelector extends Fragment {
     let p = panel.getYearPanel();
     let pp: Panel | null = null;
     let pCurrent: Panel | null = null;
-    let baseNames = [ "pad5px", "clickable" ];
+    let baseNames = [ "tw-p-[5px]", "clickable" ];
     let names: string[];
     for (let i = -20; i < 20; ++i) {
       let yy = y + i;

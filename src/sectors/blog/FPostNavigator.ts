@@ -12,7 +12,7 @@ import { Account } from '../../common/dba/Account.js';
 
 const _CPT_POST_NAVIGATOR = {
   MAIN : `<div id="__ID_POST__"></div>
-  <div class="pad5px flex space-between">
+  <div class="tw-p-[5px] tw-flex tw-justify-between">
     <div id="__ID_BTN_PREV__"></div>
     <div id="__ID_BTN_NEXT__"></div>
   </div>

@@ -1,14 +1,14 @@
 
 const _CPT_WALKIN_QUEUE_ITEM = {
-  MAIN : `<div class="pad5px">
+  MAIN : `<div class="tw-p-[5px]">
     <div id="__ID_STATUS__"></div>
     <br>
     <div id="__ID_NAME_DECOR__"></div>
-    <div id="__ID_NAME__" class="s-font001 tw-truncate center-align"></div>
+    <div id="__ID_NAME__" class="s-font001 tw-truncate tw-text-center"></div>
     <br>
     <div id="__ID_AGENT__"></div>
     <br>
-    <div class="flex space-around">
+    <div class="tw-flex tw-justify-around">
       <div id="__ID_ACTION1__"></div>
       <div id="__ID_ACTION2__"></div>
     </div>

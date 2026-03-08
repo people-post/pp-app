@@ -18,7 +18,7 @@ export const CF_LOGIN = {
 };
 
 const _CFT_LOGIN = {
-  FORM : `<div class="flex flex-column center-align-items">
+  FORM : `<div class="tw-flex tw-flex-col tw-text-center-items">
   <div>
     <div><label class="s-font5" for="username">__R_U_NAME__:</label></div>
     <div><input id="username" name="username" type="text" autocomplete="username" placeholder="__R_U_NAME_HINT__" onkeydown="javascript:G.action('${CF_LOGIN.ON_USERNAME_KEY_DOWN}')"></div>
@@ -31,7 +31,7 @@ const _CFT_LOGIN = {
     </div>
   </div>
   </div>`,
-  SKIP_TEXT : `<div class="center-align">or<div>`,
+  SKIP_TEXT : `<div class="tw-text-center">or<div>`,
 };
 
 export class FvcLogin extends FvcWeb2LoginBase {
@@ -104,7 +104,7 @@ export class FvcLogin extends FvcWeb2LoginBase {
 
     // Title
     let pp = new Panel();
-    pp.setClassName("center-align");
+    pp.setClassName("tw-text-center");
     p.pushPanel(pp);
 
     let targetInfo = Auth.getProxyTarget();

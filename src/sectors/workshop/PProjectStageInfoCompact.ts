@@ -1,5 +1,5 @@
 const _CPT_PROJECT_STAGE_INFO_COMPACT = {
-  MAIN : `<div class="flex space-between baseline-align-items">
+  MAIN : `<div class="tw-flex tw-justify-between tw-items-baseline">
       <div>
         <span class="small-info-text">Stage:</span>
         <span id="__ID_NAME__" class="small-info-text"></span>

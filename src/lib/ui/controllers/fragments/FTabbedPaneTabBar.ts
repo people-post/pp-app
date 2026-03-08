@@ -111,7 +111,7 @@ export class FTabbedPaneTabBar extends Fragment {
     }
     let panel = new ListPanel();
     panel.setClassName(
-        "bd-b-1px bd-b-solid bdlightgrey flex flex-start center-align-items x-scroll no-scrollbar tw-whitespace-nowrap");
+        "tw-border-b tw-border-b-[1px] tw-border-solid tw-border-lightgrey tw-flex tw-justify-start tw-items-center tw-overflow-x-scroll no-scrollbar tw-whitespace-nowrap");
     render.wrapPanel(panel);
 
     // Allow events

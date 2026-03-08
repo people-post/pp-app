@@ -4,7 +4,7 @@ export const CF_SHOP_CONFIG = {
 
 const _CFT_SHOP_CONFIG = {
   SHOP_NAME :
-      `<input type="text" class="tight-label-like border-box" placeholder="Your shop name" value="__VALUE__" onchange="javascript:G.action('${CF_SHOP_CONFIG.ON_NAME_CHANGE}', this.value)">`,
+      `<input type="text" class="tight-label-like tw-box-border" placeholder="Your shop name" value="__VALUE__" onchange="javascript:G.action('${CF_SHOP_CONFIG.ON_NAME_CHANGE}', this.value)">`,
 } as const;
 
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';

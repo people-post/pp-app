@@ -4,12 +4,12 @@ window.CF_EXCHANGE_ITEM_INFO = {
 }
 
 const _CVF_EXCHANGE_ITEM = {
-  MAIN : `<table class="w100">
+  MAIN : `<table class="tw-w-full">
     <tbody>
       <tr>
         <td class="exchange-item-info-brief">
           <div>
-            <span class="exchange-item-info-icon inline-block s-icon3 clickable">__ICON__</span>
+            <span class="exchange-item-info-icon tw-inline-block s-icon3 clickable">__ICON__</span>
           </div>
           <div class="s-font5">__NAME__</div>
         </td>

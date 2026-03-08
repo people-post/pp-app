@@ -4,11 +4,11 @@ export const CF_CHAT_MESSAGE = {
 } as const;
 
 const _CFT_CHAT_MESSAGE = {
-  SENDER_MAIN : `<div class="flex flex-start">
+  SENDER_MAIN : `<div class="tw-flex tw-justify-start">
     <div class="msg-sender-icon">__SENDER__</div>
     <div>__MSG__</div>
   </div>`,
-  OWNER_MAIN : `<div class="owner-message right-align">
+  OWNER_MAIN : `<div class="owner-message tw-text-right">
     <span class="chat-message-text">__TEXT__</span>
   </div>`,
   GROUP_MSG_BODY : `<div>

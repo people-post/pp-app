@@ -9,7 +9,7 @@ import type { Render } from '../../lib/ui/controllers/RenderController.js';
 const _CFT_ACCOUNT_ACTIVATION = {
   MAIN : `
     <br>
-    <div class="center-align">Activating your account...</div>`,
+    <div class="tw-text-center">Activating your account...</div>`,
 };
 
 export class FvcAccountActivation extends FScrollViewContent {

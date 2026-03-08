@@ -50,7 +50,7 @@ export class Selection extends Fragment {
     let p: any = render;
     if (this._hintText && this._hintText.length) {
       let panel = new ListPanel();
-      panel.setClassName("flex flex-start");
+      panel.setClassName("tw-flex tw-justify-start");
       render.wrapPanel(panel);
       p = new Panel();
       p.replaceContent(this._hintText);

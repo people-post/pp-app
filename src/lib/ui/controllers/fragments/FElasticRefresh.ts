@@ -4,8 +4,8 @@ import { ICONS } from '../../Icons.js';
 import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
 
 const _CPT_ELASTIC_REFRESH = {
-  MAIN : `<div class="flex space-around">
-    <span id="__ID_ICON__" class="inline-block s-icon6"></span>
+  MAIN : `<div class="tw-flex tw-justify-around">
+    <span id="__ID_ICON__" class="tw-inline-block s-icon6"></span>
   </div>`,
 } as const;
 
@@ -60,7 +60,7 @@ export class FElasticRefresh extends Fragment {
 
   _renderOnRender(render: any): void {
     let panel = new PElasticRefresh();
-    panel.setClassName("flex flex-column flex-end hide-overflow");
+    panel.setClassName("tw-flex tw-flex-col tw-justify-end tw-overflow-hidden");
     render.wrapPanel(panel);
 
     panel.setHeight(this.#height, "px");

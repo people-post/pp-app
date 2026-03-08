@@ -12,8 +12,8 @@ const _CPT_POST_INFO_SMALL = {
   <div id="__ID_REF__" class="crosslink-note hmin10px"></div>
   <div id="__ID_MAIN__" class="post-info small">
     <div class="aspect-5-1-frame">
-      <div class="aspect-content hide-overflow flex space-between">
-        <div class="w60 flex-grow">
+      <div class="aspect-content tw-overflow-hidden tw-flex tw-justify-between">
+        <div class="tw-w-[60%] tw-flex-grow">
           <div id="__ID_TITLE__" class="u-font3 tw-font-bold tw-truncate"></div>
           <div id="__ID_CONTENT__" class="u-font6 tw-truncate"></div>
           <div id="__ID_QUOTE__"></div>
@@ -57,7 +57,7 @@ export class PPostInfoSmall extends PPostInfoBase {
   getQuotePanel(): PanelWrapper { return this._pQuote; }
   getImagePanel(): PanelWrapper { return this._pImage; }
 
-  enableImage(): void { this._pImage.setClassName("w35 flex-noshrink"); }
+  enableImage(): void { this._pImage.setClassName("w35 tw-flex-shrink-0"); }
   enableQuote(): void { this._pQuote.setClassName("left-pad5 right-pad5"); }
 
   setVisibilityClassName(name: string): void {

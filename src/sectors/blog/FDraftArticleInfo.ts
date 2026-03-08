@@ -73,7 +73,7 @@ export class FDraftArticleInfo extends Fragment {
     let draft = Blog.getDraftArticle(this.#draftId);
     if (!draft) {
       let p = new Panel();
-      p.setClassName("center-align");
+      p.setClassName("tw-text-center");
       render.wrapPanel(p);
       p.replaceContent(ICONS.LOADING);
       return;
@@ -122,7 +122,7 @@ export class FDraftArticleInfo extends Fragment {
       return;
     }
     let pList = new ListPanel();
-    pList.setClassName("flex flex-start baseline-align-items");
+    pList.setClassName("tw-flex tw-justify-start tw-items-baseline");
     panel.wrapPanel(pList);
 
     this._fTags.clear();

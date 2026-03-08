@@ -17,7 +17,7 @@ export class FChatHeader extends Fragment {
 
   _renderOnRender(render: PanelType): void {
     let p = new ListPanel();
-    p.setClassName("flex space-between chat-view-header");
+    p.setClassName("tw-flex tw-justify-between chat-view-header");
     render.wrapPanel(p);
     let pp = new Panel();
     p.pushPanel(pp);

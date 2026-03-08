@@ -268,7 +268,7 @@ export class FOrder extends Fragment {
     for (let item of order.getItems()) {
       for (let subItem of item.getItems()) {
         let p = new Panel();
-        p.setClassName("flex space-between");
+        p.setClassName("tw-flex tw-justify-between");
         pItems.pushPanel(p);
         p.replaceContent(this.#renderOrderItem(subItem));
       }

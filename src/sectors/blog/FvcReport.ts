@@ -1,5 +1,5 @@
 const _CFT_BLOG_REPORT = {
-  TAG_STATISTICS : `<div class="flex space-between baseline-align-items">
+  TAG_STATISTICS : `<div class="tw-flex tw-justify-between tw-items-baseline">
     <div class="tw-truncate">__TAG_NAME__</div>
     <div class="small-info-text tw-whitespace-nowrap">__COUNT__</div>
   </div>`,

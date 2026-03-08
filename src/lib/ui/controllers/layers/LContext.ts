@@ -15,7 +15,7 @@ const _CLT_CONTEXT = {
   MAIN : `<div id="__ID_TITLE__" class="s-font3"></div>
   <div id="__ID_DESCRIPTION__" class="s-font4"></div>
   <br>
-  <div id="__ID_CONTENT__" class="hmax300px y-scroll no-scrollbar"></div>
+  <div id="__ID_CONTENT__" class="hmax300px tw-overflow-y-auto no-scrollbar"></div>
   <br>
   <div id="__ID_BTN_CANCEL__"></div>`,
 } as const;
@@ -140,17 +140,17 @@ export class LContext extends Layer {
     let shouldAnimate = !(render as any).getContentPanel();
 
     let panel = new PanelWrapper();
-    panel.setClassName("w100 h100 context-layer flex flex-column flex-end");
+    panel.setClassName("tw-w-full tw-h-full context-layer tw-flex tw-flex-col tw-justify-end");
     panel.setAttribute("onclick", "javascript:G.action(window.CL_CONTEXT.CLOSE)");
     render.wrapPanel(panel);
 
     let p = new PanelWrapper();
-    p.setClassName("w100 flex flex-center relative");
+    p.setClassName("tw-w-full tw-flex tw-justify-center tw-relative");
     panel.wrapPanel(p);
 
     let pContextLayer = new PContextLayer();
     pContextLayer.setClassName(
-        "w100 s-csecondarybg bdlightgray border-box context-content");
+        "tw-w-full s-csecondarybg tw-border-lightgray tw-box-border context-content");
     pContextLayer.setAttribute("onclick", "javascript:G.anchorClick()");
     p.wrapPanel(pContextLayer);
 

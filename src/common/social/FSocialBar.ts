@@ -28,7 +28,7 @@ export const CF_SOCIAL_BAR = {
 };
 
 const _CPT_SOCIAL_BAR = {
-  MAIN : `<div id="__ID_MAIN__" class="social-bar pad5px flex"></div>`,
+  MAIN : `<div id="__ID_MAIN__" class="social-bar tw-p-[5px] tw-flex"></div>`,
   ITEM : `<div id="__ID_ICON__" class="s-icon5"></div>
     <div id="__ID_LABEL__" class="s-font7"></div>`,
 };
@@ -216,17 +216,17 @@ export class FSocialBar extends Fragment {
     let p: PSocialBarItem;
     for (let t of this.#actions) {
       p = new PSocialBarItem();
-      p.setClassName("flex-grow flex flex-center center-align-items clickable");
+      p.setClassName("tw-flex-grow tw-flex tw-justify-center tw-text-center-items clickable");
       pItems.pushPanel(p);
       this.#renderAction(t, p, social);
     }
 
     if (pItems.size() > 0) {
       p = pItems.getPanel(0) as PSocialBarItem;
-      p.setClassName("flex-grow flex flex-start center-align-items clickable");
+      p.setClassName("tw-flex-grow tw-flex tw-justify-start tw-text-center-items clickable");
       if (pItems.size() > 1) {
         p = pItems.getPanel(pItems.size() - 1) as PSocialBarItem;
-        p.setClassName("flex-grow flex flex-end center-align-items clickable");
+        p.setClassName("tw-flex-grow tw-flex tw-justify-end tw-text-center-items clickable");
       }
     }
   }

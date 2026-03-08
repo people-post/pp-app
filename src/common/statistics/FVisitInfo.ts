@@ -44,7 +44,7 @@ export class FVisitInfo extends Fragment {
     }
 
     let p = new Panel();
-    let names = [ "pad5", "flex", "space-between", "visit-summary-info" ];
+    let names = [ "tw-p-[5%]", "tw-flex", "tw-justify-between", "visit-summary-info" ];
     if (this._data.getSubQueryKey()) {
       names.push("clickable");
       p.setAttribute("onclick", `javascript:G.action('${CF_VISIT_SUMMARY_INFO.ONCLICK}')`);

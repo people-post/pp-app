@@ -5,7 +5,7 @@ import type { Render } from '../../lib/ui/controllers/RenderController.js';
 export class FvcInsights extends FViewContentBase {
   _renderOnRender(render: Render): void {
     let panel = new Panel();
-    panel.setClassName("h100");
+    panel.setClassName("tw-h-full");
     render.wrapPanel(panel);
     panel.replaceContent("Insights");
   }

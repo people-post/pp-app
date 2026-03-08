@@ -15,9 +15,9 @@ declare global {
 
 const _CFT_CHAT_INPUT_MENU = {
   ACTION_ICON :
-      `<span class="inline-block s-icon3 clickable" onclick="javascript:G.action(__ACTION__)">__ICON__</span>`,
+      `<span class="tw-inline-block s-icon3 clickable" onclick="javascript:G.action(__ACTION__)">__ICON__</span>`,
   BTN_FILE :
-      `<span class="inline-block s-icon3 clickable" onclick="javascript:this.nextElementSibling.click()">__ICON__</span>
+      `<span class="tw-inline-block s-icon3 clickable" onclick="javascript:this.nextElementSibling.click()">__ICON__</span>
     <input type="file" style="display:none" onchange="javascript:G.action(CF_CHAT_INPUT_MENU.SEND_FILE, this)">`,
 } as const;
 
@@ -36,7 +36,7 @@ import type { Panel as PanelType } from '../../lib/ui/renders/panels/Panel.js';
 export class FChatInputMenu extends Fragment {
   _renderOnRender(render: PanelType): void {
     let p = new ListPanel();
-    p.setClassName("flex flex-start");
+    p.setClassName("tw-flex tw-justify-start");
     render.wrapPanel(p);
 
     let pp = new Panel();

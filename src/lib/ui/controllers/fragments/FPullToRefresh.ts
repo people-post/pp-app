@@ -7,7 +7,7 @@ import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
 
 const _CFT_PULL_TO_REFRESH = {
   ICON :
-      `<span class="inline-block s-icon6" style="transform:rotate(__DEG__deg);">__ICON__</span>`,
+      `<span class="tw-inline-block s-icon6" style="transform:rotate(__DEG__deg);">__ICON__</span>`,
 } as const;
 
 export class FPullToRefresh extends Fragment {
@@ -17,7 +17,7 @@ export class FPullToRefresh extends Fragment {
   constructor() {
     super();
     this.#pIcon = new PanelWrapper();
-    this.#pIcon.setClassName("flex space-around");
+    this.#pIcon.setClassName("tw-flex tw-justify-around");
   }
 
   getHeight(): number {
@@ -37,7 +37,7 @@ export class FPullToRefresh extends Fragment {
     p.pushSpace(10);
     p.pushPanel(this.#pIcon);
     let pWrapper = new Panel();
-    pWrapper.setClassName("relative");
+    pWrapper.setClassName("tw-relative");
 
     this.#pIcon.wrapPanel(pWrapper);
 

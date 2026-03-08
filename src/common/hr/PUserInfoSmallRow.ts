@@ -9,7 +9,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 const _CPT_USER_INFO_SMALL_ROW = {
   MAIN :
-      `<div class="flex flex-start center-align-items clickable left-pad5 user-info small">
+      `<div class="tw-flex tw-justify-start tw-text-center-items clickable left-pad5 user-info small">
     <div id="__ID_ICON__"></div>
     <div id="__ID_NAME__" class="s-font4"></div>
   </div>`,

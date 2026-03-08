@@ -4,7 +4,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 const _CFT_PAYMENT_EDITOR = {
   MAIN : `<table>
         <tr>
-          <td class="right-align">
+          <td class="tw-text-right">
             <label class="s-font5" for="card-number">Card number:</label>
           </td>
           <td>
@@ -12,7 +12,7 @@ const _CFT_PAYMENT_EDITOR = {
           </td>
         </tr>
         <tr>
-          <td class="right-align">
+          <td class="tw-text-right">
             <label class="s-font5" for="card-owner-name">Name:</label>
           </td>
           <td>
@@ -20,7 +20,7 @@ const _CFT_PAYMENT_EDITOR = {
           </td>
         </tr>
         <tr>
-          <td class="right-align">
+          <td class="tw-text-right">
             <label class="s-font5" for="card-expire-month">Expire:</label>
           </td>
           <td>

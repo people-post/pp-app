@@ -13,7 +13,7 @@ export const CF_RESET_PASSWORD = {
 const _CFT_RESET_PASSWORD = {
   MAIN : `
     <br>
-    <div class="center-align">Reset password</div>
+    <div class="tw-text-center">Reset password</div>
     <br>
     <table  class="automargin">
     <tbody> 

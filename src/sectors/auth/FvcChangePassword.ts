@@ -13,7 +13,7 @@ export const CF_CHANGE_PASSWORD = {
 const _CFT_CHANGE_PASSWORD = {
   MAIN : `
     <br>
-    <div class="center-align">Change password</div>
+    <div class="tw-text-center">Change password</div>
     <br>
     <table  class="automargin">
     <tbody> 

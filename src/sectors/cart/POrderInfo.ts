@@ -1,6 +1,6 @@
 const _CPT_CUSTOMER_ORDER_INFO = {
   MAIN : `<div class="customer-order-info">
-    <div class="flex space-between">
+    <div class="tw-flex tw-justify-between">
       <div id="__ID_SELLER_INFO__"></div>
       <div id="__ID_STATUS_INFO__"></div>
       <div id="__ID_TIME_INFO__" class="small-info-text"></div>

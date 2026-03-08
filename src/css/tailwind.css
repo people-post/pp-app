@@ -5,10 +5,9 @@
 
 /* Custom theme configuration can be added here using @theme */
 @theme {
-  /* Example theme customization:
-   * --color-primary: #4169E1;
-   * --font-family-sans: Arial, Helvetica, SimHei, STXihei, sans-serif;
-   */
+  /* Custom colors for migrated hst.css border utilities */
+  --color-lightgray: lightgray;
+  --color-lightgrey: lightgrey;
 }
 
 /* Import existing styles */

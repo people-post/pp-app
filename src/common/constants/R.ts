@@ -219,7 +219,7 @@ export const R: RInterface = (function() {
     [
       'INTRO_MEDIUM_SIZE',
       {
-        en: 'Medium size has relative balance between information amount and completeness',
+        en: 'Medium size has tw-relative balance between information amount and completeness',
       },
     ],
     [

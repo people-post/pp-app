@@ -90,7 +90,7 @@ export class FServiceDeliveryEditor extends FProductDeliveryEditor {
     let p = new ListPanel();
     panel.wrapPanel(p);
     let pp = new PanelWrapper();
-    pp.setClassName("pad5px");
+    pp.setClassName("tw-p-[5px]");
     p.pushPanel(pp);
     this._fLocations.attachRender(pp);
     this._fLocations.render();

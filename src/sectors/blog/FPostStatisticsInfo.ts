@@ -56,7 +56,7 @@ export class FPostStatisticsInfo extends Fragment {
 
   _renderOnRender(render: Panel): void {
     let p = new Panel();
-    p.setClassName("pad5px flex space-between baseline-align-items clickable");
+    p.setClassName("tw-p-[5px] tw-flex tw-justify-between tw-items-baseline clickable");
     p.setAttribute("onclick",
                    "javascript:G.action(CF_POST_STATISTICS_INFO.ONCLICK)");
 

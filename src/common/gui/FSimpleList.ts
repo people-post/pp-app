@@ -11,7 +11,7 @@ export const CF_SIMPLE_LIST = {
 const _CFT_SIMPLE_LIST = {
   ON_CLICK_ACTION :
       `javascript:G.action('${CF_SIMPLE_LIST.ITEM_CLICK}', '__ITEM_ID__')`,
-  ICON : `<span class="inline-block s-icon3 clickable">__ICON__</span>`,
+  ICON : `<span class="tw-inline-block s-icon3 clickable">__ICON__</span>`,
 }
 
 interface ListItem {
@@ -59,7 +59,7 @@ export class FSimpleList extends Fragment {
            item.id == this._dataSource.getSelectedItemIdForList(this));
 
       let pItem = new ListPanel();
-      let classNames: string[] = [ "simple-list-item flex center-align-items" ];
+      let classNames: string[] = [ "simple-list-item tw-flex tw-text-center-items" ];
       if (item.isSelectable) {
         classNames.push("clickable");
         if (selected) {
@@ -82,14 +82,14 @@ export class FSimpleList extends Fragment {
       }
 
       let p = new Panel();
-      p.setClassName("left-pad5px flex-grow");
+      p.setClassName("left-tw-p-[5px] tw-flex-grow");
       pItem.pushPanel(p);
       this._delegate.renderItemForSimpleListFragment(this, item, p);
 
       if (item.isSelectable) {
         // Last item
         let p = new Panel();
-        p.setClassName("s-font005 right-align cgray");
+        p.setClassName("s-font005 tw-text-right cgray");
         pItem.pushPanel(p);
         p.replaceContent("&rsaquo;");
       }

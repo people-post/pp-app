@@ -18,7 +18,7 @@ export class FvcProposalEditor extends FScrollViewContent {
     this._fTitle = new TextInput();
     this._fAbstract = new TextArea();
     this._fAbstract.setDelegate(this);
-    this._fAbstract.setClassName("w100 h120px");
+    this._fAbstract.setClassName("tw-w-full h120px");
 
     this._fTitle.setConfig(
         {title : "", hint : "Title", value : "", isRequired : true});

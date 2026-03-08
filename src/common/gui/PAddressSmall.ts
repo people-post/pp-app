@@ -5,7 +5,7 @@ const _CPT_ADDRESS_SMALL = {
   MAIN : `<div class="address-block clickable">
     <div id="__ID_LINE1__"></div>
     <div id="__ID_LINE2__"></div>
-    <div class="flex flex-start">
+    <div class="tw-flex tw-justify-start">
       <div id="__ID_CITY__"></div>
       <div>,&nbsp;</div>
       <div id="__ID_STATE__"></div>

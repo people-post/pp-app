@@ -1,8 +1,8 @@
 const _CPT_POST_INFO_COMMENT = {
-  MAIN : `<div class="flex bd-b-1px bd-b-solid bdlightgray v-pad5px">
-  <div id="__ID_OWNER_ICON__" class="w50px flex-noshrink"></div>
-  <div class="flex-grow">
-    <div class="flex space-between">
+  MAIN : `<div class="tw-flex tw-border-b tw-border-b-[1px] tw-border-solid tw-border-lightgray tw-py-[5px]">
+  <div id="__ID_OWNER_ICON__" class="w50px tw-flex-shrink-0"></div>
+  <div class="tw-flex-grow">
+    <div class="tw-flex tw-justify-between">
       <div id="__ID_OWNER_NAME__" class="comment-info-text"></div>
       <div id="__ID_CONTEXT__" class="comment-info-extra"></div>
     </div>

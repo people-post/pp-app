@@ -3,17 +3,17 @@ import { NavPanel } from './NavPanel.js';
 import { PanelWrapper } from './PanelWrapper.js';
 
 const _CPT_CONSOLE_OVERLAY = {
-  MAIN : `<div class="flex h-header flex-center bgtransparent">
-    <div class="flex-grow flex-basis50"></div>
-    <div id="__ID_HOME_BTN__" class="flex flex-column flex-center handleevent"></div>
-    <div class="flex-grow flex-basis50 flex">
-      <div id="__ID_NAV_ICON_0__" class="flex flex-column flex-center handleevent relative"></div>
-      <div id="__ID_NAV_ICON_1__" class="flex flex-column flex-center handleevent relative"></div>
+  MAIN : `<div class="tw-flex h-header tw-justify-center bgtransparent">
+    <div class="tw-flex-grow tw-basis-1/2"></div>
+    <div id="__ID_HOME_BTN__" class="tw-flex tw-flex-col tw-justify-center handleevent"></div>
+    <div class="tw-flex-grow tw-basis-1/2 tw-flex">
+      <div id="__ID_NAV_ICON_0__" class="tw-flex tw-flex-col tw-justify-center handleevent tw-relative"></div>
+      <div id="__ID_NAV_ICON_1__" class="tw-flex tw-flex-col tw-justify-center handleevent tw-relative"></div>
     </div>
   </div>
   <div class="f-footer">
-    <div class="w100 handleevent">
-      <div id="__ID_TAB__" class="w100 grid grid5col tab-row"></div>
+    <div class="tw-w-full handleevent">
+      <div id="__ID_TAB__" class="tw-w-full tw-grid tw-grid-cols-5 tab-row"></div>
     </div>
   </div>`,
 } as const;

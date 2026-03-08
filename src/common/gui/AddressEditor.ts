@@ -85,7 +85,7 @@ export class AddressEditor extends Fragment {
 
   _renderOnRender(render: unknown): void {
     const p = new ListPanel();
-    p.setClassName("center-align");
+    p.setClassName("tw-text-center");
 
     (render as { wrapPanel(p: unknown): void }).wrapPanel(p);
 

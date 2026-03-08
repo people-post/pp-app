@@ -108,7 +108,7 @@ export class FUserInfo extends Fragment implements FUserIconDelegate {
     switch (this._layoutType) {
     case FUserInfo.T_LAYOUT.COMPACT:
       p = new PUserInfoCompactCell();
-      p.setClassName("inline-block");
+      p.setClassName("tw-inline-block");
       break;
     case FUserInfo.T_LAYOUT.MID_SQUARE:
       p = new PUserInfoMidsizeCell();
@@ -131,7 +131,7 @@ export class FUserInfo extends Fragment implements FUserIconDelegate {
 
   #renderTypeIcon(user: UserType | null): string {
     if (user && user.isFeed?.() === true) {
-      let s = `<span class="inline-block s-icon7">__ICON__</span>`;
+      let s = `<span class="tw-inline-block s-icon7">__ICON__</span>`;
       return s.replace("__ICON__", ICON.FEED);
     }
     return "";

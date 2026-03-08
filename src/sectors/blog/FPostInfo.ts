@@ -40,7 +40,7 @@ export const CF_POST_INFO = {
 
 const _CFT_POST_INFO = {
   PIN :
-      `<span class="pin-icon inline-block s-icon5 v-middle-align">__ICON__</span>`,
+      `<span class="pin-icon tw-inline-block s-icon5 v-middle-align">__ICON__</span>`,
 } as const;
 
 export interface PostInfoDataSource {
@@ -148,7 +148,7 @@ export class FPostInfo extends MajorSectorItem {
     let realPost = this.#getRealPost(post);
     if (!realPost) {
       let p = new Panel();
-      p.setClassName("center-align");
+      p.setClassName("tw-text-center");
       render.wrapPanel(p);
       p.replaceContent(ICONS.LOADING);
       return;

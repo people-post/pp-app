@@ -67,7 +67,7 @@ export class FvcWeb3OwnerPosts extends FScrollViewContent {
 
   _renderOnRender(render: Render): void {
     let panel = new PanelWrapper();
-    panel.setClassName("h100");
+    panel.setClassName("tw-h-full");
     render.wrapPanel(panel);
 
     this.#fPosts.attachRender(panel);

@@ -58,7 +58,7 @@ export class FvcRetrievePassword extends FScrollViewContent {
     p.pushSpace(1);
 
     let pp = new Panel();
-    pp.setClassName("center-align");
+    pp.setClassName("tw-text-center");
     p.pushPanel(pp);
     pp.replaceContent(R.get("RESET_PASS"));
     p.pushSpace(1);

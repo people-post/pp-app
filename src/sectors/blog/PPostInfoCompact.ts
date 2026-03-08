@@ -1,9 +1,9 @@
 const _CPT_POST_INFO_COMPACT = {
   MAIN : `<div id="__ID_WRAPPER__" class="post-info-compact-wrapper">
   <div id="__ID_PIN__"></div>
-  <div id="__ID_MAIN__" class="post-info compact relative">
-    <div class="h60px hide-overflow flex space-between">
-      <div class="w60 flex-grow flex flex-column flex-center">
+  <div id="__ID_MAIN__" class="post-info compact tw-relative">
+    <div class="h60px tw-overflow-hidden tw-flex tw-justify-between">
+      <div class="tw-w-[60%] tw-flex-grow tw-flex tw-flex-col tw-justify-center">
         <div id="__ID_REF__" class="crosslink-note"></div>
         <div id="__ID_TITLE__" class="u-font1 tw-font-bold tw-truncate"></div>
         <div id="__ID_DATE_TIME__" class="small-info-text"></div>
@@ -47,13 +47,13 @@ export class PPostInfoCompact extends PPostInfoBase {
   getCreationDateTimePanel(): Panel { return this._pDateTime; }
   getImagePanel(): PanelWrapper | null { return this._pImage; }
 
-  enableImage(): void { this._pImage.setClassName("w100px flex-noshrink"); }
+  enableImage(): void { this._pImage.setClassName("tw-w-fullpx tw-flex-shrink-0"); }
   enableQuote(): void { this._pQuote.setClassName("hmax20px left-pad5 right-pad5"); }
 
   setVisibilityClassName(name: string): void {
     let e = document.getElementById(this._getSubElementId("M"));
     if (e) {
-      e.className = "post-info compact relative " + name;
+      e.className = "post-info compact tw-relative " + name;
     }
   }
   invertColor(): void {

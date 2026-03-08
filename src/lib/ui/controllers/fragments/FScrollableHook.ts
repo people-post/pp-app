@@ -5,11 +5,11 @@ import { ScrollEndEventShim } from '../../../ext/ScrollEndEventShim.js';
 import { FElasticRefresh } from './FElasticRefresh.js';
 
 const _CPT_SCROLLABLE_HOOK = {
-  MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="flex-noshrink"></div>
-  <div id="__ID_CONTENT__" class="flex-grow y-no-overflow y-scroll no-scrollbar">
+  MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="tw-flex-shrink-0"></div>
+  <div id="__ID_CONTENT__" class="tw-flex-grow tw-min-w-0 tw-overflow-y-auto no-scrollbar">
   </div>
-  <div class="flex-noshrink relative">
-    <span id="__ID_BSTT__" class="absolute left0px bottom72px left-side-button"></span>
+  <div class="tw-flex-shrink-0 tw-relative">
+    <span id="__ID_BSTT__" class="tw-absolute left0px bottom72px left-side-button"></span>
   </div>`,
   CONTENT : `<div id="__ID_CONTENT__" class="hmin100"></div>`,
 } as const;
@@ -106,7 +106,7 @@ export class FScrollableHook extends Fragment {
   }
   onContentTopResizeEndInFragment(_f: Fragment): void {
     let yObj = this.#getScrollY();
-    // Scroll to same height relative to end
+    // Scroll to same height tw-relative to end
     if (yObj && this.#scrollYBeforeTopResize) {
       let h = this.#scrollYBeforeTopResize.total -
               this.#scrollYBeforeTopResize.value;
@@ -129,7 +129,7 @@ export class FScrollableHook extends Fragment {
 
   _renderOnRender(render: any): void {
     let panel = new PScrollableHook();
-    panel.setClassName("h100 flex flex-column");
+    panel.setClassName("tw-h-full tw-flex tw-flex-col");
     render.wrapPanel(panel);
     this.#pMain = panel;
 

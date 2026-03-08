@@ -1,5 +1,5 @@
 const _CPT_REGISTER = {
-  MAIN : `<div class="flex flex-start">
+  MAIN : `<div class="tw-flex tw-justify-start">
     <div id="__ID_NAME_DECOR__"></div>
     <div id="__ID_NAME__"></div>
   </div>

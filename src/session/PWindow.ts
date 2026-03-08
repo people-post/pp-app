@@ -4,9 +4,9 @@ import { PanelWrapper } from '../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel as BasePanel } from '../lib/ui/renders/panels/Panel.js';
 
 const _CPT_WINDOW = {
-  MAIN : `<div class="w100 h100 flex flex-column">
+  MAIN : `<div class="tw-w-full tw-h-full tw-flex tw-flex-col">
     <div id="__ID_BANNER__" class="banner s-csecondarybg"></div>
-    <div id="__ID_LAYERS__" class="flex-grow relative"></div>
+    <div id="__ID_LAYERS__" class="tw-flex-grow tw-relative"></div>
   </div>`,
 };
 

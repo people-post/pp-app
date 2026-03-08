@@ -5,7 +5,7 @@ const _CFT_VOTE_PROGRESS = {
       <span class="vote-progress-target" style="left:__TARGET__%;"></span>
       <span class="vote-progress-yea __COLOR__" style="width:__PERCENT__%;"></span>
       <span class="vote-progress-nay" style="width:__NAY_PERCENT__%;"></span>
-      <span class="w100 s-font7 tw-font-bold center-align vote-progress-text">__VALUE__/__TOTAL__</span>
+      <span class="tw-w-full s-font7 tw-font-bold tw-text-center vote-progress-text">__VALUE__/__TOTAL__</span>
     </div>`,
 }
 

@@ -47,14 +47,14 @@ export class FvcPortalMain extends FScrollViewContent {
     let pMain = new ListPanel();
     render.wrapPanel(pMain);
     let p = new Panel();
-    p.setClassName("s-font001 center-align");
+    p.setClassName("s-font001 tw-text-center");
     pMain.pushPanel(p);
     p.replaceContent("Scan code to badge in:");
 
     pMain.pushSpace(2);
 
     p = new Panel();
-    p.setClassName("flex flex-center");
+    p.setClassName("tw-flex tw-justify-center");
     pMain.pushPanel(p);
     let qrCode = new QRCode(p.getDomElement(), "TEST");
   }

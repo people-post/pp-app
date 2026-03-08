@@ -10,10 +10,10 @@ import type { JournalIssueSection } from '../../common/datatypes/JournalIssueSec
 import type { Panel as PanelType } from '../../lib/ui/renders/panels/Panel.js';
 
 const _CPT_JOURNAL_ISSUE_SECTION_TAGGED = {
-  MAIN : `<div class="flex flex-start">
-    <div id="__ID_TAG__" class="flex-noshrink u-font4"></div>
+  MAIN : `<div class="tw-flex tw-justify-start">
+    <div id="__ID_TAG__" class="tw-flex-shrink-0 u-font4"></div>
     <div>:</div>
-    <div id="__ID_CONTENT__" class="pad5px"></div>
+    <div id="__ID_CONTENT__" class="tw-p-[5px]"></div>
   </div>`,
 } as const;
 

@@ -118,7 +118,7 @@ export class FProjectInfo extends MajorSectorItem {
   _renderOnRender(render: Render): void {
     if (!this._projectId) {
       let p = new Panel();
-      p.setClassName("center-align");
+      p.setClassName("tw-text-center");
       render.wrapPanel(p);
       p.replaceContent("Loading...");
       return;
@@ -126,7 +126,7 @@ export class FProjectInfo extends MajorSectorItem {
     let project = Workshop.getProject(this._projectId);
     if (!project) {
       let p = new Panel();
-      p.setClassName("center-align");
+      p.setClassName("tw-text-center");
       render.wrapPanel(p);
       p.replaceContent("Loading...");
       return;

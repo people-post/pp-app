@@ -13,10 +13,10 @@ const _CPT_POST_INFO_MIDDLE = {
   <div id="__ID_PIN__"></div>
   <div id="__ID_MAIN__" class="shadow-post-info">
     <div class="aspect-3-1-frame">
-      <div class="aspect-content h100 flex flex-center">
+      <div class="aspect-content tw-h-full tw-flex tw-justify-center">
         <div id="__ID_THUMBNAIL__"></div>
-        <div class="flex-grow flex flex-column">
-          <div class="flex-grow hide-overflow post-info-right">
+        <div class="tw-flex-grow tw-flex tw-flex-col">
+          <div class="tw-flex-grow tw-overflow-hidden post-info-right">
             <div id="__ID_REF__" class="crosslink-note"></div>
             <div id="__ID_TEXT__" class="content">
               <div id="__ID_TITLE__" class="title"></div>
@@ -69,13 +69,13 @@ export class PPostInfoMiddle extends PPostInfoBase {
 
   enableImage(): void {
     this._pImage.setClassName(
-        "post-info-image-thumbnail-wrapper flex-noshrink");
+        "post-info-image-thumbnail-wrapper tw-flex-shrink-0");
   }
   enableQuote(): void {
     // Limit content height
     let e = document.getElementById(this._getSubElementId("TXT"));
     if (e) {
-      e.className = "content hmax40px hide-overflow";
+      e.className = "content hmax40px tw-overflow-hidden";
     }
     this._pQuote.setClassName("left-pad5 right-pad5");
   }

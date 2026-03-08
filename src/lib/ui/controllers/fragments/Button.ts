@@ -103,7 +103,7 @@ export class Button extends Fragment {
       return "";
     }
 
-    let ss = `<span class="inline-block s-icon6">__ICON__</span>`;
+    let ss = `<span class="tw-inline-block s-icon6">__ICON__</span>`;
     ss = ss.replace("__ICON__", Utilities.renderSvgFuncIcon(icon, true));
     return ss;
   }
@@ -175,7 +175,7 @@ export class Button extends Fragment {
     case Button.T_THEME.DANGER:
       return "danger";
     case Button.T_THEME.PALE:
-      return "bd1px bdsolid bdlightgray s-cmenu";
+      return "bd1px tw-border-solid tw-border-lightgray s-cmenu";
     default:
       return "s-cmenubg s-cprime";
     }
@@ -195,7 +195,7 @@ export class Button extends Fragment {
     case Button.T_THEME.DANGER:
       return "danger";
     case Button.T_THEME.PALE:
-      return "bd1px bdsolid bdlightgray s-cinfotext";
+      return "bd1px tw-border-solid tw-border-lightgray s-cinfotext";
     default:
       return "s-cfuncbg s-csecondary";
     }

@@ -3,8 +3,8 @@ import { PanelWrapper } from './PanelWrapper.js';
 
 const _CPT_VIEW = {
   MAIN : `<div id="__ID_HEADER__"></div>
-  <div id="__ID_BANNER__" class="banner flex-noshrink"></div>
-  <div class="f-scroll-frame flex-grow no-scrollbar s-csecondarybg flex flex-center">
+  <div id="__ID_BANNER__" class="banner tw-flex-shrink-0"></div>
+  <div class="f-scroll-frame tw-flex-grow no-scrollbar s-csecondarybg tw-flex tw-justify-center">
     <div id="__ID_CONTENT__"></div>
   </div>`,
 } as const;

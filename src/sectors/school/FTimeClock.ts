@@ -53,14 +53,14 @@ export class FTimeClock extends Fragment {
     }
     let panel = new ListPanel();
     if (this._beeper.isSet()) {
-      panel.setClassName("flex center-align-items h100 bggreen");
+      panel.setClassName("tw-flex tw-text-center-items tw-h-full bggreen");
     } else {
-      panel.setClassName("flex center-align-items h100 bgdimgray");
+      panel.setClassName("tw-flex tw-text-center-items tw-h-full bgdimgray");
     }
     render.wrapPanel(panel);
 
     let p = new Panel();
-    p.setClassName("w60 cwhite s-font1 center-align");
+    p.setClassName("tw-w-[60%] cwhite s-font1 tw-text-center");
     panel.pushPanel(p);
     if (this._beeper.isSet()) {
       this.#renderTime(this._dtLast, p)
@@ -69,7 +69,7 @@ export class FTimeClock extends Fragment {
     }
 
     p = new PanelWrapper();
-    p.setClassName("w40 center-align");
+    p.setClassName("tw-w-[40%] tw-text-center");
     panel.pushPanel(p);
     this._fBtn.setEnabled(Account.isAuthenticated());
     if (this._beeper.isSet()) {

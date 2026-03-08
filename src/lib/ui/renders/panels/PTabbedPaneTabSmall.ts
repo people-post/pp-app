@@ -3,11 +3,11 @@ import { Panel } from './Panel.js';
 
 const _CPT_TABBED_PANE_TAB_SMALL = {
   MAIN :
-      `<div id="__ID_MAIN__" class="tabbed-pane-tab flex flex-start center-align-items bdsolid clickable pad5px s-font5 s-cinfotext bd1px bdlightgrey bd-b-0px">
-    <div id="__ID_ICON__" class="inline-block s-icon5 v-middle-align"></div>
+      `<div id="__ID_MAIN__" class="tabbed-pane-tab tw-flex tw-justify-start tw-items-center tw-border-solid clickable tw-p-[5px] s-font5 s-cinfotext tw-border tw-border-[1px] tw-border-lightgrey tw-border-b-0">
+    <div id="__ID_ICON__" class="tw-inline-block s-icon5 v-middle-align"></div>
     <div id="__ID_NAME__"></div>
-    <div id="__ID_BADGE__" class="inline-block bgred cwhite bdradius50 h-pad5px v-pad1px"></div>
-    <div id="__ID_BTN_CLOSE__" class="inline-block s-icon5 v-middle-align"></div>
+    <div id="__ID_BADGE__" class="tw-inline-block bgred cwhite tw-rounded-full tw-px-[5px] tw-py-[1px]"></div>
+    <div id="__ID_BTN_CLOSE__" class="tw-inline-block s-icon5 v-middle-align"></div>
   </div>`,
 } as const;
 
@@ -35,7 +35,7 @@ export class PTabbedPaneTabSmall extends PTabbedPaneTabBase {
     if (e) {
       if (b) {
         e.className =
-            e.className.replace("bd-b-0px", "bd-b-2px tw-font-bold s-cfuncbd-b");
+            e.className.replace("tw-border-b-0", "tw-border-b-2 tw-font-bold s-cfuncbd-b");
       }
     }
   }

@@ -65,7 +65,7 @@ export class FChatThreadInfo extends Fragment {
 
   _renderOnRender(render: PanelWrapper): void {
     let pList = new ListPanel();
-    pList.setClassName("flex flex-start clickable chat-thread-info");
+    pList.setClassName("tw-flex tw-justify-start clickable chat-thread-info");
     pList.setAttribute("onclick",
                    "javascript:G.action(CF_CHAT_THREAD_INFO.ON_CLICK)");
     render.wrapPanel(pList);

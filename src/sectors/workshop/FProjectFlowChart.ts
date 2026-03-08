@@ -87,7 +87,7 @@ export class FProjectFlowChart extends Fragment {
 
     let p, pp;
     p = new PanelWrapper();
-    p.setClassName("x-scroll center-align");
+    p.setClassName("x-scroll tw-text-center");
     pMain.pushPanel(p);
 
     let st = {x : 50, y : 50};  // Terminal size

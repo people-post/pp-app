@@ -18,8 +18,8 @@ export const CLC_GALLERY = {
 
 const _CLCT_GALLERY = {
   CONTROL_BAR :
-      `<span class="inline-block s-icon3 clickable" onclick="javascript:G.action('${CLC_GALLERY.TOGGLE_COMMENT}')">__COMMENT_ICON__</span>
-    <span class="inline-block s-icon3 clickable" onclick="javascript:G.action('${CLC_GALLERY.CLOSE}')">__CLOSE_ICON__</span>`,
+      `<span class="tw-inline-block s-icon3 clickable" onclick="javascript:G.action('${CLC_GALLERY.TOGGLE_COMMENT}')">__COMMENT_ICON__</span>
+    <span class="tw-inline-block s-icon3 clickable" onclick="javascript:G.action('${CLC_GALLERY.CLOSE}')">__CLOSE_ICON__</span>`,
 }
 
 export class LGallery extends Layer {
@@ -72,7 +72,7 @@ export class LGallery extends Layer {
 
   _renderOnRender(render: PanelWrapper): void {
     const p = new ListPanel();
-    p.setClassName("f-simple flex flex-column flex-center");
+    p.setClassName("f-simple tw-flex tw-flex-col tw-justify-center");
     p.setAttribute("onclick", "javascript:G.action('${CLC_GALLERY.CLOSE}')");
     render.wrapPanel(p);
     const e = p.getDomElement();

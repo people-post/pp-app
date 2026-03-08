@@ -15,13 +15,13 @@
 const _CPT_PROJECT_INFO_MIDDLE = {
   MAIN : `<div id="__ID_WRAPPER__" class="project-info-wrapper middle">
     <div class="aspect-5-1-frame">
-      <div class="aspect-content flex flex-start">
-        <div id="__ID_PROGRESS__" class="flex-noshrink v-progress-wrapper w10px"></div>
-        <div class="flex-grow h100">
-          <div id="__ID_MAIN__" class="project-info middle h100 bdlightgray">
-            <div class="flex flex-start h100"> 
+      <div class="aspect-content tw-flex tw-justify-start">
+        <div id="__ID_PROGRESS__" class="tw-flex-shrink-0 v-progress-wrapper w10px"></div>
+        <div class="tw-flex-grow tw-h-full">
+          <div id="__ID_MAIN__" class="project-info middle tw-h-full tw-border-lightgray">
+            <div class="tw-flex tw-justify-start tw-h-full"> 
               <div id="__ID_THUMBNAIL__"></div>
-              <div class="flex-grow h100 border-box top-pad5px left-pad5px hide-overflow">
+              <div class="tw-flex-grow tw-h-full tw-box-border tw-pt-[5px] tw-pl-[5px] tw-overflow-hidden">
                 <div id="__ID_TITLE__" class="tw-font-bold"></div>
                 <div id="__ID_CONTENT__" class="u-font5"></div>
               </div>
@@ -47,12 +47,12 @@ export class PProjectInfoMiddle extends PProjectInfoBase {
     }
   }
 
-  enableImage(): void { this._pImage.setClassName("w20 flex-noshrink"); }
+  enableImage(): void { this._pImage.setClassName("tw-w-[20%] tw-flex-shrink-0"); }
 
   invertColor(): void {
     let e = document.getElementById(this._getSubElementId("M"));
     if (e) {
-      e.className = "project-info middle h100 s-cprimebd";
+      e.className = "project-info middle tw-h-full s-cprimebd";
     }
   }
 

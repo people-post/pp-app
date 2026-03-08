@@ -338,7 +338,7 @@ export class WcSession extends WindowController {
     if (t && e) {
       let eTest = document.getElementById("ID_COLOR_TEST");
       if (eTest) {
-        eTest.className = "inline-block";
+        eTest.className = "tw-inline-block";
         let s = _CRCT_SESSION.STYLE;
         s = s.replace(/__PRIME__/g, t.getPrimaryColor());
         s = s.replace(/__PRIME_DECOR_COLOR__/g, t.getPrimeDecorColor(eTest));

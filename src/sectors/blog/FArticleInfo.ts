@@ -154,7 +154,7 @@ export class FArticleInfo extends FPostBase {
       return;
     }
     let pList = new ListPanel();
-    pList.setClassName("flex flex-start baseline-align-items");
+    pList.setClassName("tw-flex tw-justify-start tw-items-baseline");
     panel.wrapPanel(pList);
 
     this.#fTags.clear();

@@ -12,8 +12,8 @@ import { PPriceBase } from './PPriceBase.js';
 
 const _CPT_COMPACT_PRICE = {
   MAIN : `<div id="__ID_UNIT__"></div>
-    <div id="__ID_LIST_PRICE__" class="list-price center-align"></div>
-    <div id="__ID_SALES_PRICE__" class="sales-price center-align"></div>`,
+    <div id="__ID_LIST_PRICE__" class="list-price tw-text-center"></div>
+    <div id="__ID_SALES_PRICE__" class="sales-price tw-text-center"></div>`,
 }
 
 export class PPriceCompact extends PPriceBase {

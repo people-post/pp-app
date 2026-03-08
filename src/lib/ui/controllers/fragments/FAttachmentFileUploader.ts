@@ -12,7 +12,7 @@ export const CF_ATTACHMENT_FILE_UPLOAD = {
 
 export const _CFT_ATTACHMENT_FILE_UPLOAD = {
   BTN_ADD_FILE : `<label class="s-font5" for="__ID__">
-    <span class="icon-legacy inline-block s-icon3">__ICON__</span>
+    <span class="icon-legacy tw-inline-block s-icon3">__ICON__</span>
   </label>
   <input id="__ID__" type="file" style="display:none" onchange="javascript:G.action('${CF_ATTACHMENT_FILE_UPLOAD.ADD_FILE}', this)">`,
 } as const;

@@ -16,7 +16,7 @@ if (typeof window !== 'undefined') {
 
 const _CFT_OGP = {
   URL :
-      `<span class="small-info-text inline-block h12pt hide-overflow clickable" onclick="javascript:G.action(CF_OGP.ON_CLICK)">&#x1f517;__URL__</span>`,
+      `<span class="small-info-text tw-inline-block h12pt tw-overflow-hidden clickable" onclick="javascript:G.action(CF_OGP.ON_CLICK)">&#x1f517;__URL__</span>`,
   IMG :
       `<span class="thumbnail-grid thumbnail-grid-1-1" style="background-image:url('__URL__')" onclick="javascript:G.action(CF_OGP.ON_CLICK)"></span>`,
 } as const;
@@ -91,7 +91,7 @@ export class FOgp extends Fragment {
       pp = p.getImagePanel();
       let pThumbnail = new ThumbnailPanelWrapper();
       if (this._sizeType == SocialItem.T_LAYOUT.EXT_QUOTE_SMALL) {
-        pp.setClassName("quote-element-image-thumbnail-wrapper flex-noshrink");
+        pp.setClassName("quote-element-image-thumbnail-wrapper tw-flex-shrink-0");
         pThumbnail.setClassName("aspect-1-1-frame");
       }
       pp.wrapPanel(pThumbnail);

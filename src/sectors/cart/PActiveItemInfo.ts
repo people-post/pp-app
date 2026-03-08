@@ -7,7 +7,7 @@ const _CPT_ACTIVE_ITEM_INFO = {
         <div id="__ID_PRICE__"></div>
        </div>
      </div>
-     <div class="flex space-between">
+     <div class="tw-flex tw-justify-between">
        <div id="__ID_BTN_DELETE__"></div>
        <div id="__ID_QUANTITY__"></div>
        <div id="__ID_BTN_SAVE_FOR_LATER__"></div>

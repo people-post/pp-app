@@ -1,7 +1,7 @@
 
 const _CPT_WALKIN_QUEUE_ITEM_INFO = {
-  MAIN : `<div class="pad5px clickable">
-    <div id="__ID_MAIN__" class="flex space-between bd-b-1px bd-b-solid bdlightgray">
+  MAIN : `<div class="tw-p-[5px] clickable">
+    <div id="__ID_MAIN__" class="tw-flex tw-justify-between tw-border-b tw-border-b-[1px] tw-border-solid tw-border-lightgray">
       <div id="__ID_NAME__" class="s-font001 tw-truncate"></div>
       <div id="__ID_STATUS__"></div>
       <div id="__ID_ACTION__"></div>

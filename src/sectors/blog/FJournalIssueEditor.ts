@@ -19,8 +19,8 @@ const _CPT_JOURNAL_ISSUE_EDITOR = {
   <div id="__ID_BTN_LIST__"></div>
   <br>
   <br>`,
-  SECTOR_TAGGED : `<div class="pad5px flex flex-start">
-    <div id="__ID_TAG__" class="flex-noshrink u-font4"></div>
+  SECTOR_TAGGED : `<div class="tw-p-[5px] tw-flex tw-justify-start">
+    <div id="__ID_TAG__" class="tw-flex-shrink-0 u-font4"></div>
     <div>:</div>
     <div id="__ID_CONTENT__"></div>
   </div>`,
@@ -340,14 +340,14 @@ export class FJournalIssueEditor extends Fragment {
     this.setChild("issueid", this.#fIssueId);
 
     this.#fAbstract = new TextArea();
-    this.#fAbstract.setClassName("w100 h40px");
+    this.#fAbstract.setClassName("tw-w-full h40px");
     this.#fAbstract.setConfig(
         {title : "Abstract", hint : "", isRequred : false});
     this.#fAbstract.setDelegate(this);
     this.setChild("abstract", this.#fAbstract);
 
     this.#fSummary = new TextArea();
-    this.#fSummary.setClassName("w100 h40px");
+    this.#fSummary.setClassName("tw-w-full h40px");
     this.#fSummary.setConfig({title : "Summary", hint : "", isRequred : false});
     this.#fSummary.setDelegate(this);
     this.setChild("summary", this.#fSummary);

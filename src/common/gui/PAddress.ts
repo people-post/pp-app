@@ -7,40 +7,40 @@ const _CPT_ADDRESS = {
   <table class="address">
     <tbody>
       <tr>
-        <td class="right-align">Nickname:</td>
+        <td class="tw-text-right">Nickname:</td>
         <td id="__ID_NICKNAME__"></td>
       </tr>
       <tr>
-        <td class="right-align">Name:</td>
+        <td class="tw-text-right">Name:</td>
         <td id="__ID_NAME__"></td>
       </tr>
       <tr>
-        <td class="right-align">Country:</td>
+        <td class="tw-text-right">Country:</td>
         <td id="__ID_COUNTRY__"></td>
       </tr>
       <tr>
-        <td class="right-align">State/Province:</td>
+        <td class="tw-text-right">State/Province:</td>
         <td id="__ID_STATE__"></td>
       </tr>
       <tr>
-        <td class="right-align">City:</td>
+        <td class="tw-text-right">City:</td>
         <td id="__ID_CITY__"></td>
       </tr>
       <tr>
-        <td class="right-align">Zipcode:</td>
+        <td class="tw-text-right">Zipcode:</td>
         <td id="__ID_ZIPCODE__"></td>
       </tr>
       <tr>
-        <td class="right-align">Line 1:</td>
+        <td class="tw-text-right">Line 1:</td>
         <td id="__ID_LINE1__"></td>
       </tr>
       <tr>
-        <td class="right-align">Line 2:</td>
+        <td class="tw-text-right">Line 2:</td>
         <td id="__ID_LINE2__"></td>
       </tr>
     </tbody>
   </table>
-  <div class="flex flex-center">
+  <div class="tw-flex tw-justify-center">
     <div id="__ID_BTN_EDIT__"></div>
     <div id="__ID_BTN_DELETE__"></div>
   </div>

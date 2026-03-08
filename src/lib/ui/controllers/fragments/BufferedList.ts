@@ -4,7 +4,7 @@ import { FLoading } from './FLoading.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
 const _CFT_LONG_LIST = {
-  EMPTY : `<div class="center-align">Empty list</div>`,
+  EMPTY : `<div class="tw-text-center">Empty list</div>`,
 } as const;
 
 export interface BufferedListDataSource {
@@ -121,7 +121,7 @@ export class BufferedList extends Fragment {
   #createItemPanel(): PanelWrapper {
     let p = new PanelWrapper();
     if (this.#isGridMode) {
-      p.setClassName("inline-block");
+      p.setClassName("tw-inline-block");
     }
     return p;
   }

@@ -6,12 +6,12 @@ import Render from '../lib/ui/renders/Render.js';
 import { Account } from '../common/dba/Account.js';
 
 const _CFT_HOME_BTN = {
-  ICON : `<div class="pad5px">
+  ICON : `<div class="tw-p-[5px]">
     <a href="__URL__">
-      <span class="inline-block s-icon32">__ICON__</span>
+      <span class="tw-inline-block s-icon32">__ICON__</span>
     </a>
   </div>`,
-  ICON_URL : `<div class="pad5px">
+  ICON_URL : `<div class="tw-p-[5px]">
     <a href="__URL__">
       <img class="hmax40px" src="__ICON_URL__"/>
     </a>

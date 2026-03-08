@@ -24,7 +24,7 @@ export class LvMultiPage extends ViewLayer implements PageViewControllerOwner, P
     super();
     this._pMain = this._createMainPanel();
     if (this._pMain) {
-      this._pMain.setClassName("w100 h100");
+      this._pMain.setClassName("tw-w-full tw-h-full");
     }
 
     this._vc = new PageViewController();

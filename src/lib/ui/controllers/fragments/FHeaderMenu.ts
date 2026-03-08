@@ -97,7 +97,7 @@ export class FHeaderMenu extends Fragment {
 
   _renderOnRender(render: any): void {
     this.#pMain = new PanelWrapper();
-    // this.#pMain.setClassName("w100 flex flex-center");
+    // this.#pMain.setClassName("tw-w-full tw-flex tw-justify-center");
     render.wrapPanel(this.#pMain);
     if (!this.#fContent ||
         this.#pMain.getWidth() < (this.#fContent as any).getQuickLinkMinWidth()) {

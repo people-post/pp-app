@@ -14,10 +14,10 @@ window.CF_HOSTING_STATUS = {
 
 const _CFT_HOSTING_STATUS = {
   MAIN : `<p class="title">__R_DOMAIN__:</p>
-      <div class="center-align">__DOMAIN_NAME__</div>
+      <div class="tw-text-center">__DOMAIN_NAME__</div>
 
       <p class="title">__NS__(<a class="knowledge-tip" href="javascript:void(0)" onclick="javascript:G.action(CF_HOSTING_STATUS.NS_HOW_TO)">__R_HOW_TO__</a>):</p>
-      <div class="center-align">__NS_RECORD__</div>`,
+      <div class="tw-text-center">__NS_RECORD__</div>`,
 
   NS_RECORD : `<p>ns1.gcabin.com</p>
     <p>ns2.gcabin.com</p>

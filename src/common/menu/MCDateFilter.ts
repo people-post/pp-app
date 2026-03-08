@@ -13,7 +13,7 @@ const _CPT_DATE_FILTER = {
       `<div class="menu-hr-wrapper"><span class="menu-hr s-cmenubg"></span></div>
   <div id="__ID_SEARCH_BAR__"></div>
   <div class="separator s-cmenubd">Or</div>
-  <div class="flex space-around">
+  <div class="tw-flex tw-justify-around">
     <div id="__ID_FROM__"></div>
     <div id="__ID_TO__"></div>
   </div>

@@ -6,7 +6,7 @@ import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
 const _CFT_ATTACHMENT_FILE = {
   MAIN :
-      `<a href="__DOWNLOAD_URL__" target="_blank" onclick="javascript:G.anchorClick()"><span class="inline-block s-icon6">__ICON__</span>__NAME__</a>`,
+      `<a href="__DOWNLOAD_URL__" target="_blank" onclick="javascript:G.anchorClick()"><span class="tw-inline-block s-icon6">__ICON__</span>__NAME__</a>`,
 } as const;
 
 export class FAttachmentFile extends Fragment {

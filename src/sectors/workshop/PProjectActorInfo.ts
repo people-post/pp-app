@@ -12,10 +12,10 @@
 
 const _CPT_PROJECT_ACTOR_INFO = {
   MAIN :
-      `<div id="__ID_MAIN__" class="pad5px clickable project-actor-info bdsolid">
+      `<div id="__ID_MAIN__" class="tw-p-[5px] clickable project-actor-info tw-border-solid">
     <div id="__ID_TITLE__"></div>
-    <div id="__ID_ICON__" class="center-align"></div>
-    <div id="__ID_NAME__" class="small-info-text center-align tw-truncate"></div>
+    <div id="__ID_ICON__" class="tw-text-center"></div>
+    <div id="__ID_NAME__" class="small-info-text tw-text-center tw-truncate"></div>
   </div>`,
 }
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
@@ -39,7 +39,7 @@ export class PProjectActorInfo extends Panel {
   setThemeClassNames(names: string[]): void {
     let e = document.getElementById(this._getSubElementId("M"));
     if (e) {
-      let s = "pad5px clickable project-actor-info bdsolid";
+      let s = "tw-p-[5px] clickable project-actor-info tw-border-solid";
       for (let name of names) {
         s = s + " " + name;
       }

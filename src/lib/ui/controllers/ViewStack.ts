@@ -255,7 +255,7 @@ export class ViewStack extends RenderController implements ViewOwner {
       pw = Math.min(pw, maxWidth * 100 / listPanel.getWidth());
     }
     let f = new ViewPanel();
-    f.setClassName("f-frame flex flex-column");
+    f.setClassName("f-frame tw-flex tw-flex-col");
     listPanel.pushPanel(f);
     f.setLeft(pl, "%");
     f.setWidth(pw, "%");

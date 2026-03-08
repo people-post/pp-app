@@ -62,7 +62,7 @@ export class FoldableItemFragment extends Fragment {
     const p = new ListPanel();
     render.wrapPanel(p);
     let pp = new ArrayPanel();
-    pp.setTableClassName("foldable-item w100 border-collapse");
+    pp.setTableClassName("foldable-item tw-w-full border-collapse");
     if (this._isOpen) {
       pp.setClassName("foldable-item clickable selected");
     } else {
@@ -79,7 +79,7 @@ export class FoldableItemFragment extends Fragment {
 
     if (this._fAction) {
       const pAction = new Panel();
-      pAction.setClassName("right-align");
+      pAction.setClassName("tw-text-right");
       pp.pushPanel(pAction);
       this._fAction.attachRender(pAction);
       this._fAction.render();

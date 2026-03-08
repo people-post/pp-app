@@ -217,7 +217,7 @@ export class View extends RenderController implements ViewContentFragmentOwner {
   }
 
   #attachContentPanel(fContent: Fragment, panel: PanelWrapper): void {
-    let names: string[] = [ "w100", "h100" ];
+    let names: string[] = [ "tw-w-full", "tw-h-full" ];
     if (fContent instanceof FViewContentBase) {
       let name = fContent.getMaxWidthClassName();
       if (name && name.length) {

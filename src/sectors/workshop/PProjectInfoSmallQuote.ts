@@ -9,11 +9,11 @@
 
 const _CPT_PROJECT_INFO_SMALL_QUOTE = {
   MAIN : `<div class="aspect-3-1-frame">
-  <div class="aspect-content h100 hide-overflow quote-element small flex flex-begin">
+  <div class="aspect-content tw-h-full tw-overflow-hidden quote-element small tw-flex tw-justify-start">
     <div id="__ID_PROGRESS__" class="v-progress-wrapper w10px"></div>
     <div id="__ID_IMAGE__"></div>
-    <div class="flex-grow pad5px">
-      <div class="flex space-between">
+    <div class="tw-flex-grow tw-p-[5px]">
+      <div class="tw-flex tw-justify-between">
         <div id="__ID_USER__"></div>
         <div id="__ID_TIME__" class="small-info-text"></div>
       </div>
@@ -45,7 +45,7 @@ export class PProjectInfoSmallQuote extends PProjectInfoBase {
 
   enableImage(): void {
     this._pImage.setClassName(
-        "quote-element-image-thumbnail-wrapper flex-noshrink");
+        "quote-element-image-thumbnail-wrapper tw-flex-shrink-0");
   }
 
   _onFrameworkDidAppear(): void {

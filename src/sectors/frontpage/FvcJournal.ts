@@ -1,50 +1,50 @@
 const _CPT_JOURNAL = {
-  NARROW_MAIN : `<div class="h100 flex x-scroll x-scroll-snap">
-  <div class="w90 pad5px flex-noshrink scroll-snap-start">
-    <div id="__ID_LEFT__" class="h100 s-csecondarybg bdradius25px"></div>
+  NARROW_MAIN : `<div class="tw-h-full tw-flex tw-overflow-x-scroll tw-snap-x tw-snap-mandatory">
+  <div class="tw-w-[90%] tw-p-[5px] tw-flex-shrink-0 tw-snap-start">
+    <div id="__ID_LEFT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
   </div>
-  <div class="w90 flex-noshrink scroll-snap-center flex flex-column hide-overflow">
-    <div class="h60 top-pad5px hide-overflow">
-      <div id="__ID_MAIN__" class="h100 s-csecondarybg bdradius25px y-scroll no-scrollbar"></div>
+  <div class="tw-w-[90%] tw-flex-shrink-0 tw-snap-center tw-flex tw-flex-col tw-overflow-hidden">
+    <div class="h60 tw-pt-[5px] tw-overflow-hidden">
+      <div id="__ID_MAIN__" class="tw-h-full s-csecondarybg bdradius25px tw-overflow-y-auto no-scrollbar"></div>
     </div>
-    <div class="h40 v-pad5px">
-      <div id="__ID_BOTTOM__" class="h100 s-csecondarybg bdradius25px"></div>
+    <div class="h40 tw-py-[5px]">
+      <div id="__ID_BOTTOM__" class="tw-h-full s-csecondarybg bdradius25px"></div>
     </div>
   </div>
-  <div class="w90 pad5px flex-noshrink scroll-snap-end">
-    <div id="__ID_RIGHT__" class="h100 s-csecondarybg bdradius25px"></div>
+  <div class="tw-w-[90%] tw-p-[5px] tw-flex-shrink-0 tw-snap-end">
+    <div id="__ID_RIGHT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
   </div>
   </div>`,
-  MIDDLE_MAIN : `<div class="h100 flex x-scroll x-scroll-snap">
-  <div class="w240px pad5px flex-noshrink scroll-snap-start">
-    <div id="__ID_LEFT__" class="h100 s-csecondarybg bdradius25px"></div>
+  MIDDLE_MAIN : `<div class="tw-h-full tw-flex tw-overflow-x-scroll tw-snap-x tw-snap-mandatory">
+  <div class="w240px tw-p-[5px] tw-flex-shrink-0 tw-snap-start">
+    <div id="__ID_LEFT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
   </div>
-  <div class="w360px flex-noshrink scroll-snap-center flex flex-column hide-overflow">
-    <div class="h60 top-pad5px hide-overflow">
-      <div id="__ID_MAIN__" class="h100 s-csecondarybg bdradius25px y-scroll no-scrollbar"></div>
+  <div class="w360px tw-flex-shrink-0 tw-snap-center tw-flex tw-flex-col tw-overflow-hidden">
+    <div class="h60 tw-pt-[5px] tw-overflow-hidden">
+      <div id="__ID_MAIN__" class="tw-h-full s-csecondarybg bdradius25px tw-overflow-y-auto no-scrollbar"></div>
     </div>
-    <div class="h40 v-pad5px">
-      <div id="__ID_BOTTOM__" class="h100 s-csecondarybg bdradius25px"></div>
+    <div class="h40 tw-py-[5px]">
+      <div id="__ID_BOTTOM__" class="tw-h-full s-csecondarybg bdradius25px"></div>
     </div>
   </div>
-  <div class="w240px pad5px flex-noshrink scroll-snap-end">
-    <div id="__ID_RIGHT__" class="h100 s-csecondarybg bdradius25px"></div>
+  <div class="w240px tw-p-[5px] tw-flex-shrink-0 tw-snap-end">
+    <div id="__ID_RIGHT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
   </div>
   </div>`,
-  WIDE_MAIN : `<div class="h100 grid grid3col232">
-  <div class="pad5px">
-    <div id="__ID_LEFT__" class="h100 s-csecondarybg bdradius25px"></div>
+  WIDE_MAIN : `<div class="tw-h-full tw-grid tw-grid-cols-[2fr_3fr_2fr]">
+  <div class="tw-p-[5px]">
+    <div id="__ID_LEFT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
   </div>
-  <div class="flex flex-column hide-overflow">
-    <div class="h60 top-pad5px hide-overflow">
-      <div id="__ID_MAIN__" class="h100 s-csecondarybg bdradius25px y-scroll no-scrollbar"></div>
+  <div class="tw-flex tw-flex-col tw-overflow-hidden">
+    <div class="h60 tw-pt-[5px] tw-overflow-hidden">
+      <div id="__ID_MAIN__" class="tw-h-full s-csecondarybg bdradius25px tw-overflow-y-auto no-scrollbar"></div>
     </div>
-    <div class="h40 v-pad5px">
-      <div id="__ID_BOTTOM__" class="h100 s-csecondarybg bdradius25px"></div>
+    <div class="h40 tw-py-[5px]">
+      <div id="__ID_BOTTOM__" class="tw-h-full s-csecondarybg bdradius25px"></div>
     </div>
   </div>
-  <div class="pad5px">
-    <div id="__ID_RIGHT__" class="h100 s-csecondarybg bdradius25px"></div>
+  <div class="tw-p-[5px]">
+    <div id="__ID_RIGHT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
   </div>
   </div>`,
 } as const;
@@ -344,7 +344,7 @@ export class FvcJournal extends FViewContentBase {
       panel.setTemplate(_CPT_JOURNAL.NARROW_MAIN);
       break;
     }
-    panel.setClassName("h100 s-csecondarydecorbg");
+    panel.setClassName("tw-h-full s-csecondarydecorbg");
     return panel;
   }
 

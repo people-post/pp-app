@@ -1,8 +1,8 @@
 
 const _CPT_REGISTER_SMALL = {
   MAIN :
-      `<div id="__ID_MAIN__" class="bd-b-solid bd-b-1px bdlightgray clickable">
-  <div class="pad5px">
+      `<div id="__ID_MAIN__" class="bd-b-solid tw-border-b tw-border-b-[1px] tw-border-lightgray clickable">
+  <div class="tw-p-[5px]">
     <div id="__ID_NAME__"></div>
     <div id="__ID_TERMINAL_INFO__"></div>
   </div>

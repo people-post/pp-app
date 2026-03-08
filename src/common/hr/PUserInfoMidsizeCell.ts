@@ -12,9 +12,9 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
  */
 
 const _CPT_USER_INFO_MIDSIZE_CELL = {
-  MAIN : `<div id="__ID_MAIN__" class="pad5px clickable user-info midsize-cell">
-    <div id="__ID_ICON__" class="center-align"></div>
-    <div id="__ID_NAME__" class="small-info-text center-align tw-truncate"></div>
+  MAIN : `<div id="__ID_MAIN__" class="tw-p-[5px] clickable user-info midsize-cell">
+    <div id="__ID_ICON__" class="tw-text-center"></div>
+    <div id="__ID_NAME__" class="small-info-text tw-text-center tw-truncate"></div>
   </div>`,
 }
 

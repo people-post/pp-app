@@ -16,10 +16,10 @@ const _CPT_POST_INFO_BRIEF = {
     <div class="u-font3 line-height32">
       <div id="__ID_TAGS__"></div>
       <div id="__ID_TITLE__" class="title"></div>
-      <div id="__ID_CONTENT__" class="hide-overflow"></div>
-      <div class="flex space-between">
+      <div id="__ID_CONTENT__" class="tw-overflow-hidden"></div>
+      <div class="tw-flex tw-justify-between">
         <div id="__ID_TIME__" class="small-info-text"></div>
-        <div id="__ID_SOCIAL__" class="h-pad5px flex-grow"></div>
+        <div id="__ID_SOCIAL__" class="tw-px-[5px] tw-flex-grow"></div>
         <div id="__ID_SOURCE_LINK__" class="u-font5 clickable tw-underline s-cfunc"></div>
       </div>
     </div>

@@ -9,9 +9,9 @@
 
 const _CPT_PRODUCT_INFO_SMALL_QUOTE = {
   MAIN : `<div class="aspect-3-1-frame">
-  <div class="aspect-content h100 hide-overflow quote-element small flex flex-begin">
+  <div class="aspect-content tw-h-full tw-overflow-hidden quote-element small tw-flex tw-justify-start">
     <div id="__ID_IMAGE__"></div>
-    <div class="flex-grow pad5px">
+    <div class="tw-flex-grow tw-p-[5px]">
       <div id="__ID_SELLER_NAME__"></div>
       <div id="__ID_NAME__" class="u-font5"></div>
       <div id="__ID_DESCRIPTION__" class="u-font5"></div>
@@ -35,7 +35,7 @@ export class PProductInfoSmallQuote extends PProductInfoBase {
 
   enableImage(): void {
     (this._pThumbnail as any)._pImage?.setClassName(
-        "quote-element-image-thumbnail-wrapper flex-noshrink");
+        "quote-element-image-thumbnail-wrapper tw-flex-shrink-0");
   }
 
   _onFrameworkDidAppear(): void {

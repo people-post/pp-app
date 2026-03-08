@@ -1,11 +1,11 @@
 const _CPT_PROPOSAL_INFO = {
   MAIN : `<div id="__ID_MAIN__" class="proposal-info">
-  <div class="flex space-between clickable">
+  <div class="tw-flex tw-justify-between clickable">
     <div>
-     <span id="__ID_ICON__" class="inline-block s-icon6 clickable"></span>
+     <span id="__ID_ICON__" class="tw-inline-block s-icon6 clickable"></span>
      <span id="__ID_TITLE__"></span>
     </div>
-    <div class="small-info-text right-align">
+    <div class="small-info-text tw-text-right">
       <div id="__ID_STATUS__"></div>
       <div id="__ID_VOTE__"></div>
     </div>

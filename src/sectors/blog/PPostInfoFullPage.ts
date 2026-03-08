@@ -1,6 +1,6 @@
 // This is maily for JournalIssue
 const _CPT_POST_INFO_FULL_PAGE = {
-  MAIN : `<div class="h100 h-pad5 v-pad5px y-scroll no-scrollbar">
+  MAIN : `<div class="tw-h-full h-pad5 tw-py-[5px] tw-overflow-y-auto no-scrollbar">
     <div id="__ID_TITLE__" class="u-font2 tw-font-bold"></div>
     <div id="__ID_CONTENT__"></div>
   </div>`,
