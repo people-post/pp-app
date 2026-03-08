@@ -110,11 +110,11 @@ export class FStoryEventInfo extends Fragment {
 
   #renderModificationEvent(): string {
     let s = this.#renderEventFramework();
-    return s.replace("__NAME_CELL_CLASS__", "bglightyellow");
+    return s.replace("__NAME_CELL_CLASS__", "tw-bg-yellow-200");
   }
 
   #renderStatusEvent(): string {
     let s = this.#renderEventFramework();
-    return s.replace("__NAME_CELL_CLASS__", "bglightgreen");
+    return s.replace("__NAME_CELL_CLASS__", "tw-bg-green-300");
   }
 }

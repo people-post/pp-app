@@ -34,9 +34,9 @@ export class VoteProgressFragment extends Fragment {
 
   #getColorClass(): string {
     if (this._config.value > this._config.threshold) {
-      return "bggreen";
+      return "tw-bg-green-600";
     }
-    return "bgyellow";
+    return "tw-bg-yellow-500";
   }
 
   #getNayPercent(): number {

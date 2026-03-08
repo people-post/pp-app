@@ -89,7 +89,7 @@ export class FSimpleList extends Fragment {
       if (item.isSelectable) {
         // Last item
         let p = new Panel();
-        p.setClassName("s-font005 tw-text-right cgray");
+        p.setClassName("s-font005 tw-text-right tw-text-gray-500");
         pItem.pushPanel(p);
         p.replaceContent("&rsaquo;");
       }

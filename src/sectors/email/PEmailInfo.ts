@@ -13,7 +13,7 @@ const _CPT_EMAIL_INFO = {
             <div id="__ID_TIME__" class="small-info-text"></div>
           </div>
           <div id="__ID_TITLE__" class="u-font5"></div>
-          <div id="__ID_CONTENT__" class="u-font5 cdimgray"></div>
+          <div id="__ID_CONTENT__" class="u-font5 tw-text-gray-600"></div>
         </div>
       </div>
     </div>

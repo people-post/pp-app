@@ -5,7 +5,7 @@ const _CPT_QUIZ_INFO = {
     <div class="aspect-content tw-box-border tw-pt-[5px] tw-pr-[5px]">
       <div class="tw-flex tw-justify-start tw-h-full">
         <div id="__ID_MAIN__" class="quiz-info tw-border-lightgray">
-          <div id="__ID_QUESTION__" class="u-font3 tw-font-bold cdimgray"></div>
+          <div id="__ID_QUESTION__" class="u-font3 tw-font-bold tw-text-gray-600"></div>
         </div>
       </div>
     </div>

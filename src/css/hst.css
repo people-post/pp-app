@@ -72,121 +72,35 @@ input {
    tw-snap-x, tw-snap-mandatory, tw-snap-start, tw-snap-center, tw-snap-end, tw-box-border */
 
 /* color */
-.transparent {
-    opacity: 0;
-}
-
-.opaque {
-    opacity: 1;
-}
-
-.cforestgreen {
-    color: ForestGreen;
-}
-
-.cred {
-    color: Firebrick;
-}
-
-.cgray {
-    color: Gray;
-}
-
-.cdimgray {
-    color: dimgray;
-}
-
-.cblue {
-    color: blue;
-}
-
-.ccoldgray {
-    color: #556677;
-}
-
-.clightgray {
-    color: LightGray;
-}
-
-.cwhite {
-    color: white;
-}
-
-.cgoldenrod {
-    color: GoldenRod;
-}
-
-.cgold {
-    color: Gold;
-}
-
-.bgtransparent {
-    background-color: transparent;
-}
-
-.bgwhite {
-    background-color: White;
-}
-
-.bgnew {
-    background-color: #E0E3FF;
-}
-
-.bgblack {
-    background-color: Black;
-}
-
-.bgred {
-    background-color: Red;
-}
-
-.bgfirebrick {
-    background-color: Firebrick;
-}
-
-.bggreen {
-    background-color: ForestGreen;
-}
-
-.bgyellow {
-    background-color: Gold;
-}
-
-.bglightgreen {
-    background-color: LightGreen;
-}
-
-.bglightyellow {
-    background-color: LightYellow;
-}
-
-.bglightgray {
-    background-color: LightGray;
-}
-
-.bglightgrey {
-    background-color: LightGrey;
-}
-
-.bglightblue {
-    background-color: LightBlue;
-}
-
-.bgdimgray {
-    background-color: DimGray;
-}
-
-.bgdarkred {
-    background-color: DarkRed;
-}
-
-.bgdanger {
-    background-color: #DC3545;
-}
-
-.bgpalegoldenrod {
-    background-color: PaleGoldenRod;
-}
+/* .transparent { opacity: 0; } -> tw-opacity-0 */
+/* .opaque { opacity: 1; } -> tw-opacity-100 */
+/* .cforestgreen { color: ForestGreen; } -> tw-text-green-700 */
+/* .cred { color: Firebrick; } -> tw-text-red-600 */
+/* .cgray { color: Gray; } -> tw-text-gray-500 */
+/* .cdimgray { color: dimgray; } -> tw-text-gray-600 */
+/* .cblue { color: blue; } -> tw-text-blue-600 */
+/* .ccoldgray { color: #556677; } -> tw-text-gray-500 */
+/* .clightgray { color: LightGray; } -> tw-text-gray-300 */
+/* .cwhite { color: white; } -> tw-text-white */
+/* .cgoldenrod { color: GoldenRod; } -> tw-text-yellow-600 */
+/* .cgold { color: Gold; } -> tw-text-yellow-500 */
+/* .bgtransparent { background-color: transparent; } -> tw-bg-transparent */
+/* .bgwhite { background-color: White; } -> tw-bg-white */
+/* .bgnew { background-color: #E0E3FF; } -> tw-bg-blue-100 */
+/* .bgblack { background-color: Black; } -> tw-bg-black */
+/* .bgred { background-color: Red; } -> tw-bg-red-600 */
+/* .bgfirebrick { background-color: Firebrick; } -> tw-bg-red-700 */
+/* .bggreen { background-color: ForestGreen; } -> tw-bg-green-600 */
+/* .bgyellow { background-color: Gold; } -> tw-bg-yellow-500 */
+/* .bglightgreen { background-color: LightGreen; } -> tw-bg-green-300 */
+/* .bglightyellow { background-color: LightYellow; } -> tw-bg-yellow-200 */
+/* .bglightgray { background-color: LightGray; } -> tw-bg-gray-300 */
+/* .bglightgrey { background-color: LightGrey; } -> tw-bg-gray-300 */
+/* .bglightblue { background-color: LightBlue; } -> tw-bg-blue-300 */
+/* .bgdimgray { background-color: DimGray; } -> tw-bg-gray-600 */
+/* .bgdarkred { background-color: DarkRed; } -> tw-bg-red-800 */
+/* .bgdanger { background-color: #DC3545; } -> tw-bg-red-500 */
+/* .bgpalegoldenrod { background-color: PaleGoldenRod; } -> tw-bg-yellow-200 */
 
 .stkblack {
     stroke: black;

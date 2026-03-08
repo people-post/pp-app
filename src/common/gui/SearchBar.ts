@@ -17,7 +17,7 @@ const _CFT_SEARCH_BAR = {
   CLEAR_ICON :
       `<span class="tw-inline-block s-icon6 clickable" onclick="javascript:G.action('${CF_SEARCH_BAR.ON_CLEAR}')">__ICON__</span>`,
   INPUT :
-      `<input id="__ID__" class="search-bar bgtransparent __THEME_CLASS_NAMES__" type="text" onchange="javascript:G.action('${CF_SEARCH_BAR.ON_CHANGE}', this.value)" onkeydown="javascript:G.action('${CF_SEARCH_BAR.ON_KEYDOWN}', this.value)" value="__VALUE__"/>`,
+      `<input id="__ID__" class="search-bar tw-bg-transparent __THEME_CLASS_NAMES__" type="text" onchange="javascript:G.action('${CF_SEARCH_BAR.ON_CHANGE}', this.value)" onkeydown="javascript:G.action('${CF_SEARCH_BAR.ON_KEYDOWN}', this.value)" value="__VALUE__"/>`,
 };
 
 export class SearchBar extends Fragment {

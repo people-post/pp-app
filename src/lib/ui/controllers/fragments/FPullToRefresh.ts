@@ -32,7 +32,7 @@ export class FPullToRefresh extends Fragment {
 
   _renderOnRender(render: any): void {
     let p = new ListPanel();
-    p.setClassName("bglightgrey");
+    p.setClassName("tw-bg-gray-300");
     render.wrapPanel(p);
     p.pushSpace(10);
     p.pushPanel(this.#pIcon);

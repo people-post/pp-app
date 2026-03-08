@@ -137,13 +137,13 @@ export class FProjectActorInfo extends Fragment {
     let name = "";
     switch (this._actor.getRoleId()) {
     case ProjectActor.T_ROLE.CLIENT:
-      name = "bgpalegoldenrod";
+      name = "tw-bg-yellow-200";
       break;
     case ProjectActor.T_ROLE.FACILITATOR:
-      name = "bglightblue";
+      name = "tw-bg-blue-300";
       break;
     case ProjectActor.T_ROLE.AGENT:
-      name = "bgwhite";
+      name = "tw-bg-white";
       break;
     default:
       break;
