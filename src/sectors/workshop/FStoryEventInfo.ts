@@ -76,7 +76,7 @@ export class FStoryEventInfo extends Fragment {
     if (isSelected) {
       s = s.replace("__CLASS_NAME__", "s-cprimebd");
     } else {
-      s = s.replace("__CLASS_NAME__", "bdlightgrey");
+      s = s.replace("__CLASS_NAME__", "tw-border-gray-300");
     }
 
     p.replaceContent(s);
