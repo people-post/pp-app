@@ -6,7 +6,6 @@ import { View } from '../lib/ui/controllers/views/View.js';
 import { Wallet } from '../common/datatypes/Wallet.js';
 import { T_DATA, T_ACTION } from '../common/plt/Events.js';
 import { Events } from '../lib/framework/Events.js';
-import UtilitiesExt from '../lib/ext/Utilities.js';
 import { Keys } from '../common/dba/Keys.js';
 import { Web3Config } from '../common/dba/Web3Config.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
@@ -16,7 +15,7 @@ import { Web3Resolver } from '../common/pdb/Web3Resolver.js';
 import { Web3Publisher } from '../common/pdb/Web3Publisher.js';
 import { Web3Ledger } from '../common/pdb/Web3Ledger.js';
 import { Web3Storage } from '../common/pdb/Web3Storage.js';
-import { asInit, Owner } from 'pp-api';
+import { asInit, Owner as Web3Owner } from 'pp-api';
 import { Account } from '../common/dba/Account.js';
 
 interface Web3ConfigData {
@@ -61,25 +60,20 @@ export class WcWeb3 extends WcSession {
     Events.trigger(T_DATA.USER_PUBLIC_PROFILE, user.getId());
   }
 
-  onWeb3OwnerRequestGetPublicKey(_owner: unknown): string {
-    return UtilitiesExt.uint8ArrayToHex(
-        Keys.getMlDsa44(this.#postingKeyPath));
-  }
-
-  onWeb3OwnerRequestLoadCheckPoint(_owner: unknown): string | null {
+  onWeb3OwnerRequestLoadCheckPoint(_owner: Web3Owner): string | null {
     return sessionStorage.getItem(STORAGE.KEY.PROFILE);
   }
 
-  onWeb3OwnerRequestSaveCheckPoint(_owner: unknown, data: string): void {
+  onWeb3OwnerRequestSaveCheckPoint(_owner: Web3Owner, data: string): void {
     sessionStorage.setItem(STORAGE.KEY.PROFILE, data);
   }
 
-  async asOnWeb3OwnerRequestSign(_owner: unknown, msg: string): Promise<string> {
+  async asOnWeb3OwnerRequestSign(_owner: Web3Owner, msg: string): Promise<string> {
     return await Keys.sign(this.#postingKeyPath, msg);
   }
 
   onWeb3OwnerProfileUpdated(_owner: unknown): void {
-    Events.trigger(T_DATA.USER_PROFILE);
+    Events.trigger(T_DATA.USER_PROFILE, null);
   }
 
   onLoginClickInAccountActionButtonFragment(_fAbAccount: AbAccount): void {
@@ -131,8 +125,12 @@ export class WcWeb3 extends WcSession {
       Keys.fromEncodedStr(sData);
     }
     // Set Web3 Owner as the Account implementation
-    const owner = new Owner();
+    const owner = new Web3Owner(null);
     Account.setImplementation(owner, true);
+    const kPub = Keys.getMlDsa44(this.#postingKeyPath);
+    if (!kPub) {
+      throw new Error("Failed to generate posting key pair");
+    }
     Account.setProps({
       callbacks: {
         onWeb3UserIdolsLoaded: (u) => this.onWeb3UserIdolsLoaded(u),
@@ -141,7 +139,7 @@ export class WcWeb3 extends WcSession {
       ownerCallbacks: {
         onWeb3OwnerProfileUpdated: (o) => this.onWeb3OwnerProfileUpdated(o),
         onWeb3OwnerRequestLoadCheckPoint: (o) => this.onWeb3OwnerRequestLoadCheckPoint(o),
-        onWeb3OwnerRequestGetPublicKey: () => Keys.getMlDsa44(this.#postingKeyPath),
+        onWeb3OwnerRequestGetPublicKey: (_o) => kPub,
         onWeb3OwnerRequestSign: (o, msg) => this.asOnWeb3OwnerRequestSign(o, msg),
         onWeb3OwnerRequestSaveCheckPoint: (o, data) => this.onWeb3OwnerRequestSaveCheckPoint(o, data),
       },

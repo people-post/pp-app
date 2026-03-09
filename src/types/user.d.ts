@@ -24,7 +24,7 @@ export interface User {
    * Get the user's username
    * @returns The username, or null/undefined if not available
    */
-  getUsername(): string | null;
+  getUsername(): string;
 
   /**
    * Get the URL of the user's icon/avatar
@@ -36,13 +36,13 @@ export interface User {
    * Get the URL of the user's logo
    * @returns The logo URL, or null/undefined if not available
    */
-  getLogoUrl(): string | null;
+  getLogoUrl(): string;
 
   /**
    * Get the user's domain URL
    * @returns The domain URL, or null/undefined if not available
    */
-  getDomainUrl(): string | null;
+  getDomainUrl(): string;
 
   /**
    * Get the user's color theme
@@ -56,9 +56,9 @@ export interface User {
    */
   getBackgroundColor(): string | null;
 
-  getCommunityId(): string | null;
+  getCommunityId(): string;
 
-  getShopName(): string | null;
+  getShopName(): string;
 
   getBlogConfig(): BlogConfig | null;
 
@@ -66,9 +66,9 @@ export interface User {
 
   getNFollowers(): number;
 
-  getInfoImageUrl(): string | null;
+  getInfoImageUrl(): string;
 
-  getBriefBio(): string | null;
+  getBriefBio(): string;
 
   /**
    * Check if the user is following the current logged-in user

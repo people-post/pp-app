@@ -7,48 +7,9 @@
 import { Web2Account } from './Web2Account.js';
 import type { User } from '../datatypes/User.js';
 import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
-import type { UserPrivateProfile as UserProfileType } from '../../types/backend2.js';
-import { OwnerProps } from 'pp-api';
-
-// Web3 Owner type from pp-api (imported dynamically in WcWeb3)
-interface Web3Owner {
-  // Authentication
-  isAuthenticated(): boolean;
-  getId(): string | null;
-  
-  // Profile
-  getNickname(): string;
-  getPublicKey?(): string;
-  getIconUrl?(): string;
-  getProfile?(): Record<string, unknown>;
-  getPreferredLanguage?(): string | null;
-  getLiveStreamKey?(): string | null;
-  reset(profile: UserProfileType | null): void;
-  
-  // Social
-  isFollowing?(userId: string): boolean;
-  isIdolOf?(user: User): boolean;
-  getUserNickname?(userId: string, defaultNickname?: string): string;
-  asyncGetIdolIds?(): Promise<string[]>;
-  
-  // Web3-specific methods
-  setProps?(props: OwnerProps): void;
-  loadCheckPoint?(): void;
-  saveCheckPoint?(): void;
-  
-  // Publishing
-  asPublishArticle?(article: unknown): Promise<void>;
-  asComment?(threadId: string, article: unknown, asPost: (article: unknown) => Promise<unknown>): Promise<void>;
-  asLike?(itemId: string): Promise<void>;
-  asUnlike?(itemId: string): Promise<void>;
-  asUploadFile?(file: File): Promise<string>;
-  asUpdateProfile?(profile: unknown, cids: string[]): Promise<void>;
-  asRegister?(agent: unknown, name: string): Promise<void>;
-  hasPublished?(): boolean;
-  
-  // Index signature for additional properties
-  [key: string]: unknown;
-}
+import type { UserPrivateProfile as Web2UserPrivateProfileData } from '../../types/backend2.js';
+import type { BlogConfig as BlogConfigData } from '../../types/backend2.js';
+import { Owner as Web3Owner, OwnerProps } from 'pp-api';
 
 type AccountImplementation = Web2Account | Web3Owner;
 
@@ -65,13 +26,6 @@ interface Idol {
  */
 interface OutRequest {
   target_group_id: string;
-}
-
-/**
- * Blog profile type
- */
-interface BlogProfile {
-  [key: string]: unknown;
 }
 
 /**
@@ -302,7 +256,7 @@ class AccountWrapper {
     return [];
   }
 
-  getBlogProfile(): BlogProfile | null {
+  getBlogProfile(): BlogConfigData | null {
     if ('getBlogProfile' in this.#impl && typeof this.#impl.getBlogProfile === 'function') {
       return this.#impl.getBlogProfile();
     }
@@ -384,7 +338,7 @@ class AccountWrapper {
 
   // ==================== State Management Methods ====================
 
-  reset(profile: UserProfileType | null = null): void {
+  reset(profile: Web2UserPrivateProfileData | null = null): void {
     if ('reset' in this.#impl && typeof this.#impl.reset === 'function') {
       this.#impl.reset(profile);
     }

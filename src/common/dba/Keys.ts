@@ -69,7 +69,7 @@ export class KeysClass implements KeysInterface {
 
   getMlDsa44(path: number[]): Uint8Array | null {
     const k = this.#getMlDsa44Impl(path);
-    return k ? k.toPublic() : null;
+    return k.toPublic();
   }
 
   setMnemonic(v: string): void {

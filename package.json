@@ -1,51 +1,51 @@
 {
-  "name": "pp-app",
-  "version": "1.0.0",
-  "description": "people-post frontend",
-  "homepage": "https://github.com/people-post/pp-app#readme",
-  "bugs": {
-    "url": "https://github.com/people-post/pp-app/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/people-post/pp-app.git"
-  },
-  "license": "MIT",
-  "author": "",
-  "type": "module",
-  "main": "src/index.js",
-  "directories": {
-    "doc": "doc"
-  },
-  "scripts": {
-    "build": "node build.js",
-    "build:2": "node build2.js",
-    "build:3": "node build3.js",
-    "clean": "rm -rf obj",
-    "package": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "tsc --noEmit --watch"
-  },
-  "dependencies": {
-    "@noble/ed25519": "^1.7.3",
-    "@scure/bip32": "^2.0.1",
-    "bip32-ed25519": "^0.0.5",
-    "bip39": "^3.1.0",
-    "buffer": "^6.0.3",
-    "pp-api": "github:people-post/pp-api#release/v0.1.6"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.18",
-    "@types/node": "^20.10.0",
-    "cbor-x": "^1.6.0",
-    "esbuild": "^0.19.12",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.0.0",
-    "typescript": "^5.3.3",
-    "webrtc-adapter": "^9.0.0"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  }
+    "name": "pp-app",
+    "version": "1.0.0",
+    "description": "people-post frontend",
+    "homepage": "https://github.com/people-post/pp-app#readme",
+    "bugs": {
+        "url": "https://github.com/people-post/pp-app/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/people-post/pp-app.git"
+    },
+    "license": "MIT",
+    "author": "",
+    "type": "module",
+    "main": "src/index.js",
+    "directories": {
+        "doc": "doc"
+    },
+    "scripts": {
+        "build": "node build.js",
+        "build:2": "node build2.js",
+        "build:3": "node build3.js",
+        "clean": "rm -rf obj",
+        "package": "npm run build",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "type-check": "tsc --noEmit",
+        "type-check:watch": "tsc --noEmit --watch"
+    },
+    "dependencies": {
+        "@noble/ed25519": "^1.7.3",
+        "@scure/bip32": "^2.0.1",
+        "bip32-ed25519": "^0.0.5",
+        "bip39": "^3.1.0",
+        "buffer": "^6.0.3",
+        "pp-api": "github:people-post/pp-api#release/v0.1.7"
+    },
+    "devDependencies": {
+        "@tailwindcss/postcss": "^4.1.18",
+        "@types/node": "^20.10.0",
+        "cbor-x": "^1.6.0",
+        "esbuild": "^0.19.12",
+        "postcss": "^8.5.6",
+        "tailwindcss": "^4.0.0",
+        "typescript": "^5.3.3",
+        "webrtc-adapter": "^9.0.0"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
 }
