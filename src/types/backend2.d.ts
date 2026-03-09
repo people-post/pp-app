@@ -49,8 +49,8 @@ export interface BlogConfig {
 }
 
 export interface ColorTheme {
-  primary_color: string | null;
-  secondary_color: string | null;
+  primary_color: string;
+  secondary_color: string;
 }
 
 /**

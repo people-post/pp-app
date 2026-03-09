@@ -11,87 +11,87 @@ export interface User {
    * Get the unique identifier of the user
    * @returns The user's UUID or ID, or null/undefined if not available
    */
-  getId(): string | null | undefined;
+  getId(): string;
 
   /**
    * Get the user's display nickname
    * @returns The nickname, or username as fallback, or empty string/undefined
    */
-  getNickname(): string | undefined;
+  getNickname(): string;
 
   /**
    * Get the user's username
    * @returns The username, or null/undefined if not available
    */
-  getUsername(): string | null | undefined;
+  getUsername(): string | null;
 
   /**
    * Get the URL of the user's icon/avatar
    * @returns The icon URL, or empty string/null if not available
    */
-  getIconUrl(): string | null;
+  getIconUrl(): string;
 
   /**
    * Get the URL of the user's logo
    * @returns The logo URL, or null/undefined if not available
    */
-  getLogoUrl?(): string | null | undefined;
+  getLogoUrl(): string | null;
 
   /**
    * Get the user's domain URL
    * @returns The domain URL, or null/undefined if not available
    */
-  getDomainUrl?(): string | null | undefined;
+  getDomainUrl(): string | null;
 
   /**
    * Get the user's color theme
    * @returns The ColorTheme object, or null if not available
    */
-  getColorTheme?(): ColorTheme | null;
+  getColorTheme(): ColorTheme | null;
 
   /**
    * Get the user's background color
    * @returns The background color as a string, or empty string/null/undefined
    */
-  getBackgroundColor?(): string | null | undefined;
+  getBackgroundColor(): string | null;
 
-  getCommunityId?(): string | undefined;
+  getCommunityId(): string | null;
 
-  getShopName?(): string | undefined;
+  getShopName(): string | null;
 
-  getBlogConfig?(): BlogConfig | null;
+  getBlogConfig(): BlogConfig | null;
 
-  getNIdols?(): number | undefined;
+  getNIdols(): number;
 
-  getNFollowers?(): number | undefined;
+  getNFollowers(): number;
 
-  getImageUrl?(): string | undefined;
+  getInfoImageUrl(): string | null;
 
-  getBriefBiography?(): string | undefined;
+  getBriefBio(): string | null;
 
   /**
    * Check if the user is following the current logged-in user
    * @returns true if following, false otherwise
    */
-  isFollowingUser?(): boolean;
+  isFollowingUser(): boolean;
 
   /**
    * Check if the user's workshop is open
    * @returns true if workshop is open, false otherwise
    */
-  isWorkshopOpen?(): boolean;
+  isWorkshopOpen(): boolean;
 
   /**
    * Check if the user's shop is open
    * @returns true if shop is open, false otherwise
    */
-  isShopOpen?(): boolean;
+  isShopOpen(): boolean;
 
   /**
    * Check if this is a feed user
    * @returns true if this is a feed, false otherwise
    */
-  isFeed?(): boolean;
+  isFeed(): boolean;
 
   /**
    * Web3-specific: Set the data source for the user

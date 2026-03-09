@@ -7,11 +7,12 @@ import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
 import { User as PpUser } from 'pp-api';
 import { Account } from './Account.js';
+import { UserPublicProfile } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    profiles?: unknown[];
+    profiles?: UserPublicProfile[];
   };
 }
 
@@ -176,7 +177,7 @@ export class UserLib {
       if (response.data?.profiles) {
         const us: User[] = [];
         for (const p of response.data.profiles) {
-          us.push(new User(p as Record<string, unknown>));
+          us.push(new User(p));
         }
         for (const u of us) {
           this.update(u);

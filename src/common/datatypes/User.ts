@@ -1,7 +1,7 @@
-import { UserBase } from './UserBase.js';
 import { BlogConfig } from './BlogConfig.js';
 import { ColorTheme } from './ColorTheme.js';
 import { URL_PARAM, ID } from '../constants/Constants.js';
+import type { UserPublicProfile as Web2UserPublicProfile } from '../../types/backend2.js';
 import type { User as UserType } from '../../types/user.js';
 
 // Lazy import to avoid circular dependency
@@ -19,39 +19,16 @@ function getWebConfig(): typeof _WebConfigCache {
   return _WebConfigCache;
 }
 
-interface UserData {
-  uuid?: string;
-  is_following_user?: boolean;
-  is_workshop_open?: boolean;
-  is_shop_open?: boolean;
-  logo_url?: string;
-  referrer_id?: string;
-  community_id?: string;
-  shop_name?: string;
-  blog_config?: unknown;
-  n_idols?: number;
-  n_followers?: number;
-  username?: string;
-  nickname?: string;
-  theme?: { primary_color: string; secondary_color: string };
-  domain?: string;
-  icon_url?: string;
-  image_url?: string;
-  brief_biography?: string;
-  [key: string]: unknown;
-}
-
-export class User extends UserBase implements UserType {
+export class User implements UserType {
   static readonly C_ID = {
     SYSTEM: 'SYSTEM', // Synced with backend
     L_ADD_USER: 'L_ADD_USER', // Local
   } as const;
 
   #blogConfig: BlogConfig | null = null;
-  protected _data: UserData;
+  protected _data: Web2UserPublicProfile;
 
-  constructor(data: UserData) {
-    super(data);
+  constructor(data: Web2UserPublicProfile) {
     this._data = data;
     if (data.blog_config) {
       this.#blogConfig = new BlogConfig(data.blog_config as ConstructorParameters<typeof BlogConfig>[0]);
@@ -75,39 +52,39 @@ export class User extends UserBase implements UserType {
     return (this._data.uuid || '').indexOf('FEED_') == 0;
   }
 
-  getId(): string | undefined {
+  getId(): string {
     return this._data.uuid;
   }
 
-  getLogoUrl(): string | undefined {
+  getLogoUrl(): string | null {
     return this._data.logo_url;
   }
 
-  getReferrerId(): string | undefined {
+  getReferrerId(): string | null {
     return this._data.referrer_id;
   }
 
-  getCommunityId(): string | undefined {
-    return this._data.community_id;
+  getCommunityId(): string | null {
+    return this._data.community_id ?? null;
   }
 
-  getShopName(): string | undefined {
-    return this._data.shop_name;
+  getShopName(): string | null {
+    return this._data.shop_name ?? null;
   }
 
   getBlogConfig(): BlogConfig | null {
     return this.#blogConfig;
   }
 
-  getNIdols(): number | undefined {
-    return this._data.n_idols;
+  getNIdols(): number {
+    return this._data.n_idols || 0;
   }
 
-  getNFollowers(): number | undefined {
-    return this._data.n_followers;
+  getNFollowers(): number {
+    return this._data.n_followers || 0;
   }
 
-  getUsername(): string | undefined {
+  getUsername(): string | null {
     return this._data.username;
   }
 
@@ -158,11 +135,11 @@ export class User extends UserBase implements UserType {
     return this._data.theme ? this._data.theme.primary_color : '';
   }
 
-  getInfoImageUrl(): string | undefined {
+  getInfoImageUrl(): string | null {
     return this._data.image_url;
   }
 
-  getBriefBio(): string | undefined {
+  getBriefBio(): string | null {
     return this._data.brief_biography;
   }
 

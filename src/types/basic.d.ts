@@ -38,14 +38,6 @@ export interface SocialItemId {
 }
 
 /**
- * Color theme data structure
- */
-export interface ColorThemeData {
-  primary_color: string;
-  secondary_color: string;
-}
-
-/**
  * ColorTheme interface representing the public API of the ColorTheme class
  */
 export interface ColorTheme {
