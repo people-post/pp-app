@@ -380,7 +380,7 @@ export class FvcProject extends FScrollViewContent {
     p = panel.getImagePanel();
     if (project.getFiles().length) {
       let pp = new ThumbnailPanelWrapper();
-      pp.setClassName("aspect-21-9-frame");
+      pp.setClassName("tw-aspect-[21/9] tw-relative");
       p.wrapPanel(pp);
       this._fThumbnail.attachRender(pp);
       this._fThumbnail.render();

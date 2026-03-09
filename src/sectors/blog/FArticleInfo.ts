@@ -234,7 +234,7 @@ export class FArticleInfo extends FPostBase {
 
     let p = new ThumbnailPanelWrapper();
     if (this.#isSquareImage()) {
-      p.setClassName("aspect-1-1-frame");
+      p.setClassName("tw-aspect-[1/1] tw-relative");
     }
     panel.wrapPanel(p);
 

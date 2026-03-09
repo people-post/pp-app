@@ -11,8 +11,8 @@ const _CPT_POST_INFO_SMALL = {
   <div id="__ID_PIN__"></div>
   <div id="__ID_REF__" class="crosslink-note tw-min-h-[10px]"></div>
   <div id="__ID_MAIN__" class="post-info small">
-    <div class="aspect-5-1-frame">
-      <div class="aspect-content tw-overflow-hidden tw-flex tw-justify-between">
+    <div class="tw-aspect-[5/1] tw-relative">
+      <div class="tw-absolute tw-inset-0 tw-overflow-hidden tw-flex tw-justify-between">
         <div class="tw-w-[60%] tw-flex-grow">
           <div id="__ID_TITLE__" class="tw-text-u-font3 tw-font-bold tw-truncate"></div>
           <div id="__ID_CONTENT__" class="tw-text-u-font6 tw-truncate"></div>

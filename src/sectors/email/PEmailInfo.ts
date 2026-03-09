@@ -2,8 +2,8 @@ import { PEmailBase } from './PEmailBase.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 const _CPT_EMAIL_INFO = {
-  MAIN : `<div class="aspect-5-1-frame">
-    <div class="aspect-content tw-box-border tw-pt-[5px] tw-pr-[5px]">
+  MAIN : `<div class="tw-aspect-[5/1] tw-relative">
+    <div class="tw-absolute tw-inset-0 tw-box-border tw-pt-[5px] tw-pr-[5px]">
       <div class="tw-flex tw-justify-start tw-h-full">
         <div id="__ID_ICON__" class="tw-w-[5%] tw-flex-shrink-0">
         </div>

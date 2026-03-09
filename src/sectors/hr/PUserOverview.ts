@@ -2,8 +2,8 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 const _CPT_USER_OVERVIEW = {
-  MAIN : `<div class="aspect-5-1-frame tw-bg-gray-300">
-    <div id="__ID_BG_IMAGE__" class="aspect-content"></div>
+  MAIN : `<div class="tw-aspect-[5/1] tw-relative tw-bg-gray-300">
+    <div id="__ID_BG_IMAGE__" class="tw-absolute tw-inset-0"></div>
     <div id="__ID_USER_ICON__" class="user-info-header-user-icon tw-w-s-icon2 tw-h-s-icon2"></div>
     <div id="__ID_BG_UPLOAD__" class="user-info-header-image-upload"></div>
   </div>`,

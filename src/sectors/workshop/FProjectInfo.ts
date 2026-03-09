@@ -185,7 +185,7 @@ export class FProjectInfo extends MajorSectorItem {
       if (p) {
         let pp = new ThumbnailPanelWrapper();
         if (this.#isSquareImage()) {
-          pp.setClassName("aspect-1-1-frame");
+          pp.setClassName("tw-aspect-[1/1] tw-relative");
         }
         p.wrapPanel(pp);
 

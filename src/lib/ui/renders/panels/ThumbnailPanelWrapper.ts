@@ -1,7 +1,7 @@
 import { PanelWrapper } from './PanelWrapper.js';
 
 const _CPW_THUMBNAIL = {
-  MAIN : `<div class="aspect-content">
+  MAIN : `<div class="tw-absolute tw-inset-0">
     <div class="thumbnail-wrapper">
       <div id="__ID__" class="thumbnail"></div>
     </div>
@@ -13,7 +13,7 @@ export class ThumbnailPanelWrapper extends PanelWrapper {
 
   constructor() {
     super();
-    this._className = "aspect-16-9-frame";
+    this._className = "tw-aspect-[16/9] tw-relative";
   }
 
   _getWrapperFramework(wrapperElementId: string): string {

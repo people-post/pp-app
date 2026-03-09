@@ -92,7 +92,7 @@ export class FOgp extends Fragment {
       let pThumbnail = new ThumbnailPanelWrapper();
       if (this._sizeType == SocialItem.T_LAYOUT.EXT_QUOTE_SMALL) {
         pp.setClassName("quote-element-image-thumbnail-wrapper tw-flex-shrink-0");
-        pThumbnail.setClassName("aspect-1-1-frame");
+        pThumbnail.setClassName("tw-aspect-[1/1] tw-relative");
       }
       pp.wrapPanel(pThumbnail);
 

@@ -1,8 +1,8 @@
 import { POgp } from './POgp.js';
 
 const _CPT_OGP_SMALL = {
-  MAIN : `<div class="aspect-3-1-frame">
-  <div class="aspect-content tw-h-full tw-overflow-hidden quote-element small tw-flex tw-justify-start">
+  MAIN : `<div class="tw-aspect-[3/1] tw-relative">
+  <div class="tw-absolute tw-inset-0 tw-h-full tw-overflow-hidden quote-element small tw-flex tw-justify-start">
     <div id="__ID_IMAGE__"></div>
     <div class="tw-flex-grow tw-p-[5px]">
       <div class="tw-flex tw-justify-between">

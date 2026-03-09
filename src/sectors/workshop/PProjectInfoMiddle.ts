@@ -14,8 +14,8 @@
 
 const _CPT_PROJECT_INFO_MIDDLE = {
   MAIN : `<div id="__ID_WRAPPER__" class="project-info-wrapper middle">
-    <div class="aspect-5-1-frame">
-      <div class="aspect-content tw-flex tw-justify-start">
+    <div class="tw-aspect-[5/1] tw-relative">
+      <div class="tw-absolute tw-inset-0 tw-flex tw-justify-start">
         <div id="__ID_PROGRESS__" class="tw-flex-shrink-0 v-progress-wrapper w10px"></div>
         <div class="tw-flex-grow tw-h-full">
           <div id="__ID_MAIN__" class="project-info middle tw-h-full tw-border-lightgray">

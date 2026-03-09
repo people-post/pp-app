@@ -277,7 +277,7 @@ export class FProduct extends MajorSectorItem {
   #createThumbnailPanel(): ThumbnailPanelWrapper {
     let p = new ThumbnailPanelWrapper();
     if (this.#isSquareThumbnail()) {
-      p.setClassName("aspect-1-1-frame");
+      p.setClassName("tw-aspect-[1/1] tw-relative");
     }
     return p;
   }
