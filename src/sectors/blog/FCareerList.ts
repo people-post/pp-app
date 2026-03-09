@@ -6,6 +6,7 @@ import { FCareer } from '../../common/hr/FCareer.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { FvcCareer } from '../../sectors/hr/FvcCareer.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { UserRole } from '../../common/datatypes/UserRole.js';
 
 export class FCareerList extends Fragment {
   #fList: HrFCareerList;
@@ -22,16 +23,21 @@ export class FCareerList extends Fragment {
   shouldHighlightInCareerFragment(_fCareer: FCareer, roleId: string): boolean {
     return this.#selectedId == roleId;
   }
-  getRoleForCareerFragment(_fCareer: FCareer, roleId: string): unknown { return Blog.getRole(roleId); }
+  getRoleForCareerFragment(_fCareer: FCareer, roleId: string): UserRole | null { return Blog.getRole(roleId) as UserRole | null; }
   getFragmentsDictForCareerListFragment(_fCareerList: HrFCareerList): Map<string, FCareer[]> {
     let m = new Map<string, FCareer[]>();
     let items: FCareer[] = [];
     for (let id of Blog.getOpenRoleIdsByType(
              BlogRole.T_ROLE.EXCLUSIVE)) {
       let f = new FCareer();
-      f.setRoleId(id);
-      f.setDataSource(this);
-      f.setDelegate(this);
+      f.setProps({
+        data: { roleId: id },
+        callbacks: {
+          onClickInCareerFragment: (career) => this.onClickInCareerFragment(career),
+          getRoleForCareerFragment: (_c, roleId) => this.getRoleForCareerFragment(_c, roleId),
+          shouldHighlightInCareerFragment: (_c, roleId) => this.shouldHighlightInCareerFragment(_c, roleId),
+        },
+      });
       items.push(f);
     }
     m.set("Insider", items);
@@ -40,9 +46,14 @@ export class FCareerList extends Fragment {
     for (let id of Blog.getOpenRoleIdsByType(
              BlogRole.T_ROLE.PARTNERSHIP)) {
       let f = new FCareer();
-      f.setRoleId(id);
-      f.setDataSource(this);
-      f.setDelegate(this);
+      f.setProps({
+        data: { roleId: id },
+        callbacks: {
+          onClickInCareerFragment: (career) => this.onClickInCareerFragment(career),
+          getRoleForCareerFragment: (_c, roleId) => this.getRoleForCareerFragment(_c, roleId),
+          shouldHighlightInCareerFragment: (_c, roleId) => this.shouldHighlightInCareerFragment(_c, roleId),
+        },
+      });
       items.push(f);
     }
     m.set("Coalitionist", items);

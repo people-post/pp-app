@@ -4,6 +4,7 @@ import { FCareerList } from '../../common/hr/FCareerList.js';
 import { FCareer } from '../../common/hr/FCareer.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { FvcCareer } from '../../sectors/hr/FvcCareer.js';
+import type { UserRole } from '../../common/datatypes/UserRole.js';
 
 export class FvcCareerList extends FScrollViewContent {
   private _fList: FCareerList;
@@ -22,7 +23,7 @@ export class FvcCareerList extends FScrollViewContent {
   shouldHighlightInCareerFragment(_fCareer: FCareer, roleId: string): boolean {
     return this._selectedId == roleId;
   }
-  getRoleForCareerFragment(_fCareer: FCareer, roleId: string): ReturnType<typeof Shop.getTeam> { return Shop.getTeam(roleId); }
+  getRoleForCareerFragment(_fCareer: FCareer, roleId: string): UserRole | null { return Shop.getTeam(roleId) as UserRole | null; }
   getFragmentsDictForCareerListFragment(_fCareerList: FCareerList): Map<null, FCareer[]> {
     let m = new Map<null, FCareer[]>();
     if (!Shop.isOpen()) {
@@ -31,9 +32,14 @@ export class FvcCareerList extends FScrollViewContent {
     let fs: FCareer[] = [];
     for (let id of Shop.getOpenTeamIds()) {
       let f = new FCareer();
-      f.setRoleId(id);
-      f.setDataSource(this);
-      f.setDelegate(this);
+      f.setProps({
+        data: { roleId: id },
+        callbacks: {
+          onClickInCareerFragment: (career) => this.onClickInCareerFragment(career),
+          getRoleForCareerFragment: (_c, roleId) => this.getRoleForCareerFragment(_c, roleId),
+          shouldHighlightInCareerFragment: (_c, roleId) => this.shouldHighlightInCareerFragment(_c, roleId),
+        },
+      });
       fs.push(f);
     }
     m.set(null, fs);
