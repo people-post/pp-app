@@ -12,8 +12,8 @@ const _CPT_POST_INFO_MIDDLE = {
   MAIN : `<div id="__ID_WRAPPER__" class="post-info-wrapper">
   <div id="__ID_PIN__"></div>
   <div id="__ID_MAIN__" class="shadow-post-info">
-    <div class="aspect-3-1-frame">
-      <div class="aspect-content tw-h-full tw-flex tw-justify-center">
+    <div class="tw-aspect-[3/1] tw-relative">
+      <div class="tw-absolute tw-inset-0 tw-h-full tw-flex tw-justify-center">
         <div id="__ID_THUMBNAIL__"></div>
         <div class="tw-flex-grow tw-flex tw-flex-col">
           <div class="tw-flex-grow tw-overflow-hidden post-info-right">
