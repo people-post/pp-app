@@ -7,7 +7,7 @@
 import { Web2Account } from './Web2Account.js';
 import type { User } from '../datatypes/User.js';
 import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
-import type { UserProfile as UserProfileType } from '../../types/backend2.js';
+import type { UserPrivateProfile as UserProfileType } from '../../types/backend2.js';
 
 // Web3 Owner type from pp-api (imported dynamically in WcWeb3)
 interface Web3Owner {

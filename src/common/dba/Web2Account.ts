@@ -5,21 +5,25 @@ import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { CustomerOrder } from '../datatypes/CustomerOrder.js';
 import { Api } from '../plt/Api.js';
 import type { User } from '../datatypes/User.js';
-import type { UserProfile, Idol, OutRequest, BlogProfile } from '../../types/backend2.js';
+import type { UserPrivateProfile, Idol, OutRequest, BlogConfig } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    profile?: UserProfile;
+    profile?: UserPrivateProfile;
     address_ids?: string[];
     order?: unknown;
   };
 }
 
+interface LocalUserPrivateProfile extends UserPrivateProfile {
+  address_ids?: string[];
+}
+
 export class Web2Account {
   #userId: string | null = null;
   // TODO: Code reorg in web2
-  #profile: UserProfile | null = null;
+  #profile: LocalUserPrivateProfile | null = null;
   #guestName = '';
   #guestContact = '';
   #orderLib = new Map<string, CustomerOrder | null>();
@@ -97,28 +101,28 @@ export class Web2Account {
     return this.#profile ? this.#profile.journal_ids || [] : [];
   }
 
-  getBlogProfile(): BlogProfile | null {
+  getBlogProfile(): BlogConfig | null {
     return this.#profile ? this.#profile.blog || null : null;
   }
 
   getPreferredLanguage(): string | null {
-    return this.#profile ? this.#profile.lang || null : null;
+    return null;
   }
 
   getRepresentativeId(): string | null {
-    return this.#profile ? this.#profile.representative_id || null : null;
+    return this.#profile?.representative_id || null;
   }
 
   getNickname(): string {
-    return this.#profile ? this.#profile.nickname || '' : '';
+    return this.#profile?.nickname || '';
   }
 
   getReferrerId(): string {
-    return this.#profile ? this.#profile.referrer_id || '' : '';
+    return this.#profile?.referrer_id || '';
   }
 
   getCommunityId(): string | null {
-    return this.#profile ? this.#profile.community_id || null : null;
+    return this.#profile?.community_id || null;
   }
 
   getUserShopName(userId: string, defaultName: string): string {
@@ -152,7 +156,7 @@ export class Web2Account {
   }
 
   getOutRequests(): OutRequest[] {
-    return this.#profile ? this.#profile.o_requests || [] : [];
+    return this.#profile?.o_requests || [];
   }
 
   getAddressIds(): string[] {
@@ -176,7 +180,7 @@ export class Web2Account {
   }
 
   getLiveStreamKey(): string | null {
-    return this.#profile ? this.#profile.live_stream_key || null : null;
+    return this.#profile?.live_stream_key || null;
   }
 
   setUserId(id: string | null): void {
@@ -193,11 +197,11 @@ export class Web2Account {
 
   setLiveStreamKey(key: string | null): void {
     if (this.#profile) {
-      this.#profile.live_stream_key = key || undefined;
+      this.#profile.live_stream_key = key;
     }
   }
 
-  reset(profile: UserProfile | null): void {
+  reset(profile: UserPrivateProfile | null): void {
     this.#profile = profile;
     this.#orderLib.clear();
     FwkEvents.trigger(PltT_DATA.USER_PROFILE, null);

@@ -10,6 +10,18 @@ export interface Idol {
   nickname?: string;
 }
 
+export interface Group {
+  id: string;
+  owner_id: string;
+  name: string;
+  theme: ColorTheme | null;
+  tag_ids: string[];
+  member_ids: string[];
+  is_open: boolean;
+  status: string | null;
+  data: unknown;
+}
+
 /**
  * OutRequest data structure from backend API
  */
@@ -17,34 +29,75 @@ export interface OutRequest {
   target_group_id: string;
 }
 
+export interface SocialItemId {
+  id: string;
+  type: string;
+}
+
+export interface SectorItemLayout {
+  type: string;
+}
+
 /**
  * BlogProfile data structure from backend API
  */
-export interface BlogProfile {
-  [key: string]: unknown;
+export interface BlogConfig {
+  pinned_items: SocialItemId[];
+  is_social_action_enabled: boolean;
+  item_layout?: SectorItemLayout;
+  pinned_item_layout?: SectorItemLayout;
+}
+
+export interface ColorTheme {
+  primary_color: string | null;
+  secondary_color: string | null;
 }
 
 /**
  * UserProfile data structure from backend API
  */
-export interface UserProfile {
+interface AccountProfileBase {
   uuid: string;
-  is_followed?: boolean;
-  idols?: Idol[];
-  group_ids?: string[];
-  journal_ids?: string[];
-  blog?: BlogProfile;
-  lang?: string;
-  representative_id?: string;
-  nickname?: string;
-  referrer_id?: string;
-  community_id?: string;
+  nickname: string | null;
+  brief_biography: string | null;
+  domain: string | null;
+  n_idols: number | null;
+  n_followers: number | null;
+  logo_url: string | null;
+  icon_url: string | null;
+  image_url: string | null;
+  theme: ColorTheme | null;
+}
+
+export interface UserPublicProfile extends AccountProfileBase {
+  is_beta_tester: boolean | null;
+  referrer_id: string | null;
+  username: string | null;
+  is_following_user: boolean | null;
+  shop_name: string | null;
+  is_workshop_open: boolean | null;
+  is_shop_open: boolean | null;
+  community_id?: string | null;
+  blog_config?: BlogConfig;
+}
+
+export interface UserPrivateProfile {
+  uuid: string;
+  nickname: string | null;
+  is_beta_tester: boolean | null;
+  referrer_id: string | null;
+  community_id: string | null;
+  is_followed: boolean | null;
+  domain_name: string | null;
+  live_stream_key: string | null;
+  idols: Idol[];
+  tags: Group[];
+  group_ids: string[];
+  journal_ids: string[];
+  o_requests: OutRequest[];
   applied_community_id?: string;
-  is_beta_tester?: boolean;
-  domain_name?: string;
-  live_stream_key?: string;
-  address_ids?: string[];
-  o_requests?: OutRequest[];
+  representative_id?: string | null;
+  blog?: BlogConfig;
 }
 
 /**
