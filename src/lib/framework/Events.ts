@@ -1,4 +1,12 @@
 /**
+ * Reactive session data flow: dba modules (Blog, Users, Cart, etc.) call
+ * Events.trigger(dataType, data) when data changes. The delegate (WcSession)
+ * receives onSessionDataChange and calls applyDataUpdate, which propagates
+ * down the RenderController tree. Components with onDataUpdate in props can
+ * react to updates. See MIGRATION_PLAN.md Phase 3.
+ */
+
+/**
  * Event data type symbols
  */
 export const T_DATA = {
