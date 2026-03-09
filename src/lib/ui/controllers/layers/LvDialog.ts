@@ -41,7 +41,7 @@ export class LvDialog extends ViewLayer {
                           "javascript:G.action(window.CRC_DIALOG.CLOSE)");
     render.wrapPanel(pWrapper);
     let pMain = new ListPanel();
-    pMain.setClassName("dialog-content tw-relative");
+    pMain.setClassName("dialog-content tw:relative");
     pMain.setAttribute("onclick", "javascript:G.anchorClick()");
     pWrapper.wrapPanel(pMain);
 

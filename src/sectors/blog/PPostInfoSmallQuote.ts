@@ -1,15 +1,15 @@
 const _CPT_POST_INFO_SMALL_QUOTE = {
-  MAIN : `<div class="tw-aspect-[3/1] tw-relative">
-  <div class="tw-absolute tw-inset-0 tw-h-full tw-overflow-hidden quote-element small tw-flex tw-justify-start">
+  MAIN : `<div class="tw:aspect-[3/1] tw:relative">
+  <div class="tw:absolute tw:inset-0 tw:h-full tw:overflow-hidden quote-element small tw:flex tw:justify-start">
     <div id="__ID_IMAGE__"></div>
-    <div class="tw-flex-grow tw-p-[5px]">
+    <div class="tw:flex-grow tw:p-[5px]">
       <div id="__ID_REF__" class="crosslink-note"></div>
-      <div class="tw-flex tw-justify-between">
+      <div class="tw:flex tw:justify-between">
         <div id="__ID_AUTHOR__"></div>
         <div id="__ID_TIME__" class="small-info-text"></div>
       </div>
-      <div id="__ID_TITLE__" class="tw-text-u-font5"></div>
-      <div id="__ID_CONTENT__" class="tw-text-u-font5"></div>
+      <div id="__ID_TITLE__" class="tw:text-u-font5"></div>
+      <div id="__ID_CONTENT__" class="tw:text-u-font5"></div>
     </div>
   </div>
   </div>`,
@@ -48,7 +48,7 @@ export class PPostInfoSmallQuote extends PPostInfoBase {
 
   enableImage(): void {
     this._pImage.setClassName(
-        "quote-element-image-thumbnail-wrapper tw-flex-shrink-0");
+        "quote-element-image-thumbnail-wrapper tw:flex-shrink-0");
   }
 
   _onFrameworkDidAppear(): void {

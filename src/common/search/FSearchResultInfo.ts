@@ -3,23 +3,23 @@ export const CF_SEARCH_RESULT_INFO = {
 } as const;
 
 const _CPT_SEARCH_RESULT_INFO = {
-  TITLE_ONLY_MAIN : `<div class="search-result-info tw-p-[5px] tw-cursor-pointer">
+  TITLE_ONLY_MAIN : `<div class="search-result-info tw:p-[5px] tw:cursor-pointer">
   <div id="__ID_TITLE__"></div>
   </div>`,
-  BRIEF_MAIN : `<div class="info-panel brief tw-cursor-pointer">
-  <div class="pad10px tw-text-u-font2 tw-leading-line-height32">
+  BRIEF_MAIN : `<div class="info-panel brief tw:cursor-pointer">
+  <div class="pad10px tw:text-u-font2 tw:leading-line-height32">
     <div id="__ID_CONTENT__"></div>
   </div>
   <div id="__ID_TIME__" class="small-info-text"></div>
   </div>`,
-  NORMAL_MAIN : `<div class="search-result-info tw-p-[10px] tw-cursor-pointer">
+  NORMAL_MAIN : `<div class="search-result-info tw:p-[10px] tw:cursor-pointer">
   <div>
-    <span class="tw-text-u-font3 s-cfunc">
-      <span id="__ID_ICON__" class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6"></span>
+    <span class="tw:text-u-font3 s-cfunc">
+      <span id="__ID_ICON__" class="tw:inline-block tw:w-s-icon6 tw:h-s-icon6"></span>
       <span id="__ID_TITLE__"></span>
     </span>
   </div>
-  <div id="__ID_CONTENT__" class="tw-text-u-font4 tw-text-gray-600 tw-max-h-[80px] tw-overflow-hidden"></div>
+  <div id="__ID_CONTENT__" class="tw:text-u-font4 tw:text-gray-600 tw:max-h-[80px] tw:overflow-hidden"></div>
   <div id="__ID_TIME__" class="small-info-text"></div>
   </div>`,
   KEYWORD : `<span class="search-result-match">__KEYWORD__</span>`,

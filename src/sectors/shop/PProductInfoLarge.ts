@@ -9,19 +9,19 @@
  */
 
 const _CPT_PRODUCT_INFO_LARGE = {
-  MAIN : `<div class="tw-flex tw-justify-start product-info large">
-    <div class="w50px tw-flex-shrink-0">
+  MAIN : `<div class="tw:flex tw:justify-start product-info large">
+    <div class="w50px tw:flex-shrink-0">
       <div id="__ID_SELLER_ICON__" class="user-icon-column"></div>
     </div>
-    <div class="tw-flex-grow tw-min-w-0">
+    <div class="tw:flex-grow tw:min-w-0">
       <div class="crosslink-note" id="__ID_REFERENCE__"></div>
       <div id="__ID_SELLER_NAME__"></div>
       <div class="product-detail-large">
-        <div id="__ID_NAME__" class="tw-text-u-font5 tw-font-bold"></div>
-        <div id="__ID_DESCRIPTION__" class="tw-text-u-font5"></div>
+        <div id="__ID_NAME__" class="tw:text-u-font5 tw:font-bold"></div>
+        <div id="__ID_DESCRIPTION__" class="tw:text-u-font5"></div>
       </div>
       <div id="__ID_THUMBNAIL__"></div>
-      <div class="tw-flex tw-justify-between">
+      <div class="tw:flex tw:justify-between">
         <div id="__ID_PRICE__"></div>
         <div id="__ID_ACTION__"></div>
       </div>

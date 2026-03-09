@@ -35,7 +35,7 @@ export class FOrderSupplierItem extends Fragment {
       return;
     }
     let p = new Panel();
-    p.setClassName("tw-flex tw-justify-between");
+    p.setClassName("tw:flex tw:justify-between");
     render.wrapPanel(p);
     p.replaceContent(this.#renderItem(this._item));
   }

@@ -2,18 +2,18 @@ import { PEmailBase } from './PEmailBase.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 const _CPT_EMAIL_INFO = {
-  MAIN : `<div class="tw-aspect-[5/1] tw-relative">
-    <div class="tw-absolute tw-inset-0 tw-box-border tw-pt-[5px] tw-pr-[5px]">
-      <div class="tw-flex tw-justify-start tw-h-full">
-        <div id="__ID_ICON__" class="tw-w-[5%] tw-flex-shrink-0">
+  MAIN : `<div class="tw:aspect-[5/1] tw:relative">
+    <div class="tw:absolute tw:inset-0 tw:box-border tw:pt-[5px] tw:pr-[5px]">
+      <div class="tw:flex tw:justify-start tw:h-full">
+        <div id="__ID_ICON__" class="tw:w-[5%] tw:flex-shrink-0">
         </div>
-        <div id="__ID_MAIN__" class="email-info tw-border-lightgray">
-          <div class="tw-flex tw-justify-between">
-            <div id="__ID_SENDER__" class="tw-text-u-font5 tw-font-bold"></div>
+        <div id="__ID_MAIN__" class="email-info tw:border-lightgray">
+          <div class="tw:flex tw:justify-between">
+            <div id="__ID_SENDER__" class="tw:text-u-font5 tw:font-bold"></div>
             <div id="__ID_TIME__" class="small-info-text"></div>
           </div>
-          <div id="__ID_TITLE__" class="tw-text-u-font5"></div>
-          <div id="__ID_CONTENT__" class="tw-text-u-font5 tw-text-gray-600"></div>
+          <div id="__ID_TITLE__" class="tw:text-u-font5"></div>
+          <div id="__ID_CONTENT__" class="tw:text-u-font5 tw:text-gray-600"></div>
         </div>
       </div>
     </div>

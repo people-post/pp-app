@@ -3,11 +3,11 @@ const _CPT_RESERVED_ITEM_INFO = {
     <div class="flex">
       <div id="__ID_THUMBNAIL__" class="cart-item-thumbnail"></div>
       <div>
-        <div id="__ID_TITLE__" class="tw-text-s-font4 tw-font-bold tw-cursor-pointer"></div>
+        <div id="__ID_TITLE__" class="tw:text-s-font4 tw:font-bold tw:cursor-pointer"></div>
         <div id="__ID_PRICE__"></div>
        </div>
      </div>
-     <div class="tw-flex tw-justify-between">
+     <div class="tw:flex tw:justify-between">
        <div id="__ID_BTN_DELETE__"></div>
        <div id="__ID_BTN_MOVE_TO_CART__"></div>
      </div>

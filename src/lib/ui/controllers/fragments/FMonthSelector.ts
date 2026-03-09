@@ -22,9 +22,9 @@ if (typeof window !== 'undefined') {
 }
 
 const _CPT_MONTH_SELECTOR = {
-  MAIN : `<div class="tw-p-[5px] tw-flex tw-justify-start">
-    <div id="__ID_YEAR__" class="tw-w-1/2 tw-max-h-[100px] tw-overflow-y-auto tw-scroll-none"></div>
-    <div id="__ID_MONTH__" class="tw-w-1/2 tw-max-h-[100px] tw-overflow-y-auto tw-scroll-none"></div>
+  MAIN : `<div class="tw:p-[5px] tw:flex tw:justify-start">
+    <div id="__ID_YEAR__" class="tw:w-1/2 tw:max-h-[100px] tw:overflow-y-auto tw:scroll-none"></div>
+    <div id="__ID_MONTH__" class="tw:w-1/2 tw:max-h-[100px] tw:overflow-y-auto tw:scroll-none"></div>
   </div>
   <div id="__ID_BTN_OK__"></div>`,
 } as const;
@@ -111,7 +111,7 @@ export class FMonthSelector extends Fragment {
     let p = panel.getYearPanel();
     let pp: Panel | null = null;
     let pCurrent: Panel | null = null;
-    let baseNames = [ "tw-p-[5px]", "tw-cursor-pointer" ];
+    let baseNames = [ "tw:p-[5px]", "tw:cursor-pointer" ];
     let names: string[];
     for (let i = -20; i < 20; ++i) {
       let yy = y + i;
@@ -120,7 +120,7 @@ export class FMonthSelector extends Fragment {
           "onclick",
           `javascript:G.action(window.CF_MONTH_SELECTOR.Y_CHOOSE, ${yy})`);
       if (i == 0) {
-        names = baseNames.concat([ "s-cfuncbg", "s-csecondary", "tw-font-bold" ]);
+        names = baseNames.concat([ "s-cfuncbg", "s-csecondary", "tw:font-bold" ]);
         pCurrent = pp;
       } else {
         names = baseNames;
@@ -144,7 +144,7 @@ export class FMonthSelector extends Fragment {
           "onclick",
           `javascript:G.action(window.CF_MONTH_SELECTOR.M_CHOOSE, ${i})`);
       if (i == m) {
-        names = baseNames.concat([ "s-cfuncbg", "s-csecondary", "tw-font-bold" ]);
+        names = baseNames.concat([ "s-cfuncbg", "s-csecondary", "tw:font-bold" ]);
         pCurrent = pp;
       } else {
         names = baseNames;

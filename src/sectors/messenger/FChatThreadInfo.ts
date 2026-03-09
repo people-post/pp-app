@@ -65,7 +65,7 @@ export class FChatThreadInfo extends Fragment {
 
   _renderOnRender(render: PanelWrapper): void {
     let pList = new ListPanel();
-    pList.setClassName("tw-flex tw-justify-start tw-cursor-pointer chat-thread-info");
+    pList.setClassName("tw:flex tw:justify-start tw:cursor-pointer chat-thread-info");
     pList.setAttribute("onclick",
                    "javascript:G.action(CF_CHAT_THREAD_INFO.ON_CLICK)");
     render.wrapPanel(pList);
@@ -75,7 +75,7 @@ export class FChatThreadInfo extends Fragment {
     pList.pushPanel(ppIcon);
 
     let pThumbnail = new PanelWrapper();
-    pThumbnail.setClassName("thumbnail tw-w-s-icon1 tw-h-s-icon1");
+    pThumbnail.setClassName("thumbnail tw:w-s-icon1 tw:h-s-icon1");
     ppIcon.pushPanel(pThumbnail);
     this._fThumbnail.attachRender(pThumbnail);
     this._fThumbnail.render();
@@ -100,7 +100,7 @@ export class FChatThreadInfo extends Fragment {
     pppTitle.replaceContent(this._renderTitle());
 
     let pppMessage = new Panel();
-    pppMessage.setClassName("tw-text-s-font5 chat-thread-cover-message");
+    pppMessage.setClassName("tw:text-s-font5 chat-thread-cover-message");
     ppContent.pushPanel(pppMessage);
 
     if (info) {

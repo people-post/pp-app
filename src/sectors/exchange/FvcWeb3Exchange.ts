@@ -342,7 +342,7 @@ export class FvcWeb3Exchange extends FScrollViewContent implements ButtonGroupDe
   }
 
   #renderGenesisTokenIcon(): string {
-    return '<span class="tw-inline-block v-middle-align" style="width:40px;height:25px">' + ICON.TOKEN + '</span>';
+    return '<span class="tw:inline-block v-middle-align" style="width:40px;height:25px">' + ICON.TOKEN + '</span>';
   }
 
   #renderGenesisCardLoading(): string {

@@ -1,8 +1,8 @@
 const _CPT_FILTER_ITEM = {
   MAIN : `<div class="pad5">
-  <div class="pad5 tw-border tw-border-[1px] tw-border-solid tw-border-lightgray tw-rounded-[5px]">
+  <div class="pad5 tw:border tw:border-[1px] tw:border-solid tw:border-lightgray tw:rounded-[5px]">
     <div id="__ID_CONTENT__"></div>
-    <div id="__ID_HINT__" class="small-info-text tw-text-right"></div>
+    <div id="__ID_HINT__" class="small-info-text tw:text-right"></div>
   </div>
   </div>`,
 }

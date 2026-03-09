@@ -1,6 +1,6 @@
 const _CPT_POST = {
   MAIN : `<div id="__ID_TITLE__" class="view-content-title"></div>
-    <div class="tw-flex tw-justify-between">
+    <div class="tw:flex tw:justify-between">
       <div>
         <div id="__ID_AUTHOR__" class="small-info-text"></div>
         <div class="small-info-text">
@@ -10,18 +10,18 @@ const _CPT_POST = {
           <span id="__ID_T_UPDATE_DECOR__"></span><span>:&nbsp;</span><span id="__ID_T_UPDATE__"></span>
         </div>
       </div>
-      <div class="tw-text-right">
+      <div class="tw:text-right">
         <div id="__ID_JOB_AD__"></div>
         <div id="__ID_PIN__"></div>
       </div>
     </div>
     <div id="__ID_TAGS__"></div>
     <div id="__ID_ATTACHMENT__"></div>
-    <div id="__ID_ABSTRACT__" class="pad10px tw-text-u-font3"></div>
-    <div id="__ID_CONTENT__" class="pad10px tw-text-u-font3 tw-overflow-hidden post-content"></div>
-    <div id="__ID_SUMMARY__" class="pad10px tw-text-u-font3"></div>
-    <div id="__ID_SOURCE_LINK__" class="tw-cursor-pointer tw-underline s-cfunc"></div>
-    <div id="__ID_GALLERY__" class="tw-relative"></div>
+    <div id="__ID_ABSTRACT__" class="pad10px tw:text-u-font3"></div>
+    <div id="__ID_CONTENT__" class="pad10px tw:text-u-font3 tw:overflow-hidden post-content"></div>
+    <div id="__ID_SUMMARY__" class="pad10px tw:text-u-font3"></div>
+    <div id="__ID_SOURCE_LINK__" class="tw:cursor-pointer tw:underline s-cfunc"></div>
+    <div id="__ID_GALLERY__" class="tw:relative"></div>
     <div id="__ID_QUOTE__" class="left-pad10 right-pad10"></div>
     <br>
     <div id="__ID_SOCIAL__"></div>`,

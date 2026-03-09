@@ -1,7 +1,7 @@
 
 const _CPT_SERVICE_LOCATION = {
   MAIN : `<div id="__ID_MAIN__">
-  <div class="bd1px tw-border-solid tw-border-lightgray tw-rounded-[5px] tw-p-[5px] tw-cursor-pointer">
+  <div class="bd1px tw:border-solid tw:border-lightgray tw:rounded-[5px] tw:p-[5px] tw:cursor-pointer">
     <div class="small-info-text" id="__ID_TIME_OVERHEAD__"></div>
     <div class="small-info-text" id="__ID_PRICE_OVERHEAD__"></div>
     <div id="__ID_TIMESLOTS__"></div>

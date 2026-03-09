@@ -17,8 +17,8 @@ const _CFT_MENU_ENTRY_ITEM_CONFIG = {
   NAME : `<span class="menu-item-config-name">Name:</span>
   <span>__NAME__</span>`,
   PATH_ITEM :
-      `<span class="tw-cursor-pointer tw-text-blue-600 tw-underline" onclick="javascript:G.action('${CF_MENU_ENTRY_ITEM_CONFIG.CHANGE_DIR}', '__ID__')">__NAME__</span>`,
-  PATH : `Current path: <span class="tw-text-blue-600">__ITEMS__</span>`,
+      `<span class="tw:cursor-pointer tw:text-blue-600 tw:underline" onclick="javascript:G.action('${CF_MENU_ENTRY_ITEM_CONFIG.CHANGE_DIR}', '__ID__')">__NAME__</span>`,
+  PATH : `Current path: <span class="tw:text-blue-600">__ITEMS__</span>`,
 }
 
 export class MenuEntryItemConfig extends DirFragment {
@@ -113,7 +113,7 @@ export class MenuEntryItemConfig extends DirFragment {
     p.pushSpace(1);
 
     pp = new Panel();
-    pp.setClassName("tw-text-s-font5");
+    pp.setClassName("tw:text-s-font5");
     p.pushPanel(pp);
     pp.replaceContent(
         this.#renderPath(this._subItemId ? this._subItemId : this._itemId));

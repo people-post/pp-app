@@ -14,7 +14,7 @@ export class SplitPanel extends Panel {
 
   constructor() {
     super();
-    this.setClassName("tw-flex tw-justify-between");
+    this.setClassName("tw:flex tw:justify-between");
     this._pLeft = new PanelWrapper();
     this._pRight = new PanelWrapper();
     this._mode = (SplitPanel as any).M_SIDE;

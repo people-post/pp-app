@@ -63,7 +63,7 @@ export class FListNavigationBar extends Fragment {
 
   _renderOnRender(render: any): void {
     let pList = new ListPanel();
-    pList.setClassName("tw-flex tw-justify-between");
+    pList.setClassName("tw:flex tw:justify-between");
     render.wrapPanel(pList);
 
     let p = new Panel();
@@ -73,7 +73,7 @@ export class FListNavigationBar extends Fragment {
     this._fBtnPrev.render();
 
     let pIdx = new ListPanel();
-    pIdx.setClassName("tw-flex tw-justify-center");
+    pIdx.setClassName("tw:flex tw:justify-center");
     pList.pushPanel(pIdx);
     p = new PanelWrapper();
     pIdx.pushPanel(p);

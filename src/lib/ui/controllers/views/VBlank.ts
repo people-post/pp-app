@@ -10,7 +10,7 @@ class FvcBlank extends FViewContentBase {
   _renderOnRender(render: any): void {
     let p = new Panel();
     if (this.#isColorInvert) {
-      p.setClassName("tw-h-full s-cprimebg");
+      p.setClassName("tw:h-full s-cprimebg");
     }
     render.wrapPanel(p);
   }

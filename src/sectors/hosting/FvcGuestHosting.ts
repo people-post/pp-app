@@ -4,13 +4,13 @@ window.CF_GUEST_HOSTING_CONTENT = {
 }
 
 const _CFT_GUEST_HOSTING_CONTENT = {
-  MAIN_PANEL : `<div class="tw-text-center">
+  MAIN_PANEL : `<div class="tw:text-center">
       <span class="steps-stage-module">__R_REGISTER__ <a class="internal-page-link" href="javascript:void(0)" onclick="javascript:G.action(CF_GUEST_HOSTING_CONTENT.REGISTER)">G-Cabin</a>.</span>
     </div>
-    <div class="tw-text-center">
-      <span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 tw-cursor-pointer">__DOWN_ICON__</span>
+    <div class="tw:text-center">
+      <span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer">__DOWN_ICON__</span>
     </div>
-    <div class="tw-text-center">
+    <div class="tw:text-center">
       <span class="steps-stage-module">__R_PARK__</span>
     </div>`,
 }
@@ -53,7 +53,7 @@ export class FvcGuestHosting extends FScrollViewContent {
     pp.replaceContent(this.#renderMain());
 
     pp = new Panel();
-    pp.setClassName("tw-text-s-font7");
+    pp.setClassName("tw:text-s-font7");
     p.pushPanel(pp);
     pp.replaceContent(this.#renderFootNote());
   }

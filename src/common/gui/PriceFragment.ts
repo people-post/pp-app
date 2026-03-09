@@ -76,7 +76,7 @@ export class PriceFragment extends Fragment {
       this._fListPriceUnits.attachRender(pp);
       this._fListPriceUnits.render();
     } else {
-      pp.setClassName("small-info-text tw-text-center");
+      pp.setClassName("small-info-text tw:text-center");
       if (this._prices.length) {
         let c = Exchange.getCurrency(this._prices[0].currency_id);
         pp.replaceContent(c ? c.getCode() || "..." : "...");

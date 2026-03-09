@@ -28,12 +28,12 @@ import { Account } from '../../common/dba/Account.js';
 
 const _CPT_POST = {
   MAIN : `<div id="__ID_POST__"></div>
-  <div class="tw-p-[5px] tw-flex tw-justify-between">
+  <div class="tw:p-[5px] tw:flex tw:justify-between">
     <div id="__ID_BTN_PREV__"></div>
     <div id="__ID_BTN_NEXT__"></div>
   </div>
   <div id="__ID_COMMENTS__" class="post-comment"></div>
-  <div id="__ID_INPUT__" class="sticky tw-bottom-0"></div>`,
+  <div id="__ID_INPUT__" class="sticky tw:bottom-0"></div>`,
 } as const;
 
 class PPost extends Panel {

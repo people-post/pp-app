@@ -13,7 +13,7 @@ import { Api } from '../../common/plt/Api.js';
 import type { Comment } from '../../common/datatypes/Comment.js';
 
 const _CFT_COMMENT = {
-  ICON : `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6">__ICON__</span>`,
+  ICON : `<span class="tw:inline-block tw:w-s-icon6 tw:h-s-icon6">__ICON__</span>`,
 } as const;
 
 export interface CommentDataSource {
@@ -118,7 +118,7 @@ export class FComment extends FPostBase {
     if (comment.isFromGuest()) {
       let p = new Panel();
       if (comment.isPending()) {
-        p.setClassName("tw-font-italic");
+        p.setClassName("tw:font-italic");
       }
       panel.wrapPanel(p);
       let s = "[" + comment.getGuestName() + "]";
@@ -136,7 +136,7 @@ export class FComment extends FPostBase {
     }
     let p = new Panel();
     if (comment.isPending()) {
-      p.setClassName("tw-font-italic");
+      p.setClassName("tw:font-italic");
     }
     panel.wrapPanel(p);
     p.replaceContent(CommonUtilities.escapeHtml(comment.getContent()));

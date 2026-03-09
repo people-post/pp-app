@@ -223,7 +223,7 @@ export class FOrder extends Fragment {
     let name = Account.getUserShopName(userId, "...");
     let s =
         Utilities.renderSmallButton(CF_CUSTOMER_ORDER.USER_INFO, userId,
-                                    name, "low-profile s-cinfotext tw-font-bold");
+                                    name, "low-profile s-cinfotext tw:font-bold");
     panel.replaceContent(s);
   }
 
@@ -232,7 +232,7 @@ export class FOrder extends Fragment {
     let name = Account.getUserShopName(userId, "...");
     let s = "Shop: ";
     s += Utilities.renderSmallButton(CF_CUSTOMER_ORDER.USER_INFO, userId,
-                                     name, "low-profile s-cinfotext tw-font-bold");
+                                     name, "low-profile s-cinfotext tw:font-bold");
     panel.replaceContent(s);
   }
 
@@ -262,13 +262,13 @@ export class FOrder extends Fragment {
 
   #renderItemInfos(order: CustomerOrder, panel: Panel): void {
     let pItems = new ListPanel();
-    pItems.setClassName("tw-cursor-pointer");
+    pItems.setClassName("tw:cursor-pointer");
     pItems.setAttribute("onclick", _CFT_CUSTOMER_ORDER.ACT_ONCLICK);
     panel.wrapPanel(pItems);
     for (let item of order.getItems()) {
       for (let subItem of item.getItems()) {
         let p = new Panel();
-        p.setClassName("tw-flex tw-justify-between");
+        p.setClassName("tw:flex tw:justify-between");
         pItems.pushPanel(p);
         p.replaceContent(this.#renderOrderItem(subItem));
       }

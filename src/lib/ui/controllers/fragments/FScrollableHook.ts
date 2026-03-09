@@ -5,13 +5,13 @@ import { ScrollEndEventShim } from '../../../ext/ScrollEndEventShim.js';
 import { FElasticRefresh } from './FElasticRefresh.js';
 
 const _CPT_SCROLLABLE_HOOK = {
-  MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="tw-flex-shrink-0"></div>
-  <div id="__ID_CONTENT__" class="tw-flex-grow tw-min-w-0 tw-overflow-y-auto tw-scroll-none">
+  MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="tw:flex-shrink-0"></div>
+  <div id="__ID_CONTENT__" class="tw:flex-grow tw:min-w-0 tw:overflow-y-auto tw:scroll-none">
   </div>
-  <div class="tw-flex-shrink-0 tw-relative">
-    <span id="__ID_BSTT__" class="tw-absolute left0px bottom72px left-side-button"></span>
+  <div class="tw:flex-shrink-0 tw:relative">
+    <span id="__ID_BSTT__" class="tw:absolute left0px bottom72px left-side-button"></span>
   </div>`,
-  CONTENT : `<div id="__ID_CONTENT__" class="tw-min-h-full"></div>`,
+  CONTENT : `<div id="__ID_CONTENT__" class="tw:min-h-full"></div>`,
 } as const;
 
 class PScrollableHook extends Panel {
@@ -106,7 +106,7 @@ export class FScrollableHook extends Fragment {
   }
   onContentTopResizeEndInFragment(_f: Fragment): void {
     let yObj = this.#getScrollY();
-    // Scroll to same height tw-relative to end
+    // Scroll to same height tw:relative to end
     if (yObj && this.#scrollYBeforeTopResize) {
       let h = this.#scrollYBeforeTopResize.total -
               this.#scrollYBeforeTopResize.value;
@@ -129,7 +129,7 @@ export class FScrollableHook extends Fragment {
 
   _renderOnRender(render: any): void {
     let panel = new PScrollableHook();
-    panel.setClassName("tw-h-full tw-flex tw-flex-col");
+    panel.setClassName("tw:h-full tw:flex tw:flex-col");
     render.wrapPanel(panel);
     this.#pMain = panel;
 

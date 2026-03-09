@@ -28,9 +28,9 @@ export const CF_SOCIAL_BAR = {
 };
 
 const _CPT_SOCIAL_BAR = {
-  MAIN : `<div id="__ID_MAIN__" class="social-bar tw-p-[5px] tw-flex"></div>`,
-  ITEM : `<div id="__ID_ICON__" class="tw-w-s-icon5 tw-h-s-icon5"></div>
-    <div id="__ID_LABEL__" class="tw-text-s-font7"></div>`,
+  MAIN : `<div id="__ID_MAIN__" class="social-bar tw:p-[5px] tw:flex"></div>`,
+  ITEM : `<div id="__ID_ICON__" class="tw:w-s-icon5 tw:h-s-icon5"></div>
+    <div id="__ID_LABEL__" class="tw:text-s-font7"></div>`,
 };
 
 export class PSocialBarItem extends Panel {
@@ -216,17 +216,17 @@ export class FSocialBar extends Fragment {
     let p: PSocialBarItem;
     for (let t of this.#actions) {
       p = new PSocialBarItem();
-      p.setClassName("tw-flex-grow tw-flex tw-justify-center tw-text-center-items tw-cursor-pointer");
+      p.setClassName("tw:flex-grow tw:flex tw:justify-center tw:items-center tw:cursor-pointer");
       pItems.pushPanel(p);
       this.#renderAction(t, p, social);
     }
 
     if (pItems.size() > 0) {
       p = pItems.getPanel(0) as PSocialBarItem;
-      p.setClassName("tw-flex-grow tw-flex tw-justify-start tw-text-center-items tw-cursor-pointer");
+      p.setClassName("tw:flex-grow tw:flex tw:justify-start tw:items-center tw:cursor-pointer");
       if (pItems.size() > 1) {
         p = pItems.getPanel(pItems.size() - 1) as PSocialBarItem;
-        p.setClassName("tw-flex-grow tw-flex tw-justify-end tw-text-center-items tw-cursor-pointer");
+        p.setClassName("tw:flex-grow tw:flex tw:justify-end tw:items-center tw:cursor-pointer");
       }
     }
   }
@@ -406,7 +406,7 @@ export class FSocialBar extends Fragment {
           .then(() => {})
           .catch(err => this.#handleShareError(err));
     } else {
-      let s = `<p class="tw-break-all">Url is: __URL__</p>`;
+      let s = `<p class="tw:break-all">Url is: __URL__</p>`;
       s = s.replace("__URL__", ogp.getUrl());
       this.#lc.setTargetName(R.get("share"));
       this.#lc.setDescription(s);

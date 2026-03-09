@@ -10,7 +10,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 const _CPT_USER_INFO_COMPACT_CELL = {
   MAIN : `<span class="button-like small low-profile s-cinfotext">
     <span id="__ID_TYPE_ICON__"></span>
-    <span id="__ID_NAME__" class="tw-font-bold"></span>
+    <span id="__ID_NAME__" class="tw:font-bold"></span>
     <span id="__ID_USER_ID__"></span>
   </span>`,
 }

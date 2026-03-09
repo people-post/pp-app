@@ -7,12 +7,12 @@ export const CF_SECTOR_CONFIG_BAR = {
 }
 
 const _CFT_SECTOR_CONFIG_BAR = {
-  CELL : `<table class="tw-w-full tw-border-collapse">
+  CELL : `<table class="tw:w-full tw:border-collapse">
     <tbody>
       <tr>
         <td><span>__NAME__:</span></td>
-        <td class="tw-text-right">
-          <label class="switch tw-text-s-font5">__CHECKBOX__<span class="slider"></span></label>
+        <td class="tw:text-right">
+          <label class="switch tw:text-s-font5">__CHECKBOX__<span class="slider"></span></label>
         </td>
       </tr>
     </tbody>

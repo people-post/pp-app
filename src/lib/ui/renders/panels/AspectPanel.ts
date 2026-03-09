@@ -2,7 +2,7 @@ import { PanelWrapper } from './PanelWrapper.js';
 
 export class AspectPanel extends PanelWrapper {
   _getWrapperFramework(wrapperElementId: string): string {
-    let s: string = `<div id="__ID__" class="tw-absolute tw-inset-0"></div>`;
+    let s: string = `<div id="__ID__" class="tw:absolute tw:inset-0"></div>`;
     s = s.replace("__ID__", wrapperElementId) as string;
     return s;
   }

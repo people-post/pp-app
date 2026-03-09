@@ -18,8 +18,8 @@ export const CLC_GALLERY = {
 
 const _CLCT_GALLERY = {
   CONTROL_BAR :
-      `<span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 tw-cursor-pointer" onclick="javascript:G.action('${CLC_GALLERY.TOGGLE_COMMENT}')">__COMMENT_ICON__</span>
-    <span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 tw-cursor-pointer" onclick="javascript:G.action('${CLC_GALLERY.CLOSE}')">__CLOSE_ICON__</span>`,
+      `<span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer" onclick="javascript:G.action('${CLC_GALLERY.TOGGLE_COMMENT}')">__COMMENT_ICON__</span>
+    <span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer" onclick="javascript:G.action('${CLC_GALLERY.CLOSE}')">__CLOSE_ICON__</span>`,
 }
 
 export class LGallery extends Layer {
@@ -72,7 +72,7 @@ export class LGallery extends Layer {
 
   _renderOnRender(render: PanelWrapper): void {
     const p = new ListPanel();
-    p.setClassName("f-simple tw-flex tw-flex-col tw-justify-center");
+    p.setClassName("f-simple tw:flex tw:flex-col tw:justify-center");
     p.setAttribute("onclick", "javascript:G.action('${CLC_GALLERY.CLOSE}')");
     render.wrapPanel(p);
     const e = p.getDomElement();
@@ -85,7 +85,7 @@ export class LGallery extends Layer {
 
     let pp = new PanelWrapper();
     pp.setAttribute("onclick", "javascript:G.anchorClick()");
-    pp.setClassName("tw-max-h-full");
+    pp.setClassName("tw:max-h-full");
     p.pushPanel(pp);
     this._pContent = pp;
 

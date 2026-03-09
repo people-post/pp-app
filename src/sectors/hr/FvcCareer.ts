@@ -1,5 +1,5 @@
 const _CFT_CAREER_CONTENT = {
-  MEMBER : `<img class="user-info-icon tw-w-s-icon2 tw-h-s-icon2" src="__ICON_URL__"></img>
+  MEMBER : `<img class="user-info-icon tw:w-s-icon2 tw:h-s-icon2" src="__ICON_URL__"></img>
     <div class="user-info-name">__NAME__</div>`,
 } as const;
 

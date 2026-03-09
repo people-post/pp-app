@@ -52,16 +52,16 @@ if (typeof window !== 'undefined') {
 
 const _CFT_USER_INFO_HERO_BANNER = {
   BG_IMAGE : `<img class="overview-header" src="__BG_URL__" alt=""></img>`,
-  USER_ICON : `<img class="user-info-icon tw-w-s-icon2 tw-h-s-icon2" src="__ICON_URL__"></img>`,
+  USER_ICON : `<img class="user-info-icon tw:w-s-icon2 tw:h-s-icon2" src="__ICON_URL__"></img>`,
   INFO_IMAGE_UPLOAD :
       `<span onclick="javascript:this.nextElementSibling.click()">Upload</span>
     <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.ON_INFO_IMAGE_CHANGE, this.files[0])">`,
   NAME :
-      `<span class="tw-inline-block tw-w-s-icon7 tw-h-s-icon7">__ICON__</span>&nbsp;<span>__NAME__</span> __ACTION_BTN__ __MSG_BTN__ __SEND_FUND_BTN__</div>`,
+      `<span class="tw:inline-block tw:w-s-icon7 tw:h-s-icon7">__ICON__</span>&nbsp;<span>__NAME__</span> __ACTION_BTN__ __MSG_BTN__ __SEND_FUND_BTN__</div>`,
   MESSAGE_BTN :
-      `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6 tw-cursor-pointer" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SEND_MESSAGE, '__USER_ID__')">__ICON__</span>`,
+      `<span class="tw:inline-block tw:w-s-icon6 tw:h-s-icon6 tw:cursor-pointer" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SEND_MESSAGE, '__USER_ID__')">__ICON__</span>`,
   SEND_FUND_BTN :
-      `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6 tw-cursor-pointer" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SEND_FUND, '__USER_ID__')">__ICON__</span>`,
+      `<span class="tw:inline-block tw:w-s-icon6 tw:h-s-icon6 tw:cursor-pointer" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SEND_FUND, '__USER_ID__')">__ICON__</span>`,
   FOLLOW_BTN :
       `<span class="button-like small s-primary" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.FOLLOW, '__USER_ID__')">follow</span>`,
   UNFOLLOW_BTN :
@@ -69,20 +69,20 @@ const _CFT_USER_INFO_HERO_BANNER = {
   DOMAIN :
       `<span>Website: </span><a href="__URL__" target="_blank">__TEXT__&#x1f517;</a>`,
   SOCIAL_CONNECTIONS :
-      `<span class="button-like small low-profile s-cinfotext tw-font-bold" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SHOW_FOLLOWERS, '__USER_ID__')">__N_FOLLOWERS__ followers</span>
-  <span class="button-like small low-profile s-cinfotext tw-font-bold" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SHOW_IDOLS, '__USER_ID__')">Following __N_IDOLS__</span>`,
-  OWNER_PRIVATE_INFO : `<table class="tw-w-full">
+      `<span class="button-like small low-profile s-cinfotext tw:font-bold" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SHOW_FOLLOWERS, '__USER_ID__')">__N_FOLLOWERS__ followers</span>
+  <span class="button-like small low-profile s-cinfotext tw:font-bold" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SHOW_IDOLS, '__USER_ID__')">Following __N_IDOLS__</span>`,
+  OWNER_PRIVATE_INFO : `<table class="tw:w-full">
     <tbody>
       <tr>
-        <td class="tw-text-center tw-font-num-font s-cprime">
-          <span class="tw-inline-block tw-w-s-icon5 tw-h-s-icon5 v-middle-align">__COIN_ICON__</span>
+        <td class="tw:text-center tw:font-num-font s-cprime">
+          <span class="tw:inline-block tw:w-s-icon5 tw:h-s-icon5 v-middle-align">__COIN_ICON__</span>
           __N_COIN__
         </td>
-        <td class="tw-text-center tw-font-num-font s-cprime">
-          <span class="tw-inline-block tw-w-s-icon5 tw-h-s-icon5 v-middle-align">__CREDIT_ICON__</span>
+        <td class="tw:text-center tw:font-num-font s-cprime">
+          <span class="tw:inline-block tw:w-s-icon5 tw:h-s-icon5 v-middle-align">__CREDIT_ICON__</span>
           __N_CREDIT__
         </td>
-        <td class="tw-text-center tw-font-num-font s-cprime">
+        <td class="tw:text-center tw:font-num-font s-cprime">
           $__N_CASH__
         </td>
       </tr>
@@ -106,7 +106,7 @@ export class FUserInfoHeroBanner extends Fragment {
     super();
     this._fBioEditor = new TextArea();
     this._fBioEditor.setClassName(
-        "small-info-text tw-w-full implicit tw-text-center s-csecondarybg");
+        "small-info-text tw:w-full implicit tw:text-center s-csecondarybg");
     this._fBioEditor.setDelegate(this);
     this.setChild("bio", this._fBioEditor);
   }
@@ -178,7 +178,7 @@ export class FUserInfoHeroBanner extends Fragment {
 
     // Name
     let pName = new Panel();
-    pName.setClassName("user-info-name tw-text-center");
+    pName.setClassName("user-info-name tw:text-center");
     pList.pushPanel(pName);
     if (user) {
       pName.replaceContent(this.#renderName(user));
@@ -188,7 +188,7 @@ export class FUserInfoHeroBanner extends Fragment {
 
     // Social connections
     let pSocialConnections = new Panel();
-    pSocialConnections.setClassName("small-info-text tw-text-center");
+    pSocialConnections.setClassName("small-info-text tw:text-center");
     pList.pushPanel(pSocialConnections);
     pSocialConnections.replaceContent(this.#renderSocialConnections(user));
 
@@ -200,11 +200,11 @@ export class FUserInfoHeroBanner extends Fragment {
         if (WebConfig.getOwnerId() == user.getId()) {
           pDomain.replaceContent(this.#renderOwnerPrivateInfo());
         } else {
-          pDomain.setClassName("small-info-text tw-text-center");
+          pDomain.setClassName("small-info-text tw:text-center");
           pDomain.replaceContent("Yourself");
         }
       } else {
-        pDomain.setClassName("small-info-text tw-text-center");
+        pDomain.setClassName("small-info-text tw:text-center");
         if (WebConfig.getOwnerId() == user.getId()) {
           pDomain.replaceContent("Current website");
         } else {
@@ -215,7 +215,7 @@ export class FUserInfoHeroBanner extends Fragment {
 
     let pBio = new Panel();
     pList.pushPanel(pBio);
-    pBio.setClassName("small-info-text tw-text-center");
+    pBio.setClassName("small-info-text tw:text-center");
     if (user) {
       let bio = user.getBriefBio();
       bio = bio ? bio : "";

@@ -53,7 +53,7 @@ export class FPreviewOrder extends Fragment {
     this._fItems.render();
 
     pp = new Panel();
-    pp.setClassName("tw-text-right");
+    pp.setClassName("tw:text-right");
     let c = Exchange.getCurrency(order.getCurrencyId());
     p.pushPanel(pp);
     pp.replaceContent("Total: " + Utilities.renderPrice(c, order.getTotalPrice() || 0));

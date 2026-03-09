@@ -1,11 +1,11 @@
 import { PQuizBase } from './PQuizBase.js';
 
 const _CPT_QUIZ_INFO = {
-  MAIN : `<div class="tw-aspect-[5/1] tw-relative">
-    <div class="tw-absolute tw-inset-0 tw-box-border tw-pt-[5px] tw-pr-[5px]">
-      <div class="tw-flex tw-justify-start tw-h-full">
-        <div id="__ID_MAIN__" class="quiz-info tw-border-lightgray">
-          <div id="__ID_QUESTION__" class="tw-text-u-font3 tw-font-bold tw-text-gray-600"></div>
+  MAIN : `<div class="tw:aspect-[5/1] tw:relative">
+    <div class="tw:absolute tw:inset-0 tw:box-border tw:pt-[5px] tw:pr-[5px]">
+      <div class="tw:flex tw:justify-start tw:h-full">
+        <div id="__ID_MAIN__" class="quiz-info tw:border-lightgray">
+          <div id="__ID_QUESTION__" class="tw:text-u-font3 tw:font-bold tw:text-gray-600"></div>
         </div>
       </div>
     </div>

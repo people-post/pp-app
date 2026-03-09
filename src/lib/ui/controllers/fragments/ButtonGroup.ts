@@ -11,7 +11,7 @@ export const CF_BUTTON_GROUP = {
 const _CFT_BUTTON_GROUP = {
   F_ONCLICK : `javascript:G.action('${CF_BUTTON_GROUP.ON_CLICK}', __IDX__)`,
   ICON_WRAPPER :
-      `<span class="tw-inline-block tw-w-s-icon5 tw-h-s-icon5 v-middle-align">__ICON__</span>`,
+      `<span class="tw:inline-block tw:w-s-icon5 tw:h-s-icon5 v-middle-align">__ICON__</span>`,
 } as const;
 
 interface ChoiceInfo {

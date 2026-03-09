@@ -11,7 +11,7 @@ export const CF_SIMPLE_LIST = {
 const _CFT_SIMPLE_LIST = {
   ON_CLICK_ACTION :
       `javascript:G.action('${CF_SIMPLE_LIST.ITEM_CLICK}', '__ITEM_ID__')`,
-  ICON : `<span class="tw-inline-block tw-w-s-icon3 tw-h-s-icon3 tw-cursor-pointer">__ICON__</span>`,
+  ICON : `<span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer">__ICON__</span>`,
 }
 
 interface ListItem {
@@ -59,9 +59,9 @@ export class FSimpleList extends Fragment {
            item.id == this._dataSource.getSelectedItemIdForList(this));
 
       let pItem = new ListPanel();
-      let classNames: string[] = [ "simple-list-item tw-flex tw-text-center-items" ];
+      let classNames: string[] = [ "simple-list-item tw:flex tw:items-center" ];
       if (item.isSelectable) {
-        classNames.push("tw-cursor-pointer");
+        classNames.push("tw:cursor-pointer");
         if (selected) {
           classNames = classNames.concat([ "s-cfuncbg", "s-csecondary" ]);
         }
@@ -82,14 +82,14 @@ export class FSimpleList extends Fragment {
       }
 
       let p = new Panel();
-      p.setClassName("left-tw-p-[5px] tw-flex-grow");
+      p.setClassName("tw:pl-[5px] tw:flex-grow");
       pItem.pushPanel(p);
       this._delegate.renderItemForSimpleListFragment(this, item, p);
 
       if (item.isSelectable) {
         // Last item
         let p = new Panel();
-        p.setClassName("tw-text-s-font005 tw-text-right tw-text-gray-500");
+        p.setClassName("tw:text-s-font005 tw:text-right tw:text-gray-500");
         pItem.pushPanel(p);
         p.replaceContent("&rsaquo;");
       }

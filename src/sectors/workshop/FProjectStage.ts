@@ -113,7 +113,7 @@ export class FProjectStage extends Fragment {
     }
     let p = this.#createPanel();
     if (this._isEnabled) {
-      p.setClassName("tw-cursor-pointer");
+      p.setClassName("tw:cursor-pointer");
       p.setAttribute("onclick",
                      "javascript:G.action(CF_PROJECT_STAGE.ON_CLICK)");
     }

@@ -9,44 +9,44 @@ if (typeof window !== 'undefined') {
 
 const _CPT_BRIEF = {
   TITLE :
-      `<span class="tw-inline-block tw-w-s-icon5 tw-h-s-icon5 v-bottom-align">__ICON__</span><span class="v-bottom-align">__TEXT__</span>`,
+      `<span class="tw:inline-block tw:w-s-icon5 tw:h-s-icon5 v-bottom-align">__ICON__</span><span class="v-bottom-align">__TEXT__</span>`,
   COPYRIGHTS :
-      `<span>Copyright 2025 NFSC Brief. All rights reserved. The NFSC Brief is not responsible for the content of external sites.</span><span class="tw-font-bold"> Read about our approach to external linking.</span>`,
-  NARROW_MAIN : `<div class="pad10px tw-h-full tw-overflow-y-auto tw-scroll-none">
+      `<span>Copyright 2025 NFSC Brief. All rights reserved. The NFSC Brief is not responsible for the content of external sites.</span><span class="tw:font-bold"> Read about our approach to external linking.</span>`,
+  NARROW_MAIN : `<div class="pad10px tw:h-full tw:overflow-y-auto tw:scroll-none">
     <div id="__ID_BANNER__">Banner</div>
     <div id="__ID_PINNED_TITLE__"></div>
-    <div id="__ID_PINNED_H__" class="tw-flex tw-justify-start tw-overflow-x-scroll tw-scroll-none tw-snap-x tw-snap-mandatory"></div>
-    <div id="__ID_CALENDAR_BTN__" class="tw-cursor-pointer tw-text-s-font3 tw-py-[5px]"></div>
-    <div id="__ID_POSTS__" class="tw-h-full tw-font-font-song"></div>
+    <div id="__ID_PINNED_H__" class="tw:flex tw:justify-start tw:overflow-x-scroll tw:scroll-none tw:snap-x tw:snap-mandatory"></div>
+    <div id="__ID_CALENDAR_BTN__" class="tw:cursor-pointer tw:text-s-font3 tw:py-[5px]"></div>
+    <div id="__ID_POSTS__" class="tw:h-full tw:font-font-song"></div>
     <hr>
-    <div class="tw-text-center">
-      <span class="tw-text-s-font1 tw-font-bold">NFSC Brief</span>
-      <span class="tw-text-s-font3">24hr</span>
+    <div class="tw:text-center">
+      <span class="tw:text-s-font1 tw:font-bold">NFSC Brief</span>
+      <span class="tw:text-s-font3">24hr</span>
     </div>
-    <div id="__ID_SOCIAL__" class="tw-text-s-font4 tw-font-bold"></div>
+    <div id="__ID_SOCIAL__" class="tw:text-s-font4 tw:font-bold"></div>
     <br>
-    <div id="__ID_COPYRIGHTS__" class="tw-text-s-font5"></div>
+    <div id="__ID_COPYRIGHTS__" class="tw:text-s-font5"></div>
     <br>
   </div>`,
-  WIDE_MAIN : `<div class="tw-h-full tw-overflow-y-auto tw-scroll-none">
+  WIDE_MAIN : `<div class="tw:h-full tw:overflow-y-auto tw:scroll-none">
     <div id="__ID_BANNER__"></div>
-    <div class="tw-h-full tw-flex tw-justify-center tw-overflow-hidden">
-      <div id="__ID_POSTS__" class="tw-h-full tw-p-[5px] tw-flex-grow tw-font-font-song"></div>
-      <div class="w240px tw-p-[5px] tw-border-l tw-border-l-[1px] tw-border-solid tw-border-lightgray tw-flex-shrink-0 tw-flex tw-flex-col tw-justify-start">
-        <div class="tw-flex-shrink-0">
-          <div id="__ID_CALENDAR_TITLE__" class="tw-text-s-font3"></div>
+    <div class="tw:h-full tw:flex tw:justify-center tw:overflow-hidden">
+      <div id="__ID_POSTS__" class="tw:h-full tw:p-[5px] tw:flex-grow tw:font-font-song"></div>
+      <div class="w240px tw:p-[5px] tw:border-l tw:border-l-[1px] tw:border-solid tw:border-lightgray tw:flex-shrink-0 tw:flex tw:flex-col tw:justify-start">
+        <div class="tw:flex-shrink-0">
+          <div id="__ID_CALENDAR_TITLE__" class="tw:text-s-font3"></div>
           <div id="__ID_CALENDAR__"></div>
           <div id="__ID_PINNED_TITLE__"></div>
         </div>
-        <div id="__ID_PINNED_V__" class="tw-flex-grow tw-overflow-hidden"></div>
+        <div id="__ID_PINNED_V__" class="tw:flex-grow tw:overflow-hidden"></div>
       </div>
     </div>
     <hr>
-    <div class="tw-text-center">
-      <span class="tw-text-s-font1 tw-font-bold">NFSC Brief</span>
-      <span class="tw-text-s-font3">24hr</span>
+    <div class="tw:text-center">
+      <span class="tw:text-s-font1 tw:font-bold">NFSC Brief</span>
+      <span class="tw:text-s-font3">24hr</span>
     </div>
-    <div class="tw-text-s-font3 tw-font-bold tw-flex tw-justify-between">
+    <div class="tw:text-s-font3 tw:font-bold tw:flex tw:justify-between">
       <div>Home</div>
       <div>Focus</div>
       <div>NFSC</div>
@@ -57,9 +57,9 @@ const _CPT_BRIEF = {
     </div>
     <div></div>
     <br>
-    <div id="__ID_SOCIAL__" class="tw-text-s-font4 tw-font-bold"></div>
+    <div id="__ID_SOCIAL__" class="tw:text-s-font4 tw:font-bold"></div>
     <br>
-    <div class="tw-text-s-font5 tw-flex tw-justify-start">
+    <div class="tw:text-s-font5 tw:flex tw:justify-start">
       <div>Term of Use</div>
       <div>About us</div>
       <div>Privacy Policy</div>
@@ -68,7 +68,7 @@ const _CPT_BRIEF = {
       <div>Contact us</div>
     </div>
     <br>
-    <div id="__ID_COPYRIGHTS__" class="tw-text-s-font5"></div>
+    <div id="__ID_COPYRIGHTS__" class="tw:text-s-font5"></div>
     <br>
   </div>`,
 } as const;
@@ -424,7 +424,7 @@ export class FvcBrief extends FViewContentBase {
 
   _renderOnRender(render: Render): void {
     let panel = this.#createPanel();
-    panel.setClassName("tw-h-full");
+    panel.setClassName("tw:h-full");
     render.wrapPanel(panel);
 
     let e = panel.getDomElement();
@@ -460,7 +460,7 @@ export class FvcBrief extends FViewContentBase {
       for (let id of ids) {
         let pp = new PanelWrapper();
         pp.setClassName(
-            "tw-w-[90%] s-csecondarydecorbg tw-flex-shrink-0 tw-snap-start tw-h-[200px] tw-overflow-y-auto tw-scroll-none");
+            "tw:w-[90%] s-csecondarydecorbg tw:flex-shrink-0 tw:snap-start tw:h-[200px] tw:overflow-y-auto tw:scroll-none");
         p.pushPanel(pp);
         let f = new FPostInfo();
         f.setPostId(id);

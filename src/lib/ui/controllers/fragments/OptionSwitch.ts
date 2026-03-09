@@ -17,12 +17,12 @@ if (typeof window !== 'undefined') {
 }
 
 const _CFT_OPTION_SWITCH = {
-  OPTION : `<table class="tw-w-full tw-border-collapse">
+  OPTION : `<table class="tw:w-full tw:border-collapse">
     <tbody>
       <tr>
         <td>__NAME__:</td>
-        <td class="tw-text-right">
-          <label class="switch tw-text-s-font5">
+        <td class="tw:text-right">
+          <label class="switch tw:text-s-font5">
             <input type="checkbox" onchange="javascript:G.action(window.CFT_OPTION_SWITCH.ON_CHANGE, '__VALUE__', this.checked)"__EXTRA__>
             <span class="slider"></span>
           </label>

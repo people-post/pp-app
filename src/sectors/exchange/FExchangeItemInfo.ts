@@ -4,14 +4,14 @@ window.CF_EXCHANGE_ITEM_INFO = {
 }
 
 const _CVF_EXCHANGE_ITEM = {
-  MAIN : `<table class="tw-w-full">
+  MAIN : `<table class="tw:w-full">
     <tbody>
       <tr>
         <td class="exchange-item-info-brief">
           <div>
-            <span class="exchange-item-info-icon tw-inline-block tw-w-s-icon3 tw-h-s-icon3 tw-cursor-pointer">__ICON__</span>
+            <span class="exchange-item-info-icon tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer">__ICON__</span>
           </div>
-          <div class="tw-text-s-font5">__NAME__</div>
+          <div class="tw:text-s-font5">__NAME__</div>
         </td>
         <td class="exchange-item-info-detail">__DETAIL__</td>
         <td class="exchange-item-info-actions">__ACTIONS__</td>
@@ -24,9 +24,9 @@ const _CVF_EXCHANGE_ITEM = {
   BTN_SELL :
       `<span class="button-like small danger" onclick="javascript:G.action(CF_EXCHANGE_ITEM_INFO.SELL)">Sell...</span>`,
   HINT_LOGIN :
-      `<span class="tw-text-u-font5 tw-bg-white">Login or register for more options</span>`,
+      `<span class="tw:text-u-font5 tw:bg-white">Login or register for more options</span>`,
   HINT_SAFE_SITE :
-      `<span class="tw-text-u-font5 tw-bg-white">Go to <a target="_blank" href="https://gcabin.com/?sector=extras&page=exchange">G-Cabin&#x1f517;</a> for more options</span>`,
+      `<span class="tw:text-u-font5 tw:bg-white">Go to <a target="_blank" href="https://gcabin.com/?sector=extras&page=exchange">G-Cabin&#x1f517;</a> for more options</span>`,
 }
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';

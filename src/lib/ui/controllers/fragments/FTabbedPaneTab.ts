@@ -76,7 +76,7 @@ export class FTabbedPaneTab extends Fragment {
 
     let p = panel.getIconPanel();
     if (p) {
-      p.setDisplay(config.icon ? "tw-inline-block" : "none");
+      p.setDisplay(config.icon ? "tw:inline-block" : "none");
       if (config.icon) {
         this.#renderIcon(config.icon, isSelected, p);
       }
@@ -94,7 +94,7 @@ export class FTabbedPaneTab extends Fragment {
         n = (this._dataSource as any).getNNoticesForTabbedPaneTabFragment(this,
                                                                    this.#tabId);
       }
-      p.setDisplay(n > 0 ? "tw-inline-block" : "none");
+      p.setDisplay(n > 0 ? "tw:inline-block" : "none");
       if (n > 0) {
         p.replaceContent(n.toString());
       }
@@ -107,7 +107,7 @@ export class FTabbedPaneTab extends Fragment {
         b = (this._dataSource as any).isCloseBtnEnabledInTabbedPaneTabFragment(
             this, this.#tabId);
       }
-      p.setDisplay(b ? "tw-inline-block" : "none");
+      p.setDisplay(b ? "tw:inline-block" : "none");
       if (b) {
         this.#renderCloseBtn(p);
       }

@@ -3,44 +3,44 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 const _CPT_ADDRESS = {
-  MAIN : `<div class="address-block tw-cursor-pointer">
+  MAIN : `<div class="address-block tw:cursor-pointer">
   <table class="address">
     <tbody>
       <tr>
-        <td class="tw-text-right">Nickname:</td>
+        <td class="tw:text-right">Nickname:</td>
         <td id="__ID_NICKNAME__"></td>
       </tr>
       <tr>
-        <td class="tw-text-right">Name:</td>
+        <td class="tw:text-right">Name:</td>
         <td id="__ID_NAME__"></td>
       </tr>
       <tr>
-        <td class="tw-text-right">Country:</td>
+        <td class="tw:text-right">Country:</td>
         <td id="__ID_COUNTRY__"></td>
       </tr>
       <tr>
-        <td class="tw-text-right">State/Province:</td>
+        <td class="tw:text-right">State/Province:</td>
         <td id="__ID_STATE__"></td>
       </tr>
       <tr>
-        <td class="tw-text-right">City:</td>
+        <td class="tw:text-right">City:</td>
         <td id="__ID_CITY__"></td>
       </tr>
       <tr>
-        <td class="tw-text-right">Zipcode:</td>
+        <td class="tw:text-right">Zipcode:</td>
         <td id="__ID_ZIPCODE__"></td>
       </tr>
       <tr>
-        <td class="tw-text-right">Line 1:</td>
+        <td class="tw:text-right">Line 1:</td>
         <td id="__ID_LINE1__"></td>
       </tr>
       <tr>
-        <td class="tw-text-right">Line 2:</td>
+        <td class="tw:text-right">Line 2:</td>
         <td id="__ID_LINE2__"></td>
       </tr>
     </tbody>
   </table>
-  <div class="tw-flex tw-justify-center">
+  <div class="tw:flex tw:justify-center">
     <div id="__ID_BTN_EDIT__"></div>
     <div id="__ID_BTN_DELETE__"></div>
   </div>

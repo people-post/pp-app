@@ -2,17 +2,17 @@ export const ICON = {
   M_CHAIN: `&#x1f517;`,
   M_CHECK: `&#9989;`,
   M_BOX: `&#9744;`,
-  M_MENU: `<svg class="tw-w-10 tw-h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  M_MENU: `<svg class="tw:w-10 tw:h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
     <line class="top s-cmenustk" x1="11" y1="16" x2="28" y2="16" stroke-width="1.5" stroke-linecap="round"/>
     <line class="middle s-cmenustk" x1="11" y1="20" x2="28" y2="20" stroke-width="1.5" stroke-linecap="round"/>
     <line class="bottom s-cmenustk" x1="11" y1="24" x2="28" y2="24" stroke-width="1.5" stroke-linecap="round"/>
   </svg>`,
-  M_TIME_FILTER: `<svg class="tw-w-10 tw-h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  M_TIME_FILTER: `<svg class="tw:w-10 tw:h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle class="time-menu-icon-circle s-cmenustk" cx="20" cy="21" r="10" stroke-width="1"/>
     <line class="time-menu-icon-hour s-cmenustk" x1="20" y1="21" x2="30" y2="21" stroke-width="2" stroke-linecap="round"/>
     <line class="time-menu-icon-minute s-cmenustk" x1="20" y1="11" x2="20" y2="21" stroke-width="2" stroke-linecap="round"/>
   </svg>`,
-  M_SEARCH: `<svg class="tw-w-10 tw-h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  M_SEARCH: `<svg class="tw:w-10 tw:h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle class="circle s-cmenustk" cx="18" cy="19" r="7" stroke-width="2"/>
     <line class="top-bar s-cmenustk" x1="23" y1="25" x2="31" y2="33" stroke-width="2" stroke-linecap="round"/>
     <line class="bottom-bar s-cmenustk" x1="23" y1="26" x2="31" y2="34" stroke-width="2" stroke-linecap="round"/>

@@ -33,7 +33,7 @@
         "bip32-ed25519": "^0.0.5",
         "bip39": "^3.1.0",
         "buffer": "^6.0.3",
-        "pp-api": "github:people-post/pp-api#release/v0.1.7"
+        "pp-api": "github:people-post/pp-api#release/v0.1.8"
     },
     "devDependencies": {
         "@tailwindcss/postcss": "^4.1.18",

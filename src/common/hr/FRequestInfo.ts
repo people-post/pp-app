@@ -102,7 +102,7 @@ export class FRequestInfo extends Fragment {
     pp.replaceContent(this.#renderRequestContent(request));
 
     let pActions = new ListPanel();
-    pActions.setClassName("tw-flex tw-justify-between");
+    pActions.setClassName("tw:flex tw:justify-between");
     p.pushPanel(pActions);
     pp = new Panel();
     pActions.pushPanel(pp);

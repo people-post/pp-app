@@ -73,14 +73,14 @@ export class FDraftArticleInfo extends Fragment {
     let draft = Blog.getDraftArticle(this.#draftId);
     if (!draft) {
       let p = new Panel();
-      p.setClassName("tw-text-center");
+      p.setClassName("tw:text-center");
       render.wrapPanel(p);
       p.replaceContent(ICONS.LOADING);
       return;
     }
 
     let panel = new PDraftArticleInfo();
-    panel.setClassName("tw-cursor-pointer");
+    panel.setClassName("tw:cursor-pointer");
     panel.setAttribute(
         "onclick", "javascript:G.action(CF_DRAFT_ARTICLE_INFO.ON_CLICK)");
 
@@ -122,7 +122,7 @@ export class FDraftArticleInfo extends Fragment {
       return;
     }
     let pList = new ListPanel();
-    pList.setClassName("tw-flex tw-justify-start tw-items-baseline");
+    pList.setClassName("tw:flex tw:justify-start tw:items-baseline");
     panel.wrapPanel(pList);
 
     this._fTags.clear();

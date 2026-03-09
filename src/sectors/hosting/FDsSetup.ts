@@ -9,29 +9,29 @@ const CFM_DS_SETUP: { SUBMIT: string; DS_HOW_TO: string; CANCEL: string } = wind
 const _CFMT_DS_SETUP = {
   MAIN : `
     <p class="title">Domain name:</p>
-    <div class="tw-text-center">__DOMAIN_NAME__</div>
+    <div class="tw:text-center">__DOMAIN_NAME__</div>
     <p class="title">DS record(<a class="knowledge-tip" href="javascript:void(0)" onclick="javascript:G.action(CFM_DS_SETUP.DS_HOW_TO)">How to</a>):</p>
     <div>__DS_RECORD__</div>
     <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CFM_DS_SETUP.SUBMIT)">I'm ready</a>
     <br>
     <a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action(CFM_DS_SETUP.CANCEL)">Cancel</a>
     `,
-  DS_RECORD : `<table class="tw-m-auto">
+  DS_RECORD : `<table class="tw:m-auto">
       <tbody>
         <tr>
-          <td class="tw-text-right">Key tag:</td>
+          <td class="tw:text-right">Key tag:</td>
           <td>__KEY_TAG__</td>
         </tr>
         <tr>
-          <td class="tw-text-right">Algorithm:</td>
+          <td class="tw:text-right">Algorithm:</td>
           <td>__ALGORITHM__</td>
         </tr>
         <tr>
-          <td class="tw-text-right">Digest type:</td>
+          <td class="tw:text-right">Digest type:</td>
           <td>__DIGEST_TYPE__</td>
         </tr>
         <tr>
-          <td class="tw-text-right">Digest:</td>
+          <td class="tw:text-right">Digest:</td>
           <td>__DIGEST__</td>
         </tr>
       </tbody>

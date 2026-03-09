@@ -176,7 +176,7 @@ export class FWalkinQueueItem extends Fragment {
     p = panel.getAgentPanel();
     if (p && item.getAgentId()) {
       let pp = new ListPanel();
-      pp.setClassName("tw-flex tw-justify-end tw-text-center-items");
+      pp.setClassName("tw:flex tw:justify-end tw:items-center");
       p.wrapPanel(pp);
 
       let ppp = new Panel();

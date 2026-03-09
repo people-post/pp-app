@@ -268,7 +268,7 @@ export class FProposal extends Fragment {
     let nickname = Account.getUserNickname(userId);
     s = s.replace("__AUTHOR__", Utilities.renderSmallButton(
                                     CF_PROPOSAL.USER_INFO, userId,
-                                    nickname, "low-profile s-cinfotext tw-font-bold"));
+                                    nickname, "low-profile s-cinfotext tw:font-bold"));
     s = s.replace("__T_CREATE__", UtilitiesExt.timestampToDateTimeString(
                                       proposal.getCreationTime() / 1000));
     s = s.replace("__T_UPDATE__", UtilitiesExt.timestampToDateTimeString(

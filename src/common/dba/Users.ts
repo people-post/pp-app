@@ -7,12 +7,12 @@ import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
 import { User as Web3User } from 'pp-api';
 import { Account } from './Account.js';
-import { UserPublicProfile } from '../../types/backend2.js';
+import { UserPublicProfile as Web2UserPublicProfileData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    profiles?: UserPublicProfile[];
+    profiles?: Web2UserPublicProfileData[];
   };
 }
 
@@ -118,14 +118,14 @@ export class UserLib {
 
     this.#mUsers.set(
       User.C_ID.SYSTEM,
-      new User({ nickname: 'G-Cabin', icon_url: 'file/gcabin_favicon' } as Record<string, unknown>)
+      new User({ nickname: 'G-Cabin', icon_url: 'file/gcabin_favicon' } as Web2UserPublicProfileData)
     );
     this.#mUsers.set(
       User.C_ID.L_ADD_USER,
       new User({
         nickname: 'Add',
         icon_url: PATH.STATIC + '/img/circle_add.svg',
-      } as Record<string, unknown>)
+      } as Web2UserPublicProfileData)
     );
   }
 

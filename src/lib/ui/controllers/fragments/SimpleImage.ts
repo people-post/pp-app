@@ -1,7 +1,7 @@
 import { Fragment } from './Fragment.js';
 
 const _CFT_SIMPLE_IMAGE = {
-  MAIN : `<img class="preview-icon tw-w-s-icon0 tw-h-s-icon0" src="__URL__">`,
+  MAIN : `<img class="preview-icon tw:w-s-icon0 tw:h-s-icon0" src="__URL__">`,
 } as const;
 
 export class SimpleImage extends Fragment {

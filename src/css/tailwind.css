@@ -1,7 +1,8 @@
 /* Tailwind CSS v4 Entry Point */
 /* Import only theme and utilities, excluding base (preflight) styles */
+@import "tailwindcss" prefix(tw);
 @import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/utilities.css" layer(utilities) prefix(tw-);
+@import "tailwindcss/utilities.css" layer(utilities);
 
 /* Custom theme configuration can be added here using @theme */
 @theme {
@@ -9,57 +10,71 @@
   --color-lightgray: lightgray;
   --color-lightgrey: lightgrey;
 
-  /* Custom heights for migrated hst.css header utilities */
-  --height-header: 48px;
-  --height-subheader: 36px;
+  /* Custom font families for migrated hst.css font utilities (Bulk 6)
+   * Tailwind v4 uses --font-* for font-family utilities. */
+  --font-num-font: "Times New Roman";
+  --font-font-song: "SimSun";
 
-  /* Custom font sizes for migrated hst.css font utilities (Bulk 6) */
-  --font-size-u-font1: 20px;
-  --font-size-u-font2: 18px;
-  --font-size-u-font3: 16px;
-  --font-size-u-font4: 14px;
-  --font-size-u-font5: 12px;
-  --font-size-u-font6: 11px;
-  --font-size-u-font7: 10px;
-  --font-size-s-font001: 48px;
-  --font-size-s-font005: 24px;
-  --font-size-s-font1: 20px;
-  --font-size-s-font2: 18px;
-  --font-size-s-font3: 16px;
-  --font-size-s-font4: 14px;
-  --font-size-s-font5: 12px;
-  --font-size-s-font6: 11px;
-  --font-size-s-font7: 10px;
+  /* Custom line height for migrated hst.css utilities (Bulk 6)
+   * Tailwind v4 uses --leading-* for line-height utilities. */
+  --leading-line-height32: 32px;
 
-  /* Custom font families for migrated hst.css font utilities (Bulk 6) */
-  --font-family-num-font: "Times New Roman";
-  --font-family-font-song: "SimSun";
-
-  /* Custom line height for migrated hst.css utilities (Bulk 6) */
-  --line-height-line-height32: 32px;
-
-  /* Custom icon sizes for migrated hst.css icon utilities (Bulk 6) */
-  --width-s-icon0: 96px;
-  --height-s-icon0: 96px;
-  --width-s-icon1: 64px;
-  --height-s-icon1: 64px;
-  --width-s-icon2: 48px;
-  --height-s-icon2: 48px;
-  --width-s-icon3: 36px;
-  --height-s-icon3: 36px;
-  --width-s-icon32: 32px;
-  --height-s-icon32: 32px;
-  --width-s-icon4: 28px;
-  --height-s-icon4: 28px;
-  --width-s-icon5: 20px;
-  --height-s-icon5: 20px;
-  --width-s-icon6: 18px;
-  --height-s-icon6: 18px;
-  --width-s-icon7: 12px;
-  --height-s-icon7: 12px;
 }
 
-/* Custom utilities for migrated hst.css classes (Bulk 7) */
+@utility border-lightgray { border-color: lightgray; }
+@utility border-lightgrey { border-color: lightgrey; }
+
+/* Header/subheader height utilities (theme vars may not auto-generate with prefix) */
+@utility h-header { height: 48px; }
+@utility h-subheader { height: 36px; }
+
+/* Font family utilities */
+@utility font-num-font { font-family: "Times New Roman"; }
+@utility font-font-song { font-family: "SimSun"; }
+
+/* Line height utility */
+@utility leading-line-height32 { line-height: 32px; }
+
+/* Font size (text) utilities - theme vars may not auto-generate with prefix */
+@utility text-u-font1 { font-size: 20px; }
+@utility text-u-font2 { font-size: 18px; }
+@utility text-u-font3 { font-size: 16px; }
+@utility text-u-font4 { font-size: 14px; }
+@utility text-u-font5 { font-size: 12px; }
+@utility text-u-font6 { font-size: 11px; }
+@utility text-u-font7 { font-size: 10px; }
+@utility text-s-font001 { font-size: 48px; }
+@utility text-s-font005 { font-size: 24px; }
+@utility text-s-font1 { font-size: 20px; }
+@utility text-s-font2 { font-size: 18px; }
+@utility text-s-font3 { font-size: 16px; }
+@utility text-s-font4 { font-size: 14px; }
+@utility text-s-font5 { font-size: 12px; }
+@utility text-s-font6 { font-size: 11px; }
+@utility text-s-font7 { font-size: 10px; }
+
+/* Icon size utilities (theme vars don't auto-generate with prefix; explicit rules required) */
+@utility w-s-icon0 { width: 96px; }
+@utility h-s-icon0 { height: 96px; }
+@utility w-s-icon1 { width: 64px; }
+@utility h-s-icon1 { height: 64px; }
+@utility w-s-icon2 { width: 48px; }
+@utility h-s-icon2 { height: 48px; }
+@utility w-s-icon3 { width: 36px; }
+@utility h-s-icon3 { height: 36px; }
+@utility w-s-icon32 { width: 32px; }
+@utility h-s-icon32 { height: 32px; }
+@utility w-s-icon4 { width: 28px; }
+@utility h-s-icon4 { height: 28px; }
+@utility w-s-icon5 { width: 20px; }
+@utility h-s-icon5 { height: 20px; }
+@utility w-s-icon6 { width: 18px; }
+@utility h-s-icon6 { height: 18px; }
+@utility w-s-icon7 { width: 12px; }
+@utility h-s-icon7 { height: 12px; }
+
+/* Custom utilities for migrated hst.css classes (Bulk 7)
+ * Use scroll-none (prefix applies as tw:scroll-none) */
 @utility scroll-none {
   scrollbar-width: none;
   &::-webkit-scrollbar {

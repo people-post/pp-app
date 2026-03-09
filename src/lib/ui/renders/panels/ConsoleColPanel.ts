@@ -3,8 +3,8 @@ import { NavPanel } from './NavPanel.js';
 
 const _CPT_CONSOLE_COL = {
   MAIN : `<div class="sticky-header s-csecondarybg">
-    <div class="s-cprimebg tw-h-header tw-flex tw-flex-col tw-justify-around">
-      <div id="__ID_HOME_BTN__" class="tw-text-center"></div>
+    <div class="s-cprimebg tw:h-header tw:flex tw:flex-col tw:justify-around">
+      <div id="__ID_HOME_BTN__" class="tw:text-center"></div>
     </div>
   </div>
   <div id="__ID_TAB__" class="tab-col"></div>`,

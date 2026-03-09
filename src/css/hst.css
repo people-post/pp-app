@@ -32,32 +32,32 @@ input {
 
 /* Classes for styles */
 /* Font */
-/* Migrated to Tailwind (Bulk 1): use tw-font-bold instead */
+/* Migrated to Tailwind (Bulk 1): use tw:font-bold instead */
 /* .bold {
     font-weight: bold;
 } */
 
-/* Migrated to Tailwind (Bulk 1): use tw-font-italic instead */
+/* Migrated to Tailwind (Bulk 1): use tw:font-italic instead */
 /* .italic {
     font-style: italic;
 } */
 
-/* Migrated to Tailwind (Bulk 1): use tw-underline instead */
+/* Migrated to Tailwind (Bulk 1): use tw:underline instead */
 /* .underline {
     text-decoration: underline;
 } */
 
-/* Migrated to Tailwind (Bulk 1): use tw-whitespace-nowrap instead */
+/* Migrated to Tailwind (Bulk 1): use tw:whitespace-nowrap instead */
 /* .no-wrap {
     white-space: nowrap;
 } */
 
-/* Migrated to Tailwind (Bulk 1): use tw-break-all instead */
+/* Migrated to Tailwind (Bulk 1): use tw:break-all instead */
 /* .word-break-all {
     word-break: break-all;
 } */
 
-/* Migrated to Tailwind (Bulk 1): use tw-truncate instead */
+/* Migrated to Tailwind (Bulk 1): use tw:truncate instead */
 /* .ellipsis {
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -65,42 +65,42 @@ input {
 } */
 
 /* Migrated to Tailwind (Bulk 2): layout, flex, grid, alignment, dimensions, padding, border, overflow */
-/* See tw-flex, tw-justify-*, tw-flex-col, tw-flex-grow, tw-flex-shrink-0, tw-grid, tw-grid-cols-*,
-   tw-text-center, tw-text-right, tw-items-center, tw-justify-items-center, tw-items-baseline,
-   tw-relative, tw-absolute, tw-sticky, tw-inline-block, tw-w-full, tw-h-full, tw-w-[*%], tw-p-[*px],
-   tw-border, tw-rounded-*, tw-overflow-hidden, tw-overflow-x-scroll, tw-overflow-y-auto,
-   tw-snap-x, tw-snap-mandatory, tw-snap-start, tw-snap-center, tw-snap-end, tw-box-border */
+/* See tw:flex, tw:justify-*, tw:flex-col, tw:flex-grow, tw:flex-shrink-0, tw:grid, tw:grid-cols-*,
+   tw:text-center, tw:text-right, tw:items-center, tw:justify-items-center, tw:items-baseline,
+   tw:relative, tw:absolute, tw:sticky, tw:inline-block, tw:w-full, tw:h-full, tw:w-[*%], tw:p-[*px],
+   tw:border, tw:rounded-*, tw:overflow-hidden, tw:overflow-x-scroll, tw:overflow-y-auto,
+   tw:snap-x, tw:snap-mandatory, tw:snap-start, tw:snap-center, tw:snap-end, tw:box-border */
 
 /* color */
-/* .transparent { opacity: 0; } -> tw-opacity-0 */
-/* .opaque { opacity: 1; } -> tw-opacity-100 */
-/* .cforestgreen { color: ForestGreen; } -> tw-text-green-700 */
-/* .cred { color: Firebrick; } -> tw-text-red-600 */
-/* .cgray { color: Gray; } -> tw-text-gray-500 */
-/* .cdimgray { color: dimgray; } -> tw-text-gray-600 */
-/* .cblue { color: blue; } -> tw-text-blue-600 */
-/* .ccoldgray { color: #556677; } -> tw-text-gray-500 */
-/* .clightgray { color: LightGray; } -> tw-text-gray-300 */
-/* .cwhite { color: white; } -> tw-text-white */
-/* .cgoldenrod { color: GoldenRod; } -> tw-text-yellow-600 */
-/* .cgold { color: Gold; } -> tw-text-yellow-500 */
-/* .bgtransparent { background-color: transparent; } -> tw-bg-transparent */
-/* .bgwhite { background-color: White; } -> tw-bg-white */
-/* .bgnew { background-color: #E0E3FF; } -> tw-bg-blue-100 */
-/* .bgblack { background-color: Black; } -> tw-bg-black */
-/* .bgred { background-color: Red; } -> tw-bg-red-600 */
-/* .bgfirebrick { background-color: Firebrick; } -> tw-bg-red-700 */
-/* .bggreen { background-color: ForestGreen; } -> tw-bg-green-600 */
-/* .bgyellow { background-color: Gold; } -> tw-bg-yellow-500 */
-/* .bglightgreen { background-color: LightGreen; } -> tw-bg-green-300 */
-/* .bglightyellow { background-color: LightYellow; } -> tw-bg-yellow-200 */
-/* .bglightgray { background-color: LightGray; } -> tw-bg-gray-300 */
-/* .bglightgrey { background-color: LightGrey; } -> tw-bg-gray-300 */
-/* .bglightblue { background-color: LightBlue; } -> tw-bg-blue-300 */
-/* .bgdimgray { background-color: DimGray; } -> tw-bg-gray-600 */
-/* .bgdarkred { background-color: DarkRed; } -> tw-bg-red-800 */
-/* .bgdanger { background-color: #DC3545; } -> tw-bg-red-500 */
-/* .bgpalegoldenrod { background-color: PaleGoldenRod; } -> tw-bg-yellow-200 */
+/* .transparent { opacity: 0; } -> tw:opacity-0 */
+/* .opaque { opacity: 1; } -> tw:opacity-100 */
+/* .cforestgreen { color: ForestGreen; } -> tw:text-green-700 */
+/* .cred { color: Firebrick; } -> tw:text-red-600 */
+/* .cgray { color: Gray; } -> tw:text-gray-500 */
+/* .cdimgray { color: dimgray; } -> tw:text-gray-600 */
+/* .cblue { color: blue; } -> tw:text-blue-600 */
+/* .ccoldgray { color: #556677; } -> tw:text-gray-500 */
+/* .clightgray { color: LightGray; } -> tw:text-gray-300 */
+/* .cwhite { color: white; } -> tw:text-white */
+/* .cgoldenrod { color: GoldenRod; } -> tw:text-yellow-600 */
+/* .cgold { color: Gold; } -> tw:text-yellow-500 */
+/* .bgtransparent { background-color: transparent; } -> tw:bg-transparent */
+/* .bgwhite { background-color: White; } -> tw:bg-white */
+/* .bgnew { background-color: #E0E3FF; } -> tw:bg-blue-100 */
+/* .bgblack { background-color: Black; } -> tw:bg-black */
+/* .bgred { background-color: Red; } -> tw:bg-red-600 */
+/* .bgfirebrick { background-color: Firebrick; } -> tw:bg-red-700 */
+/* .bggreen { background-color: ForestGreen; } -> tw:bg-green-600 */
+/* .bgyellow { background-color: Gold; } -> tw:bg-yellow-500 */
+/* .bglightgreen { background-color: LightGreen; } -> tw:bg-green-300 */
+/* .bglightyellow { background-color: LightYellow; } -> tw:bg-yellow-200 */
+/* .bglightgray { background-color: LightGray; } -> tw:bg-gray-300 */
+/* .bglightgrey { background-color: LightGrey; } -> tw:bg-gray-300 */
+/* .bglightblue { background-color: LightBlue; } -> tw:bg-blue-300 */
+/* .bgdimgray { background-color: DimGray; } -> tw:bg-gray-600 */
+/* .bgdarkred { background-color: DarkRed; } -> tw:bg-red-800 */
+/* .bgdanger { background-color: #DC3545; } -> tw:bg-red-500 */
+/* .bgpalegoldenrod { background-color: PaleGoldenRod; } -> tw:bg-yellow-200 */
 
 .stkblack {
     stroke: black;
@@ -143,7 +143,7 @@ input {
 
 /* Migrated (Bulk 2): .w5px, .w10px, .w30px, .w50px, .w100px, .w240px, .w360px */
 
-/* Migrated (Bulk 5): .h10 -> tw-h-[10%], .h20 -> tw-h-[20%], .h40 -> tw-h-[40%], .h60 -> tw-h-[60%], .h80 -> tw-h-[80%], .h90 -> tw-h-[90%] */
+/* Migrated (Bulk 5): .h10 -> tw:h-[10%], .h20 -> tw:h-[20%], .h40 -> tw:h-[40%], .h60 -> tw:h-[60%], .h80 -> tw:h-[80%], .h90 -> tw:h-[90%] */
 /* .h10 { height: 10%; } */
 /* .h20 { height: 20%; } */
 /* .h40 { height: 40%; } */
@@ -153,7 +153,7 @@ input {
 
 /* Migrated (Bulk 2): .h100 */
 
-/* Migrated (Bulk 5): .h10px -> tw-h-[10px], .h12px -> tw-h-[12px], .h12pt -> tw-h-[12pt], .h30px -> tw-h-[30px], .h40px -> tw-h-[40px], .h60px -> tw-h-[60px], .h120px -> tw-h-[120px], .h200px -> tw-h-[200px] */
+/* Migrated (Bulk 5): .h10px -> tw:h-[10px], .h12px -> tw:h-[12px], .h12pt -> tw:h-[12pt], .h30px -> tw:h-[30px], .h40px -> tw:h-[40px], .h60px -> tw:h-[60px], .h120px -> tw:h-[120px], .h200px -> tw:h-[200px] */
 /* .h10px  { height: 10px; } */
 /* .h12px  { height: 12px; } */
 /* .h12pt  { height: 12pt; } */
@@ -163,12 +163,12 @@ input {
 /* .h120px { height: 120px; } */
 /* .h200px { height: 200px; } */
 
-/* Migrated (Bulk 5): .hmin100 -> tw-min-h-full, .hmin10px -> tw-min-h-[10px], .hmin300px -> tw-min-h-[300px] */
+/* Migrated (Bulk 5): .hmin100 -> tw:min-h-full, .hmin10px -> tw:min-h-[10px], .hmin300px -> tw:min-h-[300px] */
 /* .hmin100   { min-height: 100%; } */
 /* .hmin10px  { min-height: 10px; } */
 /* .hmin300px { min-height: 300px; } */
 
-/* Migrated (Bulk 5): .hmax40 -> tw-max-h-[40%], .hmax80 -> tw-max-h-[80%], .hmax100 -> tw-max-h-full, .hmax20px -> tw-max-h-[20px], .hmax40px -> tw-max-h-[40px], .hmax80px -> tw-max-h-[80px], .hmax100px -> tw-max-h-[100px], .hmax300px -> tw-max-h-[300px] */
+/* Migrated (Bulk 5): .hmax40 -> tw:max-h-[40%], .hmax80 -> tw:max-h-[80%], .hmax100 -> tw:max-h-full, .hmax20px -> tw:max-h-[20px], .hmax40px -> tw:max-h-[40px], .hmax80px -> tw:max-h-[80px], .hmax100px -> tw:max-h-[100px], .hmax300px -> tw:max-h-[300px] */
 /* .hmax40    { max-height: 40%; } */
 /* .hmax80    { max-height: 80%; } */
 /* .hmax100   { max-height: 100%; } */
@@ -189,31 +189,6 @@ input {
 .wmax1024px {
     max-width: 1024px;
 }
-
-/* Migrated (Bulk 5): .offset-top50 -> tw-top-[50%], .h-header -> tw-h-header, .h-subheader -> tw-h-subheader */
-/* .offset-top50 { top: 50%; } */
-/* .h-header     { height: 48px; } */
-/* .h-subheader  { height: 36px; } */
-
-/* Margin, border and padding */
-/* Migrated (Bulk 7): .automargin -> tw-m-auto */
-/* .automargin {
-    margin: auto;
-} */
-
-/* Migrated (Bulk 2): .border-box -> tw-box-border */
-
-/* Migrated (Bulk 7): .no-border -> tw-border-none */
-/* .no-border {
-    border: none;
-} */
-
-/* Migrated (Bulk 7): .border-collapse -> tw-border-collapse */
-/* .border-collapse {
-    border-collapse: collapse;
-} */
-
-/* Migrated (Bulk 2): pad2px, pad5px, pad10px, pad5, h-pad5px, h-pad10px, h-pad5, v-pad1px, v-pad5px, v-pad10px, v-pad5, top-pad5px, left-pad5px, right-pad5px -> tw-p-*, tw-px-*, tw-py-*, tw-pt-*, tw-pr-*, tw-pl-* */
 
 .right-pad120px {
     padding-right: 120px;
@@ -250,7 +225,7 @@ input {
     top: 30px;
 }
 
-/* Migrated (Bulk 2): .bottom0px -> tw-bottom-0 */
+/* Migrated (Bulk 2): .bottom0px -> tw:bottom-0 */
 
 .bottom72px {
     bottom: 72px;
@@ -264,12 +239,6 @@ input {
     right: 0px;
 }
 
-/* Migrated (Bulk 2): .relative, .absolute, .sticky -> tw-relative, tw-absolute, tw-sticky */
-/* Migrated (Bulk 2): .flex, .flex-column, .flex.space-between, .flex.space-around, .flex.even-space, .flex.flex-center, .flex.flex-start, .flex.flex-end -> tw-flex, tw-flex-col, tw-justify-* */
-/* Migrated (Bulk 2): .flex-grow, .flex-grow.no-overflow, .flex-grow.y-no-overflow, .flex-noshrink, .flex-basis50 -> tw-flex-grow, tw-min-w-0, tw-min-h-0, tw-flex-shrink-0, tw-basis-1/2 */
-/* Migrated (Bulk 2): .grid, .grid.grid2col, .grid3col, .grid5col, .grid7col, .grid2col23, .grid3col232 -> tw-grid, tw-grid-cols-* */
-/* Migrated (Bulk 2): .right-align, .center-align -> tw-text-right, tw-text-center */
-
 .v-middle-align {
     vertical-align: middle;
 }
@@ -277,217 +246,6 @@ input {
 .v-bottom-align {
     vertical-align: bottom;
 }
-
-/* Migrated (Bulk 2): .baseline-align-items, .center-align-items, .center-justify-items -> tw-items-baseline, tw-items-center, tw-justify-items-center */
-/* Migrated (Bulk 2): .inline-block, .no-display -> tw-inline-block, tw-hidden */
-
-/* Migrated (Bulk 7): .no-scrollbar -> tw-scroll-none (custom @utility in tailwind.css) */
-/* .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-} */
-
-/* .no-scrollbar::-webkit-scrollbar {
-    display: none;
-} */
-
-/* Migrated (Bulk 2): .hide-overflow, .x-scroll, .y-scroll -> tw-overflow-hidden, tw-overflow-x-scroll, tw-overflow-y-auto */
-/* Migrated (Bulk 2): .x-scroll-snap, .scroll-snap-start, .scroll-snap-center, .scroll-snap-end -> tw-snap-x, tw-snap-mandatory, tw-snap-start, tw-snap-center, tw-snap-end */
-
-/* Transform */
-/* Migrated (Bulk 7): .rot90 -> tw-rotate-90, .rot180 -> tw-rotate-180, .rot270 -> tw-rotate-270 */
-/* .rot90 {
-    transform: rotate(90deg);
-} */
-
-/* .rot180 {
-    transform: rotate(180deg);
-} */
-
-/* .rot270 {
-    transform: rotate(270deg);
-} */
-
-/* Common classes */
-/* Migrated to Tailwind (Bulk 6): use tw-text-u-font1 */
-/* .u-font1 {
-    font-size: 20px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-u-font2 */
-/* .u-font2 {
-    font-size: 18px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-u-font3 */
-/* .u-font3 {
-    font-size: 16px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-u-font4 */
-/* .u-font4 {
-    font-size: 14px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-u-font5 */
-/* .u-font5 {
-    font-size: 12px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-u-font6 */
-/* .u-font6 {
-    font-size: 11px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-u-font7 */
-/* .u-font7 {
-    font-size: 10px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-s-font001 */
-/* .s-font001 {
-    font-size: 48px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-s-font005 */
-/* .s-font005 {
-    font-size: 24px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-s-font1 */
-/* .s-font1 {
-    font-size: 20px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-s-font2 */
-/* .s-font2 {
-    font-size: 18px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-s-font3 */
-/* .s-font3 {
-    font-size: 16px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-s-font4 */
-/* .s-font4 {
-    font-size: 14px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-s-font5 */
-/* .s-font5 {
-    font-size: 12px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-s-font6 */
-/* .s-font6 {
-    font-size: 11px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-text-s-font7 */
-/* .s-font7 {
-    font-size: 10px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-font-num-font */
-/* .num-font {
-    font-family: "Times New Roman";
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-font-font-song */
-/* .font-song {
-    font-family: "SimSun";
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-leading-line-height32 */
-/* .line-height32 {
-    line-height: 32px;
-} */
-
-/* Icon */
-/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon0 tw-h-s-icon0 */
-/* .s-icon0 {
-    width: 96px;
-    height: 96px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon1 tw-h-s-icon1 */
-/* .s-icon1 {
-    width: 64px;
-    height: 64px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon2 tw-h-s-icon2 */
-/* .s-icon2 {
-    width: 48px;
-    height: 48px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon3 tw-h-s-icon3 */
-/* .s-icon3 {
-    width: 36px;
-    height: 36px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon32 tw-h-s-icon32 */
-/* .s-icon32 {
-    width: 32px;
-    height: 32px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon4 tw-h-s-icon4 */
-/* .s-icon4 {
-    width: 28px;
-    height: 28px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon5 tw-h-s-icon5 */
-/* .s-icon5 {
-    width: 20px;
-    height: 20px;
-    font-size: 0px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon6 tw-h-s-icon6 */
-/* .s-icon6 {
-    width: 18px;
-    height: 18px;
-} */
-
-/* Migrated to Tailwind (Bulk 6): use tw-w-s-icon7 tw-h-s-icon7 */
-/* .s-icon7 {
-    width: 12px;
-    height: 12px;
-} */
-
-/* Photo */
-/* Migrated to Tailwind (Bulk 6): use tw-text-[0px] */
-/* .s-photo {
-    font-size: 0px;
-} */
-
-/* 0px is to prevent display overflow */
-
-/* Cursor */
-/* Migrated (Bulk 7): .clickthrough -> tw-pointer-events-none */
-/* .clickthrough {
-    pointer-events: none;
-} */
-
-/* Migrated (Bulk 7): .handleevent -> tw-pointer-events-auto */
-/* .handleevent {
-    pointer-events: auto;
-} */
-
-/* Migrated (Bulk 7): .clickable -> tw-cursor-pointer */
-/* .clickable {
-    cursor: pointer;
-} */
-
-/* Migrated (Bulk 7): .cursornresize -> tw-cursor-n-resize */
-/* .cursornresize {
-    cursor: n-resize;
-} */
 
 /* Common combo */
 .darkmode .s-primary {
@@ -554,64 +312,6 @@ input {
 .inset {
     border: 2px inset silver;
 }
-
-/* Details */
-/* Framework */
-/* Replaced by tw-aspect-[5/1] tw-relative */
-/*div.aspect-5-1-frame {
-    padding-top: 20%;
-    position: relative;
-}*/
-
-/* Replaced by tw-aspect-[4/1] tw-relative */
-/*div.aspect-4-1-frame {
-    padding-top: 25%;
-    position: relative;
-}*/
-
-/* Replaced by tw-aspect-[3/1] tw-relative */
-/*div.aspect-3-1-frame {
-    padding-top: 33.33%;
-    position: relative;
-}*/
-
-/* Replaced by tw-aspect-[21/9] tw-relative */
-/*div.aspect-21-9-frame {
-    padding-top: 42.86%;
-    position: relative;
-}*/
-
-/* Replaced by tw-aspect-[2/1] tw-relative */
-/*div.aspect-2-1-frame {
-    padding-top: 50%;
-    position: relative;
-}*/
-
-/* Replaced by tw-aspect-[16/9] tw-relative */
-/*div.aspect-16-9-frame {
-    padding-top: 56.25%;
-    position: relative;
-}*/
-
-/* Replaced by tw-aspect-[4/3] tw-relative */
-/*div.aspect-4-3-frame {
-    padding-top: 75%;
-    position: relative;
-}*/
-
-/* Replaced by tw-aspect-[1/1] tw-relative */
-/*div.aspect-1-1-frame {
-    padding-top: 100%;
-    position: relative;
-}*/
-
-/* Replaced by tw-absolute tw-inset-0 */
-/*div.aspect-content {
-    position: absolute;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-}*/
 
 div.thumbnail-wrapper {
     padding: 5px;
@@ -856,6 +556,13 @@ div.profile-icon {
 
 span.icon-btn-wrapper svg {
     border: 2px outset silver;
+}
+
+/* Ensure SVG icons fill their tw:w-s-icon* / tw:h-s-icon* containers */
+[class*="tw:w-s-icon"] > svg,
+[class*="tw:h-s-icon"] > svg {
+    width: 100%;
+    height: 100%;
 }
 
 span.option-context-default-icon-wrapper {
@@ -1193,7 +900,7 @@ div.slide-show-nav {
     font-weight: bold;
     font-size: 18px;
     user-select: none;
-    /* opacity, background-color, transition moved to tw-opacity-50 tw-bg-gray-500 tw-transition-opacity */
+    /* opacity, background-color, transition moved to tw:opacity-50 tw:bg-gray-500 tw:transition-opacity */
 }
 
 div.slide-show-next {
@@ -3096,126 +2803,6 @@ svg .coffee-mug {
     stroke-linejoin: round;
 }
 
-/* Replaced by tw-absolute tw-top-0/bottom-0 tw-w-full tw-h-[8%] tw-bg-gradient-to-r tw-from-black/70 tw-to-transparent */
-/*div.video-thumbnail-mask {
-    position: absolute;
-    height: 8%;
-    width: 100%;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
-    background-image: linear-gradient(to right, black 7%, white 8% 19%, black 20% 31%, white 32% 43%, black 44% 56%, white 57% 68%, black 69% 80%, white 81% 92%, black 93%);
-}*/
-
-/* Replaced by tw-absolute tw-top-0/bottom-0 tw-w-full tw-h-[8%] tw-bg-gradient-to-r tw-from-red-700/70 tw-to-transparent */
-/*div.live-thumbnail-mask {
-    position: absolute;
-    height: 8%;
-    width: 100%;
-    border-top: 2px solid Firebrick;
-    border-bottom: 2px solid Firebrick;
-    background-image: linear-gradient(to right, Firebrick 7%, white 8% 19%, Firebrick 20% 31%, white 32% 43%, Firebrick 44% 56%, white 57% 68%, Firebrick 69% 80%, white 81% 92%, Firebrick 93%);
-}*/
-
-/* Replaced by inline SVG hamburger/back icons (tw-w-10 tw-h-10) */
-/*div.simple-line-icon {
-    width: 40px;
-    height: 40px;
-}
-
-div.simple-line-icon span {
-    display: block;
-    bottom: 19px;
-    width: 17px;
-    left: 11px;
-    height: 1px;
-    position: absolute;
-    animation-duration: 0.5s;
-}
-
-div.simple-line-icon.menu span.top {
-    transform: translateY(-4px);
-}
-
-div.simple-line-icon.menu span.bottom {
-    transform: translateY(4px);
-}
-
-div.simple-line-icon.back span.top {
-    transform: translateY(-4px) translateX(-4px) scaleX(0.6) rotate(-30deg);
-}
-
-div.simple-line-icon.back span.bottom {
-    transform: translateY(4px) translateX(-4px) scaleX(0.6) rotate(32deg);
-}*/
-
-/* Replaced by inline SVG search icon (tw-w-10 tw-h-10) */
-/*div.search-icon {
-    width: 40px;
-    height: 40px;
-}
-
-div.search-icon span.circle {
-    position: absolute;
-    top: 11px;
-    left: 10px;
-    width: 12px;
-    height: 12px;
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 8px;
-}
-
-div.search-icon span.top-bar {
-    position: absolute;
-    top: 26px;
-    left: 22px;
-    width: 9px;
-    height: 2px;
-    transform: rotate(45deg);
-}
-
-div.search-icon span.bottom-bar {
-    position: absolute;
-    top: 27px;
-    left: 22px;
-    width: 9px;
-    height: 2px;
-    transform: rotate(45deg);
-}*/
-
-/* Replaced by inline SVG clock icon (tw-w-10 tw-h-10) */
-/*div.time-menu-icon {
-    width: 40px;
-    height: 40px;
-}
-
-span.time-menu-icon-circle {
-    position: absolute;
-    top: 11px;
-    left: 10px;
-    width: 20px;
-    height: 20px;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 10px;
-}
-
-span.time-menu-icon-hour {
-    position: absolute;
-    top: 21px;
-    left: 20px;
-    width: 10px;
-    height: 2px;
-}
-
-span.time-menu-icon-minute {
-    position: absolute;
-    top: 11px;
-    left: 20px;
-    width: 2px;
-    height: 10px;
-}*/
-
 /* CSS transitions for SVG icon child elements (hamburger, search, clock) */
 svg line.top, svg line.middle, svg line.bottom,
 svg line.time-menu-icon-hour,
@@ -3251,57 +2838,6 @@ svg circle.circle.s-cmenustk {
         max-height: 0px;
     }
 }
-
-/* Removed: menuicon-* keyframes no longer referenced (replaced by CSS transitions) */
-
-/* Removed: searchicon-* keyframes no longer referenced (replaced by CSS transitions) */
-
-/* Removed: timemenuicon-* keyframes no longer referenced (replaced by CSS transitions) */
-
-/* Replaced by single-element Tailwind ring spinner:
-   tw-inline-block tw-h-10 tw-w-10 tw-animate-spin tw-rounded-full
-   tw-border-4 tw-border-solid tw-border-gray-200 tw-border-t-gray-600 */
-/*div.loading-icon {
-    display: inline-block;
-    position: relative;
-    width: 40px;
-    height: 40px;
-}
-
-div.loading-icon div {
-    transform-origin: 20px 20px;
-    animation: loading-icon 1.2s linear infinite;
-}
-
-div.loading-icon div:after {
-    content: " ";
-    display: block;
-    position: absolute;
-    top: 5px;
-    left: 18px;
-    width: 3px;
-    height: 8px;
-    border-radius: 20%;
-    background: dimgray;
-}
-
-div.loading-icon div:nth-child(1) { transform: rotate(0deg); animation-delay: -1.1s; }
-div.loading-icon div:nth-child(2) { transform: rotate(30deg); animation-delay: -1s; }
-div.loading-icon div:nth-child(3) { transform: rotate(60deg); animation-delay: -0.9s; }
-div.loading-icon div:nth-child(4) { transform: rotate(90deg); animation-delay: -0.8s; }
-div.loading-icon div:nth-child(5) { transform: rotate(120deg); animation-delay: -0.7s; }
-div.loading-icon div:nth-child(6) { transform: rotate(150deg); animation-delay: -0.6s; }
-div.loading-icon div:nth-child(7) { transform: rotate(180deg); animation-delay: -0.5s; }
-div.loading-icon div:nth-child(8) { transform: rotate(210deg); animation-delay: -0.4s; }
-div.loading-icon div:nth-child(9) { transform: rotate(240deg); animation-delay: -0.3s; }
-div.loading-icon div:nth-child(10) { transform: rotate(270deg); animation-delay: -0.2s; }
-div.loading-icon div:nth-child(11) { transform: rotate(300deg); animation-delay: -0.1s; }
-div.loading-icon div:nth-child(12) { transform: rotate(330deg); animation-delay: 0s; }
-
-@keyframes loading-icon {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
-}*/
 
 span.flag-icon-bg {
     background-size: contain;

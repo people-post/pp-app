@@ -134,7 +134,7 @@ export class FCart extends Fragment {
 
       if (total > 0) {
         p = new Panel();
-        p.setClassName("tw-text-right");
+        p.setClassName("tw:text-right");
         pMain.pushPanel(p);
         this.#renderTotal(total, p);
         pMain.pushSpace(1);

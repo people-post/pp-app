@@ -40,7 +40,7 @@ export class FvcProjectStageEditor extends FScrollViewContent {
     super();
     this._fTitle = new TextInput();
     this._fContent = new TextArea();
-    this._fContent.setClassName("tw-w-full tw-h-[120px]");
+    this._fContent.setClassName("tw:w-full tw:h-[120px]");
     this._fContent.setDelegate(this);
     this.setChild("title", this._fTitle);
     this.setChild("content", this._fContent);

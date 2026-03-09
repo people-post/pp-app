@@ -9,20 +9,20 @@ export const CF_MENU_ITEM_NAME = {
 }
 
 const _CFT_MENU_ITEM_NAME = {
-  MAIN : `<table class="tw-w-full">
+  MAIN : `<table class="tw:w-full">
     <tbody>
       <tr>
         <td>
         __NAME__
         </td>
-        <td class="tw-text-right">
+        <td class="tw:text-right">
           <span class="button-like small danger" onclick="javascript:G.action('${CF_MENU_ITEM_NAME.DELETE}')">Delete...</span>
         </td>
       </tr>
     </tbody>
   </table>`,
   DIR_NAME :
-      `<span class="tw-cursor-pointer tw-underline" onclick="javascript:G.action('${CF_MENU_ITEM_NAME.ONCLICK}')">__TEXT__</span>`,
+      `<span class="tw:cursor-pointer tw:underline" onclick="javascript:G.action('${CF_MENU_ITEM_NAME.ONCLICK}')">__TEXT__</span>`,
 }
 
 export class MenuItemName extends Fragment {

@@ -9,8 +9,8 @@ import { FScrollViewContentHook } from './FScrollViewContentHook.js';
 import { FViewContentBase } from './FViewContentBase.js';
 
 const _CPT_VIEW_CONTENT_MUX = {
-  MAIN : `<div id="__ID_HEADER__" class="tw-flex-shrink-0"></div>
-  <div id="__ID_CONTENT__" class="tw-flex-grow tw-min-w-0 tw-overflow-x-scroll tw-snap-x tw-snap-mandatory tw-flex"></div>`,
+  MAIN : `<div id="__ID_HEADER__" class="tw:flex-shrink-0"></div>
+  <div id="__ID_CONTENT__" class="tw:flex-grow tw:min-w-0 tw:overflow-x-scroll tw:snap-x tw:snap-mandatory tw:flex"></div>`,
 } as const;
 
 class PViewContentMux extends Panel {
@@ -109,7 +109,7 @@ export class FViewContentMux extends FViewContentContainer {
 
   _renderOnRender(render: any): void {
     let panel = new PViewContentMux();
-    panel.setClassName("tw-h-full tw-flex tw-flex-col");
+    panel.setClassName("tw:h-full tw:flex tw:flex-col");
     render.wrapPanel(panel);
 
     this.#obResize.disconnect();
@@ -121,7 +121,7 @@ export class FViewContentMux extends FViewContentContainer {
     this.#pContent = panel.getContentPanel();
     for (let f of this.#mChildren.values()) {
       p = new PanelWrapper();
-      p.setClassName("tw-h-full tw-w-full tw-snap-start tw-flex-shrink-0");
+      p.setClassName("tw:h-full tw:w-full tw:snap-start tw:flex-shrink-0");
       this.#pContent.pushPanel(p);
       f.attachRender(p);
       f.render();

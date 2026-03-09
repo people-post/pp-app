@@ -15,12 +15,12 @@ import { Groups } from '../dba/Groups.js';
 const _CPT_MENU_ITEM = {
   V_MAIN : `<div class="flex">
     <div class="w5">
-      <div id="__ID_THEME__" class="w5px tw-h-full"></div>
+      <div id="__ID_THEME__" class="w5px tw:h-full"></div>
     </div>
-    <div class="tw-flex-grow tw-flex tw-border-b tw-border-b-[1px] tw-border-solid s-cmenubd">
+    <div class="tw:flex-grow tw:flex tw:border-b tw:border-b-[1px] tw:border-solid s-cmenubd">
       <div class="w5px"></div>
-      <div id="__ID_CONTENT__" class="tw-flex-grow"></div>
-      <div class="w5px tw-flex tw-text-center-items">
+      <div id="__ID_CONTENT__" class="tw:flex-grow"></div>
+      <div class="w5px tw:flex tw:items-center">
         <div id="__ID_ARROW__"></div>
       </div>
     </div>
@@ -246,11 +246,11 @@ export class MainMenu extends MenuContent {
 
   #renderAsQuickLink(render: Panel, items: MenuItem[]): void {
     let pWrapper = new PanelWrapper();
-    pWrapper.setClassName("tw-flex tw-justify-center");
+    pWrapper.setClassName("tw:flex tw:justify-center");
     render.wrapPanel(pWrapper);
 
     let panel = new ListPanel();
-    let names = [ "tw-w-full", "flex", "x-scroll", "tw-scroll-none" ];
+    let names = [ "tw:w-full", "tw:flex", "tw:overflow-x-scroll", "tw:scroll-none" ];
     if (this.#cMaxWidth) {
       names.push(this.#cMaxWidth);
     }
@@ -259,7 +259,7 @@ export class MainMenu extends MenuContent {
 
     if (this.#currentItem && this.#currentItem.getDepth() > 0) {
       let p = new PHMenuItem();
-      p.setClassName("tw-flex-grow");
+      p.setClassName("tw:flex-grow");
       panel.pushPanel(p);
       this.#btnAll.attachRender(p.getContentPanel());
       this.#btnAll.render();
@@ -269,7 +269,7 @@ export class MainMenu extends MenuContent {
     this.#fChoices.attachRender(panel); // Allow events
     for (let item of items) {
       let p = new PHMenuItem();
-      p.setClassName("tw-flex-grow tw-flex tw-justify-center");
+      p.setClassName("tw:flex-grow tw:flex tw:justify-center");
       panel.pushPanel(p);
       this.#renderChoice(p, item, Button.LAYOUT_TYPE.BARE);
     }

@@ -1,12 +1,12 @@
 const _CPT_POST_INFO_COMMENT = {
-  MAIN : `<div class="tw-flex tw-border-b tw-border-b-[1px] tw-border-solid tw-border-lightgray tw-py-[5px]">
-  <div id="__ID_OWNER_ICON__" class="w50px tw-flex-shrink-0"></div>
-  <div class="tw-flex-grow">
-    <div class="tw-flex tw-justify-between">
+  MAIN : `<div class="tw:flex tw:border-b tw:border-b-[1px] tw:border-solid tw:border-lightgray tw:py-[5px]">
+  <div id="__ID_OWNER_ICON__" class="w50px tw:flex-shrink-0"></div>
+  <div class="tw:flex-grow">
+    <div class="tw:flex tw:justify-between">
       <div id="__ID_OWNER_NAME__" class="comment-info-text"></div>
       <div id="__ID_CONTEXT__" class="comment-info-extra"></div>
     </div>
-    <div id="__ID_CONTENT__" class="comment-info-text tw-text-s-font5"></div>
+    <div id="__ID_CONTENT__" class="comment-info-text tw:text-s-font5"></div>
   </div>
   </div>`,
 } as const;

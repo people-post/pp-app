@@ -78,7 +78,7 @@ export class FViewHeader extends Fragment {
 
     let eTest = document.getElementById("ID_COLOR_TEST");
     if (eTest) {
-      eTest.className = "tw-inline-block";
+      eTest.className = "tw:inline-block";
       let t =
           this.#customTheme ? this.#customTheme : WebConfig.getCurrentTheme();
       let c = t.getSeparationColor(eTest);
@@ -91,7 +91,7 @@ export class FViewHeader extends Fragment {
       } else {
         if (c) {
           this.#pMain?.setClassName(
-              "s-cprimebg s-cmenu tw-border-b tw-border-b-[1px] tw-border-solid s-cseparationbd");
+              "s-cprimebg s-cmenu tw:border-b tw:border-b-[1px] tw:border-solid s-cseparationbd");
         } else {
           this.#pMain?.setClassName("s-cprimebg s-cmenu");
         }

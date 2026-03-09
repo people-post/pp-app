@@ -154,7 +154,7 @@ export class FArticleInfo extends FPostBase {
       return;
     }
     let pList = new ListPanel();
-    pList.setClassName("tw-flex tw-justify-start tw-items-baseline");
+    pList.setClassName("tw:flex tw:justify-start tw:items-baseline");
     panel.wrapPanel(pList);
 
     this.#fTags.clear();
@@ -234,7 +234,7 @@ export class FArticleInfo extends FPostBase {
 
     let p = new ThumbnailPanelWrapper();
     if (this.#isSquareImage()) {
-      p.setClassName("tw-aspect-[1/1] tw-relative");
+      p.setClassName("tw:aspect-[1/1] tw:relative");
     }
     panel.wrapPanel(p);
 

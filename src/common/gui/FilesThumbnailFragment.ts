@@ -28,14 +28,14 @@ const _CFT_FILES_THUMBNAIL = {
       `<span class="thumbnail-grid thumbnail-grid-__THUMBNAIL_GRID_TYPE__" onclick="javascript:G.action('${CF_FILES_THUMBNAIL.ON_CLICK}', __IDX__)" style="background-image:url('__URL__');__BG_COLOR__">__CONTENT__</span>
     `,
   LIVE_ICON_MASK : `
-    <div class="tw-absolute tw-top-0 tw-w-full tw-h-[8%] tw-bg-gradient-to-r tw-from-red-700/70 tw-to-transparent"></div>
-    <div class="tw-absolute tw-bottom-0 tw-w-full tw-h-[8%] tw-bg-gradient-to-r tw-from-red-700/70 tw-to-transparent"></div>
-    <svg class="tw-w-full tw-h-full" viewBox="0 0 32 32">
+    <div class="tw:absolute tw:top-0 tw:w-full tw:h-[8%] tw:bg-gradient-to-r tw:from-red-700/70 tw:to-transparent"></div>
+    <div class="tw:absolute tw:bottom-0 tw:w-full tw:h-[8%] tw:bg-gradient-to-r tw:from-red-700/70 tw:to-transparent"></div>
+    <svg class="tw:w-full tw:h-full" viewBox="0 0 32 32">
       <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" class="live-text">LIVE</text>
     </svg>`,
   VIDEO_ICON_MASK : `
-    <div class="tw-absolute tw-top-0 tw-w-full tw-h-[8%] tw-bg-gradient-to-r tw-from-black/70 tw-to-transparent"></div>
-    <div class="tw-absolute tw-bottom-0 tw-w-full tw-h-[8%] tw-bg-gradient-to-r tw-from-black/70 tw-to-transparent"></div>`,
+    <div class="tw:absolute tw:top-0 tw:w-full tw:h-[8%] tw:bg-gradient-to-r tw:from-black/70 tw:to-transparent"></div>
+    <div class="tw:absolute tw:bottom-0 tw:w-full tw:h-[8%] tw:bg-gradient-to-r tw:from-black/70 tw:to-transparent"></div>`,
 };
 
 export class FilesThumbnailFragment extends Fragment {

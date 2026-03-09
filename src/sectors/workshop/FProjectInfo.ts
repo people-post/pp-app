@@ -118,7 +118,7 @@ export class FProjectInfo extends MajorSectorItem {
   _renderOnRender(render: Render): void {
     if (!this._projectId) {
       let p = new Panel();
-      p.setClassName("tw-text-center");
+      p.setClassName("tw:text-center");
       render.wrapPanel(p);
       p.replaceContent("Loading...");
       return;
@@ -126,14 +126,14 @@ export class FProjectInfo extends MajorSectorItem {
     let project = Workshop.getProject(this._projectId);
     if (!project) {
       let p = new Panel();
-      p.setClassName("tw-text-center");
+      p.setClassName("tw:text-center");
       render.wrapPanel(p);
       p.replaceContent("Loading...");
       return;
     }
 
     let panel = this.#createPanel();
-    panel.setClassName("tw-cursor-pointer");
+    panel.setClassName("tw:cursor-pointer");
     panel.setAttribute("onclick",
                        "javascript:G.action(CF_PROJECT_INFO.VIEW_PROJECT)");
 
@@ -185,7 +185,7 @@ export class FProjectInfo extends MajorSectorItem {
       if (p) {
         let pp = new ThumbnailPanelWrapper();
         if (this.#isSquareImage()) {
-          pp.setClassName("tw-aspect-[1/1] tw-relative");
+          pp.setClassName("tw:aspect-[1/1] tw:relative");
         }
         p.wrapPanel(pp);
 

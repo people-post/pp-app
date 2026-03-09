@@ -33,7 +33,7 @@ export class SectorNoticeInfoFragment extends Fragment {
     let p = new PanelWrapper();
     let className = "sector-notice";
     if (this._notification.getNUnread()) {
-      className += " tw-bg-blue-100";
+      className += " tw:bg-blue-100";
     }
     p.setClassName(className);
     render.wrapPanel(p);

@@ -138,7 +138,7 @@ export class FRealTimeComments extends Fragment {
 
   _renderOnRender(render: PanelWrapper): void {
     let pList = new ListPanel();
-    pList.setClassName("tw-h-full");
+    pList.setClassName("tw:h-full");
     pList.setAttribute("onclick", "javascript:G.anchorClick()");
     render.wrapPanel(pList);
     this.#pMain = new PRealTimeComments();

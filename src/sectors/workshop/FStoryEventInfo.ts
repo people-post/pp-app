@@ -3,10 +3,10 @@ export const CF_STORY_EVENT_INFO = {
 } as const;
 
 const _CFT_STORY_EVENT_INFO = {
-  MAIN : `<div class="story-event-info tw-p-[5px] tw-cursor-pointer __CLASS_NAME__">
-    <div class="tw-text-s-font4 __NAME_CELL_CLASS__">__NAME__</div>
+  MAIN : `<div class="story-event-info tw:p-[5px] tw:cursor-pointer __CLASS_NAME__">
+    <div class="tw:text-s-font4 __NAME_CELL_CLASS__">__NAME__</div>
     <div class="small-info-text">__TIME__</div>
-    <div class="tw-text-s-font5">__DETAIL__</div>
+    <div class="tw:text-s-font5">__DETAIL__</div>
   </div>`,
 } as const;
 
@@ -76,7 +76,7 @@ export class FStoryEventInfo extends Fragment {
     if (isSelected) {
       s = s.replace("__CLASS_NAME__", "s-cprimebd");
     } else {
-      s = s.replace("__CLASS_NAME__", "tw-border-gray-300");
+      s = s.replace("__CLASS_NAME__", "tw:border-gray-300");
     }
 
     p.replaceContent(s);
@@ -110,11 +110,11 @@ export class FStoryEventInfo extends Fragment {
 
   #renderModificationEvent(): string {
     let s = this.#renderEventFramework();
-    return s.replace("__NAME_CELL_CLASS__", "tw-bg-yellow-200");
+    return s.replace("__NAME_CELL_CLASS__", "tw:bg-yellow-200");
   }
 
   #renderStatusEvent(): string {
     let s = this.#renderEventFramework();
-    return s.replace("__NAME_CELL_CLASS__", "tw-bg-green-300");
+    return s.replace("__NAME_CELL_CLASS__", "tw:bg-green-300");
   }
 }

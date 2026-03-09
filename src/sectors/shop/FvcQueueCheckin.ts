@@ -80,7 +80,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
     this._fBtn.render();
 
     p = new PanelWrapper();
-    p.setClassName("tw-text-center");
+    p.setClassName("tw:text-center");
     panel.pushPanel(p);
     this._fMsg.attachRender(p);
     this._fMsg.render();

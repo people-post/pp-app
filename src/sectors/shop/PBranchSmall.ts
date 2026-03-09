@@ -1,7 +1,7 @@
 const _CPT_BRANCH_SMALL = {
   MAIN :
-      `<div id="__ID_MAIN__" class="bd-b-solid tw-border-b tw-border-b-[1px] tw-border-gray-300 tw-cursor-pointer">
-  <div class="tw-p-[5px]">
+      `<div id="__ID_MAIN__" class="bd-b-solid tw:border-b tw:border-b-[1px] tw:border-gray-300 tw:cursor-pointer">
+  <div class="tw:p-[5px]">
     <div id="__ID_NAME__"></div>
     <div id="__ID_ADDRESS__"></div>
     <div id="__ID_REGISTER_INFO__"></div>
@@ -34,7 +34,7 @@ export class PBranchSmall extends PBranchBase {
   invertColor(): void {
     let e = document.getElementById(this._getSubElementId("M"));
     if (e) {
-      e.className = e.className.replace("tw-border-gray-300", "s-cprimebd");
+      e.className = e.className.replace("tw:border-gray-300", "s-cprimebd");
     }
   }
 

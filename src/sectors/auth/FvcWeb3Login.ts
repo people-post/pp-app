@@ -21,7 +21,7 @@ export class FvcWeb3Login extends FvcLoginBase {
   constructor() {
     super();
     this.#fMnemonic = new TextArea();
-    this.#fMnemonic.setClassName("tw-w-full tw-h-[120px]");
+    this.#fMnemonic.setClassName("tw:w-full tw:h-[120px]");
     this.#fMnemonic.setConfig({
       title : "Mnemonic",
       hint : "24 mnemonic words",
@@ -64,7 +64,7 @@ export class FvcWeb3Login extends FvcLoginBase {
 
   _renderContentOnRender(render: any): void {
     let pList = new ListPanel();
-    pList.setClassName("tw-h-full");
+    pList.setClassName("tw:h-full");
     render.wrapPanel(pList);
 
     let p = new PanelWrapper();

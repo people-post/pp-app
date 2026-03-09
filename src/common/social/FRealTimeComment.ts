@@ -11,7 +11,7 @@ import { R } from '../constants/R.js';
 import { ICON } from '../constants/Icons.js';
 
 const _CFT_REAL_TIME_COMMENT = {
-  ICON : `<span class="tw-inline-block tw-w-s-icon6 tw-h-s-icon6">__ICON__</span>`,
+  ICON : `<span class="tw:inline-block tw:w-s-icon6 tw:h-s-icon6">__ICON__</span>`,
 };
 
 interface FRealTimeCommentDelegate {
@@ -105,7 +105,7 @@ export class FRealTimeComment extends Fragment {
     if (comment.isFromGuest()) {
       let p = new Panel();
       if (comment.isPending()) {
-        p.setClassName("tw-font-italic");
+        p.setClassName("tw:font-italic");
       }
       panel.wrapPanel(p);
       let s = "[" + (comment.getGuestName() || "") + "]";
@@ -123,7 +123,7 @@ export class FRealTimeComment extends Fragment {
   #renderCommentText(panel: Panel, comment: RealTimeComment): void {
     let p = new Panel();
     if (comment.isPending()) {
-      p.setClassName("tw-font-italic");
+      p.setClassName("tw:font-italic");
     }
     panel.wrapPanel(p);
     p.replaceContent(Utilities.escapeHtml(comment.getContent()));

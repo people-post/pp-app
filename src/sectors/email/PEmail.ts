@@ -4,16 +4,16 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 const _CPT_EMAIL = {
   MAIN : `<div class="pad5">
     <div class="email-header">
-      <div class="tw-flex tw-justify-between">
-        <div id="__ID_SENDER__" class="tw-text-u-font4"></div>
-        <div id="__ID_TIME__" class="tw-text-u-font4"></div>
+      <div class="tw:flex tw:justify-between">
+        <div id="__ID_SENDER__" class="tw:text-u-font4"></div>
+        <div id="__ID_TIME__" class="tw:text-u-font4"></div>
       </div>
-      <div id="__ID_RECEIVER__" class="tw-text-u-font4"></div>
-      <div id="__ID_CC__" class="tw-text-u-font4"></div>
+      <div id="__ID_RECEIVER__" class="tw:text-u-font4"></div>
+      <div id="__ID_CC__" class="tw:text-u-font4"></div>
     </div>
-    <div id="__ID_TITLE__" class="tw-text-u-font3 tw-font-bold"></div>
+    <div id="__ID_TITLE__" class="tw:text-u-font3 tw:font-bold"></div>
     <br>
-    <div id="__ID_CONTENT__" class="tw-text-u-font4"></div>
+    <div id="__ID_CONTENT__" class="tw:text-u-font4"></div>
   </div>`,
 } as const;
 

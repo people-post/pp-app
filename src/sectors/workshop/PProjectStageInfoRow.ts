@@ -1,6 +1,6 @@
 const _CPT_PROJECT_STAGE_INFO_ROW = {
-  MAIN : `<div class="tw-flex tw-justify-between story-event-info tw-p-[5px] tw-border-lightgray">
-    <div id="__ID_NAME__" class="tw-text-s-font4"></div>
+  MAIN : `<div class="tw:flex tw:justify-between story-event-info tw:p-[5px] tw:border-lightgray">
+    <div id="__ID_NAME__" class="tw:text-s-font4"></div>
     <div id="__ID_ACTION__"></div>
   </div>`,
 }

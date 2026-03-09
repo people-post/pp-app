@@ -15,8 +15,8 @@ if (typeof window !== 'undefined') {
 }
 
 const _CFT_POST_STATISTICS_INFO = {
-  MAIN : `<div class="tw-underline tw-truncate">__NAME__</div>
-    <div class="small-info-text tw-whitespace-nowrap">__COUNT__</div>`,
+  MAIN : `<div class="tw:underline tw:truncate">__NAME__</div>
+    <div class="small-info-text tw:whitespace-nowrap">__COUNT__</div>`,
 } as const;
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
@@ -56,7 +56,7 @@ export class FPostStatisticsInfo extends Fragment {
 
   _renderOnRender(render: Panel): void {
     let p = new Panel();
-    p.setClassName("tw-p-[5px] tw-flex tw-justify-between tw-items-baseline tw-cursor-pointer");
+    p.setClassName("tw:p-[5px] tw:flex tw:justify-between tw:items-baseline tw:cursor-pointer");
     p.setAttribute("onclick",
                    "javascript:G.action(CF_POST_STATISTICS_INFO.ONCLICK)");
 

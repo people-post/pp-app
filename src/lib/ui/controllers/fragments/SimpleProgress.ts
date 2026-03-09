@@ -6,7 +6,7 @@ const _CFT_SIMPLE_PROGRESS = {
   BAR :
       `<span class="simple-progress-fg __COLOR__" style="width:__PERCENT__%"></span>`,
   TEXT :
-      `<span class="tw-w-full tw-text-s-font7 tw-font-bold tw-text-center simple-progress-text">__VALUE__%</span>`,
+      `<span class="tw:w-full tw:text-s-font7 tw:font-bold tw:text-center simple-progress-text">__VALUE__%</span>`,
 } as const;
 
 export class SimpleProgress extends Fragment {
@@ -47,13 +47,13 @@ export class SimpleProgress extends Fragment {
 
   #getColorClass(): string {
     if (this._percent == 100) {
-      return "tw-bg-green-600";
+      return "tw:bg-green-600";
     }
 
     if (this._percent < this._threshold) {
-      return "tw-bg-red-700";
+      return "tw:bg-red-700";
     }
-    return "tw-bg-yellow-500";
+    return "tw:bg-yellow-500";
   }
 }
 

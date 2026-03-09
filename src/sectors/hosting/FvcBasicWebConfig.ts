@@ -6,9 +6,9 @@ window.CF_BASIC_WEB_CONFIG = {
 
 const _CFT_BASIC_WEB_CONFIG = {
   HOME_PAGE_TITLE :
-      `<input type="text" class="tight-label-like tw-box-border s-cfunc" placeholder="Your homepage title" value="__VALUE__" onchange="javascript:G.action(CF_BASIC_WEB_CONFIG.ON_TITLE_SET, this.value)">`,
+      `<input type="text" class="tight-label-like tw:box-border s-cfunc" placeholder="Your homepage title" value="__VALUE__" onchange="javascript:G.action(CF_BASIC_WEB_CONFIG.ON_TITLE_SET, this.value)">`,
   PROFILE_ICON : `
-    <div class="profile-icon tw-inline-block tw-w-s-icon1 tw-h-s-icon1 s-cprimebg">
+    <div class="profile-icon tw:inline-block tw:w-s-icon1 tw:h-s-icon1 s-cprimebg">
        <img class="photo" src="__SRC__" alt="Icon" onclick="javascript:this.nextElementSibling.click()">
        <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action(CF_BASIC_WEB_CONFIG.ON_ICON_CHANGE, this.files[0])">
     </div>`,
@@ -92,13 +92,13 @@ export class FvcBasicWebConfig extends FScrollViewContent {
     if (!eTest) {
       return "";
     }
-    eTest.className = "tw-inline-block";
+    eTest.className = "tw:inline-block";
     let cMenu = config.getMenuColor(eTest);
     let cFunc = config.getFuncColor(eTest);
     eTest.className = "no-display";
 
     let table = document.createElement("TABLE");
-    table.className = "tw-text-center";
+    table.className = "tw:text-center";
 
     let row = table.insertRow(-1);
     let cell = row.insertCell(-1);

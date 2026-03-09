@@ -1,32 +1,32 @@
 const _CPT_OVERVIEW = {
   MAIN : `<div class="community-overview">
   <div id="__ID_HEADER__"></div>
-  <div id="__ID_NAME__" class="tw-text-center tw-font-bold"></div>
-  <div id="__ID_DESCRIPTION__" class="tw-text-center"></div>
+  <div id="__ID_NAME__" class="tw:text-center tw:font-bold"></div>
+  <div id="__ID_DESCRIPTION__" class="tw:text-center"></div>
   <div class="flex">
-    <div class="tw-w-[40%] tw-text-right small-info-text">Creator:</div>
+    <div class="tw:w-[40%] tw:text-right small-info-text">Creator:</div>
     <div id="__ID_CREATOR__" class="left-pad5px"></div>
   </div>
   <div class="flex">
-    <div class="tw-w-[40%] tw-text-right small-info-text">Captain:</div>
+    <div class="tw:w-[40%] tw:text-right small-info-text">Captain:</div>
     <div id="__ID_CAPTAIN__" class="left-pad5px"></div>
   </div>
   <div class="flex">
-    <div class="tw-w-[40%] tw-text-right small-info-text">Members:</div>
+    <div class="tw:w-[40%] tw:text-right small-info-text">Members:</div>
     <div id="__ID_N_MEMBERS__" class="left-pad5px"></div>
   </div>
   <div class="flex">
-    <div id="__ID_N_COINS_DESC__" class="tw-w-[40%] tw-text-right small-info-text"></div>
+    <div id="__ID_N_COINS_DESC__" class="tw:w-[40%] tw:text-right small-info-text"></div>
     <div id="__ID_N_COINS__" class="left-pad5px"></div>
     <div id="__ID_BTN_COIN__"></div>
   </div>
   <div class="flex">
-    <div id="__ID_BALANCE_DESC__" class="tw-w-[40%] tw-text-right small-info-text"></div>
+    <div id="__ID_BALANCE_DESC__" class="tw:w-[40%] tw:text-right small-info-text"></div>
     <div id="__ID_BALANCE__" class="left-pad5px"></div>
     <div id="__ID_BTN_BALANCE__"></div>
   </div>
   <div class="flex">
-    <div class="tw-w-[40%] tw-text-right small-info-text">Active proposals:</div>
+    <div class="tw:w-[40%] tw:text-right small-info-text">Active proposals:</div>
     <div id="__ID_N_PROPOSALS__" class="left-pad5px"></div>
   </div>
   <br>

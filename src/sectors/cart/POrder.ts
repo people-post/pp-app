@@ -6,7 +6,7 @@ const _CPT_CUSTOMER_ORDER = {
     <div id="__ID_STATUS__"></div>
   </div>
   <div id="__ID_ITEMS__"></div>
-  <div class="small-info-text tw-text-right">
+  <div class="small-info-text tw:text-right">
     <div id="__ID_SUBTOTAL__"></div>
     <div id="__ID_SHIPPING_HANDLING__"></div>
     <div id="__ID_DISCOUNT__"></div>

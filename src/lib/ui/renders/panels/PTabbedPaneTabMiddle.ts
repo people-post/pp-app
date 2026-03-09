@@ -2,8 +2,8 @@ import { PTabbedPaneTabBase } from './PTabbedPaneTabBase.js';
 import { Panel } from './Panel.js';
 
 const _CPT_TABBED_PANE_TAB_MIDDLE = {
-  MAIN : `<div class="tw-inline-block tw-p-[5px] tw-cursor-pointer">
-      <div id="__ID_ICON__" class="bdradius5px tw-inline-block tw-w-s-icon32 tw-h-s-icon32 s-csecondarybg"></div>
+  MAIN : `<div class="tw:inline-block tw:p-[5px] tw:cursor-pointer">
+      <div id="__ID_ICON__" class="bdradius5px tw:inline-block tw:w-s-icon32 tw:h-s-icon32 s-csecondarybg"></div>
     </div>
     <div id="__ID_BADGE__" class="notification-badge"></div>`,
 } as const;

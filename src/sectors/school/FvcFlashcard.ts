@@ -42,7 +42,7 @@ export class FvcFlashcard extends FScrollViewContent {
     render.wrapPanel(pList);
 
     let p = new PanelWrapper();
-    p.setClassName("tw-min-h-[300px]");
+    p.setClassName("tw:min-h-[300px]");
     pList.pushPanel(p);
     this._fCard.attachRender(p);
     this._fCard.render();

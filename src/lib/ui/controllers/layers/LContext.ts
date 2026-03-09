@@ -12,10 +12,10 @@ export const CL_CONTEXT = {
 } as const;
 
 const _CLT_CONTEXT = {
-  MAIN : `<div id="__ID_TITLE__" class="tw-text-s-font3"></div>
-  <div id="__ID_DESCRIPTION__" class="tw-text-s-font4"></div>
+  MAIN : `<div id="__ID_TITLE__" class="tw:text-s-font3"></div>
+  <div id="__ID_DESCRIPTION__" class="tw:text-s-font4"></div>
   <br>
-  <div id="__ID_CONTENT__" class="tw-max-h-[300px] tw-overflow-y-auto tw-scroll-none"></div>
+  <div id="__ID_CONTENT__" class="tw:max-h-[300px] tw:overflow-y-auto tw:scroll-none"></div>
   <br>
   <div id="__ID_BTN_CANCEL__"></div>`,
 } as const;
@@ -140,17 +140,17 @@ export class LContext extends Layer {
     let shouldAnimate = !(render as any).getContentPanel();
 
     let panel = new PanelWrapper();
-    panel.setClassName("tw-w-full tw-h-full context-layer tw-flex tw-flex-col tw-justify-end");
+    panel.setClassName("tw:w-full tw:h-full context-layer tw:flex tw:flex-col tw:justify-end");
     panel.setAttribute("onclick", "javascript:G.action(window.CL_CONTEXT.CLOSE)");
     render.wrapPanel(panel);
 
     let p = new PanelWrapper();
-    p.setClassName("tw-w-full tw-flex tw-justify-center tw-relative");
+    p.setClassName("tw:w-full tw:flex tw:justify-center tw:relative");
     panel.wrapPanel(p);
 
     let pContextLayer = new PContextLayer();
     pContextLayer.setClassName(
-        "tw-w-full s-csecondarybg tw-border-lightgray tw-box-border context-content");
+        "tw:w-full s-csecondarybg tw:border-lightgray tw:box-border context-content");
     pContextLayer.setAttribute("onclick", "javascript:G.anchorClick()");
     p.wrapPanel(pContextLayer);
 

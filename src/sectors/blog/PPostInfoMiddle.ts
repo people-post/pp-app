@@ -12,15 +12,15 @@ const _CPT_POST_INFO_MIDDLE = {
   MAIN : `<div id="__ID_WRAPPER__" class="post-info-wrapper">
   <div id="__ID_PIN__"></div>
   <div id="__ID_MAIN__" class="shadow-post-info">
-    <div class="tw-aspect-[3/1] tw-relative">
-      <div class="tw-absolute tw-inset-0 tw-h-full tw-flex tw-justify-center">
+    <div class="tw:aspect-[3/1] tw:relative">
+      <div class="tw:absolute tw:inset-0 tw:h-full tw:flex tw:justify-center">
         <div id="__ID_THUMBNAIL__"></div>
-        <div class="tw-flex-grow tw-flex tw-flex-col">
-          <div class="tw-flex-grow tw-overflow-hidden post-info-right">
+        <div class="tw:flex-grow tw:flex tw:flex-col">
+          <div class="tw:flex-grow tw:overflow-hidden post-info-right">
             <div id="__ID_REF__" class="crosslink-note"></div>
             <div id="__ID_TEXT__" class="content">
               <div id="__ID_TITLE__" class="title"></div>
-              <div id="__ID_CONTENT__" class="tw-text-u-font5"></div>
+              <div id="__ID_CONTENT__" class="tw:text-u-font5"></div>
             </div>
             <div id="__ID_QUOTE__"></div>
           </div>
@@ -69,13 +69,13 @@ export class PPostInfoMiddle extends PPostInfoBase {
 
   enableImage(): void {
     this._pImage.setClassName(
-        "post-info-image-thumbnail-wrapper tw-flex-shrink-0");
+        "post-info-image-thumbnail-wrapper tw:flex-shrink-0");
   }
   enableQuote(): void {
     // Limit content height
     let e = document.getElementById(this._getSubElementId("TXT"));
     if (e) {
-      e.className = "content tw-max-h-[40px] tw-overflow-hidden";
+      e.className = "content tw:max-h-[40px] tw:overflow-hidden";
     }
     this._pQuote.setClassName("left-pad5 right-pad5");
   }

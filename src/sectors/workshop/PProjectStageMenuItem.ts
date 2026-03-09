@@ -1,5 +1,5 @@
 const _CPT_PROJECT_STAGE_MENU_ITEM = {
-  MAIN : `<div class="tw-flex tw-justify-between tw-items-baseline">
+  MAIN : `<div class="tw:flex tw:justify-between tw:items-baseline">
       <div>
         <span class="small-info-text">Stage:</span>
         <span id="__ID_NAME__" class="small-info-text"></span>

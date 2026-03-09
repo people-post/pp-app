@@ -3,9 +3,9 @@ import { PanelWrapper } from './PanelWrapper.js';
 
 const _CPT_ERROR = {
   MAIN : `<progress id="__ID_PROGRESS__" value="100" max="100"></progress>
-  <div class="error-content tw-flex tw-items-center">
-    <div id="__ID_TEXT__" class="tw-w-[60%] tw-text-center tw-text-s-font4"></div>
-    <div id="__ID_BTN__" class="tw-w-[40%] tw-text-center"></div>
+  <div class="error-content tw:flex tw:items-center">
+    <div id="__ID_TEXT__" class="tw:w-[60%] tw:text-center tw:text-s-font4"></div>
+    <div id="__ID_BTN__" class="tw:w-[40%] tw:text-center"></div>
   </div>`,
 } as const;
 

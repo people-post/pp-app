@@ -4,7 +4,7 @@ const _CPT_SERVICE_TIME_SLOT_EDITOR = {
   <div id="__ID_FROM__"></div>
   <div id="__ID_TO__"></div>
   <div id="__ID_TOTAL__"></div>
-  <div class="tw-flex tw-justify-between">
+  <div class="tw:flex tw:justify-between">
     <div id="__ID_REPETITION__"></div>
     <div id="__ID_BTN_DELETE__"></div>
   </div>

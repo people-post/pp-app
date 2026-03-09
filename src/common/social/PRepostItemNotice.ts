@@ -3,8 +3,8 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel as BasePanel } from '../../lib/ui/renders/panels/Panel.js';
 
 const _CPT_REPOST_ITEM_NOTICE_INFO = {
-  MAIN : `<div id="__ID_MSG__" class="tw-flex tw-justify-start"></div>
-    <div id="__ID_TITLE__" class="tw-font-bold"></div>`,
+  MAIN : `<div id="__ID_MSG__" class="tw:flex tw:justify-start"></div>
+    <div id="__ID_TITLE__" class="tw:font-bold"></div>`,
 };
 
 export class PRepostItemNotice extends Panel {

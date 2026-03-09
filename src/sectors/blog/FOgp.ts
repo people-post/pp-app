@@ -16,7 +16,7 @@ if (typeof window !== 'undefined') {
 
 const _CFT_OGP = {
   URL :
-      `<span class="small-info-text tw-inline-block tw-h-[12pt] tw-overflow-hidden tw-cursor-pointer" onclick="javascript:G.action(CF_OGP.ON_CLICK)">&#x1f517;__URL__</span>`,
+      `<span class="small-info-text tw:inline-block tw:h-[12pt] tw:overflow-hidden tw:cursor-pointer" onclick="javascript:G.action(CF_OGP.ON_CLICK)">&#x1f517;__URL__</span>`,
   IMG :
       `<span class="thumbnail-grid thumbnail-grid-1-1" style="background-image:url('__URL__')" onclick="javascript:G.action(CF_OGP.ON_CLICK)"></span>`,
 } as const;
@@ -79,7 +79,7 @@ export class FOgp extends Fragment {
     }
 
     let p = this.#createPanel();
-    p.setClassName("tw-cursor-pointer");
+    p.setClassName("tw:cursor-pointer");
     p.setAttribute("onclick", "G.action(CF_OGP.ON_CLICK)");
     render.wrapPanel(p);
 
@@ -91,8 +91,8 @@ export class FOgp extends Fragment {
       pp = p.getImagePanel();
       let pThumbnail = new ThumbnailPanelWrapper();
       if (this._sizeType == SocialItem.T_LAYOUT.EXT_QUOTE_SMALL) {
-        pp.setClassName("quote-element-image-thumbnail-wrapper tw-flex-shrink-0");
-        pThumbnail.setClassName("tw-aspect-[1/1] tw-relative");
+        pp.setClassName("quote-element-image-thumbnail-wrapper tw:flex-shrink-0");
+        pThumbnail.setClassName("tw:aspect-[1/1] tw:relative");
       }
       pp.wrapPanel(pThumbnail);
 

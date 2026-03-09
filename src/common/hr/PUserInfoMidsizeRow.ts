@@ -10,10 +10,10 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
  */
 
 const _CPT_USER_INFO_MIDSIZE_ROW = {
-  MAIN : `<div class="tw-flex tw-justify-start tw-cursor-pointer user-info midsize">
-    <div id="__ID_ICON__" class="tw-p-[5px]"></div>
-    <div class="tw-p-[5px]">
-      <div id="__ID_NAME__" class="tw-text-s-font4"></div>
+  MAIN : `<div class="tw:flex tw:justify-start tw:cursor-pointer user-info midsize">
+    <div id="__ID_ICON__" class="tw:p-[5px]"></div>
+    <div class="tw:p-[5px]">
+      <div id="__ID_NAME__" class="tw:text-s-font4"></div>
       <div id="__ID_DESCRIPTION__" class="small-info-text"></div>
     </div>
   </div>`,

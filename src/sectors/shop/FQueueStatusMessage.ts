@@ -15,25 +15,25 @@ export class FQueueStatusMessage extends Fragment {
   updateStatus(n: number, nTotal: number): void {
     if (nTotal == 0) {
       // Too late to accept more customers
-      this._fText.setClassName("tw-text-s-font5 tw-text-red-600");
+      this._fText.setClassName("tw:text-s-font5 tw:text-red-600");
       this.#updateText(R.get("OUT_OF_SERVICE"));
     } else if (n == 0) {
-      this._fText.setClassName("tw-text-s-font5 tw-text-green-700");
+      this._fText.setClassName("tw:text-s-font5 tw:text-green-700");
       this.#updateText("Ready to serve: " + nTotal + " available");
     } else if (n < nTotal) {
       // Ready to serve
       // TODO: Better way to detemine when is green, yellow or red
       if (n < nTotal * 0.2) {
-        this._fText.setClassName("tw-text-s-font5 tw-text-green-700");
+        this._fText.setClassName("tw:text-s-font5 tw:text-green-700");
       } else if (n < nTotal * 0.5) {
-        this._fText.setClassName("tw-text-s-font5 tw-text-yellow-600");
+        this._fText.setClassName("tw:text-s-font5 tw:text-yellow-600");
       } else {
-        this._fText.setClassName("tw-text-s-font5 tw-text-red-600");
+        this._fText.setClassName("tw:text-s-font5 tw:text-red-600");
       }
       this.#updateText("Queue size: " + n + "/" + nTotal);
     } else {
       // Queue full
-      this._fText.setClassName("tw-text-s-font5 tw-text-red-600");
+      this._fText.setClassName("tw:text-s-font5 tw:text-red-600");
       this.#updateText("Queue full: " + n + "/" + nTotal);
     }
   }

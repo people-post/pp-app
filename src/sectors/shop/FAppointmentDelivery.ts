@@ -32,7 +32,7 @@ export class FAppointmentDelivery extends FServiceDelivery {
 
   #renderCompact(panel: Render): void {
     let p = new PanelWrapper();
-    p.setClassName("tw-text-center");
+    p.setClassName("tw:text-center");
     panel.wrapPanel(p);
     this.#btnAdd.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this.#btnAdd.attachRender(p);

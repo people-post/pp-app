@@ -146,7 +146,7 @@ export class FArticle extends Fragment {
       return;
     }
     let pList = new ListPanel();
-    pList.setClassName("tw-flex tw-justify-start tw-items-baseline");
+    pList.setClassName("tw:flex tw:justify-start tw:items-baseline");
     panel.wrapPanel(pList);
     let p = new Panel();
     p.setClassName("small-info-text");

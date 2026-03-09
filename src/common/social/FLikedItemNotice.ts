@@ -55,7 +55,7 @@ export class FLikedItemNotice extends Fragment {
   _renderOnRender(render: ReturnType<typeof this.getRender>): void {
     if (!this._notice) return;
     let pMain = new PLikedItemNotice();
-    pMain.setClassName("tw-cursor-pointer");
+    pMain.setClassName("tw:cursor-pointer");
     pMain.setAttribute(
         "onclick", "javascript:G.action(socl.CF_LIKED_ITEM_NOTICE.ONCLICK)");
     render.wrapPanel(pMain);
@@ -66,7 +66,7 @@ export class FLikedItemNotice extends Fragment {
     if (ids.length > 0) {
       pp = new PanelWrapper();
       pp.setElementType("SPAN");
-      pp.setClassName("tw-inline-block tw-p-[5px]");
+      pp.setClassName("tw:inline-block tw:p-[5px]");
       p.pushPanel(pp);
       this._fUser1.setUserId(ids[0]);
       this._fUser1.attachRender(pp);
@@ -74,7 +74,7 @@ export class FLikedItemNotice extends Fragment {
       if (ids.length > 1) {
         pp = new PanelWrapper();
         pp.setElementType("SPAN");
-        pp.setClassName("tw-inline-block tw-p-[5px]");
+        pp.setClassName("tw:inline-block tw:p-[5px]");
         p.pushPanel(pp);
         this._fUser2.setUserId(ids[1]);
         this._fUser2.attachRender(pp);
@@ -83,7 +83,7 @@ export class FLikedItemNotice extends Fragment {
     }
     pp = new PanelWrapper();
     pp.setElementType("SPAN");
-    pp.setClassName("tw-inline-block tw-p-[5px]");
+    pp.setClassName("tw:inline-block tw:p-[5px]");
     let text = "liked your post.";
     if (ids.length > 2) {
       text = "and " + (ids.length - 2) + " others " + text;

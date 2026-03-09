@@ -1,50 +1,50 @@
 const _CPT_JOURNAL = {
-  NARROW_MAIN : `<div class="tw-h-full tw-flex tw-overflow-x-scroll tw-snap-x tw-snap-mandatory">
-  <div class="tw-w-[90%] tw-p-[5px] tw-flex-shrink-0 tw-snap-start">
-    <div id="__ID_LEFT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
+  NARROW_MAIN : `<div class="tw:h-full tw:flex tw:overflow-x-scroll tw:snap-x tw:snap-mandatory">
+  <div class="tw:w-[90%] tw:p-[5px] tw:flex-shrink-0 tw:snap-start">
+    <div id="__ID_LEFT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
   </div>
-  <div class="tw-w-[90%] tw-flex-shrink-0 tw-snap-center tw-flex tw-flex-col tw-overflow-hidden">
-    <div class="tw-h-[60%] tw-pt-[5px] tw-overflow-hidden">
-      <div id="__ID_MAIN__" class="tw-h-full s-csecondarybg bdradius25px tw-overflow-y-auto tw-scroll-none"></div>
+  <div class="tw:w-[90%] tw:flex-shrink-0 tw:snap-center tw:flex tw:flex-col tw:overflow-hidden">
+    <div class="tw:h-[60%] tw:pt-[5px] tw:overflow-hidden">
+      <div id="__ID_MAIN__" class="tw:h-full s-csecondarybg bdradius25px tw:overflow-y-auto tw:scroll-none"></div>
     </div>
-    <div class="tw-h-[40%] tw-py-[5px]">
-      <div id="__ID_BOTTOM__" class="tw-h-full s-csecondarybg bdradius25px"></div>
+    <div class="tw:h-[40%] tw:py-[5px]">
+      <div id="__ID_BOTTOM__" class="tw:h-full s-csecondarybg bdradius25px"></div>
     </div>
   </div>
-  <div class="tw-w-[90%] tw-p-[5px] tw-flex-shrink-0 tw-snap-end">
-    <div id="__ID_RIGHT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
+  <div class="tw:w-[90%] tw:p-[5px] tw:flex-shrink-0 tw:snap-end">
+    <div id="__ID_RIGHT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
   </div>
   </div>`,
-  MIDDLE_MAIN : `<div class="tw-h-full tw-flex tw-overflow-x-scroll tw-snap-x tw-snap-mandatory">
-  <div class="w240px tw-p-[5px] tw-flex-shrink-0 tw-snap-start">
-    <div id="__ID_LEFT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
+  MIDDLE_MAIN : `<div class="tw:h-full tw:flex tw:overflow-x-scroll tw:snap-x tw:snap-mandatory">
+  <div class="w240px tw:p-[5px] tw:flex-shrink-0 tw:snap-start">
+    <div id="__ID_LEFT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
   </div>
-  <div class="w360px tw-flex-shrink-0 tw-snap-center tw-flex tw-flex-col tw-overflow-hidden">
-    <div class="tw-h-[60%] tw-pt-[5px] tw-overflow-hidden">
-      <div id="__ID_MAIN__" class="tw-h-full s-csecondarybg bdradius25px tw-overflow-y-auto tw-scroll-none"></div>
+  <div class="w360px tw:flex-shrink-0 tw:snap-center tw:flex tw:flex-col tw:overflow-hidden">
+    <div class="tw:h-[60%] tw:pt-[5px] tw:overflow-hidden">
+      <div id="__ID_MAIN__" class="tw:h-full s-csecondarybg bdradius25px tw:overflow-y-auto tw:scroll-none"></div>
     </div>
-    <div class="tw-h-[40%] tw-py-[5px]">
-      <div id="__ID_BOTTOM__" class="tw-h-full s-csecondarybg bdradius25px"></div>
+    <div class="tw:h-[40%] tw:py-[5px]">
+      <div id="__ID_BOTTOM__" class="tw:h-full s-csecondarybg bdradius25px"></div>
     </div>
   </div>
-  <div class="w240px tw-p-[5px] tw-flex-shrink-0 tw-snap-end">
-    <div id="__ID_RIGHT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
+  <div class="w240px tw:p-[5px] tw:flex-shrink-0 tw:snap-end">
+    <div id="__ID_RIGHT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
   </div>
   </div>`,
-  WIDE_MAIN : `<div class="tw-h-full tw-grid tw-grid-cols-[2fr_3fr_2fr]">
-  <div class="tw-p-[5px]">
-    <div id="__ID_LEFT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
+  WIDE_MAIN : `<div class="tw:h-full tw:grid tw:grid-cols-[2fr_3fr_2fr]">
+  <div class="tw:p-[5px]">
+    <div id="__ID_LEFT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
   </div>
-  <div class="tw-flex tw-flex-col tw-overflow-hidden">
-    <div class="tw-h-[60%] tw-pt-[5px] tw-overflow-hidden">
-      <div id="__ID_MAIN__" class="tw-h-full s-csecondarybg bdradius25px tw-overflow-y-auto tw-scroll-none"></div>
+  <div class="tw:flex tw:flex-col tw:overflow-hidden">
+    <div class="tw:h-[60%] tw:pt-[5px] tw:overflow-hidden">
+      <div id="__ID_MAIN__" class="tw:h-full s-csecondarybg bdradius25px tw:overflow-y-auto tw:scroll-none"></div>
     </div>
-    <div class="tw-h-[40%] tw-py-[5px]">
-      <div id="__ID_BOTTOM__" class="tw-h-full s-csecondarybg bdradius25px"></div>
+    <div class="tw:h-[40%] tw:py-[5px]">
+      <div id="__ID_BOTTOM__" class="tw:h-full s-csecondarybg bdradius25px"></div>
     </div>
   </div>
-  <div class="tw-p-[5px]">
-    <div id="__ID_RIGHT__" class="tw-h-full s-csecondarybg bdradius25px"></div>
+  <div class="tw:p-[5px]">
+    <div id="__ID_RIGHT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
   </div>
   </div>`,
 } as const;
@@ -344,7 +344,7 @@ export class FvcJournal extends FViewContentBase {
       panel.setTemplate(_CPT_JOURNAL.NARROW_MAIN);
       break;
     }
-    panel.setClassName("tw-h-full s-csecondarydecorbg");
+    panel.setClassName("tw:h-full s-csecondarydecorbg");
     return panel;
   }
 

@@ -20,15 +20,15 @@ export const CF_GALLERY = {
 const _CFT_GALLERY = {
   PREPROC :
       `<div class="info-message">Preprocessing files, please wait...__PROGRESS__</div>`,
-  SLIDE_SHOW : `<div class="tw-text-center tw-h-full">
-      <div id="__ID_SLIDES__" class="tw-h-full tw-relative tw-overflow-x-scroll tw-snap-x tw-snap-mandatory tw-whitespace-nowrap tw-flex tw-justify-start" onscroll="javascript:G.action('${CF_GALLERY.ON_SCROLL}', this)">
+  SLIDE_SHOW : `<div class="tw:text-center tw:h-full">
+      <div id="__ID_SLIDES__" class="tw:h-full tw:relative tw:overflow-x-scroll tw:snap-x tw:snap-mandatory tw:whitespace-nowrap tw:flex tw:justify-start" onscroll="javascript:G.action('${CF_GALLERY.ON_SCROLL}', this)">
       </div>
-      <div class="slide-show-nav slide-show-prev tw-opacity-50 tw-bg-gray-500 tw-transition-opacity hover:tw-opacity-100" onclick="javascript:G.action('${CF_GALLERY.PREV_IMAGE_SLIDE}')">&#10094;</div>
-      <div class="slide-show-nav slide-show-next tw-opacity-50 tw-bg-gray-500 tw-transition-opacity hover:tw-opacity-100" onclick="javascript:G.action('${CF_GALLERY.NEXT_IMAGE_SLIDE}')">&#10095;</div>
-      <div id="__ID_DOTS__" class="tw-absolute tw-w-full tw-bottom-0 tw-text-center"></div>
+      <div class="slide-show-nav slide-show-prev tw:opacity-50 tw:bg-gray-500 tw:transition-opacity hover:tw:opacity-100" onclick="javascript:G.action('${CF_GALLERY.PREV_IMAGE_SLIDE}')">&#10094;</div>
+      <div class="slide-show-nav slide-show-next tw:opacity-50 tw:bg-gray-500 tw:transition-opacity hover:tw:opacity-100" onclick="javascript:G.action('${CF_GALLERY.NEXT_IMAGE_SLIDE}')">&#10095;</div>
+      <div id="__ID_DOTS__" class="tw:absolute tw:w-full tw:bottom-0 tw:text-center"></div>
     </div>`,
   SLIDE_SHOW_SLIDE : `<div id="__ID_LABEL__" class="slide-show-label"></div>
-    <div id="__ID_IMAGE__" class="tw-text-[0px] tw-bg-black tw-h-full"></div>`
+    <div id="__ID_IMAGE__" class="tw:text-[0px] tw:bg-black tw:h-full"></div>`
 };
 
 class PSlide extends Panel {
@@ -348,7 +348,7 @@ export class FGallery extends Fragment {
 
     for (const [i, fFile] of fFiles.entries()) {
       const p = new PSlide();
-      p.setClassName("slide-show-slide tw-snap-start tw-w-full tw-flex-shrink-0");
+      p.setClassName("slide-show-slide tw:snap-start tw:w-full tw:flex-shrink-0");
       pSlides.pushPanel(p);
       let pp = p.getLabelPanel();
       pp.replaceContent((i + 1).toString() + " / " + fFiles.length);

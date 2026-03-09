@@ -7,15 +7,15 @@ import { Fragment } from './Fragment.js';
 import { FViewContentBase } from './FViewContentBase.js';
 
 const _CPT_SCROLL_VIEW_CONTENT_HOOK = {
-  MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="tw-flex-shrink-0"></div>
-  <div id="__ID_CONTENT__" class="tw-flex-grow tw-min-w-0 tw-overflow-y-auto tw-scroll-none">
+  MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="tw:flex-shrink-0"></div>
+  <div id="__ID_CONTENT__" class="tw:flex-grow tw:min-w-0 tw:overflow-y-auto tw:scroll-none">
   </div>
-  <div class="tw-flex-shrink-0 tw-relative">
-    <span id="__ID_BSTT__" class="tw-absolute left0px bottom72px left-side-button"></span>
+  <div class="tw:flex-shrink-0 tw:relative">
+    <span id="__ID_BSTT__" class="tw:absolute left0px bottom72px left-side-button"></span>
   </div>`,
-  CONTENT : `<div id="__ID_CONTENT__" class="tw-min-h-full"></div>
+  CONTENT : `<div id="__ID_CONTENT__" class="tw:min-h-full"></div>
   <hr>
-  <div class="tw-text-s-font5 tw-text-center">
+  <div class="tw:text-s-font5 tw:text-center">
     <div>Powered by <a href="https://gcabin.com" target="_blank">G-Cabin&#x1f517;</a> community.</div>
   <br>
   <br>`,
@@ -111,7 +111,7 @@ export class FScrollViewContentHook extends FViewContentWrapper {
   }
   onContentTopResizeEndInFragment(_f: Fragment): void {
     let yObj = this.#getScrollY();
-    // Scroll to same height tw-relative to end
+    // Scroll to same height tw:relative to end
     if (yObj && this.#scrollYBeforeTopResize) {
       let h = this.#scrollYBeforeTopResize.total -
               this.#scrollYBeforeTopResize.value;
@@ -139,7 +139,7 @@ export class FScrollViewContentHook extends FViewContentWrapper {
 
   _renderOnRender(render: any): void {
     let panel = new PScrollViewContentHook();
-    panel.setClassName("tw-h-full tw-flex tw-flex-col");
+    panel.setClassName("tw:h-full tw:flex tw:flex-col");
     render.wrapPanel(panel);
     this.#pMain = panel;
 

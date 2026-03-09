@@ -60,14 +60,14 @@ export class FQueueDelivery extends FServiceDelivery {
     render.wrapPanel(pMain);
 
     let p = new PanelWrapper();
-    p.setClassName("tw-text-center");
+    p.setClassName("tw:text-center");
     pMain.pushPanel(p);
     this._fBtnCheckin.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this._fBtnCheckin.attachRender(p);
     this._fBtnCheckin.render();
 
     p = new PanelWrapper();
-    p.setClassName("tw-text-center");
+    p.setClassName("tw:text-center");
     pMain.pushPanel(p);
     this._fMsg.attachRender(p);
     this._fMsg.render();
@@ -84,7 +84,7 @@ export class FQueueDelivery extends FServiceDelivery {
     this._fBtnCheckin.render();
 
     p = new PanelWrapper();
-    p.setClassName("tw-text-center");
+    p.setClassName("tw:text-center");
     pMain.pushPanel(p);
     this._fMsg.attachRender(p);
     this._fMsg.render();

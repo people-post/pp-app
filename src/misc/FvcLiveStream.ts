@@ -31,7 +31,7 @@ const C_LIVE_STREAM = window.C_LIVE_STREAM;
 const _CVT_LIVE_STREAM = {
   MAIN : `<div>
       <div>
-        <label class="tw-text-s-font5" for="ID_TITLE">Title:</label>
+        <label class="tw:text-s-font5" for="ID_TITLE">Title:</label>
         <br>
         <textarea id="ID_TITLE" class="livestream-title"></textarea>
       </div>
@@ -40,7 +40,7 @@ const _CVT_LIVE_STREAM = {
       <div id="ID_VISIBILITY">__VISIBILITY__</div>
       <div>
         <span>Video:</span>
-        <label class="switch tw-text-s-font5">
+        <label class="switch tw:text-s-font5">
             <input type="checkbox" checked onclick="javascript:G.action(C_LIVE_STREAM.TOGGLE_VIDEO, this.checked)">
             <span class="slider"></span>
         </label>

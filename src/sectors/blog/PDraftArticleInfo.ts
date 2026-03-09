@@ -1,13 +1,13 @@
 const _CPT_DRAFT_ARTICLE_INFO = {
   MAIN : `<div id="__ID_WRAPPER__" class="info-panel draft">
-    <div class="tw-p-[5px] tw-text-u-font5">
-      <div class="tw-flex tw-justify-between">
+    <div class="tw:p-[5px] tw:text-u-font5">
+      <div class="tw:flex tw:justify-between">
         <div id="__ID_AUTHOR__"></div>
         <div id="__ID_TIME__" class="small-info-text"></div>
       </div>
       <div id="__ID_TAGS__"></div>
       <div id="__ID_TITLE__" class="title"></div>
-      <div id="__ID_CONTENT__" class="tw-overflow-hidden"></div>
+      <div id="__ID_CONTENT__" class="tw:overflow-hidden"></div>
     </div>
   </div>`,
 } as const;

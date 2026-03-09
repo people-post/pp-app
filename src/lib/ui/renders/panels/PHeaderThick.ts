@@ -2,12 +2,12 @@ import { PHeader } from './PHeader.js';
 import { PanelWrapper } from './PanelWrapper.js';
 
 const _CPT_HEADER_THICK = {
-  MAIN : `<div class="tw-flex tw-h-header">
-    <div id="__ID_NAV__" class="tw-flex tw-flex-col tw-justify-center"></div>
-    <div id="__ID_MENU_1__" class="tw-flex tw-flex-col tw-justify-center tw-flex-grow"></div>
-    <div id="__ID_ACTION__" class="tw-flex tw-flex-col tw-justify-center"></div>
+  MAIN : `<div class="tw:flex tw:h-header">
+    <div id="__ID_NAV__" class="tw:flex tw:flex-col tw:justify-center"></div>
+    <div id="__ID_MENU_1__" class="tw:flex tw:flex-col tw:justify-center tw:flex-grow"></div>
+    <div id="__ID_ACTION__" class="tw:flex tw:flex-col tw:justify-center"></div>
   </div>
-  <div id="__ID_MENU_0__" class="tw-h-subheader tw-flex tw-flex-col tw-justify-center"></div>
+  <div id="__ID_MENU_0__" class="tw:h-subheader tw:flex tw:flex-col tw:justify-center"></div>
   <div id="__ID_MENU_CONTENT__" class="header-menu-content"></div>`,
 } as const;
 

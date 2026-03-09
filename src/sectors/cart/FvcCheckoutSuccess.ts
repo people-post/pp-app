@@ -5,7 +5,7 @@ export const CF_CHECKOUT_SUCCESS = {
 
 const _CFT_CHECKOUT_SUCCESS = {
   MAIN :
-      `<div class="info-message">Success! Your order id is: <span class="tw-cursor-pointer" onclick="javascript:G.action(cart.CF_CHECKOUT_SUCCESS.SHOW_ORDER)">__REF_ID__</a></div>
+      `<div class="info-message">Success! Your order id is: <span class="tw:cursor-pointer" onclick="javascript:G.action(cart.CF_CHECKOUT_SUCCESS.SHOW_ORDER)">__REF_ID__</a></div>
     <br>
     <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(cart.CF_CHECKOUT_SUCCESS.CONTINUE)">Continue shopping</a>
     <br>

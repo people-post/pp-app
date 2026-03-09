@@ -1,12 +1,12 @@
 const _CPT_FLASHCARD = {
   MAIN : `<div class="pad5">
-  <div class="pad5 tw-border tw-border-[1px] tw-border-solid tw-border-lightgray tw-rounded-[5px]">
-    <div id="__ID_ANSWERS__" class="tw-text-u-font3 tw-font-bold"></div>
-    <div id="__ID_QUESTION__" class="tw-text-u-font3 tw-font-bold"></div>
+  <div class="pad5 tw:border tw:border-[1px] tw:border-solid tw:border-lightgray tw:rounded-[5px]">
+    <div id="__ID_ANSWERS__" class="tw:text-u-font3 tw:font-bold"></div>
+    <div id="__ID_QUESTION__" class="tw:text-u-font3 tw:font-bold"></div>
     <br>
-    <div id="__ID_CHOICES__" class="tw-text-u-font4"></div>
+    <div id="__ID_CHOICES__" class="tw:text-u-font4"></div>
     <br>
-    <div id="__ID_NAV_HINT__" class="small-info-text tw-text-right"></div>
+    <div id="__ID_NAV_HINT__" class="small-info-text tw:text-right"></div>
   </div>
   </div>`,
 }

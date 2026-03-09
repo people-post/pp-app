@@ -13,24 +13,24 @@ export const CF_CHANGE_PASSWORD = {
 const _CFT_CHANGE_PASSWORD = {
   MAIN : `
     <br>
-    <div class="tw-text-center">Change password</div>
+    <div class="tw:text-center">Change password</div>
     <br>
-    <table  class="tw-m-auto">
+    <table  class="tw:m-auto">
     <tbody> 
       <tr>
-        <td><label class="tw-text-s-font5" for="ID_PASSWORD_OLD">Password:</label></td>
+        <td><label class="tw:text-s-font5" for="ID_PASSWORD_OLD">Password:</label></td>
       </tr>
       <tr>
         <td><input id="ID_PASSWORD_OLD" type="password" placeholder="Password"></td>
       </tr>
       <tr>
-        <td><label class="tw-text-s-font5" for="ID_PASSWORD">New Password:</label></td>
+        <td><label class="tw:text-s-font5" for="ID_PASSWORD">New Password:</label></td>
       </tr>
       <tr>
         <td><input id="ID_PASSWORD" type="password" placeholder="New Password"></td>
       </tr>
       <tr>
-        <td><label class="tw-text-s-font5" for="ID_PASSWORD_2">Confirm New Password:</label></td>
+        <td><label class="tw:text-s-font5" for="ID_PASSWORD_2">Confirm New Password:</label></td>
       </tr>
       <tr>
         <td><input id="ID_PASSWORD_2" type="password" placeholder="Confirm password"></td>

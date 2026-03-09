@@ -1,8 +1,8 @@
 
 const _CPT_TEAM_INFO = {
   MAIN :
-      `<div id="__ID_MAIN__" class="tw-p-[5px] tw-border-solid tw-border-gray-300 tw-border tw-border-[1px] tw-cursor-pointer">
-  <div class="tw-flex tw-justify-between">
+      `<div id="__ID_MAIN__" class="tw:p-[5px] tw:border-solid tw:border-gray-300 tw:border tw:border-[1px] tw:cursor-pointer">
+  <div class="tw:flex tw:justify-between">
     <div id="__ID_NAME__"></div>
     <div id="__ID_STATUS__"></div>
   </div>
@@ -28,7 +28,7 @@ export class PTeamInfo extends Panel {
   highlight(): void {
     let e = document.getElementById(this._getSubElementId("M"));
     if (e) {
-      e.className = e.className.replace("tw-border-gray-300", "s-cprimebd");
+      e.className = e.className.replace("tw:border-gray-300", "s-cprimebd");
     }
   }
 

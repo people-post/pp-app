@@ -235,12 +235,12 @@ export class FSupplierOrder extends Fragment {
 
   #renderItemInfos(order: SupplierOrderPrivate, panel: Panel): void {
     let pItems = new ListPanel();
-    pItems.setClassName("tw-cursor-pointer");
+    pItems.setClassName("tw:cursor-pointer");
     pItems.setAttribute("onclick", _CFT_SUPPLIER_ORDER.ACT_ONCLICK);
     panel.wrapPanel(pItems);
     for (let item of order.getItems()) {
       let p = new Panel();
-      p.setClassName("supplier-order-info-item tw-flex tw-justify-between");
+      p.setClassName("supplier-order-info-item tw:flex tw:justify-between");
       pItems.pushPanel(p);
       p.replaceContent(this.#renderOrderItem(item));
     }
@@ -309,7 +309,7 @@ export class FSupplierOrder extends Fragment {
     let nickname = Account.getUserNickname(userId, "...");
     return Utilities.renderSmallButton(
         CF_SUPPLIER_ORDER.USER_INFO, userId, nickname,
-        "low-profile s-cinfotext tw-font-bold");
+        "low-profile s-cinfotext tw:font-bold");
   }
 
   #renderExtraPrice(currency: Currency, value: number, panel: Panel): void {

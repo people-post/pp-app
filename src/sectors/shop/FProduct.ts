@@ -4,7 +4,7 @@ export const CF_PRODUCT = {
 };
 
 const _CFT_PRODUCT = {
-  EDIT_BUTTON : `<div class="tw-text-center">
+  EDIT_BUTTON : `<div class="tw:text-center">
     <span class="button-like small s-primary" onclick="javascript:G.action('${CF_PRODUCT.EDIT}')">Edit</span>
   </div>`,
 } as const;
@@ -221,7 +221,7 @@ export class FProduct extends MajorSectorItem {
       p = new PProductInfoMiddle();
       break;
     }
-    p.setClassName("tw-cursor-pointer");
+    p.setClassName("tw:cursor-pointer");
     p.setAttribute("onclick", `javascript:G.action('${CF_PRODUCT.VIEW}')`);
     return p;
   }
@@ -277,7 +277,7 @@ export class FProduct extends MajorSectorItem {
   #createThumbnailPanel(): ThumbnailPanelWrapper {
     let p = new ThumbnailPanelWrapper();
     if (this.#isSquareThumbnail()) {
-      p.setClassName("tw-aspect-[1/1] tw-relative");
+      p.setClassName("tw:aspect-[1/1] tw:relative");
     }
     return p;
   }

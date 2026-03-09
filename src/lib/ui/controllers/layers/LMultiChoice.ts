@@ -11,10 +11,10 @@ export const CL_MULTI_CHOICE = {
 } as const;
 
 const _CLT_MULTI_CHOICE = {
-  MAIN : `<div id="__ID_TITLE__" class="tw-text-s-font3"></div>
-  <div id="__ID_DESCRIPTION__" class="tw-text-s-font4"></div>
+  MAIN : `<div id="__ID_TITLE__" class="tw:text-s-font3"></div>
+  <div id="__ID_DESCRIPTION__" class="tw:text-s-font4"></div>
   <br>
-  <div class="tw-max-h-[300px] tw-overflow-y-auto tw-scroll-none">
+  <div class="tw:max-h-[300px] tw:overflow-y-auto tw:scroll-none">
     <div id="__ID_CHOICES__"></div>
     <div id="__ID_ALTERNATIVES__"></div>
   </div>
@@ -171,18 +171,18 @@ export class LMultiChoice extends Layer {
     let shouldAnimate = !(render as any).getContentPanel();
 
     let panel = new PanelWrapper();
-    panel.setClassName("tw-w-full tw-h-full context-layer tw-flex tw-flex-col tw-justify-end");
+    panel.setClassName("tw:w-full tw:h-full context-layer tw:flex tw:flex-col tw:justify-end");
     panel.setAttribute("onclick",
                        "javascript:G.action(window.CL_MULTI_CHOICE.CLOSE)");
     render.wrapPanel(panel);
 
     let p = new PanelWrapper();
-    p.setClassName("tw-w-full tw-flex tw-justify-center tw-relative");
+    p.setClassName("tw:w-full tw:flex tw:justify-center tw:relative");
     panel.wrapPanel(p);
 
     let pMultiChoiceLayer = new PMultiChoiceLayer();
     pMultiChoiceLayer.setClassName(
-        "tw-w-full s-csecondarybg tw-border-lightgray tw-box-border context-content");
+        "tw:w-full s-csecondarybg tw:border-lightgray tw:box-border context-content");
     pMultiChoiceLayer.setAttribute("onclick", "javascript:G.anchorClick()");
     p.wrapPanel(pMultiChoiceLayer);
 

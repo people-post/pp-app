@@ -1,7 +1,7 @@
 
 const _CPT_SUPPLIER_ORDER_INFO = {
   MAIN : `<div class="supplier-order-info">
-    <div class="tw-flex tw-justify-between">
+    <div class="tw:flex tw:justify-between">
       <div id="__ID_STATUS_INFO__"></div>
       <div id="__ID_PRICE__"></div>
       <div id="__ID_ADDRESS_BTN__"></div>

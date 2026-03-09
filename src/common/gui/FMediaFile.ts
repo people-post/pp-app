@@ -4,7 +4,7 @@ import { RemoteFile } from '../datatypes/RemoteFile.js';
 
 const _CFT_MEDIA_FILE = {
   IMAGE :
-      `<img class="tw-max-h-full wmax100 tw-cursor-pointer" src="__URL__" onclick="window.open('__DOWNLOAD_URL__', '_blank')"/>`,
+      `<img class="tw:max-h-full wmax100 tw:cursor-pointer" src="__URL__" onclick="window.open('__DOWNLOAD_URL__', '_blank')"/>`,
   VIDEO :
       `<video class="hls" playsinline controls manifest-url="__URL__"></video>`,
 };

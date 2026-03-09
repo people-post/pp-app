@@ -4,30 +4,30 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 const _CFT_PAYMENT_EDITOR = {
   MAIN : `<table>
         <tr>
-          <td class="tw-text-right">
-            <label class="tw-text-s-font5" for="card-number">Card number:</label>
+          <td class="tw:text-right">
+            <label class="tw:text-s-font5" for="card-number">Card number:</label>
           </td>
           <td>
             <input type="text" id="card-number" placeholder="Card number">
           </td>
         </tr>
         <tr>
-          <td class="tw-text-right">
-            <label class="tw-text-s-font5" for="card-owner-name">Name:</label>
+          <td class="tw:text-right">
+            <label class="tw:text-s-font5" for="card-owner-name">Name:</label>
           </td>
           <td>
             <input type="text" id="card-owner-name" placeholder="Card holder name">
           </td>
         </tr>
         <tr>
-          <td class="tw-text-right">
-            <label class="tw-text-s-font5" for="card-expire-month">Expire:</label>
+          <td class="tw:text-right">
+            <label class="tw:text-s-font5" for="card-expire-month">Expire:</label>
           </td>
           <td>
             <input type="text" class="short" id="card-expire-month" placeholder="mm">
             <span>/</span>
             <input type="text" class="short" id="card-expire-year" placeholder="yyyy">
-            <label class="tw-text-s-font5" for="card-ccv">CCV:</label>
+            <label class="tw:text-s-font5" for="card-ccv">CCV:</label>
             <input type="text" class="short"  id="card-ccv" placeholder="ccv">
           </td>
         </tr>

@@ -97,16 +97,16 @@ export class FHeaderMenu extends Fragment {
 
   _renderOnRender(render: any): void {
     this.#pMain = new PanelWrapper();
-    // this.#pMain.setClassName("tw-w-full tw-flex tw-justify-center");
+    // this.#pMain.setClassName("tw:w-full tw:flex tw:justify-center");
     render.wrapPanel(this.#pMain);
     if (!this.#fContent ||
         this.#pMain.getWidth() < (this.#fContent as any).getQuickLinkMinWidth()) {
       console.log("Render menu icon...");
       // Hack, svg currently don't have correct size
       if (this.#icon.indexOf("<svg") >= 0) {
-        this.#pMain.setClassName("tw-w-s-icon32 tw-h-s-icon32 tw-cursor-pointer");
+        this.#pMain.setClassName("tw:w-s-icon32 tw:h-s-icon32 tw:cursor-pointer");
       } else {
-        this.#pMain.setClassName("tw-cursor-pointer");
+        this.#pMain.setClassName("tw:cursor-pointer");
       }
       this.#pMain.setAttribute(
           "onclick", `javascript:G.action('${CF_UI_HEADER_MENU.ON_CLICK}')`);

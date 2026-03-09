@@ -22,8 +22,8 @@ if (typeof window !== 'undefined') {
 }
 
 export const _CFT_MULTI_MEDIA_FILE_UPLOAD = {
-  BTN_ADD_FILE : `<label class="tw-text-s-font5" for="__ID__">
-      <span class="icon-btn-wrapper tw-inline-block tw-w-s-icon1 tw-h-s-icon1 tw-cursor-pointer">__ICON__</span>
+  BTN_ADD_FILE : `<label class="tw:text-s-font5" for="__ID__">
+      <span class="icon-btn-wrapper tw:inline-block tw:w-s-icon1 tw:h-s-icon1 tw:cursor-pointer">__ICON__</span>
     </label>
     <input id="__ID__" multiple="" type="file" accept="image/*,video/*" style="display:none" onchange="javascript:G.action(window.CF_MULTI_MEDIA_FILE_UPLOAD.ADD_FILES, this)">`,
 } as const;
@@ -108,14 +108,14 @@ export class FMultiMediaFileUploader extends Fragment {
     let pp: Panel | PanelWrapper;
     for (let f of this._fFiles) {
       pp = new PanelWrapper();
-      pp.setClassName("tw-inline-block");
+      pp.setClassName("tw:inline-block");
       p.pushPanel(pp);
       f.attachRender(pp);
       f.render();
     }
 
     pp = new Panel();
-    pp.setClassName("tw-inline-block");
+    pp.setClassName("tw:inline-block");
     p.pushPanel(pp);
     pp.replaceContent(this.#renderAddFileButton());
   }

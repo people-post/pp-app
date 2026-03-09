@@ -22,12 +22,12 @@ export class FWeb3ArticleEditor extends Fragment {
   constructor() {
     super();
     this.#fTitle = new TextArea();
-    this.#fTitle.setClassName("tw-w-full tw-h-[40px]");
+    this.#fTitle.setClassName("tw:w-full tw:h-[40px]");
     this.#fTitle.setDelegate(this);
     this.setChild("title", this.#fTitle);
 
     this.#fContent = new TextArea();
-    this.#fContent.setClassName("tw-w-full tw-h-[200px]");
+    this.#fContent.setClassName("tw:w-full tw:h-[200px]");
     this.#fContent.setDelegate(this);
     this.setChild("content", this.#fContent);
 

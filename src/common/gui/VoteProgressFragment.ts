@@ -5,7 +5,7 @@ const _CFT_VOTE_PROGRESS = {
       <span class="vote-progress-target" style="left:__TARGET__%;"></span>
       <span class="vote-progress-yea __COLOR__" style="width:__PERCENT__%;"></span>
       <span class="vote-progress-nay" style="width:__NAY_PERCENT__%;"></span>
-      <span class="tw-w-full tw-text-s-font7 tw-font-bold tw-text-center vote-progress-text">__VALUE__/__TOTAL__</span>
+      <span class="tw:w-full tw:text-s-font7 tw:font-bold tw:text-center vote-progress-text">__VALUE__/__TOTAL__</span>
     </div>`,
 }
 
@@ -34,9 +34,9 @@ export class VoteProgressFragment extends Fragment {
 
   #getColorClass(): string {
     if (this._config.value > this._config.threshold) {
-      return "tw-bg-green-600";
+      return "tw:bg-green-600";
     }
-    return "tw-bg-yellow-500";
+    return "tw:bg-yellow-500";
   }
 
   #getNayPercent(): number {

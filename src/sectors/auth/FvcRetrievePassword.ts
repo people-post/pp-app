@@ -10,10 +10,10 @@ import { R } from '../../common/constants/R.js';
 import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 const _CFT_RETRIEVE_PASSWORD = {
-  MAIN : `<table class="tw-m-auto">
+  MAIN : `<table class="tw:m-auto">
     <tbody> 
       <tr>
-        <td><label class="tw-text-s-font5" for="email">__R_YOUR_EMAIL__:</label></td>
+        <td><label class="tw:text-s-font5" for="email">__R_YOUR_EMAIL__:</label></td>
       </tr>
       <tr>
         <td>
@@ -58,7 +58,7 @@ export class FvcRetrievePassword extends FScrollViewContent {
     p.pushSpace(1);
 
     let pp = new Panel();
-    pp.setClassName("tw-text-center");
+    pp.setClassName("tw:text-center");
     p.pushPanel(pp);
     pp.replaceContent(R.get("RESET_PASS"));
     p.pushSpace(1);
