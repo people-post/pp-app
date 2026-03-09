@@ -133,8 +133,19 @@ export class WcWeb3 extends WcSession {
     // Set Web3 Owner as the Account implementation
     const owner = new Owner();
     Account.setImplementation(owner, true);
-    Account.setDataSource(this);
-    Account.setDelegate(this);
+    Account.setProps({
+      callbacks: {
+        onWeb3UserIdolsLoaded: (u) => this.onWeb3UserIdolsLoaded(u),
+        onWeb3UserProfileLoaded: (u) => this.onWeb3UserProfileLoaded(u),
+      },
+      ownerCallbacks: {
+        onWeb3OwnerProfileUpdated: (o) => this.onWeb3OwnerProfileUpdated(o),
+        onWeb3OwnerRequestLoadCheckPoint: (o) => this.onWeb3OwnerRequestLoadCheckPoint(o),
+        onWeb3OwnerRequestGetPublicKey: () => Keys.getMlDsa44(this.#postingKeyPath),
+        onWeb3OwnerRequestSign: (o, msg) => this.asOnWeb3OwnerRequestSign(o, msg),
+        onWeb3OwnerRequestSaveCheckPoint: (o, data) => this.onWeb3OwnerRequestSaveCheckPoint(o, data),
+      },
+    });
     Account.loadCheckPoint();
 
     console.info("Load config...");

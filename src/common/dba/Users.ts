@@ -70,8 +70,12 @@ export class UserLib {
       const web3Resolver = (typeof window !== 'undefined' && (window as { glb?: { web3Resolver?: Web3Resolver } }).glb?.web3Resolver) || null;
       const d = web3Resolver ? await web3Resolver.asResolve(id) : null;
       const u = new PpUser(d as Record<string, unknown>);
-      u.setDataSource(this as unknown as Parameters<typeof u.setDataSource>[0]);
-      u.setDelegate(this);
+      u.setProps({
+        callbacks: {
+          onWeb3UserIdolsLoaded: (user) => this.onWeb3UserIdolsLoaded(user),
+          onWeb3UserProfileLoaded: (user) => this.onWeb3UserProfileLoaded(user),
+        },
+      });
       this.#mUsers.set(id, u);
     }
     return this.#mUsers.get(id)!;
@@ -162,8 +166,12 @@ export class UserLib {
 
   #onWeb3LoadRRR(userId: string, data: unknown): void {
     const u = new PpUser(data as Record<string, unknown>);
-    u.setDataSource(this as unknown as Parameters<typeof u.setDataSource>[0]);
-    u.setDelegate(this);
+    u.setProps({
+      callbacks: {
+        onWeb3UserIdolsLoaded: (user) => this.onWeb3UserIdolsLoaded(user),
+        onWeb3UserProfileLoaded: (user) => this.onWeb3UserProfileLoaded(user),
+      },
+    });
     this.#mUsers.set(userId, u);
     FwkEvents.trigger(PltT_DATA.USER_PUBLIC_PROFILES, [u]);
   }

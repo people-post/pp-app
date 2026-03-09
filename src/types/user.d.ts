@@ -1,5 +1,6 @@
 import type { ColorTheme } from './basic.js';
 import type { BlogConfig } from './blog.js';
+import type { UserProps } from 'pp-api';
 
 /**
  * Common interface for User objects returned by Users.
@@ -94,14 +95,7 @@ export interface User {
   isFeed(): boolean;
 
   /**
-   * Web3-specific: Set the data source for the user
-   * @param source The data source object
+   * Web3-specific: Set props (callbacks, data) for the user
    */
-  setDataSource?(source: unknown): void;
-
-  /**
-   * Web3-specific: Set the delegate for the user
-   * @param delegate The delegate object
-   */
-  setDelegate?(delegate: unknown): void;
+  setProps?(props: UserProps): void;
 }

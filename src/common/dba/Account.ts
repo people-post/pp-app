@@ -8,6 +8,7 @@ import { Web2Account } from './Web2Account.js';
 import type { User } from '../datatypes/User.js';
 import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
 import type { UserPrivateProfile as UserProfileType } from '../../types/backend2.js';
+import { OwnerProps } from 'pp-api';
 
 // Web3 Owner type from pp-api (imported dynamically in WcWeb3)
 interface Web3Owner {
@@ -31,8 +32,7 @@ interface Web3Owner {
   asyncGetIdolIds?(): Promise<string[]>;
   
   // Web3-specific methods
-  setDataSource?(source: unknown): void;
-  setDelegate?(delegate: unknown): void;
+  setProps?(props: OwnerProps): void;
   loadCheckPoint?(): void;
   saveCheckPoint?(): void;
   
@@ -398,15 +398,9 @@ class AccountWrapper {
 
   // ==================== Web3-specific Methods ====================
 
-  setDataSource(source: unknown): void {
-    if ('setDataSource' in this.#impl && typeof this.#impl.setDataSource === 'function') {
-      this.#impl.setDataSource(source);
-    }
-  }
-
-  setDelegate(delegate: unknown): void {
-    if ('setDelegate' in this.#impl && typeof this.#impl.setDelegate === 'function') {
-      this.#impl.setDelegate(delegate);
+  setProps(props: OwnerProps): void {
+    if ('setProps' in this.#impl && typeof this.#impl.setProps === 'function') {
+      this.#impl.setProps(props);
     }
   }
 

@@ -22,6 +22,7 @@ This project uses Node.js and npm for building. The build process replaces the p
 
 - Node.js >= 18.0.0
 - npm
+- **pp-api**: Installed from GitHub (`github:people-post/pp-api#release/v0.1.5`). No token required. pp-api's postinstall builds from source when `dist/` is missing (e.g. when installed from GitHub).
 
 ### Build Commands
 
