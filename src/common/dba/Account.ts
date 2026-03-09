@@ -9,7 +9,7 @@ import type { User } from '../datatypes/User.js';
 import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
 import type { UserPrivateProfile as Web2UserPrivateProfileData } from '../../types/backend2.js';
 import type { BlogConfig as BlogConfigData } from '../../types/backend2.js';
-import { Owner as Web3Owner, OwnerProps } from 'pp-api';
+import { Owner as Web3Owner, OwnerProps, dat as Web3Dat } from 'pp-api';
 
 type AccountImplementation = Web2Account | Web3Owner;
 
@@ -398,7 +398,7 @@ class AccountWrapper {
     return false;
   }
 
-  async asPublishArticle(article: unknown): Promise<void> {
+  async asPublishArticle(article: Web3Dat.OArticle): Promise<void> {
     if ('asPublishArticle' in this.#impl && typeof this.#impl.asPublishArticle === 'function') {
       await this.#impl.asPublishArticle(article);
     }

@@ -56,20 +56,20 @@ export class User implements UserType {
     return this._data.uuid;
   }
 
-  getLogoUrl(): string | null {
-    return this._data.logo_url;
+  getLogoUrl(): string {
+    return this._data.logo_url || '';
   }
 
   getReferrerId(): string | null {
-    return this._data.referrer_id;
+    return this._data.referrer_id || '';
   }
 
-  getCommunityId(): string | null {
-    return this._data.community_id ?? null;
+  getCommunityId(): string {
+    return this._data.community_id || '';
   }
 
-  getShopName(): string | null {
-    return this._data.shop_name ?? null;
+  getShopName(): string {
+    return this._data.shop_name || '';
   }
 
   getBlogConfig(): BlogConfig | null {
@@ -84,8 +84,8 @@ export class User implements UserType {
     return this._data.n_followers || 0;
   }
 
-  getUsername(): string | null {
-    return this._data.username;
+  getUsername(): string {
+    return this._data.username || '';
   }
 
   getNickname(): string {
@@ -135,15 +135,15 @@ export class User implements UserType {
     return this._data.theme ? this._data.theme.primary_color : '';
   }
 
-  getInfoImageUrl(): string | null {
-    return this._data.image_url;
+  getInfoImageUrl(): string {
+    return this._data.image_url || '';
   }
 
-  getBriefBio(): string | null {
-    return this._data.brief_biography;
+  getBriefBio(): string {
+    return this._data.brief_biography || '';
   }
 
-  #generateUrl(sub: string | null = null, paramStrs: string[] | null = null): string {
+  #generateUrl(sub: string | null = null, paramStrs: string[] = []): string {
     const allParamStrs = paramStrs ? paramStrs : [];
     // Lazy access to WebConfig to avoid circular dependency
     const WebConfig = getWebConfig();

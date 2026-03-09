@@ -3,14 +3,13 @@ import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
 import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
 import { FAttachmentFileUploader } from '../../lib/ui/controllers/fragments/FAttachmentFileUploader.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { PWeb3ArticleEditor } from './PWeb3ArticleEditor.js';
 import { R } from '../../common/constants/R.js';
-import { dat } from 'pp-api';
+import { dat as Web3Dat } from 'pp-api';
 import type { Article } from '../../common/datatypes/Article.js';
 import { Account } from '../../common/dba/Account.js';
-
-const { OArticle, OAttachmentMeta } = dat;
 
 export class FWeb3ArticleEditor extends Fragment {
   #fTitle: TextArea;
@@ -33,7 +32,7 @@ export class FWeb3ArticleEditor extends Fragment {
     this.setChild("content", this.#fContent);
 
     this.#fFiles = new FMultiMediaFileUploader();
-    this.#fFiles.setCacheIds([ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]);
+    this.#fFiles.setCacheIds([ '0', '1', '2', '3', '4', '5', '6', '7', '8' ]);
     this.#fFiles.setDataSource(this);
     this.#fFiles.setDelegate(this);
     this.setChild("files", this.#fFiles);
@@ -71,7 +70,7 @@ export class FWeb3ArticleEditor extends Fragment {
 
   setArticle(baseArticle: Article): void { this.#baseArticle = baseArticle; }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this.#baseArticle) {
       return;
     }
@@ -103,9 +102,9 @@ export class FWeb3ArticleEditor extends Fragment {
     this.#fContent.attachRender(p);
     this.#fContent.render();
 
-    p = panel.getBtnListPanel();
+    const pBtnList = panel.getBtnListPanel();
     let pp = new Panel();
-    p.pushPanel(pp);
+    pBtnList.pushPanel(pp);
     this.#fSubmit.attachRender(pp);
     this.#fSubmit.render();
   }
@@ -116,7 +115,7 @@ export class FWeb3ArticleEditor extends Fragment {
 
   #onSubmit(): void {
     if (this.#isUploadBusy()) {
-      this._owner.onLocalErrorInFragment(this, R.get("EL_FILE_UPLOAD_BUSY"));
+      this.onLocalErrorInFragment(this, R.get("EL_FILE_UPLOAD_BUSY"));
     } else if (this.#validate()) {
       if (Account.hasPublished()) {
         this.#doSubmit();
@@ -135,18 +134,19 @@ export class FWeb3ArticleEditor extends Fragment {
         .finally(() => this.#unlockActionBtns());
   }
 
-  #collectData(): OArticle {
+  #collectData(): Web3Dat.OArticle {
     if (!this.#baseArticle) {
       throw new Error("Base article not set");
     }
-    let oArticle = new OArticle();
-    oArticle.setId(this.#baseArticle.getId());
+    let oArticle = new Web3Dat.OArticle();
+    const id = this.#baseArticle.getId();
+    oArticle.setId(String(id || ''));
     oArticle.setTitle(this.#fTitle.getValue());
     oArticle.setContent(this.#fContent.getValue());
-    oArticle.setOwnerId(Account.getId());
+    oArticle.setOwnerId(Account.getId() || '');
     let jd = this.#fAttachment.getJsonData();
     if (jd) {
-      let oMeta = new OAttachmentMeta();
+      let oMeta = new Web3Dat.OAttachmentMeta();
       oMeta.setCid(jd.id);
       oMeta.setName(jd.name);
       oMeta.setType(jd.type);
@@ -158,7 +158,7 @@ export class FWeb3ArticleEditor extends Fragment {
 
   #validate(): boolean { return this.#fAttachment.validate(); }
 
-  async #asSubmit(oArticle: OArticle): Promise<void> {
+  async #asSubmit(oArticle: Web3Dat.OArticle): Promise<void> {
     await Account.asPublishArticle(oArticle);
     (this._delegate as any).onNewArticlePostedInArticleEditorFragment(this);
   }
