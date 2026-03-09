@@ -26,7 +26,7 @@ should be able to "pickup from leftovers" by reading this plan and marking progr
 ## Progress Tracker
 
 - [x] **Phase 1**: Setup Base Infrastructure and Plan Tracker *(completed)*
-- [ ] **Phase 2**: Refactor Simple Components (e.g., FCareer, FArticle)
+- [x] **Phase 2**: Refactor Simple Components (e.g., FCareer, FArticle) *(completed)*
 - [ ] **Phase 3**: Enhance Data Updates and Reactive Props
 - [ ] **Phase 4**: Refactor Complex Components and Chains
 - [ ] **Phase 5**: Integration Testing and Cleanup
@@ -85,7 +85,7 @@ career.setProps({
 
 ## Phase 2: Refactor Simple Components (e.g., FCareer, FArticle)
 
-**Status**: Pending
+**Status**: Complete ✅
 
 **Goals**:
 - Assuming Phase 1 is done, refactor `FCareer.ts` and `FArticle.ts` to use `setProps` instead
@@ -93,10 +93,19 @@ career.setProps({
 - Remove interfaces like `FCareerDelegate` and `FArticleDelegate`.
 - Update usages in parent components.
 
-**Files to Change**:
-- `src/common/hr/FCareer.ts`
-- Any file containing `FArticle` (search for `FArticleDelegate`)
-- Parent components that wire up delegates/data sources for the above
+**Changes Made**:
+- `src/common/hr/FCareer.ts`: Replaced `FCareerDelegate`/`FCareerDataSource` interfaces with
+  `FCareerProps` interface. Added `setProps`/`getProps` methods. Updated `action()` and
+  `_renderOnRender()` to use props callbacks. Kept `setRoleId`/`getRoleId` as convenience
+  methods (delegating to `_props.data.roleId`).
+- `src/sectors/blog/FArticle.ts`: Replaced `FArticleDelegate`/`FArticleDataSource` interfaces
+  with `FArticleProps` interface. Added `setProps`/`getProps` methods. Updated
+  `onSimpleButtonClicked()` to use `_props.callbacks.onTagClickedInArticleFragment`.
+- `src/sectors/blog/FCareerList.ts`: Updated `FCareer` instantiation to use `setProps`.
+- `src/sectors/workshop/FvcCareerList.ts`: Updated `FCareer` instantiation to use `setProps`.
+- `src/sectors/shop/FvcCareerList.ts`: Updated `FCareer` instantiation to use `setProps`.
+- `src/sectors/blog/FPost.ts`: Updated `FArticle` instantiation to use `setProps` instead of
+  `setDelegate`.
 
 ---
 
