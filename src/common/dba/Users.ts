@@ -5,7 +5,7 @@ import type { User as UserType } from '../../types/user.js';
 import { PATH } from '../constants/Constants.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
-import { User as PpUser } from 'pp-api';
+import { User as Web3User } from 'pp-api';
 import { Account } from './Account.js';
 import { UserPublicProfile } from '../../types/backend2.js';
 
@@ -29,14 +29,14 @@ export class UserLib {
     this.#initMap();
   }
 
-  onWeb3UserIdolsLoaded(user: UserType): void {
+  onWeb3UserIdolsLoaded(user: Web3User): void {
     const id = user.getId();
     if (id !== undefined) {
       FwkEvents.trigger(PltT_DATA.USER_IDOLS, String(id));
     }
   }
 
-  onWeb3UserProfileLoaded(user: UserType): void {
+  onWeb3UserProfileLoaded(user: Web3User): void {
     const id = user.getId();
     if (id !== undefined) {
       FwkEvents.trigger(PltT_DATA.USER_PUBLIC_PROFILE, String(id));
@@ -49,7 +49,7 @@ export class UserLib {
     }
 
     if (Env.isWeb3() && Account.isAuthenticated() && Account.getId() === id) {
-      return Account.getImplementation() as unknown as User;
+      return Account.getImplementation() as Web3User;
     }
 
     if (this.#mUsers.has(id)) {
@@ -62,14 +62,14 @@ export class UserLib {
 
   async asyncGet(id: string): Promise<UserType> {
     if (Env.isWeb3() && Account.isAuthenticated() && Account.getId() === id) {
-      return Account.getImplementation() as unknown as User;
+      return Account.getImplementation() as Web3User;
     }
 
     if (!this.#mUsers.has(id)) {
       // Lazy access to web3Resolver to avoid circular dependency
       const web3Resolver = (typeof window !== 'undefined' && (window as { glb?: { web3Resolver?: Web3Resolver } }).glb?.web3Resolver) || null;
       const d = web3Resolver ? await web3Resolver.asResolve(id) : null;
-      const u = new PpUser(d as Record<string, unknown>);
+      const u = new Web3User(d as Record<string, unknown>);
       u.setProps({
         callbacks: {
           onWeb3UserIdolsLoaded: (user) => this.onWeb3UserIdolsLoaded(user),
@@ -165,7 +165,7 @@ export class UserLib {
   }
 
   #onWeb3LoadRRR(userId: string, data: unknown): void {
-    const u = new PpUser(data as Record<string, unknown>);
+    const u = new Web3User(data as Record<string, unknown>);
     u.setProps({
       callbacks: {
         onWeb3UserIdolsLoaded: (user) => this.onWeb3UserIdolsLoaded(user),
