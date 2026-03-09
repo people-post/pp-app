@@ -1,7 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import type { UserProfile as UserProfileData } from '../../types/backend2.js';
+import type { UserPrivateProfile as UserProfileData } from '../../types/backend2.js';
 import { T_DATA } from '../plt/Events.js';
 import { Notifications } from '../dba/Notifications.js';
 import { UserRequest } from '../datatypes/UserRequest.js';
