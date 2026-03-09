@@ -4,16 +4,14 @@
 
 This is a phased refactor to replace delegate patterns, data sources, and data updates with a
 unified props-based system in the `people-post/pp-app` repository. The goal is to enable 1:1
-relationships, support agent state handoff (for Web3 agents to resume from checkpoints), and
-ensure long-term maintainability. Agents should be able to "pickup from leftovers" by reading
-this plan and marking progress.
+relationships, support reactive data updates, and ensure long-term maintainability. Agents
+should be able to "pickup from leftovers" by reading this plan and marking progress.
 
 ## Key Changes
 
-- Replace `setDelegate` with callback props (e.g., `setOnClick`).
-- Replace `setDataSource` with data/function props (e.g., `setData` or `setDataFetcher`).
-- Enhance `handleSessionDataUpdate` with reactive props and observables.
-- Add state handoff: `previousState` and `onSaveState` for agents to chain and persist via checkpoints.
+- Replace `setDelegate` with callback props (e.g., `onClickInCareerFragment`).
+- Replace `setDataSource` with a `data` prop.
+- Enhance `handleSessionDataUpdate` with an `onDataUpdate` reactive callback prop.
 - Unify into a `setProps` method per component.
 
 ## Instructions for Agents
@@ -21,7 +19,6 @@ this plan and marking progress.
 - Always read this file (`MIGRATION_PLAN.md`) to understand the current phase and progress.
 - For "continue the plan on next phase", read the plan, identify the next incomplete phase, and implement it.
 - After completing a phase, update this file with progress (e.g., check off the phase and add notes on changes).
-- Use checkpoints for state: Load `previousState` from prior phases' saves, save current state for next.
 - Ensure changes are backward-compatible during transition.
 
 ---
@@ -43,16 +40,33 @@ this plan and marking progress.
 **Goals**:
 - Create this `MIGRATION_PLAN.md` file in the repo root with the full plan, phases, and a
   progress tracker.
-- Update `Controller.ts` to support props: Add `AgentProps<TState>` interface with `data`,
-  `callbacks`, `previousState`, `onSaveState`, and `onDataUpdate`.
-- Add `setProps(props: AgentProps)` method to `Controller`.
-- Integrate state loading/saving with `Account.loadCheckPoint` and `saveCheckPoint` for Web3
-  persistence.
+- Update `Controller.ts` to support props: Add `AgentProps` interface with `data`,
+  `callbacks`, and `onDataUpdate`.
+- Add `setProps(props: AgentProps)` and `getProps()` methods to `Controller`.
 - Add comments in `Controller.ts` linking to this file.
+
+**Concrete Usage Example** (replacing the old FCareer delegate/dataSource wiring):
+
+```ts
+// Before (legacy pattern):
+const career = new FCareer();
+career.setDataSource(myDataSource);   // implements FCareerDataSource
+career.setDelegate(myDelegate);        // implements FCareerDelegate
+
+// After (props-based pattern, Phase 1 foundation):
+const career = new FCareer();
+career.setProps({
+  data: { roleId: "engineer" },
+  callbacks: {
+    onClickInCareerFragment: (f: unknown) => handleCareerClick(f as FCareer),
+  },
+  onDataUpdate: (data) => career.reload(data),
+});
+```
 
 **Files Changed**:
 - `MIGRATION_PLAN.md` (created — this file)
-- `src/lib/ext/Controller.ts` (updated — added `AgentProps<TState>` interface and `setProps` method)
+- `src/lib/ext/Controller.ts` (updated — added `AgentProps` interface and `setProps`/`getProps` methods)
 
 ---
 
@@ -64,7 +78,6 @@ this plan and marking progress.
 - Assuming Phase 1 is done, refactor `FCareer.ts` and `FArticle.ts` to use `setProps` instead
   of delegates/data sources.
 - Remove interfaces like `FCareerDelegate` and `FArticleDelegate`.
-- Implement state handoff (load from `previousState`, save via `onSaveState`).
 - Update usages in parent components.
 
 **Files to Change**:

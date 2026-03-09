@@ -5,21 +5,28 @@ export interface ControllerOwner {
 }
 
 /**
- * Props interface for props-based controllers and Web3 agents.
+ * Props interface for props-based controllers.
  *
- * The name `AgentProps` reflects its origin in the Web3 agent handoff pattern,
- * but the interface is intentionally generic enough for any controller that
- * wants to adopt the props-based pattern (see MIGRATION_PLAN.md).
- *
- * Supports 1:1 relationships, reactive data updates, and agent state handoff so
- * that Web3 agents can resume work from checkpoints saved via `Account.saveCheckPoint`.
+ * Replaces the legacy `setDelegate` / `setDataSource` pattern with a single
+ * `setProps` call, enabling 1:1 relationships and reactive data updates.
  *
  * See MIGRATION_PLAN.md — Phase 1.
  *
- * @template TState  Shape of the serialisable agent state persisted to checkpoints.
+ * @example
+ * ```ts
+ * // Parent wiring up FCareer via props instead of separate delegate/dataSource calls:
+ * const career = new FCareer();
+ * career.setProps({
+ *   data: { roleId: "engineer" },
+ *   callbacks: {
+ *     onClickInCareerFragment: (f: unknown) => handleCareerClick(f as FCareer),
+ *   },
+ *   onDataUpdate: (data) => career.reload(data),
+ * });
+ * ```
  */
-export interface AgentProps<TState = unknown> {
-  /** Arbitrary data passed into the component/controller. */
+export interface AgentProps {
+  /** Arbitrary data passed into the component/controller (replaces `setDataSource`). */
   data?: unknown;
 
   /**
@@ -31,19 +38,6 @@ export interface AgentProps<TState = unknown> {
    * should cast individual callbacks to their specific signatures after retrieval.
    */
   callbacks?: Record<string, (...args: unknown[]) => unknown>;
-
-  /**
-   * State loaded from a prior agent's checkpoint via `Account.loadCheckPoint`.
-   * Allows a new agent to resume exactly where the previous one left off.
-   */
-  previousState?: TState;
-
-  /**
-   * Called by the controller when it wants to persist its current state.
-   * The host should forward the value to `Account.saveCheckPoint` so that
-   * subsequent agents can read it back via `previousState`.
-   */
-  onSaveState?: (state: TState) => void;
 
   /**
    * Called when the underlying data source emits an update.
@@ -59,9 +53,7 @@ export class Controller implements ControllerOwner {
   protected _delegate: unknown = null;
 
   // Props set via setProps(); see MIGRATION_PLAN.md — Phase 1.
-  // Stored as AgentProps<unknown> so the field can hold any concrete TState while
-  // still being explicitly typed — callers recover TState via setProps/getProps generics.
-  protected _props: AgentProps<unknown> | null = null;
+  protected _props: AgentProps | null = null;
 
   setOwner(owner: ControllerOwner | null): void {
     this._owner = owner;
@@ -78,44 +70,18 @@ export class Controller implements ControllerOwner {
   /**
    * Set props for this controller, enabling the props-based pattern.
    *
-   * When `props.previousState` is provided the controller can restore prior
-   * agent state (loaded from `Account.loadCheckPoint`).  When work is complete
-   * the controller should call `this.saveState(state)` so the host can persist
-   * it via `Account.saveCheckPoint` for the next agent in the chain.
+   * Pass `data` (replaces `setDataSource`), `callbacks` (replaces `setDelegate`),
+   * and/or `onDataUpdate` (replaces `handleSessionDataUpdate`) in a single call.
    *
    * See MIGRATION_PLAN.md — Phase 1.
    */
-  setProps<TState = unknown>(props: AgentProps<TState>): void {
-    this._props = props as AgentProps<unknown>;
+  setProps(props: AgentProps): void {
+    this._props = props;
   }
 
-  /**
-   * Retrieve previously stored props, cast to the requested state type.
-   *
-   * **Type safety note**: The caller is responsible for requesting the same `TState`
-   * that was originally passed to `setProps`.  TypeScript cannot enforce this at
-   * compile time because the field erases the concrete generic; use consistent
-   * `TState` types within a controller to avoid mismatches.
-   */
-  getProps<TState = unknown>(): AgentProps<TState> | null {
-    return this._props as AgentProps<TState> | null;
-  }
-
-  /**
-   * Convenience helper: invoke `onSaveState` from the current props (if any).
-   *
-   * Controllers should call this when they want to persist their state so that
-   * the next agent can resume via `previousState`.  The host is responsible for
-   * forwarding the value to `Account.saveCheckPoint`.
-   *
-   * See MIGRATION_PLAN.md — Phase 1.
-   */
-  protected saveState<TState = unknown>(state: TState): void {
-    // Cast to AgentProps<TState>: safe as long as the same TState was used in setProps.
-    const props = this._props as AgentProps<TState> | null;
-    if (props?.onSaveState) {
-      props.onSaveState(state);
-    }
+  /** Return the currently stored props, or `null` if none have been set. */
+  getProps(): AgentProps | null {
+    return this._props;
   }
 
   getDelegate<T>(): T | null {
