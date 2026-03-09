@@ -40,10 +40,10 @@ should be able to "pickup from leftovers" by reading this plan and marking progr
 **Goals**:
 - Create this `MIGRATION_PLAN.md` file in the repo root with the full plan, phases, and a
   progress tracker.
-- Update `Controller.ts` to support props: Add `AgentProps` interface with `data`,
-  `callbacks`, and `onDataUpdate`.
-- Add `setProps(props: AgentProps)` and `getProps()` methods to `Controller`.
 - Add comments in `Controller.ts` linking to this file.
+- Child classes define and manage their own `AgentProps` interface (with `data`, `callbacks`,
+  and `onDataUpdate`) and their own `setProps`/`getProps` methods independently, without
+  requiring changes to the `Controller` base class.
 
 **Concrete Usage Example** (replacing the old FCareer delegate/dataSource wiring):
 
@@ -54,6 +54,19 @@ career.setDataSource(myDataSource);   // implements FCareerDataSource
 career.setDelegate(myDelegate);        // implements FCareerDelegate
 
 // After (props-based pattern, Phase 1 foundation):
+// FCareer defines its own props interface and setProps/getProps methods:
+interface FCareerProps {
+  data?: { roleId: string };
+  callbacks?: { onClickInCareerFragment?: (f: unknown) => void };
+  onDataUpdate?: (data: unknown) => void;
+}
+
+// class FCareer extends Controller {
+//   private _props: FCareerProps | null = null;
+//   setProps(props: FCareerProps): void { this._props = props; }
+//   getProps(): FCareerProps | null { return this._props; }
+// }
+
 const career = new FCareer();
 career.setProps({
   data: { roleId: "engineer" },
@@ -66,7 +79,7 @@ career.setProps({
 
 **Files Changed**:
 - `MIGRATION_PLAN.md` (created — this file)
-- `src/lib/ext/Controller.ts` (updated — added `AgentProps` interface and `setProps`/`getProps` methods)
+- `src/lib/ext/Controller.ts` (updated — added comment linking to this file)
 
 ---
 
