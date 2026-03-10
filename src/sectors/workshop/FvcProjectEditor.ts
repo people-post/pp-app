@@ -139,10 +139,10 @@ export class FvcProjectEditor extends FScrollViewContent {
 
     p.pushSpace(1);
 
-    pp = new SectionPanel("Menu tags");
-    p.pushPanel(pp);
+    let sp = new SectionPanel("Menu tags");
+    p.pushPanel(sp);
     this._fteOwner.setEnableNewTags(true);
-    this._fteOwner.attachRender(pp.getContentPanel());
+    this._fteOwner.attachRender(sp.getContentPanel());
     this._fteOwner.render();
 
     p.pushSpace(1);

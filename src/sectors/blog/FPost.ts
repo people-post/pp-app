@@ -134,11 +134,11 @@ export class FPost extends Fragment {
     let p = panel.getPinPanel();
     this.#renderPin(p, post);
 
-    p = panel.getAuthorPanel();
+    let pAuthor = panel.getAuthorPanel();
     if (post.isRepost()) {
-      this.#renderAuthor(p, realPost.getAuthorId(), post.getAuthorId());
+      this.#renderAuthor(pAuthor, realPost.getAuthorId(), post.getAuthorId());
     } else {
-      this.#renderAuthor(p, post.getAuthorId());
+      this.#renderAuthor(pAuthor, post.getAuthorId());
     }
 
     if (!post.getLinkTo() &&

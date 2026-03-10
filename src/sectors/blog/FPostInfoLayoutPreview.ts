@@ -2,6 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
@@ -46,7 +47,7 @@ export class FPostInfoLayoutPreview extends Fragment {
     this.setChild("info", f);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new Panel();
@@ -69,9 +70,9 @@ export class FPostInfoLayoutPreview extends Fragment {
     this._fApply.attachRender(pp);
     this._fApply.render();
 
-    pp = new SectionPanel("Exmaple layout");
-    p.pushPanel(pp);
-    pp = pp.getContentPanel();
+    let sp = new SectionPanel("Exmaple layout");
+    p.pushPanel(sp);
+    pp = sp.getContentPanel();
     pp.setClassName("quote-element");
     this._fInfo.attachRender(pp);
     this._fInfo.render();

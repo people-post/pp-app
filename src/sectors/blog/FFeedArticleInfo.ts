@@ -12,6 +12,8 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Utilities as blogUtilities } from './Utilities.js';
 import { Utilities } from '../../common/Utilities.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
 import type { Article } from '../../common/datatypes/Article.js';
 
 export class FFeedArticleInfo extends FPostBase {
@@ -58,7 +60,7 @@ export class FFeedArticleInfo extends FPostBase {
     this.#showThumbnail(idx);
   }
 
-  _renderOnRender(postInfoPanel: Panel): void {
+  _renderOnRender(postInfoPanel: PPostInfoBase): void {
     let article = Blog.getArticle(this.#articleId);
     if (!article) {
       return;
@@ -73,7 +75,7 @@ export class FFeedArticleInfo extends FPostBase {
     this.#renderArticleText(postInfoPanel.getTitlePanel(),
                             postInfoPanel.getContentPanel(), article);
 
-    this.#renderThumbnail(postInfoPanel.getImagePanel(), article);
+    this.#renderThumbnail(postInfoPanel.getImagePanel() as PanelWrapper | null, article);
     this.#renderTime(postInfoPanel.getCreationTimeSmartPanel(), article);
     this.#renderDateTime(postInfoPanel.getCreationDateTimePanel(), article);
   }
@@ -105,7 +107,7 @@ export class FFeedArticleInfo extends FPostBase {
     }
   }
 
-  #renderThumbnail(panel: Panel | null, article: Article): void {
+  #renderThumbnail(panel: PanelWrapper | null, article: Article): void {
     if (!panel) {
       return;
     }
