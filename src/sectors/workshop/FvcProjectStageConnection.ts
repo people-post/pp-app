@@ -10,7 +10,6 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { FProjectStage } from './FProjectStage.js';
 import { Api } from '../../common/plt/Api.js';
 import type { ProjectStage } from '../../common/datatypes/ProjectStage.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcProjectStageConnection extends FScrollViewContent {
   protected _stage: ProjectStage | null = null;
@@ -50,7 +49,7 @@ export class FvcProjectStageConnection extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     if (!this._stage) {
       return;
     }

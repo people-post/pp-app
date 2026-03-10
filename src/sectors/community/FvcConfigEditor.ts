@@ -11,7 +11,7 @@ import { FUserIdInput } from '../../common/hr/FUserIdInput.js';
 import { Communities } from '../../common/dba/Communities.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Api } from '../../common/plt/Api.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface CommunityConfig {
   captain_id: string;
@@ -89,7 +89,7 @@ export class FvcConfigEditor extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let pMain = new ListPanel();
     render.wrapPanel(pMain);
 

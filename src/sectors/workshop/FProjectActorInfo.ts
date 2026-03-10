@@ -24,6 +24,7 @@ import { Events } from '../../lib/framework/Events.js';
 import { PProjectActorInfo } from './PProjectActorInfo.js';
 import type { User } from '../../common/datatypes/User.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface ProjectActorInfoDelegate {
   onClickInProjectActorInfoFragment(f: FProjectActorInfo, actor: ProjectActor): void;
@@ -78,7 +79,7 @@ export class FProjectActorInfo extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._actor) {
       return;
     }

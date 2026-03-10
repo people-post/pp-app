@@ -3,7 +3,6 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
 
 interface Web3Agent {
@@ -57,7 +56,7 @@ export class FvcWeb3ServerRegistration extends FScrollViewContent {
   }
   onInputChangeInTextInputFragment(fInput: TextInput, value: string): void { this.#testName(value); }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     if (!this.#agent) {
       return;
     }

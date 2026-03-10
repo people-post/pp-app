@@ -3,7 +3,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Utilities as MessengerUtilities } from './Utilities.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
-import type { Panel as PanelType } from '../../lib/ui/renders/panels/Panel.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Account } from '../../common/dba/Account.js';
 
 export class FChatHeader extends Fragment {
@@ -15,7 +15,7 @@ export class FChatHeader extends Fragment {
 
   setTarget(target: ChatTarget): void { this._target = target; }
 
-  _renderOnRender(render: PanelType): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     p.setClassName("tw:flex tw:justify-between chat-view-header");
     render.wrapPanel(p);

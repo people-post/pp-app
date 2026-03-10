@@ -54,7 +54,7 @@ export class FSearch extends Fragment {
   _doSearch(_key: string): SearchResult | null { return null; }
   _clearCache(): void { this.#cache = null; }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 

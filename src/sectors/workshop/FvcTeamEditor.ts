@@ -32,7 +32,7 @@ import { Groups } from '../../common/dba/Groups.js';
 import { WorkshopTeam } from '../../common/datatypes/WorkshopTeam.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
 import { Api } from '../../common/plt/Api.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface TeamData {
   id: string | null;
@@ -78,7 +78,7 @@ export class FvcTeamEditor extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new SectionPanel("Name");

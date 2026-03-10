@@ -6,6 +6,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { PTeamInfo } from './PTeamInfo.js';
 import type { Team } from '../../common/datatypes/Team.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface TeamDataSource {
   getTeamForTeamFragment(f: FTeam, teamId: string): Team | null;
@@ -39,7 +40,7 @@ export class FTeam extends Fragment {
     }
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._teamId) {
       return;
     }

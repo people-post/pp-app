@@ -31,10 +31,10 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Utilities } from '../../common/Utilities.js';
-import type { Panel as PanelType } from '../../lib/ui/renders/panels/Panel.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FChatInputMenu extends Fragment {
-  _renderOnRender(render: PanelType): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     p.setClassName("tw:flex tw:justify-start");
     render.wrapPanel(p);

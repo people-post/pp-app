@@ -12,7 +12,6 @@ import { UserGroup } from '../../common/datatypes/UserGroup.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Api } from '../../common/plt/Api.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
 
 interface CreateChatTargetDelegate {
@@ -80,7 +79,7 @@ export class FvcCreateChatTarget extends FScrollViewContent {
 
   onItemChosenInSmartInputFragment(_fSmartInput: FSmartInput, _userId: string): void {}
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 

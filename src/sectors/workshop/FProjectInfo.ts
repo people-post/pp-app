@@ -20,7 +20,7 @@ import { PProjectInfoSmallQuote } from './PProjectInfoSmallQuote.js';
 import { PProjectInfoLargeQuote } from './PProjectInfoLargeQuote.js';
 import { PProjectInfoMiddle } from './PProjectInfoMiddle.js';
 import { Project } from '../../common/datatypes/Project.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import type { PProjectInfoBase } from './PProjectInfoBase.js';
 
 interface ProjectInfoDataSource {
@@ -115,7 +115,7 @@ export class FProjectInfo extends MajorSectorItem {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._projectId) {
       let p = new Panel();
       p.setClassName("tw:text-center");
@@ -187,7 +187,7 @@ export class FProjectInfo extends MajorSectorItem {
         if (this.#isSquareImage()) {
           pp.setClassName("tw:aspect-[1/1] tw:relative");
         }
-        p.wrapPanel(pp);
+        (p as PanelWrapper).wrapPanel(pp);
 
         this._fThumbnail.attachRender(pp);
         this._fThumbnail.render();

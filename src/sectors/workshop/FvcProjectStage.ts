@@ -9,7 +9,6 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { FProjectStage } from './FProjectStage.js';
 import { FvcProjectStageEditor } from './FvcProjectStageEditor.js';
 import { Project } from '../../common/datatypes/Project.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Account } from '../../common/dba/Account.js';
 
@@ -62,7 +61,7 @@ export class FvcProjectStage extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     if (!this._fStage) {
       return;
     }
