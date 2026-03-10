@@ -92,19 +92,19 @@ export class FMediaFileUploader extends FFileUploader {
     let p = new ListPanel();
     p.setClassName("file-preview-block");
     render.wrapPanel(p);
-    let pp = new Panel();
-    p.pushPanel(pp);
-    this._fPreview.attachRender(pp);
+    let ppPreview = new Panel();
+    p.pushPanel(ppPreview);
+    this._fPreview.attachRender(ppPreview);
 
-    pp = new PanelWrapper();
-    p.pushPanel(pp);
-    this._renderProgress(pp);
+    let ppProgress = new PanelWrapper();
+    p.pushPanel(ppProgress);
+    this._renderProgress(ppProgress);
 
     if (!this.#isImage()) {
       // None image file only
-      pp = new Panel();
-      p.pushPanel(pp);
-      pp.replaceContent(_CFT_MEDIA_FILE_UPLOAD.ACTIONS);
+      let ppActions = new Panel();
+      p.pushPanel(ppActions);
+      ppActions.replaceContent(_CFT_MEDIA_FILE_UPLOAD.ACTIONS);
     }
 
     if (this._urlFile) {
