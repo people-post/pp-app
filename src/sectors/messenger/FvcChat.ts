@@ -219,7 +219,7 @@ export class FvcChat extends FViewContentBase {
       this.#fMessages.append(f);
     }
     this.#fMessages.render();
-    let r = this.getRender();
+    let r = this.getRender() as PChatContent | null;
     if (r) {
       r.getContentPanel().scrollToBottom();
     }

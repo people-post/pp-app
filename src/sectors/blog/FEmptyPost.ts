@@ -1,13 +1,14 @@
 import { EmptyPost } from '../../common/datatypes/EmptyPost.js';
 import { FPostBase } from './FPostBase.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { PPostBase } from '../../common/gui/PPostBase.js';
 
 export class FEmptyPost extends FPostBase {
   #post: EmptyPost | null = null;
 
   setPost(post: EmptyPost | null): void { this.#post = post; }
 
-  _renderOnRender(postPanel: Panel): void {
+  _renderOnRender(postPanel: PPostBase): void {
     let p = postPanel.getContentPanel();
     if (!p) {
       p = postPanel.getTitlePanel();

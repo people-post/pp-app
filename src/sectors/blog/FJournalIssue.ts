@@ -10,6 +10,7 @@ import { FJournalIssueSectionTagged } from './FJournalIssueSectionTagged.js';
 import type { JournalIssue } from '../../common/datatypes/JournalIssue.js';
 import type { JournalIssueSection } from '../../common/datatypes/JournalIssueSection.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { PPost } from './PPost.js';
 
 export class FJournalIssue extends FPostBase {
   #issueId: string | null = null;
@@ -34,7 +35,7 @@ export class FJournalIssue extends FPostBase {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(postPanel: Panel): void {
+  _renderOnRender(postPanel: PPost): void {
     let issue = Blog.getJournalIssue(this.#issueId);
     if (!issue) {
       return;
@@ -74,7 +75,7 @@ export class FJournalIssue extends FPostBase {
     panel.replaceContent(issue.getSummary() || "");
   }
 
-  #renderSections(panel: Panel | null, journal: Journal | null, sections: JournalIssueSection[]): void {
+  #renderSections(panel: PanelWrapper | null, journal: Journal | null, sections: JournalIssueSection[]): void {
     if (!panel || !journal) {
       return;
     }

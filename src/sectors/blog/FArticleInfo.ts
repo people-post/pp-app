@@ -116,7 +116,7 @@ export class FArticleInfo extends FPostBase {
     this.#renderOwnerIcon(postInfoPanel.getOwnerIconPanel(), article);
     this.#renderOwnerName(postInfoPanel.getOwnerNamePanel(), article);
     this.#renderAuthorName(postInfoPanel.getAuthorNamePanel(), article);
-    this.#renderTags(postInfoPanel.getTagsPanel(), article);
+    this.#renderTags(postInfoPanel.getTagsPanel() as PanelWrapper | null, article);
     this.#renderArticleText(postInfoPanel.getTitlePanel(),
                             postInfoPanel.getContentPanel(), article);
 
@@ -131,7 +131,7 @@ export class FArticleInfo extends FPostBase {
     }
 
     this.#renderAttachment(postInfoPanel.getAttachmentPanel(), article);
-    this.#renderThumbnail(postInfoPanel.getImagePanel(), article);
+    this.#renderThumbnail(postInfoPanel.getImagePanel() as PanelWrapper | null, article);
     this.#renderTime(postInfoPanel.getCreationTimeSmartPanel(), article);
     this.#renderDateTime(postInfoPanel.getCreationDateTimePanel(), article);
     this.#renderContext(postInfoPanel.getContextPanel(), article);
