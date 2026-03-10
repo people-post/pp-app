@@ -9,6 +9,7 @@ import { PServiceLocationEditor } from './PServiceLocationEditor.js';
 import { FServiceTimeslotEditor } from './FServiceTimeslotEditor.js';
 import { Shop } from '../../common/dba/Shop.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FServiceLocationEditor extends Fragment {
   protected _fBtnAdd: Button;
@@ -105,7 +106,7 @@ export class FServiceLocationEditor extends Fragment {
     super.handleSessionDataUpdate(dataType, _data);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = new PServiceLocationEditor();
     render.wrapPanel(panel);
     let p = panel.getTimeOverheadPanel();

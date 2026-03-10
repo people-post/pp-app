@@ -173,11 +173,11 @@ export class FWalkinQueueItem extends Fragment {
     if (p && this._isActionEnabled) {
       this.#renderSubPrimeActionButton(item, p);
     }
-    p = panel.getAgentPanel();
-    if (p && item.getAgentId()) {
+    let pAgent = panel.getAgentPanel() as PanelWrapper | null;
+    if (pAgent && item.getAgentId()) {
       let pp = new ListPanel();
       pp.setClassName("tw:flex tw:justify-end tw:items-center");
-      p.wrapPanel(pp);
+      pAgent.wrapPanel(pp);
 
       let ppp = new Panel();
       pp.pushPanel(ppp);

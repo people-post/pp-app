@@ -2,7 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { T_DATA } from '../../lib/framework/Events.js';
 import { Notifications } from '../../common/dba/Notifications.js';
 import { FRequestInfo } from '../../common/hr/FRequestInfo.js';
@@ -27,7 +27,7 @@ export class FvcReport extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, _data);
   }
 
-  _renderContentOnRender(render: Panel): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let panel = new ListPanel();
     render.wrapPanel(panel);
     let p = new SectionPanel("Notices");

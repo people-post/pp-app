@@ -51,7 +51,7 @@ export class FRegisterList extends Fragment {
     this._delegate.onRegisterSelectedInRegisterListFragment(this, registerId);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._ids) {
       this.#asyncGetRegisterIds();
       return;

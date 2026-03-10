@@ -4,6 +4,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Env } from '../../common/plt/Env.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 declare global {
   var QRCode: new (element: HTMLElement, text: string) => void;
@@ -38,7 +39,7 @@ export class FvcPortalMain extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     if (!Env.isScriptLoaded(Env.SCRIPT.QR_CODE.id)) {
       render.replaceContent("Loading...");
       return;

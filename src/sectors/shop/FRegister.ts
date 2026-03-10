@@ -17,6 +17,7 @@ import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { PRegisterBase } from './PRegisterBase.js';
 
 interface RegisterDelegate {
@@ -94,7 +95,7 @@ export class FRegister extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let register = Shop.getRegister(this._registerId);
     if (!register) {
       return;
@@ -127,10 +128,10 @@ export class FRegister extends Fragment {
       this._fNameInput.render();
     }
 
-    p = panel.getTerminalListPanel();
-    if (p) {
+    let pTerminalList = panel.getTerminalListPanel() as PanelWrapper | null;
+    if (pTerminalList) {
       let pp = new SectionPanel("Payment terminals");
-      p.wrapPanel(pp);
+      pTerminalList.wrapPanel(pp);
       this._fTerminals.setRegisterId(this._registerId);
       this._fTerminals.setEnableEdit(this._isEditEnabled);
       this._fTerminals.attachRender(pp.getContentPanel()!);

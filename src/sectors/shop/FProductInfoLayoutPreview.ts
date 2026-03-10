@@ -2,6 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { FProduct } from './FProduct.js';
@@ -46,7 +47,7 @@ export class FProductInfoLayoutPreview extends Fragment {
     this.setChild("info", f);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new Panel();
@@ -69,9 +70,9 @@ export class FProductInfoLayoutPreview extends Fragment {
     this._fApply.attachRender(pp);
     this._fApply.render();
 
-    pp = new SectionPanel("Exmaple layout");
-    p.pushPanel(pp);
-    let contentPanel = pp.getContentPanel();
+    let ppSection = new SectionPanel("Exmaple layout");
+    p.pushPanel(ppSection);
+    let contentPanel = ppSection.getContentPanel();
     if (contentPanel) {
       contentPanel.setClassName("quote-element");
       this._fInfo.attachRender(contentPanel);

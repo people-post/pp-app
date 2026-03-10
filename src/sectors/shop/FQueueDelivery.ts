@@ -44,7 +44,7 @@ export class FQueueDelivery extends FServiceDelivery {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.COMPACT:
       this.#renderCompact(render);
@@ -55,7 +55,7 @@ export class FQueueDelivery extends FServiceDelivery {
     }
   }
 
-  #renderCompact(render: Render): void {
+  #renderCompact(render: PanelWrapper): void {
     let pMain = new ListPanel();
     render.wrapPanel(pMain);
 
@@ -73,7 +73,7 @@ export class FQueueDelivery extends FServiceDelivery {
     this._fMsg.render();
   }
 
-  #renderFull(panel: Render): void {
+  #renderFull(panel: PanelWrapper): void {
     let pMain = new ListPanel();
     panel.wrapPanel(pMain);
 

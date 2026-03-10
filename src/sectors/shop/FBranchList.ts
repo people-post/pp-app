@@ -50,7 +50,7 @@ export class FBranchList extends Fragment {
     this._delegate.onBranchSelectedInBranchListFragment(this, branchId);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this.#ids) {
       this.#asyncGetBrancheIds();
       return;

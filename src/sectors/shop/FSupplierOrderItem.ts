@@ -3,6 +3,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Exchange } from '../../common/dba/Exchange.js';
 import { Utilities } from '../../common/Utilities.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 const _CFT_SUPPLIER_ORDER_ITEM = {
   MAIN : `<div class="w40">__DESCRIPTION__</div>
@@ -35,7 +36,7 @@ export class FSupplierOrderItem extends Fragment {
   setCurrencyId(id: string | null): void { this._currencyId = id; }
   setItem(item: SupplierOrderItemData): void { this._item = item; }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._item) return;
     let p = new Panel();
     p.setClassName("tw:flex tw:justify-between");
