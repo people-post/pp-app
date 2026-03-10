@@ -5,7 +5,7 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { FVisit } from '../../common/statistics/FVisit.js';
 import { FvcVisit } from '../../common/statistics/FvcVisit.js';
 import { R } from '../../common/constants/R.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import type { VisitSummary } from '../../common/statistics/VisitSummary.js';
 
 export class FvcStatistics extends FScrollViewContent {
@@ -29,7 +29,7 @@ export class FvcStatistics extends FScrollViewContent {
     this._owner.onFragmentRequestShowView(this, v);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 

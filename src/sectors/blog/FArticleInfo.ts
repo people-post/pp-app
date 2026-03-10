@@ -141,7 +141,7 @@ export class FArticleInfo extends FPostBase {
 
   #onGoToSource(url: string): void { window.open(url, '_blank')?.focus(); }
 
-  #renderTags(panel: Panel | null, article: Article): void {
+  #renderTags(panel: PanelWrapper | null, article: Article): void {
     if (!panel) {
       return;
     }

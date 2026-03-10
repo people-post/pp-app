@@ -7,7 +7,6 @@ import { FPostList } from './FPostList.js';
 import { AbWeb3New } from './AbWeb3New.js';
 import type { ActionButton } from '../../common/gui/ActionButton.js';
 import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
 
 export class FvcWeb3OwnerPosts extends FScrollViewContent {
@@ -65,7 +64,7 @@ export class FvcWeb3OwnerPosts extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = new PanelWrapper();
     panel.setClassName("tw:h-full");
     render.wrapPanel(panel);

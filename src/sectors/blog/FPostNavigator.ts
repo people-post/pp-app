@@ -120,7 +120,7 @@ class FPostNavigator extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = new PPostNavigator();
     render.wrapPanel(panel);
 

@@ -253,7 +253,7 @@ export class FPost extends Fragment {
     return Utilities.renderSvgFuncIcon(ICON.PIN, isSelected);
   }
 
-  #renderAuthor(panel: Panel, authorId: string | null, reposterId: string | null | undefined = null): void {
+  #renderAuthor(panel: PanelWrapper, authorId: string | null, reposterId: string | null | undefined = null): void {
     let p = new ListPanel();
     panel.wrapPanel(p);
     let pp = new Panel();
