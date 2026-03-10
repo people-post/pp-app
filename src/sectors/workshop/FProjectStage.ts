@@ -21,7 +21,7 @@ import { PProjectStageMenuItem } from './PProjectStageMenuItem.js';
 import { PProjectStageInfoRow } from './PProjectStageInfoRow.js';
 import { PProjectStage } from './PProjectStage.js';
 import { Api } from '../../common/plt/Api.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import type { PProjectStageBase } from './PProjectStageBase.js';
 import { Account } from '../../common/dba/Account.js';
 
@@ -107,7 +107,7 @@ export class FProjectStage extends Fragment {
     }
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._stage) {
       return;
     }
@@ -132,7 +132,7 @@ export class FProjectStage extends Fragment {
     pp = p.getDescriptionPanel();
     if (pp && this._stage.getDescription()) {
       ppp = new SectionPanel("Description");
-      pp.wrapPanel(ppp);
+      (pp as PanelWrapper).wrapPanel(ppp);
       if (ppp) {
         ppp.replaceContent(this._stage.getDescription());
       }
@@ -141,7 +141,7 @@ export class FProjectStage extends Fragment {
     pp = p.getCommentPanel();
     if (pp && this._stage.getComment()) {
       ppp = new SectionPanel("Comment");
-      pp.wrapPanel(ppp);
+      (pp as PanelWrapper).wrapPanel(ppp);
       if (ppp) {
         ppp.replaceContent(this._stage.getComment());
       }

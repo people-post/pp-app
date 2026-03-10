@@ -162,7 +162,7 @@ export class FvcChat extends FViewContentBase {
     super._onBeforeRenderDetach();
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = new PChatContent();
     render.wrapPanel(panel);
 

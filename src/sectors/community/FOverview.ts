@@ -1,7 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { POverview } from './POverview.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export interface FOverviewDelegate {
   onNewProposalRequestAcceptedInOverviewFragment(f: FOverview): void;
@@ -16,7 +16,7 @@ export class FOverview extends Fragment {
     this.render();
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = new POverview();
     render.wrapPanel(panel);
     // TODO: Implement community overview rendering logic

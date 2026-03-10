@@ -12,6 +12,7 @@ const _CFT_STORY_EVENT_INFO = {
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { StoryEvent } from '../../common/datatypes/StoryEvent.js';
 import ExtUtilities from '../../lib/ext/Utilities.js';
 
@@ -48,7 +49,7 @@ export class FStoryEventInfo extends Fragment {
     }
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._event) {
       return;
     }

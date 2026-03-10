@@ -12,7 +12,6 @@ import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
 import { FvcTagEditor } from './FvcTagEditor.js';
 import { FTagEditor } from './FTagEditor.js';
 import { Api } from '../../common/plt/Api.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 interface TagEditorListDelegate {
   onClickInTagEditorFragment(fTagEditor: FTagEditor): void;
@@ -78,7 +77,7 @@ export class FvcTagEditorList extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new PanelWrapper();
     render.wrapPanel(p);
     this._fList.clear();

@@ -78,7 +78,7 @@ export class FProjectFlowChart extends Fragment {
     }
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     // Hack to make fItems as event source, may need better design
     this._fItems.attachRender(render);
 

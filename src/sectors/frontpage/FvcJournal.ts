@@ -199,7 +199,7 @@ export class FvcJournal extends FViewContentBase {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this.#cLayout) {
       render.replaceContent("Error: Unspecificed layout");
       return;
@@ -216,7 +216,7 @@ export class FvcJournal extends FViewContentBase {
     }
   }
 
-  #renderTripleOnRender(render: Panel): void {
+  #renderTripleOnRender(render: PanelWrapper): void {
     let panel = this.#createPanel();
     render.wrapPanel(panel);
 

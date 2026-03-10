@@ -4,7 +4,7 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { T_DATA } from '../../lib/framework/Events.js';
 import { Notifications } from '../../common/dba/Notifications.js';
 import { FRequestInfo } from '../../common/hr/FRequestInfo.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcMessengerNoticeList extends FScrollViewContent {
   protected _fRequestList: FSimpleFragmentList;
@@ -15,7 +15,7 @@ export class FvcMessengerNoticeList extends FScrollViewContent {
     this.setChild("requests", this._fRequestList);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let ids = Notifications.getMessengerRequestIds();
     if (ids.length == 0) {
       return;

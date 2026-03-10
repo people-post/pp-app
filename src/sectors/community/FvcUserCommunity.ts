@@ -27,7 +27,6 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { Users } from '../../common/dba/Users.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { FvcCreateCommunity } from './FvcCreateCommunity.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
 
 interface UserCommunityDelegate {
@@ -80,7 +79,7 @@ export class FvcUserCommunity extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new PanelWrapper();
     render.wrapPanel(p);
 

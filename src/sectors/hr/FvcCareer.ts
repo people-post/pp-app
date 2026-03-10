@@ -17,7 +17,6 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcCareer extends FScrollViewContent {
   protected _fMembers: GridFragment;
@@ -88,7 +87,7 @@ export class FvcCareer extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let role = this.#getRole();
     if (!role) {
       return;

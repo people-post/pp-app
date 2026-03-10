@@ -37,7 +37,7 @@ export class FRepostItemNotice extends Fragment {
 
   _onBeforeRenderDetach(): void { this._timer.cancel(); }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._notice) return;
     let pMain = new PRepostItemNotice();
     render.wrapPanel(pMain);
