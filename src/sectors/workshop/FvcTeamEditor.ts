@@ -97,9 +97,9 @@ export class FvcTeamEditor extends FScrollViewContent {
     this._fOptions.attachRender(pp.getContentPanel());
     this._fOptions.render();
 
-    pp = new Panel();
-    p.pushPanel(pp);
-    pp.replaceContent(_CFT_WORKSHOP_TEAM_EDITOR.SEC_SUBMIT);
+    let ppSubmit = new Panel();
+    p.pushPanel(ppSubmit);
+    ppSubmit.replaceContent(_CFT_WORKSHOP_TEAM_EDITOR.SEC_SUBMIT);
   }
 
   #setOptions(): void {

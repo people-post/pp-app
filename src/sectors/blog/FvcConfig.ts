@@ -16,7 +16,7 @@ import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import type { Panel as PanelType } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ID, MAX } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
@@ -173,7 +173,7 @@ export class FvcConfig extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: PanelType): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -202,9 +202,9 @@ export class FvcConfig extends FScrollViewContent {
     this._fRoles.attachRender(pp.getContentPanel());
     this._fRoles.render();
     if (Blog.getRoleIds().length < MAX.N_ROLES) {
-      pp = new Panel();
-      p.pushPanel(pp);
-      pp.replaceContent(_CFT_BLOG_CONFIG_CONTENT.BTN_NEW_ROLE);
+      let ppBtn = new Panel();
+      p.pushPanel(ppBtn);
+      ppBtn.replaceContent(_CFT_BLOG_CONFIG_CONTENT.BTN_NEW_ROLE);
     }
   }
 

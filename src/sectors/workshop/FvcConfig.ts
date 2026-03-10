@@ -142,15 +142,15 @@ export class FvcConfig extends FScrollViewContent {
 
     p.pushSpace(1);
     if (Workshop.getTeamIds().length < MAX.N_TEAMS) {
-      pp = new PanelWrapper();
-      p.pushPanel(pp);
-      this._fBtnAddTeam.attachRender(pp);
+      let ppAddTeam = new PanelWrapper();
+      p.pushPanel(ppAddTeam);
+      this._fBtnAddTeam.attachRender(ppAddTeam);
       this._fBtnAddTeam.render();
       p.pushSpace(1);
     }
-    pp = new Panel();
-    p.pushPanel(pp);
-    this._fBtnClose.attachRender(pp);
+    let ppClose = new Panel();
+    p.pushPanel(ppClose);
+    this._fBtnClose.attachRender(ppClose);
     this._fBtnClose.render();
   }
 

@@ -74,9 +74,9 @@ export class FvcProjectStageEditor extends FScrollViewContent {
 
     p.pushSpace(3);
 
-    pp = new Panel();
-    p.pushPanel(pp);
-    pp.replaceContent(_CFT_STAGE_EDITOR.BTN_SUBMIT);
+    let ppSubmit = new Panel();
+    p.pushPanel(ppSubmit);
+    ppSubmit.replaceContent(_CFT_STAGE_EDITOR.BTN_SUBMIT);
 
     p.pushSpace(2);
   }

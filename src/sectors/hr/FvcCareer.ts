@@ -105,9 +105,9 @@ export class FvcCareer extends FScrollViewContent {
     this._fMembers.attachRender(pp.getContentPanel());
     this._fMembers.render();
 
-    pp = new PanelWrapper();
-    p.pushPanel(pp);
-    this.#renderActions(role, pp);
+    let ppActions = new PanelWrapper();
+    p.pushPanel(ppActions);
+    this.#renderActions(role, ppActions);
     Users.loadMissing(role.getMemberIds());
   }
 

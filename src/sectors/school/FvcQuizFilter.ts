@@ -80,16 +80,16 @@ export class FvcQuizFilter extends FScrollViewContent {
 
     pList.pushSpace(1);
 
-    p = new PanelWrapper();
-    pList.pushPanel(p);
-    this._fMethod.attachRender(p);
+    let pMethod = new PanelWrapper();
+    pList.pushPanel(pMethod);
+    this._fMethod.attachRender(pMethod);
     this._fMethod.render();
 
     pList.pushSpace(1);
 
-    p = new PanelWrapper();
-    pList.pushPanel(p);
-    this._fBtnApply.attachRender(p);
+    let pApply = new PanelWrapper();
+    pList.pushPanel(pApply);
+    this._fBtnApply.attachRender(pApply);
     this._fBtnApply.render();
   }
 

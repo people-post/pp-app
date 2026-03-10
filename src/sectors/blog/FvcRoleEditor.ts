@@ -16,7 +16,7 @@ import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import type { Panel as PanelType } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { BlogRole } from '../../common/datatypes/BlogRole.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
 import { ICON } from '../../common/constants/Icons.js';
@@ -94,7 +94,7 @@ export class FvcRoleEditor extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: PanelType): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new SectionPanel("Name");
@@ -114,12 +114,12 @@ export class FvcRoleEditor extends FScrollViewContent {
     pp = new SectionPanel("Options");
     p.pushPanel(pp);
     this.#renderOptions(pp.getContentPanel());
-    pp = new Panel();
-    p.pushPanel(pp);
-    pp.replaceContent(_CFT_BLOG_ROLE_EDITOR.SEC_SUBMIT);
+    let ppSubmit = new Panel();
+    p.pushPanel(ppSubmit);
+    ppSubmit.replaceContent(_CFT_BLOG_ROLE_EDITOR.SEC_SUBMIT);
   }
 
-  #renderOptions(panel: PanelType): void {
+  #renderOptions(panel: PanelWrapper): void {
     let role = this.#getRole();
     if (role) {
       this._fOptions.setOption("ACTIVE", role.isActive());
