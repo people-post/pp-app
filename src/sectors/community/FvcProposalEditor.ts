@@ -54,9 +54,9 @@ export class FvcProposalEditor extends FScrollViewContent {
 
     p.pushSpace(1);
 
-    pp = new PanelWrapper();
-    p.pushPanel(pp);
-    this._fActions.attachRender(pp);
+    let ppActions = new PanelWrapper();
+    p.pushPanel(ppActions);
+    this._fActions.attachRender(ppActions);
     this._fActions.render();
   }
 

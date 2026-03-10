@@ -3,7 +3,6 @@ import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FQuoteElement } from './FQuoteElement.js';
 import { Api } from '../../common/plt/Api.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
@@ -59,7 +58,7 @@ export class FvcQuoteEditor extends FScrollViewContent {
 
     p.pushSpace(1);
 
-    pp = new Panel();
+    pp = new PanelWrapper();
     p.pushPanel(pp);
     this._fBtnSubmit.attachRender(pp);
     this._fBtnSubmit.render();

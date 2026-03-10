@@ -84,19 +84,19 @@ export class FTagEditor extends Fragment {
       p.replaceContent(tag.getName());
     }
 
-    p = panel.getThemePanel();
-    if (p) {
+    let pTheme = panel.getThemePanel();
+    if (pTheme) {
       let owner = WebConfig.getOwner();
       let iconUrl = owner ? owner.getIconUrl() : "";
       this._fTheme.setIconUrl(iconUrl);
       this._fTheme.setTheme(tag.getTheme() || WebConfig.getDefaultTheme());
-      this._fTheme.attachRender(p);
+      this._fTheme.attachRender(pTheme);
       this._fTheme.render();
     }
 
-    p = panel.getQuickButtonPanel();
-    if (p) {
-      this._fBtnQuick.attachRender(p);
+    let pBtn = panel.getQuickButtonPanel();
+    if (pBtn) {
+      this._fBtnQuick.attachRender(pBtn);
       this._fBtnQuick.render();
     }
   }

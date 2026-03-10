@@ -109,7 +109,6 @@ import { FSearchMenu } from '../../common/search/FSearchMenu.js';
 import { FSearchResultInfo } from '../../common/search/FSearchResultInfo.js';
 import type { ActionButton as ActionButtonType } from '../../common/gui/ActionButton.js';
 import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 export class PBriefBase extends Panel {
   getBannerPanel(): Panel | null { return null; }
@@ -422,7 +421,7 @@ export class FvcBrief extends FViewContentBase {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = this.#createPanel();
     panel.setClassName("tw:h-full");
     render.wrapPanel(panel);
@@ -451,17 +450,17 @@ export class FvcBrief extends FViewContentBase {
     }
 
     this.#fPinnedPosts.clear();
-    p = panel.getPinnedHPanel();
-    if (p) {
+    let pH = panel.getPinnedHPanel();
+    if (pH) {
       if (ids.length) {
         this.#renderPinnedTitle(panel.getPinnedTitlePanel());
       }
-      this.#fPinnedPosts.attachRender(p);
+      this.#fPinnedPosts.attachRender(pH);
       for (let id of ids) {
         let pp = new PanelWrapper();
         pp.setClassName(
             "tw:w-[90%] s-csecondarydecorbg tw:flex-shrink-0 tw:snap-start tw:h-[200px] tw:overflow-y-auto tw:scroll-none");
-        p.pushPanel(pp);
+        pH.pushPanel(pp);
         let f = new FPostInfo();
         f.setPostId(id);
         f.setSizeType(SocialItem.T_LAYOUT.EXT_CARD);
@@ -471,13 +470,13 @@ export class FvcBrief extends FViewContentBase {
       }
     }
 
-    p = panel.getPinnedVPanel();
-    if (p) {
+    let pV = panel.getPinnedVPanel();
+    if (pV) {
       this.#renderPinnedTitle(panel.getPinnedTitlePanel());
-      this.#fPinnedPosts.attachRender(p);
+      this.#fPinnedPosts.attachRender(pV);
       for (let id of ids) {
         let pp = new PanelWrapper();
-        p.pushPanel(pp);
+        pV.pushPanel(pp);
         let f = new FPostInfo();
         f.setPostId(id);
         f.setSizeType(SocialItem.T_LAYOUT.EXT_BRIEF);

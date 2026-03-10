@@ -5,7 +5,6 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { FvcSimpleFragmentList } from '../../lib/ui/controllers/fragments/FvcSimpleFragmentList.js';
 import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
@@ -301,7 +300,7 @@ export class FvcProject extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Panel): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let project = this.#getProject();
@@ -316,9 +315,9 @@ export class FvcProject extends FScrollViewContent {
     this._fComments.setIsAdmin(
         this.#isUserProjectAdmin(Account.getId(), project));
 
-    pp = new PanelWrapper();
-    p.pushPanel(pp);
-    this._fTabs.attachRender(pp);
+    let ppTabs = new PanelWrapper();
+    p.pushPanel(ppTabs);
+    this._fTabs.attachRender(ppTabs);
     this._fTabs.render();
   }
 
@@ -377,11 +376,11 @@ export class FvcProject extends FScrollViewContent {
     p = panel.getDescriptionPanel();
     p.replaceContent(Utilities.renderContent(project.getDescription()));
 
-    p = panel.getImagePanel();
+    let pImage = panel.getImagePanel();
     if (project.getFiles().length) {
       let pp = new ThumbnailPanelWrapper();
       pp.setClassName("tw:aspect-[21/9] tw:relative");
-      p.wrapPanel(pp);
+      pImage.wrapPanel(pp);
       this._fThumbnail.attachRender(pp);
       this._fThumbnail.render();
     }

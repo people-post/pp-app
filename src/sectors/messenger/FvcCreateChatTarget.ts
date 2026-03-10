@@ -93,9 +93,9 @@ export class FvcCreateChatTarget extends FScrollViewContent {
     this._fMembers.attachRender(pp.getContentPanel());
     this._fMembers.render();
 
-    pp = new PanelWrapper();
-    p.pushPanel(pp);
-    this._fInput.attachRender(pp);
+    let ppInput = new PanelWrapper();
+    p.pushPanel(ppInput);
+    this._fInput.attachRender(ppInput);
     this._fInput.render();
 
     pp = new SectionPanel("Browse");
@@ -103,9 +103,9 @@ export class FvcCreateChatTarget extends FScrollViewContent {
     this._fContacts.attachRender(pp.getContentPanel());
     this._fContacts.render();
 
-    pp = new PanelWrapper();
-    p.pushPanel(pp);
-    this._fActions.attachRender(pp);
+    let ppActions = new PanelWrapper();
+    p.pushPanel(ppActions);
+    this._fActions.attachRender(ppActions);
     this._fActions.render();
   }
 
