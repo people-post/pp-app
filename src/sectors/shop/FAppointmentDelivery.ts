@@ -19,7 +19,7 @@ export class FAppointmentDelivery extends FServiceDelivery {
 
   onSimpleButtonClicked(_fBtn: Button): void { this.#onBook(); }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     switch (this._tLayout) {
     case this.constructor.T_LAYOUT.COMPACT:
       this.#renderCompact(render);
@@ -30,7 +30,7 @@ export class FAppointmentDelivery extends FServiceDelivery {
     }
   }
 
-  #renderCompact(panel: Render): void {
+  #renderCompact(panel: PanelWrapper): void {
     let p = new PanelWrapper();
     p.setClassName("tw:text-center");
     panel.wrapPanel(p);

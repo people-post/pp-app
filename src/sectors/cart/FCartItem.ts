@@ -168,12 +168,12 @@ export class FCartItem extends Fragment {
     let panel = this.#createPanel();
     render.wrapPanel(panel);
 
-    let p: Panel | PanelWrapper | null = panel.getThumbnailPanel();
-    if (p) {
-      this.#renderThumbnail(p);
+    let pThumbnail = panel.getThumbnailPanel();
+    if (pThumbnail) {
+      this.#renderThumbnail(pThumbnail);
     }
 
-    p = panel.getTitlePanel();
+    let p: Panel | PanelWrapper | null = panel.getTitlePanel();
     if (p) {
       this.#renderTitle(item, p);
     }
@@ -222,7 +222,7 @@ export class FCartItem extends Fragment {
     return p;
   }
 
-  #renderThumbnail(panel: Panel): void {
+  #renderThumbnail(panel: PanelWrapper): void {
     let p = new PanelWrapper();
     p.setClassName("thumbnail small");
     panel.wrapPanel(p);

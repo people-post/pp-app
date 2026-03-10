@@ -29,7 +29,7 @@ export class FProductDeliveryEditor extends Fragment {
   _getType(): symbol | null { return null; }
   _collectData(): any { return null; }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = new ListPanel();
     render.wrapPanel(panel);
 
@@ -39,9 +39,9 @@ export class FProductDeliveryEditor extends Fragment {
       p.replaceContent(this._value.getDescription());
     }
 
-    p = new PanelWrapper();
-    panel.pushPanel(p);
-    this._renderSpec(p);
+    let pSpec = new PanelWrapper();
+    panel.pushPanel(pSpec);
+    this._renderSpec(pSpec);
   }
 
   _renderSpec(_panel: PanelWrapper): void {}

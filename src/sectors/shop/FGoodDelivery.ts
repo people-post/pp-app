@@ -5,6 +5,7 @@ import { PGoodDelivery } from './PGoodDelivery.js';
 import { Cart } from '../../common/dba/Cart.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface GoodDeliveryDelegate {
   onGoodDeliveryFragmentRequestAddToCart(f: FGoodDelivery): void;
@@ -26,7 +27,7 @@ export class FGoodDelivery extends FProductDelivery {
     this._delegate.onGoodDeliveryFragmentRequestAddToCart(this);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = this.#createPanel();
     render.wrapPanel(panel);
 

@@ -5,6 +5,7 @@ export const CF_TEAM = {
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { PTeamInfo } from './PTeamInfo.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface TeamDelegate {
   onClickInTeamFragment(f: FTeam): void;
@@ -36,7 +37,7 @@ export class FTeam extends Fragment {
     }
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._teamId) return;
     let team = this._dataSource.getTeamForTeamFragment(this, this._teamId);
     if (!team) {

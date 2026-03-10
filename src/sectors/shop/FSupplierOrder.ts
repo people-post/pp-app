@@ -144,12 +144,12 @@ export class FSupplierOrder extends Fragment {
 
     p = pMain.getShippingAddressPanel();
     if (p) {
-      this.#renderShippingAddress(order, p);
+      this.#renderShippingAddress(order, p as PanelWrapper);
     }
 
     p = pMain.getItemInfosPanel();
     if (p) {
-      this.#renderItemInfos(order, p);
+      this.#renderItemInfos(order, p as PanelWrapper);
     }
 
     p = pMain.getItemsPanel();
@@ -226,14 +226,14 @@ export class FSupplierOrder extends Fragment {
     }
   }
 
-  #renderShippingAddress(order: SupplierOrderPrivate, panel: Panel): void {
+  #renderShippingAddress(order: SupplierOrderPrivate, panel: PanelWrapper): void {
     let p = new SectionPanel("Shipping address");
     panel.wrapPanel(p);
     this._fAddress.attachRender(p.getContentPanel()!);
     this._fAddress.render();
   }
 
-  #renderItemInfos(order: SupplierOrderPrivate, panel: Panel): void {
+  #renderItemInfos(order: SupplierOrderPrivate, panel: PanelWrapper): void {
     let pItems = new ListPanel();
     pItems.setClassName("tw:cursor-pointer");
     pItems.setAttribute("onclick", _CFT_SUPPLIER_ORDER.ACT_ONCLICK);

@@ -14,6 +14,7 @@ import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
@@ -63,7 +64,7 @@ export class FvcTeamEditor extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new SectionPanel("Name");
@@ -82,9 +83,9 @@ export class FvcTeamEditor extends FScrollViewContent {
     this._fOptions.attachRender(pp.getContentPanel());
     this._fOptions.render();
 
-    pp = new Panel();
-    p.pushPanel(pp);
-    pp.replaceContent(_CFT_SHOP_TEAM_EDITOR.SEC_SUBMIT);
+    let ppSubmit = new Panel();
+    p.pushPanel(ppSubmit);
+    ppSubmit.replaceContent(_CFT_SHOP_TEAM_EDITOR.SEC_SUBMIT);
   }
 
   #setOptions(): void {
