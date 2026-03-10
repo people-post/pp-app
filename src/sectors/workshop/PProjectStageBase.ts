@@ -1,4 +1,5 @@
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class PProjectStageBase extends Panel {
   protected _pName: Panel;
