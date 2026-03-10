@@ -91,8 +91,8 @@ export class FLikedItemNotice extends Fragment {
     p.pushPanel(pp);
     pp.replaceContent(text);
 
-    pp = pMain.getTitlePanel();
-    pp.replaceContent(this.#getNoticeTitle(this._notice));
+    let pTitle = pMain.getTitlePanel();
+    pTitle.replaceContent(this.#getNoticeTitle(this._notice));
   }
 
   #getNoticeTitle(n: LikedItemNotice): string {

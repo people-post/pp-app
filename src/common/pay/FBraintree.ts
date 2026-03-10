@@ -65,21 +65,21 @@ export class FBraintree extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
     let pMain = new ListPanel();
     render.wrapPanel(pMain);
 
-    let pp = new Panel();
-    pMain.pushPanel(pp);
+    let pDropIn = new Panel();
+    pMain.pushPanel(pDropIn);
     let s = _CFT_BRAINTREE.MAIN;
     s = s.replace("__ID__", this.#getPaymentElementId());
-    pp.replaceContent(s);
+    pDropIn.replaceContent(s);
 
     pMain.pushSpace(1);
 
-    pp = new PanelWrapper();
-    pMain.pushPanel(pp);
-    this.#fBtnPay.attachRender(pp);
+    let pBtn = new PanelWrapper();
+    pMain.pushPanel(pBtn);
+    this.#fBtnPay.attachRender(pBtn);
     this.#fBtnPay.disable();
     this.#fBtnPay.render();
 

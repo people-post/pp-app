@@ -178,7 +178,7 @@ export class MainMenu extends MenuContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let items = this.#getCurrentItems();
     if (this._isQuickLinkRenderMode) {
       this.#renderAsQuickLink(render, items);
@@ -187,36 +187,36 @@ export class MainMenu extends MenuContent {
     }
   }
 
-  #renderAsDropdownList(render: Panel, items: MenuItem[]): void {
+  #renderAsDropdownList(render: PanelWrapper, items: MenuItem[]): void {
     let panel = new ListPanel();
     render.wrapPanel(panel);
 
-    let p = new PanelWrapper();
-    panel.pushPanel(p);
-    this.#fBar.attachRender(p);
+    let pSearch = new PanelWrapper();
+    panel.pushPanel(pSearch);
+    this.#fBar.attachRender(pSearch);
     this.#fBar.render();
 
-    p = new Panel();
-    panel.pushPanel(p);
-    p.setClassName("menu-hr-wrapper");
-    p.replaceContent(_CPT_MENU_ITEM.H_BAR);
+    let pSep = new Panel();
+    panel.pushPanel(pSep);
+    pSep.setClassName("menu-hr-wrapper");
+    pSep.replaceContent(_CPT_MENU_ITEM.H_BAR);
 
     if (this.#currentItem) {
-      p = new PVMenuItem();
-      panel.pushPanel(p);
-      this.#btnAll.attachRender(p.getContentPanel());
+      let pAll = new PVMenuItem();
+      panel.pushPanel(pAll);
+      this.#btnAll.attachRender(pAll.getContentPanel());
       this.#btnAll.render();
     }
 
-    p = new ListPanel();
-    panel.pushPanel(p);
+    let pChoices = new ListPanel();
+    panel.pushPanel(pChoices);
 
     this.#fChoices.clear();
-    this.#fChoices.attachRender(p); // Allow events
+    this.#fChoices.attachRender(pChoices); // Allow events
 
     for (let item of items) {
       let pp = new PVMenuItem();
-      p.pushPanel(pp);
+      pChoices.pushPanel(pp);
       this.#renderChoice(pp, item);
     }
   }
@@ -244,7 +244,7 @@ export class MainMenu extends MenuContent {
     this.#fChoices.append(f);
   }
 
-  #renderAsQuickLink(render: Panel, items: MenuItem[]): void {
+  #renderAsQuickLink(render: PanelWrapper, items: MenuItem[]): void {
     let pWrapper = new PanelWrapper();
     pWrapper.setClassName("tw:flex tw:justify-center");
     render.wrapPanel(pWrapper);
