@@ -55,7 +55,8 @@ export class LvPortal extends ViewLayer {
   _getAllChildControllers(): ViewStack[] { return [ this._vc ]; }
 
   #layout(): void {
-    let r = this.getRender();
+    let r = this.getRender() as PanelWrapper | null;
+    if (!r) return;
     let p = r.getContentPanel();
     let w = r.getWidth();
     if (w < 400) {

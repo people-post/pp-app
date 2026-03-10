@@ -150,14 +150,14 @@ export class FProjectStage extends Fragment {
     if (this._isEnabled && this._isActionsEnabled) {
       let actions = this.#getActions();
       if (actions.length) {
-        pp = p.getOptionBtnPanel();
-        if (pp) {
+        let pOption = p.getOptionBtnPanel();
+        if (pOption) {
           this._fOptions.clearOptions();
           this._fOptions.setTargetName(this._stage.getName());
           for (let a of actions) {
             this._fOptions.addOption(a.name, a.type);
           }
-          this._fOptions.attachRender(pp);
+          this._fOptions.attachRender(pOption);
           this._fOptions.render();
         }
       }

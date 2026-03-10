@@ -1,5 +1,6 @@
 import { PanelListPanel } from '../../lib/ui/renders/panels/PanelListPanel.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { TimelineVerticalNodePanel } from './TimelineVerticalNodePanel.js';
 
 export class TimelinePanel extends PanelListPanel {
   protected _isFlowRunning: boolean;
@@ -23,7 +24,7 @@ export class TimelinePanel extends PanelListPanel {
   }
 
   pushEndPanel(panel: Panel): void {
-    let p: Panel;
+    let p: TimelineVerticalNodePanel;
     if (this.size() == 0) {
       p = this.#createSingleNodePanel();
     } else {
@@ -33,9 +34,9 @@ export class TimelinePanel extends PanelListPanel {
     p.wrapPanel(panel);
   }
 
-  protected _createNodePanel(): Panel | null { return null; }
+  protected _createNodePanel(): TimelineVerticalNodePanel | null { return null; }
 
-  #createStopNodePanel(): Panel {
+  #createStopNodePanel(): TimelineVerticalNodePanel {
     if (this.size() == 0) {
       return this.#createBeginNodePanel();
     } else {
@@ -48,7 +49,7 @@ export class TimelinePanel extends PanelListPanel {
     }
   }
 
-  #createNodePanel(): Panel {
+  #createNodePanel(): TimelineVerticalNodePanel {
     if (this.size() == 0) {
       return this.#createBeginNodePanel();
     } else {
@@ -56,7 +57,7 @@ export class TimelinePanel extends PanelListPanel {
     }
   }
 
-  #createSingleNodePanel(): Panel {
+  #createSingleNodePanel(): TimelineVerticalNodePanel {
     // No connection
     let p = this._createNodePanel();
     if (!p) {
@@ -67,7 +68,7 @@ export class TimelinePanel extends PanelListPanel {
     return p;
   }
 
-  #createBeginNodePanel(): Panel {
+  #createBeginNodePanel(): TimelineVerticalNodePanel {
     // With connection below
     let p = this._createNodePanel();
     if (!p) {
@@ -80,7 +81,7 @@ export class TimelinePanel extends PanelListPanel {
     return p;
   }
 
-  #createConnectionNodePanel(): Panel {
+  #createConnectionNodePanel(): TimelineVerticalNodePanel {
     // With both connections
     let p = this._createNodePanel();
     if (!p) {
@@ -94,7 +95,7 @@ export class TimelinePanel extends PanelListPanel {
     return p;
   }
 
-  #createEndNodePanel(): Panel {
+  #createEndNodePanel(): TimelineVerticalNodePanel {
     // With connection above
     let p = this._createNodePanel();
     if (!p) {
