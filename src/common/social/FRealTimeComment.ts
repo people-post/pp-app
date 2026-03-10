@@ -4,6 +4,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { FUserIcon } from '../hr/FUserIcon.js';
 import { FUserInfo } from '../hr/FUserInfo.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { PComment } from './PComment.js';
 import { Utilities } from '../Utilities.js';
 import { RealTimeComment } from '../datatypes/RealTimeComment.js';
@@ -101,7 +102,7 @@ export class FRealTimeComment extends Fragment {
     this.#fUserIcon.render();
   }
 
-  #renderAuthorName(panel: Panel, comment: RealTimeComment): void {
+  #renderAuthorName(panel: PanelWrapper, comment: RealTimeComment): void {
     if (comment.isFromGuest()) {
       let p = new Panel();
       if (comment.isPending()) {
@@ -120,7 +121,7 @@ export class FRealTimeComment extends Fragment {
     }
   }
 
-  #renderCommentText(panel: Panel, comment: RealTimeComment): void {
+  #renderCommentText(panel: PanelWrapper, comment: RealTimeComment): void {
     let p = new Panel();
     if (comment.isPending()) {
       p.setClassName("tw:font-italic");

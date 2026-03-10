@@ -110,7 +110,7 @@ export class MCDateFilter extends MenuContent {
     this._owner?.onFragmentRequestShowView?.(this, v, "Search result");
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (this._isQuickLinkRenderMode) {
       this.#renderQuickLink(render);
     } else {
@@ -118,12 +118,12 @@ export class MCDateFilter extends MenuContent {
     }
   }
 
-  #renderQuickLink(render: Panel): void {
+  #renderQuickLink(render: PanelWrapper): void {
     this.#fBar.attachRender(render);
     this.#fBar.render();
   }
 
-  #renderDropDown(render: Panel): void {
+  #renderDropDown(render: PanelWrapper): void {
     let panel = new PDateFilter();
     render.wrapPanel(panel);
 
