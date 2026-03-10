@@ -1,6 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { PSquareTerminal } from './PSquareTerminal.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SquareTerminal } from '../datatypes/SquareTerminal.js';
 
 export class FSquareTerminal extends Fragment {
@@ -13,7 +14,7 @@ export class FSquareTerminal extends Fragment {
 
   setData(obj: SquareTerminal): void { this._obj = obj; }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._obj) return;
     let panel = new PSquareTerminal();
     render.wrapPanel(panel);

@@ -53,7 +53,7 @@ export class FPaymentTerminalList extends Fragment {
     this._delegate?.onPaymentTerminalSelectedInPaymentTerminalListFragment?.(this, terminalId);
   }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._ids) {
       this.#asyncGetTerminalIds();
       return;
