@@ -3,7 +3,7 @@ import { AddressEditor } from '../../common/gui/AddressEditor.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
 import { Address as AddressDBA } from '../../common/dba/Address.js';
 import { Address as AddressDataType } from '../../common/datatypes/Address.js';
 import { Api } from '../../common/plt/Api.js';
@@ -30,7 +30,7 @@ export class FvcAddressEditor extends FScrollViewContent {
 
   onSimpleButtonClicked(_fBtn: Button): void { this.#onSubmit(); }
 
-  _renderContentOnRender(render: Panel): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let addr: Address | null = null;
     if (this.#addressId) {
       addr = AddressDBA.get(this.#addressId);

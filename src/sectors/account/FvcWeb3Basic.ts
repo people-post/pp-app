@@ -6,7 +6,6 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FIconUploader } from '../../common/gui/FIconUploader.js';
 import { Env } from '../../common/plt/Env.js';
-import type { Panel as PanelType } from '../../lib/ui/renders/panels/Panel.js';
 import { Account } from '../../common/dba/Account.js';
 
 export class FvcWeb3Basic extends FScrollViewContent {
@@ -38,50 +37,50 @@ export class FvcWeb3Basic extends FScrollViewContent {
     this.#asyncUpdateIconFile(file).then(() => this.render());
   }
 
-  _renderOnRender(render: PanelType): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!Account) {
       return;
     }
 
     let pList = new ListPanel();
     render.wrapPanel(pList);
-    let p = new PanelWrapper();
-    pList.pushPanel(p);
+    let pName = new PanelWrapper();
+    pList.pushPanel(pName);
 
     this.#fName.setUserId(Account.getId());
-    this.#fName.attachRender(p);
+    this.#fName.attachRender(pName);
     this.#fName.render();
 
     if (Env.isWeb3()) {
-      p = new Panel();
-      pList.pushPanel(p);
-      p.setClassName("tw:truncate");
-      p.replaceContent("Public key:" + Account.getPublicKey());
+      let pKey = new Panel();
+      pList.pushPanel(pKey);
+      pKey.setClassName("tw:truncate");
+      pKey.replaceContent("Public key:" + Account.getPublicKey());
 
       pList.pushSpace(1);
 
-      p = new Panel();
-      pList.pushPanel(p);
-      p.setClassName("tw:truncate");
+      let pPeer = new Panel();
+      pList.pushPanel(pPeer);
+      pPeer.setClassName("tw:truncate");
       const web3Publisher = (typeof window !== 'undefined' && window.glb && (window.glb as { web3Publisher?: { getInitUserPeerId: () => string | null } }).web3Publisher);
       let peerId = web3Publisher ? web3Publisher.getInitUserPeerId() : null;
       if (peerId) {
-        p.replaceContent("Peer id:" + peerId);
+        pPeer.replaceContent("Peer id:" + peerId);
       } else {
-        p.replaceContent("Peer id: N/A");
+        pPeer.replaceContent("Peer id: N/A");
       }
     }
 
-    p = new PanelWrapper();
-    pList.pushPanel(p);
+    let pNickname = new PanelWrapper();
+    pList.pushPanel(pNickname);
     this.#fNickname.setValue(Account.getNickname());
-    this.#fNickname.attachRender(p);
+    this.#fNickname.attachRender(pNickname);
     this.#fNickname.render();
 
-    p = new PanelWrapper();
-    pList.pushPanel(p);
+    let pIcon = new PanelWrapper();
+    pList.pushPanel(pIcon);
     this.#fIcon.setIconUrl(Account.getIconUrl());
-    this.#fIcon.attachRender(p);
+    this.#fIcon.attachRender(pIcon);
     this.#fIcon.render();
   }
 

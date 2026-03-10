@@ -1,4 +1,5 @@
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { Blog } from '../../common/dba/Blog.js';
@@ -67,7 +68,7 @@ export class FJournal extends Fragment {
     }
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let j = Blog.getJournal(this.#journalId);
     if (!j) {
       return;

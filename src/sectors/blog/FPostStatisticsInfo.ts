@@ -21,6 +21,7 @@ const _CFT_POST_STATISTICS_INFO = {
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Utilities as blogUtilities } from './Utilities.js';
 
 interface PostStatisticsData {
@@ -54,7 +55,7 @@ export class FPostStatisticsInfo extends Fragment {
     }
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new Panel();
     p.setClassName("tw:p-[5px] tw:flex tw:justify-between tw:items-baseline tw:cursor-pointer");
     p.setAttribute("onclick",

@@ -1,7 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SectorNoticeInfoFragment } from '../../common/gui/SectorNoticeInfoFragment.js';
@@ -24,7 +24,7 @@ export class FWeb3NoticeList extends Fragment {
     this.#onViewPost(id, idType);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let notices = Notifications.getBlogNotices();
     if (notices.length == 0) {
       render.replaceContent("");

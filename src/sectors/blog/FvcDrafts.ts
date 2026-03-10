@@ -1,5 +1,4 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
@@ -25,7 +24,7 @@ export class FvcDrafts extends FScrollViewContent {
     this.setChild("tasks", this.#fTasks);
   }
 
-  _renderContentOnRender(render: Panel): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let pList = new ListPanel();
     render.wrapPanel(pList);
 

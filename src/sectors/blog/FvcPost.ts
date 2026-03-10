@@ -196,7 +196,7 @@ export class FvcPost extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = new PPost();
     render.wrapPanel(panel);
 

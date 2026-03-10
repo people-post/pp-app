@@ -4,6 +4,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { PBasic } from './PBasic.js';
 import { FvcChangePassword } from '../auth/FvcChangePassword.js';
 import { T_DATA } from '../../common/plt/Events.js';
@@ -53,7 +54,7 @@ export class FvcBasic extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: Panel): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let panel = new PBasic();
     render.wrapPanel(panel);
     let p = panel.getNicknamePanel();

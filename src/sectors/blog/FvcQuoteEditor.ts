@@ -7,7 +7,6 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FQuoteElement } from './FQuoteElement.js';
 import { Api } from '../../common/plt/Api.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 interface QuoteEditorDelegate {
   onQuotePostedInQuoteEditorContentFragment(f: FvcQuoteEditor): void;
@@ -43,7 +42,7 @@ export class FvcQuoteEditor extends FScrollViewContent {
   onInputChangeInTextArea(_fTextArea: TextArea): void {};
   onQuotedElementRequestShowView(_fQuote: FQuoteElement, _view: View): void {}
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new PanelWrapper();
