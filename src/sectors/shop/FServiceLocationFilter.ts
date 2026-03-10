@@ -50,7 +50,7 @@ export class FServiceLocationFilter extends Fragment {
         this, this._fSelected.getData()!);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = new PanelWrapper();
     render.wrapPanel(panel);
 

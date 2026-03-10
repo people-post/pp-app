@@ -39,7 +39,7 @@ export class LvPortal extends ViewLayer {
   popState(state: unknown): void { this._vc.popState(state); }
   pushView(view: View, title: string): void { this._vc.pushView(view, title); }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new PanelWrapper();
     p.setClassName("f-main");
     render.wrapPanel(p);
@@ -55,7 +55,8 @@ export class LvPortal extends ViewLayer {
   _getAllChildControllers(): ViewStack[] { return [ this._vc ]; }
 
   #layout(): void {
-    let r = this.getRender();
+    let r = this.getRender() as PanelWrapper | null;
+    if (!r) return;
     let p = r.getContentPanel();
     let w = r.getWidth();
     if (w < 400) {

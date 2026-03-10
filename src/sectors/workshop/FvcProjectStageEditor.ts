@@ -29,7 +29,7 @@ import { Workshop } from '../../common/dba/Workshop.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { Api } from '../../common/plt/Api.js';
 import type { ProjectStage } from '../../common/datatypes/ProjectStage.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcProjectStageEditor extends FScrollViewContent {
   protected _fTitle: TextInput;
@@ -50,7 +50,7 @@ export class FvcProjectStageEditor extends FScrollViewContent {
 
   onInputChangeInTextArea(_fTextArea: TextArea, _text: string): void {}
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -74,9 +74,9 @@ export class FvcProjectStageEditor extends FScrollViewContent {
 
     p.pushSpace(3);
 
-    pp = new Panel();
-    p.pushPanel(pp);
-    pp.replaceContent(_CFT_STAGE_EDITOR.BTN_SUBMIT);
+    let ppSubmit = new Panel();
+    p.pushPanel(ppSubmit);
+    ppSubmit.replaceContent(_CFT_STAGE_EDITOR.BTN_SUBMIT);
 
     p.pushSpace(2);
   }

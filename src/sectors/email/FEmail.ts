@@ -14,6 +14,7 @@ import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { PEmail } from './PEmail.js';
 import { PEmailInfo } from './PEmailInfo.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import type { Email } from '../../common/datatypes/Email.js';
 
 interface Recipient {
@@ -63,7 +64,7 @@ export class FEmail extends MajorSectorItem {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let email = Mail.get(this._emailId);
     if (!email) {
       return;

@@ -31,6 +31,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FileUploader } from '../../common/plt/FileUploader.js';
 import { PHeaderEditor } from './PHeaderEditor.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface HeaderEditorDelegate {
   onImageChangedInHeaderEditorFragment(f: FHeaderEditor): void;
@@ -98,7 +99,7 @@ export class FHeaderEditor extends Fragment {
     }
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new PHeaderEditor();
     render.wrapPanel(p);
 

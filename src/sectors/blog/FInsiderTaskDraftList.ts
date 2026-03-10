@@ -1,10 +1,10 @@
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { FDraftList } from './FDraftList.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Account } from '../../common/dba/Account.js';
 
 export class FInsiderTaskDraftList extends FDraftList {
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let title = "Tasks";
     if (Account.isWebOwner) {
       title = "External tasks";

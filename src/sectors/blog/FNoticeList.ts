@@ -7,7 +7,7 @@ import { SectorNoticeInfoFragment } from '../../common/gui/SectorNoticeInfoFragm
 import { FvcPost } from './FvcPost.js';
 import { Notifications } from '../../common/dba/Notifications.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface NoticeListDelegate {
   onBlogNoticeListFragmentRequestShowView(f: FNoticeList, view: View, title: string): void;
@@ -29,7 +29,7 @@ export class FNoticeList extends Fragment {
     this.#onViewPost(id, idType);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let notices = Notifications.getBlogNotices();
     if (notices.length == 0) {
       render.replaceContent("");

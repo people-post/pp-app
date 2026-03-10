@@ -6,6 +6,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ProductServiceTimeslot } from '../../common/datatypes/ProductServiceTimeslot.js';
 import { PServiceTimeslotEditor } from './PServiceTimeslotEditor.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface ServiceTimeslotEditorDelegate {
   onServiceTimeslotEditorRequestDelete(f: FServiceTimeslotEditor): void;
@@ -96,7 +97,7 @@ export class FServiceTimeslotEditor extends Fragment {
     return d;
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = new PServiceTimeslotEditor();
     render.wrapPanel(panel);
     let p = panel.getFromPanel();

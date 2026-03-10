@@ -3,7 +3,6 @@ import { FWeb3NoticeList } from './FWeb3NoticeList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcWeb3Report extends FScrollViewContent {
   #fNoticeList: FWeb3NoticeList;
@@ -19,7 +18,7 @@ export class FvcWeb3Report extends FScrollViewContent {
     this._owner.onFragmentRequestShowView(this, view, title);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new PanelWrapper();

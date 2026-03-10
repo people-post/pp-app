@@ -52,7 +52,7 @@ export class FLikedItemNotice extends Fragment {
     }
   }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._notice) return;
     let pMain = new PLikedItemNotice();
     pMain.setClassName("tw:cursor-pointer");
@@ -91,8 +91,8 @@ export class FLikedItemNotice extends Fragment {
     p.pushPanel(pp);
     pp.replaceContent(text);
 
-    pp = pMain.getTitlePanel();
-    pp.replaceContent(this.#getNoticeTitle(this._notice));
+    let pTitle = pMain.getTitlePanel();
+    pTitle.replaceContent(this.#getNoticeTitle(this._notice));
   }
 
   #getNoticeTitle(n: LikedItemNotice): string {

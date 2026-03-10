@@ -15,7 +15,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Users } from '../../common/dba/Users.js';
 import { Api } from '../../common/plt/Api.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Account } from '../../common/dba/Account.js';
 
 export class FvcCreateCommunity extends FScrollViewContent {
@@ -30,7 +30,7 @@ export class FvcCreateCommunity extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 

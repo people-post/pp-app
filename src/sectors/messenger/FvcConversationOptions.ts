@@ -5,7 +5,6 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 interface ConversationOptionsDelegate {
   onConversationDeletedInConversationOptionsContentFragment(f: FvcConversationOptions): void;
@@ -34,7 +33,7 @@ export class FvcConversationOptions extends FScrollViewContent {
                                     () => this.#asyncDeleteChat());
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new PanelWrapper();

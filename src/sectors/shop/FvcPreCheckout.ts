@@ -57,7 +57,7 @@ export class FvcPreCheckout extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let pMain = new ListPanel();
     render.wrapPanel(pMain);
     let p = new PanelWrapper();

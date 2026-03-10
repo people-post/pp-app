@@ -7,7 +7,6 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FTag } from '../../common/gui/FTag.js';
 import { FPostInfo } from './FPostInfo.js';
 import type { JournalIssueSection } from '../../common/datatypes/JournalIssueSection.js';
-import type { Panel as PanelType } from '../../lib/ui/renders/panels/Panel.js';
 
 const _CPT_JOURNAL_ISSUE_SECTION_TAGGED = {
   MAIN : `<div class="tw:flex tw:justify-start">
@@ -64,21 +63,21 @@ export class FJournalIssueSectionTagged extends Fragment {
   setPlaceholder(text: string | null): void { this.#placeholder = text; }
   setData(data: JournalIssueSection | null): void { this.#data = data; }
 
-  _renderOnRender(render: PanelType): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = new PJournalIssueSectionTagged();
     render.wrapPanel(panel);
-    let p = panel.getTagPanel();
-    this.#fTag.attachRender(p);
+    let pTag = panel.getTagPanel();
+    this.#fTag.attachRender(pTag);
     this.#fTag.render();
 
     this.#fPosts.clear();
-    p = panel.getContentPanel();
+    let pContent = panel.getContentPanel();
     let ids = this.#data ? this.#data.getPostSocialIds() : [];
     if (ids.length) {
-      this.#fPosts.attachRender(p);
+      this.#fPosts.attachRender(pContent);
       for (let id of ids) {
         let pp = new PanelWrapper();
-        p.pushPanel(pp);
+        pContent.pushPanel(pp);
 
         let f = new FPostInfo();
         f.setPostId(id);
@@ -91,7 +90,7 @@ export class FJournalIssueSectionTagged extends Fragment {
       }
     } else {
       if (this.#placeholder) {
-        p.replaceContent(this.#placeholder);
+        pContent.replaceContent(this.#placeholder);
       }
     }
   }

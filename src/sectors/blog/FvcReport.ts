@@ -20,7 +20,6 @@ import { FvcPost } from './FvcPost.js';
 import { Notifications } from '../../common/dba/Notifications.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { FRequestInfo } from '../../common/hr/FRequestInfo.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
 
 interface BlogProfile {
@@ -120,7 +119,7 @@ export class FvcReport extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new PanelWrapper();
@@ -150,19 +149,19 @@ export class FvcReport extends FScrollViewContent {
     if (profile) {
       let items = profile.most_commented_articles;
       if (items && items.length) {
-        pp = new SectionPanel("Most commented posts");
-        pp.setClassName("post-statistics");
-        p.pushPanel(pp);
-        this.#renderStatistics(pp.getContentPanel(), items);
+        let ppStats = new SectionPanel("Most commented posts");
+        ppStats.setClassName("post-statistics");
+        p.pushPanel(ppStats);
+        this.#renderStatistics(ppStats.getContentPanel(), items);
       }
 
       items = profile.count_by_tag;
       if (items && items.length) {
         items.sort((a, b) => b.count - a.count);
-        pp = new SectionPanel("Posts by category");
-        pp.setClassName("post-statistics");
-        p.pushPanel(pp);
-        pp.getContentPanel().replaceContent(
+        let ppCats = new SectionPanel("Posts by category");
+        ppCats.setClassName("post-statistics");
+        p.pushPanel(ppCats);
+        ppCats.getContentPanel().replaceContent(
             this.#renderTagStatisticsBlock(items));
       }
     }

@@ -6,7 +6,6 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Api } from '../../common/plt/Api.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcProposalEditor extends FScrollViewContent {
   protected _fTitle: TextInput;
@@ -39,7 +38,7 @@ export class FvcProposalEditor extends FScrollViewContent {
 
   onInputChangeInTextArea(_fTextArea: TextArea, _text: string): void {}
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -55,9 +54,9 @@ export class FvcProposalEditor extends FScrollViewContent {
 
     p.pushSpace(1);
 
-    pp = new PanelWrapper();
-    p.pushPanel(pp);
-    this._fActions.attachRender(pp);
+    let ppActions = new PanelWrapper();
+    p.pushPanel(ppActions);
+    this._fActions.attachRender(ppActions);
     this._fActions.render();
   }
 

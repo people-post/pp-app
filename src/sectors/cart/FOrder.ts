@@ -29,6 +29,7 @@ import { FOrderItem } from './FOrderItem.js';
 import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
 import { SupplierOrderPublic } from '../../common/datatypes/SupplierOrderPublic.js';
 import { Currency } from '../../common/datatypes/Currency.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import type { Render } from '../../lib/ui/controllers/RenderController.js';
 import type { POrderBase } from './POrderBase.js';
 import { Account } from '../../common/dba/Account.js';
@@ -159,7 +160,7 @@ export class FOrder extends Fragment {
     // Shipping
     p = pMain.getShippingAddressPanel();
     if (p) {
-      this.#renderShippingAddress(order, p);
+      this.#renderShippingAddress(order, p as PanelWrapper);
     }
 
     p = pMain.getTimeInfoPanel();
@@ -179,7 +180,7 @@ export class FOrder extends Fragment {
 
     p = pMain.getItemInfosPanel();
     if (p) {
-      this.#renderItemInfos(order, p);
+      this.#renderItemInfos(order, p as PanelWrapper);
     }
   }
 
@@ -260,7 +261,7 @@ export class FOrder extends Fragment {
     panel.replaceContent(s);
   }
 
-  #renderItemInfos(order: CustomerOrder, panel: Panel): void {
+  #renderItemInfos(order: CustomerOrder, panel: PanelWrapper): void {
     let pItems = new ListPanel();
     pItems.setClassName("tw:cursor-pointer");
     pItems.setAttribute("onclick", _CFT_CUSTOMER_ORDER.ACT_ONCLICK);
@@ -316,14 +317,14 @@ export class FOrder extends Fragment {
     panel.replaceContent(s);
   }
 
-  #renderShippingAddress(order: CustomerOrder, panel: Panel): void {
+  #renderShippingAddress(order: CustomerOrder, panel: PanelWrapper): void {
     let addr = order.getShippingAddress();
     if (addr) {
       let p = new SectionPanel("Shipping address");
       panel.wrapPanel(p);
-      p = p.getContentPanel();
-      if (p) {
-        p.replaceContent((addr as { data?: string }).data || "");
+      let pContent = p.getContentPanel();
+      if (pContent) {
+        pContent.replaceContent((addr as { data?: string }).data || "");
       }
     }
   }

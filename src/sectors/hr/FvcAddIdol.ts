@@ -11,7 +11,6 @@ import { FWeb3Search } from '../../common/search/FWeb3Search.js';
 import { FGeneralSearch } from '../../common/search/FGeneralSearch.js';
 import { FSearch } from '../../common/search/FSearch.js';
 import { R } from '../../common/constants/R.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcAddIdol extends FScrollViewContent {
   #fSearch: FSearch;
@@ -43,7 +42,7 @@ export class FvcAddIdol extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new Panel();

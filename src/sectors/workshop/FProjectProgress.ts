@@ -39,7 +39,7 @@ export class FProjectProgress extends Fragment {
 
   onClickInProjectStageFragment(_fStage: FProjectStage): void {}
 
-  _renderOnRender(render: ListPanel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let pMain = new ListPanel();
     render.wrapPanel(pMain);
 

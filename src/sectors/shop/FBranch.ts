@@ -160,10 +160,10 @@ export class FBranch extends Fragment {
       this._fNameInput.render();
     }
 
-    p = panel.getRegisterListPanel();
-    if (p) {
+    let pRegisterList = panel.getRegisterListPanel() as PanelWrapper | null;
+    if (pRegisterList) {
       let pp = new SectionPanel("Registers");
-      p.wrapPanel(pp);
+      pRegisterList.wrapPanel(pp);
       this._fRegisters.setBranchId(this._branchId);
       this._fRegisters.setEnableEdit(this._isEditEnabled);
       this._fRegisters.attachRender(pp.getContentPanel()!);

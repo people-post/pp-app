@@ -219,7 +219,7 @@ class FPostSelectorHandle extends Fragment {
     }
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let sid = this.#fPost.getPostId();
     if (sid && sid.getValue()) {
       this.#fPost.attachRender(render);
@@ -281,24 +281,24 @@ class FSectionTagged extends Fragment {
     this.render();
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = new PSectionTagged();
     render.wrapPanel(panel);
 
-    let p = panel.getTagPanel();
-    this.#fTag.attachRender(p);
+    let pTag = panel.getTagPanel();
+    this.#fTag.attachRender(pTag);
     this.#fTag.render();
 
-    p = panel.getContentPanel();
+    let pContent = panel.getContentPanel();
 
     this.#fSelectors.clear();
-    this.#fSelectors.attachRender(p);
+    this.#fSelectors.attachRender(pContent);
 
     let f: FPostSelectorHandle | null = null;
     let pp: PanelWrapper;
     for (let id of this.#newIds) {
       pp = new PanelWrapper();
-      p.pushPanel(pp);
+      pContent.pushPanel(pp);
       f = new FPostSelectorHandle();
       f.setPostId(new SocialItemId(id, SocialItem.TYPE.ARTICLE));
       f.setOwnerId(this.#ownerId);
@@ -312,7 +312,7 @@ class FSectionTagged extends Fragment {
     }
 
     pp = new PanelWrapper();
-    p.pushPanel(pp);
+    pContent.pushPanel(pp);
     f = new FPostSelectorHandle();
     f.setOwnerId(this.#ownerId);
     f.setTagId(this.#fTag.getTagId()!);
@@ -409,7 +409,7 @@ export class FJournalIssueEditor extends Fragment {
     super.handleSessionDataUpdate(dataType, _data);
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this.#journalIssue) {
       return;
     }
@@ -440,9 +440,9 @@ export class FJournalIssueEditor extends Fragment {
     this.#fTags.attachRender(p.getContentPanel());
     this.#fTags.render();
 
-    p = panel.getBtnListPanel();
+    let pBtnList = panel.getBtnListPanel();
     let pp = new Panel();
-    p.pushPanel(pp);
+    pBtnList.pushPanel(pp);
     this.#btnSubmit.attachRender(pp);
     this.#btnSubmit.render();
   }

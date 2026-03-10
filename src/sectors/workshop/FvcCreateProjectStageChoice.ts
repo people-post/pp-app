@@ -8,7 +8,6 @@ import { Project } from '../../common/datatypes/Project.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { FvcProjectStageEditor } from './FvcProjectStageEditor.js';
 import { Api } from '../../common/plt/Api.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcCreateProjectStageChoice extends FScrollViewContent {
   protected _fBtnSimple: Button;
@@ -65,7 +64,7 @@ export class FvcCreateProjectStageChoice extends FScrollViewContent {
     this._position = "AFTER";
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     p.pushSpace(1);

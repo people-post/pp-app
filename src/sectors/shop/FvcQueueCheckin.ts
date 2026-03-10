@@ -66,7 +66,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let panel = new ListPanel();
     render.wrapPanel(panel);
     let p = new PanelWrapper();

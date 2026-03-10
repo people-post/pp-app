@@ -48,7 +48,6 @@ import { Workshop } from '../../common/dba/Workshop.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { VIS } from '../../common/constants/Constants.js';
 import { Api } from '../../common/plt/Api.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 interface ProjectEditorDelegate {
   onNewProjectPostedInProjectEditorContentFragment(f: FvcProjectEditor): void;
@@ -112,7 +111,7 @@ export class FvcProjectEditor extends FScrollViewContent {
 
   setProject(project: Project): void { this._project = project; }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     if (!this._project) {
       return;
     }
@@ -140,10 +139,10 @@ export class FvcProjectEditor extends FScrollViewContent {
 
     p.pushSpace(1);
 
-    pp = new SectionPanel("Menu tags");
-    p.pushPanel(pp);
+    let sp = new SectionPanel("Menu tags");
+    p.pushPanel(sp);
     this._fteOwner.setEnableNewTags(true);
-    this._fteOwner.attachRender(pp.getContentPanel());
+    this._fteOwner.attachRender(sp.getContentPanel());
     this._fteOwner.render();
 
     p.pushSpace(1);

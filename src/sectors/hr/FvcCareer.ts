@@ -17,7 +17,6 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcCareer extends FScrollViewContent {
   protected _fMembers: GridFragment;
@@ -88,7 +87,7 @@ export class FvcCareer extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let role = this.#getRole();
     if (!role) {
       return;
@@ -106,9 +105,9 @@ export class FvcCareer extends FScrollViewContent {
     this._fMembers.attachRender(pp.getContentPanel());
     this._fMembers.render();
 
-    pp = new PanelWrapper();
-    p.pushPanel(pp);
-    this.#renderActions(role, pp);
+    let ppActions = new PanelWrapper();
+    p.pushPanel(ppActions);
+    this.#renderActions(role, ppActions);
     Users.loadMissing(role.getMemberIds());
   }
 

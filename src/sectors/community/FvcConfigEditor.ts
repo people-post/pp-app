@@ -11,7 +11,7 @@ import { FUserIdInput } from '../../common/hr/FUserIdInput.js';
 import { Communities } from '../../common/dba/Communities.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Api } from '../../common/plt/Api.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface CommunityConfig {
   captain_id: string;
@@ -89,7 +89,7 @@ export class FvcConfigEditor extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let pMain = new ListPanel();
     render.wrapPanel(pMain);
 
@@ -102,9 +102,9 @@ export class FvcConfigEditor extends FScrollViewContent {
     pMain.pushPanel(p);
     let pSplit = new SplitPanel();
     p.getContentPanel().wrapPanel(pSplit);
-    p = pSplit.getLeftPanel();
-    p.setClassName("small-info-text");
-    p.replaceContent("Member approvals needed to join community");
+    let pLeft = pSplit.getLeftPanel();
+    pLeft.setClassName("small-info-text");
+    pLeft.replaceContent("Member approvals needed to join community");
     this._fNJoinApprovals.attachRender(pSplit.getRightPanel());
     this._fNJoinApprovals.render();
 
@@ -114,17 +114,17 @@ export class FvcConfigEditor extends FScrollViewContent {
     p.getContentPanel().wrapPanel(pList);
     pSplit = new SplitPanel();
     pList.pushPanel(pSplit);
-    p = pSplit.getLeftPanel();
-    p.setClassName("small-info-text");
-    p.replaceContent("Threshold to pass propossals");
+    pLeft = pSplit.getLeftPanel();
+    pLeft.setClassName("small-info-text");
+    pLeft.replaceContent("Threshold to pass propossals");
     this._fVotingThreshold.attachRender(pSplit.getRightPanel());
     this._fVotingThreshold.render();
 
     pSplit = new SplitPanel();
     pList.pushPanel(pSplit);
-    p = pSplit.getLeftPanel();
-    p.setClassName("small-info-text");
-    p.replaceContent("Number of calendar days for pospoal to accept votes");
+    pLeft = pSplit.getLeftPanel();
+    pLeft.setClassName("small-info-text");
+    pLeft.replaceContent("Number of calendar days for pospoal to accept votes");
     this._fDaysToExpire.attachRender(pSplit.getRightPanel());
     this._fDaysToExpire.render();
 
@@ -138,17 +138,17 @@ export class FvcConfigEditor extends FScrollViewContent {
       pMain.pushPanel(p);
       pSplit = new SplitPanel();
       p.getContentPanel().wrapPanel(pSplit);
-      p = pSplit.getLeftPanel();
-      p.setClassName("small-info-text");
-      p.replaceContent("Members' share");
+      pLeft = pSplit.getLeftPanel();
+      pLeft.setClassName("small-info-text");
+      pLeft.replaceContent("Members' share");
       this._fMemberProfitPercent.attachRender(pSplit.getRightPanel());
       this._fMemberProfitPercent.render();
     }
 
     pMain.pushSpace(1);
-    p = new Panel();
-    pMain.pushPanel(p);
-    this._fActions.attachRender(p);
+    let pActions = new Panel();
+    pMain.pushPanel(pActions);
+    this._fActions.attachRender(pActions);
     this._fActions.render();
   }
 

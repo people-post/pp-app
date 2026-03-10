@@ -2,6 +2,7 @@ import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionCo
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
 import { FPostBase } from './FPostBase.js';
 import { R } from '../../common/constants/R.js';
 import { FUserIcon } from '../../common/hr/FUserIcon.js';
@@ -66,14 +67,14 @@ export class FComment extends FPostBase {
     }
   }
 
-  _renderOnRender(postInfoPanel: Panel): void {
+  _renderOnRender(postInfoPanel: PPostInfoBase): void {
     let c = Blog.getComment(this.#commentId);
     if (!c) {
       return;
     }
     this.#renderOwnerIcon(postInfoPanel.getOwnerIconPanel(), c);
-    this.#renderOwnerName(postInfoPanel.getOwnerNamePanel(), c);
-    this.#renderCommentText(postInfoPanel.getContentPanel(), c);
+    this.#renderOwnerName(postInfoPanel.getOwnerNamePanel() as PanelWrapper | null, c);
+    this.#renderCommentText(postInfoPanel.getContentPanel() as PanelWrapper | null, c);
     this.#renderContext(postInfoPanel.getContextPanel(), c);
   }
 
@@ -111,7 +112,7 @@ export class FComment extends FPostBase {
     this.#fUserIcon.render();
   }
 
-  #renderOwnerName(panel: Panel | null, comment: Comment): void {
+  #renderOwnerName(panel: PanelWrapper | null, comment: Comment): void {
     if (!panel) {
       return;
     }

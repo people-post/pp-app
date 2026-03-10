@@ -54,32 +54,32 @@ export class FSearch extends Fragment {
   _doSearch(_key: string): SearchResult | null { return null; }
   _clearCache(): void { this.#cache = null; }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
-    let pp = new PanelWrapper();
-    p.pushPanel(pp);
-    this.#fBar.attachRender(pp);
+    let ppBar = new PanelWrapper();
+    p.pushPanel(ppBar);
+    this.#fBar.attachRender(ppBar);
     this.#fBar.render();
 
-    pp = new Panel();
-    pp.setClassName("tw:text-s-font5 tw:text-gray-600 search-result-brief");
-    p.pushPanel(pp);
+    let ppBrief = new Panel();
+    ppBrief.setClassName("tw:text-s-font5 tw:text-gray-600 search-result-brief");
+    p.pushPanel(ppBrief);
 
     let r = this.#getResult(this.#fBar.getKey());
     if (r) {
       if (r.size() == 0) {
-        pp.replaceContent(_CFT_SEARCH.NO_RESULT);
+        ppBrief.replaceContent(_CFT_SEARCH.NO_RESULT);
       } else {
         let s = _CFT_SEARCH.BRIEF;
         s = s.replace("__N_RESULTS__", r.size().toString());
-        pp.replaceContent(s);
+        ppBrief.replaceContent(s);
       }
     }
 
-    pp = new PanelWrapper();
-    p.pushPanel(pp);
+    let ppContent = new PanelWrapper();
+    p.pushPanel(ppContent);
     this.#fContent.clear();
     if (r) {
       for (let item of r.getItems()) {
@@ -90,7 +90,7 @@ export class FSearch extends Fragment {
         this.#fContent.append(f);
       }
     }
-    this.#fContent.attachRender(pp);
+    this.#fContent.attachRender(ppContent);
     this.#fContent.render();
 
     p.pushSpace(3);

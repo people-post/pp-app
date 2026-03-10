@@ -162,7 +162,7 @@ export class FvcChat extends FViewContentBase {
     super._onBeforeRenderDetach();
   }
 
-  _renderOnRender(render: Panel): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = new PChatContent();
     render.wrapPanel(panel);
 
@@ -219,7 +219,7 @@ export class FvcChat extends FViewContentBase {
       this.#fMessages.append(f);
     }
     this.#fMessages.render();
-    let r = this.getRender();
+    let r = this.getRender() as PChatContent | null;
     if (r) {
       r.getContentPanel().scrollToBottom();
     }
