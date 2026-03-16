@@ -11,6 +11,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Utilities } from './Utilities.js';
 import { Utilities as CommonUtilities } from '../../common/Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import { FArticleInfo } from './FArticleInfo.js';
 import { FFeedArticleInfo } from './FFeedArticleInfo.js';
 import { FJournalIssue } from './FJournalIssue.js';
@@ -316,7 +317,7 @@ export class FPostInfo extends MajorSectorItem {
     }
     // Pin at upper left corner
     let s = _CFT_POST_INFO.PIN;
-    s = s.replace("__ICON__", CommonUtilities.renderSvgIcon(ICON.PIN));
+    s = s.replace("__ICON__", UiUtilities.renderSvgIcon(ICON.PIN));
     panel.replaceContent(s);
   }
 

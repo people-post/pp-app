@@ -1,7 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ICONS } from '../../lib/ui/Icons.js';
 import { ICON } from '../constants/Icons.js';
-import { Utilities } from '../Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 
 export const CF_ACTION_BUTTON = {
   ONCLICK : "CF_GUI_ACTION_BUTTON_1",
@@ -53,7 +53,7 @@ export class ActionButton extends Fragment {
       return "";
     }
     let s = _CFT_ACTION_BUTTON.MAIN;
-    s = s.replace("__ICON__", Utilities.renderSvgMenuIcon(icon));
+    s = s.replace("__ICON__", UiUtilities.renderSvgMenuIcon(icon));
     return s;
   }
 

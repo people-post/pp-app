@@ -11,7 +11,7 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { FvcFilteredPostList } from './FvcFilteredPostList.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
-import { Utilities } from '../../common/Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Events } from '../../lib/framework/Events.js';
 import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
@@ -246,7 +246,7 @@ export class FPost extends Fragment {
   }
 
   #renderPinIcon(isSelected: boolean): string {
-    return Utilities.renderSvgFuncIcon(ICON.PIN, isSelected);
+    return UiUtilities.renderSvgFuncIcon(ICON.PIN, isSelected);
   }
 
   #renderAuthor(panel: PanelWrapper, authorId: string | null, reposterId: string | null | undefined = null): void {

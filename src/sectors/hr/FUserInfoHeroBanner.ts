@@ -16,7 +16,7 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Env } from '../../common/plt/Env.js';
 import { Api } from '../../common/plt/Api.js';
 import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
-import { Utilities } from '../../common/Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { R } from '../../common/constants/R.js';
 import { Account } from '../../common/dba/Account.js';
@@ -329,9 +329,9 @@ export class FUserInfoHeroBanner extends Fragment {
       return "";
     }
     let s = _CFT_USER_INFO_HERO_BANNER.OWNER_PRIVATE_INFO;
-    s = s.replace("__COIN_ICON__", Utilities.renderSvgFuncIcon(ICON.COIN));
+    s = s.replace("__COIN_ICON__", UiUtilities.renderSvgFuncIcon(ICON.COIN));
     s = s.replace("__CREDIT_ICON__",
-                  Utilities.renderSvgFuncIcon(ICON.CREDIT));
+            UiUtilities.renderSvgFuncIcon(ICON.CREDIT));
     s = s.replace("__N_COIN__", "0");
     s = s.replace("__N_CREDIT__", "0");
     s = s.replace("__N_CASH__", "0");
@@ -352,14 +352,14 @@ export class FUserInfoHeroBanner extends Fragment {
 
   #renderMessageBtn(userId: string): string {
     let s = _CFT_USER_INFO_HERO_BANNER.MESSAGE_BTN;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.MESSENGER));
+    s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICON.MESSENGER));
     s = s.replace("__USER_ID__", userId);
     return s;
   }
 
   #renderSendFundBtn(userId: string): string {
     let s = _CFT_USER_INFO_HERO_BANNER.SEND_FUND_BTN;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.SEND_MONEY));
+    s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICON.SEND_MONEY));
     s = s.replace("__USER_ID__", userId);
     return s;
   }

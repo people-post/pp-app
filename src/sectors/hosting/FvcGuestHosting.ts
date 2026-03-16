@@ -22,7 +22,7 @@ import { ICONS } from '../../lib/ui/Icons.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 import { R } from '../../common/constants/R.js';
-import { Utilities } from '../../common/Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import type { Render } from '../../lib/ui/controllers/RenderController.js';
 
 export class FvcGuestHosting extends FScrollViewContent {
@@ -65,7 +65,7 @@ export class FvcGuestHosting extends FScrollViewContent {
     s = s.replace("__DOMAIN__",
                   this._renderTipLink("CF_GUEST_HOSTING_CONTENT.SHOW_TIP",
                                       R.t("domain"), "TIP_DOMAIN"));
-    s = s.replace("__DOWN_ICON__", Utilities.renderSvgFuncIcon(ICONS.DOWN));
+    s = s.replace("__DOWN_ICON__", UiUtilities.renderSvgFuncIcon(ICONS.DOWN));
     return s;
   }
 

@@ -9,6 +9,7 @@ import { Social } from '../dba/Social.js';
 import { Factory, T_OBJ } from '../../lib/framework/Factory.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Utilities } from '../Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import { R } from '../constants/R.js';
@@ -262,7 +263,7 @@ export class FSocialBar extends Fragment {
         "onclick", "javascript:G.action('" + CF_SOCIAL_BAR.ON_COMMENT_CLICK + "')");
     let p = panel.getIconPanel();
     p.replaceContent(
-        Utilities.renderSvgFuncIcon(ICON.COMMENT, this.#invertColor));
+      UiUtilities.renderSvgFuncIcon(ICON.COMMENT, this.#invertColor));
 
     p = panel.getLabelPanel();
     p.replaceContent(UtilitiesExt.nToShortString(social?.getNComments() || 0));
@@ -276,13 +277,13 @@ export class FSocialBar extends Fragment {
     if (social?.isLiked()) {
       panel.setAttribute("onclick",
                          "javascript:G.action('" + CF_SOCIAL_BAR.UNLIKE + "')");
-      p.replaceContent(
-          Utilities.renderSvgFuncIcon(ICON.HEART_SOLID, this.#invertColor));
+        p.replaceContent(
+          UiUtilities.renderSvgFuncIcon(ICON.HEART_SOLID, this.#invertColor));
     } else {
       panel.setAttribute("onclick",
                          "javascript:G.action('" + CF_SOCIAL_BAR.LIKE + "')");
-      p.replaceContent(
-          Utilities.renderSvgFuncIcon(ICON.HEART_HOLLOW, this.#invertColor));
+        p.replaceContent(
+          UiUtilities.renderSvgFuncIcon(ICON.HEART_HOLLOW, this.#invertColor));
     }
 
     p = panel.getLabelPanel();
@@ -303,12 +304,12 @@ export class FSocialBar extends Fragment {
 
     let p = panel.getIconPanel();
     if (this.#invertColor) {
-      p.replaceContent(Utilities.renderSvgFuncIcon(ICON.REFRESH, true));
+      p.replaceContent(UiUtilities.renderSvgFuncIcon(ICON.REFRESH, true));
     } else {
       if (social?.isLinked()) {
-        p.replaceContent(Utilities.renderSvgFuncIcon(ICON.REFRESH));
+        p.replaceContent(UiUtilities.renderSvgFuncIcon(ICON.REFRESH));
       } else {
-        p.replaceContent(Utilities.renderSvgIcon(ICON.REFRESH, "stkdimgray"));
+        p.replaceContent(UiUtilities.renderSvgIcon(ICON.REFRESH, "stkdimgray"));
       }
     }
     p = panel.getLabelPanel();
@@ -323,7 +324,7 @@ export class FSocialBar extends Fragment {
                        "javascript:G.action('" + CF_SOCIAL_BAR.SHARE + "')");
     let p = panel.getIconPanel();
     p.replaceContent(
-        Utilities.renderSvgFuncIcon(ICON.SHARE, this.#invertColor));
+      UiUtilities.renderSvgFuncIcon(ICON.SHARE, this.#invertColor));
   }
 
   #renderContext(panel: PSocialBarItem, _social: ReturnType<typeof Social.get>): void {
@@ -334,7 +335,7 @@ export class FSocialBar extends Fragment {
                        "javascript:G.action('" + CF_SOCIAL_BAR.SHOW_CONTEXT + "')");
     let p = panel.getIconPanel();
     p.replaceContent(
-        Utilities.renderSvgFuncIcon(ICON.CIRCLED_MORE, this.#invertColor));
+      UiUtilities.renderSvgFuncIcon(ICON.CIRCLED_MORE, this.#invertColor));
   }
 
   #onLike(): void {

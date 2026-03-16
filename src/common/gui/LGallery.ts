@@ -5,7 +5,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ICONS } from '../../lib/ui/Icons.js';
 import { ICON } from '../constants/Icons.js';
-import { Utilities } from '../Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import { FRealTimeComments } from '../social/FRealTimeComments.js';
 import { RemoteFile } from '../datatypes/RemoteFile.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
@@ -124,10 +124,10 @@ export class LGallery extends Layer {
       stk = "s-cprimestk";
     }
     s = s.replace("__COMMENT_ICON__",
-                  Utilities.renderSvgIcon(ICON.COMMENT, stk, "filldimgray"));
+            UiUtilities.renderSvgIcon(ICON.COMMENT, stk, "filldimgray"));
     s = s.replace(
         "__CLOSE_ICON__",
-        Utilities.renderSvgIcon(ICONS.CLOSE, "stkdimgray", "filldimgray"));
+      UiUtilities.renderSvgIcon(ICONS.CLOSE, "stkdimgray", "filldimgray"));
     return s;
   }
 

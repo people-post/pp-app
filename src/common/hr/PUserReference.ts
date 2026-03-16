@@ -1,6 +1,6 @@
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { Utilities } from '../Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import { ICON } from '../constants/Icons.js';
 
 const _CPT_USER_REFERENCE = {
@@ -24,7 +24,7 @@ export class PUserReference extends Panel {
 
   _renderFramework(): string {
     let s = _CPT_USER_REFERENCE.MAIN;
-    s = s.replace("__REF_ICON__", Utilities.renderSvgIcon(ICON.REFRESH));
+    s = s.replace("__REF_ICON__", UiUtilities.renderSvgIcon(ICON.REFRESH));
     s = s.replace("__ID_TEXT__", this._getSubElementId("T"));
     s = s.replace("__ID_USER__", this._getSubElementId("U"));
     return s;

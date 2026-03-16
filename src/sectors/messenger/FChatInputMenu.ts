@@ -29,8 +29,8 @@ if (typeof window !== 'undefined') {
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import { ICON } from '../../common/constants/Icons.js';
-import { Utilities } from '../../common/Utilities.js';
 import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FChatInputMenu extends Fragment {
@@ -57,13 +57,13 @@ export class FChatInputMenu extends Fragment {
   #renderActionIcon(action: string, icon: string): string {
     let s = _CFT_CHAT_INPUT_MENU.ACTION_ICON;
     s = s.replace("__ACTION__", action);
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(icon));
+    s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(icon));
     return s;
   }
 
   #renderSendFileButton(): string {
     let s = _CFT_CHAT_INPUT_MENU.BTN_FILE;
-    return s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.SEND_FILE));
+    return s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICON.SEND_FILE));
   }
 
   action(type: string | symbol, ...args: unknown[]): void {

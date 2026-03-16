@@ -1,7 +1,7 @@
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
 import { T_DATA } from '../plt/Events.js';
 import { WebConfig } from '../dba/WebConfig.js';
-import { Utilities } from '../Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../dba/Account.js';
 
@@ -54,7 +54,7 @@ export class FHomeBtn extends FHeaderMenu {
   #renderIcon(panel: Render): void {
     let s = _CFT_HOME_BTN.ICON;
     s = s.replace("__URL__", this.#url || "");
-    s = s.replace("__ICON__", Utilities.renderSvgMenuIcon(this.#icon!));
+    s = s.replace("__ICON__", UiUtilities.renderSvgMenuIcon(this.#icon!));
     panel.replaceContent(s);
   }
 

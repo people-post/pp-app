@@ -10,6 +10,7 @@ import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Utilities as CommonUtilities } from '../../common/Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Comment } from '../../common/datatypes/Comment.js';
 
@@ -151,7 +152,7 @@ export class FComment extends FPostBase {
     if (comment.isPending() && this.#isCommentAdmin(comment)) {
       let s = _CFT_COMMENT.ICON;
       s = s.replace("__ICON__",
-                    CommonUtilities.renderSvgIcon(ICON.INFO, "stkred", "fillred"));
+                    UiUtilities.renderSvgIcon(ICON.INFO, "stkred", "fillred"));
       this.#fAction.setIcon(s);
       this.#fAction.attachRender(panel);
       this.#fAction.render();

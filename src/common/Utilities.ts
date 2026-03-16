@@ -43,20 +43,6 @@ class UtilitiesClass {
     return s;
   }
 
-  // Unused function - kept for potential future use
-  // @ts-expect-error - unused function
-  private forceRedraw(): void {
-    let e: Event;
-    if (typeof (Event) === "function") {
-      e = new Event("resize");
-    } else {
-      // For IE
-      e = document.createEvent("Event");
-      e.initEvent("resize", true, true);
-    }
-    window.dispatchEvent(e);
-  }
-
   renderSmartTime(t: Date): string {
     let dt = Math.abs(t.getTime() - Date.now()) / 1000;
     // Unit is seconds
@@ -83,24 +69,6 @@ class UtilitiesClass {
       name = name.replace("www.", "");
     }
     return name;
-  }
-
-  renderSvgIcon(tIcon: string, stroke: string | null = null, fill: string | null = null): string {
-    let s = tIcon;
-    s = s.replace(/__C_STROKE__/g, stroke ? stroke : "");
-    s = s.replace(/__C_FILL__/g, fill ? fill : "");
-    return s;
-  }
-
-  renderSvgFuncIcon(tIcon: string, isInverse: boolean = false): string {
-    if (isInverse) {
-      return this.renderSvgIcon(tIcon, "s-csecondarystk", "s-csecondaryfill");
-    }
-    return this.renderSvgIcon(tIcon, "s-cfuncstk", "s-cfuncfill");
-  }
-
-  renderSvgMenuIcon(tIcon: string): string {
-    return this.renderSvgIcon(tIcon, "s-cmenustk", "s-cmenufill");
   }
 
   renderSmallButton(actionId: string, id: string, name: string, className: string = "s-primary"): string {

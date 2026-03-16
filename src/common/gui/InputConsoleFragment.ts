@@ -4,6 +4,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ICON } from '../constants/Icons.js';
 import { Utilities } from '../Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 
 export const CF_INPUT_CONSOLE = {
   ON_KEY_DOWN : "CF_GUI_INPUT_CONSOLE_1",
@@ -172,14 +173,14 @@ export class InputConsoleFragment extends Fragment {
 
   #renderSendButton(): string {
     let s = _CFT_INPUT_CONSOLE.ICON;
-    s = s.replace("__ICON__", Utilities.renderSvgIcon(
+    s = s.replace("__ICON__", UiUtilities.renderSvgIcon(
                                   ICON.ENTER, "stkdimgray", "filldimgray"));
     return s;
   }
 
   #renderMoreButton(): string {
     let s = _CFT_INPUT_CONSOLE.ICON;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.CIRCLED_MORE,
+    s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICON.CIRCLED_MORE,
                                                           this.#isMenuOpen));
     return s;
   }

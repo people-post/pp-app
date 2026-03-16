@@ -31,6 +31,7 @@ import { Env } from '../common/plt/Env.js';
 import { Api } from '../common/plt/Api.js';
 import { Account } from '../common/dba/Account.js';
 import { User } from '../common/datatypes/User.js';
+import { UiUtilities } from '../lib/ui/Utilities.js';
 
 const _CRCT_SESSION = {
   // Prime, secondary: User defined
@@ -97,6 +98,15 @@ export class WcSession extends WindowController {
 
   init(userId: string | null, primaryColor: string, secondaryColor: string): void {
     // Grand entry for the whole program
+    UiUtilities.setSvgStyleConfig({
+      secondaryStrokeClassName: 's-csecondarystk',
+      secondaryFillClassName: 's-csecondaryfill',
+      functionStrokeClassName: 's-cfuncstk',
+      functionFillClassName: 's-cfuncfill',
+      menuStrokeClassName: 's-cmenustk',
+      menuFillClassName: 's-cmenufill',
+    });
+
     Factory.registerCtor(T_OBJ.BANNER_FRAGMENT,
                               FBanner);
     Factory.registerCtor(

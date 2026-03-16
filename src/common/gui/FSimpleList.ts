@@ -1,7 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { Utilities } from '../Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export const CF_SIMPLE_LIST = {
@@ -103,7 +103,7 @@ export class FSimpleList extends Fragment {
 
   #renderIcon(icon: string, inverse: boolean): string {
     let s = _CFT_SIMPLE_LIST.ICON;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(icon, inverse));
+    s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(icon, inverse));
     return s;
   }
 }

@@ -27,6 +27,7 @@ const _CPT_SEARCH_RESULT_INFO = {
 
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
 import { Utilities } from '../Utilities.js';
 
@@ -251,7 +252,7 @@ export class FSearchResultInfo extends Fragment {
       return;
     }
     let icon = SocialItem.getIcon(type);
-    panel.replaceContent(Utilities.renderSvgFuncIcon(icon));
+    panel.replaceContent(UiUtilities.renderSvgFuncIcon(icon));
   }
 
   #renderTime(panel: Panel | null, timestamp?: number): void {

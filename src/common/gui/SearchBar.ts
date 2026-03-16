@@ -4,7 +4,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ICONS } from '../../lib/ui/Icons.js';
 import { ICON } from '../constants/Icons.js';
-import { Utilities } from '../Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 
 export const CF_SEARCH_BAR = {
   ON_CLEAR : "CF_SEARCH_BAR_1",
@@ -68,9 +68,9 @@ export class SearchBar extends Fragment {
     pp.pushPanel(ppp);
     let s = _CFT_SEARCH_BAR.SEARCH_ICON;
     if (this.isMenuRenderMode()) {
-      s = s.replace("__ICON__", Utilities.renderSvgMenuIcon(ICON.SEARCH));
+      s = s.replace("__ICON__", UiUtilities.renderSvgMenuIcon(ICON.SEARCH));
     } else {
-      s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.SEARCH));
+      s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICON.SEARCH));
     }
     ppp.replaceContent(s);
 
@@ -92,9 +92,9 @@ export class SearchBar extends Fragment {
     pp.pushPanel(ppp);
     s = _CFT_SEARCH_BAR.CLEAR_ICON;
     if (this.isMenuRenderMode()) {
-      s = s.replace("__ICON__", Utilities.renderSvgMenuIcon(ICONS.CLOSE));
+      s = s.replace("__ICON__", UiUtilities.renderSvgMenuIcon(ICONS.CLOSE));
     } else {
-      s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICONS.CLOSE));
+      s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICONS.CLOSE));
     }
     ppp.replaceContent(s);
   }

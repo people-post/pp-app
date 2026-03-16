@@ -104,7 +104,7 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
-import { Utilities } from '../../common/Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import { FSearchMenu } from '../../common/search/FSearchMenu.js';
 import { FSearchResultInfo } from '../../common/search/FSearchResultInfo.js';
 import type { ActionButton as ActionButtonType } from '../../common/gui/ActionButton.js';
@@ -285,7 +285,7 @@ export class FvcBrief extends FViewContentBase {
     this.#fmSearch.setExpansionPriority(1);
 
     this.#fmLanguage = new FHeaderMenu();
-    this.#fmLanguage.setIcon(Utilities.renderSvgMenuIcon(ICON.LANGUAGE));
+    this.#fmLanguage.setIcon(UiUtilities.renderSvgMenuIcon(ICON.LANGUAGE));
     this.#fmLanguage.setDelegate(this);
 
     this.#lc = new LContext();
@@ -565,7 +565,7 @@ export class FvcBrief extends FViewContentBase {
     if (this.#selectedDate != "")
       title = this.#selectedDate;
     let s = _CPT_BRIEF.TITLE;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.CALENDAR));
+    s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICON.CALENDAR));
     s = s.replace("__TEXT__", title);
     panel.replaceContent(s);
   }
@@ -575,7 +575,7 @@ export class FvcBrief extends FViewContentBase {
       return;
     }
     let s = _CPT_BRIEF.TITLE;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.CALENDAR));
+    s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICON.CALENDAR));
     s = s.replace("__TEXT__", "选择日期查看简讯");
     panel.replaceContent(s);
   }
@@ -593,7 +593,7 @@ export class FvcBrief extends FViewContentBase {
       return;
     }
     let s = _CPT_BRIEF.TITLE;
-    s = s.replace("__ICON__", Utilities.renderSvgFuncIcon(ICON.FIRE));
+    s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICON.FIRE));
     s = s.replace("__TEXT__", "热门简讯");
     panel.replaceContent(s);
   }

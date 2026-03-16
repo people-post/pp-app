@@ -29,6 +29,7 @@ import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
 import { STATE } from '../../common/constants/Constants.js';
 import { Events, T_ACTION as FwkT_ACTION } from '../../lib/framework/Events.js';
 import { Utilities } from '../../common/Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import { PProposal } from './PProposal.js';
 import { PProposalInfo } from './PProposalInfo.js';
 import { R } from '../../common/constants/R.js';
@@ -192,7 +193,7 @@ export class FProposal extends Fragment {
     let icon = proposal.getIcon();
     let s: string;
     if (icon) {
-      s = Utilities.renderSvgFuncIcon(icon);
+      s = UiUtilities.renderSvgFuncIcon(icon);
     } else {
       s = "";
     }

@@ -7,6 +7,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { PComment } from './PComment.js';
 import { Utilities } from '../Utilities.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
 import { RealTimeComment } from '../datatypes/RealTimeComment.js';
 import { R } from '../constants/R.js';
 import { ICON } from '../constants/Icons.js';
@@ -135,7 +136,7 @@ export class FRealTimeComment extends Fragment {
         this._dataSource.shouldShowAdminOptionsInCommentFragment(this)) {
       let s = _CFT_REAL_TIME_COMMENT.ICON;
       s = s.replace("__ICON__",
-                    Utilities.renderSvgIcon(ICON.INFO, "stkred", "fillred"));
+                    UiUtilities.renderSvgIcon(ICON.INFO, "stkred", "fillred"));
       this.#fAction.setIcon(s);
       this.#fAction.attachRender(panel);
       this.#fAction.render();
