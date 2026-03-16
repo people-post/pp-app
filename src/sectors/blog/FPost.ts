@@ -186,11 +186,7 @@ export class FPost extends Fragment {
     case SocialItem.TYPE.ARTICLE:
       f = new FArticle();
       (f as FArticle).setArticleId(post.getId());
-      (f as FArticle).setProps({
-        callbacks: {
-          onTagClickedInArticleFragment: (article, tagId) => this.onTagClickedInArticleFragment(article, tagId),
-        },
-      });
+      f.setDelegate(this);
       break;
     case SocialItem.TYPE.FEED_ARTICLE:
       f = new FFeedArticleInfo();

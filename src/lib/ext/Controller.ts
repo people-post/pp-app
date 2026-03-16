@@ -1,5 +1,3 @@
-// See MIGRATION_PLAN.md for the full props-based refactor plan and progress tracker.
-
 export interface ControllerOwner {
   onRemoteErrorInController(c: Controller, e: unknown): void;
 }

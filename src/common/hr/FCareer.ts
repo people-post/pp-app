@@ -8,33 +8,26 @@ export const CF_CAREER = {
   ON_CLICK : "CF_CAREER_1",
 } as const;
 
-export interface FCareerProps {
-  data?: { roleId?: string | null };
-  callbacks?: {
-    onClickInCareerFragment?: (f: FCareer) => void;
-    getRoleForCareerFragment?: (f: FCareer, roleId: string) => UserRole | null;
-    shouldHighlightInCareerFragment?: (f: FCareer, roleId: string) => boolean;
-  };
-  onDataUpdate?: (data: unknown) => void;
+export interface FCareerDataSource {
+  getRoleForCareerFragment(f: FCareer, roleId: string): UserRole | null;
+  shouldHighlightInCareerFragment(f: FCareer, roleId: string): boolean;
+}
+
+export interface FCareerDelegate {
+  onClickInCareerFragment(f: FCareer): void;
 }
 
 export class FCareer extends Fragment {
-  private _props: FCareerProps | null = null;
+  private _roleId: string | null = null;
 
-  setProps(props: FCareerProps): void { this._props = props; }
-  getProps(): FCareerProps | null { return this._props; }
-
-  getRoleId(): string | null { return this._props?.data?.roleId ?? null; }
-  setRoleId(id: string | null): void {
-    if (!this._props) { this._props = {}; }
-    if (!this._props.data) { this._props.data = {}; }
-    this._props.data.roleId = id;
-  }
+  getRoleId(): string | null { return this._roleId; }
+  setRoleId(id: string | null): void { this._roleId = id; }
 
   action(type: string | symbol, data?: unknown): void {
     switch (type) {
     case CF_CAREER.ON_CLICK:
-      this._props?.callbacks?.onClickInCareerFragment?.(this);
+      // @ts-expect-error - delegate may have this method
+      this._delegate?.onClickInCareerFragment?.(this);
       break;
     default:
       super.action(type, data);
@@ -43,8 +36,7 @@ export class FCareer extends Fragment {
   }
 
   _renderOnRender(render: PanelWrapper): void {
-    const roleId = this._props?.data?.roleId ?? "";
-    let role = this._props?.callbacks?.getRoleForCareerFragment?.(this, roleId) ?? null;
+    let role = this.getDataSource<FCareerDataSource>()?.getRoleForCareerFragment(this, this._roleId as string || "") || null;
     if (!role) {
       return;
     }
@@ -54,7 +46,8 @@ export class FCareer extends Fragment {
 
     if (panel.isHighlightable()) {
       panel.setAttribute("onclick", `G.action("${CF_CAREER.ON_CLICK}")`);
-      if (this._props?.callbacks?.shouldHighlightInCareerFragment?.(this, roleId)) {
+      if (this.getDataSource<FCareerDataSource>()?.shouldHighlightInCareerFragment(this,
+                                                           this._roleId as string || "")) {
         panel.highlight();
       }
     }
@@ -63,9 +56,9 @@ export class FCareer extends Fragment {
     p.replaceContent(this.#renderName(role));
 
     p = panel.getStatusPanel();
-    if (Account.isRoleApplicationPending?.(roleId)) {
+    if (Account.isRoleApplicationPending?.(this._roleId || "")) {
       p.replaceContent("Applied");
-    } else if (Account.isInGroup?.(roleId)) {
+    } else if (Account.isInGroup?.(this._roleId || "")) {
       p.replaceContent("Joined");
     }
   }

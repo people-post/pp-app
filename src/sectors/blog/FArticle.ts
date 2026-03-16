@@ -13,19 +13,18 @@ import { T_DATA } from '../../common/plt/Events.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Utilities } from '../../common/Utilities.js';
 import { PostInfoPanel } from './PPost.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
 
-export interface FArticleProps {
-  callbacks?: {
-    onTagClickedInArticleFragment?: (f: FArticle, tagId: string) => void;
-  };
-  onDataUpdate?: (data: unknown) => void;
+export interface FArticleDelegate {
+  onQuotedElementRequestShowView(f: FArticle, view: View, title: string): void;
+  onTagClickedInArticleFragment(f: FArticle, tagId: string): void;
+}
+
+export interface FArticleDataSource {
+  isArticleSelectedInArticleFragment(f: FArticle, articleId: string): boolean;
 }
 
 export class FArticle extends Fragment {
-  private _props: FArticleProps | null = null;
-
-  setProps(props: FArticleProps): void { this._props = props; }
-  getProps(): FArticleProps | null { return this._props; }
   #fQuote: FQuoteElement;
   #fGallery: FGallery;
   #fAttachment: FAttachmentFile;
@@ -60,7 +59,10 @@ export class FArticle extends Fragment {
     let v = fBtn.getValue();
     switch (v) {
     default:
-      this._props?.callbacks?.onTagClickedInArticleFragment?.(this, v);
+      const delegate = this.getDelegate<FArticleDelegate>();
+      if (delegate) {
+        delegate.onTagClickedInArticleFragment(this, v);
+      }
       break;
     }
   }
