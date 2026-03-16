@@ -1,10 +1,11 @@
 import Utilities from '../../../ext/Utilities.js';
-import { RenderController } from '../RenderController.js';
-import { View } from '../views/View.js';
+import { RenderController } from '../RenderController';
+import { View } from '../views/View';
+import type { RemoteError } from '../../../../types/basic';
 
 export interface FragmentOwner {
   onFragmentRequestShowView(f: Fragment, view: View, title: string): void;
-  onRemoteErrorInFragment(f: Fragment, e: unknown): void;
+  onRemoteErrorInFragment(f: Fragment, e: RemoteError): void;
   onLocalErrorInFragment(f: Fragment, msg: string): void;
   onContentTopResizeBeginInFragment?(f: Fragment): void;
   onContentTopResizeEndInFragment?(f: Fragment): void;
@@ -26,36 +27,42 @@ export class Fragment extends RenderController implements FragmentOwner {
       owner.onFragmentRequestShowView(this, view, title);
     }
   }
-  onRemoteErrorInController(_c: RenderController, e: unknown): void {
+
+  override onRemoteErrorInController(_c: RenderController, e: RemoteError): void{
     const owner = this.getOwner<FragmentOwner>();
     if (owner) {
       owner.onRemoteErrorInFragment(this, e);
     }
   }
-  onLocalErrorInController(_c: RenderController, msg: string): void {
+
+  override onLocalErrorInController(_c: RenderController, msg: string): void {
     const owner = this.getOwner<FragmentOwner>();
     if (owner) {
       owner.onLocalErrorInFragment(this, msg);
     }
   }
-  onRemoteErrorInFragment(_f: Fragment, e: unknown): void {
+
+  onRemoteErrorInFragment(_f: Fragment, e: RemoteError): void {
     const owner = this.getOwner<FragmentOwner>();
     if (owner) {
       owner.onRemoteErrorInFragment(this, e);
     }
   }
+
   onLocalErrorInFragment(_f: Fragment, msg: string): void {
     const owner = this.getOwner<FragmentOwner>();
     if (owner) {
       owner.onLocalErrorInFragment(this, msg);
     }
   }
+
   onContentTopResizeBeginInFragment(_f: Fragment): void {
     const owner = this.getOwner<FragmentOwner>();
     if (owner && owner.onContentTopResizeBeginInFragment) {
       owner.onContentTopResizeBeginInFragment(this);
     }
   }
+
   onContentTopResizeEndInFragment(_f: Fragment): void {
     const owner = this.getOwner<FragmentOwner>();
     if (owner && owner.onContentTopResizeEndInFragment) {
