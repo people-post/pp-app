@@ -84,19 +84,7 @@ export class FvcLogin extends FvcWeb2LoginBase {
     }
   }
 
-  // Not sure if this function is in use
-  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
-    switch (dataType) {
-    case T_DATA.LOGIN:
-      this.#onActionFinished();
-      break;
-    default:
-      super.handleSessionDataUpdate(dataType, data);
-      break;
-    }
-  }
-
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: any): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 

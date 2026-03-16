@@ -15,7 +15,7 @@ export class FLocalUserSearch extends FSearch {
 
   setUserIds(ids: string[] | null): void { this._userIds = ids; }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
       this._clearCache();

@@ -219,7 +219,7 @@ export class WcSession extends WindowController {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.WEB_CONFIG:
       this.#applyTheme();

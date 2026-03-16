@@ -173,7 +173,7 @@ export class RenderController extends Controller {
 
   init(): void {}
   action(_type?: any, ..._args: any[]): void {}
-  handleSessionDataUpdate(_dataType?: any, _data?: any): void {}
+  handleSessionDataUpdate(_dataType: symbol | string, _data: unknown): void {}
 
   render(): void {
     let r = this.getRender();

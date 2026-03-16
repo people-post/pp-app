@@ -9,7 +9,7 @@ interface GlobalCommunityStatistics {
 }
 
 export class FGlobalCommunityInfo extends Fragment {
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.GLOBAL_COMMUNITY_PROFILE:
       this.render();

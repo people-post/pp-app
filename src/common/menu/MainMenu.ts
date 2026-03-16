@@ -163,7 +163,7 @@ export class MainMenu extends MenuContent {
 
   onSimpleButtonClicked(fBtn: Button): void { this.#onItemSelected(fBtn.getValue() as string); }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case PltT_DATA.GROUPS:
       this.render();

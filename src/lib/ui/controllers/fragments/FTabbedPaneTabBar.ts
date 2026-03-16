@@ -93,7 +93,7 @@ export class FTabbedPaneTabBar extends Fragment {
     this.#currentIdx = null;
   }
 
-  handleSessionDataUpdate(dataType: symbol | string, data?: any): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.NOTIFICATIONS:
       this.render();
