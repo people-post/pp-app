@@ -4,26 +4,24 @@ import { URL_PARAM, ID } from '../constants/Constants.js';
 import type { UserPublicProfile as Web2UserPublicProfile } from '../../types/backend2.js';
 import type { User as UserType } from '../../types/user.js';
 
-// Lazy import to avoid circular dependency
-// Use dynamic import with caching for synchronous access pattern
-let _WebConfigCache: typeof import('../dba/WebConfig.js').WebConfig | null = null;
-// Promise is kept for potential future use but not currently referenced
-void import('../dba/WebConfig.js').then((module) => {
-  _WebConfigCache = module.WebConfig;
-  return module.WebConfig;
-});
-
-function getWebConfig(): typeof _WebConfigCache {
-  // Return cached value if available, otherwise return null
-  // In practice, WebConfig should be loaded before User methods are called
-  return _WebConfigCache;
-}
-
 export class User implements UserType {
   static readonly C_ID = {
     SYSTEM: 'SYSTEM', // Synced with backend
     L_ADD_USER: 'L_ADD_USER', // Local
   } as const;
+  static #isDevSiteResolver: (() => boolean) | null = null;
+
+  static setIsDevSiteResolver(resolver: (() => boolean) | null): void {
+    User.#isDevSiteResolver = resolver;
+  }
+
+  static isDevSite(): boolean {
+    try {
+      return User.#isDevSiteResolver ? !!User.#isDevSiteResolver() : false;
+    } catch (_e) {
+      return false;
+    }
+  }
 
   #blogConfig: BlogConfig | null = null;
   protected _data: Web2UserPublicProfile;
@@ -145,9 +143,7 @@ export class User implements UserType {
 
   #generateUrl(sub: string | null = null, paramStrs: string[] = []): string {
     const allParamStrs = paramStrs ? paramStrs : [];
-    // Lazy access to WebConfig to avoid circular dependency
-    const WebConfig = getWebConfig();
-    const isDevSite = WebConfig ? WebConfig.isDevSite() : false;
+    const isDevSite = User.isDevSite();
 
     if (isDevSite || !this._data.domain) {
       allParamStrs.unshift(URL_PARAM.USER + '=' + (this._data.username || ''));

@@ -28,6 +28,7 @@ import { FvcUserGroup } from '../common/hr/FvcUserGroup.js';
 import { Env } from '../common/plt/Env.js';
 import { Api } from '../common/plt/Api.js';
 import { Account } from '../common/dba/Account.js';
+import { User } from '../common/datatypes/User.js';
 
 const _CRCT_SESSION = {
   // Prime, secondary: User defined
@@ -114,6 +115,9 @@ export class WcSession extends WindowController {
     if (userId && userId.length > 0) {
       Account.setUserId(userId);
     }
+
+    User.setIsDevSiteResolver(() => WebConfig.isDevSite());
+
     let w = new PWindow();
     // ID value is synced with backend
     w.attach("ID_R");

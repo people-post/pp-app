@@ -113,24 +113,15 @@ Preferred direction:
 - keep `lib/ui` independent from sector-specific gateway contracts
 - keep `common/plt` contracts independent from concrete UI library classes where possible
 
-### C. `common/datatypes` reaches upward into `common/dba`
+### C. `common/datatypes -> common/dba` status for `User`
 
-Concrete example:
+This specific issue has been addressed:
 
-- `src/common/datatypes/User.ts` contains an explicit lazy import of `../dba/WebConfig.js`
-- the file already documents the reason with the comment `Lazy import to avoid circular dependency`
+- `src/common/datatypes/User.ts` no longer imports `src/common/dba/WebConfig.ts`
+- the lazy dynamic import/cache pattern was removed from the datatype layer
+- environment behavior is now injected from session bootstrap via `User.setIsDevSiteResolver(...)` in `src/session/WcSession.ts`
 
-Why this is debt:
-
-- `common/datatypes` should represent stable domain objects
-- `common/dba` is a higher, stateful service layer
-- when a datatype needs a lazy import to avoid a cycle, the model boundary is already inverted
-
-Preferred direction:
-
-- remove service lookups from datatype classes
-- move `WebConfig`-dependent behavior into `common/dba`, `common/plt`, or a higher adapter/presenter layer
-- keep datatype classes as pure data and domain logic objects
+Boundary rule remains: datatypes should not directly import `common/dba/*`.
 
 ### D. `sectors -> session` status for home button
 
@@ -145,10 +136,9 @@ The boundary rule still stands for new code: sectors must not import from sessio
 
 The remaining clean-up should happen in this order:
 
-1. Remove `common/datatypes -> common/dba` imports, because datatype purity affects many higher layers.
-2. Break `lib/ui -> common/*` imports, starting with `PageViewController`, `FNavigation`, `RenderController`, and shared fragment classes.
-3. Break the `lib/ui <-> common/plt` cycle by moving shared contracts into a lower neutral package.
-4. Keep `lib/framework -> lib/ui` imports disallowed so the dependency direction stays one-way.
+1. Break `lib/ui -> common/*` imports, starting with `PageViewController`, `FNavigation`, `RenderController`, and shared fragment classes.
+2. Break the `lib/ui <-> common/plt` cycle by moving shared contracts into a lower neutral package.
+3. Keep `lib/framework -> lib/ui` imports disallowed so the dependency direction stays one-way.
 
 ## Guardrails For New Code
 
