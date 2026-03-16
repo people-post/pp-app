@@ -1,4 +1,4 @@
-import { Api as ExtApi } from '../../lib/ext/Api.js';
+import { Xhr } from '../../lib/ext/Xhr.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
 
@@ -44,7 +44,7 @@ export interface ApiConfig {
 }
 
 class ApiClass implements IApi {
-  #extApi: ExtApi;
+  #xhr: Xhr;
   #config: ApiConfig = {
     isDevSite: false,
     ownerId: null,
@@ -52,7 +52,7 @@ class ApiClass implements IApi {
   };
 
   constructor() {
-    this.#extApi = new ExtApi();
+    this.#xhr = new Xhr();
   }
 
   setConfig(config: ApiConfig): void {
@@ -61,7 +61,7 @@ class ApiClass implements IApi {
 
   asCall<T>(url: string): Promise<T> {
     return new Promise((onOk, onErr) =>
-      this.#extApi.asyncCall(
+      this.#xhr.asyncCall(
         this.#wrapUrl(url),
         (txt: string) => this.#onRRR<T>(txt, onOk, onErr),
         (_txt: string) => this.#onConnErr(_txt, onErr)
@@ -71,7 +71,7 @@ class ApiClass implements IApi {
 
   asPost<T>(url: string, data: unknown, onProg: ((loaded: number) => void) | null = null): Promise<T> {
     return new Promise((onOk, onErr) =>
-      this.#extApi.asyncFormPost(
+      this.#xhr.asyncFormPost(
         this.#wrapUrl(url),
         data,
         (txt: string) => this.#onRRR<T>(txt, onOk, onErr),
@@ -83,7 +83,7 @@ class ApiClass implements IApi {
 
   asFragmentCall<T>(f: FragmentDelegate, url: string): Promise<T> {
     return new Promise((_onOk, _onErr) =>
-      this.#extApi.asyncCall(
+      this.#xhr.asyncCall(
         this.#wrapUrl(url),
         (txt: string) => this.#onFragmentRRR<T>(f, txt, _onOk),
         (txt: string) => this.#onFragmentConnErr(txt, f)
@@ -98,7 +98,7 @@ class ApiClass implements IApi {
     onProg: ((loaded: number) => void) | null = null
   ): Promise<T> {
     return new Promise((_onOk, _onErr) =>
-      this.#extApi.asyncJsonPost(
+      this.#xhr.asyncJsonPost(
         this.#wrapUrl(url),
         data,
         (txt: string) => this.#onFragmentRRR<T>(f, txt, _onOk),
@@ -115,7 +115,7 @@ class ApiClass implements IApi {
     onProg: ((loaded: number) => void) | null = null
   ): Promise<T> {
     return new Promise((_onOk, _onErr) =>
-      this.#extApi.asyncFormPost(
+      this.#xhr.asyncFormPost(
         this.#wrapUrl(url),
         data,
         (txt: string) => this.#onFragmentRRR<T>(f, txt, _onOk),
@@ -126,7 +126,7 @@ class ApiClass implements IApi {
   }
 
   asyncRawCall(url: string, onOk: ((txt: string) => void) | null = null, onErr: ((txt: string) => void) | null = null): void {
-    this.#extApi.asyncCall(
+    this.#xhr.asyncCall(
       this.#wrapUrl(url),
       onOk ? onOk : this.#dummyFunc,
       onErr ? onErr : this.#dummyFunc
@@ -140,7 +140,7 @@ class ApiClass implements IApi {
     onErr: ((txt: string) => void) | null,
     onProg: ((loaded: number) => void) | null = null
   ): void {
-    this.#extApi.asyncFormPost(
+    this.#xhr.asyncFormPost(
       this.#wrapUrl(url),
       data,
       onOk ? onOk : this.#dummyFunc,
