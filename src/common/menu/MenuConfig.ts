@@ -7,8 +7,10 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { Menus } from '../dba/Menus.js';
 import { WebConfig } from '../dba/WebConfig.js';
 import Utilities from '../../lib/ext/Utilities.js';
-import { T_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { MAX } from '../constants/Constants.js';
+import { R } from '../constants/R.js';
 
 export class MenuConfig extends DirFragment {
   private _fSelected: FoldableItemFragment | null = null;
@@ -73,11 +75,11 @@ export class MenuConfig extends DirFragment {
     return items;
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
-    case T_DATA.WEB_CONFIG:
-    case T_DATA.USER_PROFILE:
-    case T_DATA.MENUS:
+    case FwkT_DATA.WEB_CONFIG:
+    case PltT_DATA.USER_PROFILE:
+    case PltT_DATA.MENUS:
       this.render();
       break;
     default:

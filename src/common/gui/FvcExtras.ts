@@ -3,12 +3,13 @@ import { FSimpleList } from './FSimpleList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { T_DATA } from '../../lib/framework/Events.js';
+import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { WebConfig } from '../dba/WebConfig.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import { R } from '../constants/R.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { T_DATA as PltT_DATA } from '../plt/Events.js';
 
 export const CF_EXTRAS_CONTENT = {
   TEST : "CF_EXTRAS_CONTENT_1",
@@ -84,8 +85,8 @@ export class FvcExtras extends FScrollViewContent {
 
   handleSessionDataUpdate(dataType: symbol, data: unknown): void {
     switch (dataType) {
-    case (T_DATA as any).USER_PROFILE:
-    case T_DATA.NOTIFICATIONS:
+    case PltT_DATA.USER_PROFILE:
+    case FwkT_DATA.NOTIFICATIONS:
       this.render();
       break;
     default:

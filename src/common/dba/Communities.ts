@@ -166,7 +166,7 @@ export class CommunitiesClass implements CommunitiesInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       this.#globalProfile = response.data?.profile || null;
-      FwkEvents.trigger(PltT_DATA.GLOBAL_COMMMUNITY_PROFILE, this.#globalProfile);
+      FwkEvents.trigger(PltT_DATA.GLOBAL_COMMUNITY_PROFILE, this.#globalProfile);
     }
     this.#isGlobalProfileLoading = false;
   }

@@ -6,7 +6,6 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { T_DATA } from '../../common/plt/Events.js';
 import { Auth } from '../../common/dba/Auth.js';
 import { R } from '../../common/constants/R.js';
 
@@ -65,7 +64,7 @@ export class FvcLogin extends FvcWeb2LoginBase {
     }
   }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: symbol | string, ...args: unknown[]): void {
     switch (type) {
     case CF_LOGIN.REGISTER:
       this.#onRegister();
@@ -85,6 +84,7 @@ export class FvcLogin extends FvcWeb2LoginBase {
     }
   }
 
+  // Not sure if this function is in use
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.LOGIN:

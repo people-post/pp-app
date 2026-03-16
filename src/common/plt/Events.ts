@@ -10,7 +10,7 @@ export const T_DATA = {
   SHOP_BRANCH: Symbol(),
   SHOP_REGISTER: Symbol(),
   PAYMENT_TERMINAL: Symbol(),
-  GLOBAL_COMMMUNITY_PROFILE: Symbol(),
+  GLOBAL_COMMUNITY_PROFILE: Symbol(),
   COMMUNITY_PROFILE: Symbol(),
   MENUS: Symbol(),
   GROUPS: Symbol(),
