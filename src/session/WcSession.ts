@@ -1,6 +1,6 @@
 import { FBanner } from '../common/gui/FBanner.js';
 import { FvcSearchResult } from '../common/search/FvcSearchResult.js';
-import { Factory, T_CATEGORY, T_OBJ } from '../lib/framework/Factory.js';
+import { Factory, T_OBJ } from '../lib/framework/Factory.js';
 import { WindowController } from '../lib/ui/controllers/WindowController.js';
 import { PanelWrapper } from '../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../lib/ui/controllers/views/View.js';
@@ -97,24 +97,24 @@ export class WcSession extends WindowController {
 
   init(userId: string | null, primaryColor: string, secondaryColor: string): void {
     // Grand entry for the whole program
-    Factory.registerClass(T_CATEGORY.UI, T_OBJ.BANNER_FRAGMENT,
+    Factory.registerCtor(T_OBJ.BANNER_FRAGMENT,
                               FBanner);
-    Factory.registerClass(T_CATEGORY.UI,
+    Factory.registerCtor(
                               T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT,
                               FvcSearchResult);
-    Factory.registerClass(T_CATEGORY.UI,
+    Factory.registerInstance(
                   T_OBJ.SEARCH_RESULT_TARGET_FACTORY,
                   new SessionSearchResultTargetFactory());
-    Factory.registerClass(T_CATEGORY.UI,
+    Factory.registerInstance(
                   T_OBJ.QUOTE_EDITOR_FACTORY,
                   new SessionQuoteEditorFactory());
-    Factory.registerClass(T_CATEGORY.UI, T_OBJ.VIEW, View);
-    Factory.registerClass(T_CATEGORY.UI, T_OBJ.CONFIRM_ACTION_FRAGMENT, FvcConfirmAction);
+    Factory.registerCtor(T_OBJ.VIEW, View);
+    Factory.registerCtor(T_OBJ.CONFIRM_ACTION_FRAGMENT, FvcConfirmAction);
     if (Env.isWeb3()) {
-      Factory.registerClass(T_CATEGORY.UI, T_OBJ.FILE_UPLOADER,
+      Factory.registerCtor(T_OBJ.FILE_UPLOADER,
                                 Web3FileUploader);
     } else {
-      Factory.registerClass(T_CATEGORY.UI, T_OBJ.FILE_UPLOADER,
+      Factory.registerCtor(T_OBJ.FILE_UPLOADER,
                                 Web2FileUploader);
     }
 

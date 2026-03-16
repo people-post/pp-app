@@ -1,7 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FGeneralSearch } from './FGeneralSearch.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
-import { Factory, T_CATEGORY, T_OBJ } from '../../lib/framework/Factory.js';
+import { Factory, T_OBJ } from '../../lib/framework/Factory.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import type { SearchResultTargetFactory } from './SearchResultTargetFactory.js';
@@ -53,9 +53,9 @@ export class FvcSearchResult extends FScrollViewContent {
   }
 
   #showResult(itemType: string, itemId: string): void {
-    let factory = Factory.getClass(T_CATEGORY.UI,
-        T_OBJ.SEARCH_RESULT_TARGET_FACTORY) as SearchResultTargetFactory | null;
-    let target = factory?.buildSearchResultTarget(itemType, itemId,
+    let factory = Factory.getRequiredInstance<SearchResultTargetFactory>(
+      T_OBJ.SEARCH_RESULT_TARGET_FACTORY);
+    let target = factory.buildSearchResultTarget(itemType, itemId,
         this.#fSearch.getResultLayoutType());
     if (!target) {
       return;

@@ -1,6 +1,6 @@
 import { Fragment } from './Fragment.js';
 import { SimpleProgress } from './SimpleProgress.js';
-import { Factory, T_CATEGORY, T_OBJ } from '../../../framework/Factory.js';
+import { Factory, T_OBJ } from '../../../framework/Factory.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
 interface FileUploader {
@@ -82,8 +82,8 @@ export class FFileUploader extends Fragment {
 
   #getOrInitUploader(): FileUploader {
     if (!this._uploader) {
-      let cls = Factory.getClass(T_CATEGORY.UI, T_OBJ.FILE_UPLOADER) as any;
-      this._uploader = cls ? new cls() : null;
+      let cls = Factory.getRequiredCtor<FileUploader>(T_OBJ.FILE_UPLOADER);
+      this._uploader = new cls();
       this._uploader?.setDelegate(this);
     }
     return this._uploader as FileUploader;

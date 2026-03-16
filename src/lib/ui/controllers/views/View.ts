@@ -1,5 +1,5 @@
 import Utilities from '../../../ext/Utilities.js';
-import { Factory, T_CATEGORY, T_OBJ } from '../../../framework/Factory.js';
+import { Factory, T_OBJ } from '../../../framework/Factory.js';
 import { RenderController } from '../RenderController.js';
 import { FViewHeader } from '../fragments/FViewHeader.js';
 import { ViewPanel } from '../../renders/panels/ViewPanel.js';
@@ -43,8 +43,7 @@ export class View extends RenderController implements ViewContentFragmentOwner {
     this.#fHeader.setDelegate(this);
     this.setChild("__header", this.#fHeader);
 
-    let cls =
-        Factory.getClass(T_CATEGORY.UI, T_OBJ.BANNER_FRAGMENT) as new () => Fragment;
+    let cls = Factory.getRequiredCtor<Fragment>(T_OBJ.BANNER_FRAGMENT);
     this.#fBanner = new cls();
     this.setChild("__banner", this.#fBanner);
   }
@@ -192,8 +191,8 @@ export class View extends RenderController implements ViewContentFragmentOwner {
   }
 
   #search(key: string): void {
-    let cls = Factory.getClass(
-        T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT) as new () => Fragment;
+    let cls = Factory.getRequiredCtor<Fragment>(
+      T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
     let f = new cls();
     (f as any).setKey(key);
     let v = new View();

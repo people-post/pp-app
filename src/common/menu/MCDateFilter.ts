@@ -4,7 +4,7 @@ import { MenuContent } from './MenuContent.js';
 import { SearchBar } from '../gui/SearchBar.js';
 import { FDateTimeSelector } from '../../lib/ui/controllers/fragments/FDateTimeSelector.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
-import { Factory, T_CATEGORY, T_OBJ } from '../../lib/framework/Factory.js';
+import { Factory, T_OBJ } from '../../lib/framework/Factory.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import type { FSearch } from '../search/FSearch.js';
 
@@ -100,8 +100,8 @@ export class MCDateFilter extends MenuContent {
   onGuiSearchBarRequestSearch(_fSearchBar: SearchBar, value: string): void {
     // @ts-expect-error - delegate may have this method
     this._delegate?.onMenuFragmentRequestCloseMenu?.(this);
-    let cls = Factory.getClass(
-        T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT) as typeof FSearch;
+    let cls = Factory.getRequiredCtor<FSearch>(
+      T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
     let f = new cls();
     f.setKey(value);
     let v = new View();

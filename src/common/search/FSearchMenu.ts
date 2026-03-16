@@ -1,6 +1,6 @@
 import { MenuContent } from '../menu/MenuContent.js';
 import { SearchBar } from '../gui/SearchBar.js';
-import { Factory, T_CATEGORY, T_OBJ } from '../../lib/framework/Factory.js';
+import { Factory, T_OBJ } from '../../lib/framework/Factory.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FSearch } from './FSearch.js';
 
@@ -21,8 +21,8 @@ export class FSearchMenu extends MenuContent {
   onGuiSearchBarRequestSearch(_fSearchBar: SearchBar, value: string): void {
     // @ts-expect-error - delegate may have this method
     this._delegate?.onMenuFragmentRequestCloseMenu?.(this);
-    let cls = Factory.getClass(
-        T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT) as typeof FSearch;
+    let cls = Factory.getRequiredCtor<FSearch>(
+      T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
     let f = new cls();
     f.setKey(value);
     f.setResultLayoutType(this.#tResultLayout);

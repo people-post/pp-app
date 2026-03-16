@@ -1,9 +1,4 @@
-/**
- * Factory category symbols
- */
-export const T_CATEGORY = {
-  UI: Symbol('UI'),
-} as const;
+export type Ctor<T> = new (...args: any[]) => T;
 
 /**
  * Factory object type symbols
@@ -22,28 +17,71 @@ export const T_OBJ = {
  * Factory interface
  */
 export interface FactoryInterface {
-  getClass(category: symbol, id: symbol): unknown | null;
-  registerClass(category: symbol, id: symbol, cls: unknown): void;
+  getCtor<T>(id: symbol): Ctor<T> | null;
+  getOptionalCtor<T>(id: symbol): Ctor<T> | null;
+  getRequiredCtor<T>(id: symbol): Ctor<T>;
+  registerCtor<T>(id: symbol, cls: Ctor<T>): void;
+  getInstance<T>(id: symbol): T | null;
+  getOptionalInstance<T>(id: symbol): T | null;
+  getRequiredInstance<T>(id: symbol): T;
+  registerInstance<T>(id: symbol, instance: T): void;
 }
 
 export const Factory: FactoryInterface = (function() {
-  let _lib = new Map<symbol, Map<symbol, unknown>>();
+  let _ctors = new Map<symbol, Ctor<unknown>>();
+  let _instances = new Map<symbol, unknown>();
 
-  function _getClass(category: symbol, id: symbol): unknown | null {
-    let m = _lib.get(category);
-    return m ? m.get(id) ?? null : null;
+  function _name(id: symbol): string {
+    return id.description || String(id);
   }
 
-  function _registerClass(category: symbol, id: symbol, cls: unknown) {
-    if (!_lib.has(category)) {
-      _lib.set(category, new Map());
+  function _getOptionalCtor<T>(id: symbol): Ctor<T> | null {
+    return (_ctors.get(id) as Ctor<T> | undefined) || null;
+  }
+
+  function _getRequiredCtor<T>(id: symbol): Ctor<T> {
+    let ctor = _getOptionalCtor<T>(id);
+    if (!ctor) {
+      throw new Error(`Factory ctor not registered: ${_name(id)}`);
     }
-    _lib.get(category)!.set(id, cls);
+    return ctor;
+  }
+
+  function _registerCtor<T>(id: symbol, cls: Ctor<T>): void {
+    if (_ctors.has(id) || _instances.has(id)) {
+      throw new Error(`Factory id already registered: ${_name(id)}`);
+    }
+    _ctors.set(id, cls as Ctor<unknown>);
+  }
+
+  function _getOptionalInstance<T>(id: symbol): T | null {
+    return (_instances.get(id) as T | undefined) || null;
+  }
+
+  function _getRequiredInstance<T>(id: symbol): T {
+    let instance = _getOptionalInstance<T>(id);
+    if (!instance) {
+      throw new Error(`Factory instance not registered: ${_name(id)}`);
+    }
+    return instance;
+  }
+
+  function _registerInstance<T>(id: symbol, instance: T): void {
+    if (_instances.has(id) || _ctors.has(id)) {
+      throw new Error(`Factory id already registered: ${_name(id)}`);
+    }
+    _instances.set(id, instance);
   }
 
   return {
-    getClass: _getClass,
-    registerClass: _registerClass,
+    getCtor: _getOptionalCtor,
+    getOptionalCtor: _getOptionalCtor,
+    getRequiredCtor: _getRequiredCtor,
+    registerCtor: _registerCtor,
+    getInstance: _getOptionalInstance,
+    getOptionalInstance: _getOptionalInstance,
+    getRequiredInstance: _getRequiredInstance,
+    registerInstance: _registerInstance,
   };
 })();
 

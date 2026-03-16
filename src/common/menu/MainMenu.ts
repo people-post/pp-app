@@ -6,7 +6,7 @@ import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { MenuContent } from './MenuContent.js';
 import { SearchBar } from '../gui/SearchBar.js';
-import { Factory, T_CATEGORY, T_OBJ } from '../../lib/framework/Factory.js';
+import { Factory, T_OBJ } from '../../lib/framework/Factory.js';
 import type { FSearch } from '../search/FSearch.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Menus } from '../dba/Menus.js';
@@ -144,8 +144,8 @@ export class MainMenu extends MenuContent {
   onGuiSearchBarRequestSearch(_fSearchBar: SearchBar, value: string): void {
     // @ts-expect-error - delegate may have this method
     this._delegate?.onMenuFragmentRequestCloseMenu?.(this);
-    let cls = Factory.getClass(
-        T_CATEGORY.UI, T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT) as typeof FSearch;
+    let cls = Factory.getRequiredCtor<FSearch>(
+      T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
     let f = new cls();
     f.setKey(value);
     f.setResultLayoutType(this.#tResultLayout);

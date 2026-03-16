@@ -6,7 +6,7 @@ import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_DATA } from '../plt/Events.js';
 import { Social } from '../dba/Social.js';
-import { Factory, T_CATEGORY, T_OBJ } from '../../lib/framework/Factory.js';
+import { Factory, T_OBJ } from '../../lib/framework/Factory.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Utilities } from '../Utilities.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
@@ -453,9 +453,9 @@ export class FSocialBar extends Fragment {
       return;
     }
 
-    let factory = Factory.getClass(T_CATEGORY.UI,
-        T_OBJ.QUOTE_EDITOR_FACTORY) as QuoteEditorFactory | null;
-    let fragment = factory?.createQuoteEditor(itemId, itemType, this);
+    let factory = Factory.getRequiredInstance<QuoteEditorFactory>(
+      T_OBJ.QUOTE_EDITOR_FACTORY);
+    let fragment = factory.createQuoteEditor(itemId, itemType, this);
     if (!fragment) {
       return;
     }
