@@ -1,5 +1,5 @@
 export interface ControllerOwner {
-  onRemoteErrorInController(c: Controller, e: unknown): void;
+  onErrorInController(c: Controller, e: unknown): void;
 }
 
 export class Controller implements ControllerOwner {
@@ -31,10 +31,10 @@ export class Controller implements ControllerOwner {
     return this._owner as T | null;
   }
 
-  onRemoteErrorInController(_c: Controller, e: unknown): void {
+  onErrorInController(_c: Controller, e: unknown): void {
     let o = this.getOwner<ControllerOwner>();
     if (o) {
-      o.onRemoteErrorInController(this, e);
+      o.onErrorInController(this, e);
     }
   }
 }

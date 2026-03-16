@@ -120,7 +120,7 @@ export class OwnerPostIdLoader extends LongListIdLoader {
     this.#isBatchLoadingFront = false;
     let response = JSON.parse(responseText) as { error?: string; data?: { articles: unknown[] } };
     if (response.error) {
-      this.onRemoteErrorInController(this, response.error);
+      this.onErrorInController(this, response.error);
     } else if (response.data) {
       let ds = response.data.articles;
       if (ds.length) {
@@ -143,7 +143,7 @@ export class OwnerPostIdLoader extends LongListIdLoader {
     this.#isBatchLoadingBack = false;
     let response = JSON.parse(responseText) as { error?: string; data?: { articles: unknown[] } };
     if (response.error) {
-      this.onRemoteErrorInController(this, response.error);
+      this.onErrorInController(this, response.error);
     } else if (response.data) {
       let ds = response.data.articles;
       if (ds.length) {

@@ -28,7 +28,7 @@ export class IdolPostIdLoader extends LongListIdLoader {
     this.#isBatchLoading = false;
     let response = JSON.parse(responseText) as { error?: string; data?: { articles: unknown[] } };
     if (response.error) {
-      this.onRemoteErrorInController(this, response.error);
+      this.onErrorInController(this, response.error);
     } else if (response.data) {
       let ds = response.data.articles;
       if (ds.length) {
