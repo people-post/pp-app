@@ -58,7 +58,7 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FrontPageLayoutConfig } from '../../common/datatypes/FrontPageLayoutConfig.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { FHomeBtn } from '../../session/FHomeBtn.js';
+import { FHomeBtn } from '../../common/gui/FHomeBtn.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { FJournalMenu } from './FJournalMenu.js';
 import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';

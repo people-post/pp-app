@@ -1,9 +1,9 @@
-import { FHeaderMenu } from '../lib/ui/controllers/fragments/FHeaderMenu.js';
-import { T_DATA } from '../common/plt/Events.js';
-import { WebConfig } from '../common/dba/WebConfig.js';
-import { Utilities } from '../common/Utilities.js';
-import Render from '../lib/ui/renders/Render.js';
-import { Account } from '../common/dba/Account.js';
+import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
+import { T_DATA } from '../plt/Events.js';
+import { WebConfig } from '../dba/WebConfig.js';
+import { Utilities } from '../Utilities.js';
+import Render from '../../lib/ui/renders/Render.js';
+import { Account } from '../dba/Account.js';
 
 const _CFT_HOME_BTN = {
   ICON : `<div class="tw:p-[5px]">

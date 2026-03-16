@@ -1,5 +1,5 @@
 import { LvMultiPage } from './LvMultiPage.js';
-import { FHomeBtn } from './FHomeBtn.js';
+import { FHomeBtn } from '../common/gui/FHomeBtn.js';
 import { PGadget } from './PGadget.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
 import { ID, URL_PARAM } from '../common/constants/Constants.js';

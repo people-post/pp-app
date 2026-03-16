@@ -1,5 +1,5 @@
 import { LvTabbedPage } from './LvTabbedPage.js';
-import { FHomeBtn } from './FHomeBtn.js';
+import { FHomeBtn } from '../common/gui/FHomeBtn.js';
 import { URL_PARAM } from '../lib/ui/Constants.js';
 import { SocialItemId } from '../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../common/datatypes/SocialItem.js';

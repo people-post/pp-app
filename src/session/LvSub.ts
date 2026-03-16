@@ -1,5 +1,5 @@
 import { LvTabbedPage } from './LvTabbedPage.js';
-import { FHomeBtn } from './FHomeBtn.js';
+import { FHomeBtn } from '../common/gui/FHomeBtn.js';
 import { URL_PARAM } from '../common/constants/Constants.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
 import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';

@@ -132,35 +132,23 @@ Preferred direction:
 - move `WebConfig`-dependent behavior into `common/dba`, `common/plt`, or a higher adapter/presenter layer
 - keep datatype classes as pure data and domain logic objects
 
-### D. `sectors` reach upward into `session`
+### D. `sectors -> session` status for home button
 
-Concrete examples:
+This specific issue has been addressed:
 
-- `src/sectors/frontpage/FvcBrief.ts` imports `src/session/FHomeBtn.js`
-- `src/sectors/frontpage/FvcJournal.ts` imports `src/session/FHomeBtn.js`
+- `FHomeBtn` now lives in `src/common/gui/FHomeBtn.ts`
+- frontpage sectors now import `src/common/gui/FHomeBtn.js` instead of importing from `src/session/*`
 
-This is especially problematic because `src/session/Gateway.ts` also imports the frontpage sector, so the boundary is effectively bidirectional.
-
-Why this is debt:
-
-- `session` is the composition root and should sit above sectors
-- a sector importing session code makes the feature layer depend on the shell that is supposed to compose it
-- this makes the frontpage sector less reusable and harder to test in isolation
-
-Preferred direction:
-
-- move `FHomeBtn` into `src/common/gui` or another lower shared layer if it is sector-reusable
-- or have `session` inject the home button fragment into the sector instead of the sector importing it directly
+The boundary rule still stands for new code: sectors must not import from session.
 
 ## Refactoring Priorities
 
-The clean-up should happen in this order:
+The remaining clean-up should happen in this order:
 
-1. Remove `sectors -> session` imports, because they break the composition-root boundary directly.
-2. Remove `common/datatypes -> common/dba` imports, because datatype purity affects many higher layers.
-3. Break `lib/ui -> common/*` imports, starting with `PageViewController`, `FNavigation`, `RenderController`, and shared fragment classes.
-4. Break the `lib/ui <-> common/plt` cycle by moving shared contracts into a lower neutral package.
-5. Keep `lib/framework -> lib/ui` imports disallowed so the dependency direction stays one-way.
+1. Remove `common/datatypes -> common/dba` imports, because datatype purity affects many higher layers.
+2. Break `lib/ui -> common/*` imports, starting with `PageViewController`, `FNavigation`, `RenderController`, and shared fragment classes.
+3. Break the `lib/ui <-> common/plt` cycle by moving shared contracts into a lower neutral package.
+4. Keep `lib/framework -> lib/ui` imports disallowed so the dependency direction stays one-way.
 
 ## Guardrails For New Code
 

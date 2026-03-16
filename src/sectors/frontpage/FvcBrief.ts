@@ -93,7 +93,7 @@ import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js
 import { MenuItem } from '../../common/datatypes/MenuItem.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { FHomeBtn } from '../../session/FHomeBtn.js';
+import { FHomeBtn } from '../../common/gui/FHomeBtn.js';
 import { FvcInsights } from './FvcInsights.js';
 import { FvcBriefDonation } from './FvcBriefDonation.js';
 import { OwnerPostIdLoader } from '../blog/OwnerPostIdLoader.js';
