@@ -9,6 +9,8 @@ import { FvcNotice } from '../lib/ui/controllers/views/FvcNotice.js';
 import { LvDialog } from '../lib/ui/controllers/layers/LvDialog.js';
 import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
 import { T_ACTION } from '../common/plt/Events.js';
+import { SessionSearchResultTargetFactory } from './SearchResultTargetFactory.js';
+import { SessionQuoteEditorFactory } from './QuoteEditorFactory.js';
 import { Web2FileUploader } from '../common/plt/Web2FileUploader.js';
 import { Events as FwkEvents, T_ACTION as FwkT_ACTION, T_DATA } from '../lib/framework/Events.js';
 import { PWindow } from './PWindow.js';
@@ -100,6 +102,12 @@ export class WcSession extends WindowController {
     Factory.registerClass(T_CATEGORY.UI,
                               T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT,
                               FvcSearchResult);
+    Factory.registerClass(T_CATEGORY.UI,
+                  T_OBJ.SEARCH_RESULT_TARGET_FACTORY,
+                  new SessionSearchResultTargetFactory());
+    Factory.registerClass(T_CATEGORY.UI,
+                  T_OBJ.QUOTE_EDITOR_FACTORY,
+                  new SessionQuoteEditorFactory());
     Factory.registerClass(T_CATEGORY.UI, T_OBJ.VIEW, View);
     Factory.registerClass(T_CATEGORY.UI, T_OBJ.CONFIRM_ACTION_FRAGMENT, FvcConfirmAction);
     if (Env.isWeb3()) {

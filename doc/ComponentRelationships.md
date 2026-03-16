@@ -132,6 +132,16 @@ This specific issue has been addressed:
 
 The boundary rule still stands for new code: sectors must not import from session.
 
+### E. `common/other -> sectors` status for quote and search composition
+
+This specific issue has been addressed:
+
+- `src/common/social/FSocialBar.ts` no longer imports `src/sectors/blog/FvcQuoteEditor.ts`
+- `src/common/search/FvcSearchResult.ts` no longer imports sector-specific fragments from `src/sectors/*`
+- session bootstrap now registers sector-aware quote-editor and search-result target factories via `src/lib/framework/Factory.ts`
+
+Boundary rule remains: shared code in `src/common/*` must not directly import sector-specific UI from `src/sectors/*`; composition belongs in `src/session/*`.
+
 ## Refactoring Priorities
 
 The remaining clean-up should happen in this order:
