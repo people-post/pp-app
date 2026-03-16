@@ -90,7 +90,7 @@ export class FBraintree extends Fragment {
     }
   }
 
-  #getPaymentElementId(): string { return "ID_" + this._id + "_PAY"; }
+  #getPaymentElementId(): string { return "ID_" + this._getFragmentId() + "_PAY"; }
 
   #loadJsPayment(): void {
     if (Env.isScriptLoaded(Env.SCRIPT.BRAINTREE.id)) {

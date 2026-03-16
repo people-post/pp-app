@@ -124,7 +124,7 @@ export class Button extends Fragment {
     }
   }
 
-  #getBtnId(): string { return "ID_BTN_" + this._id; }
+  #getBtnId(): string { return "ID_BTN_" + this._getFragmentId(); }
 
   #getStyleClassName(isMenuMode: boolean): string {
     return isMenuMode ? this.#getMenuStyleClassName()

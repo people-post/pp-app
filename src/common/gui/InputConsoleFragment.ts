@@ -161,7 +161,7 @@ export class InputConsoleFragment extends Fragment {
     let s: string;
     if (isEnabled) {
       s = _CFT_INPUT_CONSOLE.TEXT_INPUT_NORMAL;
-      s = s.replace("__FID__", this._id);
+      s = s.replace("__FID__", this._getFragmentId());
       s = s.replace("__VALUE__", this.#cacheText);
     } else {
       s = _CFT_INPUT_CONSOLE.TEXT_INPUT_DISABLED;
@@ -229,6 +229,6 @@ export class InputConsoleFragment extends Fragment {
   }
 
   #getTextInputNode(): HTMLTextAreaElement | null {
-    return document.getElementById("ID_INPUT_CONSOLE_" + this._id) as HTMLTextAreaElement | null;
+    return document.getElementById("ID_INPUT_CONSOLE_" + this._getFragmentId()) as HTMLTextAreaElement | null;
   }
 }

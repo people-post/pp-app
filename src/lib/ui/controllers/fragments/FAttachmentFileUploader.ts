@@ -114,7 +114,7 @@ export class FAttachmentFileUploader extends FFileUploader {
   #renderAddFileButton(): string {
     let s: string = _CFT_ATTACHMENT_FILE_UPLOAD.BTN_ADD_FILE;
     s = s.replace("__ICON__", CommonUtilities.renderSvgFuncIcon(ICONS.ATTACHMENT));
-    s = s.replace(/__ID__/g, this._id + "-btn-label");
+    s = s.replace(/__ID__/g, this._getFragmentId() + "-btn-label");
     return s;
   }
 

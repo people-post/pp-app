@@ -69,7 +69,7 @@ export class Selection extends Fragment {
     }
   }
 
-  #getElementId(): string { return this._id + "_SELECT"; }
+  #getElementId(): string { return this._getFragmentId() + "_SELECT"; }
 
   #renderSelectionElement(): HTMLSelectElement {
     let items: SelectionItem[] = [];

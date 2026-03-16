@@ -11,12 +11,14 @@ export interface FragmentOwner {
 }
 
 export class Fragment extends RenderController implements FragmentOwner {
-  protected _id: string;
+  #id: string;
 
   constructor() {
     super();
-    this._id = Utilities.uuid();
+    this.#id = Utilities.uuid();
   }
+
+  protected _getFragmentId(): string { return this.#id; }
 
   onFragmentRequestShowView(_f: Fragment, view: View, title: string): void {
     const owner = this.getOwner<FragmentOwner>();

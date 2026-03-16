@@ -11,7 +11,7 @@ export class FInput extends Fragment {
   getConfig(): any { return this._config; }
   setConfig(config: any): void { this._config = config; }
 
-  _getInputElementId(): string { return "EIN_ID_" + this._id; }
+  _getInputElementId(): string { return "EIN_ID_" + this._getFragmentId(); }
   _getInputElement(): HTMLElement | null {
     return document.getElementById(this._getInputElementId());
   }

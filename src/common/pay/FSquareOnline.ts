@@ -84,7 +84,7 @@ export class FSquareOnline extends Fragment {
     }
   }
 
-  #getPaymentElementId(): string { return "ID_" + this._id + "_PAY"; }
+  #getPaymentElementId(): string { return "ID_" + this._getFragmentId() + "_PAY"; }
 
   #loadJsPayment(): void {
     if (Env.isScriptLoaded(Env.SCRIPT.PAYMENT.id) && window.Square) {

@@ -120,7 +120,7 @@ export class LiveStreamConfigFragment extends Fragment {
 
   #renderAddFileButton(): string {
     let s = _CFT_LIVE_STREAM_CONFIG.BTN_ADD_FILE;
-    s = s.replace(/__ID__/g, this._id + "-add-file");
+    s = s.replace(/__ID__/g, this._getFragmentId() + "-add-file");
     s = s.replace("__ICON__", ICONS.CAMERA);
     return s;
   }

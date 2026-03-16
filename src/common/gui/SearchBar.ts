@@ -99,7 +99,7 @@ export class SearchBar extends Fragment {
     ppp.replaceContent(s);
   }
 
-  #getInputElementId(): string { return "EID_" + this._id; }
+  #getInputElementId(): string { return "EID_" + this._getFragmentId(); }
   #getInputElement(): HTMLInputElement | null {
     return document.getElementById(this.#getInputElementId()) as HTMLInputElement | null;
   }

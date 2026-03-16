@@ -45,8 +45,8 @@ export class FvcCreateCommunity extends FScrollViewContent {
     pp.replaceContent(_CFT_CREATE_COMMUNITY_CONTENT.BTN_SUBMIT);
   }
 
-  #getNameElementId(): string { return this._id + "-name"; }
-  #getDescriptionElementId(): string { return this._id + "-description"; }
+  #getNameElementId(): string { return this._getFragmentId() + "-name"; }
+  #getDescriptionElementId(): string { return this._getFragmentId() + "-description"; }
 
   #renderForm(): string {
     let s = _CFT_CREATE_COMMUNITY_CONTENT.MAIN;

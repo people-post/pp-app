@@ -123,7 +123,7 @@ export class FMultiMediaFileUploader extends Fragment {
   #renderAddFileButton(): string {
     let s: string = _CFT_MULTI_MEDIA_FILE_UPLOAD.BTN_ADD_FILE;
     s = s.replace("__ICON__", ICONS.CAMERA);
-    s = s.replace(/__ID__/g, this._id + "-btn-label");
+    s = s.replace(/__ID__/g, this._getFragmentId() + "-btn-label");
     return s;
   }
 
