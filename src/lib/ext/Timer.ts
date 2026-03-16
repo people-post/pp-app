@@ -1,23 +1,23 @@
 export class Timer {
-  protected _jobId: number | null = null;
+  #jobId: number | null = null;
 
   constructor() {
-    this._jobId = null;
+    this.#jobId = null;
   }
 
   isSet(): boolean {
-    return this._jobId !== null;
+    return this.#jobId !== null;
   }
 
   set(jobFunc: () => void, delay: number): void {
     this.cancel();
-    this._jobId = window.setTimeout(jobFunc, delay);
+    this.#jobId = window.setTimeout(jobFunc, delay);
   }
 
   cancel(): void {
-    if (this._jobId !== null) {
-      window.clearTimeout(this._jobId);
-      this._jobId = null;
+    if (this.#jobId !== null) {
+      window.clearTimeout(this.#jobId);
+      this.#jobId = null;
     }
   }
 }

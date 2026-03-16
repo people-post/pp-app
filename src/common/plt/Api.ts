@@ -1,7 +1,36 @@
 import { Api as ExtApi } from '../../lib/ext/Api.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
-import type { IApi, FragmentDelegate } from '../../lib/framework/Global.js';
+
+interface FragmentDelegate {
+  onRemoteErrorInFragment(f: unknown, e: unknown): void;
+}
+
+interface IApi {
+  asCall(url: string): Promise<unknown>;
+  asPost(url: string, data: unknown, onProg?: ((loaded: number) => void) | null): Promise<unknown>;
+  asFragmentCall(f: FragmentDelegate, url: string): Promise<unknown>;
+  asFragmentJsonPost(
+    f: FragmentDelegate,
+    url: string,
+    data: unknown,
+    onProg?: ((loaded: number) => void) | null
+  ): Promise<unknown>;
+  asFragmentPost(
+    f: FragmentDelegate,
+    url: string,
+    data: unknown,
+    onProg?: ((loaded: number) => void) | null
+  ): Promise<unknown>;
+  asyncRawCall(url: string, onOk: ((txt: string) => void) | null, onErr: ((txt: string) => void) | null): void;
+  asyncRawPost(
+    url: string,
+    data: unknown,
+    onOk: ((txt: string) => void) | null,
+    onErr: ((txt: string) => void) | null,
+    onProg?: ((loaded: number) => void) | null
+  ): void;
+}
 
 interface ApiResponse<T> {
   error?: unknown;

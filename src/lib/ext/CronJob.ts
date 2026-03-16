@@ -1,16 +1,16 @@
 export class CronJob {
-  protected _fId: number | null = null;
-  protected _fBeginId: number | null = null;
-  protected _fEndId: number | null = null;
+  #fId: number | null = null;
+  #fBeginId: number | null = null;
+  #fEndId: number | null = null;
 
   constructor() {
-    this._fId = null;
-    this._fBeginId = null;
-    this._fEndId = null;
+    this.#fId = null;
+    this.#fBeginId = null;
+    this.#fEndId = null;
   }
 
   isSet(): boolean {
-    return this._fBeginId !== null;
+    return this.#fBeginId !== null;
   }
 
   reset(
@@ -25,25 +25,25 @@ export class CronJob {
       if (tMax < period) {
         return;
       }
-      this._fEndId = window.setTimeout(() => this.#onTimeout(onEnd), tMax + delay);
+      this.#fEndId = window.setTimeout(() => this.#onTimeout(onEnd), tMax + delay);
     }
-    this._fBeginId = window.setTimeout(() => {
-      this._fId = window.setInterval(jobFunc, period);
+    this.#fBeginId = window.setTimeout(() => {
+      this.#fId = window.setInterval(jobFunc, period);
     }, delay);
   }
 
   stop(): void {
-    if (this._fBeginId !== null) {
-      window.clearTimeout(this._fBeginId);
-      this._fBeginId = null;
+    if (this.#fBeginId !== null) {
+      window.clearTimeout(this.#fBeginId);
+      this.#fBeginId = null;
     }
-    if (this._fEndId !== null) {
-      window.clearTimeout(this._fEndId);
-      this._fEndId = null;
+    if (this.#fEndId !== null) {
+      window.clearTimeout(this.#fEndId);
+      this.#fEndId = null;
     }
-    if (this._fId !== null) {
-      window.clearInterval(this._fId);
-      this._fId = null;
+    if (this.#fId !== null) {
+      window.clearInterval(this.#fId);
+      this.#fId = null;
     }
   }
 

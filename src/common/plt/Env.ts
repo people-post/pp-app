@@ -1,7 +1,37 @@
 import { PATH, TYPE } from '../constants/Constants.js';
 import { Events } from '../../lib/framework/Events.js';
 import { T_DATA } from './Events.js';
-import type { IEnv, ScriptInfo, ScriptsConfig } from '../../lib/framework/Global.js';
+
+interface ScriptInfo {
+  id: string;
+  src: string;
+}
+
+interface ScriptsConfig {
+  EDITOR: ScriptInfo;
+  PLAYER: ScriptInfo;
+  SIGNAL: ScriptInfo;
+  QR_CODE: ScriptInfo;
+  PAYMENT: ScriptInfo;
+  BRAINTREE: ScriptInfo;
+}
+
+interface IEnv {
+  readonly SCRIPT: ScriptsConfig;
+  hasHost(): boolean;
+  isScriptLoaded(id: string): boolean;
+  isTrustedSite(): boolean;
+  isWeb3(): boolean;
+  getWindowType(): string | null;
+  getPreferredLanguage(): string | null;
+  getLanguage(): string | null;
+  getSmartTimeDiffThreshold(): number;
+  setSmartTimeDiffThreshold(thSec: number): number;
+  setWindowType(t: string): void;
+  setPreferredLanguage(lang: string): void;
+  setDefaultLanguage(lang: string): void;
+  checkLoadAddonScript(info: ScriptInfo): void;
+}
 
 class EnvClass implements IEnv {
   #windowType: string | null = null;
