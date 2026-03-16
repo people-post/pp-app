@@ -1,5 +1,5 @@
 import { Fragment } from './Fragment.js';
-import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+import { UiUtilities } from '../../Utilities.js';
 import { ListPanel } from '../../renders/panels/ListPanel.js';
 import { Panel } from '../../renders/panels/Panel.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
@@ -117,7 +117,7 @@ export class ButtonGroup extends Fragment {
   #renderButtonName(config: ChoiceInfo): string {
     if (config.icon) {
       let ss: string = _CFT_BUTTON_GROUP.ICON_WRAPPER;
-      ss = ss.replace("__ICON__", CommonUtilities.renderSvgFuncIcon(config.icon));
+      ss = ss.replace("__ICON__", UiUtilities.renderSvgFuncIcon(config.icon));
       return ss + config.name;
     } else {
       return config.name;

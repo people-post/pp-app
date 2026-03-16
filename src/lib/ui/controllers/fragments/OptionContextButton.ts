@@ -1,7 +1,7 @@
 import { Fragment } from './Fragment.js';
 import { LContext } from '../layers/LContext.js';
 import { ICONS } from '../../Icons.js';
-import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+import { UiUtilities } from '../../Utilities.js';
 import { T_ACTION } from '../../../framework/Events.js';
 import { Events } from '../../../framework/Events.js';
 
@@ -62,7 +62,7 @@ export class OptionContextButton extends Fragment {
 
   #renderIcon(icon: string): string {
     let s: string = _CFT_OPTION_CONTEXT_BUTTON.BTN;
-    let ss = CommonUtilities.renderSvgFuncIcon(icon);
+    let ss = UiUtilities.renderSvgFuncIcon(icon);
     s = s.replace("__ICON__", ss) as string;
     return s;
   }

@@ -1,7 +1,7 @@
 import { Panel } from '../../renders/panels/Panel.js';
 import { Fragment } from './Fragment.js';
 import { ICONS } from '../../Icons.js';
-import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+import { UiUtilities } from '../../Utilities.js';
 
 const _CPT_ELASTIC_REFRESH = {
   MAIN : `<div class="tw:flex tw:justify-around">
@@ -68,9 +68,9 @@ export class FElasticRefresh extends Fragment {
 
     let p = panel.getIconPanel();
     if (percent >= 1) {
-      p.replaceContent(CommonUtilities.renderSvgFuncIcon(ICONS.SOLID_DOWN));
+      p.replaceContent(UiUtilities.renderSvgFuncIcon(ICONS.SOLID_DOWN));
     } else {
-      p.replaceContent(CommonUtilities.renderSvgFuncIcon(ICONS.DOWN));
+      p.replaceContent(UiUtilities.renderSvgFuncIcon(ICONS.DOWN));
     }
 
     if (percent > 0 && percent < 1) {

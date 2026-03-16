@@ -1,5 +1,5 @@
 import { Fragment } from './Fragment.js';
-import { Utilities } from '../../../../common/Utilities.js';
+import { UiUtilities } from '../../Utilities.js';
 
 const CF_UI_BUTTON = {
   ON_CLICK : "CF_UI_BUTTON_1",
@@ -104,7 +104,7 @@ export class Button extends Fragment {
     }
 
     let ss = `<span class="tw:inline-block tw:w-s-icon6 tw:h-s-icon6">__ICON__</span>`;
-    ss = ss.replace("__ICON__", Utilities.renderSvgFuncIcon(icon, true));
+    ss = ss.replace("__ICON__", UiUtilities.renderSvgFuncIcon(icon, true));
     return ss;
   }
 

@@ -1,6 +1,6 @@
 import { Fragment } from './Fragment.js';
 import { ICONS } from '../../Icons.js';
-import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+import { UiUtilities } from '../../Utilities.js';
 import { RemoteFile } from '../../../../common/datatypes/RemoteFile.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
@@ -23,7 +23,7 @@ export class FAttachmentFile extends Fragment {
       return;
     }
     let s: string = _CFT_ATTACHMENT_FILE.MAIN;
-    s = s.replace("__ICON__", CommonUtilities.renderSvgFuncIcon(ICONS.ATTACHMENT) as string);
+    s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICONS.ATTACHMENT) as string);
     s = s.replace("__DOWNLOAD_URL__", this.#file.getDownloadUrl() || "");
     s = s.replace("__NAME__", this.#file.getName() || "");
     render.replaceContent(s);

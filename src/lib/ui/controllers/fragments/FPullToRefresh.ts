@@ -3,7 +3,7 @@ import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { ListPanel } from '../../renders/panels/ListPanel.js';
 import { Panel } from '../../renders/panels/Panel.js';
 import { ICONS } from '../../Icons.js';
-import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+import { UiUtilities } from '../../Utilities.js';
 
 const _CFT_PULL_TO_REFRESH = {
   ICON :
@@ -44,10 +44,10 @@ export class FPullToRefresh extends Fragment {
     let s: string = _CFT_PULL_TO_REFRESH.ICON;
     if (this.#progress > 95) {
       s = s.replace("__ICON__",
-                    CommonUtilities.renderSvgFuncIcon(ICONS.SOLID_DOWN));
+                    UiUtilities.renderSvgFuncIcon(ICONS.SOLID_DOWN));
       s = s.replace("__DEG__", "0");
     } else {
-      s = s.replace("__ICON__", CommonUtilities.renderSvgFuncIcon(ICONS.DOWN));
+      s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICONS.DOWN));
       if (this.#progress > 25 && this.#progress < 90) {
         s = s.replace("__DEG__", String((this.#progress - 25) / 65 * 360));
       } else {

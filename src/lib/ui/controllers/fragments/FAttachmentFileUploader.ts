@@ -3,7 +3,7 @@ import { TextInput } from './TextInput.js';
 import { ListPanel } from '../../renders/panels/ListPanel.js';
 import { Panel } from '../../renders/panels/Panel.js';
 import { ICONS } from '../../Icons.js';
-import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+import { UiUtilities } from '../../Utilities.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
 export const CF_ATTACHMENT_FILE_UPLOAD = {
@@ -113,7 +113,7 @@ export class FAttachmentFileUploader extends FFileUploader {
 
   #renderAddFileButton(): string {
     let s: string = _CFT_ATTACHMENT_FILE_UPLOAD.BTN_ADD_FILE;
-    s = s.replace("__ICON__", CommonUtilities.renderSvgFuncIcon(ICONS.ATTACHMENT));
+    s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICONS.ATTACHMENT));
     s = s.replace(/__ID__/g, this._getFragmentId() + "-btn-label");
     return s;
   }

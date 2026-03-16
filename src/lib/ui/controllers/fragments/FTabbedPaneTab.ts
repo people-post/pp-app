@@ -1,5 +1,5 @@
 import { Fragment } from './Fragment.js';
-import { Utilities as CommonUtilities } from '../../../../common/Utilities.js';
+import { UiUtilities } from '../../Utilities.js';
 import { ICONS } from '../../Icons.js';
 import { PTabbedPaneTabMiddle } from '../../renders/panels/PTabbedPaneTabMiddle.js';
 import { PTabbedPaneTabLarge } from '../../renders/panels/PTabbedPaneTabLarge.js';
@@ -134,7 +134,7 @@ export class FTabbedPaneTab extends Fragment {
   #renderCloseBtn(panel: any): void {
     panel.setAttribute("onclick",
                        "javascript:G.action(window.CF_TABBED_PANE_TAB.ON_CLOSE)");
-    panel.replaceContent(CommonUtilities.renderSvgIcon(ICONS.CLOSE, "stkred", null));
+    panel.replaceContent(UiUtilities.renderSvgIcon(ICONS.CLOSE, "stkred", null));
   }
 
   #renderIcon(icon: string, isSelected: boolean, panel: any): void {
@@ -149,7 +149,7 @@ export class FTabbedPaneTab extends Fragment {
     default:
       break;
     }
-    panel.replaceContent(CommonUtilities.renderSvgFuncIcon(icon, invertColor));
+    panel.replaceContent(UiUtilities.renderSvgFuncIcon(icon, invertColor));
   }
 }
 
