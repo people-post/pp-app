@@ -4,13 +4,14 @@ import { FNavMagic } from './FNavMagic.js';
 import { PHeaderThick } from '../../renders/panels/PHeaderThick.js';
 import { PHeaderThin } from '../../renders/panels/PHeaderThin.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
-import { WebConfig } from '../../../../common/dba/WebConfig.js';
 import { PHeader } from '../../renders/panels/PHeader.js';
+import { IThemeProvider } from '../../contracts/IThemeProvider.js';
 
 export class FViewHeader extends Fragment {
   static T_LAYOUT = {
     THICK : Symbol(),
   } as const;
+  static #defaultThemeProvider: IThemeProvider | null = null;
 
   #isWide: boolean | null = null;
   #fNav: Fragment | null = null;
@@ -22,10 +23,16 @@ export class FViewHeader extends Fragment {
   #customTheme: any = null;
   //#logger: Logger;
   #tLayout: symbol | null = null;
+  #themeProvider: IThemeProvider | null;
+
+  static setDefaultThemeProvider(themeProvider: IThemeProvider | null): void {
+    FViewHeader.#defaultThemeProvider = themeProvider;
+  }
 
   constructor() {
     super();
     this.#resizeObserver = new ResizeObserver(() => this.#onResize());
+    this.#themeProvider = FViewHeader.#defaultThemeProvider;
     //this.#logger = new Logger("FViewHeader");
   }
 
@@ -80,7 +87,7 @@ export class FViewHeader extends Fragment {
     if (eTest) {
       eTest.className = "tw:inline-block";
       let t =
-          this.#customTheme ? this.#customTheme : WebConfig.getCurrentTheme();
+          this.#customTheme ? this.#customTheme : this.#themeProvider?.getCurrentTheme();
       let c = t.getSeparationColor(eTest);
       if (this.#customTheme) {
         this.#pMain?.setStyle("backgroundColor", t.getPrimaryColor());

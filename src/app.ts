@@ -15,6 +15,13 @@ import { Api } from './common/plt/Api.js';
 import { Events } from './lib/framework/Events.js';
 import { TYPE } from './common/constants/Constants.js';
 import { WcSession } from './session/WcSession.js';
+import { RenderController } from './lib/ui/controllers/RenderController.js';
+import { PageViewController } from './lib/ui/controllers/PageViewController.js';
+import { FViewHeader } from './lib/ui/controllers/fragments/FViewHeader.js';
+import { FNavigation } from './lib/ui/controllers/fragments/FNavigation.js';
+import { R } from './common/constants/R.js';
+import { WebConfig } from './common/dba/WebConfig.js';
+import { Account } from './common/dba/Account.js';
 
 // Set initial Api config
 Api.setConfig({
@@ -22,6 +29,11 @@ Api.setConfig({
   ownerId: null,
   isTrustedSite: Env.isTrustedSite(),
 });
+
+RenderController.setDefaultTranslator(R);
+PageViewController.setDefaultThemeProvider(WebConfig);
+FViewHeader.setDefaultThemeProvider(WebConfig);
+FNavigation.setDefaultAuthStatusProvider(Account);
 
 interface GInterface {
   initAsWeb3(dConfig: unknown): void;

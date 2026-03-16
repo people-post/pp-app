@@ -1,7 +1,7 @@
 import { Fragment } from './Fragment.js';
 import { FSimpleFragmentList } from './FSimpleFragmentList.js';
 import { FTabbedPaneTab } from './FTabbedPaneTab.js';
-import { Account } from '../../../../common/dba/Account.js';
+import { IAuthStatusProvider } from '../../contracts/IAuthStatusProvider.js';
 
 export const CF_NAVIGATION = {
   ON_TAB_CLICK : Symbol(),
@@ -28,11 +28,18 @@ interface NavItem {
 }
 
 export class FNavigation extends Fragment {
+  static #defaultAuthStatusProvider: IAuthStatusProvider | null = null;
   private _fTabs: FSimpleFragmentList;
   private _fNavTabs: FTabbedPaneTab[];
+  #authStatusProvider: IAuthStatusProvider | null;
+
+  static setDefaultAuthStatusProvider(authStatusProvider: IAuthStatusProvider | null): void {
+    FNavigation.#defaultAuthStatusProvider = authStatusProvider;
+  }
 
   constructor() {
     super();
+    this.#authStatusProvider = FNavigation.#defaultAuthStatusProvider;
     this._fTabs = new FSimpleFragmentList();
     this.setChild("tabs", this._fTabs);
 
@@ -87,7 +94,7 @@ export class FNavigation extends Fragment {
       // Clear first since panel may be reused
       p.clear();
       this._fTabs.clear();
-      if (!(p as any).isLoginRequired() || (Account.isAuthenticated() || false)) {
+      if (!(p as any).isLoginRequired() || (this.#authStatusProvider?.isAuthenticated() || false)) {
         for (let item of items) {
           let f = new FTabbedPaneTab();
           f.setLayoutType(FTabbedPaneTab.T_LAYOUT.LARGE);

@@ -5,7 +5,7 @@ import { Fragment } from './Fragment.js';
 import { LContext } from '../layers/LContext.js';
 import { FMonthSelector } from './FMonthSelector.js';
 import { Button } from './Button.js';
-import { ICON } from '../../../../common/constants/Icons.js';
+import { ICONS } from '../../Icons.js';
 import { UiUtilities } from '../../Utilities.js';
 import { T_ACTION } from '../../../framework/Events.js';
 import { Events } from '../../../framework/Events.js';
@@ -177,12 +177,12 @@ export class FDateSelector extends Fragment {
     p = panel.getBtnPrevPanel();
     p.setAttribute("onclick", `javascript:G.action('${CF_DATE_SELECTOR.PREV}')`);
     // TODO: Fix dependency of downstream utilities
-    p.replaceContent(UiUtilities.renderSvgFuncIcon(ICON.PREV));
+    p.replaceContent(UiUtilities.renderSvgFuncIcon(ICONS.PREV));
 
     p = panel.getBtnNextPanel();
     p.setAttribute("onclick", `javascript:G.action('${CF_DATE_SELECTOR.NEXT}')`);
     // TODO: Fix dependency of downstream utilities
-    p.replaceContent(UiUtilities.renderSvgFuncIcon(ICON.NEXT));
+    p.replaceContent(UiUtilities.renderSvgFuncIcon(ICONS.NEXT));
 
     //  this.#fYear.setConfig({min : 0, max : y + 30, step : 1, value :
     //  y}); this.#fYear.attachRender(p); this.#fYear.render();

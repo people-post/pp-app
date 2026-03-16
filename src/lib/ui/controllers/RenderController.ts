@@ -1,7 +1,7 @@
 import { Controller } from '../../ext/Controller.js';
 import { Factory, T_OBJ } from '../../framework/Factory.js';
 import { Events, T_ACTION } from '../../framework/Events.js';
-import { R } from '../../../common/constants/R.js';
+import { ITranslator } from '../contracts/ITranslator.js';
 import type Render from '../renders/Render.js';
 
 const _CRC_RENDER_CONTROLLER = {
@@ -12,11 +12,13 @@ const _CRC_RENDER_CONTROLLER = {
 } as const;
 
 export class RenderController extends Controller {
+  static #defaultTranslator: ITranslator | null = null;
   #isPrimeBg: boolean = false;
   #isActive: boolean;
   #render: Render | null;
   #mChild: Map<string, RenderController>;
   #mExtraRender: Map<string, Render>;
+  #translator: ITranslator | null;
 
   constructor() {
     super();
@@ -25,6 +27,11 @@ export class RenderController extends Controller {
     this.#render = null;
     this.#mChild = new Map();
     this.#mExtraRender = new Map();
+    this.#translator = RenderController.#defaultTranslator;
+  }
+
+  static setDefaultTranslator(translator: ITranslator | null): void {
+    RenderController.#defaultTranslator = translator;
   }
 
   isActive(): boolean { return this.#isActive; }
@@ -225,8 +232,9 @@ export class RenderController extends Controller {
   }
 
   _displayMessage(textCode: string): void {
+    const text = this.#translator ? this.#translator.get(textCode) : textCode;
     Events.triggerTopAction(T_ACTION.SHOW_NOTICE, this,
-                                R.get(textCode));
+                                text);
   }
 
   _confirmDangerousOperation(msg: string, func: (() => void) | null): void {

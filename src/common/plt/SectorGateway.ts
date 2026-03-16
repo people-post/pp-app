@@ -1,11 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-
-export interface PageConfig {
-  ID: string;
-  NAME: string;
-  ICON: string | null;
-}
+import { PageConfig } from '../../lib/ui/controllers/PageConfig.js';
 
 export interface SectorGateway {
   isLoginRequired(): boolean;

@@ -1,6 +1,6 @@
 # Component Relationships And Dependency Layers
 
-This document defines the intended component relationships for the People Post frontend and records the main dependency debt that currently violates that design.
+This document defines the intended component relationships for the People Post frontend and records the current architecture status.
 
 The goal is to make the dependency direction explicit so that future refactors and TypeScript migration work move the codebase toward a stable layering model instead of deepening existing coupling.
 
@@ -69,86 +69,19 @@ The main relationships should be:
 
 In practice, the architecture should resemble a composition root at the top (`session`) and reusable primitives at the bottom (`lib/ext`).
 
-## 2. Tech Debt: Circular Or Unintended Library Dependencies
+## 2. Current Status
 
-The current tree does not fully follow the intended order. The issues below are the main places where the architecture is currently inverted or circular.
+As of the latest update, `npm run check-deps` reports no layer violations.
 
-### A. `lib/ui` depends on higher application layers
+Previously documented dependency debts in this file have been resolved, including:
 
-Representative examples:
+- `lib/ui -> common/*` imports in affected controllers/fragments
+- `lib/ui <-> common/plt` `PageConfig` type coupling
+- `common/datatypes -> common/dba` direct dependency for `User`
+- `sectors -> session` `FHomeBtn` dependency
+- `common/* -> sectors/*` direct composition in shared social/search components
 
-- `src/lib/ui/controllers/fragments/FNavigation.ts` imports `src/common/dba/Account.js`
-- `src/lib/ui/controllers/PageViewController.ts` imports `src/common/dba/WebConfig.js`
-- `src/lib/ui/controllers/PageViewController.ts` imports `src/common/plt/SectorGateway.js`
-- `src/lib/ui/controllers/RenderController.ts` imports `src/common/constants/R.js`
-- `src/lib/ui/controllers/fragments/Button.ts` imports `src/common/Utilities.js`
-
-Why this is debt:
-
-- `lib/ui` is supposed to be reusable infrastructure.
-- Imports from `common/*` pull product-specific state, resources, and platform contracts into the UI library.
-- Once `lib/ui` knows `common`, it becomes difficult to reuse or refactor either layer independently.
-
-Preferred direction:
-
-- move product-specific logic out of `lib/ui`
-- pass data and callbacks into `lib/ui` from higher layers
-- extract neutral interfaces or DTOs if `lib/ui` needs configuration metadata
-
-### B. `lib/ui` and `common/plt` already form a circular boundary
-
-Concrete example:
-
-- `src/lib/ui/controllers/PageViewController.ts` imports `PageConfig` from `src/common/plt/SectorGateway.ts`
-- `src/common/plt/SectorGateway.ts` imports `Fragment` and `View` from `src/lib/ui`
-
-Why this is debt:
-
-- this is not just an upward dependency; it creates a bidirectional dependency boundary between `lib/ui` and `common/plt`
-- once both sides name each other directly, page/view contracts become hard to move without touching both library and application code
-
-Preferred direction:
-
-- move pure page metadata types such as `PageConfig` into a lower neutral package
-- keep `lib/ui` independent from sector-specific gateway contracts
-- keep `common/plt` contracts independent from concrete UI library classes where possible
-
-### C. `common/datatypes -> common/dba` status for `User`
-
-This specific issue has been addressed:
-
-- `src/common/datatypes/User.ts` no longer imports `src/common/dba/WebConfig.ts`
-- the lazy dynamic import/cache pattern was removed from the datatype layer
-- environment behavior is now injected from session bootstrap via `User.setIsDevSiteResolver(...)` in `src/session/WcSession.ts`
-
-Boundary rule remains: datatypes should not directly import `common/dba/*`.
-
-### D. `sectors -> session` status for home button
-
-This specific issue has been addressed:
-
-- `FHomeBtn` now lives in `src/common/gui/FHomeBtn.ts`
-- frontpage sectors now import `src/common/gui/FHomeBtn.js` instead of importing from `src/session/*`
-
-The boundary rule still stands for new code: sectors must not import from session.
-
-### E. `common/other -> sectors` status for quote and search composition
-
-This specific issue has been addressed:
-
-- `src/common/social/FSocialBar.ts` no longer imports `src/sectors/blog/FvcQuoteEditor.ts`
-- `src/common/search/FvcSearchResult.ts` no longer imports sector-specific fragments from `src/sectors/*`
-- session bootstrap now registers sector-aware quote-editor and search-result target factories via `src/lib/framework/Factory.ts`
-
-Boundary rule remains: shared code in `src/common/*` must not directly import sector-specific UI from `src/sectors/*`; composition belongs in `src/session/*`.
-
-## Refactoring Priorities
-
-The remaining clean-up should happen in this order:
-
-1. Break `lib/ui -> common/*` imports, starting with `PageViewController`, `FNavigation`, `RenderController`, and shared fragment classes.
-2. Break the `lib/ui <-> common/plt` cycle by moving shared contracts into a lower neutral package.
-3. Keep `lib/framework -> lib/ui` imports disallowed so the dependency direction stays one-way.
+This means there are currently no active architecture debt items tracked in this document.
 
 ## Guardrails For New Code
 

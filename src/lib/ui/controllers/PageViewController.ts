@@ -2,11 +2,11 @@ import { RenderController } from './RenderController.js';
 import { FNavigation } from './fragments/FNavigation.js';
 import { Page } from './Page.js';
 import { T_DATA, T_ACTION, Events } from '../../framework/Events.js';
-import { WebConfig } from '../../../common/dba/WebConfig.js';
 import { ViewStack, ViewStackOwner } from './ViewStack.js';
 import { View } from './views/View.js';
-import { PageConfig } from '../../../common/plt/SectorGateway.js';
+import { PageConfig } from './PageConfig.js';
 import { ConsolePanel } from '../renders/panels/ConsolePanel.js';
+import { IThemeProvider } from '../contracts/IThemeProvider.js';
 
 export interface PageViewControllerOwner {
   onPageViewControllerRequestPopView(pvc: PageViewController): void;
@@ -25,19 +25,26 @@ export interface PageViewControllerDelegate {
 }
 
 export class PageViewController extends RenderController implements ViewStackOwner {
+  static #defaultThemeProvider: IThemeProvider | null = null;
   #mPageConfig: Map<string, PageConfig>;
   #mPage: Map<string, Page>;
   #currentPage: Page | null = null;
   #defaultPageId: string | null = null;
   #fNav: FNavigation;
+  #themeProvider: IThemeProvider | null;
 
   protected declare _dataSource: PageViewControllerDataSource;
   protected declare _delegate: PageViewControllerDelegate;
+
+  static setDefaultThemeProvider(themeProvider: IThemeProvider | null): void {
+    PageViewController.#defaultThemeProvider = themeProvider;
+  }
 
   constructor() {
     super();
     this.#mPageConfig = new Map(); // All pages with visible tab
     this.#mPage = new Map();       // All pages with visible tab
+    this.#themeProvider = PageViewController.#defaultThemeProvider;
 
     this.#fNav = new FNavigation();
     this.#fNav.setDataSource(this);
@@ -178,7 +185,7 @@ export class PageViewController extends RenderController implements ViewStackOwn
     let page = this.#getOrInitPage(pageId);
     if (page) {
       // Clear theme set by page
-      WebConfig.setThemeId(null);
+      this.#themeProvider?.setThemeId(null);
       page.setOwner(this as unknown as RenderController);
       this.#currentPage = page;
       this.#currentPage.setActive(true);

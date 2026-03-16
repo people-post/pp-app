@@ -1,7 +1,7 @@
 import { Fragment } from './Fragment.js';
 import { ICONS } from '../../Icons.js';
 import { UiUtilities } from '../../Utilities.js';
-import { RemoteFile } from '../../../../common/datatypes/RemoteFile.js';
+import { IRemoteFile } from '../../contracts/IRemoteFile.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
 const _CFT_ATTACHMENT_FILE = {
@@ -10,13 +10,13 @@ const _CFT_ATTACHMENT_FILE = {
 } as const;
 
 export class FAttachmentFile extends Fragment {
-  #file: RemoteFile | undefined = undefined;
+  #file: IRemoteFile | undefined = undefined;
 
   constructor() {
     super();
   }
 
-  setFile(f: RemoteFile | undefined): void { this.#file = f; }
+  setFile(f: IRemoteFile | undefined): void { this.#file = f; }
 
   _renderOnRender(render: PanelWrapper): void {
     if (!this.#file) {
