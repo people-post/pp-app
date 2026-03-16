@@ -4,7 +4,8 @@ import { PError } from '../../lib/ui/renders/panels/PError.js';
 import ExtUtilities from '../../lib/ext/Utilities.js';
 import { Events } from '../../lib/framework/Events.js';
 import { T_ACTION } from '../plt/Events.js';
-import { RemoteError } from '../datatypes/RemoteError.js';
+import { RemoteError as RemoteErrorData } from '../datatypes/RemoteError.js';
+import type { RemoteError } from '../../types/basic.js';
 
 export const CF_ERROR = {
   DISMISS_ERROR : "CF_ERROR_1",
@@ -36,21 +37,21 @@ export class FError extends Fragment {
     }
   }
 
-  handleRemoteError(err: { type: string; code: string; data?: unknown }): void {
+  handleRemoteError(err: RemoteError): void {
     switch (err.type) {
-    case RemoteError.T_TYPE.USER:
+    case RemoteErrorData.T_TYPE.USER:
       this.#onUserError(err);
       break;
-    case RemoteError.T_TYPE.LIMIT:
+    case RemoteErrorData.T_TYPE.LIMIT:
       this.#onLimitationError(err);
       break;
-    case RemoteError.T_TYPE.QUOTA:
+    case RemoteErrorData.T_TYPE.QUOTA:
       this.#onQuotaError(err);
       break;
-    case RemoteError.T_TYPE.DEV:
+    case RemoteErrorData.T_TYPE.DEV:
       this.#onDevError(err);
       break;
-    case RemoteError.T_TYPE.CONN:
+    case RemoteErrorData.T_TYPE.CONN:
       this.#onConnectionError(err);
       break;
     default:
@@ -102,7 +103,7 @@ export class FError extends Fragment {
   }
 
   #getUserErrorMsg(code: string, data: unknown): string {
-    let t = (RemoteError.T_USER as Record<string, string>)[code];
+    let t = (RemoteErrorData.T_USER as Record<string, string>)[code];
     switch (code) {
     case "E_TEMP_LOCK":
     case "E_LOGIN_FREEZE":
@@ -132,30 +133,30 @@ export class FError extends Fragment {
   }
 
   #getLimitationErrorMsg(code: string, _data: unknown): string { 
-    return (RemoteError.T_LIMIT as Record<string, string>)[code] || ''; 
+    return (RemoteErrorData.T_LIMIT as Record<string, string>)[code] || ''; 
   }
 
-  #onQuotaError(err: { type: string; code: string; data?: unknown }): void {
+  #onQuotaError(err: RemoteError): void {
     Events.triggerTopAction(T_ACTION.ACCOUNT_UPGRADE, err);
   }
 
-  #onUserError(err: { type: string; code: string; data?: unknown }): void {
+  #onUserError(err: RemoteError): void {
     const msg = this.#getUserErrorMsg(err.code, err.data);
     this.show(msg);
   }
 
-  #onLimitationError(err: { type: string; code: string; data?: unknown }): void {
+  #onLimitationError(err: RemoteError): void {
     const msg = this.#getLimitationErrorMsg(err.code, err.data);
     this.show(msg);
   }
 
-  #onDevError(_err: { type: string; code: string; data?: unknown }): void {
-    const msg = RemoteError.T_DEV;
+  #onDevError(_err: RemoteError): void {
+    const msg = RemoteErrorData.T_DEV;
     this.show(msg);
   }
 
-  #onConnectionError(_err: { type: string; code: string; data?: unknown }): void {
-    const msg = RemoteError.T_CONN;
+  #onConnectionError(_err: RemoteError): void {
+    const msg = RemoteErrorData.T_CONN;
     this.show(msg);
   }
 }

@@ -1,6 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FError } from './FError.js';
 import Render from '../../lib/ui/renders/Render.js';
+import type { RemoteError } from '../../types/basic.js';
 
 interface BannerDelegate {
   onErrorFragmentRequestShow?(fError: FError): void;
@@ -35,8 +36,8 @@ export class FBanner extends Fragment {
     this.setChild("content", f);
   }
 
-  showRemoteError(data: unknown): void {
-    this._fError.handleRemoteError(data as { type: string; code: string; data?: unknown });
+  showRemoteError(data: RemoteError): void {
+    this._fError.handleRemoteError(data);
   }
 
   showLocalError(msg: string): void {

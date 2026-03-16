@@ -26,10 +26,16 @@ export class Fragment extends RenderController implements FragmentOwner {
       owner.onFragmentRequestShowView(this, view, title);
     }
   }
-  onErrorInController(_c: RenderController, e: unknown): void {
+  onRemoteErrorInController(_c: RenderController, e: unknown): void {
     const owner = this.getOwner<FragmentOwner>();
     if (owner) {
       owner.onRemoteErrorInFragment(this, e);
+    }
+  }
+  onLocalErrorInController(_c: RenderController, msg: string): void {
+    const owner = this.getOwner<FragmentOwner>();
+    if (owner) {
+      owner.onLocalErrorInFragment(this, msg);
     }
   }
   onRemoteErrorInFragment(_f: Fragment, e: unknown): void {

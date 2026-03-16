@@ -44,7 +44,7 @@ export class CommentIdLoader extends LongListIdLoader {
     this.#isBatchLoading = false;
     let response = JSON.parse(responseText) as { error?: unknown; data?: { comments: unknown[] } };
     if (response.error) {
-      this.onErrorInController(this, response.error);
+      this.onRemoteErrorInController(this, response.error);
     } else {
       let ds = response.data?.comments || [];
       if (ds.length) {

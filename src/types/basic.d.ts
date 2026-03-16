@@ -121,6 +121,26 @@ export interface SocialItem {
 }
 
 /**
+ * RemoteError interface representing common remote error payload shape
+ */
+export interface RemoteError {
+  /**
+   * Error type category
+   */
+  type: string;
+
+  /**
+   * Error code
+   */
+  code: string;
+
+  /**
+   * Optional additional error data
+   */
+  data?: unknown;
+}
+
+/**
  * RemoteFile interface representing the public API of the RemoteFile class
  */
 export interface RemoteFile {

@@ -25,14 +25,14 @@ export class Address extends Fragment {
     this.#fBtnEdit = new Button();
     this.#fBtnEdit.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this.#fBtnEdit.setName("Edit");
-    this.#fBtnEdit.setDelegate(this as unknown as { [key: string]: unknown; onErrorInController?(c: unknown, e: unknown): void });
+    this.#fBtnEdit.setDelegate(this);
     this.setChild("btnEdit", this.#fBtnEdit);
 
     this.#fBtnDelete = new Button();
     this.#fBtnDelete.setLayoutType(Button.LAYOUT_TYPE.SMALL);
     this.#fBtnDelete.setName("Delete...");
     this.#fBtnDelete.setThemeType(Button.T_THEME.DANGER);
-    this.#fBtnDelete.setDelegate(this as unknown as { [key: string]: unknown; onErrorInController?(c: unknown, e: unknown): void });
+    this.#fBtnDelete.setDelegate(this);
     this.setChild("btnDelete", this.#fBtnDelete);
   }
 
