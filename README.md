@@ -14,6 +14,14 @@
 | build.js                     | Node.js build script to compile code and prepare package                                    |
 | package.json                 | npm package configuration with build scripts                                               |
 
+## Architecture Docs
+
+- `doc/ComponentRelationships.md`: intended component relationships, dependency order, and current layering debt
+
+## Validation Commands
+
+- `npm run check-deps`: scan `src/` imports for dependency-layer violations
+
 ## Building
 
 This project uses Node.js and npm for building. The build process replaces the previous bash-based `package.sh` script.
