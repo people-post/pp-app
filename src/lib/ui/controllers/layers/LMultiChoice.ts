@@ -68,7 +68,7 @@ const _CL_CONTEXT = {
   TITLE : `__TITLE__:`,
 } as const;
 
-interface LMultiChoiceDelegate {
+export interface ILMultiChoiceDelegate {
   onAlternativeChosenInMultiChoiceLayer(l: LMultiChoice, value: unknown): void;
   onItemsChosenInMultiChoiceLayer(l: LMultiChoice, values: unknown[]): void;
 }
@@ -79,8 +79,6 @@ export class LMultiChoice extends Layer {
   #fChoices: FFragmentList;
   #fAlternatives: FFragmentList;
   #btnCancel: Button;
-
-  protected declare _delegate: LMultiChoiceDelegate;
 
   constructor() {
     super();
@@ -156,11 +154,11 @@ export class LMultiChoice extends Layer {
     this.#onClose();
     if (fBtn != this.#btnCancel) {
       if (typeof (fBtn as any).isOwnedBy === 'function' && (fBtn as any).isOwnedBy(this.#fAlternatives)) {
-        this._delegate.onAlternativeChosenInMultiChoiceLayer(this,
+        this.getDelegate<ILMultiChoiceDelegate>()?.onAlternativeChosenInMultiChoiceLayer(this,
                                                              fBtn.getValue());
       } else {
         // TODO: Use boxes before choices
-        this._delegate.onItemsChosenInMultiChoiceLayer(this,
+        this.getDelegate<ILMultiChoiceDelegate>()?.onItemsChosenInMultiChoiceLayer(this,
                                                        [ fBtn.getValue() ]);
       }
     }

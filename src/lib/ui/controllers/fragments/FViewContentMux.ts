@@ -3,7 +3,7 @@ import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { ListPanel } from '../../renders/panels/ListPanel.js';
 import { FViewContentContainer } from './FViewContentContainer.js';
 import { FTabbedPaneTabBar } from './FTabbedPaneTabBar.js';
-import { ScrollEndEventShim } from '../../../ext/ScrollEndEventShim.js';
+import { ScrollEndEventShim, IScrollEndEventShimDelegate } from '../../../ext/ScrollEndEventShim.js';
 import { FScrollViewContent } from './FScrollViewContent.js';
 import { FScrollViewContentHook } from './FScrollViewContentHook.js';
 import { FViewContentBase } from './FViewContentBase.js';
@@ -46,7 +46,7 @@ interface TabConfig {
   icon?: string;
 }
 
-export class FViewContentMux extends FViewContentContainer {
+export class FViewContentMux extends FViewContentContainer implements IScrollEndEventShimDelegate {
   #fTabBar: FTabbedPaneTabBar;
   #fCurrent: FViewContentBase | null = null;
   #pContent: ListPanel | null = null;
@@ -63,7 +63,7 @@ export class FViewContentMux extends FViewContentContainer {
     this.setChild("muxHeader", this.#fTabBar);
 
     this.#obScrollEnd = new ScrollEndEventShim();
-    this.#obScrollEnd.setDelegate(this as any);
+    this.#obScrollEnd.setDelegate(this);
 
     this.#obResize = new ResizeObserver(() => this.#onResize());
   }

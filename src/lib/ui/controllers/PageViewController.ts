@@ -8,17 +8,17 @@ import { PageConfig } from './PageConfig.js';
 import { ConsolePanel } from '../renders/panels/ConsolePanel.js';
 import { IThemeProvider } from '../contracts/IThemeProvider.js';
 
-export interface PageViewControllerOwner {
+export interface IPageViewControllerOwner {
   onPageViewControllerRequestPopView(pvc: PageViewController): void;
 }
 
-export interface PageViewControllerDataSource {
+export interface IPageViewControllerDataSource {
   isPageNavPageInPageViewController(pvc: PageViewController, pageId: string): boolean;
   getNPageNotificationsForPageViewController(pvc: PageViewController, pageId: string): number;
   createPageForPageViewController(pvc: PageViewController, pageId: string): Page;
 }
 
-export interface PageViewControllerDelegate {
+export interface IPageViewControllerDelegate {
   onPageViewControllerOverlayPermissionChange(pvc: PageViewController, allowed: boolean): void;
   onPageViewControllerWillUpdateNavView(pvc: PageViewController): void;
   onPageSwitchedInPageViewController(pvc: PageViewController): void;
@@ -32,9 +32,6 @@ export class PageViewController extends RenderController implements ViewStackOwn
   #defaultPageId: string | null = null;
   #fNav: FNavigation;
   #themeProvider: IThemeProvider | null;
-
-  protected declare _dataSource: PageViewControllerDataSource;
-  protected declare _delegate: PageViewControllerDelegate;
 
   static setDefaultThemeProvider(themeProvider: IThemeProvider | null): void {
     PageViewController.#defaultThemeProvider = themeProvider;
@@ -72,7 +69,7 @@ export class PageViewController extends RenderController implements ViewStackOwn
   }
   getNavItemsForNavigationFragment(_fNav: FNavigation): any[] {
     let items: any[] = [];
-    const dataSource = this.getDataSource<PageViewControllerDataSource>();
+    const dataSource = this.getDataSource<IPageViewControllerDataSource>();
     for (let c of this.#mPageConfig.values()) {
       items.push({
         ID : c.ID,
@@ -97,7 +94,7 @@ export class PageViewController extends RenderController implements ViewStackOwn
   setDefaultPageId(id: string | null): void { this.#defaultPageId = id; }
 
   onViewStackStackSizeChange(_nc: ViewStack): void {
-    const delegate = this.getDelegate<PageViewControllerDelegate>();
+    const delegate = this.getDelegate<IPageViewControllerDelegate>();
     if (delegate) {
       delegate.onPageViewControllerOverlayPermissionChange(
         this, this.#isOverlayAllowed());
@@ -110,7 +107,7 @@ export class PageViewController extends RenderController implements ViewStackOwn
 
   onViewStackRequestPopView(nc: ViewStack): void {
     if (nc == this.#currentPage) {
-      const owner = this.getOwner<PageViewControllerOwner>();
+      const owner = this.getOwner<IPageViewControllerOwner>();
       if (owner) {
         owner.onPageViewControllerRequestPopView(this);
       }
@@ -197,7 +194,7 @@ export class PageViewController extends RenderController implements ViewStackOwn
     }
     this.#updateNavView();
     Events.triggerTopAction(T_ACTION.REPLACE_STATE, {}, "tab");
-    const delegate = this.getDelegate<PageViewControllerDelegate>();
+    const delegate = this.getDelegate<IPageViewControllerDelegate>();
     if (delegate) {
       delegate.onPageSwitchedInPageViewController(this);
     }
@@ -230,7 +227,7 @@ export class PageViewController extends RenderController implements ViewStackOwn
   }
 
   #getOrInitPage(pageId: string): Page {
-    const dataSource = this.getDataSource<PageViewControllerDataSource>();
+    const dataSource = this.getDataSource<IPageViewControllerDataSource>();
     if (!dataSource) {
       console.error("DataSource is not set in PageViewController");
       throw new Error("DataSource is not set");
@@ -262,7 +259,7 @@ export class PageViewController extends RenderController implements ViewStackOwn
   }
 
   #updateNavView(): void {
-    const delegate = this.getDelegate<PageViewControllerDelegate>();
+    const delegate = this.getDelegate<IPageViewControllerDelegate>();
     if (delegate) {
       delegate.onPageViewControllerWillUpdateNavView(this);
     }

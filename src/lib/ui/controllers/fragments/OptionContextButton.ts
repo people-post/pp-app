@@ -1,5 +1,5 @@
 import { Fragment } from './Fragment.js';
-import { LContext } from '../layers/LContext.js';
+import { LContext, ILContextDelegate } from '../layers/LContext.js';
 import { ICONS } from '../../Icons.js';
 import { UiUtilities } from '../../Utilities.js';
 import { T_ACTION } from '../../../framework/Events.js';
@@ -14,15 +14,13 @@ const _CFT_OPTION_CONTEXT_BUTTON = {
       `<span class="tw:cursor-pointer" onclick="javascript:G.action(window.CF_OPTION_CONTEXT_BUTTON.ONCLICK)">__ICON__</span>`,
 } as const;
 
-interface OptionContextButtonDelegate {
+export interface IOptionContextButtonDelegate {
   onOptionClickedInContextButtonFragment(f: OptionContextButton, value: unknown): void;
 }
 
-export class OptionContextButton extends Fragment {
+export class OptionContextButton extends Fragment implements ILContextDelegate {
   #lc: LContext;
   #icon: string;
-
-  protected declare _delegate: OptionContextButtonDelegate;
 
   constructor() {
     super();
@@ -42,7 +40,7 @@ export class OptionContextButton extends Fragment {
   clearOptions(): void { this.#lc.clearOptions(); }
 
   onOptionClickedInContextLayer(_lContext: LContext, value: unknown): void {
-    this._delegate.onOptionClickedInContextButtonFragment(this, value);
+    this.getDelegate<IOptionContextButtonDelegate>()?.onOptionClickedInContextButtonFragment(this, value);
   }
 
   action(type: symbol, ..._args: unknown[]): void {

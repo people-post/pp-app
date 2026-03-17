@@ -3,7 +3,7 @@ export const CF_PROJECT_STAGE = {
 };
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
+import { OptionContextButton, IOptionContextButtonDelegate } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
@@ -34,7 +34,7 @@ interface ProjectStageAction {
   type: string;
 }
 
-export class FProjectStage extends Fragment {
+export class FProjectStage extends Fragment implements IOptionContextButtonDelegate {
   static LTC_MID = "LTC_MID";
   static LTR_COMPACT = "LTR_COMPACT";
   static LTR_MID = "LTR_MID";

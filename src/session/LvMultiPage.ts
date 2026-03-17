@@ -2,7 +2,7 @@ import { Gateway } from './Gateway.js';
 import { FvcExtras } from '../common/gui/FvcExtras.js';
 import { View } from '../lib/ui/controllers/views/View.js';
 import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
-import { PageViewController, PageViewControllerDataSource, PageViewControllerDelegate, PageViewControllerOwner } from '../lib/ui/controllers/PageViewController.js';
+import { PageViewController, IPageViewControllerDataSource, IPageViewControllerDelegate, IPageViewControllerOwner } from '../lib/ui/controllers/PageViewController.js';
 import { Page } from '../lib/ui/controllers/Page.js';
 import { Logger } from '../lib/ext/Logger.js';
 import { Badge } from '../common/dba/Badge.js';
@@ -12,7 +12,7 @@ import { PMain } from './PMain.js';
 import type { PageConfig } from '../lib/ui/controllers/PageConfig.js';
 import { Account } from '../common/dba/Account.js';
 
-export class LvMultiPage extends ViewLayer implements PageViewControllerOwner, PageViewControllerDataSource, PageViewControllerDelegate {
+export class LvMultiPage extends ViewLayer implements IPageViewControllerOwner, IPageViewControllerDataSource, IPageViewControllerDelegate {
   #fBtnHome: FHomeBtn | null = null;
   #fAbDefault: unknown = null;
   #logger: Logger;

@@ -61,7 +61,7 @@ const _CL_CONTEXT = {
   TITLE : `__TITLE__:`,
 } as const;
 
-export interface LContextDelegate {
+export interface ILContextDelegate {
   onOptionClickedInContextLayer(l: LContext, value: unknown): void;
 }
 
@@ -70,8 +70,6 @@ export class LContext extends Layer {
   #description: string | null = null;
   #fOptions: FFragmentList;
   #btnCancel: Button;
-
-  protected declare _delegate: LContextDelegate;
 
   constructor() {
     super();
@@ -131,7 +129,7 @@ export class LContext extends Layer {
   onSimpleButtonClicked(fBtn: Button): void {
     this.#onClose();
     if (fBtn != this.#btnCancel) {
-      this._delegate.onOptionClickedInContextLayer(this, fBtn.getValue());
+      this.getDelegate<ILContextDelegate>()?.onOptionClickedInContextLayer(this, fBtn.getValue());
     }
   }
 

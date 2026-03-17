@@ -1,8 +1,8 @@
 import { Panel } from '../../renders/panels/Panel.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { FViewContentWrapper } from './FViewContentWrapper.js';
-import { ScrollEndEventShim } from '../../../ext/ScrollEndEventShim.js';
-import { FElasticRefresh } from './FElasticRefresh.js';
+import { ScrollEndEventShim, IScrollEndEventShimDelegate } from '../../../ext/ScrollEndEventShim.js';
+import { FElasticRefresh, IElasticRefreshDataSource, IElasticRefreshDelegate } from './FElasticRefresh.js';
 import { Fragment } from './Fragment.js';
 import { FViewContentBase } from './FViewContentBase.js';
 
@@ -76,7 +76,7 @@ interface ScrollYInfo {
   total: number;
 }
 
-export class FScrollViewContentHook extends FViewContentWrapper {
+export class FScrollViewContentHook extends FViewContentWrapper implements IScrollEndEventShimDelegate, IElasticRefreshDataSource, IElasticRefreshDelegate {
   #fElasticRefresh: FElasticRefresh;
   #sScrollEvt: ScrollEndEventShim;
   #pMain: PScrollViewContentHook | null = null;
