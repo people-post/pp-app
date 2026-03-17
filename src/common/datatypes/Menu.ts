@@ -1,9 +1,6 @@
 import { MenuItem } from './MenuItem.js';
 import { MenuEntryItem } from './MenuEntryItem.js';
-
-interface MenuData {
-  [key: string]: unknown;
-}
+import type { MenuData, MenuEntryItemData, MenuItemData } from '../../types/backend2.js';
 
 export class Menu extends MenuItem {
   constructor(data: MenuData) {
@@ -14,12 +11,12 @@ export class Menu extends MenuItem {
     return null;
   }
 
-  protected _getPathItem(): string | undefined {
-    return undefined;
+  protected _getPathItem(): string | null {
+    return null;
   }
 
-  protected _createSubItem(data: MenuData): MenuEntryItem {
-    return new MenuEntryItem(data, this);
+  protected _createSubItem(data: MenuItemData): MenuEntryItem {
+    return new MenuEntryItem(data as MenuEntryItemData, this);
   }
 }
 

@@ -2,6 +2,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { MenuItem } from '../datatypes/MenuItem.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { MenuContent } from './MenuContent.js';
@@ -14,20 +15,20 @@ import { Groups } from '../dba/Groups.js';
 
 const _CPT_MENU_ITEM = {
   V_MAIN : `<div class="flex">
-    <div class="w5">
-      <div id="__ID_THEME__" class="w5px tw:h-full"></div>
+    <div class="tw:w-5">
+      <div id="__ID_THEME__" class="tw:w-5px tw:h-full"></div>
     </div>
-    <div class="tw:flex-grow tw:flex tw:border-b tw:border-b-[1px] tw:border-solid s-cmenubd">
-      <div class="w5px"></div>
-      <div id="__ID_CONTENT__" class="tw:flex-grow"></div>
-      <div class="w5px tw:flex tw:items-center">
+    <div class="tw:grow tw:flex tw:border-b tw:border-solid s-cmenubd">
+      <div class="tw:w-5px"></div>
+      <div id="__ID_CONTENT__" class="tw:grow"></div>
+      <div class="tw:w-5px tw:flex tw:items-center">
         <div id="__ID_ARROW__"></div>
       </div>
     </div>
-    <div class="w5"></div>
+    <div class="tw:w-5"></div>
   </div>`,
   H_MAIN : `<div>
-  <div class="flex">
+  <div class="tw:flex">
     <div id="__ID_CONTENT__"></div>
     <div id="__ID_ARROW__"></div>
   </div>
@@ -98,17 +99,6 @@ export class PHMenuItem extends Panel {
     s = s.replace("__ID_ARROW__", this._getSubElementId("A"));
     return s;
   }
-}
-
-interface MenuItem {
-  getId(): string;
-  getName(): string;
-  getTagId(): string;
-  getTheme(): { getPrimaryColor(): string } | null;
-  getSubItems(): MenuItem[];
-  isEmpty(): boolean;
-  getDepth(): number;
-  getParent(): MenuItem | null;
 }
 
 export class MainMenu extends MenuContent {
@@ -221,7 +211,7 @@ export class MainMenu extends MenuContent {
     }
   }
 
-  #renderChoice(panel: PVMenuItem | PHMenuItem, item: MenuItem, tLayout: string | null = null): void {
+  #renderChoice(panel: PVMenuItem | PHMenuItem, item: MenuItem, tLayout: symbol | null = null): void {
     let t = item.getTheme();
     if (t) {
       panel.getThemePanel().setStyle("backgroundColor", t.getPrimaryColor());
@@ -313,10 +303,17 @@ export class MainMenu extends MenuContent {
   }
 
   #getMenus(): MenuItem[] {
-    let items = Menus.get(this.#sectorId, this.#ownerId);
-    if (items.length == 1) {
+    if (!this.#sectorId) {
+      return [];
+    }
+    let menus = Menus.get(this.#sectorId, this.#ownerId);
+    let items: MenuItem[];
+    if (menus.length == 1) {
       // Auto expand to next level
-      items = items[0].getSubItems();
+      items = menus[0].getSubItems();
+    } else {
+      // TODO: not a good cast
+      items = menus.map(m => m as MenuItem);
     }
     return items.concat(this.#extraItems);
   }

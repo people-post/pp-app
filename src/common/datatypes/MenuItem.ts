@@ -1,43 +1,36 @@
 import { DirItem } from './DirItem.js';
 import { ColorTheme } from './ColorTheme.js';
+import type { MenuItemData } from '../../types/backend2.js';
 
-interface MenuItemData {
-  tag_id?: string;
-  [key: string]: unknown;
-}
-
-export class MenuItem extends DirItem {
-  protected _data: MenuItemData;
-  protected _parentItem: MenuItem | null;
+export class MenuItem extends DirItem<MenuItemData, MenuItem> {
+  #parentItem: MenuItem | null;
 
   constructor(data: MenuItemData, parentItem: MenuItem | null) {
     super(data, parentItem);
-    this._data = data;
-    this._parentItem = parentItem;
+    this.#parentItem = parentItem;
   }
 
-  getTagId(): string | undefined {
-    return this._data.tag_id;
+  getTagId(): string | null {
+    return this._data.tag_id as string | null;
   }
 
   getTagIds(): string[] {
-    const ids: string[] = this._data.tag_id ? [this._data.tag_id] : [];
-    if (this._parentItem) {
-      return ids.concat(this._parentItem.getTagIds());
+    const ids: string[] = this._data.tag_id ? [this._data.tag_id as string] : [];
+    if (this.#parentItem) {
+      return ids.concat(this.#parentItem.getTagIds());
     }
     return ids;
   }
 
   getTheme(): ColorTheme | null {
-    return this._parentItem ? this._parentItem.getTheme() : null;
+    return this.#parentItem ? this.#parentItem.getTheme() : null;
   }
 
-  protected _getPathItem(): string | undefined {
-    return this.getTagId();
+  protected _getPathItem(): string | null {
+    return this.getTagId() ?? null;
   }
 
   protected _createSubItem(data: MenuItemData): MenuItem {
     return new MenuItem(data, this);
   }
 }
-

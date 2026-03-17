@@ -11,8 +11,9 @@ import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { MAX } from '../constants/Constants.js';
 import { R } from '../constants/R.js';
+import { MenuItem } from '../datatypes/MenuItem.js';
 
-export class MenuConfig extends DirFragment {
+export class MenuConfig extends DirFragment<MenuItem> {
   private _fSelected: FoldableItemFragment | null = null;
   private _sectorId: string | null = null;
 
@@ -62,7 +63,10 @@ export class MenuConfig extends DirFragment {
     let items: Array<{id: string; name: string}> = [];
     let tagIdsInUse: string[] = [];
     for (let i of this._getSubItems()) {
-      tagIdsInUse.push((i as { getTagId(): string }).getTagId());
+      const tagId = i.getTagId();
+      if (tagId) {
+        tagIdsInUse.push(tagId);
+      }
     }
     for (let t of WebConfig.getTags()) {
       if (tagIdsInUse.indexOf(t.getId()) > -1) {
@@ -88,10 +92,7 @@ export class MenuConfig extends DirFragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _createSubDirFragment(item: ReturnType<typeof this._dataSource.getMenuForGuiMenuConfig>): FoldableItemFragment {
-    if (!item) {
-      throw new Error("Item is required");
-    }
+  protected _createSubDirFragment(item: MenuItem): FoldableItemFragment {
     let itemId = item.getId();
     let f = new FoldableItemFragment();
     f.setItemId(itemId);
@@ -113,12 +114,18 @@ export class MenuConfig extends DirFragment {
     return f;
   }
 
-  _getSubItems(): Array<{ isDir(): boolean; getName(): string }> {
-    let m = this.#getMenuItem();
-    return (m ? m.getSubItems() : []) as Array<{ isDir(): boolean; getName(): string }>;
+  protected _getSubItems(): MenuItem[] {
+    const m = this.#getMenuItem();
+    return m ? m.getSubItems() : [];
   }
 
-  #getMenuItem(): ReturnType<typeof this._dataSource.getMenuForGuiMenuConfig> { return this._dataSource.getMenuForGuiMenuConfig(this); }
+  #getMenuItem(): MenuItem | null {
+    // _dataSource is provided by the fragment owner (e.g. FvcConfig)
+    // and is expected to return a MenuItem or null.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ds: any = (this as any)._dataSource;
+    return ds ? (ds.getMenuForGuiMenuConfig(this) as MenuItem | null) : null;
+  }
 
   #onDeleteMenuItem(itemId: string): void {
     this._confirmDangerousOperation(

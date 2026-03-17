@@ -55,6 +55,26 @@ export interface ColorTheme {
   secondary_color: string;
 }
 
+interface DirItemDataBase {
+  id: string;
+  name?: string;
+  created_at?: Date | number;
+}
+
+export interface DirItemData<T extends DirItemData<T> = any> extends DirItemDataBase {
+  sub_items?: T[];
+}
+
+export interface MenuItemData extends DirItemData<MenuItemData> {
+  tag_id?: string;
+}
+
+export interface MenuEntryItemData extends MenuItemData {
+  theme?: ColorTheme;
+}
+
+export interface MenuData extends MenuItemData {}
+
 /**
  * UserProfile data structure from backend API
  */

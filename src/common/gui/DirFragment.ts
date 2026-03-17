@@ -3,13 +3,9 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { HintText } from '../../lib/ui/controllers/fragments/HintText.js';
+import type { DirItem } from '../datatypes/DirItem.js';
 
-interface DirItem {
-  isDir(): boolean;
-  getName(): string;
-}
-
-export class DirFragment extends Fragment {
+export class DirFragment<TItem extends DirItem<any, any> = DirItem<any, any>> extends Fragment {
   declare _fItems: FSimpleFragmentList;
   declare _fNewItem: Fragment | null;
   declare _nMaxItems: number;
@@ -37,15 +33,12 @@ export class DirFragment extends Fragment {
     render.wrapPanel(p);
 
     this._fItems.clear();
-    let items = this._getSubItems();
-    for (let item of items) {
-      if (item.isDir()) {
-        let f = this._createSubDirFragment(item);
-        this._fItems.append(f);
-      } else {
-        let f = this._createItemFragment(item);
-        this._fItems.append(f);
-      }
+    const items = this._getSubItems();
+    for (const item of items) {
+      const f = item.isDir()
+        ? this._createSubDirFragment(item)
+        : this._createItemFragment(item);
+      this._fItems.append(f);
     }
 
     let pp = new PanelWrapper();
@@ -61,15 +54,17 @@ export class DirFragment extends Fragment {
     }
   }
 
-  _createSubDirFragment(item: DirItem): Fragment {
+  protected _createSubDirFragment(item: TItem): Fragment {
     // TODO: To improve with particular fragment
-    return new HintText(item.getName());
+    return new HintText(item.getName() ?? '');
   }
 
-  _createItemFragment(item: DirItem): Fragment {
+  protected _createItemFragment(item: TItem): Fragment {
     // TODO: To improve with particular fragment
-    return new HintText(item.getName());
+    return new HintText(item.getName() ?? '');
   }
-  _getSubItems(): DirItem[] { return []; }
+  // Subclasses should override to return their concrete item type.
+  // Default implementation returns an empty list.
+  protected _getSubItems(): TItem[] { return []; }
 }
 

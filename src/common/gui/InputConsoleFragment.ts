@@ -3,7 +3,6 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ICON } from '../constants/Icons.js';
-import { Utilities } from '../Utilities.js';
 import { UiUtilities } from '../../lib/ui/Utilities.js';
 
 export const CF_INPUT_CONSOLE = {

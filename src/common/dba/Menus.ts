@@ -3,6 +3,8 @@ import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Ev
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Api } from '../plt/Api.js';
 import { Account } from './Account.js';
+import type { MenuData } from '../../types/backend2.js';
+import { MenuItem } from '../datatypes/MenuItem.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -13,7 +15,7 @@ interface ApiResponse {
 
 interface MenusInterface {
   get(sectorId: string, userId: string | null): Menu[];
-  find(itemId: string): unknown;
+  find(itemId: string): MenuItem | null;
   asyncAddMenu(sectorId: string, name: string): void;
   asyncAddMenuItem(sectorId: string, parentId: string, tagId: string): void;
   asyncRemoveMenuItem(sectorId: string, menuId: string): void;
@@ -34,7 +36,7 @@ export class MenusClass implements MenusInterface {
     }
   }
 
-  find(itemId: string): unknown {
+  find(itemId: string): MenuItem | null {
     for (const v of this.#lib.values()) {
       for (const ms of v.values()) {
         for (const m of ms) {
@@ -106,7 +108,7 @@ export class MenusClass implements MenusInterface {
 
     const ms: Menu[] = [];
     for (const menuData of menus) {
-      ms.push(new Menu(menuData as Record<string, unknown>));
+      ms.push(new Menu(menuData as MenuData));
     }
 
     m.set(sectorId, ms);

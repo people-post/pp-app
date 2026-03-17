@@ -8,7 +8,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FUserIcon } from './FUserIcon.js';
 import { Groups } from '../dba/Groups.js';
 import { WebConfig } from '../dba/WebConfig.js';
-import type { WebConfigData, UserProfile } from '../../types/backend2.js';
+import type { WebConfigData, UserPrivateProfile } from '../../types/backend2.js';
 import { T_DATA, T_ACTION as PltT_ACTION } from '../plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 import { Api } from '../plt/Api.js';
@@ -134,11 +134,11 @@ export class FvcUserGroup extends FScrollViewContent {
     let fd = new FormData();
     fd.append("id", String(groupId));
     let url = "api/career/resign_role";
-    Api.asFragmentPost<{ profile: UserProfile; web_config: WebConfigData }>(this, url, fd)
-        .then((d: { profile: UserProfile; web_config: WebConfigData }) => this.#onLeaveGroupRRR(d));
+    Api.asFragmentPost<{ profile: UserPrivateProfile; web_config: WebConfigData }>(this, url, fd)
+        .then((d: { profile: UserPrivateProfile; web_config: WebConfigData }) => this.#onLeaveGroupRRR(d));
   }
 
-  #onLeaveGroupRRR(data: { profile: UserProfile; web_config: WebConfigData }): void {
+  #onLeaveGroupRRR(data: { profile: UserPrivateProfile; web_config: WebConfigData }): void {
     Account.reset(data.profile);
     WebConfig.reset(data.web_config);
     const owner = this.getOwner<ViewContentFragmentOwner>();

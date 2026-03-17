@@ -8,6 +8,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Menus } from '../dba/Menus.js';
 import { WebConfig } from '../dba/WebConfig.js';
 import { MAX } from '../constants/Constants.js';
+import type { MenuItem } from '../datatypes/MenuItem.js';
 
 export const CF_MENU_ENTRY_ITEM_CONFIG = {
   CHANGE_DIR : "CF_GUI_MENU_ENTRY_ITEM_CONFIG_2",
@@ -21,7 +22,7 @@ const _CFT_MENU_ENTRY_ITEM_CONFIG = {
   PATH : `Current path: <span class="tw:text-blue-600">__ITEMS__</span>`,
 }
 
-export class MenuEntryItemConfig extends DirFragment {
+export class MenuEntryItemConfig extends DirFragment<MenuItem> {
   private _fThemeEditor: ThemeEditorFragment;
   protected _itemId: string;
   private _subItemId: string | null = null;
@@ -125,25 +126,22 @@ export class MenuEntryItemConfig extends DirFragment {
     p.pushSpace(1);
   }
 
-  _createSubDirFragment(item: ReturnType<typeof Menus.find>): MenuItemName {
-    if (!item) {
-      throw new Error("Item is required");
-    }
-    let f = new MenuItemName(item.getId());
+  protected _createSubDirFragment(item: MenuItem): MenuItemName {
+    const f = new MenuItemName(item.getId());
     f.setDelegate(this);
     return f;
   }
 
-  _getSubItems(): Array<{ isDir(): boolean; getName(): string }> {
+  protected _getSubItems(): MenuItem[] {
     if (this._subItemId) {
       return this.#getSubItems(this._subItemId);
     }
     return this.#getSubItems(this._itemId);
   }
 
-  #getSubItems(itemId: string): Array<{ isDir(): boolean; getName(): string }> {
-    let i = Menus.find(itemId);
-    return (i ? i.getSubItems() : []) as Array<{ isDir(): boolean; getName(): string }>;
+  #getSubItems(itemId: string): MenuItem[] {
+    const i = Menus.find(itemId) as MenuItem | null;
+    return i ? i.getSubItems() : [];
   }
 
   #renderPath(itemId: string): string {
@@ -162,7 +160,7 @@ export class MenuEntryItemConfig extends DirFragment {
     return s;
   }
 
-  #renderPathItem(item: ReturnType<typeof Menus.find>): string {
+  #renderPathItem(item: MenuItem | null): string {
     if (!item) {
       return "";
     }
@@ -177,7 +175,7 @@ export class MenuEntryItemConfig extends DirFragment {
     return tag ? tag.getName() : "";
   }
 
-  #getItem(): ReturnType<typeof Menus.find> { return Menus.find(this._itemId); }
+  //#getItem(): MenuItem | null { return Menus.find(this._itemId); }
 
   #onChangeDir(menuItemId: string): void {
     this._subItemId = menuItemId;
