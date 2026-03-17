@@ -33,8 +33,9 @@ export class FViewContentBase extends Fragment {
   getMaxWidthClassName(): string { return this.#maxWidthClassName; }
 
   onMenuFragmentRequestCloseMenu(_fMainMenu: Fragment): void {
-    if (this._owner) {
-      (this._owner as any).onContentFragmentRequestCloseMenu(this);
+    const owner = this.getOwner<ViewContentFragmentOwner>();
+    if (owner) {
+      owner.onContentFragmentRequestCloseMenu(this);
     }
   }
 
