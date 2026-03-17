@@ -20,6 +20,8 @@ export interface Group {
   is_open: boolean;
   status: string | null;
   data: unknown;
+  created_at?: number;
+  _created_at?: Date;
 }
 
 /**
@@ -131,19 +133,16 @@ export interface WebConfigData {
   max_n_frames?: number;
   home_sector?: string;
   home_page_title?: string;
-  owner?: {
-    uuid?: string;
-    [key: string]: unknown;
-  };
-  default_theme?: unknown;
-  front_page?: unknown;
+  owner?: UserPublicProfile;
+  default_theme?: ColorTheme;
+  front_page?: FrontPageConfig;
   side_frames?: {
     left?: FrameConfig;
     right?: FrameConfig;
   };
-  tags?: Array<{ id?: string; [key: string]: unknown }>;
-  roles?: Array<RoleData>;
-  groups?: unknown;
+  tags?: Group[];
+  roles?: RoleData[];
+  groups?: Group[];
   [key: string]: unknown;
 }
 

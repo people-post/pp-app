@@ -2,11 +2,13 @@ import { T_DATA } from '../plt/Events.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { UserGroup } from '../datatypes/UserGroup.js';
 import { Api } from '../plt/Api.js';
+import type { Group as GroupDataType } from '../../types/backend2.js';
+import type { RemoteError } from '../../types/basic.js';
 
 interface ApiResponse {
-  error?: unknown;
+  error?: RemoteError;
   data?: {
-    groups?: unknown[];
+    groups?: GroupDataType[];
   };
 }
 
@@ -77,7 +79,7 @@ export class GroupsClass implements GroupsInterface {
       if (response.data?.groups) {
         const gs: UserGroup[] = [];
         for (const d of response.data.groups) {
-          const g = new UserGroup(d as Record<string, unknown>);
+          const g = new UserGroup(d);
           this.update(g);
           gs.push(g);
         }

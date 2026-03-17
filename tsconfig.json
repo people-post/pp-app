@@ -35,8 +35,7 @@
     "noEmit": true, // We use esbuild for bundling, so TypeScript only type-checks
     
     /* JavaScript Support */
-    "allowJs": true, // Enable gradual migration from JS to TS
-    "checkJs": false, // Don't type-check JS files initially (can enable later)
+    "allowJs": false, // Enable gradual migration from JS to TS
     
     /* Completeness */
     "skipLibCheck": true // Skip type checking of declaration files for faster compilation

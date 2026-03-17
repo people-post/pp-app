@@ -1,7 +1,7 @@
-import { ServerDataObject } from './ServerDataObject.js';
+import type { Group as GroupDataType } from '../../types/backend2';
 import { ColorTheme } from './ColorTheme.js';
 
-export class GeneralGroup extends ServerDataObject {
+export class GeneralGroup {
   // Synced with backend
   static readonly T_TAG_ID = {
     TAG: '5fe245a4adc8019539df9d1c',
@@ -11,13 +11,29 @@ export class GeneralGroup extends ServerDataObject {
     BLOG: '60d50667523680be11d59db9',
   } as const;
 
-  getName(): string | undefined {
-    return this._data.name as string | undefined;
+  protected _data: GroupDataType;
+
+  constructor(data: GroupDataType) {
+    if (typeof data.created_at === 'number') {
+      data._created_at = new Date(data.created_at * 1000);
+    }
+    this._data = data;
+  }
+
+  getId(): string {
+    return this._data.id;
+  }
+
+  getCreationTime(): Date | undefined {
+    return this._data._created_at;
+  }
+
+  getName(): string {
+    return this._data.name;
   }
 
   getTheme(): ColorTheme | null {
-    const theme = this._data.theme as Record<string, unknown> | undefined;
-    return theme ? new ColorTheme(theme as { primary_color: string; secondary_color: string }) : null;
+    return this._data.theme ? new ColorTheme(this._data.theme) : null;
   }
 }
 

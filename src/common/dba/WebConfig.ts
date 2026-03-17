@@ -8,7 +8,7 @@ import { Menus } from './Menus.js';
 import { ID, URL_PARAM } from '../constants/Constants.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
-import type { FrameConfig, RoleData, WebConfigData } from '../../types/backend2.js';
+import type { FrameConfig, Group, RoleData, WebConfigData } from '../../types/backend2.js';
 
 export type { FrameConfig, RoleData, WebConfigData };
 
@@ -50,8 +50,8 @@ interface WebConfigInterface {
   asyncSetHomeSector(sectorId: string): void;
   asyncUpdateGroupConfig(groupId: string, newName?: string | null, themeKey?: string | null, themeColor?: string | null): void;
   setThemeId(id: string | null): void;
-  setBootTheme(data: unknown): void;
-  setGroups(groups: unknown): void;
+  setBootTheme(data: ColorTheme): void;
+  setGroups(groups: Group[]): void;
   setWorkshopOpen(v: boolean): void;
   setShopOpen(v: boolean): void;
 }
@@ -162,7 +162,7 @@ export class WebConfigClass implements WebConfigInterface {
       if (!this.#data || !this.#data.owner) {
         return null;
       }
-      return new User(this.#data.owner as Record<string, unknown>);
+      return new User(this.#data.owner);
     }
   }
 
@@ -200,7 +200,7 @@ export class WebConfigClass implements WebConfigInterface {
     const ds = this.#data ? this.#data.tags || [] : [];
     const tags: Tag[] = [];
     for (const d of ds) {
-      tags.push(new Tag(d as Record<string, unknown>));
+      tags.push(new Tag(d));
     }
     return tags;
   }
@@ -210,7 +210,7 @@ export class WebConfigClass implements WebConfigInterface {
     if (id) {
       for (const d of ds) {
         if (d.id === id) {
-          return new Tag(d as Record<string, unknown>);
+          return new Tag(d);
         }
       }
     }
@@ -258,11 +258,11 @@ export class WebConfigClass implements WebConfigInterface {
     }
   }
 
-  setBootTheme(data: unknown): void {
-    this.#bootTheme = new ColorTheme(data as { primary_color: string; secondary_color: string });
+  setBootTheme(data: ColorTheme): void {
+    this.#bootTheme = data;
   }
 
-  setGroups(groups: unknown): void {
+  setGroups(groups: Group[]): void {
     if (this.#data) {
       this.#data.groups = groups;
     }
