@@ -1,4 +1,5 @@
 import { FBanner, BannerDelegate } from '../common/gui/FBanner.js';
+import { ColorTheme } from '../common/datatypes/ColorTheme.js';
 import { FvcSearchResult } from '../common/search/FvcSearchResult.js';
 import { Factory, T_OBJ } from '../lib/framework/Factory.js';
 import { WindowController } from '../lib/ui/controllers/WindowController.js';
@@ -121,7 +122,7 @@ export class WcSession extends WindowController implements BannerDelegate {
     }
 
     WebConfig.setBootTheme(
-        {primary_color : primaryColor, secondary_color : secondaryColor});
+        new ColorTheme({primary_color : primaryColor, secondary_color : secondaryColor}));
     if (userId && userId.length > 0) {
       Account.setUserId(userId);
     }

@@ -179,11 +179,11 @@ export class WebConfigClass implements WebConfigInterface {
   }
 
   getDefaultTheme(): ColorTheme | null {
-    return this.#data && this.#data.default_theme ? new ColorTheme(this.#data.default_theme as { primary_color: string; secondary_color: string }) : this.#bootTheme;
+    return this.#data && this.#data.default_theme ? new ColorTheme(this.#data.default_theme) : this.#bootTheme;
   }
 
   getFrontPageConfig(): FrontPageConfig | null {
-    return this.#data && this.#data.front_page ? new FrontPageConfig(this.#data.front_page as Record<string, unknown>) : null;
+    return this.#data && this.#data.front_page ? new FrontPageConfig(this.#data.front_page) : null;
   }
 
   getLeftSideFrameConfig(): FrameConfig | null {
@@ -243,8 +243,8 @@ export class WebConfigClass implements WebConfigInterface {
   getCurrentTheme(): ColorTheme | null {
     if (this.#themeId) {
       const m = Menus.find(this.#themeId);
-      if (m && typeof m === 'object' && m !== null && 'getTheme' in m && typeof m.getTheme === 'function') {
-        return m.getTheme() as ColorTheme | null;
+      if (m) {
+        return m.getTheme();
       }
     }
 
