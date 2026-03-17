@@ -4,15 +4,13 @@ import { ListPanel } from '../../renders/panels/ListPanel.js';
 import { Panel } from '../../renders/panels/Panel.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 
-interface FvcProgressDelegate {
+export interface IFvcProgressDelegate {
   onRequestCancelInProgressViewContentFragment(f: FvcProgress): void;
 }
 
 export class FvcProgress extends FScrollViewContent {
   #messages: string[] = [];
   #btnCancel: Button;
-
-  protected declare _delegate: FvcProgressDelegate;
 
   constructor() {
     super();
@@ -50,9 +48,7 @@ export class FvcProgress extends FScrollViewContent {
   }
 
   #onCancel(): void {
-    if (this._delegate) {
-      this._delegate.onRequestCancelInProgressViewContentFragment(this);
-    }
+    this.getDelegate<IFvcProgressDelegate>()?.onRequestCancelInProgressViewContentFragment(this);
     if (this._owner) {
       (this._owner as any).onContentFragmentRequestPopView(this);
     }
