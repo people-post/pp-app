@@ -58,7 +58,7 @@ export class FPostList extends FSocialItemList {
                           this, value, articleId);
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.POST_IDS:
       this.reload();

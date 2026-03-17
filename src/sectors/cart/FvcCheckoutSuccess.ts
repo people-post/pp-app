@@ -16,7 +16,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Utilities } from '../../common/Utilities.js';
 import { FvcOrder } from './FvcOrder.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcCheckoutSuccess extends FScrollViewContent {
   protected _orderId: string | null;

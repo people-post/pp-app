@@ -40,7 +40,7 @@ export class FvcProduct extends FScrollViewContent {
     // Not possible because there is always some product to work with.
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.PRODUCT:
       if ((data as { getId(): string }).getId() == this._fProduct.getProductId()) {

@@ -66,7 +66,7 @@ export class FPaymentTerminal extends Fragment {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: any): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.PAYMENT_TERMINAL:
       if (data.getId() == this._terminalId) {

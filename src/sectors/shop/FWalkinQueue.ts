@@ -59,7 +59,7 @@ export class FWalkinQueue extends FLongListLegacy {
   }
   setReadOnly(b: boolean): void { this._isReadOnly = b; }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.WALKIN_QUEUE_ITEMS:
       this.render();

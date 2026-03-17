@@ -71,7 +71,7 @@ export class FPayment extends Fragment {
     this.#asyncSubmitTerminalPay(terminalId);
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.ASSET:
       this.render();

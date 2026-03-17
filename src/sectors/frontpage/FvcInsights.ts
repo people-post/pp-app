@@ -1,6 +1,6 @@
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcInsights extends FViewContentBase {
   _renderOnRender(render: Render): void {

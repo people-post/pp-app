@@ -118,7 +118,7 @@ export class FvcChat extends FViewContentBase {
     this.#msgHandler.asyncPostFile(file, () => {}, () => {});
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PUBLIC_PROFILES:
     case T_DATA.GROUPS:

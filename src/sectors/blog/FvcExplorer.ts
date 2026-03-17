@@ -72,7 +72,7 @@ export class FvcExplorer extends FScrollViewContent {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.NEW_OWNER_POST:
       this.#fPosts.reset();

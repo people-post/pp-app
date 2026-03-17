@@ -25,7 +25,7 @@ import { Web3Resolver } from '../../common/pdb/Web3Resolver.js';
 import { Web3Publisher } from '../../common/pdb/Web3Publisher.js';
 import { Web3Ledger } from '../../common/pdb/Web3Ledger.js';
 import { Web3Storage } from '../../common/pdb/Web3Storage.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class PWeb3Network extends Panel {
   #pResolver: ListPanel;

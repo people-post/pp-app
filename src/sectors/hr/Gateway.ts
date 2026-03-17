@@ -1,7 +1,8 @@
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import type { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 import { Tag } from '../../common/datatypes/Tag.js';
-import { SectorGateway, PageConfig } from '../../common/plt/SectorGateway.js';
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import type { PageConfig } from '../../lib/ui/controllers/PageConfig.js';
 import { FvcCareerList as BlogFvcCareerList } from '../blog/FvcCareerList.js';
 import { FvcCareerList as WorkshopFvcCareerList } from '../workshop/FvcCareerList.js';
 import { FvcCareerList as ShopFvcCareerList } from '../shop/FvcCareerList.js';

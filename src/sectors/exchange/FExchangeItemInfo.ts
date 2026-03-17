@@ -34,7 +34,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Env } from '../../common/plt/Env.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
 
 interface ExchangeItem {

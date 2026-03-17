@@ -9,7 +9,7 @@ import { Auth } from '../../common/dba/Auth.js';
 import { R } from '../../common/constants/R.js';
 import { Utilities } from '../../common/Utilities.js';
 import { Api } from '../../common/plt/Api.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export const CF_LOGIN_PROXY = {
   TRIGGER_CHECK : Symbol(),

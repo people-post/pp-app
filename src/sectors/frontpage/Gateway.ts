@@ -1,4 +1,5 @@
-import { SectorGateway, PageConfig } from '../../common/plt/SectorGateway.js';
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import type { PageConfig } from '../../lib/ui/controllers/PageConfig.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { FrontPageConfig } from '../../common/datatypes/FrontPageConfig.js';
 import { FvcJournal } from './FvcJournal.js';

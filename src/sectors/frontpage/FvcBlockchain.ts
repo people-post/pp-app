@@ -1,7 +1,7 @@
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 import { PerishableObject } from '../../lib/ext/PerishableObject.js';
 import { Api } from '../../common/plt/Api.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcBlockchain extends FViewContentBase {
   #blockHead: PerishableObject<unknown>;

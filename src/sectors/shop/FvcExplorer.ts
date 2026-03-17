@@ -78,7 +78,7 @@ export class FvcExplorer extends FScrollViewContent {
     this._owner?.onFragmentRequestShowView?.(this, v, "Cart");
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.DRAFT_ORDERS:
       // @ts-expect-error - owner may have this method

@@ -36,7 +36,7 @@ const _CFT_NS_HOWTO = {
 };
 
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcNsHowto extends FScrollViewContent {
   action(type: symbol, ...args: unknown[]): void {

@@ -51,7 +51,7 @@ export class FvcWeb3OwnerPosts extends FScrollViewContent {
   scrollToTop(): void { this.#fPosts.scrollToTop(); }
   onScrollFinished(): void { this.#fPosts.onScrollFinished(); }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.NEW_OWNER_POST:
       if (Account && this.#loader.getOwnerId() == Account.getId()) {

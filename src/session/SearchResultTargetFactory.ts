@@ -17,7 +17,7 @@ import type {
 export class SessionSearchResultTargetFactory
 implements SearchResultTargetFactory {
   buildSearchResultTarget(itemType: string, itemId: string,
-      layoutType: string | null): SearchResultTarget | null {
+  layoutType: symbol | null): SearchResultTarget | null {
     switch (itemType) {
     case SocialItem.TYPE.USER:
     case SocialItem.TYPE.FEED:
@@ -44,7 +44,7 @@ implements SearchResultTargetFactory {
   }
 
   #buildArticleTarget(articleId: string,
-      layoutType: string | null): SearchResultTarget {
+      layoutType: symbol | null): SearchResultTarget {
     let sid = new SocialItemId(articleId, SocialItem.TYPE.ARTICLE);
     switch (layoutType) {
     case FSearchResultInfo.T_LAYOUT.BRIEF:
@@ -59,7 +59,7 @@ implements SearchResultTargetFactory {
     let fragment = new FvcOwnerPostScroller();
     let article = Blog.getArticle(sid.getValue());
     if (article) {
-      fragment.setOwnerId(article.getOwnerId());
+      fragment.setOwnerId(article.getOwnerId() ?? null);
     }
     fragment.setAnchorPostId(sid);
     view.setContentFragment(fragment);

@@ -8,7 +8,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Exchange } from '../../common/dba/Exchange.js';
 import { Utilities } from '../../common/Utilities.js';
 import { SupplierOrderPublic } from '../../common/datatypes/SupplierOrderPublic.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FPreviewItem extends Fragment {
   protected _currencyId: string | null;

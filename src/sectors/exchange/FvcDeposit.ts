@@ -8,7 +8,7 @@ import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { FSquareOnline } from '../../common/pay/FSquareOnline.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 interface SelectionItem {
   text: string;

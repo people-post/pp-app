@@ -1,6 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FOrder } from './FOrder.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcOrder extends FScrollViewContent {
   protected _fOrder: FOrder;

@@ -8,7 +8,7 @@ import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { Auth } from '../../common/dba/Auth.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export const CF_REGISTER_CONTENT = {
   VALIDATE_EMAIL : "CF_REGISTER_CONTENT_1",

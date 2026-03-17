@@ -30,7 +30,7 @@ import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
 import { SupplierOrderPublic } from '../../common/datatypes/SupplierOrderPublic.js';
 import { Currency } from '../../common/datatypes/Currency.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 import type { POrderBase } from './POrderBase.js';
 import { Account } from '../../common/dba/Account.js';
 
@@ -64,7 +64,7 @@ export class FOrder extends Fragment {
   setOrderId(id: string | null): void { this._orderId = id; }
   setLayoutType(t: symbol | null): void { this._tLayout = t; }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: symbol | string, ...args: unknown[]): void {
     switch (type) {
     case CF_CUSTOMER_ORDER.ON_CLICK:
       this.#onClick();

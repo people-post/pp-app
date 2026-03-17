@@ -2,7 +2,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { MenuContent } from '../../common/menu/MenuContent.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Blog } from '../../common/dba/Blog.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FJournalMenu extends MenuContent {
   #journalIds: string[];

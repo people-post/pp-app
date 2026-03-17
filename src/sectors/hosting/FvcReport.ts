@@ -5,7 +5,7 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { FVisit } from '../../common/statistics/FVisit.js';
 import { FvcVisit } from '../../common/statistics/FvcVisit.js';
 import { R } from '../../common/constants/R.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcReport extends FScrollViewContent {
   protected _fVisit: FVisit;

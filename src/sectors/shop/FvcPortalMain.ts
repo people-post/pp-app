@@ -26,7 +26,7 @@ export class FvcPortalMain extends FScrollViewContent {
 
   getUrlParamString(): string { return URL_PARAM.BRANCH + "=" + (this.#branchId || ""); }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.ADDON_SCRIPT:
       if (data == Env.SCRIPT.QR_CODE.id) {

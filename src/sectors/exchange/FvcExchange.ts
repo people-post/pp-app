@@ -8,7 +8,7 @@ import { Communities } from '../../common/dba/Communities.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 interface ExchangeItemDelegate {
   onExchangeItemInfoFragmentRequestShowView(f: FExchangeItemInfo, view: View, title: string): void;

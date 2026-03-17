@@ -28,7 +28,8 @@ import { FvcUserInfo } from '../sectors/hr/FvcUserInfo.js';
 import { FvcResetPassword } from '../sectors/auth/FvcResetPassword.js';
 import { FvcAccountActivation } from '../sectors/auth/FvcAccountActivation.js';
 import { Env } from '../common/plt/Env.js';
-import { SectorGateway, PageConfig } from '../common/plt/SectorGateway.js';
+import { SectorGateway } from '../common/plt/SectorGateway.js';
+import type { PageConfig } from '../lib/ui/controllers/PageConfig.js';
 import { Account } from '../common/dba/Account.js';
 
 export class Gateway extends Controller {

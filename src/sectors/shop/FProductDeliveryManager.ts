@@ -37,7 +37,7 @@ export class FProductDeliveryManager extends Fragment {
   onButtonGroupSelectionChanged(_fButtonGroup: ButtonGroup, _value: unknown): void {}
   onGoodDeliveryFragmentRequestAddToCart(_fPhysical: FPhysicalGoodDelivery): void { this.#onAddToCart(); }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.DRAFT_ORDERS:
       this.render();

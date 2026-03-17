@@ -7,7 +7,7 @@ import { Notifications } from '../../common/dba/Notifications.js';
 import { FRequestInfo } from '../../common/hr/FRequestInfo.js';
 import { T_DATA } from '../../lib/framework/Events.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcReport extends FScrollViewContent {
   protected _fNoticeList: FNoticeList;

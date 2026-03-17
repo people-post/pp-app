@@ -1,7 +1,8 @@
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import type { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 import { ICON } from '../../common/constants/Icons.js';
-import { SectorGateway, PageConfig } from '../../common/plt/SectorGateway.js';
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import type { PageConfig } from '../../lib/ui/controllers/PageConfig.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Notifications } from '../../common/dba/Notifications.js';

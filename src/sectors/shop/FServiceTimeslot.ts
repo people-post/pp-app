@@ -26,7 +26,7 @@ export class FServiceTimeslot extends Fragment {
     render.replaceContent(s);
   }
 
-  #renderRepetitionName(r: symbol, t: number): string {
+  #renderRepetitionName(r: string | undefined, t: number): string {
     let sRep = "";
     switch (r) {
     case ProductServiceTimeslot.T_REP.DAY:
@@ -54,7 +54,7 @@ export class FServiceTimeslot extends Fragment {
     }
   }
 
-  #renderTime(rep: symbol, t: number): string {
+  #renderTime(rep: string | undefined, t: number): string {
     if (rep == ProductServiceTimeslot.T_REP.ONCE) {
       return ExtUtilities.timestampToDateTimeString(t);
     } else {

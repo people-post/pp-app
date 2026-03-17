@@ -91,7 +91,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
   }
   onShopConfigFragmentRequestCloseShop(_fConfig: FvcConfig): void { this.#asyncCloseShop(); }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.DRAFT_ORDERS:
       // @ts-expect-error - owner may have this method

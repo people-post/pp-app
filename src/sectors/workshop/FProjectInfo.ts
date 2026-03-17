@@ -32,7 +32,7 @@ interface ProjectInfoDelegate {
 }
 
 export class FProjectInfo extends MajorSectorItem {
-  protected _sizeType: symbol | null;
+  protected _sizeType: string | null;
   protected _projectId: string | null;
   protected _fThumbnail: FilesThumbnailFragment;
   protected _fProgress: RichProgress;
@@ -78,7 +78,7 @@ export class FProjectInfo extends MajorSectorItem {
   }
 
   setProjectId(id: string | null): void { this._projectId = id; }
-  setSizeType(t: symbol | null): void { this._sizeType = t; }
+  setSizeType(t: string | null): void { this._sizeType = t; }
 
   onThumbnailClickedInThumbnailFragment(fThumbnail: FilesThumbnailFragment, idx: number): void {
     this.#showThumbnail(idx);

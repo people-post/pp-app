@@ -4,7 +4,7 @@ import { FCareerList } from '../../common/hr/FCareerList.js';
 import { FCareer } from '../../common/hr/FCareer.js';
 import { FvcCareer } from '../../sectors/hr/FvcCareer.js';
 import { Workshop } from '../../common/dba/Workshop.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcCareerList extends FScrollViewContent {
   protected _fList: FCareerList;

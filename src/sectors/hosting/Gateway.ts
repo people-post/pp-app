@@ -1,5 +1,6 @@
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
-import { SectorGateway, PageConfig } from '../../common/plt/SectorGateway.js';
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import type { PageConfig } from '../../lib/ui/controllers/PageConfig.js';
 import { FvcBasicWebConfig } from './FvcBasicWebConfig.js';
 import { FvcTagEditorList } from './FvcTagEditorList.js';
 import { FvcWeb3Network } from './FvcWeb3Network.js';

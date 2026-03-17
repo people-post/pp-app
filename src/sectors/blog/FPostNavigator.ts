@@ -105,7 +105,7 @@ class FPostNavigator extends Fragment {
 
   onSimpleButtonClicked(fBtn: Button): void { this.#onNavToPost(fBtn.getValue() as SocialItemId); }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.POST_IDS:
       // For nav

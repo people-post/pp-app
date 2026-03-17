@@ -23,7 +23,7 @@ import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 import { R } from '../../common/constants/R.js';
 import { UiUtilities } from '../../lib/ui/Utilities.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcGuestHosting extends FScrollViewContent {
   action(type: string, ...args: unknown[]): void {

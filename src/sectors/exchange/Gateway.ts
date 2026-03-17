@@ -2,7 +2,8 @@ import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContent
 import { FvcWeb3Exchange } from './FvcWeb3Exchange.js';
 import { FvcExchange } from './FvcExchange.js';
 import { FvcWallet } from './FvcWallet.js';
-import { SectorGateway, PageConfig } from '../../common/plt/SectorGateway.js';
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import type { PageConfig } from '../../lib/ui/controllers/PageConfig.js';
 import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Env } from '../../common/plt/Env.js';

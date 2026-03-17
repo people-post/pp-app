@@ -9,7 +9,7 @@ import { Badge } from '../common/dba/Badge.js';
 import { ID } from '../common/constants/Constants.js';
 import { FHomeBtn } from '../common/gui/FHomeBtn.js'; 
 import { PMain } from './PMain.js';
-import { PageConfig } from '../common/plt/SectorGateway.js';
+import type { PageConfig } from '../lib/ui/controllers/PageConfig.js';
 import { Account } from '../common/dba/Account.js';
 
 export class LvMultiPage extends ViewLayer implements PageViewControllerOwner, PageViewControllerDataSource, PageViewControllerDelegate {

@@ -40,7 +40,7 @@ export class FEmail extends MajorSectorItem {
   setEmailId(id: string | null): void { this._emailId = id; }
   setLayoutType(t: symbol | null): void { this._tLayout = t; }
 
-  action(type: symbol, ..._args: unknown[]): void {
+  action(type: symbol | string, ..._args: unknown[]): void {
     switch (type) {
     case CF_EMAIL_INFO.VIEW_EMAIL:
       this._delegate.onEmailInfoClickedInEmailFragment(this, this._emailId!);

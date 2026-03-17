@@ -1,5 +1,5 @@
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcBriefDonationResult extends FViewContentBase {
   static T_TYPE = {SUCCESS : Symbol(), FAILURE: Symbol()};

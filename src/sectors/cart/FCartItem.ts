@@ -30,7 +30,7 @@ import { PReservedItemInfo } from './PReservedItemInfo.js';
 import { PActiveItemInfo } from './PActiveItemInfo.js';
 import { FvcProduct } from '../shop/FvcProduct.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 import type { PCartItemInfo } from './PCartItemInfo.js';
 import { Account } from '../../common/dba/Account.js';
 

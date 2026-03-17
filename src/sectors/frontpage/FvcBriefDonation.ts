@@ -4,7 +4,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FvcBriefDonationResult } from './FvcBriefDonationResult.js';
 import { FBraintree } from '../../common/pay/FBraintree.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcBriefDonation extends FViewContentBase {
   #fPayment: FBraintree;

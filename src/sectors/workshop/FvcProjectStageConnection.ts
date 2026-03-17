@@ -36,7 +36,7 @@ export class FvcProjectStageConnection extends FScrollViewContent {
 
   onSimpleButtonClicked(_fBtn: Button): void { this.#onSubmit(); }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.PROJECT:
       if (this._stage && data instanceof Project && data.getId() == this._stage.getProjectId()) {

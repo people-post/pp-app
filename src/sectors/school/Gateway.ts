@@ -1,6 +1,7 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ICON } from '../../common/constants/Icons.js';
-import { SectorGateway, PageConfig } from '../../common/plt/SectorGateway.js';
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import type { PageConfig } from '../../lib/ui/controllers/PageConfig.js';
 import { FTimeClock } from './FTimeClock.js';
 import { FvcLibrary } from './FvcLibrary.js';
 import { FvcInteractive } from './FvcInteractive.js';

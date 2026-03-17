@@ -43,7 +43,7 @@ export class FJournal extends Fragment {
 
   onSimpleButtonClicked(_fBtn: Button): void { this.#onClick(); }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.JOURNAL:
       const journalWithId = data as { getId?: () => string };

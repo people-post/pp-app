@@ -12,7 +12,7 @@ import { PTagEditor } from './PTagEditor.js';
 import { PTagEditorInfo } from './PTagEditorInfo.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 import type { PTagEditorBase } from './PTagEditorBase.js';
 
 interface TagEditorDelegate {

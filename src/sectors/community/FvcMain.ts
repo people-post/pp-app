@@ -35,7 +35,7 @@ export class FvcMain extends FViewContentMux {
     this.#fProposals.reload();
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PROFILE:
       this.#resetTabs();

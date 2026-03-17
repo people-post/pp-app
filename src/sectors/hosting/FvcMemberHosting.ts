@@ -24,7 +24,7 @@ import { FNsSetup } from './FNsSetup.js';
 import { FvcClaimDomain } from './FvcClaimDomain.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Api } from '../../common/plt/Api.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 interface HostingDelegate {
   onNsHowtoClicked(): void;

@@ -409,7 +409,7 @@ export class FvcBrief extends FViewContentBase {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PROFILE:
       this._owner.onContentFragmentRequestUpdateHeader(this);

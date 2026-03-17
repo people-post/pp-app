@@ -24,7 +24,7 @@ export class FJournalIssue extends FPostBase {
 
   setIssueId(id: string | null): void { this.#issueId = id; }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.JOURNAL:
       this.render();

@@ -8,5 +8,5 @@ export interface SearchResultTarget {
 
 export interface SearchResultTargetFactory {
   buildSearchResultTarget(itemType: string, itemId: string,
-      layoutType: string | null): SearchResultTarget | null;
+  layoutType: symbol | null): SearchResultTarget | null;
 }

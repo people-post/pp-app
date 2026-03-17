@@ -25,7 +25,7 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcBasicWebConfig extends FScrollViewContent {
   action(type: string, ...args: unknown[]): void {

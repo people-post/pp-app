@@ -16,7 +16,7 @@ import { Utilities } from '../../common/Utilities.js';
 import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
 import { CartItem } from '../../common/datatypes/CartItem.js';
 import { Currency } from '../../common/datatypes/Currency.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 interface CartDataSource {
   getCartForCartFragment(f: FCart, cartId: string | null): CartDataType | null;

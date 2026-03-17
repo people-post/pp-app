@@ -42,7 +42,7 @@ export class FFlashcard extends Fragment {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: any): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.QUIZ:
       if (data.getId() == this._quizId) {

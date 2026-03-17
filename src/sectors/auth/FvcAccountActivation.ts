@@ -4,7 +4,7 @@ import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { Api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 const _CFT_ACCOUNT_ACTIVATION = {
   MAIN : `

@@ -6,7 +6,7 @@ import { Notifications } from '../../common/dba/Notifications.js';
 import { SectorNoticeInfoFragment } from '../../common/gui/SectorNoticeInfoFragment.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FvcProject } from './FvcProject.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 interface NoticeListDelegate {
   onNoticeListFragmentRequestShowView(f: FNoticeList, v: View, title: string): void;

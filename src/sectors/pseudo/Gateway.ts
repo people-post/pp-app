@@ -1,7 +1,8 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ID } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
-import { SectorGateway, PageConfig } from '../../common/plt/SectorGateway.js';
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import type { PageConfig } from '../../lib/ui/controllers/PageConfig.js';
 import { FvcQueueMain } from '../shop/FvcQueueMain.js';
 import { FvcCounterMain } from '../shop/FvcCounterMain.js';
 import { FvcQueueSide } from '../shop/FvcQueueSide.js';

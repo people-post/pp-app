@@ -10,7 +10,7 @@ interface ConversationInfoDelegate {
 export class FConversationInfo extends FChatThreadInfo {
   protected _delegate!: ConversationInfoDelegate;
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PROFILE:
     case T_DATA.USER_PUBLIC_PROFILES:

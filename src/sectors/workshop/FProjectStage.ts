@@ -31,7 +31,7 @@ interface ProjectStageDelegate {
 
 interface ProjectStageAction {
   name: string;
-  type: symbol;
+  type: string;
 }
 
 export class FProjectStage extends Fragment {
@@ -71,7 +71,7 @@ export class FProjectStage extends Fragment {
   setSelected(b: boolean): void { this._isSelected = b; }
   setEnabled(b: boolean): void { this._isEnabled = b; }
 
-  onOptionClickedInContextButtonFragment(fBtn: OptionContextButton, value: symbol): void {
+  onOptionClickedInContextButtonFragment(fBtn: OptionContextButton, value: string): void {
     switch (value) {
     case ProjectStage.ACTIONS.CLOSE.type:
       this.#onMarkDone();

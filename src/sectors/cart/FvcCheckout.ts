@@ -7,7 +7,7 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { FPayment } from '../../common/pay/FPayment.js';
 import { FvcCheckoutSuccess } from './FvcCheckoutSuccess.js';
 import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 interface PaymentDelegate {
   onPaymentSuccessInCartPaymentFragment(fCartPayment: FPayment, orderId: string): void;

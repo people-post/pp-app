@@ -1,5 +1,6 @@
 import type { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
-import { SectorGateway, PageConfig } from '../../common/plt/SectorGateway.js';
+import { SectorGateway } from '../../common/plt/SectorGateway.js';
+import type { PageConfig } from '../../lib/ui/controllers/PageConfig.js';
 import { FvcMain } from './FvcMain.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';

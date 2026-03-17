@@ -7,7 +7,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { Api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 const _CFT_RETRIEVE_PASSWORD = {
   MAIN : `<table class="tw:m-auto">

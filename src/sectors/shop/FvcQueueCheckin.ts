@@ -55,7 +55,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
     }
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.SERVICE_QUEUE_SIZE:
       this.#onQueueSizeUpdate(data as number);

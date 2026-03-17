@@ -15,7 +15,7 @@ import { URL_PARAM, URL_PARAM_ADDON_VALUE } from '../../common/constants/Constan
 import { FvcCheckout } from './FvcCheckout.js';
 import { Gateway as AuthGateway } from '../auth/Gateway.js';
 import { Api } from '../../common/plt/Api.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
 
 export class FvcCurrent extends FScrollViewContent {

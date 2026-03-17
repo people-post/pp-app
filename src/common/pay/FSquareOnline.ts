@@ -49,7 +49,7 @@ export class FSquareOnline extends Fragment {
 
   onSimpleButtonClicked(_fBar: Button): void { this.#onPayClicked(); }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.ADDON_SCRIPT:
       if (data == Env.SCRIPT.PAYMENT.id) {

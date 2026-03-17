@@ -50,7 +50,7 @@ export class FNoticeList extends Fragment {
     this._fNotices.render();
   }
 
-  handleSessionDataUpdate(dataType: string, data: unknown): void {
+  handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.POST:
       this.render();

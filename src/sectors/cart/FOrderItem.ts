@@ -2,7 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { FOrderSupplierItem } from './FOrderSupplierItem.js';
 import { SupplierOrderPublic } from '../../common/datatypes/SupplierOrderPublic.js';
-import type { Render } from '../../lib/ui/controllers/RenderController.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 interface OrderItemData {
   getItems(): SupplierOrderPublic[];
