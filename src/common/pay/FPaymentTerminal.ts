@@ -61,7 +61,7 @@ export class FPaymentTerminal extends Fragment {
       this._delegate.onClickInPaymentTerminalFragment(this, this._terminalId);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ..._args);
       break;
     }
   }
@@ -69,14 +69,14 @@ export class FPaymentTerminal extends Fragment {
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.PAYMENT_TERMINAL:
-      if (data.getId() == this._terminalId) {
+      if ((data as PaymentTerminal).getId() == this._terminalId) {
         this.render();
       }
       break;
     default:
       break;
     }
-    super.handleSessionDataUpdate.apply(this, arguments);
+    super.handleSessionDataUpdate(dataType, data);
   }
 
   _renderOnRender(render: any): void {

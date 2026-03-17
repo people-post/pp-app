@@ -151,10 +151,10 @@ export class FPayment extends Fragment {
     let fd = new FormData();
     fd.append("terminal_id", terminalId);
     Api.asFragmentPost(this, url, fd)
-        .then(d => this.#onTerminalPayRRR(d));
+        .then(d => this.#onTerminalPayRRR(d as { order_id: string }));
   }
 
-  #onTerminalPayRRR(_data: unknown): void {
+  #onTerminalPayRRR(_data: { order_id: string }): void {
     // Payment awaiting on terminal
     // TODO: Invoke waiting view
   }

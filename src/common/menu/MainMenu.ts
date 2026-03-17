@@ -221,7 +221,7 @@ export class MainMenu extends MenuContent {
     }
   }
 
-  #renderChoice(panel: PVMenuItem, item: MenuItem, tLayout: string | null = null): void {
+  #renderChoice(panel: PVMenuItem | PHMenuItem, item: MenuItem, tLayout: string | null = null): void {
     let t = item.getTheme();
     if (t) {
       panel.getThemePanel().setStyle("backgroundColor", t.getPrimaryColor());
@@ -327,10 +327,10 @@ export class MainMenu extends MenuContent {
       // TODO: Should use tag
       let tag = Groups.getTag(item.getTagId());
       if (tag) {
-        name = tag.getName();
+        name = tag.getName() || "";
       }
     }
-    return name;
+    return name || "";
   }
 }
 

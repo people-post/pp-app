@@ -43,18 +43,18 @@ export class MenuConfig extends DirFragment {
 
   onItemChosenInSmartInputFragment(_fSmartInput: FSmartInput, itemId: string): void {
     let m = this.#getMenuItem();
-    Menus.asyncAddMenuItem(this._sectorId, m ? m.getId() : "", itemId);
+    Menus.asyncAddMenuItem(this._sectorId || "", m ? m.getId() : "", itemId);
   }
 
   onGuiMenuEntryItemConfigRequestChangeTheme(_fDetail: MenuEntryItemConfig, menuId: string, key: string, color: string): void {
     if (Utilities.isValidColor(color)) {
-      Menus.asyncUpdateEntryMenuItemTheme(this._sectorId, menuId, key,
+      Menus.asyncUpdateEntryMenuItemTheme(this._sectorId || "", menuId, key,
                                               color);
     }
   }
 
   onMenuItemRequestAddSubItem(_fMenuItem: MenuEntryItemConfig, menuItemId: string, tagId: string): void {
-    Menus.asyncAddMenuItem(this._sectorId, menuItemId, tagId);
+    Menus.asyncAddMenuItem(this._sectorId || "", menuItemId, tagId);
   }
 
   getFilteredItemsForSmartInputFragment(_fSmartInput: FSmartInput, filterStr: string): Array<{id: string; name: string}> {
@@ -109,13 +109,13 @@ export class MenuConfig extends DirFragment {
     f.setActionFragment(btn);
 
     f.setDelegate(this);
-    f.setIsOpen(this._fSelected && this._fSelected.getItemId() == item.getId());
+    f.setIsOpen(!!(this._fSelected && this._fSelected.getItemId() == item.getId()));
     return f;
   }
 
-  _getSubItems(): unknown[] {
+  _getSubItems(): Array<{ isDir(): boolean; getName(): string }> {
     let m = this.#getMenuItem();
-    return m ? m.getSubItems() : [];
+    return (m ? m.getSubItems() : []) as Array<{ isDir(): boolean; getName(): string }>;
   }
 
   #getMenuItem(): ReturnType<typeof this._dataSource.getMenuForGuiMenuConfig> { return this._dataSource.getMenuForGuiMenuConfig(this); }
@@ -123,7 +123,7 @@ export class MenuConfig extends DirFragment {
   #onDeleteMenuItem(itemId: string): void {
     this._confirmDangerousOperation(
         R.get("CONFIRM_DELETE_MENU_ITEM"),
-        () => Menus.asyncRemoveMenuItem(this._sectorId, itemId));
+        () => Menus.asyncRemoveMenuItem(this._sectorId || "", itemId));
   }
 }
 

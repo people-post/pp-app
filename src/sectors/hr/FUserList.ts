@@ -4,6 +4,7 @@ import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import type { View } from '../../lib/ui/controllers/views/View.js';
+import type { LongListIdRecord } from '../../common/datatypes/LongListIdRecord.js';
 
 export class FUserList extends FSocialItemList {
   #loader: LongListIdLoader | null = null;
@@ -14,8 +15,11 @@ export class FUserList extends FSocialItemList {
     Events.triggerTopAction(PltT_ACTION.SHOW_USER_INFO, userId);
   }
 
-  _getIdRecord(): unknown {
-    return this.#loader ? this.#loader.getIdRecord() : null;
+  _getIdRecord(): LongListIdRecord {
+    if (!this.#loader) {
+      throw new Error('Loader is required');
+    }
+    return this.#loader.getIdRecord();
   }
 
   _asyncLoadFrontItems(): void {

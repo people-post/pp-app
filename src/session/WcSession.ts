@@ -96,7 +96,7 @@ export class WcSession extends WindowController {
     this.#logger = new Logger("WcSession");
   }
 
-  init(userId: string | null, primaryColor: string, secondaryColor: string): void {
+  init(userId: string | null = null, primaryColor = '', secondaryColor = ''): void {
     // Grand entry for the whole program
     UiUtilities.setSvgStyleConfig({
       secondaryStrokeClassName: 's-csecondarystk',
@@ -107,25 +107,17 @@ export class WcSession extends WindowController {
       menuFillClassName: 's-cmenufill',
     });
 
-    Factory.registerCtor(T_OBJ.BANNER_FRAGMENT,
-                              FBanner);
-    Factory.registerCtor(
-                              T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT,
-                              FvcSearchResult);
-    Factory.registerInstance(
-                  T_OBJ.SEARCH_RESULT_TARGET_FACTORY,
-                  new SessionSearchResultTargetFactory());
-    Factory.registerInstance(
-                  T_OBJ.QUOTE_EDITOR_FACTORY,
-                  new SessionQuoteEditorFactory());
+    Factory.registerCtor(T_OBJ.BANNER_FRAGMENT, FBanner);
+    Factory.registerCtor(T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT, FvcSearchResult);
+    Factory.registerInstance(T_OBJ.SEARCH_RESULT_TARGET_FACTORY,
+                             new SessionSearchResultTargetFactory());
+    Factory.registerInstance(T_OBJ.QUOTE_EDITOR_FACTORY, new SessionQuoteEditorFactory());
     Factory.registerCtor(T_OBJ.VIEW, View);
     Factory.registerCtor(T_OBJ.CONFIRM_ACTION_FRAGMENT, FvcConfirmAction);
     if (Env.isWeb3()) {
-      Factory.registerCtor(T_OBJ.FILE_UPLOADER,
-                                Web3FileUploader);
+      Factory.registerCtor(T_OBJ.FILE_UPLOADER, Web3FileUploader);
     } else {
-      Factory.registerCtor(T_OBJ.FILE_UPLOADER,
-                                Web2FileUploader);
+      Factory.registerCtor(T_OBJ.FILE_UPLOADER, Web2FileUploader);
     }
 
     WebConfig.setBootTheme(
@@ -305,8 +297,8 @@ export class WcSession extends WindowController {
     Social.clear();
   }
 
-  _getTopLayerFragment(): ViewLayer {
-    return this._childStack[0] as ViewLayer;
+  _getTopLayerFragment(): ViewLayer | undefined {
+    return this._childStack[0] as ViewLayer | undefined;
   }
 
   #getState(data: unknown, title: string): StateData {

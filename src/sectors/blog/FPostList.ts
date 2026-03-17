@@ -7,6 +7,7 @@ import { FPostInfo } from './FPostInfo.js';
 import { FvcPost } from './FvcPost.js';
 import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import type { Article } from '../../common/datatypes/Article.js';
+import type { LongListIdRecord } from '../../common/datatypes/LongListIdRecord.js';
 
 export class FPostList extends FSocialItemList {
   #loader: LongListIdLoader | null = null;
@@ -69,15 +70,11 @@ export class FPostList extends FSocialItemList {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _getIdRecord(): { findIdBefore: (id: string | null) => string | null; findIdAfter: (id: string | null) => string | null } {
+  _getIdRecord(): LongListIdRecord {
     if (!this.#loader) {
-      return { findIdBefore: () => null, findIdAfter: () => null };
+      throw new Error('Loader is required');
     }
-    const loaderWithRecord = this.#loader as unknown as { getIdRecord: () => { findIdBefore: (id: string | null) => string | null; findIdAfter: (id: string | null) => string | null } };
-    if (loaderWithRecord.getIdRecord) {
-      return loaderWithRecord.getIdRecord();
-    }
-    return { findIdBefore: () => null, findIdAfter: () => null };
+    return this.#loader.getIdRecord();
   }
 
   _asyncLoadFrontItems(): void {
@@ -106,13 +103,13 @@ export class FPostList extends FSocialItemList {
     return f;
   }
 
-  _createItemView(id: string | null): View | null {
+  _createItemView(id: string | number): View | null {
     // id is SocialItemId encoded str
-    if (!id) {
+    if (id == null) {
       return null;
     }
 
-    let sid = SocialItemId.fromEncodedStr(id);
+    let sid = SocialItemId.fromEncodedStr(String(id));
     if (!sid) {
       return null;
     }

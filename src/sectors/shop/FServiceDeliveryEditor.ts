@@ -12,6 +12,7 @@ import { FServiceLocation } from './FServiceLocation.js';
 import type Render from '../../lib/ui/renders/Render.js';
 
 interface ServiceDeliveryChoiceData {
+  getDescription(): string;
   getLocations(): any[];
 }
 
@@ -67,9 +68,12 @@ export class FServiceDeliveryEditor extends FProductDeliveryEditor {
     }
   }
 
-  setValue(value: ServiceDeliveryChoiceData): void {
-    super.setValue(value as any);
+  setValue(value: ServiceDeliveryChoiceData | null): void {
+    super.setValue(value);
     this._fLocations.clear();
+    if (!value) {
+      return;
+    }
     for (let l of value.getLocations()) {
       this.#addLocation(l);
     }

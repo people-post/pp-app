@@ -1,6 +1,7 @@
 import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import { Web3Config } from '../../common/dba/Web3Config.js';
 import { OwnerWeb3PostIdLoader } from './OwnerWeb3PostIdLoader.js';
+import type { LongListIdRecord } from '../../common/datatypes/LongListIdRecord.js';
 
 export class IdolWeb3PostIdLoader extends LongListIdLoader {
   #loaders: OwnerWeb3PostIdLoader[] = [];
@@ -14,7 +15,7 @@ export class IdolWeb3PostIdLoader extends LongListIdLoader {
     this.#loaders.push(loader);
   }
 
-  getIdRecord(): unknown {
+  getIdRecord(): LongListIdRecord {
     // TODO: Create new "Union" idRecord class
     return this.#loaders[0].getIdRecord();
   }

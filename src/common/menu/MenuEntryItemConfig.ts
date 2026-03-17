@@ -134,16 +134,16 @@ export class MenuEntryItemConfig extends DirFragment {
     return f;
   }
 
-  _getSubItems(): unknown[] {
+  _getSubItems(): Array<{ isDir(): boolean; getName(): string }> {
     if (this._subItemId) {
       return this.#getSubItems(this._subItemId);
     }
     return this.#getSubItems(this._itemId);
   }
 
-  #getSubItems(itemId: string): unknown[] {
+  #getSubItems(itemId: string): Array<{ isDir(): boolean; getName(): string }> {
     let i = Menus.find(itemId);
-    return i ? i.getSubItems() : [];
+    return (i ? i.getSubItems() : []) as Array<{ isDir(): boolean; getName(): string }>;
   }
 
   #renderPath(itemId: string): string {
