@@ -1,4 +1,4 @@
-import { sys } from 'pp-api';
+import { sys, RemoteServer } from 'pp-api';
 
 interface UserInfo {
   id: string;
@@ -7,7 +7,14 @@ interface UserInfo {
   [key: string]: unknown;
 }
 
-export const Web3PeerServerMixin = <T extends new (...args: unknown[]) => { getServer(): { getApiUrl(path: string): string; isRegisterEnabled(): boolean; getPeerId(): string } }>(Base: T) => class extends Base {
+/** Base must be a constructor that takes a RemoteServer and returns an instance with getServer() (e.g. ServerAgent or a subclass). */
+type ServerAgentLike = new (server: RemoteServer) => { getServer(): RemoteServer };
+export const Web3PeerServerMixin = <T extends ServerAgentLike>(Base: T) =>
+  class extends Base {
+  constructor(...args: any[]) {
+    super(...(args as [RemoteServer]));
+  }
+
   #mUsers = new Map<string, UserInfo>();
   #initUserId: string | null = null;
 
@@ -38,7 +45,7 @@ export const Web3PeerServerMixin = <T extends new (...args: unknown[]) => { getS
   }
 
   getInitUserId(): string | null { return this.#initUserId; }
-  getHostPeerId(): string { return this.getServer().getPeerId(); }
+  getHostPeerId(): string { return this.getServer().getPeerId() ?? ''; }
 
   async asInitForUser(userId: string): Promise<void> {
     this.#initUserId = userId;

@@ -1,6 +1,6 @@
 import type { ColorTheme } from './basic.js';
 import type { BlogConfig } from './blog.js';
-import type { UserProps } from 'pp-api';
+import type { UserProps, MarkInfo } from 'pp-api';
 
 /**
  * Common interface for User objects returned by Users.
@@ -98,4 +98,5 @@ export interface User {
    * Web3-specific: Set props (callbacks, data) for the user
    */
   setProps?(props: UserProps): void;
+  asyncFindMark?(key: string): Promise<MarkInfo | null>;
 }

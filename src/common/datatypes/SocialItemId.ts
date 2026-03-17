@@ -60,6 +60,10 @@ export class SocialItemId implements SocialItemIdType {
     return (this.#value || '') + '_' + c;
   }
 
+  isValid(): boolean {
+    return this.#value !== null && this.#type !== null;
+  }
+
   getValue(): string | null {
     return this.#value;
   }

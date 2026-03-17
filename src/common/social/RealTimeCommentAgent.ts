@@ -48,7 +48,7 @@ export class RealTimeCommentAgent extends Controller {
     if (guestName) {
       fd.append("guest_name", guestName);
     }
-    Api.asyncRawPost(url, fd, (r: string) => this.#onPostRRR(r, message));
+    Api.asyncRawPost(url, fd, (r: string) => this.#onPostRRR(r, message), null, null);
   }
 
   asyncKeep(commentId: string): void {
@@ -58,7 +58,7 @@ export class RealTimeCommentAgent extends Controller {
     fd.append("item_id", this.#threadId);
     fd.append("item_type", this.#threadIdType);
     fd.append("comment_id", commentId);
-    Api.asyncRawPost(url, fd, (r: string) => this.#onKeepRRR(r));
+    Api.asyncRawPost(url, fd, (r: string) => this.#onKeepRRR(r), null, null);
   }
 
   asyncDiscard(commentId: string): void {
@@ -68,7 +68,7 @@ export class RealTimeCommentAgent extends Controller {
     fd.append("item_id", this.#threadId);
     fd.append("item_type", this.#threadIdType);
     fd.append("comment_id", commentId);
-    Api.asyncRawPost(url, fd, (r: string) => this.#onDiscardRRR(r));
+    Api.asyncRawPost(url, fd, (r: string) => this.#onDiscardRRR(r), null, null);
   }
 
   updateReadership(isAdmin: boolean): void {
@@ -98,7 +98,7 @@ export class RealTimeCommentAgent extends Controller {
     if (!this.#threadId) return;
     fd.append("target_id", this.#threadId);
     fd.append("comment_id", untilCommentId);
-    Api.asyncRawPost(url, fd);
+    Api.asyncRawPost(url, fd, null, null, null);
   }
 
   #onKeepRRR(responseText: string): void {
@@ -141,7 +141,7 @@ export class RealTimeCommentAgent extends Controller {
     let fd = new FormData();
     fd.append("target_id", this.#threadId);
     fd.append("target_type", this.#threadIdType);
-    Api.asyncRawPost(url, fd, (r: string) => this.#onLoadRRR(r, this.#threadId!));
+    Api.asyncRawPost(url, fd, (r: string) => this.#onLoadRRR(r, this.#threadId!), null, null);
   }
 
   #onLoadRRR(responseText: string, threadId: string): void {

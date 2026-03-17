@@ -404,7 +404,7 @@ class AccountWrapper {
     }
   }
 
-  async asComment(threadId: string, article: unknown, asPost: (article: unknown) => Promise<unknown>): Promise<void> {
+  async asComment(threadId: string, article: Web3Dat.OArticle, asPost: boolean): Promise<void> {
     if ('asComment' in this.#impl && typeof this.#impl.asComment === 'function') {
       await this.#impl.asComment(threadId, article, asPost);
     }

@@ -3,6 +3,7 @@ import { SearchConfig } from '../datatypes/SearchConfig.js';
 import { SearchResult } from '../datatypes/SearchResult.js';
 import { Users } from '../dba/Users.js';
 import { sys } from 'pp-api';
+import type { User as UserType } from '../../types/user.js';
 
 export class FWeb3Search extends FSearch {
   #config: SearchConfig;
@@ -42,7 +43,7 @@ export class FWeb3Search extends FSearch {
     }
   }
 
-  #onSearchUserRRR(u: ReturnType<typeof Users.get>, key: string): void {
+  #onSearchUserRRR(u: UserType, key: string): void {
     let sr = {
       id : u.getId(),
       type : "USER",

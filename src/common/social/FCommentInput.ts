@@ -8,17 +8,17 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FHashtag } from '../gui/FHashtag.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
-import { dat } from 'pp-api';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
 import { R } from '../constants/R.js';
 import { Account } from '../dba/Account.js';
+import { RemoteError } from '../../types/basic.js';
+import { SocialItemId } from '../datatypes/SocialItemId.js';
+import { dat as Web3Dat } from 'pp-api';
 
-const { OArticle } = dat;
 
-interface SocialItemId {
-  getValue(): string;
-  getType(): string;
+export interface FCommentInputDelegate {
+  onCommentPostedInCommentInputFragment(f: FCommentInput): void;
 }
 
 export class FCommentInput extends Fragment {
@@ -114,13 +114,13 @@ export class FCommentInput extends Fragment {
   }
 
   #asyncPostGuestComment(message: string, guestName: string): void {
-    if (!this.#threadId) {
+    if (!this.#threadId || !this.#threadId.isValid()) {
       return;
     }
     let url = "api/social/add_guest_comment";
     let fd = new FormData();
-    fd.append("item_id", this.#threadId.getValue());
-    fd.append("item_type", this.#threadId.getType());
+    fd.append("item_id", this.#threadId.getValue() ?? "");
+    fd.append("item_type", this.#threadId.getType() ?? "");
     fd.append("content", message);
     fd.append("guest_name", guestName);
     Api.asPost(url, fd).then(r => this.#onPostDone(r),
@@ -152,39 +152,38 @@ export class FCommentInput extends Fragment {
       console.log("TODO: Post user comment as post is not implemented");
       return;
     }
-    if (!this.#threadId) {
+    if (!this.#threadId || !this.#threadId.isValid()) {
       return;
     }
 
     // Make article out of comment text.
-    let oArticle = new OArticle();
+    let oArticle = new Web3Dat.OArticle();
     oArticle.setContent(message);
     oArticle.setOwnerId(Account.getId() ?? "");
     oArticle.markCreation();
 
-    await Account.asComment(this.#threadId.getValue(), oArticle, asPost);
+    await Account.asComment(this.#threadId.getValue() ?? "", oArticle, asPost);
   }
 
   #asyncWeb2PostUserComment(message: string, asPost: boolean): void {
-    if (!this.#threadId) {
+    if (!this.#threadId || !this.#threadId.isValid()) {
       return;
     }
     let url = asPost ? "api/social/add_comment_article"
                      : "api/social/add_user_comment";
     let fd = new FormData();
-    fd.append("item_id", this.#threadId.getValue());
-    fd.append("item_type", this.#threadId.getType());
+    fd.append("item_id", this.#threadId.getValue() ?? "");
+    fd.append("item_type", this.#threadId.getType() ?? "");
     fd.append("content", message);
     Api.asPost(url, fd).then(r => this.#onPostDone(r),
                                     e => this.#onPostError(e, message));
   }
 
   #onPostDone(_data?: unknown): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onCommentPostedInCommentInputFragment?.(this);
+    this.getDelegate<FCommentInputDelegate>()?.onCommentPostedInCommentInputFragment?.(this);
   }
 
-  #onPostError(e: unknown, message: string): void {
+  #onPostError(e: RemoteError, message: string): void {
     this.#fInput.setText(message);
     this.onRemoteErrorInFragment(this, e);
   }

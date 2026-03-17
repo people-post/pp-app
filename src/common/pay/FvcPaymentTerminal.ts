@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FPaymentTerminal } from './FPaymentTerminal.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcPaymentTerminal extends FScrollViewContent {
   private _fTerminal: FPaymentTerminal;
@@ -21,7 +22,7 @@ export class FvcPaymentTerminal extends FScrollViewContent {
   }
   onClickInPaymentTerminalFragment(_fTerminal: FPaymentTerminal, _terminalId: string): void {}
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     this._fTerminal.attachRender(render);
     this._fTerminal.render();
   }

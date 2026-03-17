@@ -4,6 +4,10 @@ import { SocialItemId } from '../datatypes/SocialItemId.js';
 import { Users } from '../dba/Users.js';
 import { Account } from '../dba/Account.js';
 
+export interface Web3CommentIdLoaderDelegate {
+  onIdUpdatedInLongListIdLoader(loader: Web3CommentIdLoader): void;
+}
+
 export class Web3CommentIdLoader extends LongListIdLoader {
   #threadId: SocialItemId | null = null;
   #hashtagIds: string[] = [];
@@ -35,7 +39,10 @@ export class Web3CommentIdLoader extends LongListIdLoader {
   #markComplete(): void {
     this.#isBusy = false;
     this.#idRecord.markComplete();
-    this._delegate.onIdUpdatedInLongListIdLoader(this);
+    const delegate = this.getDelegate<Web3CommentIdLoaderDelegate>();
+    if (delegate) {
+      delegate.onIdUpdatedInLongListIdLoader(this);
+    }
   }
 
   #onError(e: unknown): void {
@@ -55,7 +62,7 @@ export class Web3CommentIdLoader extends LongListIdLoader {
     let key = this.#threadId.getValue();
     for (let id of uids) {
       let u = await Users.asyncGet(id);
-      let m = await u.asyncFindMark(key);
+      let m = await u.asyncFindMark?.(key || "");
       if (m && 'comments' in m && Array.isArray(m.comments)) {
         for (let i of m.comments as Array<{ cid: string; type: string }>) {
           this.#idRecord.appendId(

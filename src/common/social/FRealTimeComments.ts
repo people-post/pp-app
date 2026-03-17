@@ -14,6 +14,7 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Env } from '../plt/Env.js';
 import { R } from '../constants/R.js';
 import { Account } from '../dba/Account.js';
+import { RemoteError } from '../../types/basic.js';
 
 const _CPT_REAL_TIME_COMMENTS = {
   MAIN : `<div id="__ID_COMMENTS__"></div>
@@ -89,11 +90,11 @@ export class FRealTimeComments extends Fragment {
     this.#updateMain();
     Social.reload(agent.getThreadId() ?? "");
   }
-  onPostFailedInRealTimeCommentAgent(_agent: RealTimeCommentAgent, msg: string, err: unknown): void {
+  onPostFailedInRealTimeCommentAgent(_agent: RealTimeCommentAgent, msg: string, err: RemoteError): void {
     this.#fInput.setText(msg);
     this.onRemoteErrorInFragment(this, err);
   }
-  onRemoteErrorInRealTimeCommentAgent(_agent: RealTimeCommentAgent, err: unknown): void {
+  onRemoteErrorInRealTimeCommentAgent(_agent: RealTimeCommentAgent, err: RemoteError): void {
     this.onRemoteErrorInFragment(this, err);
   }
 

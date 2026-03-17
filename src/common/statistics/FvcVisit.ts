@@ -2,6 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FVisit } from './FVisit.js';
 import { FVisitInfo } from './FVisitInfo.js';
 import { VisitSummary } from '../datatypes/VisitSummary.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcVisit extends FScrollViewContent {
   private _fVisit: FVisit;
@@ -19,7 +20,7 @@ export class FvcVisit extends FScrollViewContent {
     this._fVisit.setQueryInfo(type, key, value, duration);
   }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     this._fVisit.attachRender(render);
     this._fVisit.render();
   }

@@ -112,12 +112,12 @@ export class FLikedItemNotice extends Fragment {
 
   #getArticleTitle(articleId: string): string {
     let a = Blog.getArticle(articleId);
-    return a ? a.getTitle() : articleId;
+    return a ? a.getTitle() ?? "" : articleId;
   }
 
   #getFeedArticleTitle(feedArticleId: string): string {
     let a = Blog.getFeedArticle(feedArticleId);
-    return a ? a.getTitle() : feedArticleId;
+    return a ? a.getTitle() ?? "" : feedArticleId;
   }
 
   #onClick(): void {
@@ -138,7 +138,7 @@ export class FLikedItemNotice extends Fragment {
     for (let id of notice.getNotificationIds()) {
       fd.append("ids", id);
     }
-    Api.asyncRawPost(url, fd, (_r: string) => this.#onMarkReadershipRRR());
+    Api.asyncRawPost(url, fd, (_r: string) => this.#onMarkReadershipRRR(), null, null);
   }
 
   #onMarkReadershipRRR(): void {}

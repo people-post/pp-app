@@ -3,6 +3,7 @@ import { SearchBar } from '../gui/SearchBar.js';
 import { Factory, T_OBJ } from '../../lib/framework/Factory.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FSearch } from './FSearch.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FSearchMenu extends MenuContent {
   #fBar: SearchBar;
@@ -32,7 +33,7 @@ export class FSearchMenu extends MenuContent {
     this._owner?.onFragmentRequestShowView?.(this, v, "Search result");
   }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderOnRender(render: PanelWrapper): void {
     this.#fBar.setFatMode(!this._isQuickLinkRenderMode);
     this.#fBar.attachRender(render);
     this.#fBar.render();
