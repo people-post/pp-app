@@ -50,6 +50,9 @@
     "obj",
     "dist",
     "legacy",
+    "src/*.ts",
+    "src/session",
+    "src/sectors",
     "**/*.test.js",
     "**/__tests__/**"
   ]
