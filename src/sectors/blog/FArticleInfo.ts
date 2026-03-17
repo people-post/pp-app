@@ -1,6 +1,6 @@
 import { FAttachmentFile } from '../../lib/ui/controllers/fragments/FAttachmentFile.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
-import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
+import { OptionContextButton, IOptionContextButtonDelegate } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
@@ -28,7 +28,7 @@ export interface ArticleInfoDelegate {
   onContextOptionClickedInArticleInfoFragment(f: FArticleInfo, value: unknown): void;
 }
 
-export class FArticleInfo extends FPostBase {
+export class FArticleInfo extends FPostBase implements IOptionContextButtonDelegate {
   #fAttachment: FAttachmentFile;
   #fThumbnail: FilesThumbnailFragment;
   #fQuote: FQuoteElement;

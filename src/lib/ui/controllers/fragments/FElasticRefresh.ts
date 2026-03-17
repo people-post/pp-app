@@ -31,11 +31,11 @@ class PElasticRefresh extends Panel {
   }
 }
 
-interface ElasticRefreshDataSource {
+export interface IElasticRefreshDataSource {
   shouldElasticRefreshFragmentEngage(f: FElasticRefresh): boolean;
 }
 
-interface ElasticRefreshDelegate {
+export interface IElasticRefreshDelegate {
   onElasticRefreshFragmentRequstRefresh(f: FElasticRefresh): void;
 }
 
@@ -46,9 +46,6 @@ export class FElasticRefresh extends Fragment {
   #height: number = 0;
   #fullValue: number = 100; // Pixels needed to reach 100%
   #timeout: number | null = null;
-
-  protected declare _dataSource: ElasticRefreshDataSource;
-  protected declare _delegate: ElasticRefreshDelegate;
 
   observe(element: Element): void {
     element.addEventListener("touchstart", evt => this.#onTouchStart(evt as TouchEvent));
@@ -126,13 +123,13 @@ export class FElasticRefresh extends Fragment {
   #conclude(): void {
     if (this.#value >= this.#fullValue) {
       // 100%
-      this._delegate.onElasticRefreshFragmentRequstRefresh(this);
+      this.getDelegate<IElasticRefreshDelegate>()?.onElasticRefreshFragmentRequstRefresh(this);
     }
     this.#resetProgress();
   }
 
   #onWheelEvent(evt: WheelEvent): void {
-    if (!this._dataSource.shouldElasticRefreshFragmentEngage(this)) {
+    if (!this.getDataSource<IElasticRefreshDataSource>()?.shouldElasticRefreshFragmentEngage(this)) {
       return;
     }
     // dy > 0 is wheel down but screen up, need to invert sign
@@ -148,7 +145,7 @@ export class FElasticRefresh extends Fragment {
   }
 
   #onTouchStart(evt: TouchEvent): void {
-    if (!this._dataSource.shouldElasticRefreshFragmentEngage(this)) {
+    if (!this.getDataSource<IElasticRefreshDataSource>()?.shouldElasticRefreshFragmentEngage(this)) {
       return;
     }
 

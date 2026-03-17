@@ -1,4 +1,4 @@
-import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
+import { OptionContextButton, IOptionContextButtonDelegate } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
@@ -26,7 +26,7 @@ export interface CommentDelegate {
   onGuestCommentStatusChangeInCommentFragment(f: FComment): void;
 }
 
-export class FComment extends FPostBase {
+export class FComment extends FPostBase implements IOptionContextButtonDelegate {
   #fAction: OptionContextButton;
   #fUserIcon: FUserIcon;
   #fUserName: FUserInfo;

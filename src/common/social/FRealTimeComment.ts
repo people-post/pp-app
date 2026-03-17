@@ -1,5 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
+import { OptionContextButton, IOptionContextButtonDelegate } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { FUserIcon } from '../hr/FUserIcon.js';
 import { FUserInfo } from '../hr/FUserInfo.js';
@@ -25,7 +25,7 @@ interface FRealTimeCommentDataSource {
   shouldShowAdminOptionsInCommentFragment(f: FRealTimeComment): boolean;
 }
 
-export class FRealTimeComment extends Fragment {
+export class FRealTimeComment extends Fragment implements IOptionContextButtonDelegate {
   #fAction: OptionContextButton;
   #fUserIcon: FUserIcon;
   #fUserName: FUserInfo;

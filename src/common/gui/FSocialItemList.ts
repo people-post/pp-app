@@ -1,13 +1,13 @@
 import { FScrollable } from '../../lib/ui/controllers/fragments/FScrollable.js';
 import { FLongList } from '../../lib/ui/controllers/fragments/FLongList.js';
-import type { LongListDataSource } from '../../lib/ui/controllers/fragments/FLongList.js';
-import type { LongListDelegate } from '../../lib/ui/controllers/fragments/FLongList.js';
+import type { ILongListDataSource } from '../../lib/ui/controllers/fragments/FLongList.js';
+import type { ILongListDelegate } from '../../lib/ui/controllers/fragments/FLongList.js';
 import { LongListIdRecord } from '../datatypes/LongListIdRecord.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class FSocialItemList extends FScrollable implements LongListDataSource, LongListDelegate {
+export class FSocialItemList extends FScrollable implements ILongListDataSource, ILongListDelegate {
   #fList: FLongList;
 
   constructor() {

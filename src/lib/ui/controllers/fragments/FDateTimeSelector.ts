@@ -1,5 +1,5 @@
 import { Fragment } from './Fragment.js';
-import { LContext, LContextDelegate } from '../layers/LContext.js';
+import { LContext, ILContextDelegate } from '../layers/LContext.js';
 import { Button, ButtonDelegate } from './Button.js';
 import { FTimeInput } from './FTimeInput.js';
 import { FDateSelector, FDateSelectorDelegate } from './FDateSelector.js';
@@ -8,7 +8,7 @@ import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { T_ACTION } from '../../../framework/Events.js';
 import { Events } from '../../../framework/Events.js';
 
-export class FDateTimeSelector extends Fragment implements LContextDelegate, ButtonDelegate, FDateSelectorDelegate {
+export class FDateTimeSelector extends Fragment implements ILContextDelegate, ButtonDelegate, FDateSelectorDelegate {
   #lc: LContext;
   #fDate: FDateSelector;
   #fTime: FTimeInput;

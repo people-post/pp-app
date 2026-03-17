@@ -1,8 +1,8 @@
 import { Panel } from '../../renders/panels/Panel.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { Fragment } from './Fragment.js';
-import { ScrollEndEventShim } from '../../../ext/ScrollEndEventShim.js';
-import { FElasticRefresh } from './FElasticRefresh.js';
+import { ScrollEndEventShim, IScrollEndEventShimDelegate } from '../../../ext/ScrollEndEventShim.js';
+import { FElasticRefresh, IElasticRefreshDataSource, IElasticRefreshDelegate } from './FElasticRefresh.js';
 
 const _CPT_SCROLLABLE_HOOK = {
   MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="tw:flex-shrink-0"></div>
@@ -69,7 +69,7 @@ interface ScrollYInfo {
   total: number;
 }
 
-export class FScrollableHook extends Fragment {
+export class FScrollableHook extends Fragment implements IScrollEndEventShimDelegate, IElasticRefreshDataSource, IElasticRefreshDelegate {
   #fElasticRefresh: FElasticRefresh;
   #fContent: Fragment;
   #sScrollEvt: ScrollEndEventShim;

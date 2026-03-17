@@ -1,23 +1,20 @@
 import { Fragment } from './Fragment.js';
 import { BufferedList } from './BufferedList.js';
 
-export interface LongListDataSource {
+export interface ILongListDataSource {
   getItemFragmentForLongListFragment(f: FLongList, itemIndex: number): Fragment | null;
   isMoreFrontItemsExpectedInLongListFragment(f: FLongList): boolean;
   isMoreBackItemsExpectedInLongListFragment(f: FLongList): boolean;
   getIdRecordForLongListFragment(f: FLongList): { isEmpty(): boolean };
 }
 
-export interface LongListDelegate {
+export interface ILongListDelegate {
   onLongListFragmentRequestResetList(f: FLongList): void;
 }
 
 export class FLongList extends Fragment {
   #fItems: BufferedList;
   #currentId: string | number | null = null;
-
-  protected declare _dataSource: LongListDataSource;
-  protected declare _delegate: LongListDelegate;
 
   constructor() {
     super();
@@ -29,18 +26,18 @@ export class FLongList extends Fragment {
 
   // Delegate protocols
   createFragmentForBufferedListItem(_fBufferedList: BufferedList, itemIndex: number): Fragment | null {
-    return this._dataSource.getItemFragmentForLongListFragment(this, itemIndex);
+    return this.getDataSource<ILongListDataSource>()!.getItemFragmentForLongListFragment(this, itemIndex);
   }
 
   // Accessors
   isBufferedListExpectingMoreHeadItems(_fBufferedList: BufferedList): boolean {
-    return this._dataSource.isMoreFrontItemsExpectedInLongListFragment(this);
+    return this.getDataSource<ILongListDataSource>()!.isMoreFrontItemsExpectedInLongListFragment(this);
   }
   isBufferedListExpectingMoreTrailingItems(_fBufferedList: BufferedList): boolean {
-    return this._dataSource.isMoreBackItemsExpectedInLongListFragment(this);
+    return this.getDataSource<ILongListDataSource>()!.isMoreBackItemsExpectedInLongListFragment(this);
   }
   shouldBufferedListClearBuffer(_fBufferedList: BufferedList): boolean {
-    return this._dataSource.getIdRecordForLongListFragment(this).isEmpty();
+    return this.getDataSource<ILongListDataSource>()!.getIdRecordForLongListFragment(this).isEmpty();
   }
 
   getFirstId(): number { return this.#fItems.getFirstId(); }
@@ -55,7 +52,7 @@ export class FLongList extends Fragment {
 
   scrollToItemIndex(idx: number): void { this.#fItems.scrollTo(idx); }
   reset(): void {
-    this._delegate.onLongListFragmentRequestResetList(this);
+    this.getDelegate<ILongListDelegate>()!.onLongListFragmentRequestResetList(this);
     this.reload();
   }
   // Reload items without reseting ids

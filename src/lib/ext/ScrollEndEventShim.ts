@@ -1,14 +1,12 @@
 import { Controller } from './Controller.js';
 
-interface ScrollEndEventShimDelegate {
+export interface IScrollEndEventShimDelegate {
   onScrollEndInScrollEndEventShim(shim: ScrollEndEventShim): void;
 }
 
 export class ScrollEndEventShim extends Controller {
   #scrollEndEventPresent = false;
   #fcnScrollEnd: number | null = null;
-
-  protected declare _delegate: ScrollEndEventShimDelegate | null;
 
   observe(element: Element): void {
     element.addEventListener('scroll', (evt) => this.#onScrollEvent(evt));
@@ -34,16 +32,12 @@ export class ScrollEndEventShim extends Controller {
 
   #onScrollEndSim(): void {
     this.#fcnScrollEnd = null;
-    if (this._delegate) {
-      this._delegate.onScrollEndInScrollEndEventShim(this);
-    }
+    this.getDelegate<IScrollEndEventShimDelegate>()?.onScrollEndInScrollEndEventShim(this);
   }
 
   #onScrollEndEvent(_evt: Event): void {
     this.#scrollEndEventPresent = true;
-    if (this._delegate) {
-      this._delegate.onScrollEndInScrollEndEventShim(this);
-    }
+    this.getDelegate<IScrollEndEventShimDelegate>()?.onScrollEndInScrollEndEventShim(this);
   }
 }
 

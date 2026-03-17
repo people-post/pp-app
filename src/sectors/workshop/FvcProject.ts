@@ -1,6 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
-import { OptionContextButton } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
+import { OptionContextButton, IOptionContextButtonDelegate } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { FvcSimpleFragmentList } from '../../lib/ui/controllers/fragments/FvcSimpleFragmentList.js';
 import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
@@ -45,7 +45,7 @@ import type { ProjectActor as ProjectActorType } from '../../common/datatypes/Pr
 import type { ProjectStage } from '../../common/datatypes/ProjectStage.js';
 import { Account } from '../../common/dba/Account.js';
 
-export class FvcProject extends FScrollViewContent {
+export class FvcProject extends FScrollViewContent implements IOptionContextButtonDelegate {
   private _fThumbnail: FilesThumbnailFragment;
   private _fSocial: FSocialBar;
   private _fProgress: FProjectProgress;
