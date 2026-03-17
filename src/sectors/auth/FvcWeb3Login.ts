@@ -4,7 +4,7 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { FvcProgress } from '../../lib/ui/controllers/views/FvcProgress.js';
+import { FvcProgress, IFvcProgressDelegate } from '../../lib/ui/controllers/views/FvcProgress.js';
 import * as bip39 from 'bip39';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events, T_ACTION as FwkT_ACTION } from '../../lib/framework/Events.js';
@@ -12,7 +12,7 @@ import { Keys } from '../../common/dba/Keys.js';
 import { sys } from 'pp-api';
 import { R } from '../../common/constants/R.js';
 
-export class FvcWeb3Login extends FvcLoginBase {
+export class FvcWeb3Login extends FvcLoginBase implements IFvcProgressDelegate {
   #fMnemonic: TextArea;
   #btnSubmit: Button;
   #btnCreate: Button;
