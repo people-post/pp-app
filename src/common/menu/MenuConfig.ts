@@ -13,6 +13,10 @@ import { MAX } from '../constants/Constants.js';
 import { R } from '../constants/R.js';
 import { MenuItem } from '../datatypes/MenuItem.js';
 
+export interface MenuConfigDataSource {
+  getMenuForGuiMenuConfig(f: MenuConfig): MenuItem | null;
+}
+
 export class MenuConfig extends DirFragment<MenuItem> {
   private _fSelected: FoldableItemFragment | null = null;
   private _sectorId: string | null = null;
@@ -115,16 +119,13 @@ export class MenuConfig extends DirFragment<MenuItem> {
   }
 
   protected _getSubItems(): MenuItem[] {
-    const m = this.#getMenuItem();
-    return m ? m.getSubItems() : [];
+    const menu = this.#getMenuItem();
+    return menu ? menu.getSubItems() : [];
   }
 
   #getMenuItem(): MenuItem | null {
-    // _dataSource is provided by the fragment owner (e.g. FvcConfig)
-    // and is expected to return a MenuItem or null.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const ds: any = (this as any)._dataSource;
-    return ds ? (ds.getMenuForGuiMenuConfig(this) as MenuItem | null) : null;
+    const dataSource = this.getDataSource<MenuConfigDataSource>();
+    return dataSource ? dataSource.getMenuForGuiMenuConfig(this) : null;
   }
 
   #onDeleteMenuItem(itemId: string): void {

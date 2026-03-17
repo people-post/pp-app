@@ -2,7 +2,7 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
-import { MenuConfig } from '../../common/menu/MenuConfig.js';
+import { MenuConfig, MenuConfigDataSource } from '../../common/menu/MenuConfig.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Menus } from '../../common/dba/Menus.js';
@@ -16,6 +16,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FTeam } from './FTeam.js';
 import { Account } from '../../common/dba/Account.js';
+import type { MenuItem } from '../../common/datatypes/MenuItem.js';
 
 export interface FvcConfigDelegate {
   onWorkshopConfigFragmentRequestAddTeam(f: FvcConfig): void;
@@ -23,7 +24,7 @@ export interface FvcConfigDelegate {
   onWorkshopConfigFragmentRequestCloseWorkshop(f: FvcConfig): void;
 }
 
-export class FvcConfig extends FScrollViewContent {
+export class FvcConfig extends FScrollViewContent implements MenuConfigDataSource {
   protected _fTeams: FSimpleFragmentList;
   protected _fOptions: OptionSwitch;
   protected _fMenuConfig: MenuConfig;
@@ -86,7 +87,7 @@ export class FvcConfig extends FScrollViewContent {
     }
   }
 
-  getMenuForGuiMenuConfig(_fMenuConfig: MenuConfig): any {
+  getMenuForGuiMenuConfig(_fMenuConfig: MenuConfig): MenuItem | null {
     let menus = Menus.get(ID.SECTOR.WORKSHOP, Account.getId());
     return menus.length ? menus[0] : null;
   }

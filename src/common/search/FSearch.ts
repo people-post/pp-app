@@ -4,7 +4,7 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { FSearchResultInfo } from './FSearchResultInfo.js';
+import { FSearchResultInfo, FSearchResultInfoDelegate } from './FSearchResultInfo.js';
 import { SearchResult } from '../datatypes/SearchResult.js';
 
 const _CFT_SEARCH = {
@@ -18,7 +18,7 @@ interface SearchCache {
   result: SearchResult;
 }
 
-export class FSearch extends Fragment {
+export class FSearch extends Fragment implements FSearchResultInfoDelegate {
   #fBar: SearchBar;
   #fContent: FSimpleFragmentList;
   #tResultLayout: string | null = null;

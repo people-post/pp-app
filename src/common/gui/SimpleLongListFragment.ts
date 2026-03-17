@@ -3,7 +3,7 @@ import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Api } from '../plt/Api.js';
 
-interface SimpleLongListFragmentDataSource {
+export interface SimpleLongListFragmentDataSource {
   createInfoFragmentForLongListFragment(f: SimpleLongListFragment, id: string): Fragment | null;
   getUrlForLongListFragment(f: SimpleLongListFragment, fromId: string | null): string;
 }
@@ -11,8 +11,6 @@ interface SimpleLongListFragmentDataSource {
 export class SimpleLongListFragment extends FLongListLegacy {
   declare _idRecord: UniLongListIdRecord;
   declare _isBatchLoading: boolean;
-
-  protected declare _dataSource: SimpleLongListFragmentDataSource;
 
   constructor() {
     super();
@@ -28,7 +26,10 @@ export class SimpleLongListFragment extends FLongListLegacy {
     }
     let id = this._idRecord.getId(itemIndex);
     if (id) {
-      return this._dataSource.createInfoFragmentForLongListFragment(this, id);
+      const dataSource = this.getDataSource<SimpleLongListFragmentDataSource>();
+      return dataSource
+        ? dataSource.createInfoFragmentForLongListFragment(this, id)
+        : null;
     } else {
       if (!this._isFullListLoaded()) {
         this.#asyncLoadIds();
@@ -45,7 +46,12 @@ export class SimpleLongListFragment extends FLongListLegacy {
     }
     let fromId = this._idRecord.getLastId() ?? null;
     this._isBatchLoading = true;
-    let url = this._dataSource.getUrlForLongListFragment(this, fromId);
+    const dataSource = this.getDataSource<SimpleLongListFragmentDataSource>();
+    if (!dataSource) {
+      this._isBatchLoading = false;
+      return;
+    }
+    let url = dataSource.getUrlForLongListFragment(this, fromId);
     Api.asyncRawCall(url, (r: string) => this.#onLoadIdsRRR(r), null);
   }
 

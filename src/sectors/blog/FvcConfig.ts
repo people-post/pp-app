@@ -20,7 +20,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ID, MAX } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
-import { MenuConfig } from '../../common/menu/MenuConfig.js';
+import { MenuConfig, MenuConfigDataSource } from '../../common/menu/MenuConfig.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { Menus } from '../../common/dba/Menus.js';
 import { FRoleList } from './FRoleList.js';
@@ -33,8 +33,9 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
+import type { MenuItem } from '../../common/datatypes/MenuItem.js';
 
-export class FvcConfig extends FScrollViewContent {
+export class FvcConfig extends FScrollViewContent implements MenuConfigDataSource {
   private _fInsiders: FRoleList;
   private _fPartnerships: FRoleList;
   private _fRoles: FTabbedPane;
@@ -127,7 +128,7 @@ export class FvcConfig extends FScrollViewContent {
     this.setChild("layout", this._fLayout);
   }
 
-  getMenuForGuiMenuConfig(_fMenuConfig: MenuConfig): unknown {
+  getMenuForGuiMenuConfig(_fMenuConfig: MenuConfig): MenuItem | null {
     let menus = Menus.get(ID.SECTOR.BLOG, Account.getId());
     return menus.length ? menus[0] : null;
   }
@@ -144,13 +145,13 @@ export class FvcConfig extends FScrollViewContent {
     let f = new FvcRoleEditor();
     f.setRoleId(roleId);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Blog role");
+    this.onFragmentRequestShowView(this, v, "Blog role");
   }
 
   handleSessionDataUpdate(dataType: symbol, _data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PROFILE:
-      this._owner.onContentFragmentRequestUpdateHeader(this);
+      this._owner?.onContentFragmentRequestUpdateHeader(this);
       this.render();
       break;
     case T_DATA.GROUPS:

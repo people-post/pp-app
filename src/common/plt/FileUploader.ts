@@ -6,7 +6,7 @@ export interface CacheInfoOnServer {
   coverId: string | null;
 }
 
-interface FileUploaderDelegate {
+export interface FileUploaderDelegate {
   onThumbnailDataLoadedInFileUploader(uploader: FileUploader, dataUrl: string): void;
 }
 
@@ -91,16 +91,9 @@ export class FileUploader extends Controller {
   #asyncReadThumbnail(file: File): void {
     const reader = new FileReader();
     reader.onload = (evt) => {
-      if (
-        this._delegate &&
-        typeof this._delegate === 'object' &&
-        'onThumbnailDataLoadedInFileUploader' in this._delegate
-      ) {
-        (this._delegate as unknown as FileUploaderDelegate).onThumbnailDataLoadedInFileUploader(
-          this,
-          evt.target?.result as string
-        );
-      }
+      const delegate = this.getDelegate<FileUploaderDelegate>();
+      const dataUrl = evt.target?.result as string;
+      delegate?.onThumbnailDataLoadedInFileUploader(this, dataUrl);
     };
     reader.readAsDataURL(file);
   }

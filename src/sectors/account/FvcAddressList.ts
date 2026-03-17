@@ -1,7 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
-import { Address } from '../../common/gui/Address.js';
+import { Address, AddressDataSource, AddressDelegate } from '../../common/gui/Address.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { FvcAddressEditor } from './FvcAddressEditor.js';
@@ -12,7 +12,7 @@ import { Api } from '../../common/plt/Api.js';
 import type { Address as AddressType } from '../../common/datatypes/Address.js';
 import { Account } from '../../common/dba/Account.js';
 
-export class FvcAddressList extends FScrollViewContent {
+export class FvcAddressList extends FScrollViewContent implements AddressDataSource, AddressDelegate {
   private _fItems: FSimpleFragmentList;
   private _fBtnNew: ActionButton;
 

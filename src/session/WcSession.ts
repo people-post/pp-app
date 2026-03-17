@@ -1,4 +1,4 @@
-import { FBanner } from '../common/gui/FBanner.js';
+import { FBanner, BannerDelegate } from '../common/gui/FBanner.js';
 import { FvcSearchResult } from '../common/search/FvcSearchResult.js';
 import { Factory, T_OBJ } from '../lib/framework/Factory.js';
 import { WindowController } from '../lib/ui/controllers/WindowController.js';
@@ -83,7 +83,7 @@ declare global {
   };
 }
 
-export class WcSession extends WindowController {
+export class WcSession extends WindowController implements BannerDelegate {
   #fBanner: FBanner;
   #logger: Logger;
   protected _childStack: ViewLayer[] = [];

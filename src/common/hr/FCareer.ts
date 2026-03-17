@@ -26,8 +26,8 @@ export class FCareer extends Fragment {
   action(type: string | symbol, data?: unknown): void {
     switch (type) {
     case CF_CAREER.ON_CLICK:
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onClickInCareerFragment?.(this);
+      this.getDelegate<FCareerDelegate>()
+          ?.onClickInCareerFragment(this);
       break;
     default:
       super.action(type, data);

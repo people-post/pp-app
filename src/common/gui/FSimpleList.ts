@@ -21,20 +21,17 @@ interface ListItem {
   [key: string]: unknown;
 }
 
-interface SimpleListDataSource {
+export interface SimpleListDataSource {
   getListItemsForListFragment(f: FSimpleList): ListItem[];
   getSelectedItemIdForList(f: FSimpleList): string | null;
 }
 
-interface SimpleListDelegate {
+export interface SimpleListDelegate {
   renderItemForSimpleListFragment(f: FSimpleList, item: ListItem, panel: Panel): void;
   onItemSelectedInList(f: FSimpleList, itemId: string): void;
 }
 
 export class FSimpleList extends Fragment {
-  declare _dataSource: SimpleListDataSource;
-  declare _delegate: SimpleListDelegate;
-
   action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_SIMPLE_LIST.ITEM_CLICK:
@@ -47,16 +44,21 @@ export class FSimpleList extends Fragment {
   }
 
   _renderOnRender(render: PanelWrapper): void {
+    const dataSource = this.getDataSource<SimpleListDataSource>();
+    if (!dataSource) {
+      return;
+    }
+
     let pMain = new ListPanel();
     render.wrapPanel(pMain);
 
-    let items = this._dataSource.getListItemsForListFragment(this);
+    let items = dataSource.getListItemsForListFragment(this);
     let hasIconColumn = items.some(i => i.icon);
 
     for (let item of items) {
       let selected =
           (item.isSelectable &&
-           item.id == this._dataSource.getSelectedItemIdForList(this));
+           item.id == dataSource.getSelectedItemIdForList(this));
 
       let pItem = new ListPanel();
       let classNames: string[] = [ "simple-list-item tw:flex tw:items-center" ];
@@ -84,7 +86,8 @@ export class FSimpleList extends Fragment {
       let p = new Panel();
       p.setClassName("tw:pl-[5px] tw:flex-grow");
       pItem.pushPanel(p);
-      this._delegate.renderItemForSimpleListFragment(this, item, p);
+      const delegate = this.getDelegate<SimpleListDelegate>();
+      delegate?.renderItemForSimpleListFragment(this, item, p);
 
       if (item.isSelectable) {
         // Last item
@@ -97,7 +100,8 @@ export class FSimpleList extends Fragment {
   }
 
   #onItemClick(itemId: string): void {
-    this._delegate.onItemSelectedInList(this, itemId);
+    const delegate = this.getDelegate<SimpleListDelegate>();
+    delegate?.onItemSelectedInList(this, itemId);
     this.render();
   }
 

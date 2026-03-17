@@ -16,6 +16,17 @@ const _CFT_PAYMENT = {
   TITLE : `<div class="payment-choice-title">__TEXT__</div>`,
 }
 
+export interface FPaymentDataSource {
+  // Should return the current order for this payment fragment, or null.
+  // The concrete type is defined by sector-level implementations.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getOrderForCartPaymentFragment(fCartPayment: FPayment): any | null;
+}
+
+export interface FPaymentDelegate {
+  onPaymentSuccessInCartPaymentFragment(fCartPayment: FPayment, orderId: string): void;
+}
+
 export class FPayment extends Fragment {
   #fSquare: FoldableItemFragment;
   #fBraintree: FBraintree;
@@ -60,8 +71,8 @@ export class FPayment extends Fragment {
   onFoldableItemClose(_fItem: FoldableItemFragment, _itemId: string): void { this._fSelected = null; }
 
   onSquareOnlinePayFragmentRequestPay(_fSquare: FSquareOnline, locationId: string, sourceId: string): void {
-    // @ts-expect-error - dataSource may have this method
-    let order = this._dataSource?.getOrderForCartPaymentFragment?.(this);
+    const dataSource = this.getDataSource<FPaymentDataSource>();
+    const order = dataSource?.getOrderForCartPaymentFragment(this);
     if (order) {
       this.#asyncSubmitSquareOnlinePay(locationId, sourceId, order.getId());
     }
@@ -85,8 +96,8 @@ export class FPayment extends Fragment {
   _renderOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
-    // @ts-expect-error - dataSource may have this method
-    let order = this._dataSource?.getOrderForCartPaymentFragment?.(this);
+    const dataSource = this.getDataSource<FPaymentDataSource>();
+    const order = dataSource?.getOrderForCartPaymentFragment(this);
     if (order) {
       let nAsset = Exchange.getAsset(order.getCurrencyId());
       if (nAsset && nAsset >= order.getTotal()) {
@@ -142,8 +153,8 @@ export class FPayment extends Fragment {
 
   #onOnlinePayRRR(data: { order_id: string }): void {
     Cart.clear();
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onPaymentSuccessInCartPaymentFragment?.(this, data.order_id);
+    this.getDelegate<FPaymentDelegate>()
+        ?.onPaymentSuccessInCartPaymentFragment(this, data.order_id);
   }
 
   #asyncSubmitTerminalPay(terminalId: string): void {

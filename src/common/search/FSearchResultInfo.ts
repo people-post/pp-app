@@ -144,7 +144,7 @@ export class PSearchResultInfoNormal extends PSearchResultInfo {
   }
 }
 
-interface FSearchResultInfoDelegate {
+export interface FSearchResultInfoDelegate {
   onClickInSearchResultInfoFragment(f: FSearchResultInfo, itemType: string | symbol, itemId: string): void;
 }
 
@@ -156,7 +156,6 @@ export class FSearchResultInfo extends Fragment {
 
   #data: SearchResultData | null = null;
   #tLayout: symbol | null = null;
-  protected _delegate!: FSearchResultInfoDelegate;
 
   setData(data: SearchResultData): void { this.#data = data; }
   setLayoutType(t: symbol | null): void { this.#tLayout = t; }
@@ -267,8 +266,9 @@ export class FSearchResultInfo extends Fragment {
 
   #onClick(): void {
     if (this.#data) {
-      this._delegate.onClickInSearchResultInfoFragment(this, this.#data.type,
-                                                       this.#data.id);
+      this.getDelegate<FSearchResultInfoDelegate>()
+          ?.onClickInSearchResultInfoFragment(this, this.#data.type,
+                                              this.#data.id);
     }
   }
 }

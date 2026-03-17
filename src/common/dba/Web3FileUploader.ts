@@ -2,7 +2,7 @@ import { FileUploader } from '../plt/FileUploader.js';
 import { Api } from '../plt/Api.js';
 import { Account } from './Account.js';
 
-interface Web3FileUploaderDelegate {
+export interface Web3FileUploaderDelegate {
   onFileUploadProgressUpdateInFileUploader(uploader: Web3FileUploader, percent: number): void;
   onThumbnailUploadProgressUpdateInFileUploader(uploader: Web3FileUploader, percent: number): void;
   onFileUploadErrorInFileUploader(uploader: Web3FileUploader, responseText: string): void;
@@ -17,7 +17,6 @@ interface UploadResponse {
 }
 
 export class Web3FileUploader extends FileUploader {
-  protected _delegate: Web3FileUploaderDelegate | null = null;
 
   _asyncUploadThumbnail(file: File): void {
     this._isThumbnailUploading = true;
@@ -61,14 +60,14 @@ export class Web3FileUploader extends FileUploader {
 
   #onUploadThumbnailProgress(v: number): void {
     const p = (v * 95) / this._thumbnailFile!.size;
-    const delegate = this._delegate as Web3FileUploaderDelegate | null;
+    const delegate = this.getDelegate<Web3FileUploaderDelegate>();
     delegate?.onThumbnailUploadProgressUpdateInFileUploader(this, p);
   }
 
   #onUploadThumbnailDone(responseText: string): void {
     this._isThumbnailUploading = false;
     const response = JSON.parse(responseText) as UploadResponse;
-    const delegate = this._delegate as Web3FileUploaderDelegate | null;
+    const delegate = this.getDelegate<Web3FileUploaderDelegate>();
     if (response.error) {
       this.#onUploadThumbnailError('');
     } else {
@@ -81,7 +80,7 @@ export class Web3FileUploader extends FileUploader {
 
   #onUploadThumbnailError(_responseText: string): void {
     this._isThumbnailUploading = false;
-    const delegate = this._delegate as Web3FileUploaderDelegate | null;
+    const delegate = this.getDelegate<Web3FileUploaderDelegate>();
     delegate?.onThumbnailUploadErrorInFileUploader(this, _responseText);
   }
 
@@ -93,7 +92,7 @@ export class Web3FileUploader extends FileUploader {
 
   #onUploadFileDone(cid: string): void {
     this._cacheInfoOnServer.id = cid;
-    const delegate = this._delegate as Web3FileUploaderDelegate | null;
+    const delegate = this.getDelegate<Web3FileUploaderDelegate>();
     delegate?.onFileUploadProgressUpdateInFileUploader(this, 100);
   }
 }

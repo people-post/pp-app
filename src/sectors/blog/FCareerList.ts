@@ -2,12 +2,12 @@ import { Fragment, FragmentOwner } from '../../lib/ui/controllers/fragments/Frag
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { BlogRole } from '../../common/datatypes/BlogRole.js';
 import { FCareerList as HrFCareerList } from '../../common/hr/FCareerList.js';
-import { FCareer } from '../../common/hr/FCareer.js';
+import { FCareer, FCareerDelegate, FCareerDataSource } from '../../common/hr/FCareer.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { FvcCareer } from '../../sectors/hr/FvcCareer.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class FCareerList extends Fragment {
+export class FCareerList extends Fragment implements FCareerDataSource, FCareerDelegate {
   #fList: HrFCareerList;
   #selectedId: string | null = null;
 

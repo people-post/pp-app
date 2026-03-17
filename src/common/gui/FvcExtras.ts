@@ -1,5 +1,5 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
-import { FSimpleList } from './FSimpleList.js';
+import { FSimpleList, SimpleListDataSource, SimpleListDelegate } from './FSimpleList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
@@ -37,7 +37,13 @@ interface ListItem {
   isSelectable: boolean;
 }
 
-export class FvcExtras extends FScrollViewContent {
+export interface FvcExtrasDataSource {
+  getPageConfigsForExtrasViewContentFragment(f: FvcExtras): PageConfig[];
+  getNPageNotificationsForExtrasViewContentFragment(f: FvcExtras, id: string): number;
+  createPageEntryViewForExtrasViewContentFragment(f: FvcExtras, pageId: string | null): View | null;
+}
+
+export class FvcExtras extends FScrollViewContent implements SimpleListDataSource, SimpleListDelegate {
   _fMenu: FSimpleList;
   _subPageId: string | null = null;
 
@@ -112,7 +118,10 @@ export class FvcExtras extends FScrollViewContent {
   }
 
   #getListItems(): ListItem[] {
-    const configs = (this._dataSource as { getPageConfigsForExtrasViewContentFragment(f: FvcExtras): PageConfig[] }).getPageConfigsForExtrasViewContentFragment(this);
+    const dataSource = this.getDataSource<FvcExtrasDataSource>();
+    const configs = dataSource
+      ? dataSource.getPageConfigsForExtrasViewContentFragment(this)
+      : [];
     const items: ListItem[] = [];
     for (const c of configs) {
       items.push({
@@ -120,9 +129,10 @@ export class FvcExtras extends FScrollViewContent {
         icon : c.ICON,
         data : {
           page : c,
-          nNotifications :
-              (this._dataSource as { getNPageNotificationsForExtrasViewContentFragment(f: FvcExtras, id: string): number })
-                  .getNPageNotificationsForExtrasViewContentFragment(this, c.ID)
+          nNotifications : dataSource
+              ? dataSource.getNPageNotificationsForExtrasViewContentFragment(
+                    this, c.ID)
+              : 0
         },
         isSelectable : true,
       });
@@ -146,8 +156,10 @@ export class FvcExtras extends FScrollViewContent {
 
   #onSubPageSelected(pageId: string | null, urlParam: Map<string, string> | null = null): void {
     this._subPageId = pageId;
-    const v = (this._dataSource as { createPageEntryViewForExtrasViewContentFragment(f: FvcExtras, pageId: string | null): View | null }).createPageEntryViewForExtrasViewContentFragment(
-        this, pageId);
+    const dataSource = this.getDataSource<FvcExtrasDataSource>();
+    const v = dataSource
+      ? dataSource.createPageEntryViewForExtrasViewContentFragment(this, pageId)
+      : null;
     if (v && this._owner) {
       (this._owner as any).onFragmentRequestShowView(this, v, pageId || "");
       if (urlParam) {

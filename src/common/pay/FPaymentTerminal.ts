@@ -14,11 +14,11 @@ export const CF_PAYMENT_TERMINAL = {
   ON_CLICK : Symbol(),
 };
 
-interface FPaymentTerminalDelegate {
+export interface FPaymentTerminalDelegate {
   onClickInPaymentTerminalFragment(f: FPaymentTerminal, terminalId: string | null): void;
 }
 
-interface FPaymentTerminalDataSource {
+export interface FPaymentTerminalDataSource {
   isTerminalSelectedInPaymentTerminalFragment(f: FPaymentTerminal, terminalId: string | null): boolean;
 }
 
@@ -33,8 +33,6 @@ export class FPaymentTerminal extends Fragment {
   protected _tLayout: symbol | null = null;
   protected _terminalId: string | null = null;
   protected _isEditEnabled: boolean = false;
-  protected _delegate!: FPaymentTerminalDelegate;
-  protected _dataSource!: FPaymentTerminalDataSource;
 
   constructor() {
     super();
@@ -58,7 +56,8 @@ export class FPaymentTerminal extends Fragment {
   action(type: string | symbol, ..._args: any[]): void {
     switch (type) {
     case CF_PAYMENT_TERMINAL.ON_CLICK:
-      this._delegate.onClickInPaymentTerminalFragment(this, this._terminalId);
+      this.getDelegate<FPaymentTerminalDelegate>()
+          ?.onClickInPaymentTerminalFragment(this, this._terminalId);
       break;
     default:
       super.action(type, ..._args);
@@ -88,8 +87,9 @@ export class FPaymentTerminal extends Fragment {
     let panel = this.#createPanel();
     render.wrapPanel(panel);
 
-    if (this._dataSource && panel.isColorInvertible() &&
-        this._dataSource.isTerminalSelectedInPaymentTerminalFragment(
+    const dataSource = this.getDataSource<FPaymentTerminalDataSource>();
+    if (dataSource && panel.isColorInvertible() &&
+        dataSource.isTerminalSelectedInPaymentTerminalFragment(
             this, this._terminalId)) {
       panel.invertColor();
     }

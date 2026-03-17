@@ -28,21 +28,30 @@ const _CFT_FILES_THUMBNAIL = {
       `<span class="thumbnail-grid thumbnail-grid-__THUMBNAIL_GRID_TYPE__" onclick="javascript:G.action('${CF_FILES_THUMBNAIL.ON_CLICK}', __IDX__)" style="background-image:url('__URL__');__BG_COLOR__">__CONTENT__</span>
     `,
   LIVE_ICON_MASK : `
-    <div class="tw:absolute tw:top-0 tw:w-full tw:h-[8%] tw:bg-gradient-to-r tw:from-red-700/70 tw:to-transparent"></div>
-    <div class="tw:absolute tw:bottom-0 tw:w-full tw:h-[8%] tw:bg-gradient-to-r tw:from-red-700/70 tw:to-transparent"></div>
+    <div class="tw:absolute tw:top-0 tw:w-full tw:h-[8%] tw:bg-gradient-to tw:from-red-700/70 tw:to-transparent"></div>
+    <div class="tw:absolute tw:bottom-0 tw:w-full tw:h-[8%] tw:bg-gradient-to tw:from-red-700/70 tw:to-transparent"></div>
     <svg class="tw:w-full tw:h-full" viewBox="0 0 32 32">
       <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" class="live-text">LIVE</text>
     </svg>`,
   VIDEO_ICON_MASK : `
-    <div class="tw:absolute tw:top-0 tw:w-full tw:h-[8%] tw:bg-gradient-to-r tw:from-black/70 tw:to-transparent"></div>
-    <div class="tw:absolute tw:bottom-0 tw:w-full tw:h-[8%] tw:bg-gradient-to-r tw:from-black/70 tw:to-transparent"></div>`,
+    <div class="tw:absolute tw:top-0 tw:w-full tw:h-[8%] tw:bg-gradient-to tw:from-black/70 tw:to-transparent"></div>
+    <div class="tw:absolute tw:bottom-0 tw:w-full tw:h-[8%] tw:bg-gradient-to tw:from-black/70 tw:to-transparent"></div>`,
 };
+
+export interface FilesThumbnailFragmentDataSource {
+  getFilesForThumbnailFragment(f: FilesThumbnailFragment): RemoteFile[] | null;
+}
+
+export interface FilesThumbnailFragmentDelegate {
+  onThumbnailClickedInThumbnailFragment(f: FilesThumbnailFragment, idx: number): void;
+}
 
 export class FilesThumbnailFragment extends Fragment {
   action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_FILES_THUMBNAIL.ON_CLICK:
-      (this._delegate as { onThumbnailClickedInThumbnailFragment(f: FilesThumbnailFragment, idx: number): void }).onThumbnailClickedInThumbnailFragment(this, args[0] as number);
+      this.getDelegate<FilesThumbnailFragmentDelegate>()
+          ?.onThumbnailClickedInThumbnailFragment(this, args[0] as number);
       break;
     default:
       super.action.apply(this, Array.from(arguments) as any);
@@ -51,7 +60,8 @@ export class FilesThumbnailFragment extends Fragment {
   }
 
   _renderOnRender(render: PanelWrapper): void {
-    const files = (this._dataSource as { getFilesForThumbnailFragment(f: FilesThumbnailFragment): RemoteFile[] | null }).getFilesForThumbnailFragment(this);
+    const files = this.getDataSource<FilesThumbnailFragmentDataSource>()
+        ?.getFilesForThumbnailFragment(this);
     if (!files) {
       return;
     }

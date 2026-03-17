@@ -16,12 +16,12 @@ const _CFT_REAL_TIME_COMMENT = {
   ICON : `<span class="tw:inline-block tw:w-s-icon6 tw:h-s-icon6">__ICON__</span>`,
 };
 
-interface FRealTimeCommentDelegate {
+export interface FRealTimeCommentDelegate {
   onCommentFragmentRequestKeepComment(f: FRealTimeComment, commentId: string): void;
   onCommentFragmentRequestDiscardComment(f: FRealTimeComment, commentId: string): void;
 }
 
-interface FRealTimeCommentDataSource {
+export interface FRealTimeCommentDataSource {
   shouldShowAdminOptionsInCommentFragment(f: FRealTimeComment): boolean;
 }
 
@@ -30,8 +30,6 @@ export class FRealTimeComment extends Fragment implements IOptionContextButtonDe
   #fUserIcon: FUserIcon;
   #fUserName: FUserInfo;
   #comment: RealTimeComment | null = null;
-  protected _delegate!: FRealTimeCommentDelegate;
-  protected _dataSource!: FRealTimeCommentDataSource;
 
   constructor() {
     super();
@@ -59,12 +57,12 @@ export class FRealTimeComment extends Fragment implements IOptionContextButtonDe
     }
     switch (value) {
     case "KEEP":
-      this._delegate.onCommentFragmentRequestKeepComment(this,
-                                                         this.#comment.getId());
+      this.getDelegate<FRealTimeCommentDelegate>()
+          ?.onCommentFragmentRequestKeepComment(this, this.#comment.getId());
       break;
     case "DISCARD":
-      this._delegate.onCommentFragmentRequestDiscardComment(
-          this, this.#comment.getId());
+      this.getDelegate<FRealTimeCommentDelegate>()
+          ?.onCommentFragmentRequestDiscardComment(this, this.#comment.getId());
       break;
     default:
       break;
@@ -132,8 +130,9 @@ export class FRealTimeComment extends Fragment implements IOptionContextButtonDe
   }
 
   #renderExtra(panel: Panel): void {
+    const dataSource = this.getDataSource<FRealTimeCommentDataSource>();
     if (this.#comment && this.#comment.isPending() &&
-        this._dataSource.shouldShowAdminOptionsInCommentFragment(this)) {
+        dataSource?.shouldShowAdminOptionsInCommentFragment(this)) {
       let s = _CFT_REAL_TIME_COMMENT.ICON;
       s = s.replace("__ICON__",
                     UiUtilities.renderSvgIcon(ICON.INFO, "stkred", "fillred"));

@@ -1,9 +1,10 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
-import { FRealTimeComment } from './FRealTimeComment.js';
+import { FRealTimeComment, FRealTimeCommentDataSource, FRealTimeCommentDelegate } from './FRealTimeComment.js';
 import { RealTimeComment } from '../datatypes/RealTimeComment.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export class FRealTimeCommentList extends Fragment {
+export class FRealTimeCommentList extends Fragment implements FRealTimeCommentDataSource, FRealTimeCommentDelegate {
   #fList: FSimpleFragmentList;
   #comments: RealTimeComment[] = [];
 
@@ -14,12 +15,22 @@ export class FRealTimeCommentList extends Fragment {
 
   setComments(cs: RealTimeComment[]): void { this.#comments = cs; }
 
-  shouldShowAdminOptionsInCommentFragment(_fComment: unknown): boolean {
-    // @ts-expect-error - dataSource may have this method
-    return this._dataSource?.shouldShowAdminOptionsInCommentListFragment?.(this) || false;
+  shouldShowAdminOptionsInCommentFragment(_fComment: FRealTimeComment): boolean {
+    // Delegate decision to the parent list's data source
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ds: any = (this as any)._dataSource;
+    return ds?.shouldShowAdminOptionsInCommentListFragment?.(this) || false;
   }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
+  onCommentFragmentRequestKeepComment(_fComment: FRealTimeComment, _commentId: string): void {
+    // TODO: Implement
+  }
+
+  onCommentFragmentRequestDiscardComment(_fComment: FRealTimeComment, _commentId: string): void {
+    // TODO: Implement
+  }
+
+  _renderOnRender(render: PanelWrapper): void {
     this.#fList.clear();
     for (let c of this.#comments) {
       let f = new FRealTimeComment();

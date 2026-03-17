@@ -1,12 +1,12 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FCareerList } from '../../common/hr/FCareerList.js';
-import { FCareer } from '../../common/hr/FCareer.js';
+import { FCareer, FCareerDelegate, FCareerDataSource } from '../../common/hr/FCareer.js';
 import { FvcCareer } from '../../sectors/hr/FvcCareer.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import type Render from '../../lib/ui/renders/Render.js';
 
-export class FvcCareerList extends FScrollViewContent {
+export class FvcCareerList extends FScrollViewContent implements FCareerDataSource, FCareerDelegate {
   protected _fList: FCareerList;
   protected _selectedId: string | null;
 

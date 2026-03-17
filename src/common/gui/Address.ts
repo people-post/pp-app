@@ -9,6 +9,16 @@ export const CF_ADDRESS = {
   ON_CLICK : "CF_ADDRESS_1",
 };
 
+export interface AddressDataSource {
+  getDataForGuiAddress(f: Address, id: string | null): AddressDataType | null;
+}
+
+export interface AddressDelegate {
+  onClickInAddressFragment(f: Address, id: string | null): void;
+  onAddressFragmentRequestEdit(f: Address, id: string | null): void;
+  onAddressFragmentRequestDelete(f: Address, id: string | null): void;
+}
+
 export class Address extends Fragment {
   static T_LAYOUT = {
     LARGE : Symbol(),
@@ -79,7 +89,8 @@ export class Address extends Fragment {
   }
 
   _renderOnRender(render: unknown): void {
-    const addr = (this._dataSource as { getDataForGuiAddress(f: Address, id: string | null): AddressDataType | null }).getDataForGuiAddress(this, this.#addressId);
+    const addr = this.getDataSource<AddressDataSource>()
+        ?.getDataForGuiAddress(this, this.#addressId);
     if (!addr) {
       return;
     }
@@ -147,21 +158,18 @@ export class Address extends Fragment {
   #toString(s: string | undefined): string { return s ? s : ""; }
 
   #onClick(): void {
-    if (this._delegate) {
-      (this._delegate as { onClickInAddressFragment(f: Address, id: string | null): void }).onClickInAddressFragment(this, this.#addressId);
-    }
+    this.getDelegate<AddressDelegate>()
+        ?.onClickInAddressFragment(this, this.#addressId);
   }
 
   #onEdit(): void {
-    if (this._delegate) {
-      (this._delegate as { onAddressFragmentRequestEdit(f: Address, id: string | null): void }).onAddressFragmentRequestEdit(this, this.#addressId);
-    }
+    this.getDelegate<AddressDelegate>()
+        ?.onAddressFragmentRequestEdit(this, this.#addressId);
   }
 
   #onDelete(): void {
-    if (this._delegate) {
-      (this._delegate as { onAddressFragmentRequestDelete(f: Address, id: string | null): void }).onAddressFragmentRequestDelete(this, this.#addressId);
-    }
+    this.getDelegate<AddressDelegate>()
+        ?.onAddressFragmentRequestDelete(this, this.#addressId);
   }
 }
 

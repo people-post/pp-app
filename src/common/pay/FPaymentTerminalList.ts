@@ -3,12 +3,12 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { FPaymentTerminal } from './FPaymentTerminal.js';
+import { FPaymentTerminal, FPaymentTerminalDataSource, FPaymentTerminalDelegate } from './FPaymentTerminal.js';
 import { PaymentTerminal } from '../datatypes/PaymentTerminal.js';
 import { Api } from '../plt/Api.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 
-export class FPaymentTerminalList extends Fragment {
+export class FPaymentTerminalList extends Fragment implements FPaymentTerminalDataSource, FPaymentTerminalDelegate {
   private _fItems: FSimpleFragmentList;
   private _fBtnAdd: Button;
   private _registerId: string | null = null;

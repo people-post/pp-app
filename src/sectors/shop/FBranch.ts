@@ -7,7 +7,7 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ShopBranch } from '../../common/datatypes/ShopBranch.js';
-import { Address } from '../../common/gui/Address.js';
+import { Address, AddressDataSource, AddressDelegate } from '../../common/gui/Address.js';
 import { FRegisterList } from './FRegisterList.js';
 import { FvcRegister } from './FvcRegister.js';
 import { PBranch } from './PBranch.js';
@@ -19,7 +19,6 @@ import { R } from '../../common/constants/R.js';
 import { FvcAddressEditor } from '../../sectors/account/FvcAddressEditor.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { PBranchBase } from './PBranchBase.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
@@ -32,7 +31,7 @@ interface BranchDataSource {
   isBranchSelectedInBranchFragment(f: FBranch, branchId: string | null): boolean;
 }
 
-export class FBranch extends Fragment {
+export class FBranch extends Fragment implements AddressDataSource, AddressDelegate {
   static T_LAYOUT = {
     SMALL : Symbol(),
     FULL: Symbol(),
