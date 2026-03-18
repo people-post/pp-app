@@ -9,35 +9,7 @@ import { ProjectStage } from './ProjectStage.js';
 import { SocialItemId } from './SocialItemId.js';
 import { OgpData } from './OgpData.js';
 import { STATE } from '../constants/Constants.js';
-
-interface FacilitatorData {
-  id?: string;
-  [key: string]: unknown;
-}
-
-interface ClientData {
-  id?: string;
-  [key: string]: unknown;
-}
-
-interface ProjectData {
-  files?: unknown[];
-  stages?: unknown[];
-  agents?: unknown[];
-  story?: unknown;
-  is_draft?: boolean;
-  visibility?: string;
-  name?: string;
-  description?: string;
-  owner_id?: string;
-  creator_id?: string;
-  facilitator?: FacilitatorData;
-  client?: ClientData;
-  tag_ids?: string[];
-  state?: string;
-  status?: string;
-  [key: string]: unknown;
-}
+import type { ProjectData } from '../../types/backend2.js';
 
 export class Project extends ServerDataObject implements SocialItemInterface {
   static readonly ACTIONS = {

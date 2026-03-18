@@ -1,9 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-
-interface TimeClockRecordData {
-  total?: number;
-  [key: string]: unknown;
-}
+import type { TimeClockRecordData } from '../../types/backend2.js';
 
 export class TimeClockRecord extends ServerDataObject {
   protected declare _data: TimeClockRecordData;

@@ -1,12 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-
-export interface VisitSummaryData {
-  sub_query_key?: string;
-  sub_query_value?: string;
-  name?: string;
-  total?: number;
-  [key: string]: unknown;
-}
+import type { VisitSummaryData } from '../../types/backend2.js';
 
 export class VisitSummary extends ServerDataObject {
   protected declare _data: VisitSummaryData;

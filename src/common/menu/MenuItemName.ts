@@ -62,7 +62,7 @@ export class MenuItemName extends Fragment {
     }
     let tag = WebConfig.getTag(item.getTagId());
     let s = _CFT_MENU_ITEM_NAME.MAIN;
-    let name = tag ? tag.getName() : item.getName();
+    let name = tag ? tag.getName() || "" : item.getName() || "";
     if (item.getDepth() < 5) {
       name = _CFT_MENU_ITEM_NAME.DIR_NAME.replace("__TEXT__", name);
     }

@@ -1,4 +1,4 @@
-import { LongListIdLoader } from '../plt/LongListIdLoader.js';
+import { LongListIdLoader, LongListIdLoaderDelegate } from '../plt/LongListIdLoader.js';
 import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 import { SocialItemId } from '../datatypes/SocialItemId.js';
 import { Blog } from '../dba/Blog.js';
@@ -26,18 +26,22 @@ export class CommentIdLoader extends LongListIdLoader {
     this.#isBatchLoading = true;
     let url = "api/social/comments";
     let fd = new FormData();
-    if (!this.#threadId) return;
-    fd.append("target_id", this.#threadId.getValue());
-    fd.append("target_type", this.#threadId.getType());
+    if (!this.#threadId || !this.#threadId.isValid()) {
+      return;
+    }
+    fd.append("target_id", this.#threadId.getValue() || "");
+    fd.append("target_type", this.#threadId.getType() || "");
     for (let id of this.#hashtagIds) {
       fd.append("hashtag_ids", id);
     }
     let fromId = this.#idRecord.getLastId();
     if (fromId) {
-      fd.append("before_id",
-                SocialItemId.fromEncodedStr(fromId).getValue());
+      let beforeId = SocialItemId.fromEncodedStr(fromId)?.getValue();
+      if (beforeId) {
+        fd.append("before_id", beforeId);
+      }
     }
-    Api.asyncRawPost(url, fd, (r: string) => this.#onLoadRRR(r));
+    Api.asyncRawPost(url, fd, (r: string) => this.#onLoadRRR(r), null, null);
   }
 
   #onLoadRRR(responseText: string): void {
@@ -55,7 +59,10 @@ export class CommentIdLoader extends LongListIdLoader {
       } else {
         this.#idRecord.markComplete();
       }
-      this._delegate.onIdUpdatedInLongListIdLoader(this);
+      const delegate = this.getDelegate<LongListIdLoaderDelegate>();
+      if (delegate) {
+        delegate.onIdUpdatedInLongListIdLoader(this);
+      }
     }
   }
 }

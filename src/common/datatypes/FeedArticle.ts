@@ -3,15 +3,7 @@ import { Post } from '../../types/blog.js';
 import { RemoteFile } from './RemoteFile.js';
 import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
-
-interface FeedArticleData {
-  files?: unknown[];
-  title?: string;
-  content?: string;
-  owner_id?: string;
-  url?: string;
-  [key: string]: unknown;
-}
+import type { FeedArticleData } from '../../types/backend2.js';
 
 export class FeedArticle extends ServerDataObject implements Post {
   #files: RemoteFile[] = [];

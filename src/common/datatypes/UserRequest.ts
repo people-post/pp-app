@@ -1,13 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-
-interface UserRequestData {
-  sector_ids?: string[];
-  from_user_id?: string;
-  target_group_id?: string;
-  category?: string;
-  message?: string;
-  [key: string]: unknown;
-}
+import type { UserRequestData } from '../../types/backend2.js';
 
 export class UserRequest extends ServerDataObject {
   // Synced with backend

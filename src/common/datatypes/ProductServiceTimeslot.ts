@@ -1,12 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-
-interface ProductServiceTimeslotData {
-  from?: number;
-  to?: number;
-  n?: number;
-  repetition?: string;
-  [key: string]: unknown;
-}
+import type { ProductServiceTimeslotData } from '../../types/backend2.js';
 
 export class ProductServiceTimeslot extends ServerDataObject {
   // All time values are timestamp in seconds

@@ -1,10 +1,6 @@
 import { ProductDelivery } from './ProductDelivery.js';
 import { ProductServiceLocation } from './ProductServiceLocation.js';
-
-interface QueueServiceDeliveryData {
-  locations?: unknown[];
-  [key: string]: unknown;
-}
+import type { QueueServiceDeliveryData } from '../../types/backend2.js';
 
 export class QueueServiceDelivery extends ProductDelivery {
   #locations: ProductServiceLocation[] = [];

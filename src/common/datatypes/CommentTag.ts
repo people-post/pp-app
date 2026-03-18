@@ -1,10 +1,5 @@
 import { SocialItemId } from './SocialItemId.js';
-
-interface CommentTagData {
-  tag_id?: string;
-  comment_ids?: Array<{ id: string; type: string }>;
-  [key: string]: unknown;
-}
+import type { CommentTagData } from '../../types/backend2.js';
 
 export class CommentTag {
   #data: CommentTagData;

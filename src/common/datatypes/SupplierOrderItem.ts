@@ -1,18 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-
-interface ProductData {
-  description?: string;
-  quantity?: number;
-  unit_price?: number;
-  [key: string]: unknown;
-}
-
-interface SupplierOrderItemData {
-  product?: ProductData;
-  state?: string;
-  status?: string;
-  [key: string]: unknown;
-}
+import type { SupplierOrderItemData } from '../../types/backend2.js';
 
 export class SupplierOrderItem extends ServerDataObject {
   protected _data: SupplierOrderItemData;

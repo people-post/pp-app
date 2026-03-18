@@ -1,10 +1,6 @@
 import { ProductDelivery } from './ProductDelivery.js';
 import { ProductServiceLocation } from './ProductServiceLocation.js';
-
-interface AppointmentServiceDeliveryData {
-  locations?: unknown[];
-  [key: string]: unknown;
-}
+import type { AppointmentServiceDeliveryData } from '../../types/backend2.js';
 
 export class AppointmentServiceDelivery extends ProductDelivery {
   #locations: ProductServiceLocation[] = [];

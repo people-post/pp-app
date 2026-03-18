@@ -1,11 +1,4 @@
-interface PreviewOrderItemData {
-  description?: string;
-  specs?: unknown;
-  quantity?: number;
-  unit_price?: number;
-  product_id?: string;
-  [key: string]: unknown;
-}
+import type { PreviewOrderItemData } from '../../types/backend2.js';
 
 export class PreviewOrderItem {
   #data: PreviewOrderItemData;

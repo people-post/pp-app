@@ -5,7 +5,8 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FVisitInfo, FVisitInfoDelegate } from './FVisitInfo.js';
-import { VisitSummary, VisitSummaryData } from '../datatypes/VisitSummary.js';
+import { VisitSummary } from '../datatypes/VisitSummary.js';
+import type { VisitSummaryData } from '../../types/backend2.js';
 import { R } from '../constants/R.js';
 import { Api } from '../plt/Api.js';
 

@@ -1,15 +1,5 @@
 import { ChatMessage } from './ChatMessage.js';
-
-interface RealTimeCommentData {
-  type?: string;
-  data?: {
-    status?: string;
-    guestName?: string;
-    data?: string;
-    [key: string]: unknown;
-  } | string;
-  [key: string]: unknown;
-}
+import type { RealTimeCommentData } from '../../types/backend2.js';
 
 export class RealTimeComment extends ChatMessage {
   // Synced with backend

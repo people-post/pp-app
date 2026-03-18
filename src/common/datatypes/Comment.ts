@@ -3,21 +3,7 @@ import { Post } from '../../types/blog.js';
 import { ChatMessage } from './ChatMessage.js';
 import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
-
-interface CommentData {
-  type?: string;
-  data?: unknown;
-  from_user_id?: string;
-  in_group_id?: string;
-  in_group_type?: string;
-  [key: string]: unknown;
-}
-
-interface CommentDataWithStatus {
-  status?: string;
-  guestName?: string;
-  data?: string;
-}
+import type { CommentData, CommentDataWithStatus } from '../../types/backend2.js';
 
 export class Comment extends ServerDataObject implements Post {
   // Synced with backend

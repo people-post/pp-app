@@ -1,11 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-
-interface VoteData {
-  user_id?: string;
-  item_id?: string;
-  value?: string;
-  [key: string]: unknown;
-}
+import type { VoteData } from '../../types/backend2.js';
 
 export class Vote extends ServerDataObject {
   // Synced with backend

@@ -3,13 +3,7 @@ import { JournalPageConfig } from './JournalPageConfig.js';
 import { BlockchainPageConfig } from './BlockchainPageConfig.js';
 import { FrontPageLayoutConfig } from './FrontPageLayoutConfig.js';
 import { TriplePanelConfig } from './TriplePanelConfig.js';
-
-interface FrontPageConfigData {
-  template_id?: string;
-  data?: unknown;
-  layout?: { type_id?: string; [key: string]: unknown };
-  [key: string]: unknown;
-}
+import type { FrontPageConfigData } from '../../types/backend2.js';
 
 export class FrontPageConfig {
   // Synced with backend

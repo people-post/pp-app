@@ -1,14 +1,6 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import { SquareTerminal } from './SquareTerminal.js';
-
-interface PaymentTerminalData {
-  name?: string;
-  type?: string;
-  state?: string;
-  status?: string;
-  data?: unknown;
-  [key: string]: unknown;
-}
+import type { PaymentTerminalData } from '../../types/backend2.js';
 
 export class PaymentTerminal extends ServerDataObject {
   // Synced with backend

@@ -1,10 +1,6 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import { StoryEvent } from './StoryEvent.js';
-
-interface StoryData {
-  events?: unknown[];
-  [key: string]: unknown;
-}
+import type { StoryData } from '../../types/backend2.js';
 
 export class Story extends ServerDataObject {
   #events: StoryEvent[] = [];

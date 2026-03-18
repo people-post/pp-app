@@ -1,18 +1,4 @@
-interface Price {
-  currency_id: string;
-  value: number;
-}
-
-interface CartItemData {
-  id?: string;
-  product_id?: string;
-  specifications?: unknown;
-  quantity?: number;
-  cart_id?: string;
-  preferred_currency_id?: string;
-  prices?: Price[];
-  [key: string]: unknown;
-}
+import type { CartItemData, Price } from '../../types/backend2.js';
 
 export class CartItem {
   #data: CartItemData;

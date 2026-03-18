@@ -1,14 +1,6 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import { ProductServiceTimeslot } from './ProductServiceTimeslot.js';
-
-interface ProductServiceLocationData {
-  branch_id?: string;
-  assignee?: unknown;
-  time_overhead?: number;
-  price_overhead?: number;
-  time_slots?: unknown[];
-  [key: string]: unknown;
-}
+import type { ProductServiceLocationData } from '../../types/backend2.js';
 
 export class ProductServiceLocation extends ServerDataObject {
   #timeslots: ProductServiceTimeslot[] = [];

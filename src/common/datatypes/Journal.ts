@@ -1,12 +1,5 @@
 import { JournalConfigTagged } from './JournalConfigTagged.js';
-
-interface JournalData {
-  name?: string;
-  description?: string;
-  template_id?: string;
-  template_data?: unknown;
-  [key: string]: unknown;
-}
+import type { JournalData } from '../../types/backend2.js';
 
 export class Journal {
   static readonly T_TEMPLATE_ID = {

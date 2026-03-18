@@ -1,8 +1,4 @@
-interface JournalConfigTaggedData {
-  tag_ids?: string[];
-  placeholder?: string;
-  [key: string]: unknown;
-}
+import type { JournalConfigTaggedData } from '../../types/backend2.js';
 
 export class JournalConfigTagged {
   #data: JournalConfigTaggedData;

@@ -1,21 +1,6 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import { SupplierOrderPublic } from './SupplierOrderPublic.js';
-
-interface CustomerOrderData {
-  items?: unknown[];
-  shipping_address?: unknown;
-  subtotal?: number;
-  discount?: number;
-  refund?: number;
-  shipping_handling_cost?: number;
-  total?: number;
-  currency_id?: string;
-  shop_id?: string;
-  state?: string;
-  status?: string;
-  updated_at?: number;
-  [key: string]: unknown;
-}
+import type { CustomerOrderData } from '../../types/backend2.js';
 
 export class CustomerOrder extends ServerDataObject {
   #items: SupplierOrderPublic[] = [];

@@ -1,11 +1,7 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import { Post } from '../../types/blog.js';
 import { SocialItemId } from './SocialItemId.js';
-
-interface EmptyPostData {
-  err_code?: string;
-  [key: string]: unknown;
-}
+import type { EmptyPostData } from '../../types/backend2.js';
 
 export class EmptyPost extends ServerDataObject implements Post {
   // Use a different name to avoid conflict with SocialItem.TYPE

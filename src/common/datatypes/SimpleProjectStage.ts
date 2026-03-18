@@ -1,14 +1,6 @@
 import { ProjectStage } from './ProjectStage.js';
 import { STATE } from '../constants/Constants.js';
-
-interface SimpleProjectStageData {
-  status?: string;
-  type?: string;
-  name?: string;
-  description?: string;
-  comment?: string;
-  [key: string]: unknown;
-}
+import type { SimpleProjectStageData } from '../../types/backend2.js';
 
 export class SimpleProjectStage extends ProjectStage {
   #data: SimpleProjectStageData;

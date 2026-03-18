@@ -1,13 +1,5 @@
 import { UserRole } from './UserRole.js';
-
-interface WorkshopTeamData {
-  status?: string;
-  data?: {
-    permissions?: string[];
-    [key: string]: unknown;
-  };
-  [key: string]: unknown;
-}
+import type { WorkshopTeamData } from '../../types/backend2.js';
 
 export class WorkshopTeam extends UserRole {
   // Sync with backend

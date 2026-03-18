@@ -1,13 +1,5 @@
 import { UserRole } from './UserRole.js';
-
-interface ShopTeamData {
-  status?: string;
-  data?: {
-    permissions?: string[];
-    [key: string]: unknown;
-  };
-  [key: string]: unknown;
-}
+import type { ShopTeamData } from '../../types/backend2.js';
 
 export class ShopTeam extends UserRole {
   // Sync with backend

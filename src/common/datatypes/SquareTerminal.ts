@@ -1,13 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-
-interface SquareTerminalData {
-  device_id?: string;
-  pair_code?: string;
-  pair_by?: string;
-  status?: string;
-  paired_at?: number;
-  [key: string]: unknown;
-}
+import type { SquareTerminalData } from '../../types/backend2.js';
 
 export class SquareTerminal extends ServerDataObject {
   protected declare _data: SquareTerminalData;

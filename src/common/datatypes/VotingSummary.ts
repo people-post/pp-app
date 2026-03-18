@@ -1,16 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-
-interface BallotItem {
-  value: string;
-  ballot: number;
-  [key: string]: unknown;
-}
-
-interface VotingSummaryData {
-  config?: unknown;
-  items?: BallotItem[];
-  [key: string]: unknown;
-}
+import type { VotingSummaryData } from '../../types/backend2.js';
 
 export class VotingSummary extends ServerDataObject {
   protected _data: VotingSummaryData;

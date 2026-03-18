@@ -1,11 +1,5 @@
 import { R } from '../constants/R.js';
-
-interface ProjectActorData {
-  user_id?: string;
-  status?: string;
-  nickname?: string;
-  [key: string]: unknown;
-}
+import type { ProjectActorData } from '../../types/backend2.js';
 
 export class ProjectActor {
   static readonly T_ROLE = {

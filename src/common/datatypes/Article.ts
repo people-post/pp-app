@@ -4,13 +4,7 @@ import { OgpData } from './OgpData.js';
 import { RemoteFile } from './RemoteFile.js';
 import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
-import { ArticleBaseData, CommentTagData } from '../../types/backend2.js';
-
-interface ArticleData extends ArticleBaseData {
-  comment_tags?: CommentTagData[];
-  reply_to?: { id: string; type: string };
-  [key: string]: unknown;
-}
+import { ArticleData, CommentTagData } from '../../types/backend2.js';
 
 export class Article extends ServerDataObject implements ArticleInterface {
   protected _data: ArticleData;

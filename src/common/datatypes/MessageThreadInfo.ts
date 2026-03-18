@@ -2,13 +2,7 @@ import { Notice } from './Notice.js';
 import { SocialItem } from './SocialItem.js';
 import { ChatTarget } from './ChatTarget.js';
 import { ChatMessage } from './ChatMessage.js';
-
-interface MessageThreadData {
-  from_id: string;
-  from_id_type: string;
-  n_unread: number;
-  latest?: Record<string, unknown>;
-}
+import type { MessageThreadData } from '../../types/backend2.js';
 
 export class MessageThreadInfo extends Notice {
   private _data: MessageThreadData;

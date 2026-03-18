@@ -1,13 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-
-interface SocialInfoData {
-  is_liked?: boolean;
-  is_linked?: boolean;
-  n_likes?: number;
-  n_links?: number;
-  n_comments?: number;
-  [key: string]: unknown;
-}
+import type { SocialInfoData } from '../../types/backend2.js';
 
 export class SocialInfo extends ServerDataObject {
   protected _data: SocialInfoData;

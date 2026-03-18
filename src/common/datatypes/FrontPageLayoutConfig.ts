@@ -1,7 +1,4 @@
-interface FrontPageLayoutConfigData {
-  type_id?: string;
-  [key: string]: unknown;
-}
+import type { FrontPageLayoutConfigData } from '../../types/backend2.js';
 
 export class FrontPageLayoutConfig {
   // Synced with backend

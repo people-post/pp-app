@@ -1,9 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-
-interface ShopRegisterData {
-  name?: string;
-  [key: string]: unknown;
-}
+import type { ShopRegisterData } from '../../types/backend2.js';
 
 export class ShopRegister extends ServerDataObject {
   protected declare _data: ShopRegisterData;

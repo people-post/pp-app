@@ -1,6 +1,4 @@
-interface CountryData {
-  name: string;
-}
+import type { CountryData } from '../../types/backend2.js';
 
 export class Country {
   private _data: CountryData;

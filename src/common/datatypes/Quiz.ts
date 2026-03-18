@@ -1,12 +1,6 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import Utilities from '../../lib/ext/Utilities.js';
-
-interface QuizData {
-  stem?: string;
-  answers?: string[];
-  distractors?: string[];
-  [key: string]: unknown;
-}
+import type { QuizData } from '../../types/backend2.js';
 
 export class Quiz extends ServerDataObject {
   #choices: string[] = [];

@@ -1,6 +1,7 @@
 import { WebConfig } from './WebConfig.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
-import { BlogRole, BlogRoleData } from '../datatypes/BlogRole.js';
+import { BlogRole } from '../datatypes/BlogRole.js';
+import type { BlogRoleData } from '../../types/backend2.js';
 import { Tag } from '../datatypes/Tag.js';
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';

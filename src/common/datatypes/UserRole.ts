@@ -1,12 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-
-interface UserRoleData {
-  is_open?: boolean;
-  name?: string;
-  member_ids?: string[];
-  status?: string;
-  [key: string]: unknown;
-}
+import type { UserRoleData } from '../../types/backend2.js';
 
 export class UserRole extends ServerDataObject {
   protected _data: UserRoleData;

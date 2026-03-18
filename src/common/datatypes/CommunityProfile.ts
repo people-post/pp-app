@@ -1,32 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-
-interface IconData {
-  url?: string;
-  [key: string]: unknown;
-}
-
-interface ImageData {
-  url?: string;
-  [key: string]: unknown;
-}
-
-interface CommunityProfileData {
-  name?: string;
-  description?: string;
-  icon?: IconData;
-  image?: ImageData;
-  creator_id?: string;
-  config?: {
-    captain_id?: string;
-    [key: string]: unknown;
-  };
-  n_members?: number;
-  n_total_coins?: number;
-  n_active_coins?: number;
-  cash_balance?: number;
-  n_proposals?: number;
-  [key: string]: unknown;
-}
+import type { CommunityProfileData } from '../../types/backend2.js';
 
 export class CommunityProfile extends ServerDataObject {
   protected _data: CommunityProfileData;

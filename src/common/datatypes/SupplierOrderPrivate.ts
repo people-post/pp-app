@@ -1,9 +1,5 @@
 import { SupplierOrderBase } from './SupplierOrderBase.js';
-
-interface SupplierOrderPrivateData {
-  customer_id?: string;
-  [key: string]: unknown;
-}
+import type { SupplierOrderPrivateData } from '../../types/backend2.js';
 
 export class SupplierOrderPrivate extends SupplierOrderBase {
   protected declare _data: SupplierOrderPrivateData;

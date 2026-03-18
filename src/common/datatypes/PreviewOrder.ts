@@ -1,12 +1,6 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import { PreviewOrderItem } from './PreviewOrderItem.js';
-
-interface PreviewOrderData {
-  items?: unknown[];
-  currency_id?: string;
-  total?: number;
-  [key: string]: unknown;
-}
+import type { PreviewOrderData } from '../../types/backend2.js';
 
 export class PreviewOrder extends ServerDataObject {
   #items: PreviewOrderItem[] = [];

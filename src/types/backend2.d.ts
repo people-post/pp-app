@@ -40,6 +40,10 @@ export interface SectorItemLayout {
   type: string;
 }
 
+export interface CountryData {
+  name: string;
+}
+
 /**
  * BlogProfile data structure from backend API
  */
@@ -74,6 +78,454 @@ export interface MenuEntryItemData extends MenuItemData {
 }
 
 export interface MenuData extends MenuItemData {}
+
+export interface TimeClockRecordData {
+  total?: number;
+  [key: string]: unknown;
+}
+
+export interface TimeClockData {
+  t_current?: number;
+  [key: string]: unknown;
+}
+
+export interface MessageThreadData {
+  from_id: string;
+  from_id_type: string;
+  n_unread: number;
+  latest?: Record<string, unknown>;
+}
+
+export interface UserRequestData {
+  sector_ids?: string[];
+  from_user_id?: string;
+  target_group_id?: string;
+  category?: string;
+  message?: string;
+  [key: string]: unknown;
+}
+
+export interface WorkshopTeamData {
+  status?: string;
+  data?: {
+    permissions?: string[];
+    [key: string]: unknown;
+  };
+  [key: string]: unknown;
+}
+
+export interface UserRoleData {
+  is_open?: boolean;
+  name?: string;
+  member_ids?: string[];
+  status?: string;
+  [key: string]: unknown;
+}
+
+export interface BlogRoleData {
+  status?: string;
+  data?: {
+    allowed_tag_ids?: string[];
+    [key: string]: unknown;
+  };
+  [key: string]: unknown;
+}
+
+export interface VoteData {
+  user_id?: string;
+  item_id?: string;
+  value?: string;
+  [key: string]: unknown;
+}
+
+export interface VisitSummaryData {
+  sub_query_key?: string;
+  sub_query_value?: string;
+  name?: string;
+  total?: number;
+  [key: string]: unknown;
+}
+
+interface BallotItem {
+  value: string;
+  ballot: number;
+  [key: string]: unknown;
+}
+
+export interface VotingSummaryData {
+  config?: unknown;
+  items?: BallotItem[];
+  [key: string]: unknown;
+}
+
+export interface SupplierOrderPrivateData {
+  customer_id?: string;
+  [key: string]: unknown;
+}
+
+interface ProductData {
+  description?: string;
+  quantity?: number;
+  unit_price?: number;
+  [key: string]: unknown;
+}
+
+export interface SupplierOrderItemData {
+  product?: ProductData;
+  state?: string;
+  status?: string;
+  [key: string]: unknown;
+}
+
+export interface ShopTeamData {
+  status?: string;
+  data?: {
+    permissions?: string[];
+    [key: string]: unknown;
+  };
+  [key: string]: unknown;
+}
+
+export interface ShopRegisterData {
+  name?: string;
+  [key: string]: unknown;
+}
+
+export interface ShopBranchData {
+  name?: string;
+  owner_id?: string;
+  address_id?: string;
+  [key: string]: unknown;
+}
+
+export interface PreviewOrderItemData {
+  description?: string;
+  specs?: unknown;
+  quantity?: number;
+  unit_price?: number;
+  product_id?: string;
+  [key: string]: unknown;
+}
+
+export interface PreviewOrderData {
+  items?: unknown[];
+  currency_id?: string;
+  total?: number;
+  [key: string]: unknown;
+}
+
+export interface BasePrice {
+  currency_id: string;
+  list_price: string | number;
+  sales_price: string | number;
+}
+
+export interface ProductData {
+  files?: unknown[];
+  delivery_choices?: unknown[];
+  is_draft?: boolean;
+  supplier_id?: string;
+  name?: string;
+  description?: string;
+  tag_ids?: string[];
+  base_prices?: BasePrice[];
+  [key: string]: unknown;
+}
+
+export interface CustomerOrderData {
+  items?: unknown[];
+  shipping_address?: unknown;
+  subtotal?: number;
+  discount?: number;
+  refund?: number;
+  shipping_handling_cost?: number;
+  total?: number;
+  currency_id?: string;
+  shop_id?: string;
+  state?: string;
+  status?: string;
+  updated_at?: number;
+  [key: string]: unknown;
+}
+
+export interface WalkinQueueItemData {
+  customer_user_id?: string;
+  customer_name?: string;
+  product_id?: string;
+  state?: string;
+  status?: string;
+  updated_at?: number;
+  agent_id?: string;
+  [key: string]: unknown;
+}
+
+export interface ProductServiceTimeslotData {
+  from?: number;
+  to?: number;
+  n?: number;
+  repetition?: string;
+  [key: string]: unknown;
+}
+
+export interface ProductServiceLocationData {
+  branch_id?: string;
+  assignee?: unknown;
+  time_overhead?: number;
+  price_overhead?: number;
+  time_slots?: unknown[];
+  [key: string]: unknown;
+}
+
+export interface AppointmentServiceDeliveryData {
+  locations?: unknown[];
+  [key: string]: unknown;
+}
+
+export interface QueueServiceDeliveryData {
+  locations?: unknown[];
+  [key: string]: unknown;
+}
+
+export interface Price {
+  currency_id: string;
+  value: number;
+}
+
+export interface CartItemData {
+  id?: string;
+  product_id?: string;
+  specifications?: unknown;
+  quantity?: number;
+  cart_id?: string;
+  preferred_currency_id?: string;
+  prices?: Price[];
+  [key: string]: unknown;
+}
+
+export interface StoryEventData {
+  name?: string;
+  description?: string;
+  type?: string;
+  time?: number | Date;
+  [key: string]: unknown;
+}
+
+export interface StoryData {
+  events?: unknown[];
+  [key: string]: unknown;
+}
+
+export interface PaymentTerminalData {
+  name?: string;
+  type?: string;
+  state?: string;
+  status?: string;
+  data?: unknown;
+  [key: string]: unknown;
+}
+
+export interface SquareTerminalData {
+  device_id?: string;
+  pair_code?: string;
+  pair_by?: string;
+  status?: string;
+  paired_at?: number;
+  [key: string]: unknown;
+}
+
+export interface SocialInfoData {
+  is_liked?: boolean;
+  is_linked?: boolean;
+  n_likes?: number;
+  n_links?: number;
+  n_comments?: number;
+  [key: string]: unknown;
+}
+
+export interface NoticeElement {
+  read_at?: string | null;
+  from_user_id: string;
+  id: string;
+}
+
+interface FacilitatorData {
+  id?: string;
+  [key: string]: unknown;
+}
+
+interface ClientData {
+  id?: string;
+  [key: string]: unknown;
+}
+
+export interface ProjectData {
+  files?: unknown[];
+  stages?: unknown[];
+  agents?: unknown[];
+  story?: unknown;
+  is_draft?: boolean;
+  visibility?: string;
+  name?: string;
+  description?: string;
+  owner_id?: string;
+  creator_id?: string;
+  facilitator?: FacilitatorData;
+  client?: ClientData;
+  tag_ids?: string[];
+  state?: string;
+  status?: string;
+  [key: string]: unknown;
+}
+
+export interface ProjectActorData {
+  user_id?: string;
+  status?: string;
+  nickname?: string;
+  [key: string]: unknown;
+}
+
+export interface ProjectStageData {
+  id?: string;
+  required_stage_ids?: string[];
+  assignee_id?: string;
+  [key: string]: unknown;
+}
+
+export interface SimpleProjectStageData {
+  status?: string;
+  type?: string;
+  name?: string;
+  description?: string;
+  comment?: string;
+  [key: string]: unknown;
+}
+
+export interface NoticeElement {
+  read_at?: string | null;
+  from_user_id: string;
+  id: string;
+}
+
+export interface CommentTagData {
+  tag_id?: string;
+  comment_ids?: Array<{ id: string; type: string }>;
+  [key: string]: unknown;
+}
+
+export interface RealTimeCommentData {
+  type?: string;
+  data?: {
+    status?: string;
+    guestName?: string;
+    data?: string;
+    [key: string]: unknown;
+  } | string;
+  [key: string]: unknown;
+}
+
+export interface CommentData {
+  type?: string;
+  data?: unknown;
+  from_user_id?: string;
+  in_group_id?: string;
+  in_group_type?: string;
+  [key: string]: unknown;
+}
+
+export interface CommentDataWithStatus {
+  status?: string;
+  guestName?: string;
+  data?: string;
+}
+
+export interface QuizData {
+  stem?: string;
+  answers?: string[];
+  distractors?: string[];
+  [key: string]: unknown;
+}
+
+export interface ProposalData {
+  author_id?: string;
+  community_id?: string;
+  type?: string;
+  data?: unknown;
+  status?: string;
+  state?: string;
+  updated_at?: number;
+  title?: string;
+  abstract?: string;
+  vote_result?: unknown;
+  [key: string]: unknown;
+}
+
+interface IconData {
+  url?: string;
+  [key: string]: unknown;
+}
+
+interface ImageData {
+  url?: string;
+  [key: string]: unknown;
+}
+
+export interface CommunityProfileData {
+  name?: string;
+  description?: string;
+  icon?: IconData;
+  image?: ImageData;
+  creator_id?: string;
+  config?: {
+    captain_id?: string;
+    [key: string]: unknown;
+  };
+  n_members?: number;
+  n_total_coins?: number;
+  n_active_coins?: number;
+  cash_balance?: number;
+  n_proposals?: number;
+  [key: string]: unknown;
+}
+
+export interface JournalIssueSectionData {
+  id?: string;
+  item_ids?: Array<{ id: string; type: string }>;
+  [key: string]: unknown;
+}
+
+export interface JournalConfigTaggedData {
+  tag_ids?: string[];
+  placeholder?: string;
+  [key: string]: unknown;
+}
+
+export interface JournalData {
+  name?: string;
+  description?: string;
+  template_id?: string;
+  template_data?: unknown;
+  [key: string]: unknown;
+}
+
+export interface EmptyPostData {
+  err_code?: string;
+  [key: string]: unknown;
+}
+
+export interface FeedArticleData {
+  files?: unknown[];
+  title?: string;
+  content?: string;
+  owner_id?: string;
+  url?: string;
+  [key: string]: unknown;
+}
+
+export interface ArticleData extends ArticleBaseData {
+  comment_tags?: CommentTagData[];
+  reply_to?: { id: string; type: string };
+  [key: string]: unknown;
+}
 
 /**
  * UserProfile data structure from backend API
@@ -120,6 +572,18 @@ export interface UserPrivateProfile {
   applied_community_id?: string;
   representative_id?: string | null;
   blog?: BlogConfig;
+}
+
+export interface FrontPageLayoutConfigData {
+  type_id?: string;
+  [key: string]: unknown;
+}
+
+export interface FrontPageConfigData {
+  template_id?: string;
+  data?: unknown;
+  layout?: { type_id?: string; [key: string]: unknown };
+  [key: string]: unknown;
 }
 
 /**

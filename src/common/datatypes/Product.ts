@@ -5,24 +5,7 @@ import { RemoteFile } from './RemoteFile.js';
 import { ProductDeliveryChoice } from './ProductDeliveryChoice.js';
 import { SocialItemId } from './SocialItemId.js';
 import { OgpData } from './OgpData.js';
-
-export interface BasePrice {
-  currency_id: string;
-  list_price: string | number;
-  sales_price: string | number;
-}
-
-interface ProductData {
-  files?: unknown[];
-  delivery_choices?: unknown[];
-  is_draft?: boolean;
-  supplier_id?: string;
-  name?: string;
-  description?: string;
-  tag_ids?: string[];
-  base_prices?: BasePrice[];
-  [key: string]: unknown;
-}
+import type { ProductData, BasePrice } from '../../types/backend2.js';
 
 export class Product extends ServerDataObject implements SocialItemInterface {
   #files: RemoteFile[] = [];

@@ -1,10 +1,5 @@
 import { SocialItemId } from './SocialItemId.js';
-
-interface JournalIssueSectionData {
-  id?: string;
-  item_ids?: Array<{ id: string; type: string }>;
-  [key: string]: unknown;
-}
+import type { JournalIssueSectionData } from '../../types/backend2.js';
 
 export class JournalIssueSection {
   #data: JournalIssueSectionData;

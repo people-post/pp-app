@@ -1,12 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-
-interface StoryEventData {
-  name?: string;
-  description?: string;
-  type?: string;
-  time?: number | Date;
-  [key: string]: unknown;
-}
+import type { StoryEventData } from '../../types/backend2.js';
 
 export class StoryEvent extends ServerDataObject {
   // Synced with backend

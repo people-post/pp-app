@@ -1,20 +1,7 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import { VotingSummary } from './VotingSummary.js';
 import { ICON } from '../constants/Icons.js';
-
-interface ProposalData {
-  author_id?: string;
-  community_id?: string;
-  type?: string;
-  data?: unknown;
-  status?: string;
-  state?: string;
-  updated_at?: number;
-  title?: string;
-  abstract?: string;
-  vote_result?: unknown;
-  [key: string]: unknown;
-}
+import type { ProposalData } from '../../types/backend2.js';
 
 export class Proposal extends ServerDataObject {
   // Synced with backend

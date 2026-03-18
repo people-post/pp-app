@@ -1,10 +1,5 @@
 import { Notice } from './Notice.js';
-
-interface NoticeElement {
-  read_at?: string | null;
-  from_user_id: string;
-  id: string;
-}
+import type { NoticeElement } from '../../types/backend2.js';
 
 export class RepostItemNotice extends Notice {
   private _itemId: string;

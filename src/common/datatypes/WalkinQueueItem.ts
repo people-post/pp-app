@@ -1,15 +1,5 @@
 import { ServerDataObject } from './ServerDataObject.js';
-
-interface WalkinQueueItemData {
-  customer_user_id?: string;
-  customer_name?: string;
-  product_id?: string;
-  state?: string;
-  status?: string;
-  updated_at?: number;
-  agent_id?: string;
-  [key: string]: unknown;
-}
+import type { WalkinQueueItemData } from '../../types/backend2.js';
 
 export class WalkinQueueItem extends ServerDataObject {
   protected declare _data: WalkinQueueItemData;

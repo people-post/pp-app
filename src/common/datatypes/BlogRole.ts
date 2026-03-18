@@ -1,13 +1,5 @@
 import { UserRole } from './UserRole.js';
-
-export interface BlogRoleData {
-  status?: string;
-  data?: {
-    allowed_tag_ids?: string[];
-    [key: string]: unknown;
-  };
-  [key: string]: unknown;
-}
+import type { BlogRoleData } from '../../types/backend2.js';
 
 export class BlogRole extends UserRole {
   // Sync with backend

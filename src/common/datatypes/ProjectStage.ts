@@ -1,9 +1,4 @@
-interface ProjectStageData {
-  id?: string;
-  required_stage_ids?: string[];
-  assignee_id?: string;
-  [key: string]: unknown;
-}
+import type { ProjectStageData } from '../../types/backend2.js';
 
 export class ProjectStage {
   static readonly TYPES = {

@@ -9,7 +9,7 @@ import { Shop } from '../dba/Shop.js';
 import { Exchange } from '../dba/Exchange.js';
 import { R } from '../constants/R.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { BasePrice } from '../datatypes/Product.js';
+import type { BasePrice } from '../../types/backend2.js';
 
 export class PriceEditorFragment extends Fragment {
   private _fListPriceUnits: Selection;
