@@ -1,36 +1,34 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import { SquareTerminal } from './SquareTerminal.js';
-import type { PaymentTerminalData } from '../../types/backend2.js';
+import type { PaymentTerminalData, SquareTerminalData } from '../../types/backend2.js';
 
-export class PaymentTerminal extends ServerDataObject {
+export class PaymentTerminal extends ServerDataObject<PaymentTerminalData> {
   // Synced with backend
   static readonly T_TYPE = {
     SQUARE_TERMINAL: 'SQUARE_TERMINAL',
   } as const;
 
-  protected _data: PaymentTerminalData;
   #dataObj: SquareTerminal | null = null;
 
   constructor(data: PaymentTerminalData) {
     super(data);
-    this._data = data;
     this.#dataObj = this.#initDataObj(data.type, data.data);
   }
 
-  getName(): string | undefined {
-    return this._data.name as string | undefined;
+  getName(): string | null {
+    return this._data.name;
   }
 
-  getType(): string | undefined {
+  getType(): string | null {
     return this._data.type;
   }
 
-  getState(): string | undefined {
-    return this._data.state as string | undefined;
+  getState(): string | null {
+    return this._data.state;
   }
 
-  getStatus(): string | undefined {
-    return this._data.status as string | undefined;
+  getStatus(): string | null {
+    return this._data.status;
   }
 
   getDataObj(): SquareTerminal | null {
@@ -49,11 +47,11 @@ export class PaymentTerminal extends ServerDataObject {
     return s;
   }
 
-  #initDataObj(type: string | undefined, data: unknown): SquareTerminal | null {
+  #initDataObj(type: string | null, data: unknown): SquareTerminal | null {
     let obj: SquareTerminal | null = null;
     switch (type) {
       case PaymentTerminal.T_TYPE.SQUARE_TERMINAL:
-        obj = new SquareTerminal(data as Record<string, unknown>);
+        obj = new SquareTerminal(data as SquareTerminalData);
         break;
       default:
         break;

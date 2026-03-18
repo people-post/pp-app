@@ -1,18 +1,21 @@
 import { ServerDataObject } from './ServerDataObject.js';
-import { SupplierOrderPublic } from './SupplierOrderPublic.js';
-import type { CustomerOrderData } from '../../types/backend2.js';
+import { CustomerOrderItem } from './CustomerOrderItem.js';
+import type { CustomerOrderData, CustomerOrderItemData } from '../../types/backend2.js';
 
-export class CustomerOrder extends ServerDataObject {
-  #items: SupplierOrderPublic[] = [];
-  protected _data: CustomerOrderData;
+export class CustomerOrder extends ServerDataObject<CustomerOrderData> {
+  #items: CustomerOrderItem[] | undefined = undefined;
 
-  constructor(data: CustomerOrderData) {
-    super(data);
-    this._data = data;
-    this.#items = this.#initItems(data.items || []);
-  }
+  getItems(): CustomerOrderItem[] {
+    if (this.#items) {
+      return this.#items;
+    }
 
-  getItems(): SupplierOrderPublic[] {
+    // Lazy initialization
+    if (this._data.items) {
+      this.#items = this.#initItems(this._data.items);
+    } else {
+      this.#items = [];
+    }
     return this.#items;
   }
 
@@ -20,50 +23,50 @@ export class CustomerOrder extends ServerDataObject {
     return this._data.shipping_address;
   }
 
-  getSubtotal(): number | undefined {
-    return this._data.subtotal as number | undefined;
+  getSubtotal(): number {
+    return this._data.subtotal;
   }
 
-  getDiscount(): number | undefined {
-    return this._data.discount as number | undefined;
+  getDiscount(): number {
+    return this._data.discount;
   }
 
-  getRefund(): number | undefined {
-    return this._data.refund as number | undefined;
+  getRefund(): number {
+    return this._data.refund;
   }
 
-  getShippingHandlingCost(): number | undefined {
-    return this._data.shipping_handling_cost as number | undefined;
+  getShippingHandlingCost(): number {
+    return this._data.shipping_handling_cost;
   }
 
-  getTotalPrice(): number | undefined {
-    return this._data.total as number | undefined;
+  getTotalPrice(): number {
+    return this._data.total;
   }
 
-  getCurrencyId(): string | undefined {
+  getCurrencyId(): string {
     return this._data.currency_id;
   }
 
-  getShopId(): string | undefined {
+  getShopId(): string | null {
     return this._data.shop_id;
   }
 
-  getState(): string | undefined {
+  getState(): string | null {
     return this._data.state;
   }
 
-  getStatus(): string | undefined {
-    return (this._data.status as string | undefined) || (this._data.state as string | undefined);
+  getStatus(): string | null {
+    return this._data.status ?? this._data.state;
   }
 
   getUpdateTime(): Date {
     return new Date((this._data.updated_at || 0) * 1000);
   }
 
-  #initItems(dataList: unknown[]): SupplierOrderPublic[] {
-    const items: SupplierOrderPublic[] = [];
+  #initItems(dataList: CustomerOrderItemData[]): CustomerOrderItem[] {
+    const items: CustomerOrderItem[] = [];
     for (const d of dataList) {
-      items.push(new SupplierOrderPublic(d as Record<string, unknown>));
+      items.push(new CustomerOrderItem(d));
     }
     return items;
   }

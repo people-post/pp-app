@@ -1,20 +1,21 @@
 import { ServerDataObject } from './ServerDataObject.js';
+import type { CurrencyData } from '../../types/backend2.js';
 
-export class Currency extends ServerDataObject {
-  getName(): string | undefined {
-    return this._data.name as string | undefined;
+export class Currency extends ServerDataObject<CurrencyData> {
+  getName(): string | null {
+    return this._data.name;
   }
 
-  getCode(): string | undefined {
-    return this._data.code as string | undefined;
+  getCode(): string | null {
+    return this._data.code;
   }
 
-  getSymbol(): string | undefined {
-    return this._data.symbol as string | undefined;
+  getSymbol(): string | null {
+    return this._data.symbol;
   }
 
-  getIcon(): string | undefined {
-    return this._data.icon as string | undefined;
+  getIcon(): string | null {
+    return this._data.icon;
   }
 }
 

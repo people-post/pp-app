@@ -1,18 +1,16 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import { PreviewOrderItem } from './PreviewOrderItem.js';
-import type { PreviewOrderData } from '../../types/backend2.js';
+import type { PreviewOrderData, PreviewOrderItemData } from '../../types/backend2.js';
 
-export class PreviewOrder extends ServerDataObject {
+export class PreviewOrder extends ServerDataObject<PreviewOrderData> {
   #items: PreviewOrderItem[] = [];
-  protected _data: PreviewOrderData;
 
   constructor(data: PreviewOrderData) {
     super(data);
-    this._data = data;
     this.#items = this.#initItems(data.items || []);
   }
 
-  getCurrencyId(): string | undefined {
+  getCurrencyId(): string {
     return this._data.currency_id;
   }
 
@@ -20,14 +18,14 @@ export class PreviewOrder extends ServerDataObject {
     return this.#items;
   }
 
-  getTotal(): number | undefined {
-    return this._data.total as number | undefined;
+  getTotal(): number {
+    return this._data.total;
   }
 
-  #initItems(dataList: unknown[]): PreviewOrderItem[] {
+  #initItems(dataList: PreviewOrderItemData[]): PreviewOrderItem[] {
     const items: PreviewOrderItem[] = [];
     for (const d of dataList) {
-      items.push(new PreviewOrderItem(d as Record<string, unknown>));
+      items.push(new PreviewOrderItem(d));
     }
     return items;
   }

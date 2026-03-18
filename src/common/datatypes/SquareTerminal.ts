@@ -1,27 +1,25 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import type { SquareTerminalData } from '../../types/backend2.js';
 
-export class SquareTerminal extends ServerDataObject {
-  protected declare _data: SquareTerminalData;
-
-  getDeviceId(): string | undefined {
-    return this._data.device_id as string | undefined;
+export class SquareTerminal extends ServerDataObject<SquareTerminalData> {
+  getDeviceId(): string | null {
+    return this._data.device_id;
   }
 
-  getPairCode(): string | undefined {
-    return this._data.pair_code as string | undefined;
+  getPairCode(): string | null {
+    return this._data.pair_code;
   }
 
-  getPairBy(): string | undefined {
-    return this._data.pair_by as string | undefined;
+  getPairBy(): string | null {
+    return this._data.pair_by;
   }
 
-  getStatus(): string | undefined {
-    return this._data.status as string | undefined;
+  getStatus(): string | null {
+    return this._data.status;
   }
 
-  getPairedAt(): number | undefined {
-    return this._data.paired_at as number | undefined;
+  getPairedAt(): number | null {
+    return this._data.paired_at;
   }
 }
 

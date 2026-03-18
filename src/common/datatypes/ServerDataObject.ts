@@ -1,23 +1,24 @@
-export class ServerDataObject {
-  protected _data: {
-    id?: string | number;
-    created_at?: Date;
-    [key: string]: unknown;
-  };
+import type { ServerDataObjectData } from '../../types/backend2.js';
 
-  constructor(data: Record<string, unknown>) {
-    if (data.created_at) {
-      data.created_at = new Date((data.created_at as number) * 1000);
-    }
-    this._data = data as typeof this._data;
+export class ServerDataObject<T extends ServerDataObjectData> {
+  protected _data: T;
+
+  constructor(data: T) {
+    this._data = data;
   }
 
-  getId(): string | number | undefined {
+  getId(): string | null{
     return this._data.id;
   }
 
   getCreationTime(): Date | undefined {
-    return this._data.created_at;
+    if (this._data._created_at) {
+      return this._data._created_at;
+    }
+    if (this._data.created_at !== undefined) {
+      this._data._created_at = new Date(this._data.created_at * 1000);
+    }
+    return this._data._created_at;
   }
 }
 

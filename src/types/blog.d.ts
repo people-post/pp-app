@@ -142,6 +142,11 @@ export interface Post extends SocialItem {
   getTaggedCommentIds(tagId: string): SocialItemId[];
 }
 
+export interface JournalIssueSection {
+  getId(): string | null;
+  getPostSocialIds(): SocialItemId[];
+}
+
 /**
  * JournalIssue interface for journal issues
  */
@@ -159,41 +164,17 @@ export interface JournalIssue extends Post {
    */
   containsPost(id: string): boolean;
 
-  /**
-   * Get the journal ID
-   * @returns The journal ID or undefined
-   */
-  getJournalId(): string | undefined;
+  getJournalId(): string;
 
-  /**
-   * Get the issue ID
-   * @returns The issue ID or undefined
-   */
-  getIssueId(): string | undefined;
+  getIssueId(): string | null;
 
-  /**
-   * Get the abstract of the issue
-   * @returns The abstract or undefined
-   */
-  getAbstract(): string | undefined;
+  getAbstract(): string | null;
 
-  /**
-   * Get the summary of the issue
-   * @returns The summary or undefined
-   */
-  getSummary(): string | undefined;
+  getSummary(): string | null;
 
-  /**
-   * Get tag IDs associated with this issue
-   * @returns Array of tag IDs or undefined
-   */
-  getTagIds(): string[] | undefined;
+  getTagIds(): string[];
 
-  /**
-   * Get sections of the journal issue
-   * @returns Array of JournalIssueSection objects
-   */
-  getSections(): unknown[];
+  getSections(): JournalIssueSection[];
 }
 
 /**
@@ -238,15 +219,15 @@ export interface Article extends Post {
 
   /**
    * Get the link target of the article
-   * @returns The link target or undefined
+   * @returns The link target or null
    */
-  getLinkTo(): string | undefined;
+  getLinkTo(): string | null;
 
   /**
    * Get the link type of the article
-   * @returns The link type or undefined
+   * @returns The link type or null
    */
-  getLinkType(): string | undefined;
+  getLinkType(): string | null;
 
   /**
    * Get the link target as a SocialItemId
@@ -262,15 +243,15 @@ export interface Article extends Post {
 
   /**
    * Get the title of the article
-   * @returns The title or null/undefined
+   * @returns The title or null
    */
-  getTitle(): string | undefined;
+  getTitle(): string | null;
 
   /**
    * Get the content of the article
-   * @returns The content or undefined
+   * @returns The content or null
    */
-  getContent(): string | undefined;
+  getContent(): string | null;
 
   /**
    * Get files associated with the article
@@ -280,27 +261,27 @@ export interface Article extends Post {
 
   /**
    * Get the attachment file
-   * @returns The RemoteFile attachment or undefined
+   * @returns The RemoteFile attachment or null
    */
   getAttachment(): RemoteFile | undefined;
 
   /**
    * Get the visibility of the article
-   * @returns The visibility string or undefined
+   * @returns The visibility string or null
    */
-  getVisibility(): string | undefined;
+  getVisibility(): string | null;
 
   /**
    * Get the owner ID of the article
-   * @returns The owner ID or undefined
+   * @returns The owner ID or null
    */
-  getOwnerId(): string | undefined;
+  getOwnerId(): string | null;
 
   /**
    * Get the author ID of the article
-   * @returns The author ID or undefined
+   * @returns The author ID or null
    */
-  getAuthorId(): string | undefined;
+  getAuthorId(): string | null;
 
   /**
    * Get tag IDs associated with this article
@@ -348,7 +329,7 @@ export interface Article extends Post {
    * Get the external quote URL
    * @returns The external quote URL
    */
-  getExternalQuoteUrl(): string | undefined;
+  getExternalQuoteUrl(): string | null;
 
   /**
    * Get the social ID of this article

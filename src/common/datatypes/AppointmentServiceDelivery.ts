@@ -1,26 +1,25 @@
 import { ProductDelivery } from './ProductDelivery.js';
 import { ProductServiceLocation } from './ProductServiceLocation.js';
-import type { AppointmentServiceDeliveryData } from '../../types/backend2.js';
+import type { AppointmentServiceDeliveryData, ProductServiceLocationData } from '../../types/backend2.js';
 
-export class AppointmentServiceDelivery extends ProductDelivery {
-  #locations: ProductServiceLocation[] = [];
-  protected _data: AppointmentServiceDeliveryData;
-
-  constructor(data: AppointmentServiceDeliveryData) {
-    super(data);
-    this._data = data;
-    if (data.locations) {
-      for (const d of data.locations) {
-        this.#locations.push(this.#initLocation(d as Record<string, unknown>));
-      }
-    }
-  }
+export class AppointmentServiceDelivery extends ProductDelivery<AppointmentServiceDeliveryData> {
+  #locations: ProductServiceLocation[] | undefined = undefined;
 
   getLocations(): ProductServiceLocation[] {
+    if (this.#locations) {
+      return this.#locations;
+    }
+    // Lazy load locations.
+    this.#locations = [];
+    if (this._data.locations) {
+      for (const d of this._data.locations) {
+        this.#locations.push(this.#initLocation(d));
+      }
+    }
     return this.#locations;
   }
 
-  #initLocation(data: Record<string, unknown>): ProductServiceLocation {
+  #initLocation(data: ProductServiceLocationData): ProductServiceLocation {
     return new ProductServiceLocation(data);
   }
 }

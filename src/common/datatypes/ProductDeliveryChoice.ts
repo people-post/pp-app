@@ -1,10 +1,10 @@
-import { ServerDataObject } from './ServerDataObject.js';
 import { PhysicalGoodDelivery } from './PhysicalGoodDelivery.js';
 import { DigitalGoodDelivery } from './DigitalGoodDelivery.js';
 import { QueueServiceDelivery } from './QueueServiceDelivery.js';
 import { AppointmentServiceDelivery } from './AppointmentServiceDelivery.js';
+import type { AppointmentServiceDeliveryData, DigitalGoodDeliveryData, ProductDeliveryBaseData, ProductDeliveryChoiceData, QueueServiceDeliveryData } from '../../types/backend2.js';
 
-export class ProductDeliveryChoice extends ServerDataObject {
+export class ProductDeliveryChoice {
   static readonly TYPE = {
     GOOD: null,
     DIGITAL: 'DIGITAL',
@@ -13,14 +13,15 @@ export class ProductDeliveryChoice extends ServerDataObject {
   } as const;
 
   #obj: PhysicalGoodDelivery | DigitalGoodDelivery | QueueServiceDelivery | AppointmentServiceDelivery | null = null;
+  #data: ProductDeliveryChoiceData | null = null;
 
-  constructor(data: Record<string, unknown>) {
-    super(data);
-    this.#obj = this.#initDataObj(this._data.type as string | null, this._data.data as Record<string, unknown> | undefined);
+  constructor(data: ProductDeliveryChoiceData) {
+    this.#data = data;
+    this.#obj = this.#initDataObj(data.type, data.data);
   }
 
   getType(): string | null {
-    return (this._data.type as string | null) || null;
+    return this.#data?.type ?? null;
   }
 
   getDataObject(): PhysicalGoodDelivery | DigitalGoodDelivery | QueueServiceDelivery | AppointmentServiceDelivery | null {
@@ -29,21 +30,21 @@ export class ProductDeliveryChoice extends ServerDataObject {
 
   #initDataObj(
     type: string | null,
-    data: Record<string, unknown> | undefined
+    data: unknown
   ): PhysicalGoodDelivery | DigitalGoodDelivery | QueueServiceDelivery | AppointmentServiceDelivery | null {
     let obj: PhysicalGoodDelivery | DigitalGoodDelivery | QueueServiceDelivery | AppointmentServiceDelivery | null = null;
     switch (type) {
       case ProductDeliveryChoice.TYPE.GOOD:
-        obj = new PhysicalGoodDelivery(data || {});
+        obj = new PhysicalGoodDelivery(data as ProductDeliveryBaseData);
         break;
       case ProductDeliveryChoice.TYPE.DIGITAL:
-        obj = new DigitalGoodDelivery(data || {});
+        obj = new DigitalGoodDelivery(data as DigitalGoodDeliveryData);
         break;
       case ProductDeliveryChoice.TYPE.QUEUE:
-        obj = new QueueServiceDelivery(data || {});
+        obj = new QueueServiceDelivery(data as QueueServiceDeliveryData);
         break;
       case ProductDeliveryChoice.TYPE.SCHEDULE:
-        obj = new AppointmentServiceDelivery(data || {});
+        obj = new AppointmentServiceDelivery(data as AppointmentServiceDeliveryData);
         break;
       default:
         console.log('Unsupported type: ' + type);

@@ -23,7 +23,7 @@ export class CartItem {
     return this.#data.quantity || 0;
   }
 
-  getCartId(): string | undefined {
+  getCartId(): string | null {
     return this.#data.cart_id;
   }
 

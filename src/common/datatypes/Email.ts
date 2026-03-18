@@ -1,68 +1,67 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import { RemoteFile } from './RemoteFile.js';
+import type { EmailData, EmailRecipientData } from '../../types/backend2.js';
 
-export class Email extends ServerDataObject {
-  private _files: RemoteFile[];
-
-  constructor(data: Record<string, unknown>) {
-    super(data);
-    this._files = [];
-    if (data.files) {
-      const files = data.files as Record<string, unknown>[];
-      for (const f of files) {
-        this._files.push(new RemoteFile(f));
-      }
-    }
-  }
+export class Email extends ServerDataObject<EmailData> {
+  #files: RemoteFile[] | undefined = undefined;
 
   isRead(): boolean {
-    return !!(this._data.is_read as boolean | undefined);
+    return this._data.is_read;
   }
 
-  getSender(): string | undefined {
-    return this._data.sender as string | undefined;
+  getSender(): EmailRecipientData {
+    return this._data.sender;
   }
 
-  getReceivers(): string[] | undefined {
-    return this._data.tos as string[] | undefined;
+  getReceivers(): EmailRecipientData[] {
+    return this._data.tos;
   }
 
-  getCarbonCopies(): string[] | undefined {
-    return this._data.ccs as string[] | undefined;
+  getCarbonCopies(): EmailRecipientData[] {
+    return this._data.ccs;
   }
 
-  getTitle(): string | undefined {
-    return this._data.title as string | undefined;
+  getTitle(): string | null {
+    return this._data.title;
   }
 
-  getContentType(): string | undefined {
-    return this._data.content_type as string | undefined;
+  getContentType(): string | null {
+    return this._data.content_type;
   }
 
-  getContent(): string | undefined {
+  getContent(): string | null {
     const contentType = this.getContentType();
-    const content = this._data.content as string | undefined;
-    if (!content) return undefined;
+    const content = this._data.content;
+    if (!content) return null;
     if (contentType === 'text/html') {
       return content;
     }
     return content.replace(/(?:\r\n|\r|\n)/g, '<br>');
   }
 
-  getRawContent(): string | undefined {
-    return this._data.raw_content as string | undefined;
+  getRawContent(): string | null {
+    return this._data.raw_content;
   }
 
   getFiles(): RemoteFile[] {
-    return this._files;
+    if (this.#files) {
+      return this.#files;
+    }
+    this.#files = [];
+    if (this._data.files) {
+      for (const f of this._data.files) {
+        this.#files.push(new RemoteFile(f));
+      }
+    }
+    return this.#files;
   }
 
-  getOwnerId(): string | number | undefined {
-    return this._data.owner_id as string | number | undefined;
+  getOwnerId(): string | null {
+    return this._data.owner_id ?? null;
   }
 
   getUpdateTime(): Date {
-    const updatedAt = this._data.updated_at as number | undefined;
+    const updatedAt = this._data.updated_at;
     return new Date((updatedAt || 0) * 1000);
   }
 }

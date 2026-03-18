@@ -1,6 +1,7 @@
 import { ServerDataObject } from './ServerDataObject.js';
+import type { MessageData } from '../../types/backend2.js';
 
-export class ChatMessage extends ServerDataObject {
+export class ChatMessage extends ServerDataObject<MessageData> {
   // Synced with backend
   static readonly T_TYPE = {
     TEXT: 'TXT',
@@ -25,15 +26,15 @@ export class ChatMessage extends ServerDataObject {
   } as const;
 
   isInGroup(): boolean {
-    return !!(this._data.in_group_id as string | undefined);
+    return !!this._data.in_group_id;
   }
 
   getFromUserId(): string {
-    return this._data.from_user_id as string;
+    return this._data.from_user_id;
   }
 
   getType(): string {
-    return this._data.type as string;
+    return this._data.type;
   }
 
   getData(): unknown {

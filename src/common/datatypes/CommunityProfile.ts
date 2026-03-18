@@ -1,59 +1,52 @@
 import { ServerDataObject } from './ServerDataObject.js';
-import type { CommunityProfileData } from '../../types/backend2.js';
+import type { CommunityProfileConfigData, CommunityProfileData } from '../../types/backend2.js';
 
-export class CommunityProfile extends ServerDataObject {
-  protected _data: CommunityProfileData;
-
-  constructor(data: CommunityProfileData) {
-    super(data);
-    this._data = data;
+export class CommunityProfile extends ServerDataObject<CommunityProfileData> {
+  getName(): string | null {
+    return this._data.name;
   }
 
-  getName(): string | undefined {
-    return this._data.name as string | undefined;
+  getDescription(): string | null {
+    return this._data.description;
   }
 
-  getDescription(): string | undefined {
-    return this._data.description as string | undefined;
-  }
-
-  getIconUrl(): string {
-    return this._data.icon?.url || '';
+  getIconUrl(): string | null {
+    return this._data.icon?.url ?? null;
   }
 
   getImageUrl(): string {
     return this._data.image?.url || '';
   }
 
-  getCreatorId(): string | undefined {
-    return this._data.creator_id as string | undefined;
+  getCreatorId(): string | null {
+    return this._data.creator_id;
   }
 
-  getCaptainId(): string | undefined {
-    return this._data.config?.captain_id as string | undefined;
+  getCaptainId(): string | null {
+    return this._data.config?.captain_id;
   }
 
-  getNMembers(): number | undefined {
-    return this._data.n_members as number | undefined;
+  getNMembers(): number {
+    return this._data.n_members;
   }
 
-  getNTotalCoins(): number | undefined {
-    return this._data.n_total_coins as number | undefined;
+  getNTotalCoins(): number {
+    return this._data.n_total_coins;
   }
 
-  getNActiveCoins(): number | undefined {
-    return this._data.n_active_coins as number | undefined;
+  getNActiveCoins(): number {
+    return this._data.n_active_coins;
   }
 
-  getCashBalance(): number | undefined {
-    return this._data.cash_balance as number | undefined;
+  getCashBalance(): number {
+    return this._data.cash_balance;
   }
 
-  getNProposals(): number | undefined {
-    return this._data.n_proposals as number | undefined;
+  getNProposals(): number {
+    return this._data.n_proposals;
   }
 
-  getConfig(): { captain_id?: string; [key: string]: unknown } | undefined {
+  getConfig(): CommunityProfileConfigData {
     return this._data.config;
   }
 }

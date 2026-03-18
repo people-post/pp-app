@@ -6,7 +6,7 @@ export class MenuItem extends TreeNode<MenuItemData, MenuItem> {
   constructor(data: MenuItemData, parentItem: MenuItem | null = null) {
     super(data, parentItem);
     if (data.created_at) {
-      data.created_at = new Date((data.created_at as number) * 1000);
+      data._created_at = new Date(data.created_at * 1000);
     }
     this._setChildren(this.#initSubItems(data.sub_items));
   }

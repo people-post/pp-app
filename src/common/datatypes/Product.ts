@@ -7,22 +7,20 @@ import { SocialItemId } from './SocialItemId.js';
 import { OgpData } from './OgpData.js';
 import type { ProductData, BasePrice } from '../../types/backend2.js';
 
-export class Product extends ServerDataObject implements SocialItemInterface {
+export class Product extends ServerDataObject<ProductData> implements SocialItemInterface {
   #files: RemoteFile[] = [];
   #delivery_choices: ProductDeliveryChoice[] = [];
-  protected _data: ProductData;
 
   constructor(data: ProductData) {
     super(data);
-    this._data = data;
     if (data.files) {
       for (const f of data.files) {
-        this.#files.push(new RemoteFile(f as Record<string, unknown>));
+        this.#files.push(new RemoteFile(f));
       }
     }
     if (data.delivery_choices) {
       for (const d of data.delivery_choices) {
-        this.#delivery_choices.push(new ProductDeliveryChoice(d as Record<string, unknown>));
+        this.#delivery_choices.push(new ProductDeliveryChoice(d));
       }
     }
   }
@@ -44,7 +42,7 @@ export class Product extends ServerDataObject implements SocialItemInterface {
     return new SocialItemId(this.getId() as string, this.getSocialItemType());
   }
 
-  getName(): string | undefined {
+  getName(): string | null {
     return this._data.name;
   }
 
@@ -56,19 +54,19 @@ export class Product extends ServerDataObject implements SocialItemInterface {
     return this.#files;
   }
 
-  getDescription(): string | undefined {
+  getDescription(): string | null {
     return this._data.description;
   }
 
-  getTagIds(): string[] | undefined {
+  getTagIds(): string[] {
     return this._data.tag_ids;
   }
 
-  getSupplierId(): string | undefined {
+  getSupplierId(): string | null {
     return this._data.supplier_id;
   }
 
-  getFileForSpecs(): RemoteFile | undefined {
+  getFileForSpecs(): RemoteFile | null {
     return this.#files[0];
   }
 
@@ -76,16 +74,16 @@ export class Product extends ServerDataObject implements SocialItemInterface {
     return this._data.base_prices ?? [];
   }
 
-  getBasePrice(currencyId: string): BasePrice | undefined {
+  getBasePrice(currencyId: string): BasePrice | null {
     if (!this._data.base_prices) {
-      return undefined;
+      return null;
     }
     for (const p of this._data.base_prices) {
       if (p.currency_id == currencyId) {
         return p;
       }
     }
-    return undefined;
+    return null;
   }
 
   getOgpData(): OgpData {

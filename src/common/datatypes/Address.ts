@@ -1,6 +1,7 @@
 import { ServerDataObject } from './ServerDataObject.js';
+import type { AddressData } from '../../types/backend2.js';
 
-export class Address extends ServerDataObject {
+export class Address extends ServerDataObject<AddressData> {
   getOwnerId(): string | number | undefined {
     return this._data.owner_id as string | number | undefined;
   }

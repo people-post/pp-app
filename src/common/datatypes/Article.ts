@@ -6,26 +6,13 @@ import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
 import { ArticleData, CommentTagData } from '../../types/backend2.js';
 
-export class Article extends ServerDataObject implements ArticleInterface {
-  protected _data: ArticleData;
-  #files: RemoteFile[] = [];
-  #attachments: RemoteFile[] = [];
+export class Article extends ServerDataObject<ArticleData> implements ArticleInterface {
+  #files: RemoteFile[] | undefined = undefined;
+  #attachments: RemoteFile[] | undefined = undefined;
   #mTagComments = new Map<string, SocialItemId[]>();
 
   constructor(data: ArticleData) {
     super(data);
-    this._data = data;
-    if (data.files) {
-      for (const f of data.files) {
-        this.#files.push(new RemoteFile(f as Record<string, unknown>));
-      }
-    }
-
-    if (data.attachments) {
-      for (const d of data.attachments) {
-        this.#attachments.push(new RemoteFile(d as Record<string, unknown>));
-      }
-    }
     this.#initCommentTags(data.comment_tags);
   }
 
@@ -47,11 +34,11 @@ export class Article extends ServerDataObject implements ArticleInterface {
     return !!this._data.link_to && !this.isRepost();
   }
 
-  getLinkTo(): string | undefined {
+  getLinkTo(): string | null {
     return this._data.link_to;
   }
 
-  getLinkType(): string | undefined {
+  getLinkType(): string | null {
     return this._data.link_type;
   }
 
@@ -63,31 +50,50 @@ export class Article extends ServerDataObject implements ArticleInterface {
     return SocialItem.TYPE.ARTICLE;
   }
 
-  getTitle(): string | undefined {
+  getTitle(): string | null {
     return this._data.title;
   }
 
-  getContent(): string | undefined {
+  getContent(): string | null {
     return this._data.content;
   }
 
   getFiles(): RemoteFile[] {
+    if (this.#files) {
+      return this.#files;
+    }
+    this.#files = [];
+    if (this._data.files) {
+      for (const f of this._data.files) {
+        this.#files.push(new RemoteFile(f));
+      }
+    }
+
     return this.#files;
   }
 
   getAttachment(): RemoteFile | undefined {
+    if (this.#attachments) {
+      return this.#attachments[0];
+    }
+    this.#attachments = [];
+    if (this._data.attachments) {
+      for (const d of this._data.attachments) {
+        this.#attachments.push(new RemoteFile(d));
+      }
+    }
     return this.#attachments[0];
   }
 
-  getVisibility(): string | undefined {
+  getVisibility(): string | null {
     return this._data.visibility;
   }
 
-  getOwnerId(): string | undefined {
+  getOwnerId(): string | null {
     return this._data.owner_id;
   }
 
-  getAuthorId(): string | undefined {
+  getAuthorId(): string | null {
     return this._data.author_id;
   }
 
@@ -119,11 +125,11 @@ export class Article extends ServerDataObject implements ArticleInterface {
     return new Date((this._data.updated_at || 0) * 1000);
   }
 
-  getExternalQuoteUrl(): string | undefined {
+  getExternalQuoteUrl(): string | null {
     if (this._data.link_type == SocialItem.TYPE.URL) {
       return this._data.link_to;
     } else {
-      return undefined;
+      return null;
     }
   }
 

@@ -8,7 +8,7 @@ export class DirItem<
   constructor(data: TData, parentItem: TSubItem | null = null) {
     super(data, parentItem);
     if (data.created_at) {
-      data.created_at = new Date((data.created_at as number) * 1000);
+      data._created_at = new Date(data.created_at * 1000);
     }
     this._setChildren(this.#initSubItems(data.sub_items));
   }
@@ -26,7 +26,7 @@ export class DirItem<
   }
 
   getCreationTime(): Date | undefined {
-    return this._data.created_at as Date | undefined;
+    return this._data._created_at;
   }
 
   getName(): string | null {

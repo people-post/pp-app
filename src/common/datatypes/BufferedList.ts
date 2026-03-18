@@ -1,13 +1,14 @@
+import { ServerDataObjectData } from '../../types/backend2.js';
 import { ServerDataObject } from './ServerDataObject.js';
 
-export class BufferedList {
-  private _items: ServerDataObject[] = [];
+export class BufferedList<T extends ServerDataObjectData> {
+  private _items: ServerDataObject<T>[] = [];
 
   constructor() {
     this._items = [];
   }
 
-  getObjects(): ServerDataObject[] {
+  getObjects(): ServerDataObject<T>[] {
     return this._items;
   }
 
@@ -19,7 +20,7 @@ export class BufferedList {
     return null;
   }
 
-  extend(objects: ServerDataObject[]): ServerDataObject[] {
+  extend(objects: ServerDataObject<T>[]): ServerDataObject<T>[] {
     if (objects.length) {
       objects.sort((a, b) => {
         const aTime = a.getCreationTime();

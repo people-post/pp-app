@@ -1,9 +1,8 @@
-import { ServerDataObject } from './ServerDataObject.js';
 import { Post } from '../../types/blog.js';
 import { SocialItemId } from './SocialItemId.js';
 import type { EmptyPostData } from '../../types/backend2.js';
 
-export class EmptyPost extends ServerDataObject implements Post {
+export class EmptyPost implements Post {
   // Use a different name to avoid conflict with SocialItem.TYPE
   static readonly ERROR_TYPE = {
     DELETED: 'DELETED',
@@ -29,11 +28,10 @@ export class EmptyPost extends ServerDataObject implements Post {
     INVALID: 'INVALID',
   } as const;
 
-  protected _data: EmptyPostData;
+  #data: EmptyPostData;
 
   constructor(data: EmptyPostData) {
-    super(data);
-    this._data = data;
+    this.#data = data;
   }
 
   isRepost(): boolean {
@@ -69,7 +67,7 @@ export class EmptyPost extends ServerDataObject implements Post {
   }
 
   getSocialId(): SocialItemId {
-    return new SocialItemId(this.getId() as string, this.getSocialItemType());
+    return new SocialItemId(null, this.getSocialItemType());
   }
 
   getVisibility(): string | null {
@@ -98,8 +96,8 @@ export class EmptyPost extends ServerDataObject implements Post {
     return '';
   }
 
-  getErrorCode(): string | undefined {
-    return this._data.err_code;
+  getErrorCode(): string | null {
+    return this.#data.err_code;
   }
 }
 

@@ -5,16 +5,14 @@ import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
 import type { FeedArticleData } from '../../types/backend2.js';
 
-export class FeedArticle extends ServerDataObject implements Post {
+export class FeedArticle extends ServerDataObject<FeedArticleData> implements Post {
   #files: RemoteFile[] = [];
-  protected _data: FeedArticleData;
 
   constructor(data: FeedArticleData) {
     super(data);
-    this._data = data;
     if (data.files) {
       for (const f of data.files) {
-        this.#files.push(new RemoteFile(f as Record<string, unknown>));
+        this.#files.push(new RemoteFile(f));
       }
     }
   }
@@ -71,11 +69,11 @@ export class FeedArticle extends ServerDataObject implements Post {
     return SocialItem.TYPE.FEED_ARTICLE;
   }
 
-  getTitle(): string | undefined {
+  getTitle(): string | null {
     return this._data.title;
   }
 
-  getContent(): string | undefined {
+  getContent(): string | null {
     return this._data.content;
   }
 
@@ -91,15 +89,11 @@ export class FeedArticle extends ServerDataObject implements Post {
     return this._data.owner_id || null;
   }
 
-  getUpdateTime(): Date {
-    const createdAt = this._data.created_at;
-    if (createdAt instanceof Date) {
-      return createdAt;
-    }
-    return new Date((createdAt as number || 0) * 1000);
+  getUpdateTime(): Date | undefined {
+    return this.getCreationTime();
   }
 
-  getSourceUrl(): string | undefined {
+  getSourceUrl(): string | null {
     return this._data.url;
   }
 }

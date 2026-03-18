@@ -1,8 +1,9 @@
 import { ServerDataObject } from './ServerDataObject.js';
+import type { ProductDeliveryBaseData } from '../../types/backend2.js';
 
-export class ProductDelivery extends ServerDataObject {
-  getDescription(): string | undefined {
-    return this._data.description as string | undefined;
+export class ProductDelivery<T extends ProductDeliveryBaseData> extends ServerDataObject<T> {
+  getDescription(): string | null {
+    return this._data.description;
   }
 
   setDescription(d: string): void {

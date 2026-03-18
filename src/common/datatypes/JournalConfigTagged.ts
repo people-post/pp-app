@@ -7,11 +7,11 @@ export class JournalConfigTagged {
     this.#data = data;
   }
 
-  getTagIds(): string[] | undefined {
+  getTagIds(): string[] {
     return this.#data.tag_ids;
   }
 
-  getPlaceholder(): string | undefined {
+  getPlaceholder(): string | null {
     return this.#data.placeholder;
   }
 }

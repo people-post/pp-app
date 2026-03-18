@@ -1,5 +1,5 @@
 import { JournalConfigTagged } from './JournalConfigTagged.js';
-import type { JournalData } from '../../types/backend2.js';
+import type { JournalConfigTaggedData, JournalData } from '../../types/backend2.js';
 
 export class Journal {
   static readonly T_TEMPLATE_ID = {
@@ -14,15 +14,15 @@ export class Journal {
     this.#config = this.#initConfig(data.template_id, data.template_data);
   }
 
-  getName(): string | undefined {
+  getName(): string | null {
     return this.#data.name;
   }
 
-  getDescription(): string | undefined {
+  getDescription(): string | null {
     return this.#data.description;
   }
 
-  getTemplateId(): string | undefined {
+  getTemplateId(): string | null {
     return this.#data.template_id;
   }
 
@@ -30,11 +30,11 @@ export class Journal {
     return this.#config;
   }
 
-  #initConfig(type: string | undefined, data: unknown): JournalConfigTagged | null {
+  #initConfig(type: string | null, data: unknown): JournalConfigTagged | null {
     let c: JournalConfigTagged | null = null;
     switch (type) {
       case Journal.T_TEMPLATE_ID.TAGGED:
-        c = new JournalConfigTagged(data as Record<string, unknown>);
+        c = new JournalConfigTagged(data as JournalConfigTaggedData);
         break;
       default:
         break;

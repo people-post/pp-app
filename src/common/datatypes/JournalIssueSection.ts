@@ -1,7 +1,7 @@
 import { SocialItemId } from './SocialItemId.js';
 import type { JournalIssueSectionData } from '../../types/backend2.js';
 
-export class JournalIssueSection {
+export class JournalIssueSection implements JournalIssueSection {
   #data: JournalIssueSectionData;
   #ids: SocialItemId[] = [];
 
@@ -22,7 +22,7 @@ export class JournalIssueSection {
     return this.#ids.some((sid) => sid.getValue() == id);
   }
 
-  getId(): string | undefined {
+  getId(): string | null {
     return this.#data.id;
   }
 

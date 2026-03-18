@@ -5,14 +5,12 @@ import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
 import { JournalIssueData } from '../../types/backend2.js';
 
-export class JournalIssue extends ServerDataObject implements JournalIssueInterface {
+export class JournalIssue extends ServerDataObject<JournalIssueData> implements JournalIssueInterface {
   #sections: JournalIssueSection[] = [];
   #mTagComments = new Map<string, SocialItemId[]>();
-  protected _data: JournalIssueData;
 
   constructor(data: JournalIssueData) {
     super(data);
-    this._data = data;
     if (data.sections) {
       for (const d of data.sections) {
         this.#sections.push(new JournalIssueSection(d));
@@ -97,23 +95,23 @@ export class JournalIssue extends ServerDataObject implements JournalIssueInterf
     return SocialItem.TYPE.JOURNAL_ISSUE;
   }
 
-  getJournalId(): string | undefined {
+  getJournalId(): string {
     return this._data.journal_id;
   }
 
-  getIssueId(): string | undefined {
+  getIssueId(): string | null {
     return this._data.issue_id;
   }
 
-  getAbstract(): string | undefined {
+  getAbstract(): string | null {
     return this._data.abstract;
   }
 
-  getSummary(): string | undefined {
+  getSummary(): string | null {
     return this._data.summary;
   }
 
-  getTagIds(): string[] | undefined {
+  getTagIds(): string[] {
     return this._data.tag_ids;
   }
 

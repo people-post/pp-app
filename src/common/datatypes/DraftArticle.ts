@@ -5,23 +5,21 @@ import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
 import { ArticleBaseData } from '../../types/backend2.js';
 
-export class DraftArticle extends ServerDataObject implements Article {
-  protected _data: ArticleBaseData;
+export class DraftArticle extends ServerDataObject<ArticleBaseData> implements Article {
   #files: RemoteFile[] = [];
   #attachments: RemoteFile[] = [];
 
   constructor(data: ArticleBaseData) {
     super(data);
-    this._data = data;
     if (data.files) {
       for (const f of data.files) {
-        this.#files.push(new RemoteFile(f as Record<string, unknown>));
+        this.#files.push(new RemoteFile(f));
       }
     }
 
     if (data.attachments) {
       for (const d of data.attachments) {
-        this.#attachments.push(new RemoteFile(d as Record<string, unknown>));
+        this.#attachments.push(new RemoteFile(d));
       }
     }
   }
@@ -44,27 +42,27 @@ export class DraftArticle extends ServerDataObject implements Article {
     return !!this._data.link_to && !this.isRepost();
   }
 
-  getLinkTo(): string | undefined {
-    return this._data.link_to || undefined;
+  getLinkTo(): string | null {
+    return this._data.link_to;
   }
 
-  getLinkType(): string | undefined {
+  getLinkType(): string | null {
     return this._data.link_type;
   }
 
   getLinkToSocialId(): SocialItemId {
-    return new SocialItemId(this._data.link_to, this._data.link_type || null);
+    return new SocialItemId(this._data.link_to, this._data.link_type);
   }
 
   getSocialItemType(): string {
     return SocialItem.TYPE.ARTICLE;
   }
 
-  getTitle(): string | undefined {
+  getTitle(): string | null {
     return this._data.title;
   }
 
-  getContent(): string | undefined {
+  getContent(): string | null {
     return this._data.content;
   }
 
@@ -76,24 +74,24 @@ export class DraftArticle extends ServerDataObject implements Article {
     return this.#attachments[0];
   }
 
-  getVisibility(): string | undefined {
-    return this._data.visibility || undefined;
+  getVisibility(): string | null {
+    return this._data.visibility;
   }
 
-  getOwnerId(): string | undefined {
-    return this._data.owner_id || undefined;
+  getOwnerId(): string | null {
+    return this._data.owner_id;
   }
 
-  getAuthorId(): string | undefined {
-    return this._data.author_id || undefined;
+  getAuthorId(): string | null {
+    return this._data.author_id;
   }
 
   getTagIds(): string[] {
-    return this._data.tag_ids || [];
+    return this._data.tag_ids;
   }
 
   getPublishMode(): string {
-    return this._data.publish_mode || '';
+    return this._data.publish_mode ?? '';
   }
 
   getPendingAuthorTagIds(): string[] {
@@ -116,11 +114,11 @@ export class DraftArticle extends ServerDataObject implements Article {
     return new Date((this._data.updated_at || 0) * 1000);
   }
 
-  getExternalQuoteUrl(): string | undefined {
+  getExternalQuoteUrl(): string | null {
     if (this._data.link_type == SocialItem.TYPE.URL) {
-      return this._data.link_to || undefined;
+      return this._data.link_to;
     } else {
-      return undefined;
+      return null;
     }
   }
 
@@ -137,7 +135,7 @@ export class DraftArticle extends ServerDataObject implements Article {
   }
 
   getSocialId(): SocialItemId {
-    return new SocialItemId(this.getId() as string, this.getSocialItemType());
+    return new SocialItemId(this.getId(), this.getSocialItemType());
   }
 
   getCommentTags(): string[] {

@@ -5,18 +5,11 @@ import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
 import type { CommentData, CommentDataWithStatus } from '../../types/backend2.js';
 
-export class Comment extends ServerDataObject implements Post {
+export class Comment extends ServerDataObject<CommentData> implements Post {
   // Synced with backend
   static readonly T_STATUS = {
     PENDING: 'PENDING',
   } as const;
-
-  protected _data: CommentData;
-
-  constructor(data: CommentData) {
-    super(data);
-    this._data = data;
-  }
 
   isRepost(): boolean {
     return false;
@@ -89,19 +82,19 @@ export class Comment extends ServerDataObject implements Post {
     return SocialItem.TYPE.COMMENT;
   }
 
-  getFromUserId(): string | undefined {
+  getFromUserId(): string | null {
     return this._data.from_user_id;
   }
 
-  getGuestName(): string | undefined {
-    return (this._data.data as CommentDataWithStatus)?.guestName;
+  getGuestName(): string | null {
+    return (this._data.data as CommentDataWithStatus)?.guestName ?? null;
   }
 
-  getTargetItemId(): string | undefined {
+  getTargetItemId(): string | null {
     return this._data.in_group_id;
   }
 
-  getTargetItemType(): string | undefined {
+  getTargetItemType(): string | null {
     return this._data.in_group_type;
   }
 

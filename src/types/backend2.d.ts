@@ -2,6 +2,32 @@
  * Backend API type definitions
  */
 
+export interface ServerDataObjectData {
+  id: string;
+  created_at?: number;
+  _created_at?: Date;
+}
+
+export interface HashtagData extends ServerDataObjectData {
+  text: string | null;
+}
+
+export interface ItemLabelData extends ServerDataObjectData {
+  name: string | null;
+}
+
+export interface RemoteFileData extends ServerDataObjectData {
+  type?: string;
+  state?: string;
+  status?: string;
+  url?: string;
+  cover_image_url?: string;
+  name?: string | null;
+  progress?: number;
+  download_url?: string;
+  cid?: string;
+  bg?: string;
+}
 /**
  * Idol data structure from backend API
  */
@@ -10,8 +36,7 @@ export interface Idol {
   nickname?: string;
 }
 
-export interface Group {
-  id: string;
+export interface Group extends ServerDataObjectData {
   owner_id: string;
   name: string;
   theme: ColorTheme | null;
@@ -20,8 +45,6 @@ export interface Group {
   is_open: boolean;
   status: string | null;
   data: unknown;
-  created_at?: number;
-  _created_at?: Date;
 }
 
 /**
@@ -59,10 +82,8 @@ export interface ColorTheme {
   secondary_color: string;
 }
 
-interface DirItemDataBase {
-  id: string;
+interface DirItemDataBase extends ServerDataObjectData {
   name?: string;
-  created_at?: Date | number;
 }
 
 export interface DirItemData<T extends DirItemData<T> = any> extends DirItemDataBase {
@@ -79,26 +100,26 @@ export interface MenuEntryItemData extends MenuItemData {
 
 export interface MenuData extends MenuItemData {}
 
-export interface TimeClockRecordData {
+export interface TimeClockRecordData extends ServerDataObjectData {
   total?: number;
-  created_at?: number;
-  _created_at?: Date;
 }
 
-export interface TimeClockData {
+export interface TimeClockData extends ServerDataObjectData {
   t_current?: number;
-  created_at?: number;
-  _created_at?: Date;
 }
 
-interface MessageData {
-  id: string;
+export interface CurrencyData extends ServerDataObjectData {
+  name: string | null;
+  code: string | null;
+  symbol: string | null;
+  icon: string | null;
+}
+
+interface MessageData extends ServerDataObjectData {
   from_user_id: string;
   in_group_id: string | null;
   data: unknown;
   type: string;
-  created_at?: number;
-  _created_at?: Date;
 }
 
 export interface MessageThreadData {
@@ -198,8 +219,7 @@ export interface SupplierOrderItemData {
   status: string;
 }
 
-interface SupplierOrderBaseData {
-  id: string;
+interface SupplierOrderBaseData extends ServerDataObjectData {
   currency_id: string;
   items: SupplierOrderItemData[];
   subtotal: number;
@@ -212,8 +232,6 @@ interface SupplierOrderBaseData {
   events: HistoryEventData[];
   state: string;
   status: string;
-  created_at: number;
-  _created_at: Date;
   updated_at: number;
 }
 
@@ -223,8 +241,24 @@ export interface SupplierOrderPrivateData extends SupplierOrderBaseData {
   total_payment: number;
 }
 
-export interface CustomerOrderData {
-  id: string;
+export interface SupplierOrderPublicData extends SupplierOrderBaseData {
+}
+
+export interface AddressData extends ServerDataObjectData {
+  owner_id: string;
+  nickname: string | null;
+  name: string | null;
+  country: string | null;
+  state: string | null;
+  city: string | null;
+  zipcode: string | null;
+  lines: string[];
+}
+
+export interface CustomerOrderItemData extends SupplierOrderPublicData {
+}
+
+export interface CustomerOrderData extends ServerDataObjectData {
   shop_id: string | null;
   currency_id: string;
   subtotal: number;
@@ -233,13 +267,11 @@ export interface CustomerOrderData {
   discount: number;
   total: number;
   total_payment: number;
-  items: unknown[];
+  items: CustomerOrderItemData[];
   updated_at: number;
   state: string | null;
   status: string | null;
   events: HistoryEventData[];
-  created_at: number;
-  _created_at: Date;
   shipping_address?: unknown;
 }
 
@@ -265,19 +297,17 @@ export interface ShopBranchData {
 }
 
 export interface PreviewOrderItemData {
-  description?: string;
-  specs?: unknown;
-  quantity?: number;
-  unit_price?: number;
-  product_id?: string;
-  [key: string]: unknown;
+  description: string | null;
+  specs: string[];
+  unit_price: number;
+  quantity: number;
+  product_id?: string | null; // Not in backend
 }
 
-export interface PreviewOrderData {
-  items?: unknown[];
-  currency_id?: string;
-  total?: number;
-  [key: string]: unknown;
+export interface PreviewOrderData extends ServerDataObjectData {
+  items: PreviewOrderItemData[];
+  currency_id: string;
+  total: number;
 }
 
 export interface BasePrice {
@@ -286,8 +316,12 @@ export interface BasePrice {
   sales_price: string | number;
 }
 
-export interface ProductData {
-  id: string;
+export interface ProductDeliveryChoiceData {
+  type: string | null;
+  data: unknown;
+}
+
+export interface ProductData extends ServerDataObjectData {
   supplier_id: string | null;
   name: string | null;
   delivery_choices: unknown[];
@@ -296,21 +330,16 @@ export interface ProductData {
   files: unknown[];
   spec_ids: string[];
   base_prices: BasePrice[];
-  created_at: number;
-  _created_at: Date;
   is_draft?: boolean; // Not from backend
 }
 
-export interface WalkinQueueItemData {
-  id: string;
+export interface WalkinQueueItemData extends ServerDataObjectData {
   product_id: string | null;
   branch_id: string | null;
   customer_user_id: string | null;
   customer_name: string | null;
   state: string | null;
   status: string | null;
-  created_at: number;
-  _created_at: Date;
   updated_at: number;
   agent_id?: string; // Not in backend?
 }
@@ -330,13 +359,21 @@ export interface ProductServiceLocationData {
   assignee?: unknown;  // Not in backend?
 }
 
-export interface AppointmentServiceDeliveryData {
+export interface ProductDeliveryBaseData extends ServerDataObjectData {
   description: string | null;
+}
+
+export interface PhysicalGoodDeliveryData extends ProductDeliveryBaseData {
+}
+
+export interface DigitalGoodDeliveryData extends ProductDeliveryBaseData {
+}
+
+export interface AppointmentServiceDeliveryData extends ProductDeliveryBaseData {
   locations: ProductServiceLocationData[];
 }
 
-export interface QueueServiceDeliveryData {
-  description: string | null;
+export interface QueueServiceDeliveryData extends ProductDeliveryBaseData {
   locations: ProductServiceLocationData[];
 }
 
@@ -382,6 +419,7 @@ export interface PaymentTerminalData {
 }
 
 export interface SquareTerminalData {
+  id: string;
   pair_code: string | null;
   device_id: string | null;
   pair_by: string | null;
@@ -437,8 +475,7 @@ export interface SimpleProjectStageData extends ProjectBuiltInStageData {
   comment: string | null;
 }
 
-export interface ProjectData {
-  id: string;
+export interface ProjectData extends ServerDataObjectData {
   owner_id: string;
   creator_id: string | null;
   facilitator_id: string | null;
@@ -451,8 +488,6 @@ export interface ProjectData {
   state: string | null;
   status: string | null;
   files: RemoteFileData[];
-  created_at: number;
-  _created_at: Date;
   stages: Array<SimpleProjectStageData>;
   story?: StoryData;
   is_draft?: boolean; // This is not from backend
@@ -480,8 +515,7 @@ export interface RealTimeCommentData {
   [key: string]: unknown;
 }
 
-export interface CommentData {
-  id: string;
+export interface CommentData extends ServerDataObjectData {
   source_type: string | null;
   owner_id: string | null;
   from_user_id: string | null;
@@ -489,8 +523,6 @@ export interface CommentData {
   in_group_type: string | null;
   type: string | null;
   data: unknown;
-  created_at: number;
-  _created_at: Date;
 }
 
 export interface CommentDataWithStatus {
@@ -506,8 +538,7 @@ export interface QuizData {
   answers: string[];
 }
 
-export interface ProposalData {
-  id: string;
+export interface ProposalData extends ServerDataObjectData {
   type: string | null;
   title: string | null;
   abstract: string | null;
@@ -517,8 +548,6 @@ export interface ProposalData {
   state: string | null;
   status: string | null;
   vote_result: VotingSummaryData;
-  created_at: number;
-  _created_at: Date;
   updated_at: number;
 }
 
@@ -574,16 +603,32 @@ export interface EmptyPostData {
   err_code: string | null;
 }
 
-export interface FeedArticleData {
-  id: string;
+export interface FeedArticleData extends ServerDataObjectData {
   source_type: string | null;
   owner_id: string | null;
   title: string | null;
   content: string | null;
   files: RemoteFileData[];
   url: string | null;
-  created_at: number;
-  _created_at: Date;
+}
+
+export interface EmailRecipientData {
+  name: string | null;
+  address: string | null;
+}
+
+export interface EmailData extends ServerDataObjectData {
+  owner_id?: string | null; // Not in backend
+  sender: EmailRecipientData;
+  tos: EmailRecipientData[];
+  ccs: EmailRecipientData[];
+  title: string | null;
+  raw_content: string | null;
+  content: string | null;
+  content_type: string | null;
+  is_read: boolean;
+  updated_at?: number; // Not in backend
+  files?: RemoteFileData[]; // Not in backend
 }
 
 /**
@@ -692,16 +737,13 @@ export interface WebConfigData {
 /**
  * ArticleBaseData data structure from backend API
  */
-export interface ArticleBaseData {
-  id: string;
+export interface ArticleBaseData extends ServerDataObjectData {
   source_type: string | null;
   owner_id: string | null;
   author_id: string | null;
   link_type: string | null;
   title: string | null;
   content: string | null;
-  created_at: number;
-  _created_at: Date;
   updated_at: number;
   files: RemoteFileData[];
   tag_ids: string[];
@@ -728,15 +770,16 @@ export interface ArticleData extends ArticleBaseData {
 /**
  * JournalIssueBaseData data structure from backend API
  */
-export interface JournalIssueBaseData {
-  sections?: Array<{ id?: string; item_ids?: Array<{ id: string; type: string }>; [key: string]: unknown }>;
-  owner_id?: string;
-  journal_id?: string;
-  issue_id?: string;
-  abstract?: string;
-  summary?: string;
-  tag_ids?: string[];
-  [key: string]: unknown;
+export interface JournalIssueBaseData extends ServerDataObjectData {
+  source_type: string | null;
+  owner_id: string | null;
+  journal_id: string;
+  updated_at: number;
+  issue_id: string | null;
+  abstract: string | null;
+  tag_ids: string[];
+  sections: JournalIssueSectionData[];
+  summary: string | null;
 }
 
 /**

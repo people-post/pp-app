@@ -40,7 +40,7 @@ export class MessageThreadInfo extends Notice {
   }
 
   getLatest(): ChatMessage | null {
-    return this._data.latest ? new ChatMessage(this._data.latest as Record<string, unknown>) : null;
+    return this._data.latest ? new ChatMessage(this._data.latest) : null;
   }
 }
 

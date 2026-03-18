@@ -7,23 +7,23 @@ export class PreviewOrderItem {
     this.#data = data;
   }
 
-  getDescription(): string | undefined {
+  getDescription(): string | null {
     return this.#data.description;
   }
 
-  getSpecs(): unknown {
+  getSpecs(): string[] {
     return this.#data.specs;
   }
 
-  getQuantity(): number | undefined {
+  getQuantity(): number {
     return this.#data.quantity;
   }
 
-  getUnitPrice(): number | undefined {
+  getUnitPrice(): number {
     return this.#data.unit_price;
   }
 
-  getProductId(): string | undefined {
-    return this.#data.product_id;
+  getProductId(): string | null {
+    return this.#data.product_id ?? null;
   }
 }
