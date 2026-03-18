@@ -81,37 +81,49 @@ export interface MenuData extends MenuItemData {}
 
 export interface TimeClockRecordData {
   total?: number;
-  [key: string]: unknown;
+  created_at?: number;
+  _created_at?: Date;
 }
 
 export interface TimeClockData {
   t_current?: number;
-  [key: string]: unknown;
+  created_at?: number;
+  _created_at?: Date;
+}
+
+interface MessageData {
+  id: string;
+  from_user_id: string;
+  in_group_id: string | null;
+  data: unknown;
+  type: string;
+  created_at?: number;
+  _created_at?: Date;
 }
 
 export interface MessageThreadData {
   from_id: string;
   from_id_type: string;
   n_unread: number;
-  latest?: Record<string, unknown>;
+  is_unread_overflow: boolean;
+  latest?: MessageData | null;
 }
 
 export interface UserRequestData {
-  sector_ids?: string[];
-  from_user_id?: string;
-  target_group_id?: string;
-  category?: string;
-  message?: string;
-  [key: string]: unknown;
+  id: string;
+  category: string;
+  sector_ids: string[];
+  from_user_id: string;
+  to_user_id: string | null;
+  target_group_id: string | null;
+  message: string | null;
 }
 
 export interface WorkshopTeamData {
   status?: string;
   data?: {
-    permissions?: string[];
-    [key: string]: unknown;
+    permissions: string[];
   };
-  [key: string]: unknown;
 }
 
 export interface UserRoleData {
@@ -125,7 +137,7 @@ export interface UserRoleData {
 export interface BlogRoleData {
   status?: string;
   data?: {
-    allowed_tag_ids?: string[];
+    allowed_tag_ids: string[];
     [key: string]: unknown;
   };
   [key: string]: unknown;
