@@ -1,4 +1,4 @@
-import type { ProjectStageData } from '../../types/backend2.js';
+import type { ProjectBuiltInStageData } from '../../types/backend2.js';
 
 export class ProjectStage {
   static readonly TYPES = {
@@ -17,10 +17,10 @@ export class ProjectStage {
     DELETE: { name: 'Delete...', type: 'DELETE' },
   } as const;
 
-  #data: ProjectStageData;
+  #data: ProjectBuiltInStageData;
   #projectId: string;
 
-  constructor(data: ProjectStageData, projectId: string) {
+  constructor(data: ProjectBuiltInStageData, projectId: string) {
     this.#data = data;
     this.#projectId = projectId;
   }
@@ -43,7 +43,7 @@ export class ProjectStage {
     return this.#projectId;
   }
 
-  getAssigneeId(): string | undefined {
+  getAssigneeId(): string | null {
     return this.#data.assignee_id;
   }
 
