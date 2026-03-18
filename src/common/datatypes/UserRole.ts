@@ -1,11 +1,9 @@
-import { ServerDataObject } from './ServerDataObject.js';
 import type { UserRoleData } from '../../types/backend2.js';
 
-export class UserRole extends ServerDataObject {
-  protected _data: UserRoleData;
+export class UserRole {
+  _data: UserRoleData;
 
   constructor(data: UserRoleData) {
-    super(data);
     this._data = data;
   }
 
@@ -13,20 +11,20 @@ export class UserRole extends ServerDataObject {
     return !!this._data.is_open;
   }
 
-  getName(): string | undefined {
-    return this._data.name as string | undefined;
+  getName(): string | null {
+    return this._data.name;
   }
 
   getMemberIds(): string[] {
-    return (this._data.member_ids as string[]) || [];
+    return this._data.member_ids;
   }
 
   getNMembers(): number {
     return this.getMemberIds().length;
   }
 
-  getStatus(): string | undefined {
-    return this._data.status as string | undefined;
+  getStatus(): string | null {
+    return this._data.status;
   }
 }
 

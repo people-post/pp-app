@@ -1,7 +1,6 @@
-import { ServerDataObject } from './ServerDataObject.js';
 import type { ProductServiceTimeslotData } from '../../types/backend2.js';
 
-export class ProductServiceTimeslot extends ServerDataObject {
+export class ProductServiceTimeslot {
   // All time values are timestamp in seconds
   static readonly T_REP = {
     ONCE: 'ONCE',
@@ -12,65 +11,64 @@ export class ProductServiceTimeslot extends ServerDataObject {
     MONTH: 'MONTH',
   } as const;
 
-  protected _data: ProductServiceTimeslotData;
+  #data: ProductServiceTimeslotData | null = null;
 
   constructor(data: ProductServiceTimeslotData) {
-    super(data);
-    this._data = data;
+    this.#data = data;
   }
 
   isAfter(t: number): boolean {
-    if (this._data.repetition == ProductServiceTimeslot.T_REP.ONCE) {
-      return t < (this._data.to || 0);
+    if (this.#data?.repetition == ProductServiceTimeslot.T_REP.ONCE) {
+      return t < (this.#data?.to ?? 0);
     } else {
       // Currently no end date, so ok.
       return true;
     }
   }
 
-  getFromTime(): number | undefined {
-    return this._data.from as number | undefined;
+  getFromTime(): number | null {
+    return this.#data?.from ?? null;
   }
 
-  getToTime(): number | undefined {
-    return this._data.to as number | undefined;
+  getToTime(): number | null {
+    return this.#data?.to ?? null;
   }
 
-  getTotal(): number | undefined {
-    return this._data.n as number | undefined;
+  getTotal(): number | null {
+    return this.#data?.n ?? null;
   }
 
-  getRepetition(): string | undefined {
-    return this._data.repetition as string | undefined;
+  getRepetition(): string | null {
+    return this.#data?.repetition ?? null;
   }
 
   setFromTime(t: number): void {
-    this._data.from = t;
+    this.#data!.from = t;
   }
 
   setToTime(t: number): void {
-    this._data.to = t;
+    this.#data!.to = t;
   }
 
   setTotal(n: number): void {
-    this._data.n = n;
+    this.#data!.n = n;
   }
 
   setRepetition(r: string): void {
-    this._data.repetition = r;
+    this.#data!.repetition = r;
   }
 
   toApiPostObj(): {
-    from: number | undefined;
-    to: number | undefined;
-    n: number | undefined;
-    rep: string | undefined;
+    from: number | null;
+    to: number | null;
+    n: number | null;
+    rep: string | null;
   } {
     return {
-      from: this._data.from as number | undefined,
-      to: this._data.to as number | undefined,
-      n: this._data.n as number | undefined,
-      rep: this._data.repetition as string | undefined,
+      from: this.#data?.from ?? null,
+      to: this.#data?.to ?? null,
+      n: this.#data?.n ?? null,
+      rep: this.#data?.repetition ?? null,
     };
   }
 
@@ -79,8 +77,8 @@ export class ProductServiceTimeslot extends ServerDataObject {
     if (dt < 0) {
       return 0;
     }
-    const from = this._data.from || 0;
-    const to = this._data.to || 0;
+    const from = this.#data?.from ?? 0;
+    const to = this.#data?.to ?? 0;
     let tTotal = to - from;
     if (tTotal <= 0) {
       return 0;
@@ -89,25 +87,25 @@ export class ProductServiceTimeslot extends ServerDataObject {
     if (dtRemaining < tOverhead) {
       return 0;
     }
-    const n = this._data.n || 0;
+    const n = this.#data?.n ?? 0;
     return Math.floor((dtRemaining / tTotal) * n);
   }
 
   contains(t: number): boolean {
     const dt = this.#getNearestTimeOffset(t);
-    const from = this._data.from || 0;
-    const to = this._data.to || 0;
+    const from = this.#data?.from ?? 0;
+    const to = this.#data?.to ?? 0;
     return dt > 0 && dt < to - from;
   }
 
   #getNearestTimeOffset(t: number): number {
-    const from = this._data.from || 0;
+    const from = this.#data?.from ?? 0;
     if (t < from) {
       return t - from;
     }
     // Currently no end date, so no end date check
     let dt = 0;
-    const repetition = this._data.repetition;
+    const repetition = this.#data?.repetition ?? null;
     switch (repetition) {
       case ProductServiceTimeslot.T_REP.DAY:
         dt = 3600 * 24;
@@ -134,8 +132,8 @@ export class ProductServiceTimeslot extends ServerDataObject {
   }
 
   #monthlyGetNearestTimeOffset(t: number): number {
-    const from = this._data.from || 0;
-    const to = this._data.to || 0;
+    const from = this.#data?.from ?? 0;
+    const to = this.#data?.to ?? 0;
     const tFrom = new Date(from * 1000);
     const tTo = new Date(to * 1000);
     const tt = new Date(t * 1000);

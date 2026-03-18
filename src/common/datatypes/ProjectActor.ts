@@ -23,7 +23,7 @@ export class ProjectActor {
     return this.#data.status == ProjectActor.S_PENDING;
   }
 
-  getUserId(): string | undefined {
+  getUserId(): string | null {
     return this.#data.user_id;
   }
 
@@ -31,7 +31,7 @@ export class ProjectActor {
     return this.#roleId;
   }
 
-  getNickname(): string | undefined {
+  getNickname(): string | null {
     return this.#data.nickname;
   }
 

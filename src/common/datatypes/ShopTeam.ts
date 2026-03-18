@@ -7,14 +7,12 @@ export class ShopTeam extends UserRole {
     DISABLED: 'DISABLED',
   } as const;
 
-  protected declare _data: ShopTeamData;
-
   isActive(): boolean {
     return this._data.status !== ShopTeam.T_STATUS.DISABLED;
   }
 
   hasPermission(id: string): boolean {
-    const permissions = this._data.data?.permissions;
+    const permissions = (this._data.data as ShopTeamData).permissions;
     if (!permissions) {
       return false;
     }

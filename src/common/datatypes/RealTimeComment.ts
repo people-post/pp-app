@@ -1,18 +1,10 @@
 import { ChatMessage } from './ChatMessage.js';
-import type { RealTimeCommentData } from '../../types/backend2.js';
 
 export class RealTimeComment extends ChatMessage {
   // Synced with backend
   static readonly T_STATUS = {
     PENDING: 'PENDING',
   } as const;
-
-  protected _data: RealTimeCommentData;
-
-  constructor(data: RealTimeCommentData) {
-    super(data);
-    this._data = data;
-  }
 
   isFromGuest(): boolean {
     return this._data.type == ChatMessage.T_TYPE.GUEST_COMMENT;

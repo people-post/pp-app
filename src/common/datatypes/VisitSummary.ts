@@ -1,23 +1,26 @@
-import { ServerDataObject } from './ServerDataObject.js';
 import type { VisitSummaryData } from '../../types/backend2.js';
 
-export class VisitSummary extends ServerDataObject {
-  protected declare _data: VisitSummaryData;
+export class VisitSummary {
+  #data: VisitSummaryData;
 
-  getSubQueryKey(): string | undefined {
-    return this._data.sub_query_key as string | undefined;
+  constructor(data: VisitSummaryData) {
+    this.#data = data;
   }
 
-  getSubQueryValue(): string | undefined {
-    return this._data.sub_query_value as string | undefined;
+  getSubQueryKey(): string | null {
+    return this.#data.sub_query_key;
   }
 
-  getName(): string | undefined {
-    return this._data.name as string | undefined;
+  getSubQueryValue(): string | null {
+    return this.#data.sub_query_value;
   }
 
-  getTotal(): number | undefined {
-    return this._data.total as number | undefined;
+  getName(): string | null {
+    return this.#data.name;
+  }
+
+  getTotal(): number {
+    return this.#data.total || 0;
   }
 }
 

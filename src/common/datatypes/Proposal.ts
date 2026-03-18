@@ -3,7 +3,7 @@ import { VotingSummary } from './VotingSummary.js';
 import { ICON } from '../constants/Icons.js';
 import type { ProposalData } from '../../types/backend2.js';
 
-export class Proposal extends ServerDataObject {
+export class Proposal extends ServerDataObject<ProposalData> {
   // Synced with backend
   static readonly T_TYPE = {
     ISSUE_COINS: 'ISSUE_COINS',
@@ -11,51 +11,44 @@ export class Proposal extends ServerDataObject {
     NEW_MEMBER: 'NEW_MEMBER',
   } as const;
 
-  protected _data: ProposalData;
-
-  constructor(data: ProposalData) {
-    super(data);
-    this._data = data;
+  getAuthorId(): string | null {
+    return this._data.author_id ?? null;
   }
 
-  getAuthorId(): string | undefined {
-    return this._data.author_id as string | undefined;
+  getCommunityId(): string | null {
+    return this._data.community_id ?? null;
   }
 
-  getCommunityId(): string | undefined {
-    return this._data.community_id as string | undefined;
-  }
-
-  getType(): string | undefined {
-    return this._data.type as string | undefined;
+  getType(): string | null {
+    return this._data.type ?? null;
   }
 
   getData(): unknown {
     return this._data.data;
   }
 
-  getStatus(): string | undefined {
-    return (this._data.status as string | undefined) || (this._data.state as string | undefined);
+  getStatus(): string | null {
+    return this._data.status ?? this._data.state ?? null;
   }
 
-  getState(): string | undefined {
-    return this._data.state as string | undefined;
+  getState(): string | null {
+    return this._data.state ?? null;
   }
 
   getUpdateTime(): Date {
     return new Date((this._data.updated_at || 0) * 1000);
   }
 
-  getTitle(): string | undefined {
-    return this._data.title as string | undefined;
+  getTitle(): string | null {
+    return this._data.title;
   }
 
-  getAbstract(): string | undefined {
-    return this._data.abstract as string | undefined;
+  getAbstract(): string | null {
+    return this._data.abstract;
   }
 
   getVotingResult(): VotingSummary {
-    return new VotingSummary(this._data.vote_result as Record<string, unknown>);
+    return new VotingSummary(this._data.vote_result);
   }
 
   getIcon(): string {

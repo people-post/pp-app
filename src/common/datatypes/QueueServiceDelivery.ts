@@ -1,17 +1,15 @@
 import { ProductDelivery } from './ProductDelivery.js';
 import { ProductServiceLocation } from './ProductServiceLocation.js';
-import type { QueueServiceDeliveryData } from '../../types/backend2.js';
+import type { ProductServiceLocationData, QueueServiceDeliveryData } from '../../types/backend2.js';
 
-export class QueueServiceDelivery extends ProductDelivery {
+export class QueueServiceDelivery extends ProductDelivery<QueueServiceDeliveryData> {
   #locations: ProductServiceLocation[] = [];
-  protected _data: QueueServiceDeliveryData;
 
   constructor(data: QueueServiceDeliveryData) {
     super(data);
-    this._data = data;
     if (data.locations) {
       for (const d of data.locations) {
-        this.#locations.push(this.#initLocation(d as Record<string, unknown>));
+        this.#locations.push(this.#initLocation(d));
       }
     }
   }
@@ -20,7 +18,7 @@ export class QueueServiceDelivery extends ProductDelivery {
     return this.#locations;
   }
 
-  #initLocation(data: Record<string, unknown>): ProductServiceLocation {
+  #initLocation(data: ProductServiceLocationData): ProductServiceLocation {
     return new ProductServiceLocation(data);
   }
 }

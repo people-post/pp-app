@@ -9,9 +9,9 @@ import { ProjectStage } from './ProjectStage.js';
 import { SocialItemId } from './SocialItemId.js';
 import { OgpData } from './OgpData.js';
 import { STATE } from '../constants/Constants.js';
-import type { ProjectData } from '../../types/backend2.js';
+import type { ProjectData, SimpleProjectStageData } from '../../types/backend2.js';
 
-export class Project extends ServerDataObject implements SocialItemInterface {
+export class Project extends ServerDataObject<ProjectData> implements SocialItemInterface {
   static readonly ACTIONS = {
     ASSIGN: { name: 'Assign...', type: 'ASSIGN' }, // Assign facilitator
     ADD_AGENT: { name: 'Add agent...', type: 'ADD_AGENT' }, // Add agent
@@ -32,20 +32,18 @@ export class Project extends ServerDataObject implements SocialItemInterface {
   #stageMap = new Map<string, ProjectStage>();
   #agents: ProjectActor[] = [];
   #story: Story | null = null;
-  protected _data: ProjectData;
 
   constructor(data: ProjectData) {
     super(data);
-    this._data = data;
     if (data.files) {
       for (const f of data.files) {
-        this.#files.push(new RemoteFile(f as Record<string, unknown>));
+        this.#files.push(new RemoteFile(f));
       }
     }
 
     if (data.stages) {
       for (const d of data.stages) {
-        const stage = this.#createStage(d as Record<string, unknown>);
+        const stage = this.#createStage(d);
         const id = stage.getId();
         if (id) {
           this.#stageMap.set(id, stage);
@@ -55,12 +53,12 @@ export class Project extends ServerDataObject implements SocialItemInterface {
 
     if (data.agents) {
       for (const d of data.agents) {
-        this.#agents.push(new ProjectActor(d as Record<string, unknown>, ProjectActor.T_ROLE.AGENT));
+        this.#agents.push(new ProjectActor(d, ProjectActor.T_ROLE.AGENT));
       }
     }
 
     if (data.story) {
-      this.#story = new Story(data.story as Record<string, unknown>);
+      this.#story = new Story(data.story);
     }
   }
 
@@ -117,7 +115,7 @@ export class Project extends ServerDataObject implements SocialItemInterface {
     return new SocialItemId(this.getId() as string, this.getSocialItemType());
   }
 
-  getVisibility(): string | undefined {
+  getVisibility(): string | null {
     return this._data.visibility;
   }
 
@@ -125,38 +123,40 @@ export class Project extends ServerDataObject implements SocialItemInterface {
     return this.#files;
   }
 
-  getName(): string | undefined {
+  getName(): string | null {
     return this._data.name;
   }
 
-  getDescription(): string | undefined {
+  getDescription(): string | null {
     return this._data.description;
   }
 
-  getOwnerId(): string | undefined {
+  getOwnerId(): string | null {
     return this._data.owner_id;
   }
 
-  getCreatorId(): string | undefined {
+  getCreatorId(): string | null {
     return this._data.creator_id;
   }
 
   getFacilitator(): ProjectActor {
-    return new ProjectActor({ user_id: this.getFacilitatorId() }, ProjectActor.T_ROLE.FACILITATOR);
+    const id = this.getFacilitatorId();
+    return new ProjectActor({ user_id: id ?? '', nickname: null, status: null }, ProjectActor.T_ROLE.FACILITATOR);
   }
 
-  getFacilitatorId(): string | undefined {
-    return this._data.facilitator ? this._data.facilitator.id : this._data.owner_id;
+  getFacilitatorId(): string | null {
+    return this._data.facilitator_id ?? this._data.owner_id;
   }
 
   getClientId(): string | null {
-    return this._data.client ? this._data.client.id || null : null;
+    return this._data.client?.user_id ?? null;
   }
 
   getClient(): ProjectActor | null {
-    return this._data.client
-      ? new ProjectActor(this._data.client as Record<string, unknown>, ProjectActor.T_ROLE.CLIENT)
-      : null;
+    if (!this._data.client) {
+      return null;
+    }
+    return new ProjectActor(this._data.client, ProjectActor.T_ROLE.CLIENT);
   }
 
   getAgents(): ProjectActor[] {
@@ -171,16 +171,16 @@ export class Project extends ServerDataObject implements SocialItemInterface {
     return Array.from(this.#stageMap.values());
   }
 
-  getTagIds(): string[] | undefined {
-    return this._data.tag_ids;
+  getTagIds(): string[] {
+    return this._data?.tag_ids ?? [];
   }
 
-  getState(): string | undefined {
-    return this._data.state;
+  getState(): string | null {
+    return this._data?.state ?? null;
   }
 
-  getStatus(): string | undefined {
-    return this._data.status;
+  getStatus(): string | null {
+    return this._data?.status ?? null;
   }
 
   getFinishedStages(): SimpleProjectStage[] {
@@ -515,8 +515,8 @@ export class Project extends ServerDataObject implements SocialItemInterface {
     return ss;
   }
 
-  #createStage(data: Record<string, unknown>): SimpleProjectStage {
-    return new SimpleProjectStage(data, this.getId() as string);
+  #createStage(data: SimpleProjectStageData): SimpleProjectStage {
+    return new SimpleProjectStage(data, this.getId() ?? '');
   }
 }
 

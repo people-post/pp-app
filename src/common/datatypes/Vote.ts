@@ -1,30 +1,28 @@
-import { ServerDataObject } from './ServerDataObject.js';
 import type { VoteData } from '../../types/backend2.js';
 
-export class Vote extends ServerDataObject {
+export class Vote {
   // Synced with backend
   static readonly T_VALUE = {
     YEA: 'YEA',
     NAY: 'NAY',
   } as const;
 
-  protected _data: VoteData;
+  #data: VoteData;
 
   constructor(data: VoteData) {
-    super(data);
-    this._data = data;
+    this.#data = data;
   }
 
-  getUserId(): string | undefined {
-    return this._data.user_id as string | undefined;
+  getUserId(): string | null {
+    return this.#data.user_id;
   }
 
-  getItemId(): string | undefined {
-    return this._data.item_id as string | undefined;
+  getItemId(): string | null {
+    return this.#data.item_id;
   }
 
-  getValue(): string | undefined {
-    return this._data.value as string | undefined;
+  getValue(): string | null {
+    return this.#data.value;
   }
 }
 

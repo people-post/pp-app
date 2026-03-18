@@ -14,19 +14,19 @@ export class SimpleProjectStage extends ProjectStage {
     return this.#data.status == STATE.STATUS.F_DONE;
   }
 
-  getType(): string | undefined {
+  getType(): string | null {
     return this.#data.type;
   }
 
-  getName(): string | undefined {
+  getName(): string | null {
     return this.#data.name;
   }
 
-  getDescription(): string | undefined {
+  getDescription(): string | null {
     return this.#data.description;
   }
 
-  getComment(): string | undefined {
+  getComment(): string | null {
     return this.#data.comment;
   }
 

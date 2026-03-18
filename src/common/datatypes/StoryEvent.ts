@@ -1,34 +1,32 @@
-import { ServerDataObject } from './ServerDataObject.js';
 import type { StoryEventData } from '../../types/backend2.js';
 
-export class StoryEvent extends ServerDataObject {
+export class StoryEvent {
   // Synced with backend
   static readonly T_TYPE = {
     MODIFICATION: 'MOD',
     STATUS: 'STAT',
   } as const;
 
-  protected _data: StoryEventData;
+  #data: StoryEventData;
 
   constructor(data: StoryEventData) {
-    super(data);
-    this._data = data;
+    this.#data = data;
   }
 
-  getName(): string | undefined {
-    return this._data.name as string | undefined;
+  getName(): string | null {
+    return this.#data.name;
   }
 
-  getDescription(): string | undefined {
-    return this._data.description as string | undefined;
+  getDescription(): string | null {
+    return this.#data.description;
   }
 
-  getType(): string | undefined {
-    return this._data.type as string | undefined;
+  getType(): string | null {
+    return this.#data.type;
   }
 
-  getTime(): number | Date | undefined {
-    return this._data.time as number | Date | undefined;
+  getTime(): number {
+    return this.#data.time;
   }
 }
 

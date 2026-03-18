@@ -1,23 +1,21 @@
-import { ServerDataObject } from './ServerDataObject.js';
-import type { VotingSummaryData } from '../../types/backend2.js';
+import type { BallotConfig, VotingSummaryData } from '../../types/backend2.js';
 
-export class VotingSummary extends ServerDataObject {
-  protected _data: VotingSummaryData;
+export class VotingSummary {
+  #data: VotingSummaryData;
 
   constructor(data: VotingSummaryData) {
-    super(data);
-    this._data = data;
+    this.#data = data;
   }
 
-  getBallotConfig(): unknown {
-    return this._data.config;
+  getBallotConfig(): BallotConfig {
+    return this.#data.config;
   }
 
-  getBallot(value: string): number | null {
-    if (!this._data.items) {
+  getBallot(value: string): BallotConfig | null {
+    if (!this.#data.items) {
       return null;
     }
-    for (const item of this._data.items) {
+    for (const item of this.#data.items) {
       if (item.value == value) {
         return item.ballot;
       }

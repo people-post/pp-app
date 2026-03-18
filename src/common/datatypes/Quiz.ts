@@ -2,25 +2,23 @@ import { ServerDataObject } from './ServerDataObject.js';
 import Utilities from '../../lib/ext/Utilities.js';
 import type { QuizData } from '../../types/backend2.js';
 
-export class Quiz extends ServerDataObject {
+export class Quiz extends ServerDataObject<QuizData> {
   #choices: string[] = [];
-  protected _data: QuizData;
 
   constructor(data: QuizData) {
     super(data);
-    this._data = data;
     // Gen choices
-    const answers = this._data.answers || [];
-    const distractors = this._data.distractors || [];
-    this.#choices = Utilities.shuffle(distractors.concat(answers)) as string[];
+    const answers = this._data.answers;
+    const distractors = this._data.distractors;
+    this.#choices = Utilities.shuffle(distractors.concat(answers));
   }
 
-  getQuestion(): string | undefined {
-    return this._data.stem as string | undefined;
+  getQuestion(): string | null {
+    return this._data.stem;
   }
 
   getAnswers(): string[] {
-    return (this._data.answers as string[]) || [];
+    return this._data.answers;
   }
 
   getChoices(): string[] {

@@ -13,19 +13,12 @@ export class BlogRole extends UserRole {
     DISABLED: 'DISABLED',
   } as const;
 
-  protected _data: BlogRoleData;
-
-  constructor(data: BlogRoleData) {
-    super(data);
-    this._data = data;
-  }
-
   isActive(): boolean {
     return this._data.status != BlogRole.T_STATUS.DISABLED;
   }
 
-  getAllowedTagIds(): string[] | undefined {
-    return this._data.data?.allowed_tag_ids;
+  getAllowedTagIds(): string[] {
+    return (this._data.data as BlogRoleData).allowed_tag_ids;
   }
 }
 

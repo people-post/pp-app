@@ -1,14 +1,7 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import type { SocialInfoData } from '../../types/backend2.js';
 
-export class SocialInfo extends ServerDataObject {
-  protected _data: SocialInfoData;
-
-  constructor(data: SocialInfoData) {
-    super(data);
-    this._data = data;
-  }
-
+export class SocialInfo extends ServerDataObject<SocialInfoData> {
   isLiked(): boolean {
     return !!this._data.is_liked;
   }
@@ -17,16 +10,16 @@ export class SocialInfo extends ServerDataObject {
     return !!this._data.is_linked;
   }
 
-  getNLikes(): number | undefined {
-    return this._data.n_likes as number | undefined;
+  getNLikes(): number {
+    return this._data.n_likes;
   }
 
-  getNLinks(): number | undefined {
-    return this._data.n_links as number | undefined;
+  getNLinks(): number {
+    return this._data.n_links;
   }
 
-  getNComments(): number | undefined {
-    return this._data.n_comments as number | undefined;
+  getNComments(): number {
+    return this._data.n_comments;
   }
 }
 

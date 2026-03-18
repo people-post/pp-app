@@ -141,27 +141,19 @@ export interface UserRequestData {
 }
 
 export interface WorkshopTeamData {
-  status?: string;
-  data?: {
-    permissions: string[];
-  };
+  permissions: string[];
 }
 
 export interface UserRoleData {
-  is_open?: boolean;
-  name?: string;
-  member_ids?: string[];
-  status?: string;
-  [key: string]: unknown;
+  is_open: boolean;
+  name: string | null;
+  member_ids: string[];
+  status: string | null;
+  data: unknown;
 }
 
 export interface BlogRoleData {
-  status?: string;
-  data?: {
-    allowed_tag_ids: string[];
-    [key: string]: unknown;
-  };
-  [key: string]: unknown;
+  allowed_tag_ids: string[];
 }
 
 export interface VoteData {
@@ -276,11 +268,7 @@ export interface CustomerOrderData extends ServerDataObjectData {
 }
 
 export interface ShopTeamData {
-  status?: string;
-  data?: {
-    permissions: string[];
-  };
-  [key: string]: unknown;
+  permissions: string[];
 }
 
 export interface ShopRegisterData {
@@ -324,10 +312,10 @@ export interface ProductDeliveryChoiceData {
 export interface ProductData extends ServerDataObjectData {
   supplier_id: string | null;
   name: string | null;
-  delivery_choices: unknown[];
+  delivery_choices: ProductDeliveryChoiceData[];
   description: string | null;
   tag_ids: string[];
-  files: unknown[];
+  files: RemoteFileData[];
   spec_ids: string[];
   base_prices: BasePrice[];
   is_draft?: boolean; // Not from backend
@@ -404,7 +392,7 @@ export interface StoryEventData {
   time: number;
 }
 
-export interface StoryData {
+export interface StoryData extends ServerDataObjectData {
   events: StoryEventData[];
 }
 

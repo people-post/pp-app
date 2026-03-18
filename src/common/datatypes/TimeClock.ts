@@ -1,11 +1,9 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import type { TimeClockData } from '../../types/backend2.js';
 
-export class TimeClock extends ServerDataObject {
-  protected declare _data: TimeClockData;
-
+export class TimeClock extends ServerDataObject<TimeClockData> {
   getServerTime(): Date {
-    const tCurrent = this._data.t_current as number | undefined;
+    const tCurrent = this._data.t_current;
     return new Date((tCurrent || 0) * 1000);
   }
 

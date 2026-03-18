@@ -13,14 +13,12 @@ export class WorkshopTeam extends UserRole {
     DISABLED: 'DISABLED',
   } as const;
 
-  protected declare _data: WorkshopTeamData;
-
   isActive(): boolean {
     return this._data.status !== WorkshopTeam.T_STATUS.DISABLED;
   }
 
   hasPermission(id: string): boolean {
-    const permissions = this._data.data?.permissions;
+    const permissions = (this._data.data as WorkshopTeamData).permissions;
     if (!permissions) {
       return false;
     }

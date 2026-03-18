@@ -1,39 +1,37 @@
-import { ServerDataObject } from './ServerDataObject.js';
 import { ProductServiceTimeslot } from './ProductServiceTimeslot.js';
-import type { ProductServiceLocationData } from '../../types/backend2.js';
+import type { ProductServiceLocationData, ProductServiceTimeslotData } from '../../types/backend2.js';
 
-export class ProductServiceLocation extends ServerDataObject {
+export class ProductServiceLocation {
+  #data: ProductServiceLocationData | null = null;
   #timeslots: ProductServiceTimeslot[] = [];
-  protected _data: ProductServiceLocationData;
 
   constructor(data: ProductServiceLocationData) {
-    super(data);
-    this._data = data;
+    this.#data = data;
     if (data.time_slots) {
       for (const s of data.time_slots) {
-        this.#timeslots.push(this.#initTimeslot(s as Record<string, unknown>));
+        this.#timeslots.push(this.#initTimeslot(s));
       }
     }
   }
 
-  getBranchId(): string | undefined {
-    return this._data.branch_id as string | undefined;
+  getBranchId(): string | null {
+    return this.#data?.branch_id ?? null;
   }
 
   getAssignee(): unknown {
-    return this._data.assignee;
+    return this.#data?.assignee ?? null;
   }
 
   getTimeslots(): ProductServiceTimeslot[] {
     return this.#timeslots;
   }
 
-  getTimeOverhead(): number | undefined {
-    return this._data.time_overhead as number | undefined;
+  getTimeOverhead(): number {
+    return this.#data?.time_overhead ?? 0;
   }
 
-  getPriceOverhead(): number | undefined {
-    return this._data.price_overhead as number | undefined;
+  getPriceOverhead(): number {
+    return this.#data?.price_overhead ?? 0;
   }
 
   appendTimeslot(ts: ProductServiceTimeslot): void {
@@ -41,20 +39,20 @@ export class ProductServiceLocation extends ServerDataObject {
   }
 
   setTimeOverhead(t: number): void {
-    this._data.time_overhead = t;
+    this.#data!.time_overhead = t;
   }
 
   setPriceOverhead(p: number): void {
-    this._data.price_overhead = p;
+    this.#data!.price_overhead = p;
   }
 
   setBranchId(id: string): void {
-    this._data.branch_id = id;
+    this.#data!.branch_id = id;
   }
 
   estimateNAvailable(t: number): number {
     let n = 0;
-    const overhead = this._data.time_overhead as number | undefined;
+    const overhead = this.#data?.time_overhead ?? 0;
     for (const ts of this.getTimeslots()) {
       n += ts.estimateNAvailable(t, overhead || 0);
     }
@@ -63,9 +61,9 @@ export class ProductServiceLocation extends ServerDataObject {
 
   toApiPostObj(): {
     time_slots: unknown[];
-    time_overhead: number | undefined;
-    branch_id: string | undefined;
-    price_overhead: number | undefined;
+    time_overhead: number;
+    branch_id: string | null;
+    price_overhead: number;
   } {
     const tss: unknown[] = [];
     for (const ts of this.#timeslots) {
@@ -73,13 +71,13 @@ export class ProductServiceLocation extends ServerDataObject {
     }
     return {
       time_slots: tss,
-      time_overhead: this._data.time_overhead as number | undefined,
-      branch_id: this._data.branch_id as string | undefined,
-      price_overhead: this._data.price_overhead as number | undefined,
+      time_overhead: this.#data?.time_overhead ?? 0,
+      branch_id: this.#data?.branch_id ?? null,
+      price_overhead: this.#data?.price_overhead ?? 0,
     };
   }
 
-  #initTimeslot(data: Record<string, unknown>): ProductServiceTimeslot {
+  #initTimeslot(data: ProductServiceTimeslotData): ProductServiceTimeslot {
     return new ProductServiceTimeslot(data);
   }
 }

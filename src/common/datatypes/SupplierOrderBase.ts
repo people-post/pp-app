@@ -14,10 +14,6 @@ export class SupplierOrderBase<T extends SupplierOrderBaseData> extends ServerDa
     return this._items;
   }
 
-  getShippingAddress(): unknown {
-    return this._data.shipping_address;
-  }
-
   getExtraPrice(): number {
     return this._data.extra_price;
   }
