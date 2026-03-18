@@ -3,6 +3,7 @@ import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Address } from '../datatypes/Address.js';
+import { AddressData } from '../../types/backend2.js';
 
 export class AddressEditor extends Fragment {
   #fNickname: TextInput;
@@ -130,10 +131,12 @@ export class AddressEditor extends Fragment {
     this.#fLine2.render();
   }
 
-  #toString(s: string | undefined): string { return s ? s : ""; }
+  #toString(s: string | null): string { return s ? s : ""; }
 
   #collectData(): Address {
-    const data = {
+    const data: AddressData = {
+      owner_id : "",
+      id : "",
       nickname : this.#fNickname.getValue(),
       name : this.#fName.getValue(),
       country : this.#fCountry.getValue(),

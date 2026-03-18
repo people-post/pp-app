@@ -3,11 +3,12 @@ import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 import { Email } from '../datatypes/Email.js';
 import { Api } from '../plt/Api.js';
+import { EmailData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    email?: unknown;
+    email?: EmailData;
   };
 }
 
@@ -89,7 +90,7 @@ export class MailClass implements MailInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.email) {
-        const e = new Email(response.data.email as Record<string, unknown>);
+        const e = new Email(response.data.email);
         this.update(e);
       }
     }

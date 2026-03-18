@@ -2,37 +2,40 @@ import { ServerDataObject } from './ServerDataObject.js';
 import type { AddressData } from '../../types/backend2.js';
 
 export class Address extends ServerDataObject<AddressData> {
-  getOwnerId(): string | number | undefined {
-    return this._data.owner_id as string | number | undefined;
+  getOwnerId(): string | null {
+    return this._data.owner_id;
   }
 
-  getNickname(): string | undefined {
-    return this._data.nickname as string | undefined;
+  getNickname(): string | null {
+    return this._data.nickname;
   }
 
-  getName(): string | undefined {
-    return this._data.name as string | undefined;
+  getName(): string | null {
+    return this._data.name;
   }
 
-  getCountry(): string | undefined {
-    return this._data.country as string | undefined;
+  getCountry(): string | null {
+    return this._data.country;
   }
 
-  getState(): string | undefined {
-    return this._data.state as string | undefined;
+  getState(): string | null {
+    return this._data.state;
   }
 
-  getCity(): string | undefined {
-    return this._data.city as string | undefined;
+  getCity(): string | null {
+    return this._data.city;
   }
 
-  getZipcode(): string | undefined {
-    return this._data.zipcode as string | undefined;
+  getZipcode(): string | null {
+    return this._data.zipcode;
   }
 
-  getLine(idx: number): string | undefined {
-    const lines = this._data.lines as string[] | undefined;
-    return lines ? lines[idx] : undefined;
+  getLine(idx: number): string | null {
+    const lines = this._data.lines;
+    if (!lines) {
+      return null;
+    }
+    return lines[idx];
   }
 }
 

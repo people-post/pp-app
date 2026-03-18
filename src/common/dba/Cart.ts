@@ -4,11 +4,12 @@ import { CartItem } from '../datatypes/CartItem.js';
 import { Cart as CartDataType } from '../datatypes/Cart.js';
 import { Api } from '../plt/Api.js';
 import { Account } from './Account.js';
+import { CartItemData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    items?: unknown[];
+    items?: CartItemData[];
   };
 }
 
@@ -40,11 +41,11 @@ export class CartClass implements CartInterface {
     return null;
   }
 
-  #resetItems(dataList: unknown[]): void {
+  #resetItems(dataList: CartItemData[]): void {
     this.clear();
     this.#mCart = new Map();
     for (const data of dataList) {
-      const item = new CartItem(data as Record<string, unknown>);
+      const item = new CartItem(data);
       const cId = item.getCartId();
       if (cId && !this.#mCart.has(cId)) {
         this.#mCart.set(cId, new CartDataType());
