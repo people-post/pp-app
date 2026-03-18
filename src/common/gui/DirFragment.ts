@@ -5,7 +5,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { HintText } from '../../lib/ui/controllers/fragments/HintText.js';
 import type { DirItem } from '../datatypes/DirItem.js';
 
-export class DirFragment<TItem extends DirItem<any, any> = DirItem<any, any>> extends Fragment {
+export class DirFragment<TItem extends { isDir(): boolean; getName(): string | null } = DirItem<any, any>> extends Fragment {
   declare _fItems: FSimpleFragmentList;
   declare _fNewItem: Fragment | null;
   declare _nMaxItems: number;

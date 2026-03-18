@@ -1,20 +1,16 @@
 import type { DirItemData } from '../../types/backend2.js';
+import { TreeNode } from './TreeNode.js';
 
 export class DirItem<
   TData extends DirItemData<TData> = DirItemData<any>,
   TSubItem extends DirItem<TData, TSubItem> = any,
-> {
-  #subItems: TSubItem[] = [];
-  #parentItem: TSubItem | null = null;
-  protected _data: TData;
-
+> extends TreeNode<TData, TSubItem> {
   constructor(data: TData, parentItem: TSubItem | null = null) {
+    super(data, parentItem);
     if (data.created_at) {
       data.created_at = new Date((data.created_at as number) * 1000);
     }
-    this._data = data;
-    this.#subItems = this.#initSubItems(data.sub_items);
-    this.#parentItem = parentItem;
+    this._setChildren(this.#initSubItems(data.sub_items));
   }
 
   isDir(): boolean {
@@ -22,7 +18,7 @@ export class DirItem<
   }
 
   isEmpty(): boolean {
-    return this.#subItems.length == 0;
+    return this.getChildren().length === 0;
   }
 
   getId(): string {
@@ -38,12 +34,12 @@ export class DirItem<
   }
 
   getSubItems(): TSubItem[] {
-    return this.#subItems;
+    return this.getChildren();
   }
 
   getSubItem(id: string): TSubItem | null {
-    for (const i of this.#subItems) {
-      if (i.getId() == id) {
+    for (const i of this.getChildren()) {
+      if (i.getId() === id) {
         return i;
       }
     }
@@ -53,27 +49,16 @@ export class DirItem<
   getPath(): (string | undefined)[] {
     const p = this._getPathItem();
     const items: (string | undefined)[] = p ? [p] : [];
-    if (this.#parentItem) {
-      return this.#parentItem.getPath().concat(items);
+    const parent = this.getParent();
+    if (parent) {
+      return parent.getPath().concat(items);
     }
     return items;
   }
 
-  getParent(): TSubItem | null {
-    return this.#parentItem;
-  }
-
-  getDepth(): number {
-    if (this.#parentItem) {
-      return this.#parentItem.getDepth() + 1;
-    } else {
-      return 0;
-    }
-  }
-
   find(id: string): TSubItem | null {
-    for (const i of this.#subItems) {
-      if (i.getId() == id) {
+    for (const i of this.getChildren()) {
+      if (i.getId() === id) {
         return i;
       }
       const ii = i.find(id);
