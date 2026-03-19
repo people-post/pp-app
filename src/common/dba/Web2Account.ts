@@ -5,14 +5,14 @@ import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { CustomerOrder } from '../datatypes/CustomerOrder.js';
 import { Api } from '../plt/Api.js';
 import type { User } from '../datatypes/User.js';
-import type { UserPrivateProfile, Idol, OutRequest, BlogConfig } from '../../types/backend2.js';
+import type { UserPrivateProfile, IdolData, OutRequest, BlogConfig, CustomerOrderData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
     profile?: UserPrivateProfile;
     address_ids?: string[];
-    order?: unknown;
+    order?: CustomerOrderData;
   };
 }
 
@@ -89,7 +89,7 @@ export class Web2Account {
     return this.#guestContact;
   }
 
-  getIdols(): Idol[] {
+  getIdols(): IdolData[] {
     return this.#profile ? this.#profile.idols || [] : [];
   }
 
@@ -242,7 +242,7 @@ export class Web2Account {
     }
   }
 
-  #getIdol(userId: string): Idol | null {
+  #getIdol(userId: string): IdolData | null {
     for (const i of this.getIdols()) {
       if (i.user_id === userId) {
         return i;
@@ -305,8 +305,7 @@ export class Web2Account {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.order) {
-        const orderData = response.data.order as Record<string, unknown>;
-        this.updateOrder(new CustomerOrder(orderData));
+        this.updateOrder(new CustomerOrder(response.data.order));
       } else {
         this.#orderLib.set(id, null);
         FwkEvents.trigger(PltT_DATA.CUSTOMER_ORDER, null);

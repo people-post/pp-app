@@ -26,6 +26,9 @@ export class MenuEntryItemName extends MenuItemName {
       if (!theme) {
         theme = WebConfig.getDefaultTheme();
       }
+      if (!theme) {
+        return "";
+      }
       s = s.replace("__BG_COLOR_1__", theme.getPrimaryColor());
       s = s.replace("__COLOR_1__", theme.getSecondaryColor());
       s = s.replace("__BG_COLOR_2__", theme.getSecondaryColor());

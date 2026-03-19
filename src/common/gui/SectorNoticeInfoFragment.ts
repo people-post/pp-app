@@ -3,24 +3,26 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { MessageThreadInfo } from '../datatypes/MessageThreadInfo.js';
 import { LikedItemNotice } from '../datatypes/LikedItemNotice.js';
 import { RepostItemNotice } from '../datatypes/RepostItemNotice.js';
-import { FCommentNotice } from '../social/FCommentNotice.js';
-import { FLikedItemNotice } from '../social/FLikedItemNotice.js';
+import { FCommentNotice, FCommentNoticeDelegate } from '../social/FCommentNotice.js';
+import { FLikedItemNotice, FLikedItemNoticeDelegate } from '../social/FLikedItemNotice.js';
 import { FRepostItemNotice } from '../social/FRepostItemNotice.js';
 import { Fragment as FragmentBase } from '../../lib/ui/controllers/fragments/Fragment.js';
 
-export class SectorNoticeInfoFragment extends Fragment {
+export interface SectorNoticeInfoFragmentDelegate {
+  onSectorNoticeInfoFragmentRequestShowItem(f: SectorNoticeInfoFragment, itemId: string, idType: string): void;
+}
+
+export class SectorNoticeInfoFragment extends Fragment implements FCommentNoticeDelegate, FLikedItemNoticeDelegate {
   private _notification: MessageThreadInfo | LikedItemNotice | RepostItemNotice | null = null;
 
   onCommentNoticeInfoFragmentRequestShowItem(_fCommentNoticeInfo: FragmentBase, itemId: string,
                                              idType: string): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onSectorNoticeInfoFragmentRequestShowItem?.(this, itemId,
+    this.getDelegate<SectorNoticeInfoFragmentDelegate>()?.onSectorNoticeInfoFragmentRequestShowItem?.(this, itemId,
                                                              idType);
   }
 
   onPostClickedInLikedItemNoticeInfoFragment(_fInfo: FragmentBase, postId: string, postType: string): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onSectorNoticeInfoFragmentRequestShowItem?.(this, postId,
+    this.getDelegate<SectorNoticeInfoFragmentDelegate>()?.onSectorNoticeInfoFragmentRequestShowItem?.(this, postId,
                                                              postType);
   }
 
@@ -40,15 +42,17 @@ export class SectorNoticeInfoFragment extends Fragment {
     let f: FCommentNotice | FLikedItemNotice | FRepostItemNotice | null = null;
     if (this._notification instanceof MessageThreadInfo) {
       f = new FCommentNotice();
+      f.setData(this._notification);
     } else if (this._notification instanceof LikedItemNotice) {
       f = new FLikedItemNotice();
+      f.setData(this._notification);
     } else if (this._notification instanceof RepostItemNotice) {
       f = new FRepostItemNotice();
+      f.setData(this._notification);
     }
     this.setChild("notice", f);
     if (f) {
       f.setDelegate(this);
-      f.setData(this._notification);
       f.attachRender(p);
       f.render();
     } else {

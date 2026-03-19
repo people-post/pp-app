@@ -12,6 +12,10 @@ import { Blog } from '../dba/Blog.js';
 import { LikedItemNotice } from '../datatypes/LikedItemNotice.js';
 import { Api } from '../plt/Api.js';
 
+export interface FLikedItemNoticeDelegate {
+  onPostClickedInLikedItemNoticeInfoFragment(f: FLikedItemNotice, postId: string, postType: string): void;
+}
+
 export class FLikedItemNotice extends Fragment {
   private _notice: LikedItemNotice | null = null;
   private _fUser1: FUserInfo;
@@ -126,8 +130,7 @@ export class FLikedItemNotice extends Fragment {
     }
     let n = this._notice;
     if (n.isFrom(SocialItem.TYPE.ARTICLE)) {
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onPostClickedInLikedItemNoticeInfoFragment?.(
+      this.getDelegate<FLikedItemNoticeDelegate>()?.onPostClickedInLikedItemNoticeInfoFragment?.(
           this, n.getFromId(), n.getFromIdType());
     }
   }

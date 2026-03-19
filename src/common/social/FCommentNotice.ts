@@ -1,3 +1,9 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { SocialItem } from '../datatypes/SocialItem.js';
+import { Blog } from '../dba/Blog.js';
+import { Workshop } from '../dba/Workshop.js';
+import { MessageThreadInfo as CommentNotice } from '../datatypes/MessageThreadInfo.js';
+
 export const CF_COMMENT_NOTICE_INFO = {
   ON_CLICK : Symbol(),
 };
@@ -13,11 +19,9 @@ const _CFT_COMMENT_NOTICE_INFO = {
   </div>`,
 };
 
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { SocialItem } from '../datatypes/SocialItem.js';
-import { Blog } from '../dba/Blog.js';
-import { Workshop } from '../dba/Workshop.js';
-import { MessageThreadInfo as CommentNotice } from '../datatypes/MessageThreadInfo.js';
+export interface FCommentNoticeDelegate {
+  onCommentNoticeInfoFragmentRequestShowItem(f: FCommentNotice, itemId: string, idType: string): void;
+}
 
 export class FCommentNotice extends Fragment {
   private _notification: CommentNotice | null = null;
@@ -33,8 +37,7 @@ export class FCommentNotice extends Fragment {
     switch (type) {
     case CF_COMMENT_NOTICE_INFO.ON_CLICK:
       if (this._notification) {
-        // @ts-expect-error - delegate may have this method
-        this._delegate?.onCommentNoticeInfoFragmentRequestShowItem?.(
+        this.getDelegate<FCommentNoticeDelegate>()?.onCommentNoticeInfoFragmentRequestShowItem?.(
             this, this._notification.getFromId(),
             this._notification.getFromIdType());
       }
