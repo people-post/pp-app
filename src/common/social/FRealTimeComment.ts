@@ -51,25 +51,29 @@ export class FRealTimeComment extends Fragment implements IOptionContextButtonDe
 
   setComment(c: RealTimeComment): void { this.#comment = c; }
 
-  onOptionClickedInContextButtonFragment(fContextBtn: OptionContextButton, value: string): void {
+  onOptionClickedInContextButtonFragment(_fContextBtn: OptionContextButton, value: string): void {
     if (!this.#comment) {
+      return;
+    }
+    const id = this.#comment.getId();
+    if (!id) {
       return;
     }
     switch (value) {
     case "KEEP":
       this.getDelegate<FRealTimeCommentDelegate>()
-          ?.onCommentFragmentRequestKeepComment(this, this.#comment.getId());
+          ?.onCommentFragmentRequestKeepComment(this, id);
       break;
     case "DISCARD":
       this.getDelegate<FRealTimeCommentDelegate>()
-          ?.onCommentFragmentRequestDiscardComment(this, this.#comment.getId());
+          ?.onCommentFragmentRequestDiscardComment(this, id);
       break;
     default:
       break;
     }
   }
 
-  _renderOnRender(render: any): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this.#comment) {
       return;
     }

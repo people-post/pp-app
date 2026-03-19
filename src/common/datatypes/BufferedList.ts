@@ -1,18 +1,20 @@
-import { ServerDataObjectData } from '../../types/backend2.js';
-import { ServerDataObject } from './ServerDataObject.js';
+interface BufferedListItem {
+  getId(): string | null;
+  getCreationTime(): Date | undefined;
+}
 
-export class BufferedList<T extends ServerDataObjectData> {
-  private _items: ServerDataObject<T>[] = [];
+export class BufferedList<T extends BufferedListItem> {
+  private _items: T[] = [];
 
   constructor() {
     this._items = [];
   }
 
-  getObjects(): ServerDataObject<T>[] {
+  getObjects(): T[] {
     return this._items;
   }
 
-  getLatestObjectId(): string | number | null {
+  getLatestObjectId(): string | null {
     if (this._items.length) {
       const id = this._items[this._items.length - 1].getId();
       return id ?? null;
@@ -20,7 +22,7 @@ export class BufferedList<T extends ServerDataObjectData> {
     return null;
   }
 
-  extend(objects: ServerDataObject<T>[]): ServerDataObject<T>[] {
+  extend(objects: T[]): T[] {
     if (objects.length) {
       objects.sort((a, b) => {
         const aTime = a.getCreationTime();

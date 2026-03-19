@@ -87,12 +87,12 @@ export class FRepostItemNotice extends Fragment {
 
   #getArticleTitle(articleId: string): string {
     let a = Blog.getArticle(articleId);
-    return a ? a.getTitle() : articleId;
+    return a?.getTitle() ?? articleId;
   }
 
   #getFeedArticleTitle(feedArticleId: string): string {
     let a = Blog.getFeedArticle(feedArticleId);
-    return a ? a.getTitle() : feedArticleId;
+    return a?.getTitle() ?? feedArticleId;
   }
 
   #asyncMarkReadership(notice: RepostItemNotice): void {

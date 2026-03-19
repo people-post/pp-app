@@ -1,14 +1,26 @@
 import Controller from '../../lib/ext/Controller.js';
+import type { MessageData } from '../../types/backend2.js';
 import { Signal } from '../dba/Signal.js';
 import { RealTimeComment } from '../datatypes/RealTimeComment.js';
 import { BufferedList } from '../datatypes/BufferedList.js';
 import { CHANNEL } from '../constants/Constants.js';
 import { Api } from '../plt/Api.js';
 
+interface ApiResponse {
+  error?: unknown;
+  data?: {
+    messages: MessageData[];
+  };
+}
+
+export interface RealTimeCommentAgentDelegate {
+  onCommentsLoadedInRealTimeCommentAgent(agent: RealTimeCommentAgent): void;
+}
+
 export class RealTimeCommentAgent extends Controller {
   #threadId: string | null = null;
   #threadIdType: string | null = null;
-  #commentBuffer: BufferedList | null = null;
+  #commentBuffer: BufferedList<RealTimeComment> | null = null;
   #lastReadershipUpdatedId: string | null = null;
 
   getThreadId(): string | null { return this.#threadId; }
@@ -23,7 +35,7 @@ export class RealTimeCommentAgent extends Controller {
 
   getComments(): RealTimeComment[] {
     if (this.#commentBuffer) {
-      return this.#commentBuffer.getObjects() as RealTimeComment[];
+      return this.#commentBuffer.getObjects();
     } else {
       this.#asyncLoad();
       return [];
@@ -145,7 +157,7 @@ export class RealTimeCommentAgent extends Controller {
   }
 
   #onLoadRRR(responseText: string, threadId: string): void {
-    let response = JSON.parse(responseText) as { error?: unknown; data?: { messages: unknown[] } };
+    let response = JSON.parse(responseText) as ApiResponse;
     if (response.error) {
       // @ts-expect-error - delegate may have this method
       this._delegate?.onRemoteErrorInRealTimeCommentAgent?.(this, response.error);
@@ -157,8 +169,10 @@ export class RealTimeCommentAgent extends Controller {
         }
         this.#commentBuffer = new BufferedList();
         this.#commentBuffer.extend(comments);
-        // @ts-expect-error - delegate may have this method
-        this._delegate?.onCommentsLoadedInRealTimeCommentAgent?.(this);
+        const delegate = this.getDelegate<RealTimeCommentAgentDelegate>();
+        if (delegate) {
+          delegate.onCommentsLoadedInRealTimeCommentAgent(this);
+        }
       }
     }
   }
