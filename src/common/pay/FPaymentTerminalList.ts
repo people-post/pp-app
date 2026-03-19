@@ -7,6 +7,7 @@ import { FPaymentTerminal, FPaymentTerminalDataSource, FPaymentTerminalDelegate 
 import { PaymentTerminal } from '../datatypes/PaymentTerminal.js';
 import { Api } from '../plt/Api.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { PaymentTerminalData } from '../../types/backend2.js';
 
 export class FPaymentTerminalList extends Fragment implements FPaymentTerminalDataSource, FPaymentTerminalDelegate {
   private _fItems: FSimpleFragmentList;
@@ -93,8 +94,9 @@ export class FPaymentTerminalList extends Fragment implements FPaymentTerminalDa
     if (this._registerId) {
       fd.append("register_id", this._registerId);
     }
-    Api.asFragmentPost(this, url, fd)
-        .then(d => this.#onTerminalIdsRRR(d));
+    Api.asFragmentPost<{ ids: string[] }>(this, url, fd)
+        .then((d) => this.#onTerminalIdsRRR(d))
+        .catch((e) => console.error(e));
   }
 
   #onTerminalIdsRRR(data: { ids: string[] }): void {
@@ -114,14 +116,17 @@ export class FPaymentTerminalList extends Fragment implements FPaymentTerminalDa
     if (this._registerId) {
       fd.append("register_id", this._registerId);
     }
-    Api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost<{ terminal: PaymentTerminalData }>(this, url, fd)
         .then(d => this.#onAddTerminalRRR(d));
   }
 
-  #onAddTerminalRRR(data: { terminal: unknown }): void {
+  #onAddTerminalRRR(data: { terminal: PaymentTerminalData }): void {
     if (this._ids) {
       let t = new PaymentTerminal(data.terminal);
-      this._ids.push(t.getId());
+      const id = t.getId();
+      if (id) {
+        this._ids.push(id);
+      }
     }
     this.render();
   }

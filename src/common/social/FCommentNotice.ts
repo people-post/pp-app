@@ -17,7 +17,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
 import { Blog } from '../dba/Blog.js';
 import { Workshop } from '../dba/Workshop.js';
-import { CommentNotice } from '../datatypes/CommentNotice.js';
+import { MessageThreadInfo as CommentNotice } from '../datatypes/MessageThreadInfo.js';
 
 export class FCommentNotice extends Fragment {
   private _notification: CommentNotice | null = null;
@@ -81,17 +81,17 @@ export class FCommentNotice extends Fragment {
 
   #getArticleTitle(articleId: string): string {
     let a = Blog.getArticle(articleId);
-    return a ? a.getTitle() : articleId;
+    return a?.getTitle() ?? articleId;
   }
 
   #getFeedArticleTitle(feedArticleId: string): string {
     let a = Blog.getFeedArticle(feedArticleId);
-    return a ? a.getTitle() : feedArticleId;
+    return a?.getTitle() ?? feedArticleId;
   }
 
   #getProjectTitle(projectId: string): string {
     let project = Workshop.getProject(projectId);
-    return project ? project.getTitle() : projectId;
+    return project?.getName() ?? projectId;
   }
 }
 

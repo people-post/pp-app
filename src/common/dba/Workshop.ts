@@ -49,14 +49,14 @@ export class WorkshopClass implements WorkshopInterface {
       .map((r) => r.id);
   }
 
-  getProject(id: string | null): Project | null | undefined {
+  getProject(id: string | null): Project | null {
     if (!id) {
       return null;
     }
     if (!this.#lib.has(id)) {
       this.#asyncLoadProject(id);
     }
-    return this.#lib.get(id);
+    return this.#lib.get(id) ?? null;
   }
 
   getConfig(): unknown {

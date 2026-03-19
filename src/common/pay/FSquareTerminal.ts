@@ -35,7 +35,7 @@ export class FSquareTerminal extends Fragment {
     this.#renderItemInfo(p, this._obj.getStatus(), "Status");
 
     p = panel.getPairedAtPanel();
-    this.#renderItemInfo(p, this._obj.getPairedAt(), "Paired at");
+    this.#renderItemInfo(p, this._obj.getPairedAt()?.toLocaleString() ?? null, "Paired at");
   }
 
   #renderItemInfo(panel: Panel, value: string | null, title: string): void {

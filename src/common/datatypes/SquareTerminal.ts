@@ -18,8 +18,8 @@ export class SquareTerminal extends ServerDataObject<SquareTerminalData> {
     return this._data.status;
   }
 
-  getPairedAt(): number | null {
-    return this._data.paired_at;
+  getPairedAt(): Date | null {
+    return this._data.paired_at ? new Date(this._data.paired_at * 1000) : null;
   }
 }
 

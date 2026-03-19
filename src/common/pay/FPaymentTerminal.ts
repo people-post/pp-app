@@ -113,14 +113,17 @@ export class FPaymentTerminal extends Fragment {
 
     p = panel.getStatusPanel();
     if (p) {
-      p.replaceContent(
-          Utilities.renderStatus(terminal.getState(), terminal.getStatus()));
+      const state = terminal.getState();
+      if (state) {
+        p.replaceContent(Utilities.renderStatus(state, terminal.getStatus()));
+      }
     }
 
     p = panel.getDetailPanel();
-    if (p) {
+    const type = terminal.getType();
+    if (p && type) {
       this._fDetail =
-          this.#initDetailFragment(terminal.getType(), terminal.getDataObj());
+          this.#initDetailFragment(type, terminal.getDataObj());
       this.setChild("detail", this._fDetail);
       if (this._fDetail) {
         this._fDetail.attachRender(p);
@@ -155,7 +158,7 @@ export class FPaymentTerminal extends Fragment {
     switch (type) {
     case PaymentTerminal.T_TYPE.SQUARE_TERMINAL:
       f = new FSquareTerminal();
-      f.setData(dataObj);
+      (f as FSquareTerminal).setData(dataObj);
       break;
     default:
       break;

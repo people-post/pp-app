@@ -101,7 +101,7 @@ export class FRepostItemNotice extends Fragment {
     for (let id of notice.getNotificationIds()) {
       fd.append("ids", id);
     }
-    Api.asyncRawPost(url, fd, (_r: string) => this.#onMarkReadershipRRR());
+    Api.asyncRawPost(url, fd, (_r: string) => this.#onMarkReadershipRRR(), null, null);
   }
 
   #onMarkReadershipRRR(): void {}
