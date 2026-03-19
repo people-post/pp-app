@@ -785,3 +785,23 @@ export interface JournalIssueData extends JournalIssueBaseData {
   comment_tags?: CommentTagData[];
   [key: string]: unknown;
 }
+
+export interface MatchInfoElementData {
+  prefix: string | null;
+  is_prefix_overflow: boolean;
+  keyword: string | null;
+  postfix: string | null;
+  is_postfix_overflow: boolean;
+}
+
+export interface MatchInfoData {
+  elements: MatchInfoElementData[];
+}
+
+export interface SearchResultData {
+  id: string;
+  type: string | null;
+  title: MatchInfoData;
+  content: MatchInfoData;
+  timestamp: number | null;
+}

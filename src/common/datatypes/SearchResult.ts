@@ -1,7 +1,9 @@
-export class SearchResult {
-  #items: unknown[];
+import type { SearchResultData } from '../../types/backend2.js';
 
-  constructor(items: unknown[]) {
+export class SearchResult {
+  #items: SearchResultData[];
+
+  constructor(items: SearchResultData[]) {
     this.#items = items;
   }
 
@@ -9,7 +11,7 @@ export class SearchResult {
     return this.#items.length;
   }
 
-  getItems(): unknown[] {
+  getItems(): SearchResultData[] {
     return this.#items;
   }
 }

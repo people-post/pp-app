@@ -21,7 +21,7 @@ interface SearchCache {
 export class FSearch extends Fragment implements FSearchResultInfoDelegate {
   #fBar: SearchBar;
   #fContent: FSimpleFragmentList;
-  #tResultLayout: string | null = null;
+  #tResultLayout: symbol | null = null;
   #cache: SearchCache | null = null;
 
   constructor() {
@@ -35,11 +35,11 @@ export class FSearch extends Fragment implements FSearchResultInfoDelegate {
     this.setChild("content", this.#fContent);
   }
 
-  getKey(): string { return this.#fBar.getKey(); }
-  getResultLayoutType(): string | null { return this.#tResultLayout; }
+  getKey(): string | null { return this.#fBar.getKey(); }
+  getResultLayoutType(): symbol | null { return this.#tResultLayout; }
 
   setKey(key: string): void { this.#fBar.setKey(key); }
-  setResultLayoutType(t: string | null): void { this.#tResultLayout = t; }
+  setResultLayoutType(t: symbol | null): void { this.#tResultLayout = t; }
 
   onClickInSearchResultInfoFragment(_fInfo: FSearchResultInfo, itemType: string, itemId: string): void {
     // @ts-expect-error - delegate may have this method
@@ -101,10 +101,13 @@ export class FSearch extends Fragment implements FSearchResultInfoDelegate {
     this.render();
   }
 
-  #getResult(key: string): SearchResult | null {
+  #getResult(key: string | null): SearchResult | null {
     let d = this.#cache;
     if (d && d.key == key) {
       return d.result;
+    }
+    if (!key) {
+      return null;
     }
     let r = this._doSearch(key);
     if (r) {

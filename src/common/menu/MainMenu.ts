@@ -108,7 +108,7 @@ export class MainMenu extends MenuContent {
   #sectorId: string | null = null;
   #currentItem: MenuItem | null = null;
   #ownerId: string | null = null;
-  #tResultLayout: string | null = null;
+  #tResultLayout: symbol | null = null;
   #cMaxWidth: string | null = null;
   #extraItems: MenuItem[] = [];
 
@@ -148,7 +148,7 @@ export class MainMenu extends MenuContent {
   setOwnerId(id: string | null): void { this.#ownerId = id; }
   setSector(sectorId: string | null): void { this.#sectorId = sectorId; }
   setExtraItems(items: MenuItem[]): void { this.#extraItems = items; }
-  setSearchResultLayoutType(t: string | null): void { this.#tResultLayout = t; }
+  setSearchResultLayoutType(t: symbol | null): void { this.#tResultLayout = t; }
   setMaxWidthClass(name: string | null): void { this.#cMaxWidth = name; }
 
   onSimpleButtonClicked(fBtn: Button): void { this.#onItemSelected(fBtn.getValue() as string); }

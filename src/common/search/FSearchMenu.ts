@@ -7,7 +7,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FSearchMenu extends MenuContent {
   #fBar: SearchBar;
-  #tResultLayout: string | null = null;
+  #tResultLayout: symbol | null = null;
 
   constructor() {
     super();
@@ -17,7 +17,7 @@ export class FSearchMenu extends MenuContent {
     this.setChild("searchbar", this.#fBar);
   }
 
-  setResultLayoutType(t: string | null): void { this.#tResultLayout = t; }
+  setResultLayoutType(t: symbol | null): void { this.#tResultLayout = t; }
 
   onGuiSearchBarRequestSearch(_fSearchBar: SearchBar, value: string): void {
     // @ts-expect-error - delegate may have this method

@@ -1,3 +1,10 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
+import { SocialItem } from '../datatypes/SocialItem.js';
+import { Utilities } from '../Utilities.js';
+import type { SearchResultData, MatchInfoData, MatchInfoElementData } from '../../types/backend2.js';
+
 export const CF_SEARCH_RESULT_INFO = {
   ON_CLICK : "CF_SEARCH_RESULT_INFO_1",
 } as const;
@@ -24,32 +31,6 @@ const _CPT_SEARCH_RESULT_INFO = {
   </div>`,
   KEYWORD : `<span class="search-result-match">__KEYWORD__</span>`,
 };
-
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { UiUtilities } from '../../lib/ui/Utilities.js';
-import { SocialItem } from '../datatypes/SocialItem.js';
-import { Utilities } from '../Utilities.js';
-
-interface MatchInfoElement {
-  prefix?: string;
-  is_prefix_overflow?: boolean;
-  keyword?: string;
-  postfix?: string;
-  is_postfix_overflow?: boolean;
-}
-
-interface MatchInfo {
-  elements: MatchInfoElement[];
-}
-
-interface SearchResultData {
-  type: string | symbol;
-  id: string;
-  title: MatchInfo;
-  content: MatchInfo;
-  timestamp?: number;
-}
 
 export class PSearchResultInfo extends Panel {
   getTimePanel(): Panel | null { return null; }
@@ -203,21 +184,21 @@ export class FSearchResultInfo extends Fragment {
     return p;
   }
 
-  #renderTitle(panel: Panel | null, matchInfo: MatchInfo): void {
+  #renderTitle(panel: Panel | null, matchInfo: MatchInfoData): void {
     if (!panel) {
       return;
     }
     panel.replaceContent(this.#renderMatchInfoElements(matchInfo.elements));
   }
 
-  #renderContent(panel: Panel | null, matchInfo: MatchInfo): void {
+  #renderContent(panel: Panel | null, matchInfo: MatchInfoData): void {
     if (!panel) {
       return;
     }
     panel.replaceContent(this.#renderMatchInfoElements(matchInfo.elements));
   }
 
-  #renderMatchInfoElements(elements: MatchInfoElement[]): string {
+  #renderMatchInfoElements(elements: MatchInfoElementData[]): string {
     let items: string[] = [];
     for (let e of elements) {
       items.push(this.#renderMatchInfoElement(e));
@@ -225,7 +206,7 @@ export class FSearchResultInfo extends Fragment {
     return items.join("...");
   }
 
-  #renderMatchInfoElement(e: MatchInfoElement): string {
+  #renderMatchInfoElement(e: MatchInfoElementData): string {
     let s = "";
     if (e.prefix) {
       if (e.is_prefix_overflow) {
@@ -246,26 +227,29 @@ export class FSearchResultInfo extends Fragment {
     return s;
   }
 
-  #renderIcon(panel: Panel | null, type: string | symbol): void {
+  #renderIcon(panel: Panel | null, type: string | null): void {
     if (!panel) {
+      return;
+    }
+    if (!type) {
       return;
     }
     let icon = SocialItem.getIcon(type);
     panel.replaceContent(UiUtilities.renderSvgFuncIcon(icon));
   }
 
-  #renderTime(panel: Panel | null, timestamp?: number): void {
+  #renderTime(panel: Panel | null, timestamp: number | null): void {
     if (!panel) {
       return;
     }
-    if (timestamp) {
+    if (timestamp != null) {
       panel.replaceContent(
           Utilities.renderSmartTime(new Date(timestamp * 1000)));
     }
   }
 
   #onClick(): void {
-    if (this.#data) {
+    if (this.#data && this.#data.type && this.#data.id) {
       this.getDelegate<FSearchResultInfoDelegate>()
           ?.onClickInSearchResultInfoFragment(this, this.#data.type,
                                               this.#data.id);
