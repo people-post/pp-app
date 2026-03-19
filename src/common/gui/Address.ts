@@ -155,7 +155,7 @@ export class Address extends Fragment {
     return p;
   }
 
-  #toString(s: string | undefined): string { return s ? s : ""; }
+  #toString(s: string | null): string { return s ? s : ""; }
 
   #onClick(): void {
     this.getDelegate<AddressDelegate>()

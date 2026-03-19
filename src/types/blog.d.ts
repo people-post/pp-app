@@ -86,59 +86,24 @@ export interface Post extends SocialItem {
    */
   isPinnable(): boolean;
 
-  /**
-   * Get the owner ID of the post
-   * @returns The owner ID or null
-   */
+  getId(): string | null;
+
   getOwnerId(): string | null;
 
-  /**
-   * Get the author ID of the post
-   * @returns The author ID or null
-   */
   getAuthorId(): string | null;
 
-  /**
-   * Get the link target of the post
-   * @returns The link target or null
-   */
   getLinkTo(): string | null;
 
-  /**
-   * Get the link target as a SocialItemId
-   * @returns The SocialItemId or null
-   */
   getLinkToSocialId(): SocialItemId | null;
 
-  /**
-   * Get the social ID of this post
-   * @returns The SocialItemId
-   */
   getSocialId(): SocialItemId;
 
-  /**
-   * Get the visibility of the post
-   * @returns The visibility string or null
-   */
   getVisibility(): string | null;
 
-  /**
-   * Get comment tags associated with this post
-   * @returns Array of comment tag IDs
-   */
   getCommentTags(): string[];
 
-  /**
-   * Get hashtag IDs associated with this post
-   * @returns Array of hashtag IDs
-   */
   getHashtagIds(): string[];
 
-  /**
-   * Get tagged comment IDs for a specific tag
-   * @param tagId The tag ID to get comments for
-   * @returns Array of SocialItemIds for tagged comments
-   */
   getTaggedCommentIds(tagId: string): SocialItemId[];
 }
 

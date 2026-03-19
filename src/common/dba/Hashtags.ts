@@ -2,11 +2,12 @@ import { T_DATA } from '../plt/Events.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { Hashtag } from '../datatypes/Hashtag.js';
 import { Api } from '../plt/Api.js';
+import type { HashtagData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    hashtags?: unknown[];
+    hashtags: HashtagData[];
   };
 }
 
@@ -70,7 +71,7 @@ export class HashtagsClass implements HashtagsInterface {
       if (response.data?.hashtags) {
         const hts: Hashtag[] = [];
         for (const d of response.data.hashtags) {
-          const ht = new Hashtag(d as Record<string, unknown>);
+          const ht = new Hashtag(d);
           this.update(ht);
           hts.push(ht);
         }

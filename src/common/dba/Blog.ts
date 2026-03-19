@@ -1,7 +1,8 @@
 import { WebConfig } from './WebConfig.js';
 import { SocialItem } from '../datatypes/SocialItem.js';
 import { BlogRole } from '../datatypes/BlogRole.js';
-import type { BlogRoleData } from '../../types/backend2.js';
+import type { ArticleData, CommentData, DraftArticleData, EmptyPostData } from '../../types/backend2.js';
+import type { FeedArticleData, JournalData, JournalIssueData, PostData, RoleData } from '../../types/backend2.js';
 import { Tag } from '../datatypes/Tag.js';
 import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
@@ -18,26 +19,20 @@ import { Api } from '../plt/Api.js';
 import { sys } from 'pp-api';
 import type { SocialItemId } from '../datatypes/SocialItemId.js';
 import { Account } from './Account.js';
+import { BlogConfigData } from '../../types/blog.js';
 
 type PostType = Article | FeedArticle | JournalIssue | Comment | EmptyPost;
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    draft?: unknown;
-    comment?: unknown;
-    article?: unknown;
-    feed_article?: unknown;
-    journal?: unknown;
-    journal_issue?: unknown;
+    draft?: DraftArticleData;
+    comment?: CommentData | EmptyPostData;
+    article?: ArticleData | EmptyPostData;
+    feed_article?: FeedArticleData | EmptyPostData;
+    journal?: JournalData;
+    journal_issue?: JournalIssueData | EmptyPostData;
   };
-}
-
-interface PostData {
-  source_type: string;
-  id?: string;
-  err_code?: unknown;
-  [key: string]: unknown;
 }
 
 interface BlogInterface {
@@ -113,31 +108,31 @@ export class BlogClass implements BlogInterface {
 
   getRole(id: string | null): BlogRole | null {
     const d = WebConfig.getRoleData(id);
-    return d ? new BlogRole(d as Record<string, unknown>) : null;
+    return d ? new BlogRole(d) : null;
   }
 
   getRoleIds(): string[] {
-    return this.#getRoles().map((r) => (r as { id: string }).id);
+    return this.#getRoles().map((r) => r.id);
   }
 
-  hackGetOpenRoles(): BlogRoleData[] {
+  hackGetOpenRoles(): RoleData[] {
     return this.#getOpenRoles();
   }
 
   getOpenRoleIds(): string[] {
-    return this.#getOpenRoles().map((r) => (r as { id: string }).id);
+    return this.#getOpenRoles().map((r) => r.id);
   }
 
   getOpenRoleIdsByType(t: string): string[] {
     return this.#getOpenRoles()
       .filter((r) => (r as { data?: { type?: string } }).data?.type === t)
-      .map((r) => (r as { id: string }).id);
+      .map((r) => r.id);
   }
 
   getRoleIdsByType(t: string): string[] {
     return this.#getRoles()
       .filter((r) => (r as { data?: { type?: string } }).data?.type === t)
-      .map((r) => (r as { id: string }).id);
+      .map((r) => r.id);
   }
 
   getDraftArticle(id: string | null): DraftArticle | null | undefined {
@@ -226,16 +221,16 @@ export class BlogClass implements BlogInterface {
     let p: PostType | null = null;
     switch (d.source_type) {
       case SocialItem.TYPE.ARTICLE:
-        p = new Article(d as Record<string, unknown>);
+        p = new Article(d as ArticleData);
         break;
       case SocialItem.TYPE.FEED_ARTICLE:
-        p = new FeedArticle(d as Record<string, unknown>);
+        p = new FeedArticle(d as FeedArticleData);
         break;
       case SocialItem.TYPE.JOURNAL_ISSUE:
-        p = new JournalIssue(d as Record<string, unknown>);
+        p = new JournalIssue(d as JournalIssueData);
         break;
       case SocialItem.TYPE.COMMENT:
-        p = new Comment(d as Record<string, unknown>);
+        p = new Comment(d as CommentData);
         break;
       default:
         break;
@@ -255,17 +250,17 @@ export class BlogClass implements BlogInterface {
     FwkEvents.trigger(PltT_DATA.POST_IDS, null);
   }
 
-  resetConfig(data: unknown): void {
-    this.#config = new BlogConfig(data as Record<string, unknown>);
+  resetConfig(data: BlogConfigData): void {
+    this.#config = new BlogConfig(data);
     FwkEvents.trigger(PltT_DATA.BLOG_CONFIG, this.#config);
   }
 
-  #getRoles(): BlogRoleData[] {
+  #getRoles(): RoleData[] {
     return WebConfig.getRoleDatasByTagId(Tag.T_ID.BLOG);
   }
 
-  #getOpenRoles(): BlogRoleData[] {
-    return this.#getRoles().filter((r) => (r as { is_open?: boolean }).is_open);
+  #getOpenRoles(): RoleData[] {
+    return this.#getRoles().filter((r) => r.is_open);
   }
 
   #asyncLoadPost(id: string, type: string): void {
@@ -308,7 +303,7 @@ export class BlogClass implements BlogInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.draft) {
-        const a = new DraftArticle(response.data.draft as Record<string, unknown>);
+        const a = new DraftArticle(response.data.draft);
         this.#updateDraft(a);
       }
     }
@@ -335,12 +330,12 @@ export class BlogClass implements BlogInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.comment) {
-        const d = response.data.comment as PostData;
-        if (d.err_code) {
+        const d = response.data.comment;
+        if ((d as EmptyPostData).err_code) {
           d.id = id;
-          this.#updatePost(new EmptyPost(d as Record<string, unknown>));
+          this.#updatePost(new EmptyPost(d as EmptyPostData));
         } else {
-          this.#updatePost(new Comment(d as Record<string, unknown>));
+          this.#updatePost(new Comment(d as CommentData));
         }
       }
     }
@@ -374,12 +369,12 @@ export class BlogClass implements BlogInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.article) {
-        const d = response.data.article as PostData;
+        const d = response.data.article;
         if (d.err_code) {
           d.id = id;
-          this.#updatePost(new EmptyPost(d as Record<string, unknown>));
+          this.#updatePost(new EmptyPost(d as EmptyPostData));
         } else {
-          this.#updatePost(new Article(d as Record<string, unknown>));
+          this.#updatePost(new Article(d as ArticleData));
         }
       }
     }
@@ -406,12 +401,12 @@ export class BlogClass implements BlogInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.feed_article) {
-        const d = response.data.feed_article as PostData;
-        if (d.err_code) {
+        const d = response.data.feed_article;
+        if ((d as EmptyPostData).err_code) {
           d.id = id;
-          this.#updatePost(new EmptyPost(d as Record<string, unknown>));
+          this.#updatePost(new EmptyPost(d as EmptyPostData));
         } else {
-          this.#updatePost(new FeedArticle(d as Record<string, unknown>));
+          this.#updatePost(new FeedArticle(d as FeedArticleData));
         }
       }
     }
@@ -429,7 +424,7 @@ export class BlogClass implements BlogInterface {
     } else {
       if (response.data?.journal) {
         const d = response.data.journal;
-        this.#updateJournal(id, new Journal(d as Record<string, unknown>));
+        this.#updateJournal(id, new Journal(d));
       } else {
         this.#updateJournal(id, null);
       }
@@ -457,12 +452,12 @@ export class BlogClass implements BlogInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.journal_issue) {
-        const d = response.data.journal_issue as PostData;
+        const d = response.data.journal_issue;
         if (d.err_code) {
           d.id = id;
-          this.#updatePost(new EmptyPost(d as Record<string, unknown>));
+          this.#updatePost(new EmptyPost(d as EmptyPostData));
         } else {
-          this.#updatePost(new JournalIssue(d as Record<string, unknown>));
+          this.#updatePost(new JournalIssue(d as JournalIssueData));
         }
       }
     }
@@ -474,7 +469,7 @@ export class BlogClass implements BlogInterface {
       this.#pendingPostIds.splice(idx, 1);
     }
     console.log(e);
-    this.#updatePost(new EmptyPost({ id: id } as Record<string, unknown>));
+    this.#updatePost(new EmptyPost({ id: id } as EmptyPostData));
   }
 
   #onCidArticleRRR(id: string, data: unknown): void {
@@ -482,7 +477,7 @@ export class BlogClass implements BlogInterface {
     if (idx >= 0) {
       this.#pendingPostIds.splice(idx, 1);
     }
-    const postData = data as Record<string, unknown>;
+    const postData = data as ArticleData;
     postData.id = id;
     this.#updatePost(new Article(postData));
   }

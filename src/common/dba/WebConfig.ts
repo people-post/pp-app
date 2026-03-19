@@ -8,21 +8,19 @@ import { Menus } from './Menus.js';
 import { ID, URL_PARAM } from '../constants/Constants.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
-import type { FrameConfig, Group, RoleData, WebConfigData } from '../../types/backend2.js';
-
-export type { FrameConfig, RoleData, WebConfigData };
+import type { FrameConfig, GroupData, RoleData, TagData, WebConfigData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    web_config?: WebConfigData;
+    web_config: WebConfigData;
   };
 }
 
 interface WebConfigInterface {
   reset(data: WebConfigData | null): void;
-  resetTags(tags: unknown[]): void;
-  resetRoles(roles: unknown[]): void;
+  resetTags(tags: TagData[]): void;
+  resetRoles(roles: RoleData[]): void;
   isShopOpen(): boolean;
   isWorkshopOpen(): boolean;
   isDevSite(): boolean;
@@ -41,8 +39,8 @@ interface WebConfigInterface {
   getFrontPageConfig(): FrontPageConfig | null;
   getTags(): Tag[];
   getTag(id: string | null): Tag | null;
-  getRoleDatasByTagId(tagId: string): unknown[];
-  getRoleData(id: string | null): unknown;
+  getRoleDatasByTagId(tagId: string): RoleData[];
+  getRoleData(id: string | null): RoleData | null;
   getWebSocketUrl(): string | null;
   getLoginProxyUrl(): string | null;
   getRtmpUrl(): string | null;
@@ -51,7 +49,7 @@ interface WebConfigInterface {
   asyncUpdateGroupConfig(groupId: string, newName?: string | null, themeKey?: string | null, themeColor?: string | null): void;
   setThemeId(id: string | null): void;
   setBootTheme(data: ColorTheme): void;
-  setGroups(groups: Group[]): void;
+  setGroups(groups: GroupData[]): void;
   setWorkshopOpen(v: boolean): void;
   setShopOpen(v: boolean): void;
 }
@@ -83,14 +81,14 @@ export class WebConfigClass implements WebConfigInterface {
     FwkEvents.trigger(FwkT_DATA.WEB_CONFIG, data);
   }
 
-  resetRoles(roles: unknown[]): void {
+  resetRoles(roles: RoleData[]): void {
     if (this.#data) {
       this.#data.roles = roles as WebConfigData['roles'];
       FwkEvents.trigger(PltT_DATA.GROUPS, roles);
     }
   }
 
-  resetTags(tags: unknown[]): void {
+  resetTags(tags: TagData[]): void {
     if (this.#data) {
       this.#data.tags = tags as WebConfigData['tags'];
       FwkEvents.trigger(PltT_DATA.GROUPS, tags);
@@ -262,7 +260,7 @@ export class WebConfigClass implements WebConfigInterface {
     this.#bootTheme = data;
   }
 
-  setGroups(groups: Group[]): void {
+  setGroups(groups: GroupData[]): void {
     if (this.#data) {
       this.#data.groups = groups;
     }

@@ -3,6 +3,13 @@ import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 import { SocialItemId } from '../datatypes/SocialItemId.js';
 import { Blog } from '../dba/Blog.js';
 import { Api } from '../plt/Api.js';
+import { CommentData } from '../../types/backend2.js';
+
+
+interface ApiResponse {
+  error?: unknown;
+  data?: { comments: CommentData[] };
+}
 
 export class CommentIdLoader extends LongListIdLoader {
   #isBatchLoading = false;
@@ -46,7 +53,7 @@ export class CommentIdLoader extends LongListIdLoader {
 
   #onLoadRRR(responseText: string): void {
     this.#isBatchLoading = false;
-    let response = JSON.parse(responseText) as { error?: unknown; data?: { comments: unknown[] } };
+    let response = JSON.parse(responseText) as ApiResponse;
     if (response.error) {
       this.onRemoteErrorInController(this, response.error);
     } else {
@@ -54,7 +61,9 @@ export class CommentIdLoader extends LongListIdLoader {
       if (ds.length) {
         for (let d of ds) {
           let p = Blog.updatePostData(d);
-          this.#idRecord.appendId(p.getSocialId().toEncodedStr());
+          if (p) {
+            this.#idRecord.appendId(p.getSocialId().toEncodedStr());
+          }
         }
       } else {
         this.#idRecord.markComplete();

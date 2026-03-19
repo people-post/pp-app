@@ -4,6 +4,7 @@ import { SocialItem } from '../datatypes/SocialItem.js';
 import { SearchResult } from '../datatypes/SearchResult.js';
 import { Users } from '../dba/Users.js';
 import { Account } from '../dba/Account.js';
+import type { SearchResultData } from '../../types/backend2.js';
 
 export class FLocalUserSearch extends FSearch {
   private _userIds: string[] | null = null;
@@ -37,22 +38,20 @@ export class FLocalUserSearch extends FSearch {
     }
   }
 
-  #makeResultFromUserId(userId: string): {
-    id: string;
-    type: string;
-    title: { elements: Array<{ prefix: string; keyword: string; postfix: string }> };
-    content: { elements: unknown[] };
-  } {
+  #makeResultFromUserId(userId: string): SearchResultData {
     // TODO: This return is a hack result
     let nickname = Account.getUserNickname?.(userId, "...") || "...";
     return {
       id : userId,
       type : SocialItem.TYPE.USER,
+      timestamp : null,
       title : {
         elements : [ {
           prefix : nickname,
+          is_prefix_overflow : false,
           keyword : "",
           postfix : "",
+          is_postfix_overflow : false,
         } ]
       },
       content : {elements : []}
@@ -60,7 +59,7 @@ export class FLocalUserSearch extends FSearch {
   }
 
   #applyFilter(key: string): SearchResult {
-    let items: unknown[] = [];
+    let items: SearchResultData[] = [];
     if (key && key.length) {
       let lKey = key.toLowerCase();
       for (let id of this._userIds || []) {

@@ -13,18 +13,12 @@ import { Badge } from './Badge.js';
 import { CHANNEL } from '../constants/Constants.js';
 import { Api } from '../plt/Api.js';
 import { Account } from './Account.js';
+import type { MessageThreadData, NoticeElement, UserRequestData } from '../../types/backend2.js';
 
 interface NotificationsData {
-  message_threads: Array<{
-    from_id: string;
-    from_id_type: string;
-  }>;
-  notifications: Array<{
-    type: string;
-    subject_id: string;
-    sub_type?: string;
-  }>;
-  requests: unknown[];
+  message_threads: MessageThreadData[];
+  notifications: NoticeElement[];
+  requests: UserRequestData[];
   n_emails: number;
 }
 
@@ -181,9 +175,11 @@ export class NotificationsClass implements NotificationsInterface {
         case SocialItem.TYPE.USER:
         case SocialItem.TYPE.GROUP:
           this.#mMessages.set(i.from_id, new MessageThreadInfo({
+            is_unread_overflow: false,
+            latest: null,
             from_id: i.from_id,
             from_id_type: i.from_id_type,
-            n_unread: 0,
+            n_unread: 0
           }));
           break;
         default:
@@ -196,7 +192,7 @@ export class NotificationsClass implements NotificationsInterface {
     }
 
     for (const d of data.requests) {
-      const r = new UserRequest(d as Record<string, unknown>);
+      const r = new UserRequest(d);
       const id = r.getId();
       if (id !== undefined) {
         this.#mRequests.set(String(id), r);
@@ -219,7 +215,7 @@ export class NotificationsClass implements NotificationsInterface {
     }
   }
 
-  #addNotificationData(d: { type: string; subject_id: string; sub_type?: string }): void {
+  #addNotificationData(d: NoticeElement): void {
     switch (d.type) {
       case Notice.T_TYPE.LIKE:
         this.#addLikedItemData(d);
@@ -232,7 +228,7 @@ export class NotificationsClass implements NotificationsInterface {
     }
   }
 
-  #addLikedItemData(d: { subject_id: string; sub_type?: string }): void {
+  #addLikedItemData(d: NoticeElement): void {
     const k = this.#getNoticeKey(d.subject_id, Notice.T_TYPE.LIKE);
     if (!this.#mNotices.has(k)) {
       this.#mNotices.set(k, new LikedItemNotice(d.subject_id, d.sub_type || ''));
@@ -240,11 +236,11 @@ export class NotificationsClass implements NotificationsInterface {
 
     const n = this.#mNotices.get(k);
     if (n) {
-      n.addData(d as unknown as { read_at?: string | null; from_user_id: string; id: string });
+      n.addData(d);
     }
   }
 
-  #addRepostItemData(d: { subject_id: string; sub_type?: string }): void {
+  #addRepostItemData(d: NoticeElement): void {
     const k = this.#getNoticeKey(d.subject_id, Notice.T_TYPE.REPOST);
     if (!this.#mNotices.has(k)) {
       this.#mNotices.set(k, new RepostItemNotice(d.subject_id, d.sub_type || ''));
@@ -252,7 +248,7 @@ export class NotificationsClass implements NotificationsInterface {
 
     const n = this.#mNotices.get(k);
     if (n) {
-      n.addData(d as unknown as { read_at?: string | null; from_user_id: string; id: string });
+      n.addData(d);
     }
   }
 

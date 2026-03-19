@@ -4,6 +4,7 @@ import { SearchResult } from '../datatypes/SearchResult.js';
 import { Users } from '../dba/Users.js';
 import { sys } from 'pp-api';
 import type { User as UserType } from '../../types/user.js';
+import type { SearchResultData } from '../../types/backend2.js';
 
 export class FWeb3Search extends FSearch {
   #config: SearchConfig;
@@ -47,13 +48,22 @@ export class FWeb3Search extends FSearch {
     let sr = {
       id : u.getId(),
       type : "USER",
-      title : {elements : [ {prefix : u.getNickname()} ]},
-      content : {elements : []}
+      title : {
+        elements : [{
+          prefix : u.getNickname(), 
+          is_prefix_overflow : false,
+          keyword : "",
+          postfix : "",
+          is_postfix_overflow : false
+        }]
+      },
+      content : {elements : []},
+      timestamp : null
     };
     this.#onSearchRRR([ sr ], key);
   }
 
-  #onSearchRRR(results: unknown[], key: string): void {
+  #onSearchRRR(results: SearchResultData[], key: string): void {
     let r = new SearchResult(results);
     this._updateResult(key, r);
   }

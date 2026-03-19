@@ -10,6 +10,7 @@ import { URL_PARAM } from '../constants/Constants.js';
 import { R } from '../constants/R.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import type { PageConfig } from '../../lib/ui/controllers/PageConfig.js';
 
 export const CF_EXTRAS_CONTENT = {
   TEST : "CF_EXTRAS_CONTENT_1",
@@ -19,12 +20,6 @@ const _CFT_EXTRAS_CONTENT = {
   BADGE : `<span class="inline-notification-badge">__BADGE__</span>`,
   BTN_TEST :
       `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action('${CF_EXTRAS_CONTENT.TEST}')">Test</a>`,
-}
-
-interface PageConfig {
-  ID: string;
-  NAME: string;
-  ICON: string;
 }
 
 interface ListItem {

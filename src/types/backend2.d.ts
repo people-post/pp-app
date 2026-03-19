@@ -28,15 +28,13 @@ export interface RemoteFileData extends ServerDataObjectData {
   cid?: string;
   bg?: string;
 }
-/**
- * Idol data structure from backend API
- */
-export interface Idol {
+
+export interface IdolData {
   user_id: string;
   nickname?: string;
 }
 
-export interface Group extends ServerDataObjectData {
+export interface GroupData extends ServerDataObjectData {
   owner_id: string;
   name: string;
   theme: ColorTheme | null;
@@ -45,6 +43,12 @@ export interface Group extends ServerDataObjectData {
   is_open: boolean;
   status: string | null;
   data: unknown;
+}
+
+export interface RoleData extends GroupData {
+}
+
+export interface TagData extends GroupData {
 }
 
 /**
@@ -75,6 +79,12 @@ export interface BlogConfig {
   is_social_action_enabled: boolean;
   item_layout?: SectorItemLayout;
   pinned_item_layout?: SectorItemLayout;
+}
+
+export interface ShopConfig {
+  name: string;
+  status: string;
+  item_layout?: SectorItemLayout;
 }
 
 export interface ColorTheme {
@@ -503,9 +513,13 @@ export interface RealTimeCommentData {
   [key: string]: unknown;
 }
 
-export interface CommentData extends ServerDataObjectData {
+export interface PostData extends ServerDataObjectData {
+  id: string;
   source_type: string | null;
   owner_id: string | null;
+}
+
+export interface CommentData extends PostData {
   from_user_id: string | null;
   in_group_id: string | null;
   in_group_type: string | null;
@@ -588,6 +602,7 @@ export interface JournalData {
 }
 
 export interface EmptyPostData {
+  id?: string | null;
   err_code: string | null;
 }
 
@@ -656,8 +671,8 @@ export interface UserPrivateProfile {
   is_followed: boolean | null;
   domain_name: string | null;
   live_stream_key: string | null;
-  idols: Idol[];
-  tags: Group[];
+  idols: IdolData[];
+  tags: TagData[];
   group_ids: string[];
   journal_ids: string[];
   o_requests: OutRequest[];
@@ -687,15 +702,6 @@ export interface FrameConfig {
 }
 
 /**
- * RoleData data structure from backend API
- */
-export interface RoleData {
-  id?: string;
-  tag_ids?: string[];
-  [key: string]: unknown;
-}
-
-/**
  * WebConfigData data structure from backend API
  */
 export interface WebConfigData {
@@ -716,9 +722,9 @@ export interface WebConfigData {
     left?: FrameConfig;
     right?: FrameConfig;
   };
-  tags?: Group[];
+  tags?: GroupData[];
   roles?: RoleData[];
-  groups?: Group[];
+  groups?: GroupData[];
   [key: string]: unknown;
 }
 
@@ -753,6 +759,9 @@ export interface ArticleData extends ArticleBaseData {
   reply_to: SocialItemId | null;
   hashtag_ids: string[];
   comment_tags: CommentTagData[];
+}
+
+export interface DraftArticleData extends ArticleBaseData {
 }
 
 /**

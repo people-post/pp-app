@@ -5,21 +5,13 @@ import { SocialInfo } from '../datatypes/SocialInfo.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
 import { Account } from './Account.js';
+import type { SocialInfoData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    info?: unknown;
+    info: SocialInfoData;
   };
-}
-
-interface SocialInfoData {
-  id: string;
-  is_liked?: boolean;
-  is_linked?: boolean;
-  n_comments?: number;
-  n_likes?: number;
-  n_links?: number;
 }
 
 interface SocialInterface {
@@ -124,7 +116,7 @@ export class SocialClass implements SocialInterface {
     if (idx >= 0) {
       this.#pendingResponses.splice(idx, 1);
     }
-    this.#update(new SocialInfo(data as unknown as Record<string, unknown>));
+    this.#update(new SocialInfo(data));
   }
 
   #asyncWeb2Load(itemId: string): void {
@@ -143,7 +135,7 @@ export class SocialClass implements SocialInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.info) {
-        this.#update(new SocialInfo(response.data.info as Record<string, unknown>));
+        this.#update(new SocialInfo(response.data.info));
       }
     }
   }

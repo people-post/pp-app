@@ -11,26 +11,18 @@ import { PaymentTerminal } from '../datatypes/PaymentTerminal.js';
 import { ShopRegister } from '../datatypes/ShopRegister.js';
 import { ShopBranch } from '../datatypes/ShopBranch.js';
 import { Api } from '../plt/Api.js';
-
-interface ShopConfig {
-  item_layout?: {
-    type?: string;
-    [key: string]: unknown;
-  };
-  name?: string;
-  [key: string]: unknown;
-}
+import type { ItemLabelData, PaymentTerminalData, ProductData, RoleData, ShopBranchData, ShopConfig, ShopRegisterData, SupplierOrderPrivateData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    product?: unknown;
-    supplier_order?: unknown;
-    config?: unknown;
-    labels?: unknown[];
-    terminal?: unknown;
-    register?: unknown;
-    branch?: unknown;
+    product?: ProductData;
+    supplier_order?: SupplierOrderPrivateData;
+    config?: ShopConfig;
+    labels?: ItemLabelData[];
+    terminal?: PaymentTerminalData;
+    register?: ShopRegisterData;
+    branch?: ShopBranchData;
     size?: number;
   };
 }
@@ -90,17 +82,17 @@ export class ShopClass implements ShopInterface {
 
   getTeam(id: string): ShopTeam | null {
     const d = WebConfig.getRoleData(id);
-    return d ? new ShopTeam(d as Record<string, unknown>) : null;
+    return d ? new ShopTeam(d) : null;
   }
 
   getTeamIds(): string[] {
-    return this.#getTeams().map((r) => (r as { id: string }).id);
+    return this.#getTeams().map((r) => r.id);
   }
 
   getOpenTeamIds(): string[] {
     return this.#getTeams()
-      .filter((r) => (r as { is_open?: boolean }).is_open)
-      .map((r) => (r as { id: string }).id);
+      .filter((r) => r.is_open)
+      .map((r) => r.id);
   }
 
   getCurrencyIds(): string[] {
@@ -186,12 +178,12 @@ export class ShopClass implements ShopInterface {
     return this.#orderLib.get(id);
   }
 
-  #getTeams(): unknown[] {
+  #getTeams(): RoleData[] {
     return WebConfig.getRoleDatasByTagId(Tag.T_ID.SHOP);
   }
 
-  #setConfig(config: unknown): void {
-    this.#config = config as ShopConfig;
+  #setConfig(config: ShopConfig): void {
+    this.#config = config;
     FwkEvents.trigger(PltT_DATA.SHOP_CONFIG, config);
   }
 
@@ -211,18 +203,18 @@ export class ShopClass implements ShopInterface {
     }
   }
 
-  #resetAddressLabels(labels: unknown[]): void {
+  #resetAddressLabels(labels: ItemLabelData[]): void {
     this.#addressLabels = [];
     for (const l of labels) {
-      this.#addressLabels.push(new ItemLabel(l as Record<string, unknown>));
+      this.#addressLabels.push(new ItemLabel(l));
     }
     FwkEvents.trigger(PltT_DATA.SHOP_ADDRESS_LABELS, this.#addressLabels);
   }
 
-  #resetBranchLabels(labels: unknown[]): void {
+  #resetBranchLabels(labels: ItemLabelData[]): void {
     this.#branchLabels = [];
     for (const l of labels) {
-      this.#branchLabels.push(new ItemLabel(l as Record<string, unknown>));
+      this.#branchLabels.push(new ItemLabel(l));
     }
     FwkEvents.trigger(PltT_DATA.SHOP_BRANCH_LABELS, this.#branchLabels);
   }
@@ -272,7 +264,7 @@ export class ShopClass implements ShopInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.product) {
-        this.updateProduct(new Product(response.data.product as Record<string, unknown>));
+        this.updateProduct(new Product(response.data.product));
       }
     }
   }
@@ -288,7 +280,7 @@ export class ShopClass implements ShopInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.supplier_order) {
-        this.updateOrder(new SupplierOrderPrivate(response.data.supplier_order as Record<string, unknown>));
+        this.updateOrder(new SupplierOrderPrivate(response.data.supplier_order));
       }
     }
   }
@@ -322,7 +314,9 @@ export class ShopClass implements ShopInterface {
     if (response.error) {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
-      this.#setConfig(response.data?.config || null);
+      if (response.data?.config) {
+        this.#setConfig(response.data.config);
+      }
     }
   }
 
@@ -380,7 +374,7 @@ export class ShopClass implements ShopInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.terminal) {
-        this.updatePaymentTerminal(new PaymentTerminal(response.data.terminal as Record<string, unknown>));
+        this.updatePaymentTerminal(new PaymentTerminal(response.data.terminal));
       }
     }
   }
@@ -398,7 +392,7 @@ export class ShopClass implements ShopInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.register) {
-        this.updateRegister(new ShopRegister(response.data.register as Record<string, unknown>));
+        this.updateRegister(new ShopRegister(response.data.register));
       }
     }
   }
@@ -416,7 +410,7 @@ export class ShopClass implements ShopInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.branch) {
-        this.updateBranch(new ShopBranch(response.data.branch as Record<string, unknown>));
+        this.updateBranch(new ShopBranch(response.data.branch));
       }
     }
   }

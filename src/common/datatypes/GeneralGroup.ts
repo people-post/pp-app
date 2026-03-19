@@ -1,4 +1,4 @@
-import type { Group as GroupDataType } from '../../types/backend2';
+import type { GroupData as GroupDataType } from '../../types/backend2';
 import { ColorTheme } from './ColorTheme.js';
 
 export class GeneralGroup {

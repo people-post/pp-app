@@ -50,6 +50,10 @@ export class EmptyPost implements Post {
     return false;
   }
 
+  getId(): string | null {
+    return this.#data.id || null;
+  }
+
   getOwnerId(): string | null {
     return null;
   }

@@ -36,7 +36,7 @@ export class WorkshopClass implements WorkshopInterface {
 
   getTeam(id: string): WorkshopTeam | null {
     const d = WebConfig.getRoleData(id);
-    return d ? new WorkshopTeam(d as Record<string, unknown>) : null;
+    return d ? new WorkshopTeam(d) : null;
   }
 
   getTeamIds(): string[] {

@@ -5,6 +5,7 @@ import { Factory, T_OBJ } from '../../lib/framework/Factory.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { URL_PARAM } from '../constants/Constants.js';
 import type { SearchResultTargetFactory } from './SearchResultTargetFactory.js';
+import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcSearchResult extends FScrollViewContent {
   #fSearch: FGeneralSearch;
@@ -35,7 +36,9 @@ export class FvcSearchResult extends FScrollViewContent {
   }
 
   setKey(key: string): void { this.#fSearch.setKey(key); }
-  setResultLayoutType(t: string | null): void { this.#fSearch.setResultLayoutType(t); }
+  setResultLayoutType(t: symbol | null): void { 
+    this.#fSearch.setResultLayoutType(t); 
+  }
 
   onSearchResultClickedInSearchFragment(_fSearch: FGeneralSearch, itemType: string, itemId: string): void {
     switch (itemType) {
@@ -71,7 +74,7 @@ export class FvcSearchResult extends FScrollViewContent {
     this._owner?.onFragmentRequestShowView?.(this, target.view, target.title);
   }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     this.#fSearch.attachRender(render);
     this.#fSearch.render();
   }
