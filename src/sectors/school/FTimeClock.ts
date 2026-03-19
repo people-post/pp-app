@@ -8,6 +8,7 @@ import { TimeClockRecord } from '../../common/datatypes/TimeClockRecord.js';
 import { CronJob } from '../../lib/ext/CronJob.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
+import type { TimeClockData, TimeClockRecordData } from '../../types/backend2.js';
 
 export class FTimeClock extends Fragment {
   protected _fBtn: Button;
@@ -122,10 +123,10 @@ export class FTimeClock extends Fragment {
   #asyncClockIn(): void {
     let url = "api/school/clock_in";
     let fd = new FormData();
-    Api.asFragmentPost(this, url, fd).then((d: any) => this.#onClockInRRR(d));
+    Api.asFragmentPost<{ time_clock: TimeClockData }>(this, url, fd, null, d => this.#onClockInRRR(d));
   }
 
-  #onClockInRRR(data: any): void {
+  #onClockInRRR(data: { time_clock: TimeClockData }): void {
     let tc = new TimeClock(data.time_clock);
     // Calibrate time with backend.
     let dt = tc.getDurationMs();
@@ -139,10 +140,10 @@ export class FTimeClock extends Fragment {
     let url = "api/school/clock_out";
     let fd = new FormData();
     fd.append("total", this._dtLast.toString());
-    Api.asFragmentPost(this, url, fd).then((d: any) => this.#onClockOutRRR(d));
+    Api.asFragmentPost<{ record: TimeClockRecordData }>(this, url, fd, null, d => this.#onClockOutRRR(d));
   }
 
-  #onClockOutRRR(data: any): void {
+  #onClockOutRRR(data: { record: TimeClockRecordData }): void {
     let r = new TimeClockRecord(data.record);
     this._beeper.stop();
     this.render();

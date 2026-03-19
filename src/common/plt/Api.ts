@@ -16,12 +16,13 @@ interface IApi {
     data: unknown,
     onProg?: ((loaded: number) => void) | null
   ): Promise<unknown>;
-  asFragmentPost(
+  asFragmentPost<T>(
     f: FragmentDelegate,
     url: string,
     data: unknown,
-    onProg?: ((loaded: number) => void) | null
-  ): Promise<unknown>;
+    onProg?: ((loaded: number) => void) | null,
+    onOk?: ((data: T) => void) | null
+  ): Promise<T>;
   asyncRawCall(url: string, onOk: ((txt: string) => void) | null, onErr: ((txt: string) => void) | null): void;
   asyncRawPost(
     url: string,
@@ -112,13 +113,18 @@ class ApiClass implements IApi {
     f: FragmentDelegate,
     url: string,
     data: unknown,
-    onProg: ((loaded: number) => void) | null = null
+    onProg: ((loaded: number) => void) | null = null,
+    onOk: ((data: T) => void) | null = null
   ): Promise<T> {
     return new Promise((_onOk, _onErr) =>
       this.#xhr.asyncFormPost(
         this.#wrapUrl(url),
         data,
-        (txt: string) => this.#onFragmentRRR<T>(f, txt, _onOk),
+        (txt: string) =>
+          this.#onFragmentRRR<T>(f, txt, (d: T) => {
+            onOk?.(d);
+            _onOk(d);
+          }),
         (txt: string) => this.#onFragmentConnErr(txt, f),
         (onProg as unknown) as null | undefined
       )

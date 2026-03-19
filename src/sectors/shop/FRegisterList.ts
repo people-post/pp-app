@@ -90,8 +90,7 @@ export class FRegisterList extends Fragment {
     let url = "api/shop/register_ids";
     let fd = new FormData();
     fd.append("branch_id", this._branchId);
-    Api.asFragmentPost(this, url, fd)
-        .then((d: any) => this.#onRegisterIdsRRR(d));
+    Api.asFragmentPost<{ ids: string[] }>(this, url, fd, null, d => this.#onRegisterIdsRRR(d));
   }
 
   #onRegisterIdsRRR(data: { ids: string[] }): void {
@@ -104,8 +103,7 @@ export class FRegisterList extends Fragment {
     let url = "api/shop/add_register";
     let fd = new FormData();
     fd.append("branch_id", this._branchId);
-    Api.asFragmentPost(this, url, fd)
-        .then((d: any) => this.#onAddRegisterRRR(d));
+    Api.asFragmentPost<{ register: any }>(this, url, fd, null, d => this.#onAddRegisterRRR(d));
   }
 
   #onAddRegisterRRR(data: { register: any }): void {

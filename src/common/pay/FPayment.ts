@@ -148,7 +148,7 @@ export class FPayment extends Fragment {
     fd.append("source_id", sourceId);
     fd.append("order_id", orderId);
 
-    Api.asFragmentPost(this, url, fd).then(d => this.#onOnlinePayRRR(d));
+    Api.asFragmentPost<{ order_id: string }>(this, url, fd, null, d => this.#onOnlinePayRRR(d));
   }
 
   #onOnlinePayRRR(data: { order_id: string }): void {
@@ -161,8 +161,7 @@ export class FPayment extends Fragment {
     let url = "/api/shop/charge_by_terminal";
     let fd = new FormData();
     fd.append("terminal_id", terminalId);
-    Api.asFragmentPost(this, url, fd)
-        .then(d => this.#onTerminalPayRRR(d as { order_id: string }));
+    Api.asFragmentPost<{ order_id: string }>(this, url, fd, null, d => this.#onTerminalPayRRR(d));
   }
 
   #onTerminalPayRRR(_data: { order_id: string }): void {

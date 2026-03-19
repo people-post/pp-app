@@ -4,6 +4,7 @@ import { SearchResult } from '../datatypes/SearchResult.js';
 import { Utilities } from '../Utilities.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Api } from '../plt/Api.js';
+import type { SearchResultData } from '../../types/backend2.js';
 
 export class FGeneralSearch extends FSearch {
   #enableAddFeed: boolean = false;
@@ -57,11 +58,16 @@ export class FGeneralSearch extends FSearch {
     let fd = new FormData();
     fd.append("key", key);
     fd.append("config", config.toJsonString());
-    Api.asFragmentPost(this, url, fd)
-        .then((d: any) => this.#onSearchRRR(d, key));
+    Api.asFragmentPost<{ results: SearchResultData[] }>(
+        this,
+        url,
+        fd,
+        null,
+        d => this.#onSearchRRR(d, key)
+    );
   }
 
-  #onSearchRRR(data: any, key: string): void {
+  #onSearchRRR(data: { results: SearchResultData[] }, key: string): void {
     let r = new SearchResult(data.results);
     this._updateResult(key, r);
   }

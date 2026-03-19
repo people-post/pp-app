@@ -102,23 +102,27 @@ export class FvcQuizFilter extends FScrollViewContent {
     fd.append("from_idx", "0"); // If known from previous gen
     fd.append("to_idx", "1000");
     fd.append("down_sample", "100");
-    Api.asFragmentPost(this, url, fd)
-        .then((d: any) => this.#onQuizIdListRRR(d));
+    Api.asFragmentPost<{ ids: string[] }>(this, url, fd, null, d => this.#onQuizIdListRRR(d));
   }
 
   #asyncEstimateFilter(pHint: Panel): void {
     let url = "api/school/quiz_count";
     let fd = new FormData();
     fd.append("scope", this._fScope.getSelectedValue() as string);
-    Api.asFragmentPost(this, url, fd)
-        .then((d: any) => this.#onEstimateFilterRRR(d, pHint));
+    Api.asFragmentPost<{ total: number }>(
+        this,
+        url,
+        fd,
+        null,
+        d => this.#onEstimateFilterRRR(d, pHint)
+    );
   }
 
-  #onEstimateFilterRRR(data: any, pHint: Panel): void {
+  #onEstimateFilterRRR(data: { total: number }, pHint: Panel): void {
     pHint.replaceContent("Items selected: " + data.total);
   }
 
-  #onQuizIdListRRR(data: any): void {
+  #onQuizIdListRRR(data: { ids: string[] }): void {
     let ids = data.ids as string[];
     // TODO: Shuffle if needed
     this._delegate.onQuizIdListGeneratedInQuizFilterContentFragment(

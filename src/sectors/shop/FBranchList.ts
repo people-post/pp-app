@@ -102,7 +102,7 @@ export class FBranchList extends Fragment {
   #asyncAdd(): void {
     let url = "api/shop/add_branch";
     let fd = new FormData();
-    Api.asFragmentPost(this, url, fd).then((d: any) => this.#onAddBranchRRR(d));
+    Api.asFragmentPost<{ branch: any }>(this, url, fd, null, d => this.#onAddBranchRRR(d));
   }
 
   #onAddBranchRRR(data: { branch: any }): void {

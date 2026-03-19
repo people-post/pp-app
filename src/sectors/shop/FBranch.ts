@@ -213,7 +213,13 @@ export class FBranch extends Fragment implements AddressDataSource, AddressDeleg
   #asyncUpdate(): void {
     let url = "api/shop/update_branch";
     let fd = this.#collectData();
-    Api.asFragmentPost(this, url, fd).then((d: any) => this.#onUpdateRRR(d));
+    Api.asFragmentPost<{ branch: any }>(
+        this,
+        url,
+        fd,
+        null,
+        d => this.#onUpdateRRR(d)
+    );
   }
 
   #onUpdateRRR(data: { branch: any }): void { Shop.updateBranch(new ShopBranch(data.branch)); }

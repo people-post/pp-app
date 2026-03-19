@@ -174,7 +174,7 @@ export class FRegister extends Fragment {
   #asyncUpdate(): void {
     let url = "api/shop/update_register";
     let fd = this.#collectData();
-    Api.asFragmentPost(this, url, fd).then((d: any) => this.#onUpdateRRR(d));
+    Api.asFragmentPost<{ register: any }>(this, url, fd, null, d => this.#onUpdateRRR(d));
   }
 
   #onUpdateRRR(data: { register: any }): void {

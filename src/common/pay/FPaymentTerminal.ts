@@ -173,10 +173,10 @@ export class FPaymentTerminal extends Fragment {
   #asyncUpdate(): void {
     let url = "api/shop/update_terminal";
     let fd = this.#collectData();
-    Api.asFragmentPost(this, url, fd).then((d: any) => this.#onUpdateRRR(d));
+    Api.asFragmentPost<{ terminal: any }>(this, url, fd, null, d => this.#onUpdateRRR(d));
   }
 
-  #onUpdateRRR(data: any): void {
+  #onUpdateRRR(data: { terminal: any }): void {
     Shop.updatePaymentTerminal(new PaymentTerminal(data.terminal));
   }
 }
