@@ -117,7 +117,7 @@ export class FWeb3ArticleEditor extends Fragment {
     if (this.#isUploadBusy()) {
       this.onLocalErrorInFragment(this, R.get("EL_FILE_UPLOAD_BUSY"));
     } else if (this.#validate()) {
-      if (Account.hasPublished()) {
+      if (Account.web3?.hasPublished() ?? false) {
         this.#doSubmit();
       } else {
         this._confirmDangerousOperation(R.get("CONFIRM_FIRST_WEB3_POST"),
@@ -159,7 +159,7 @@ export class FWeb3ArticleEditor extends Fragment {
   #validate(): boolean { return this.#fAttachment.validate(); }
 
   async #asSubmit(oArticle: Web3Dat.OArticle): Promise<void> {
-    await Account.asPublishArticle(oArticle);
+    await Account.web3!.asPublishArticle(oArticle);
     (this._delegate as any).onNewArticlePostedInArticleEditorFragment(this);
   }
 

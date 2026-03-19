@@ -41,13 +41,14 @@ export class Web3FileUploader extends FileUploader {
     // of XMLHttpRequest similar to p2pFetch
     // Note: asUploadFile is a Web3-specific method
     if (Account.isWeb3Mode()) {
-      Account.asUploadFile(file)
+      Account.web3!
+        .asUploadFile(file)
         .then((cid: string) => this.#onUploadFileDone(cid))
         .finally(() => (this._isFileUploading = false));
     } else {
       // Fallback: mark as done if method doesn't exist
       this._isFileUploading = false;
-      console.warn('Account.asUploadFile is not available in Web2 mode');
+      console.warn('Account.web3 is not available in Web2 mode');
     }
   }
 

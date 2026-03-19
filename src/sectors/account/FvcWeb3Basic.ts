@@ -55,7 +55,7 @@ export class FvcWeb3Basic extends FScrollViewContent {
       let pKey = new Panel();
       pList.pushPanel(pKey);
       pKey.setClassName("tw:truncate");
-      pKey.replaceContent("Public key:" + Account.getPublicKey());
+      pKey.replaceContent("Public key:" + (Account.web3?.getPublicKeyDisplay() ?? ""));
 
       pList.pushSpace(1);
 
@@ -79,7 +79,7 @@ export class FvcWeb3Basic extends FScrollViewContent {
 
     let pIcon = new PanelWrapper();
     pList.pushPanel(pIcon);
-    this.#fIcon.setIconUrl(Account.getIconUrl());
+    this.#fIcon.setIconUrl(Account.web3?.getIconUrl() ?? "");
     this.#fIcon.attachRender(pIcon);
     this.#fIcon.render();
   }
@@ -88,24 +88,26 @@ export class FvcWeb3Basic extends FScrollViewContent {
     if (!Account) {
       return;
     }
-    let d = Account.getProfile();
-    d.nickname = value;
-    const accountWithUpdate = Account as unknown as { asUpdateProfile?: (profile: unknown, cids: string[]) => Promise<void> };
-    if (accountWithUpdate.asUpdateProfile) {
-      await accountWithUpdate.asUpdateProfile(d, []);
+    const w3 = Account.web3;
+    if (!w3) {
+      return;
     }
+    const d = w3.getProfile();
+    d.nickname = value;
+    await w3.asUpdateProfile(d, []);
   }
 
   async #asyncUpdateIconFile(file: File): Promise<void> {
     if (!Account) {
       return;
     }
-    const accountWithUpload = Account as unknown as { asUploadFile?: (file: File) => Promise<string>; asUpdateProfile?: (profile: unknown, cids: string[]) => Promise<void>; getProfile: () => { icon_cid?: string } };
-    if (accountWithUpload.asUploadFile && accountWithUpload.asUpdateProfile) {
-      let cid = await accountWithUpload.asUploadFile(file);
-      let d = accountWithUpload.getProfile();
-      d.icon_cid = cid;
-      await accountWithUpload.asUpdateProfile(d, [ cid ]);
+    const w3 = Account.web3;
+    if (!w3) {
+      return;
     }
+    const cid = await w3.asUploadFile(file);
+    const d = w3.getProfile() as { icon_cid?: string };
+    d.icon_cid = cid;
+    await w3.asUpdateProfile(d, [cid]);
   }
 }

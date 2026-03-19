@@ -162,7 +162,7 @@ export class FCommentInput extends Fragment {
     oArticle.setOwnerId(Account.getId() ?? "");
     oArticle.markCreation();
 
-    await Account.asComment(this.#threadId.getValue() ?? "", oArticle, asPost);
+    await Account.web3!.asComment(this.#threadId.getValue() ?? "", oArticle, asPost);
   }
 
   #asyncWeb2PostUserComment(message: string, asPost: boolean): void {

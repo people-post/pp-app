@@ -110,7 +110,7 @@ export class FvcWeb3ServerRegistration extends FScrollViewContent {
       if (!this.#agent) {
         return;
       }
-      Account.asRegister(this.#agent, this.#fNameInput.getValue())
+      Account.web3!.asRegister(this.#agent, this.#fNameInput.getValue())
           .then(() => this.#onRegisterSuccess())
           .catch(e => this.#onRegisterError(e));
     }

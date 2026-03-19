@@ -476,7 +476,7 @@ export class FSocialBar extends Fragment {
     }
   }
 
-  async #asyncWeb3Like(itemId: string): Promise<void> { await Account.asLike(itemId); }
+  async #asyncWeb3Like(itemId: string): Promise<void> { await Account.web3!.asLike(itemId); }
 
   #asyncWeb2Like(itemId: string, itemType: string): void {
     let url = "api/social/like";
@@ -494,7 +494,7 @@ export class FSocialBar extends Fragment {
     }
   }
 
-  async #asyncWeb3Unlike(itemId: string): Promise<void> { await Account.asUnlike(itemId); }
+  async #asyncWeb3Unlike(itemId: string): Promise<void> { await Account.web3!.asUnlike(itemId); }
 
   #asyncWeb2Unlike(itemId: string): void {
     let url = "api/social/unlike";

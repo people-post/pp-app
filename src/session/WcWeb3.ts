@@ -131,7 +131,11 @@ export class WcWeb3 extends WcSession {
     if (!kPub) {
       throw new Error("Failed to generate posting key pair");
     }
-    Account.setProps({
+    const web3 = Account.web3;
+    if (!web3) {
+      throw new Error('Account.web3 unavailable after Web3Owner initialization');
+    }
+    web3.setProps({
       callbacks: {
         onWeb3UserIdolsLoaded: (u) => this.onWeb3UserIdolsLoaded(u),
         onWeb3UserProfileLoaded: (u) => this.onWeb3UserProfileLoaded(u),
@@ -144,7 +148,7 @@ export class WcWeb3 extends WcSession {
         onWeb3OwnerRequestSaveCheckPoint: (o, data) => this.onWeb3OwnerRequestSaveCheckPoint(o, data),
       },
     });
-    Account.loadCheckPoint();
+    web3.loadCheckPoint();
 
     console.info("Load config...");
     // C.WEB3 is set by configs/web3_config.js
@@ -184,7 +188,7 @@ export class WcWeb3 extends WcSession {
   #onLoginSuccess(profile: unknown): void {
     let urlParam = new URLSearchParams(window.location.search);
     Account.reset(profile);
-    Account.saveCheckPoint();
+    Account.web3?.saveCheckPoint();
     sessionStorage.setItem(STORAGE.KEY.KEYS, Keys.toEncodedStr());
 
     this._clearDbAgents();
