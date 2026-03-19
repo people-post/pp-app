@@ -5,19 +5,20 @@ import { Vote } from '../datatypes/Vote.js';
 import { Votes } from './Votes.js';
 import { CommunityProfile } from '../datatypes/CommunityProfile.js';
 import { Api } from '../plt/Api.js';
+import { CommunityProfileData, ProposalData, VoteData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    proposal?: unknown;
-    vote?: unknown;
-    profile?: unknown;
+    proposal: ProposalData;
+    vote: VoteData;
+    profile: CommunityProfileData;
   };
 }
 
 interface CommunitiesInterface {
   get(id: string | null): CommunityProfile | null | undefined;
-  getGlobalProfile(): unknown;
+  getGlobalProfile(): CommunityProfileData | null;
   getProposal(id: string | null): Proposal | null | undefined;
   updateProposal(proposal: Proposal): void;
   asyncVote(itemId: string, value: number): void;
@@ -26,7 +27,7 @@ interface CommunitiesInterface {
 }
 
 export class CommunitiesClass implements CommunitiesInterface {
-  #globalProfile: unknown = null;
+  #globalProfile: CommunityProfileData | null = null;
   #isGlobalProfileLoading = false;
   #profileLib = new Map<string, CommunityProfile | null>();
   #proposalLib = new Map<string, Proposal | null>();
@@ -46,7 +47,7 @@ export class CommunitiesClass implements CommunitiesInterface {
     }
   }
 
-  getGlobalProfile(): unknown {
+  getGlobalProfile(): CommunityProfileData | null {
     if (!this.#globalProfile) {
       this.#asyncGetGlobalProfile();
     }
@@ -99,10 +100,10 @@ export class CommunitiesClass implements CommunitiesInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.proposal) {
-        this.updateProposal(new Proposal(response.data.proposal as Record<string, unknown>));
+        this.updateProposal(new Proposal(response.data.proposal));
       }
       if (response.data?.vote) {
-        Votes.update(new Vote(response.data.vote as Record<string, unknown>));
+        Votes.update(new Vote(response.data.vote));
       }
     }
   }
@@ -120,7 +121,7 @@ export class CommunitiesClass implements CommunitiesInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.profile) {
-        this.updateProfile(new CommunityProfile(response.data.profile as Record<string, unknown>));
+        this.updateProfile(new CommunityProfile(response.data.profile));
       }
     }
   }
@@ -146,7 +147,7 @@ export class CommunitiesClass implements CommunitiesInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.proposal) {
-        this.updateProposal(new Proposal(response.data.proposal as Record<string, unknown>));
+        this.updateProposal(new Proposal(response.data.proposal));
       }
     }
   }

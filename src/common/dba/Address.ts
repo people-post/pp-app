@@ -2,11 +2,12 @@ import { T_DATA } from '../plt/Events.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { Address as AddressDataType } from '../datatypes/Address.js';
 import { Api } from '../plt/Api.js';
+import { AddressData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    address?: unknown;
+    address: AddressData;
   };
 }
 
@@ -61,7 +62,7 @@ export class AddressClass implements AddressInterface {
       Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.address) {
-        this.update(new AddressDataType(response.data.address as Record<string, unknown>));
+        this.update(new AddressDataType(response.data.address));
       }
     }
   }

@@ -2,12 +2,13 @@ import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Ev
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Currency } from '../datatypes/Currency.js';
 import { Api } from '../plt/Api.js';
+import { CurrencyData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    total?: unknown;
-    currencies?: unknown[];
+    total?: number;
+    currencies?: CurrencyData[];
   };
 }
 
@@ -100,7 +101,7 @@ export class ExchangeClass implements ExchangeInterface {
     } else {
       if (response.data?.currencies) {
         for (const c of response.data.currencies) {
-          this.#updateCurrency(new Currency(c as Record<string, unknown>));
+          this.#updateCurrency(new Currency(c));
         }
         FwkEvents.trigger(PltT_DATA.CURRENCIES, null);
       }

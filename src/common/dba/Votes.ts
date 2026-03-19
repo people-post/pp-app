@@ -2,11 +2,12 @@ import { T_DATA } from '../plt/Events.js';
 import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { Vote } from '../datatypes/Vote.js';
 import { Api } from '../plt/Api.js';
+import { VoteData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    vote?: unknown;
+    vote: VoteData;
   };
 }
 
@@ -68,7 +69,7 @@ export class VotesClass implements VotesInterface {
       Events.trigger(FWK_T_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.vote) {
-        this.update(new Vote(response.data.vote as Record<string, unknown>));
+        this.update(new Vote(response.data.vote));
       }
     }
   }

@@ -5,12 +5,13 @@ import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Ev
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { Project } from '../datatypes/Project.js';
 import { Api } from '../plt/Api.js';
+import type { ProjectData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    project?: unknown;
-    config?: unknown;
+    project: ProjectData;
+    config: unknown;
   };
 }
 
@@ -99,7 +100,7 @@ export class WorkshopClass implements WorkshopInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.project) {
-        this.updateProject(new Project(response.data.project as Record<string, unknown>));
+        this.updateProject(new Project(response.data.project));
       }
     }
   }

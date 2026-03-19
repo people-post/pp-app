@@ -3,11 +3,12 @@ import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 import { Quiz as QuizDataType } from '../datatypes/Quiz.js';
 import { Api } from '../plt/Api.js';
+import { QuizData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
   data?: {
-    quiz?: unknown;
+    quiz: QuizData;
   };
 }
 
@@ -89,7 +90,7 @@ export class QuizClass implements QuizInterface {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {
       if (response.data?.quiz) {
-        const e = new QuizDataType(response.data.quiz as Record<string, unknown>);
+        const e = new QuizDataType(response.data.quiz);
         this.update(e);
       }
     }
