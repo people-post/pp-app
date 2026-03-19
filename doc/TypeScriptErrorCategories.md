@@ -181,7 +181,6 @@ Representative examples:
 - `src/common/pay/FPaymentTerminal.ts`: subclass fields redeclare inherited fields without `declare` or an initializer
 - `src/sectors/email/PEmail.ts`: subclasses access fields that are `private` in the base class
 - `src/sectors/account/Gateway.ts` and multiple gateway files: fragments are stored in slots typed as a different concrete fragment class
-- `src/common/pdb/Web3PeerServerMixin.ts`: mixin constructor shape does not follow TS mixin rules
 
 Recommended fixes:
 

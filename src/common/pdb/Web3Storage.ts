@@ -1,8 +1,50 @@
 import { StorageAgent, RemoteServer } from 'pp-api';
-import { Web3PeerServerMixin } from './Web3PeerServerMixin.js';
+import { Web3PeerUserRegistry } from './Web3PeerUserRegistry.js';
 import { Env } from '../plt/Env.js';
 
-export class Web3PeerStorageAgent extends Web3PeerServerMixin(StorageAgent) {}
+export class Web3PeerStorageAgent extends StorageAgent {
+  readonly #peerUser: Web3PeerUserRegistry;
+
+  constructor(server: RemoteServer) {
+    super(server);
+    this.#peerUser = new Web3PeerUserRegistry(() => this.getServer());
+  }
+
+  isInitUserRegistered(): boolean {
+    return this.#peerUser.isInitUserRegistered();
+  }
+  isRegisterEnabled(): boolean {
+    return this.#peerUser.isRegisterEnabled();
+  }
+  isInitUserUsable(): boolean {
+    return this.#peerUser.isInitUserUsable();
+  }
+  getInitUserPeerId(): string | null {
+    return this.#peerUser.getInitUserPeerId();
+  }
+  getInitUserRootCid(): string | null {
+    return this.#peerUser.getInitUserRootCid();
+  }
+  async asIsNameRegistrable(name: string): Promise<boolean> {
+    return this.#peerUser.asIsNameRegistrable(name);
+  }
+  async asIsUserRegistered(userId: string): Promise<boolean> {
+    return this.#peerUser.asIsUserRegistered(userId);
+  }
+  getInitUserId(): string | null {
+    return this.#peerUser.getInitUserId();
+  }
+  getHostPeerId(): string {
+    return this.#peerUser.getHostPeerId();
+  }
+  async asInitForUser(userId: string): Promise<void> {
+    return this.#peerUser.asInitForUser(userId);
+  }
+  async asRegister(msg: unknown, pubKey: string, sig: string): Promise<void> {
+    return this.#peerUser.asRegister(msg, pubKey, sig);
+  }
+}
+
 export class Web3GroupStorageAgent extends StorageAgent {}
 
 export class Web3Storage {

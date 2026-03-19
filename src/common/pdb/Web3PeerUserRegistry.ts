@@ -7,19 +7,27 @@ interface UserInfo {
   [key: string]: unknown;
 }
 
-/** Base must be a constructor that takes a RemoteServer and returns an instance with getServer() (e.g. ServerAgent or a subclass). */
-type ServerAgentLike = new (server: RemoteServer) => { getServer(): RemoteServer };
-export const Web3PeerServerMixin = <T extends ServerAgentLike>(Base: T) =>
-  class extends Base {
-  constructor(...args: any[]) {
-    super(...(args as [RemoteServer]));
-  }
-
+/**
+ * User / registration state and API calls for a peer-mode RemoteServer agent.
+ * Composed by {@link Web3PeerPublisherAgent} and {@link Web3PeerStorageAgent}.
+ */
+export class Web3PeerUserRegistry {
+  readonly #getServer: () => RemoteServer;
   #mUsers = new Map<string, UserInfo>();
   #initUserId: string | null = null;
 
-  isInitUserRegistered(): boolean { return this.#initUserId !== null && this.#mUsers.has(this.#initUserId); }
-  isRegisterEnabled(): boolean { return this.getServer().isRegisterEnabled(); }
+  constructor(getServer: () => RemoteServer) {
+    this.#getServer = getServer;
+  }
+
+  isInitUserRegistered(): boolean {
+    return this.#initUserId !== null && this.#mUsers.has(this.#initUserId);
+  }
+
+  isRegisterEnabled(): boolean {
+    return this.#getServer().isRegisterEnabled();
+  }
+
   isInitUserUsable(): boolean {
     return this.isInitUserRegistered() || this.isRegisterEnabled();
   }
@@ -44,8 +52,13 @@ export const Web3PeerServerMixin = <T extends ServerAgentLike>(Base: T) =>
     return !!await this.#asFetchUserById(userId);
   }
 
-  getInitUserId(): string | null { return this.#initUserId; }
-  getHostPeerId(): string { return this.getServer().getPeerId() ?? ''; }
+  getInitUserId(): string | null {
+    return this.#initUserId;
+  }
+
+  getHostPeerId(): string {
+    return this.#getServer().getPeerId() ?? '';
+  }
 
   async asInitForUser(userId: string): Promise<void> {
     this.#initUserId = userId;
@@ -57,11 +70,11 @@ export const Web3PeerServerMixin = <T extends ServerAgentLike>(Base: T) =>
 
   async asRegister(msg: unknown, pubKey: string, sig: string): Promise<void> {
     console.log("Pubkey size", pubKey.length);
-    let url = this.getServer().getApiUrl("/api/user/register");
+    let url = this.#getServer().getApiUrl("/api/user/register");
     let options = {
-      method : "POST" as const,
-      headers : {"Content-Type" : "application/json"},
-      body : JSON.stringify({data : msg, public_key : pubKey, signature : sig})
+      method: "POST" as const,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ data: msg, public_key: pubKey, signature: sig }),
     };
     let res = await sys.ipfs.asFetch(url, options);
     let d = await res.json() as { error?: unknown; data?: { user: UserInfo } };
@@ -77,7 +90,7 @@ export const Web3PeerServerMixin = <T extends ServerAgentLike>(Base: T) =>
       return null;
     }
 
-    const url = this.getServer().getApiUrl("/api/user/get?name=" + name);
+    const url = this.#getServer().getApiUrl("/api/user/get?name=" + name);
     return await this.#asFetchUserInfo(url);
   }
 
@@ -86,19 +99,19 @@ export const Web3PeerServerMixin = <T extends ServerAgentLike>(Base: T) =>
       return null;
     }
 
-    const url = this.getServer().getApiUrl("/api/user/get?id=" + userId);
+    const url = this.#getServer().getApiUrl("/api/user/get?id=" + userId);
     return await this.#asFetchUserInfo(url);
   }
 
   async #asFetchUserInfo(url: string): Promise<UserInfo | null> {
     let options = {
-      method : "GET" as const,
-      headers : {"Content-Type" : "application/json"}
+      method: "GET" as const,
+      headers: { "Content-Type": "application/json" },
     };
     let res: Response;
     try {
       res = await sys.ipfs.asFetch(url, options);
-    } catch (e) {
+    } catch {
       return null;
     }
     let d = await res.json() as { error?: unknown; data?: { user: UserInfo } };
@@ -107,4 +120,4 @@ export const Web3PeerServerMixin = <T extends ServerAgentLike>(Base: T) =>
     }
     return d.data?.user || null;
   }
-};
+}
