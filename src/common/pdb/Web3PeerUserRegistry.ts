@@ -68,7 +68,7 @@ export class Web3PeerUserRegistry {
     }
   }
 
-  async asRegister(msg: unknown, pubKey: string, sig: string): Promise<void> {
+  async asRegister(msg: string, pubKey: string, sig: string): Promise<void> {
     console.log("Pubkey size", pubKey.length);
     let url = this.#getServer().getApiUrl("/api/user/register");
     let options = {

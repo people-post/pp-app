@@ -56,7 +56,7 @@ export class Web3Resolver {
     // 1. Try local cache
     let obj = this.#lib.get(userId)!;
     let d = obj.getData();
-    if (!this.#isValidProfileData(d)) {
+    if (d === null || !this.#isValidProfileData(d)) {
       d = await this.#asResolveUserData(userId);
       d.uuid = userId;
       obj.setData(d);
@@ -143,7 +143,7 @@ export class Web3Resolver {
   #getIpnsName(userId: string): string {
     // TODO: Maybe we should use customized id system
     let peerId = sys.utl.peerIdFromString(userId);
-    return peerId.toMultihash();
+    return peerId.toMultihash().toString();
   }
 
   #getUserIdResolveUrl(userId: string): string | null {

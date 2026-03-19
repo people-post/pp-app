@@ -1,6 +1,5 @@
 import { PublisherAgent, RemoteServer } from 'pp-api';
 import { Web3PeerUserRegistry } from './Web3PeerUserRegistry.js';
-import { Env } from '../plt/Env.js';
 
 export class Web3PeerPublisherAgent extends PublisherAgent {
   readonly #peerUser: Web3PeerUserRegistry;
@@ -40,7 +39,7 @@ export class Web3PeerPublisherAgent extends PublisherAgent {
   async asInitForUser(userId: string): Promise<void> {
     return this.#peerUser.asInitForUser(userId);
   }
-  async asRegister(msg: unknown, pubKey: string, sig: string): Promise<void> {
+  async asRegister(msg: string, pubKey: string, sig: string): Promise<void> {
     return this.#peerUser.asRegister(msg, pubKey, sig);
   }
 }
@@ -53,7 +52,9 @@ export class Web3Publisher {
   getInitUserPeerId(): string | null {
     let id: string | null = null;
     for (let a of this.#agents) {
-      id = a.getInitUserPeerId();
+      if (a instanceof Web3PeerPublisherAgent) {
+        id = a.getInitUserPeerId();
+      }
       if (id) {
         break;
       }
@@ -64,7 +65,9 @@ export class Web3Publisher {
   getInitUserRootCid(): string | null {
     let cid: string | null = null;
     for (let a of this.#agents) {
-      cid = a.getInitUserRootCid();
+      if (a instanceof Web3PeerPublisherAgent) {
+        cid = a.getInitUserRootCid();
+      }
       if (cid) {
         break;
       }
@@ -82,26 +85,21 @@ export class Web3Publisher {
           this.#agents.push(agent);
         }
       }
-    } else {
-      if (Env.hasHost()) {
-        let agent = await this.#asCreateAgent();
-        if (agent) {
-          this.#agents.push(agent);
-        }
-      }
     }
     console.log("Total publisher agents:", this.#agents.length);
   }
 
   async asInitForUser(userId: string): Promise<void> {
     for (let a of this.#agents) {
-      await a.asInitForUser(userId);
+      if (a instanceof Web3PeerPublisherAgent) {
+        await a.asInitForUser(userId);
+      }
     }
   }
 
   getAgents(): (Web3PeerPublisherAgent | Web3GroupPublisherAgent)[] { return this.#agents; }
 
-  async #asCreateAgent(sAddr?: string): Promise<Web3PeerPublisherAgent | Web3GroupPublisherAgent | null> {
+  async #asCreateAgent(sAddr: string): Promise<Web3PeerPublisherAgent | Web3GroupPublisherAgent | null> {
     let server = new RemoteServer();
     if (await server.asInit(sAddr)) {
       switch (server.getRegisterType()) {

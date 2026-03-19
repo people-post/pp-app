@@ -1,6 +1,5 @@
 import { StorageAgent, RemoteServer } from 'pp-api';
 import { Web3PeerUserRegistry } from './Web3PeerUserRegistry.js';
-import { Env } from '../plt/Env.js';
 
 export class Web3PeerStorageAgent extends StorageAgent {
   readonly #peerUser: Web3PeerUserRegistry;
@@ -40,7 +39,7 @@ export class Web3PeerStorageAgent extends StorageAgent {
   async asInitForUser(userId: string): Promise<void> {
     return this.#peerUser.asInitForUser(userId);
   }
-  async asRegister(msg: unknown, pubKey: string, sig: string): Promise<void> {
+  async asRegister(msg: string, pubKey: string, sig: string): Promise<void> {
     return this.#peerUser.asRegister(msg, pubKey, sig);
   }
 }
@@ -60,19 +59,14 @@ export class Web3Storage {
           this.#agents.push(agent);
         }
       }
-    } else {
-      if (Env.hasHost()) {
-        let agent = await this.#asCreateAgent();
-        if (agent) {
-          this.#agents.push(agent);
-        }
-      }
     }
   }
 
   async asInitForUser(userId: string): Promise<void> {
     for (let a of this.#agents) {
-      await a.asInitForUser(userId);
+      if (a instanceof Web3PeerStorageAgent) {
+        await a.asInitForUser(userId);
+      }
     }
   }
 
@@ -81,7 +75,7 @@ export class Web3Storage {
     return this.#agents;
   }
 
-  async #asCreateAgent(sAddr?: string): Promise<Web3PeerStorageAgent | Web3GroupStorageAgent | null> {
+  async #asCreateAgent(sAddr: string): Promise<Web3PeerStorageAgent | Web3GroupStorageAgent | null> {
     let server = new RemoteServer();
     if (await server.asInit(sAddr)) {
       switch (server.getRegisterType()) {
