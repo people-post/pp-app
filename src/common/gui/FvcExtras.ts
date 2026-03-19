@@ -23,13 +23,13 @@ const _CFT_EXTRAS_CONTENT = {
 }
 
 interface ListItem {
-  id: string;
-  icon: string;
+  pageId: string;
+  pageIcon: string | null;
   data: {
     page: PageConfig;
     nNotifications: number;
   };
-  isSelectable: boolean;
+  selectable: boolean;
 }
 
 export interface FvcExtrasDataSource {
@@ -38,16 +38,21 @@ export interface FvcExtrasDataSource {
   createPageEntryViewForExtrasViewContentFragment(f: FvcExtras, pageId: string | null): View | null;
 }
 
-export class FvcExtras extends FScrollViewContent implements SimpleListDataSource, SimpleListDelegate {
-  _fMenu: FSimpleList;
+export class FvcExtras extends FScrollViewContent implements SimpleListDataSource<ListItem>, SimpleListDelegate<ListItem> {
+  _fMenu: FSimpleList<ListItem>;
   _subPageId: string | null = null;
 
   constructor() {
     super();
-    this._fMenu = new FSimpleList();
+    this._fMenu = new FSimpleList<ListItem>();
     this._fMenu.setDataSource(this);
-    this._fMenu.setDelegate(this as any);
-    this.setChild("menu", this._fMenu as any);
+    this._fMenu.setDelegate(this);
+    this._fMenu.setRules({
+      getId: item => item.pageId,
+      getIcon: item => item.pageIcon,
+      isSelectable: item => item.selectable,
+    });
+    this.setChild("menu", this._fMenu);
   }
 
   getUrlParamString(): string {
@@ -62,12 +67,12 @@ export class FvcExtras extends FScrollViewContent implements SimpleListDataSourc
     this.#onSubPageSelected(urlParam.get(URL_PARAM.PAGE) || null, urlParam);
   }
 
-  getListItemsForListFragment(_fList: FSimpleList): ListItem[] { return this.#getListItems(); }
-  getSelectedItemIdForList(_fList: FSimpleList): string | null { return this._subPageId; }
+  getListItemsForListFragment(_fList: FSimpleList<ListItem>): ListItem[] { return this.#getListItems(); }
+  getSelectedItemIdForList(_fList: FSimpleList<ListItem>): string | null { return this._subPageId; }
 
-  onItemSelectedInList(_fList: FSimpleList, itemId: string): void { this.#onSubPageSelected(itemId); }
+  onItemSelectedInList(_fList: FSimpleList<ListItem>, itemId: string): void { this.#onSubPageSelected(itemId); }
 
-  renderItemForSimpleListFragment(_fSimpleList: FSimpleList, item: ListItem, panel: Panel): void {
+  renderItemForSimpleListFragment(_fSimpleList: FSimpleList<ListItem>, item: ListItem, panel: Panel): void {
     const config = item.data;
     panel.replaceContent(
         this.#renderTitle(R.t(config.page.NAME), config.nNotifications));
@@ -120,8 +125,8 @@ export class FvcExtras extends FScrollViewContent implements SimpleListDataSourc
     const items: ListItem[] = [];
     for (const c of configs) {
       items.push({
-        id : c.ID,
-        icon : c.ICON,
+        pageId : c.ID,
+        pageIcon : c.ICON,
         data : {
           page : c,
           nNotifications : dataSource
@@ -129,7 +134,7 @@ export class FvcExtras extends FScrollViewContent implements SimpleListDataSourc
                     this, c.ID)
               : 0
         },
-        isSelectable : true,
+        selectable : true,
       });
     }
     return items;
