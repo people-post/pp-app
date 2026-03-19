@@ -5,21 +5,14 @@
  */
 
 import { Web2Account } from './Web2Account.js';
-import type { User } from '../datatypes/User.js';
+import type { User as UserType } from '../../types/user.js';
+import type { IdolData } from '../../types/backend2.js';
 import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
 import type { UserPrivateProfile as Web2UserPrivateProfileData } from '../../types/backend2.js';
 import type { BlogConfig as BlogConfigData } from '../../types/backend2.js';
 import { Owner as Web3Owner, OwnerProps, dat as Web3Dat } from 'pp-api';
 
 type AccountImplementation = Web2Account | Web3Owner;
-
-/**
- * Idol type representing a followed user
- */
-interface Idol {
-  user_id: string;
-  nickname?: string;
-}
 
 /**
  * OutRequest type for pending group/role applications
@@ -112,7 +105,7 @@ class AccountWrapper {
     return false;
   }
 
-  isIdolOf(user: User): boolean {
+  isIdolOf(user: UserType): boolean {
     if ('isIdolOf' in this.#impl && typeof this.#impl.isIdolOf === 'function') {
       return this.#impl.isIdolOf(user);
     }
@@ -126,7 +119,7 @@ class AccountWrapper {
     return false;
   }
 
-  getIdols(): Idol[] {
+  getIdols(): IdolData[] {
     if ('getIdols' in this.#impl && typeof this.#impl.getIdols === 'function') {
       return this.#impl.getIdols();
     }

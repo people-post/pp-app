@@ -5,8 +5,9 @@ import type { User as UserType } from '../../types/user.js';
 import { PATH } from '../constants/Constants.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
-import { User as Web3User } from 'pp-api';
+import { User as Web3User, Owner as Web3Owner } from 'pp-api';
 import { Account } from './Account.js';
+import { Web3OwnerUser } from './Web3OwnerUser.js';
 import { UserPublicProfile as Web2UserPublicProfileData } from '../../types/backend2.js';
 
 interface ApiResponse {
@@ -49,7 +50,10 @@ export class UserLib {
     }
 
     if (Env.isWeb3() && Account.isAuthenticated() && Account.getId() === id) {
-      return Account.getImplementation() as Web3User;
+      const impl = Account.getImplementation();
+      if (impl instanceof Web3Owner) {
+        return new Web3OwnerUser(impl);
+      }
     }
 
     if (this.#mUsers.has(id)) {
@@ -62,7 +66,10 @@ export class UserLib {
 
   async asyncGet(id: string): Promise<UserType> {
     if (Env.isWeb3() && Account.isAuthenticated() && Account.getId() === id) {
-      return Account.getImplementation() as Web3User;
+      const impl = Account.getImplementation();
+      if (impl instanceof Web3Owner) {
+        return new Web3OwnerUser(impl);
+      }
     }
 
     if (!this.#mUsers.has(id)) {

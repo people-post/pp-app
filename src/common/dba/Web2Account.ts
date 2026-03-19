@@ -4,7 +4,7 @@ import { Events as FwkEvents, T_DATA as FwkT_DATA } from '../../lib/framework/Ev
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { CustomerOrder } from '../datatypes/CustomerOrder.js';
 import { Api } from '../plt/Api.js';
-import type { User } from '../datatypes/User.js';
+import type { User as UserType } from '../../types/user.js';
 import type { UserPrivateProfile, IdolData, OutRequest, BlogConfig, CustomerOrderData } from '../../types/backend2.js';
 
 interface ApiResponse {
@@ -45,7 +45,7 @@ export class Web2Account {
     return this.getIdols().some((i) => i.user_id === userId);
   }
 
-  isIdolOf(user: User): boolean {
+  isIdolOf(user: UserType): boolean {
     return (
       this.isAuthenticated() &&
       this.getId() !== user.getId() &&
