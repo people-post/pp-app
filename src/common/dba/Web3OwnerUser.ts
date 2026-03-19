@@ -1,5 +1,5 @@
 import type { User as UserType } from '../../types/user.js';
-import type { ColorTheme } from '../../types/basic.js';
+import type { ColorTheme, MarkInfo } from '../../types/basic.js';
 import type { BlogConfig } from '../../types/blog.js';
 import { Owner as Web3Owner, type OwnerProps, type UserProps } from 'pp-api';
 
@@ -98,7 +98,7 @@ export class Web3OwnerUser implements UserType {
     this.#owner.setProps(props as OwnerProps);
   }
 
-  async asyncFindMark(key: string) {
+  async asyncFindMark(key: string): Promise<MarkInfo | null> {
     return this.#owner.asyncFindMark(key);
   }
 }

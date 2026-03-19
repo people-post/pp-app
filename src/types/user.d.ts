@@ -1,6 +1,6 @@
-import type { ColorTheme } from './basic.js';
+import type { ColorTheme, MarkInfo } from './basic.js';
 import type { BlogConfig } from './blog.js';
-import type { UserProps, MarkInfo } from 'pp-api';
+import type { UserProps } from 'pp-api';
 
 /**
  * Common interface for User objects returned by Users.

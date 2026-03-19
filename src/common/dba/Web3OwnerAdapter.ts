@@ -1,5 +1,6 @@
 import type { AccountPort, Web3AccountFacet } from './AccountPort.js';
 import type { User as UserType } from '../../types/user.js';
+import type { MarkInfo } from '../../types/basic.js';
 import {
   Owner as Web3Owner,
   User as Web3PpUser,
@@ -230,5 +231,9 @@ export class Web3OwnerAdapter implements AccountPort, Web3AccountFacet {
 
   async asRegister(agent: PublisherAgent, name: string): Promise<void> {
     await this.#owner.asRegister(agent, name);
+  }
+
+  async asyncFindMark(itemId: string): Promise<MarkInfo | null> {
+    return this.#owner.asyncFindMark(itemId);
   }
 }

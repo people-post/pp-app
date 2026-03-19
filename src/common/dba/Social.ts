@@ -6,6 +6,7 @@ import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
 import { Account } from './Account.js';
 import type { SocialInfoData } from '../../types/backend2.js';
+import type { MarkInfo } from '../../types/basic.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -77,10 +78,8 @@ export class SocialClass implements SocialInterface {
       n_links: 0,
     };
 
-    // Search from owner data
-    // Note: asyncFindMark and asyncGetIdolIds are Web3-specific methods
-    const account = Account as unknown as { asyncFindMark?: (itemId: string) => Promise<{ like?: boolean; comments?: unknown[] } | null> };
-    const m = account?.asyncFindMark ? await account.asyncFindMark(itemId) : null;
+    const web3 = Account.web3;
+    const m: MarkInfo | null = web3 ? await web3.asyncFindMark(itemId) : null;
     if (m) {
       if (m.like) {
         data.n_likes = (data.n_likes || 0) + 1;
@@ -91,14 +90,10 @@ export class SocialClass implements SocialInterface {
       }
     }
 
-    // Search from all idols
-    const accountWithIdols = Account as unknown as { asyncGetIdolIds?: () => Promise<string[]> };
-    const ids = accountWithIdols.asyncGetIdolIds ? await accountWithIdols.asyncGetIdolIds() : [];
-    let u;
+    const ids = await Account.asyncGetIdolIds();
     for (const id of ids) {
-      u = await Users.asyncGet(id);
-      const userWithMark = u as unknown as { asyncFindMark?: (itemId: string) => Promise<{ like?: boolean; comments?: unknown[] } | null> };
-      const mark = userWithMark.asyncFindMark ? await userWithMark.asyncFindMark(itemId) : null;
+      const u = await Users.asyncGet(id);
+      const mark = u.asyncFindMark ? await u.asyncFindMark(itemId) : null;
       if (mark) {
         if (mark.like) {
           data.n_likes = (data.n_likes || 0) + 1;

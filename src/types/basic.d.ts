@@ -33,6 +33,16 @@ export interface RemoteError {
   data?: unknown;
 }
 
+/**
+ * Bookmark / reaction metadata for an item (Web3 marks root).
+ * Structural match for pp-api User.asyncFindMark; defined here because pp-api
+ * does not export this interface.
+ */
+export interface MarkInfo {
+  like?: boolean;
+  comments?: unknown[];
+}
+
 export interface RemoteFile {
   isFinished(): boolean;
   isActive(): boolean;

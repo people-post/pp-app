@@ -1,4 +1,5 @@
 import type { User as UserType } from '../../types/user.js';
+import type { MarkInfo } from '../../types/basic.js';
 import type { IdolData, OutRequest, BlogConfig as BlogConfigData } from '../../types/backend2.js';
 import type { OwnerProps, PublisherAgent } from 'pp-api';
 import type { dat as Web3Dat } from 'pp-api';
@@ -70,4 +71,6 @@ export interface Web3AccountFacet {
   asUploadFile(file: File): Promise<string>;
   asUpdateProfile(profile: unknown, cids: string[]): Promise<void>;
   asRegister(agent: PublisherAgent, name: string): Promise<void>;
+  /** Owner marks for an item (like / comments index); delegates to pp-api Owner.asyncFindMark. */
+  asyncFindMark(itemId: string): Promise<MarkInfo | null>;
 }
