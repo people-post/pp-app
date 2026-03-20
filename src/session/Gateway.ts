@@ -42,11 +42,14 @@ import { FvcProduct } from '../sectors/shop/FvcProduct.js';
 import { FvcPreCheckout } from './composition/FvcPreCheckout.js';
 import { PseudoComposer } from './composition/PseudoComposer.js';
 import { createCareersViewContentMux } from './composition/CareersComposer.js';
+import { registerSessionFrontpageBlogBridge } from './composition/FrontpageBlogComposer.js';
 import { FvcOwnerPosts } from '../sectors/blog/FvcOwnerPosts.js';
 import { FvcOwner as WorkshopFvcOwner } from '../sectors/workshop/FvcOwner.js';
 import { FvcOwner as ShopFvcOwner } from '../sectors/shop/FvcOwner.js';
 import { FvcUserCommunity } from '../sectors/community/FvcUserCommunity.js';
 import { FvcChat } from '../sectors/messenger/FvcChat.js';
+
+registerSessionFrontpageBlogBridge();
 
 AuthFacade.registerLoginViewFactory(() => new AuthGateway().createLoginView());
 CartFacade.registerCartViewFactory(() => {

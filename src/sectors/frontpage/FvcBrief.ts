@@ -96,10 +96,11 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { FHomeBtn } from '../../common/gui/FHomeBtn.js';
 import { FvcInsights } from './FvcInsights.js';
 import { FvcBriefDonation } from './FvcBriefDonation.js';
-import { OwnerPostIdLoader } from '../blog/OwnerPostIdLoader.js';
-import { FPostList } from '../blog/FPostList.js';
-import { FPostInfo } from '../blog/FPostInfo.js';
-import { FvcOwnerPostScroller } from '../blog/FvcOwnerPostScroller.js';
+import {
+  getFrontpageBlogBridge,
+  type BriefPostIdLoader,
+  type BriefPostListFragment
+} from './FrontpageBlogBridge.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { T_DATA } from '../../common/plt/Events.js';
@@ -241,14 +242,14 @@ export class FvcBrief extends FViewContentBase {
   #fmMain: FHeaderMenu;
   #fmSearch: FHeaderMenu;
   #fmLanguage: FHeaderMenu;
-  #fPosts: FPostList;
+  #fPosts: BriefPostListFragment;
   #fPostsHook: FScrollableHook;
   #fPinnedPosts: FFragmentList;
   #fCalendar: FDateSelector;
   #currentMenuItem: MenuItem | null = null;
   #resizeObserver: ResizeObserver;
   #config: unknown = null;
-  #loader: OwnerPostIdLoader;
+  #loader: BriefPostIdLoader;
   #lc: LContext;
   #tWidth: symbol | null = null;
   #selectedDate: string = "";
@@ -291,9 +292,10 @@ export class FvcBrief extends FViewContentBase {
     this.#lc = new LContext();
     this.#lc.setDelegate(this);
 
-    this.#loader = new OwnerPostIdLoader();
+    const bridge = getFrontpageBlogBridge();
+    this.#loader = bridge.createBriefPostIdLoader();
     this.#loader.setDelegate(this);
-    this.#fPosts = new FPostList();
+    this.#fPosts = bridge.createBriefPostList();
     this.#fPosts.setDataSource(this);
     this.#fPosts.setDelegate(this);
     this.#fPosts.setLoader(this.#loader);
@@ -348,7 +350,7 @@ export class FvcBrief extends FViewContentBase {
     }
   }
 
-  onInfoFragmentCreatedInPostListFragment(_fPosts: FPostList, fInfo: unknown): void {
+  onInfoFragmentCreatedInPostListFragment(_fPosts: unknown, fInfo: unknown): void {
     const fInfoWithSize = fInfo as { setSizeType?: (size: string) => void };
     if (fInfoWithSize.setSizeType) {
       fInfoWithSize.setSizeType(SocialItem.T_LAYOUT.EXT_BRIEF);
@@ -422,6 +424,7 @@ export class FvcBrief extends FViewContentBase {
   }
 
   _renderOnRender(render: PanelWrapper): void {
+    const bridge = getFrontpageBlogBridge();
     let panel = this.#createPanel();
     panel.setClassName("tw:h-full");
     render.wrapPanel(panel);
@@ -461,7 +464,7 @@ export class FvcBrief extends FViewContentBase {
         pp.setClassName(
             "tw:w-[90%] s-csecondarydecorbg tw:flex-shrink-0 tw:snap-start tw:h-[200px] tw:overflow-y-auto tw:scroll-none");
         pH.pushPanel(pp);
-        let f = new FPostInfo();
+        let f = bridge.createBriefPostInfoFragment();
         f.setPostId(id);
         f.setSizeType(SocialItem.T_LAYOUT.EXT_CARD);
         this.#fPinnedPosts.append(f);
@@ -477,7 +480,7 @@ export class FvcBrief extends FViewContentBase {
       for (let id of ids) {
         let pp = new PanelWrapper();
         pV.pushPanel(pp);
-        let f = new FPostInfo();
+        let f = bridge.createBriefPostInfoFragment();
         f.setPostId(id);
         f.setSizeType(SocialItem.T_LAYOUT.EXT_BRIEF);
         this.#fPinnedPosts.append(f);
@@ -538,7 +541,8 @@ export class FvcBrief extends FViewContentBase {
 
   #showBriefArticle(sid: SocialItemId): void {
     let v = new View();
-    let f = new FvcOwnerPostScroller();
+    const bridge = getFrontpageBlogBridge();
+    let f = bridge.createBriefOwnerPostScrollerFragment();
     let a = Blog.getArticle(sid.getValue());
     if (a) {
       f.setOwnerId(a.getOwnerId());

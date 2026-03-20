@@ -64,9 +64,12 @@ import { FJournalMenu } from './FJournalMenu.js';
 import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { FSearchMenu } from '../../common/search/FSearchMenu.js';
-import { OwnerJournalIssueIdLoader } from '../blog/OwnerJournalIssueIdLoader.js';
-import { FPostInfo } from '../blog/FPostInfo.js';
-import { FTaggedCommentList } from '../blog/FTaggedCommentList.js';
+import {
+  getFrontpageBlogBridge,
+  type JournalIssueContentFragment,
+  type JournalIssueIdLoader,
+  type JournalTaggedCommentListContentFragment
+} from './FrontpageBlogBridge.js';
 import { Blog } from '../../common/dba/Blog.js';
 import type { JournalPageConfig } from '../../common/datatypes/JournalPageConfig.js';
 import type { Post } from '../../types/blog.js';
@@ -132,11 +135,11 @@ export class FvcJournal extends FViewContentBase {
   #tWidth: symbol | null = null;
   #cData: JournalPageConfig | null = null;
   #cLayout: FrontPageLayoutConfig | null = null;
-  #idLoader: OwnerJournalIssueIdLoader;
-  #fIssue: FPostInfo;
-  #fLeft: FTaggedCommentList;
-  #fRight: FTaggedCommentList;
-  #fBottom: FTaggedCommentList;
+  #idLoader: JournalIssueIdLoader;
+  #fIssue: JournalIssueContentFragment;
+  #fLeft: JournalTaggedCommentListContentFragment;
+  #fRight: JournalTaggedCommentListContentFragment;
+  #fBottom: JournalTaggedCommentListContentFragment;
   #issueId: string = "67c1fd67c6f59589e72deb0f";
 
   constructor() {
@@ -157,16 +160,17 @@ export class FvcJournal extends FViewContentBase {
     this.#fmSearch.setContentFragment(f);
     this.#fmSearch.setExpansionPriority(1);
 
-    this.#idLoader = new OwnerJournalIssueIdLoader();
+    const bridge = getFrontpageBlogBridge();
+    this.#idLoader = bridge.createJournalIssueIdLoader();
     this.#idLoader.setDelegate(this);
 
-    this.#fIssue = new FPostInfo();
+    this.#fIssue = bridge.createJournalIssueFragment();
     this.#fIssue.setSizeType(SocialItem.T_LAYOUT.EXT_FULL_PAGE);
     this.setChild("issue", this.#fIssue);
 
-    this.#fLeft = new FTaggedCommentList();
-    this.#fRight = new FTaggedCommentList();
-    this.#fBottom = new FTaggedCommentList();
+    this.#fLeft = bridge.createJournalTaggedCommentListFragment();
+    this.#fRight = bridge.createJournalTaggedCommentListFragment();
+    this.#fBottom = bridge.createJournalTaggedCommentListFragment();
 
     this.#fcPanels = new FFragmentList();
     this.setChild("commentPanelFragments", this.#fcPanels);
