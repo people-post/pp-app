@@ -4,6 +4,7 @@ import { OwnerPostIdLoader } from './OwnerPostIdLoader.js';
 import { FPostList } from './FPostList.js';
 import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import type { SocialItemId } from '../../types/basic.js';
 
 export class FvcOwnerPostScroller extends FScrollViewContent {
   // Note: For brief display only
@@ -25,7 +26,7 @@ export class FvcOwnerPostScroller extends FScrollViewContent {
   hasHiddenTopBuffer(): boolean { return this.#fPosts.hasBufferOnTop(); }
 
   setOwnerId(id: string | null): void { this.#loader.setOwnerId(id); }
-  setAnchorPostId(id: unknown): void { this.#loader.setAnchorPostId(id); }
+  setAnchorPostId(id: SocialItemId): void { this.#loader.setAnchorPostId(id); }
 
   reload(): void { this.#fPosts.reset(); }
 

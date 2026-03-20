@@ -2,7 +2,7 @@ import Controller from '../../lib/ext/Controller.js';
 import type { LongListIdRecord } from '../datatypes/LongListIdRecord.js';
 
 export interface LongListIdLoaderDelegate {
-  onIdUpdatedInLongListIdLoader(loader: LongListIdLoader): void;
+  onIdUpdatedInLongListIdLoader?(loader: LongListIdLoader): void;
 }
 
 export abstract class LongListIdLoader extends Controller {

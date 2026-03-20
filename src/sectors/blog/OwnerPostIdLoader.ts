@@ -1,10 +1,19 @@
 import { BiLongListIdRecord } from '../../common/datatypes/BiLongListIdRecord.js';
-import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
-import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
+import { LongListIdLoader, LongListIdLoaderDelegate } from '../../common/plt/LongListIdLoader.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Users } from '../../common/dba/Users.js';
 import { Api } from '../../common/plt/Api.js';
+import type { SocialItemId as SocialItemIdType } from '../../types/basic.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { ArticleData } from '../../types/backend2.js';
+
+interface ApiResponse {
+  error?: string;
+  data?: {
+    articles: ArticleData[];
+  };
+};
 
 export class OwnerPostIdLoader extends LongListIdLoader {
   #idRecord = new BiLongListIdRecord();
@@ -18,7 +27,7 @@ export class OwnerPostIdLoader extends LongListIdLoader {
   getOwnerId(): string | null { return this.#ownerId; }
 
   setOwnerId(id: string | null): void { this.#ownerId = id; }
-  setAnchorPostId(id: SocialItemId): void {
+  setAnchorPostId(id: SocialItemIdType): void {
     this.#idRecord.clear();
     this.#idRecord.appendId(id.toEncodedStr());
   }
@@ -39,11 +48,15 @@ export class OwnerPostIdLoader extends LongListIdLoader {
       this.#markFrontComplete();
       return;
     }
+    const sFromId = SocialItemId.fromEncodedStr(fromId)?.getValue() ?? null;
+    if (!sFromId) {
+      this.#markFrontComplete();
+      return;
+    }
     this.#isBatchLoadingFront = true;
     let url = "api/blog/articles?";
     let params: string[] = [];
-    params.push("after_id=" +
-                SocialItemId.fromEncodedStr(fromId).getValue());
+    params.push("after_id=" + sFromId);
     for (let id of this.#tagIds) {
       params.push("tag=" + id);
     }
@@ -75,8 +88,10 @@ export class OwnerPostIdLoader extends LongListIdLoader {
     }
     let fromId = this.#idRecord.getLastId();
     if (fromId) {
-      params.push("before_id=" +
-                  SocialItemId.fromEncodedStr(fromId).getValue());
+      const sFromId = SocialItemId.fromEncodedStr(fromId)?.getValue() ?? null;
+      if (sFromId) {
+        params.push("before_id=" + sFromId);
+      }
     }
     if (this.#tFrom) {
       params.push("from=" + Math.round(this.#tFrom.getTime() / 1000));
@@ -118,7 +133,7 @@ export class OwnerPostIdLoader extends LongListIdLoader {
 
   #onFrontPostsRRR(responseText: string): void {
     this.#isBatchLoadingFront = false;
-    let response = JSON.parse(responseText) as { error?: string; data?: { articles: unknown[] } };
+    let response = JSON.parse(responseText) as ApiResponse;
     if (response.error) {
       this.onRemoteErrorInController(this, response.error);
     } else if (response.data) {
@@ -129,8 +144,8 @@ export class OwnerPostIdLoader extends LongListIdLoader {
           let p = Blog.updatePostData(d);
           r.prependId(p.getSocialId().toEncodedStr());
         }
-        const delegate = this._delegate as { onIdUpdatedInLongListIdLoader?: (loader: LongListIdLoader) => void };
-        if (delegate.onIdUpdatedInLongListIdLoader) {
+        const delegate = this.getDelegate<LongListIdLoaderDelegate>();
+        if (delegate && delegate.onIdUpdatedInLongListIdLoader) {
           delegate.onIdUpdatedInLongListIdLoader(this);
         }
       } else {
@@ -141,7 +156,7 @@ export class OwnerPostIdLoader extends LongListIdLoader {
 
   #onBackPostsRRR(responseText: string): void {
     this.#isBatchLoadingBack = false;
-    let response = JSON.parse(responseText) as { error?: string; data?: { articles: unknown[] } };
+    let response = JSON.parse(responseText) as ApiResponse;
     if (response.error) {
       this.onRemoteErrorInController(this, response.error);
     } else if (response.data) {
@@ -160,8 +175,8 @@ export class OwnerPostIdLoader extends LongListIdLoader {
             r.appendId(sid);
           }
         }
-        const delegate = this._delegate as { onIdUpdatedInLongListIdLoader?: (loader: LongListIdLoader) => void };
-        if (delegate.onIdUpdatedInLongListIdLoader) {
+        const delegate = this.getDelegate<LongListIdLoaderDelegate>();
+        if (delegate && delegate.onIdUpdatedInLongListIdLoader) {
           delegate.onIdUpdatedInLongListIdLoader(this);
         }
       } else {

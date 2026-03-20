@@ -3,7 +3,6 @@ import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FDraftArticleInfo } from './FDraftArticleInfo.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 export class FDraftList extends Fragment {
   #fList: FFragmentList;

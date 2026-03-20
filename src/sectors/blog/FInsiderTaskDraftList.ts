@@ -6,7 +6,7 @@ import { Account } from '../../common/dba/Account.js';
 export class FInsiderTaskDraftList extends FDraftList {
   _renderOnRender(render: PanelWrapper): void {
     let title = "Tasks";
-    if (Account.isWebOwner) {
+    if (Account.isWebOwner()) {
       title = "External tasks";
     }
     let pMain = new SectionPanel(title);

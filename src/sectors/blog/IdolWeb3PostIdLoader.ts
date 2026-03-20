@@ -1,9 +1,9 @@
-import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
+import { LongListIdLoader, LongListIdLoaderDelegate } from '../../common/plt/LongListIdLoader.js';
 import { Web3Config } from '../../common/dba/Web3Config.js';
 import { OwnerWeb3PostIdLoader } from './OwnerWeb3PostIdLoader.js';
 import type { LongListIdRecord } from '../../common/datatypes/LongListIdRecord.js';
 
-export class IdolWeb3PostIdLoader extends LongListIdLoader {
+export class IdolWeb3PostIdLoader extends LongListIdLoader implements LongListIdLoaderDelegate {
   #loaders: OwnerWeb3PostIdLoader[] = [];
 
   constructor() {
@@ -21,7 +21,10 @@ export class IdolWeb3PostIdLoader extends LongListIdLoader {
   }
 
   onIdUpdatedInLongListIdLoader(_loader: LongListIdLoader): void {
-    this._delegate.onIdUpdatedInLongListIdLoader(this);
+    const delegate = this.getDelegate<LongListIdLoaderDelegate>();
+    if (delegate) {
+      delegate.onIdUpdatedInLongListIdLoader(this);
+    }
   }
 
   asyncLoadFrontItems(): void {}

@@ -5,9 +5,9 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { OwnerWeb3PostIdLoader } from './OwnerWeb3PostIdLoader.js';
 import { FPostList } from './FPostList.js';
 import { AbWeb3New } from './AbWeb3New.js';
-import type { ActionButton } from '../../common/gui/ActionButton.js';
-import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
+import { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import { Account } from '../../common/dba/Account.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 export class FvcWeb3OwnerPosts extends FScrollViewContent {
   #loader: OwnerWeb3PostIdLoader;
@@ -34,7 +34,7 @@ export class FvcWeb3OwnerPosts extends FScrollViewContent {
 
   setOwnerId(id: string | null): void { this.#loader.setOwnerId(id); }
 
-  getActionButton(): ActionButton | null {
+  getActionButton(): Fragment | null {
     return this.#fBtnNew.isAvailable() ? this.#fBtnNew : null;
   }
 
