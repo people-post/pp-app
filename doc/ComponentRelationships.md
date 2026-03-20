@@ -72,7 +72,7 @@ In practice, the architecture should resemble a composition root at the top (`se
 
 ## 2. Current Status
 
-As of the latest update, `npm run check-deps` reports no **layer** (ordering) violations. It may still report **sector cross-dependency** violations: imports between different immediate child folders of `src/sectors`. Those are architecture debt to eliminate by moving shared code to `src/common` or lifting composition to `src/session`.
+As of the latest update, `npm run check-deps` reports no **layer** (ordering) violations. It may still report **sector cross-dependency** violations: imports between different immediate child folders of `src/sectors`. Those are architecture debt to eliminate by moving shared code to `src/common` or lifting composition to `src/session`. A staged remediation plan lives in [SectorDependencyRemediationPlan.md](./SectorDependencyRemediationPlan.md).
 
 Previously documented dependency debts in this file have been resolved, including:
 
