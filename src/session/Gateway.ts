@@ -43,6 +43,8 @@ import { FvcPreCheckout } from './composition/FvcPreCheckout.js';
 import { PseudoComposer } from './composition/PseudoComposer.js';
 import { createCareersViewContentMux } from './composition/CareersComposer.js';
 import { registerSessionFrontpageBlogBridge } from './composition/FrontpageBlogComposer.js';
+import { registerQuoteTargetFactories } from './composition/QuoteTargetComposer.js';
+import { registerWeb3ServerRegistrationFactory } from './composition/Web3ServerRegistrationComposer.js';
 import { FvcOwnerPosts } from '../sectors/blog/FvcOwnerPosts.js';
 import { FvcOwner as WorkshopFvcOwner } from '../sectors/workshop/FvcOwner.js';
 import { FvcOwner as ShopFvcOwner } from '../sectors/shop/FvcOwner.js';
@@ -50,6 +52,8 @@ import { FvcUserCommunity } from '../sectors/community/FvcUserCommunity.js';
 import { FvcChat } from '../sectors/messenger/FvcChat.js';
 
 registerSessionFrontpageBlogBridge();
+registerQuoteTargetFactories();
+registerWeb3ServerRegistrationFactory();
 
 AuthFacade.registerLoginViewFactory(() => new AuthGateway().createLoginView());
 CartFacade.registerCartViewFactory(() => {

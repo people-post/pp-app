@@ -5,9 +5,12 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { DraftArticle } from '../../common/datatypes/DraftArticle.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { FvcWeb3PostEditor } from './FvcWeb3PostEditor.js';
-import { FvcWeb3ServerRegistration } from '../../sectors/hosting/FvcWeb3ServerRegistration.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Env } from '../../common/plt/Env.js';
+import {
+  Web3ServerRegistrationFacade,
+  type Web3ServerRegistrationDelegate
+} from '../../common/plt/Web3ServerRegistrationFacade.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Account } from '../../common/dba/Account.js';
 
@@ -18,8 +21,13 @@ interface Web3Agent {
   isInitUserRegistered(): boolean;
 }
 
+interface AccountWeb3Selection {
+  setPublishers?(agents: Web3Agent[]): void;
+  setStorage?(agent: Web3Agent): void;
+}
+
 // ActionButton needs some redesign
-export class AbWeb3New extends Fragment {
+export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegate {
   #lmcPublisher: LMultiChoice;
   #lcStorage: LContext;
   #fBtn: ActionButton;
@@ -45,10 +53,10 @@ export class AbWeb3New extends Fragment {
   }
 
   onGuiActionButtonClick(_fButton: ActionButton): void { this.#onActionClick(); }
-  onRegistrationCanceledInServerRegistrationContentFragment(_fvc: FvcWeb3ServerRegistration): void {
+  onRegistrationCanceledInServerRegistrationContentFragment(_fvc: Fragment): void {
     Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
   }
-  onRegistrationSuccessInServerRegistrationContentFragment(_fvc: FvcWeb3ServerRegistration): void {
+  onRegistrationSuccessInServerRegistrationContentFragment(_fvc: Fragment): void {
     Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
   }
   onOptionClickedInContextLayer(_lc: LContext, value: unknown): void {
@@ -125,7 +133,7 @@ export class AbWeb3New extends Fragment {
         return;
       }
     }
-    const accountWithPublishers = Account as unknown as { setPublishers?: (agents: Web3Agent[]) => void };
+    const accountWithPublishers = Account as AccountWeb3Selection;
     if (accountWithPublishers.setPublishers) {
       accountWithPublishers.setPublishers(agents);
     }
@@ -165,7 +173,7 @@ export class AbWeb3New extends Fragment {
     if (!Account) {
       return;
     }
-    const accountWithStorage = Account as unknown as { setStorage?: (agent: Web3Agent) => void };
+    const accountWithStorage = Account as AccountWeb3Selection;
     if (accountWithStorage.setStorage) {
       accountWithStorage.setStorage(agent);
     }
@@ -182,10 +190,12 @@ export class AbWeb3New extends Fragment {
 
   #showPublisherRegistration(agent: Web3Agent): void {
     let v = new View();
-    let f = new FvcWeb3ServerRegistration();
-    f.setAgent(agent);
+    let f = Web3ServerRegistrationFacade.createRegistrationFragment(agent, this);
+    if (!f) {
+      this._displayMessage("Publisher registration is unavailable in this environment.");
+      return;
+    }
     v.setContentFragment(f);
-    f.setDelegate(this);
     Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
                                 "Publisher registration");
   }

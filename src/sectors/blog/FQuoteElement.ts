@@ -5,10 +5,11 @@ import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { FPostInfo } from './FPostInfo.js';
 import { FOgp } from './FOgp.js';
 import { FvcPost } from './FvcPost.js';
-import { FProjectInfo } from '../workshop/FProjectInfo.js';
-import { FProduct } from '../shop/FProduct.js';
-import { FvcProject } from '../workshop/FvcProject.js';
-import { FvcProduct } from '../shop/FvcProduct.js';
+import {
+  QuoteTargetFacade,
+  type QuoteProjectInfoFragment,
+  type QuoteProductInfoFragment
+} from '../../common/plt/QuoteTargetFacade.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type { Fragment as FragmentType } from '../../lib/ui/controllers/fragments/Fragment.js';
 
@@ -32,18 +33,18 @@ export class FQuoteElement extends Fragment {
   }
 
   isPostSelectedInPostInfoFragment(_fPostInfo: FPostInfo, _postId: SocialItemId): boolean { return false; }
-  isProjectSelectedInProjectInfoFragment(_fProjectInfo: FProjectInfo, _projectId: string): boolean {
+  isProjectSelectedInProjectInfoFragment(_fProjectInfo: QuoteProjectInfoFragment, _projectId: string): boolean {
     return false;
   }
-  isProductSelectedInProductInfoFragmetn(_fProductInfo: FProduct, _productId: string): boolean {
+  isProductSelectedInProductInfoFragmetn(_fProductInfo: QuoteProductInfoFragment, _productId: string): boolean {
     return false;
   }
 
   onClickInPostInfoFragment(_fPostInfo: FPostInfo, postId: SocialItemId): void { this.#showPost(postId); }
-  onClickInProjectInfoFragment(_fProjectInfo: FProjectInfo, projectId: string): void {
+  onClickInProjectInfoFragment(_fProjectInfo: QuoteProjectInfoFragment, projectId: string): void {
     this.#showProject(projectId);
   }
-  onClickInProductInfoFragment(_fProductInfo: FProduct, productId: string): void {
+  onClickInProductInfoFragment(_fProductInfo: QuoteProductInfoFragment, productId: string): void {
     this.#showProduct(productId);
   }
 
@@ -75,16 +76,20 @@ export class FQuoteElement extends Fragment {
       f.setDelegate(this);
       break;
     case SocialItem.TYPE.PROJECT:
-      f = new FProjectInfo();
-      f.setProjectId(this.#item);
-      f.setDataSource(this);
-      f.setDelegate(this);
+      f = QuoteTargetFacade.createProjectInfoFragment();
+      if (f) {
+        f.setProjectId(this.#item);
+        f.setDataSource(this);
+        f.setDelegate(this);
+      }
       break;
     case SocialItem.TYPE.PRODUCT:
-      f = new FProduct();
-      f.setProductId(this.#item);
-      f.setDataSource(this);
-      f.setDelegate(this);
+      f = QuoteTargetFacade.createProductInfoFragment();
+      if (f) {
+        f.setProductId(this.#item);
+        f.setDataSource(this);
+        f.setDelegate(this);
+      }
       break;
     case SocialItem.TYPE.URL:
       f = new FOgp();
@@ -108,18 +113,18 @@ export class FQuoteElement extends Fragment {
   }
 
   #showProject(id: string): void {
-    let v = new View();
-    let f = new FvcProject();
-    f.setProjectId(id);
-    v.setContentFragment(f);
+    let v = QuoteTargetFacade.createProjectView(id);
+    if (!v) {
+      return;
+    }
     this._delegate.onQuotedElementRequestShowView(this, v, "Project " + id);
   }
 
   #showProduct(id: string): void {
-    let v = new View();
-    let f = new FvcProduct();
-    f.setProductId(id);
-    v.setContentFragment(f);
+    let v = QuoteTargetFacade.createProductView(id);
+    if (!v) {
+      return;
+    }
     this._delegate.onQuotedElementRequestShowView(this, v, "Product" + id);
   }
 }
