@@ -4,7 +4,7 @@ import { BlogRole } from '../../common/datatypes/BlogRole.js';
 import { FCareerList as HrFCareerList } from '../../common/hr/FCareerList.js';
 import { FCareer, FCareerDelegate, FCareerDataSource } from '../../common/hr/FCareer.js';
 import { Blog } from '../../common/dba/Blog.js';
-import { FvcCareer } from '../../sectors/hr/FvcCareer.js';
+import { FvcCareer } from '../../common/hr/FvcCareer.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 export class FCareerList extends Fragment implements FCareerDataSource, FCareerDelegate {

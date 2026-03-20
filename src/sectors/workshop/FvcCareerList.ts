@@ -2,8 +2,9 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FCareerList } from '../../common/hr/FCareerList.js';
 import { FCareer, FCareerDelegate, FCareerDataSource } from '../../common/hr/FCareer.js';
-import { FvcCareer } from '../../sectors/hr/FvcCareer.js';
+import { FvcCareer } from '../../common/hr/FvcCareer.js';
 import { Workshop } from '../../common/dba/Workshop.js';
+import { UserRole } from '../../common/datatypes/UserRole.js';
 import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcCareerList extends FScrollViewContent implements FCareerDataSource, FCareerDelegate {
@@ -23,7 +24,7 @@ export class FvcCareerList extends FScrollViewContent implements FCareerDataSour
   shouldHighlightInCareerFragment(fCareer: FCareer, roleId: string): boolean {
     return this._selectedId == roleId;
   }
-  getRoleForCareerFragment(fCareer: FCareer, roleId: string): unknown {
+  getRoleForCareerFragment(fCareer: FCareer, roleId: string): UserRole | null {
     return Workshop.getTeam(roleId);
   }
   getFragmentsDictForCareerListFragment(fCareerList: FCareerList): Map<unknown, FCareer[]> {
@@ -49,7 +50,8 @@ export class FvcCareerList extends FScrollViewContent implements FCareerDataSour
     let f = new FvcCareer();
     f.setRoleId(this._selectedId);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "role");
+    // @ts-expect-error - owner may have this method
+    this._owner?.onFragmentRequestShowView?.(this, v, "role");
     this.render();
   }
 

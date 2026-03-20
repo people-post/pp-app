@@ -1,22 +1,22 @@
-const _CFT_CAREER_CONTENT = {
-  MEMBER : `<img class="user-info-icon tw:w-s-icon2 tw:h-s-icon2" src="__ICON_URL__"></img>
-    <div class="user-info-name">__NAME__</div>`,
-} as const;
-
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { GridFragment } from '../../lib/ui/controllers/fragments/GridFragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { UserRole } from '../../common/datatypes/UserRole.js';
-import { T_DATA } from '../../common/plt/Events.js';
+import { UserRole } from '../datatypes/UserRole.js';
+import { T_DATA } from '../plt/Events.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
-import { Users } from '../../common/dba/Users.js';
-import { WebConfig } from '../../common/dba/WebConfig.js';
-import { R } from '../../common/constants/R.js';
-import { Api } from '../../common/plt/Api.js';
-import { Account } from '../../common/dba/Account.js';
+import { Users } from '../dba/Users.js';
+import { WebConfig } from '../dba/WebConfig.js';
+import { R } from '../constants/R.js';
+import { Api } from '../plt/Api.js';
+import { Account } from '../dba/Account.js';
+
+const _CFT_CAREER_CONTENT = {
+  MEMBER : `<img class="user-info-icon tw:w-s-icon2 tw:h-s-icon2" src="__ICON_URL__"></img>
+    <div class="user-info-name">__NAME__</div>`,
+} as const;
 
 export class FvcCareer extends FScrollViewContent {
   protected _fMembers: GridFragment;
@@ -78,7 +78,7 @@ export class FvcCareer extends FScrollViewContent {
   renderItemForGrid(item: string): string {
     let user = Users.get(item);
     if (user) {
-      let s = _CFT_CAREER_CONTENT.MEMBER;
+      let s: string = _CFT_CAREER_CONTENT.MEMBER;
       s = s.replace("__NAME__", user.getNickname());
       s = s.replace("__ICON_URL__", user.getIconUrl());
       return s;
@@ -96,7 +96,7 @@ export class FvcCareer extends FScrollViewContent {
     render.wrapPanel(p);
     let pp = new SectionPanel("Name");
     p.pushPanel(pp);
-    pp.getContentPanel().replaceContent(role.getName());
+    pp.getContentPanel().replaceContent(role.getName() || "");
     pp = new SectionPanel("Description");
     p.pushPanel(pp);
 
@@ -124,16 +124,21 @@ export class FvcCareer extends FScrollViewContent {
     }
   }
   #onLeave(): void {
-    if (this._roleId) {
+    let roleId = this._roleId;
+    if (roleId) {
       this._confirmDangerousOperation(R.get("CONFIRM_RESIGN_ROLE"),
-                                      () => this.#asyncResignRole(this._roleId));
+                                      () => this.#asyncResignRole(roleId));
     }
   }
 
-  #renderActions(role: UserRole, panel: PanelWrapper): void {
-    if (Account.isRoleApplicationPending(role.getId())) {
+  #renderActions(_role: UserRole, panel: PanelWrapper): void {
+    let roleId = this._roleId;
+    if (!roleId) {
+      return;
+    }
+    if (Account.isRoleApplicationPending(roleId)) {
       panel.replaceContent("Your application is pending approval.");
-    } else if (Account.isInGroup(role.getId())) {
+    } else if (Account.isInGroup(roleId)) {
       this._fBtnLeave.attachRender(panel);
       this._fBtnLeave.render();
     } else {
@@ -167,7 +172,8 @@ export class FvcCareer extends FScrollViewContent {
   #onResignRoleRRR(data: unknown): void {
     let dataObj = data as { profile: unknown; web_config: unknown };
     Account.reset(dataObj.profile);
-    WebConfig.reset(dataObj.web_config);
-    this._owner.onContentFragmentRequestPopView(this);
+    WebConfig.reset(dataObj.web_config as any);
+    // @ts-expect-error - fragment owners implement this in runtime flow
+    this._owner?.onContentFragmentRequestPopView?.(this);
   }
 }

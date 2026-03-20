@@ -3,7 +3,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FCareerList } from '../../common/hr/FCareerList.js';
 import { FCareer, FCareerDelegate, FCareerDataSource } from '../../common/hr/FCareer.js';
 import { Shop } from '../../common/dba/Shop.js';
-import { FvcCareer } from '../../sectors/hr/FvcCareer.js';
+import { FvcCareer } from '../../common/hr/FvcCareer.js';
 
 export class FvcCareerList extends FScrollViewContent implements FCareerDataSource, FCareerDelegate {
   private _fList: FCareerList;
