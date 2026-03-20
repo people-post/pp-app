@@ -1,11 +1,11 @@
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
 const _CPT_POST_INFO_EMBED = {
   MAIN : `<div class="post-info">
     <div id="__ID_TITLE__" class="tw:text-u-font3"></div>
   </div>`,
 } as const;
-
-import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 export class PPostInfoEmbed extends PPostInfoBase {
   #pTitle: Panel;
@@ -22,7 +22,7 @@ export class PPostInfoEmbed extends PPostInfoBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_POST_INFO_EMBED.MAIN;
+    let s: string = _CPT_POST_INFO_EMBED.MAIN;
     s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
     return s;
   }

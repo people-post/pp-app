@@ -1,7 +1,12 @@
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { PUserReference } from '../../common/hr/PUserReference.js';
+
 const _CPT_POST_INFO_HUGE = {
   MAIN : `<div class="post-info huge">
   <div id="__ID_IMAGE__"></div>
-  <div class="tw:aspect-[5/1] tw:relative">
+  <div class="tw:aspect-5/1 tw:relative">
     <div class="tw:absolute tw:inset-0 tw:overflow-hidden">
       <div id="__ID_REF__" class="crosslink-note"></div>
       <div id="__ID_TITLE__" class="tw:text-u-font1"></div>
@@ -11,11 +16,6 @@ const _CPT_POST_INFO_HUGE = {
   </div>
   </div>`,
 } as const;
-
-import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { PUserReference } from '../../common/hr/PUserReference.js';
 
 export class PPostInfoHuge extends PPostInfoBase {
   private _pTitle: Panel;
@@ -52,7 +52,7 @@ export class PPostInfoHuge extends PPostInfoBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_POST_INFO_HUGE.MAIN;
+    let s: string = _CPT_POST_INFO_HUGE.MAIN;
     s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
     s = s.replace("__ID_IMAGE__", this._getSubElementId("I"));
     s = s.replace("__ID_REF__", this._getSubElementId("R"));

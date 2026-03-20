@@ -3,7 +3,7 @@ const _CPT_POST_INFO_COMPACT = {
   <div id="__ID_PIN__"></div>
   <div id="__ID_MAIN__" class="post-info compact tw:relative">
     <div class="tw:h-[60px] tw:overflow-hidden tw:flex tw:justify-between">
-      <div class="tw:w-[60%] tw:flex-grow tw:flex tw:flex-col tw:justify-center">
+      <div class="tw:w-[60%] tw:grow tw:flex tw:flex-col tw:justify-center">
         <div id="__ID_REF__" class="crosslink-note"></div>
         <div id="__ID_TITLE__" class="tw:text-u-font1 tw:font-bold tw:truncate"></div>
         <div id="__ID_DATE_TIME__" class="small-info-text"></div>
@@ -74,7 +74,7 @@ export class PPostInfoCompact extends PPostInfoBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_POST_INFO_COMPACT.MAIN;
+    let s: string = _CPT_POST_INFO_COMPACT.MAIN;
     s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
     s = s.replace("__ID_DATE_TIME__", this._getSubElementId("DT"));
     s = s.replace("__ID_IMAGE__", this._getSubElementId("I"));

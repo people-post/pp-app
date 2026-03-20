@@ -1,3 +1,8 @@
+import { PArticleBase } from './PArticleBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+
 const _CPT_WEB3_ARTICLE_EDITOR = {
   MAIN : `<div id="__ID_TITLE__"></div>
   <br>
@@ -12,11 +17,6 @@ const _CPT_WEB3_ARTICLE_EDITOR = {
   <br>
   <br>`,
 } as const;
-
-import { PArticleBase } from './PArticleBase.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 
 export class PWeb3ArticleEditor extends PArticleBase {
   #pTitle: Panel;
@@ -50,7 +50,7 @@ export class PWeb3ArticleEditor extends PArticleBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_WEB3_ARTICLE_EDITOR.MAIN;
+    let s: string = _CPT_WEB3_ARTICLE_EDITOR.MAIN;
     s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
     s = s.replace("__ID_FILES__", this._getSubElementId("F"));
     s = s.replace("__ID_ATTACHMENT__", this._getSubElementId("A"));

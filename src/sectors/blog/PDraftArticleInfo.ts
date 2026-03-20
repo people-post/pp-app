@@ -49,7 +49,7 @@ export class PDraftArticleInfo extends PArticleBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_DRAFT_ARTICLE_INFO.MAIN;
+    let s: string = _CPT_DRAFT_ARTICLE_INFO.MAIN;
     s = s.replace("__ID_WRAPPER__", this._getSubElementId("W"));
     s = s.replace("__ID_AUTHOR__", this._getSubElementId("A"));
     s = s.replace("__ID_TIME__", this._getSubElementId("TM"));

@@ -1,3 +1,8 @@
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { PUserReference } from '../../common/hr/PUserReference.js';
+
 /*
  * +------------------+-----------+
  * |                  |           |
@@ -11,9 +16,9 @@ const _CPT_POST_INFO_SMALL = {
   <div id="__ID_PIN__"></div>
   <div id="__ID_REF__" class="crosslink-note tw:min-h-[10px]"></div>
   <div id="__ID_MAIN__" class="post-info small">
-    <div class="tw:aspect-[5/1] tw:relative">
+    <div class="tw:aspect-5/1 tw:relative">
       <div class="tw:absolute tw:inset-0 tw:overflow-hidden tw:flex tw:justify-between">
-        <div class="tw:w-[60%] tw:flex-grow">
+        <div class="tw:w-[60%] tw:grow">
           <div id="__ID_TITLE__" class="tw:text-u-font3 tw:font-bold tw:truncate"></div>
           <div id="__ID_CONTENT__" class="tw:text-u-font6 tw:truncate"></div>
           <div id="__ID_QUOTE__"></div>
@@ -24,11 +29,6 @@ const _CPT_POST_INFO_SMALL = {
   </div>
   </div>`,
 } as const;
-
-import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { PUserReference } from '../../common/hr/PUserReference.js';
 
 export class PPostInfoSmall extends PPostInfoBase {
   protected _pTitle: Panel;
@@ -84,7 +84,7 @@ export class PPostInfoSmall extends PPostInfoBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_POST_INFO_SMALL.MAIN;
+    let s: string = _CPT_POST_INFO_SMALL.MAIN;
     s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
     s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
     s = s.replace("__ID_IMAGE__", this._getSubElementId("I"));

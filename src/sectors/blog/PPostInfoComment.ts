@@ -1,7 +1,7 @@
 const _CPT_POST_INFO_COMMENT = {
-  MAIN : `<div class="tw:flex tw:border-b tw:border-b-[1px] tw:border-solid tw:border-lightgray tw:py-[5px]">
-  <div id="__ID_OWNER_ICON__" class="w50px tw:flex-shrink-0"></div>
-  <div class="tw:flex-grow">
+  MAIN : `<div class="tw:flex tw:border-b tw:border-solid tw:border-lightgray tw:py-[5px]">
+  <div id="__ID_OWNER_ICON__" class="w50px tw:shrink-0"></div>
+  <div class="tw:grow">
     <div class="tw:flex tw:justify-between">
       <div id="__ID_OWNER_NAME__" class="comment-info-text"></div>
       <div id="__ID_CONTEXT__" class="comment-info-extra"></div>
@@ -42,7 +42,7 @@ export class PPostInfoComment extends PPostInfoBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_POST_INFO_COMMENT.MAIN;
+    let s: string = _CPT_POST_INFO_COMMENT.MAIN;
     s = s.replace("__ID_OWNER_ICON__", this._getSubElementId("I"));
     s = s.replace("__ID_OWNER_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));

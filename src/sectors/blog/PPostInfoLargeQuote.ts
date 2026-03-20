@@ -1,3 +1,8 @@
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PUserReference } from '../../common/hr/PUserReference.js';
+
 const _CPT_POST_INFO_LARGE_QUOTE = {
   MAIN : `<div class="quote-element tw:p-[5px]">
   <div id="__ID_REF__" class="crosslink-note"></div>
@@ -12,11 +17,6 @@ const _CPT_POST_INFO_LARGE_QUOTE = {
   <div id="__ID_IMAGE__"></div>
   </div>`,
 } as const;
-
-import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { PUserReference } from '../../common/hr/PUserReference.js';
 
 export class PPostInfoLargeQuote extends PPostInfoBase {
   private _pCrossRef: PUserReference;
@@ -45,7 +45,7 @@ export class PPostInfoLargeQuote extends PPostInfoBase {
   getImagePanel(): PanelWrapper | null { return this._pImage; }
 
   _renderFramework(): string {
-    let s = _CPT_POST_INFO_LARGE_QUOTE.MAIN;
+    let s: string = _CPT_POST_INFO_LARGE_QUOTE.MAIN;
     s = s.replace("__ID_REF__", this._getSubElementId("R"));
     s = s.replace("__ID_AUTHOR__", this._getSubElementId("A"));
     s = s.replace("__ID_TIME__", this._getSubElementId("TM"));

@@ -1,3 +1,7 @@
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
 /*
  * +-------------+
  * |             |
@@ -19,16 +23,12 @@ const _CPT_POST_INFO_BRIEF = {
       <div id="__ID_CONTENT__" class="tw:overflow-hidden"></div>
       <div class="tw:flex tw:justify-between">
         <div id="__ID_TIME__" class="small-info-text"></div>
-        <div id="__ID_SOCIAL__" class="tw:px-[5px] tw:flex-grow"></div>
+        <div id="__ID_SOCIAL__" class="tw:px-[5px] tw:grow"></div>
         <div id="__ID_SOURCE_LINK__" class="tw:text-u-font5 tw:cursor-pointer tw:underline s-cfunc"></div>
       </div>
     </div>
   </div>`,
 } as const;
-
-import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class PPostInfoBrief extends PPostInfoBase {
   #pTags: PanelWrapper;
@@ -64,7 +64,7 @@ export class PPostInfoBrief extends PPostInfoBase {
   getSocialBarPanel(): PanelWrapper { return this.#pSocial; }
 
   _renderFramework(): string {
-    let s = _CPT_POST_INFO_BRIEF.MAIN;
+    let s: string = _CPT_POST_INFO_BRIEF.MAIN;
     s = s.replace("__ID_TAGS__", this._getSubElementId("TG"));
     s = s.replace("__ID_TITLE__", this._getSubElementId("TT"));
     s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));

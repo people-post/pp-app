@@ -9,7 +9,7 @@ const _CPT_POST_INFO_CARD = {
       <div id="__ID_CONTENT__" class="tw:overflow-hidden"></div>
       <div class="tw:flex tw:justify-between">
         <div id="__ID_TIME__" class="small-info-text"></div>
-        <div id="__ID_SOCIAL__" class="tw:px-[5px] tw:flex-grow"></div>
+        <div id="__ID_SOCIAL__" class="tw:px-[5px] tw:grow"></div>
         <div id="__ID_SOURCE_LINK__" class="tw:text-u-font5 tw:cursor-pointer tw:underline s-cfunc"></div>
       </div>
     </div>
@@ -48,7 +48,7 @@ export class PPostInfoCard extends PPostInfoBase {
   getImagePanel(): PanelWrapper { return this.#pImage; }
 
   _renderFramework(): string {
-    let s = _CPT_POST_INFO_CARD.MAIN;
+    let s: string = _CPT_POST_INFO_CARD.MAIN;
     s = s.replace("__ID_TAGS__", this._getSubElementId("TG"));
     s = s.replace("__ID_TITLE__", this._getSubElementId("TT"));
     s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));

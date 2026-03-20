@@ -1,3 +1,8 @@
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PUserReference } from '../../common/hr/PUserReference.js';
+
 /*
  * +------------+----------------------+
  * |            |                      |
@@ -12,11 +17,11 @@ const _CPT_POST_INFO_MIDDLE = {
   MAIN : `<div id="__ID_WRAPPER__" class="post-info-wrapper">
   <div id="__ID_PIN__"></div>
   <div id="__ID_MAIN__" class="shadow-post-info">
-    <div class="tw:aspect-[3/1] tw:relative">
+    <div class="tw:aspect-3/1 tw:relative">
       <div class="tw:absolute tw:inset-0 tw:h-full tw:flex tw:justify-center">
         <div id="__ID_THUMBNAIL__"></div>
-        <div class="tw:flex-grow tw:flex tw:flex-col">
-          <div class="tw:flex-grow tw:overflow-hidden post-info-right">
+        <div class="tw:grow tw:flex tw:flex-col">
+          <div class="tw:grow tw:overflow-hidden post-info-right">
             <div id="__ID_REF__" class="crosslink-note"></div>
             <div id="__ID_TEXT__" class="content">
               <div id="__ID_TITLE__" class="title"></div>
@@ -31,11 +36,6 @@ const _CPT_POST_INFO_MIDDLE = {
   </div>
   </div>`,
 } as const;
-
-import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { PUserReference } from '../../common/hr/PUserReference.js';
 
 export class PPostInfoMiddle extends PPostInfoBase {
   protected _pImage: PanelWrapper;
@@ -104,7 +104,7 @@ export class PPostInfoMiddle extends PPostInfoBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_POST_INFO_MIDDLE.MAIN;
+    let s: string = _CPT_POST_INFO_MIDDLE.MAIN;
     s = s.replace("__ID_THUMBNAIL__", this._getSubElementId("I"));
     s = s.replace("__ID_REF__", this._getSubElementId("R"));
     s = s.replace("__ID_TITLE__", this._getSubElementId("T"));

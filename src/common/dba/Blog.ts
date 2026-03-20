@@ -17,7 +17,7 @@ import { Journal } from '../datatypes/Journal.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
 import { sys } from 'pp-api';
-import type { SocialItemId } from '../datatypes/SocialItemId.js';
+import type { SocialItemId } from '../../types/basic.js';
 import { Account } from './Account.js';
 import { BlogConfigData } from '../../types/blog.js';
 

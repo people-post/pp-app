@@ -1,8 +1,13 @@
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PUserReference } from '../../common/hr/PUserReference.js';
+
 const _CPT_POST_INFO_SMALL_QUOTE = {
-  MAIN : `<div class="tw:aspect-[3/1] tw:relative">
+  MAIN : `<div class="tw:aspect-3/1 tw:relative">
   <div class="tw:absolute tw:inset-0 tw:h-full tw:overflow-hidden quote-element small tw:flex tw:justify-start">
     <div id="__ID_IMAGE__"></div>
-    <div class="tw:flex-grow tw:p-[5px]">
+    <div class="tw:grow tw:p-[5px]">
       <div id="__ID_REF__" class="crosslink-note"></div>
       <div class="tw:flex tw:justify-between">
         <div id="__ID_AUTHOR__"></div>
@@ -14,11 +19,6 @@ const _CPT_POST_INFO_SMALL_QUOTE = {
   </div>
   </div>`,
 } as const;
-
-import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { PUserReference } from '../../common/hr/PUserReference.js';
 
 export class PPostInfoSmallQuote extends PPostInfoBase {
   private _pCrossRef: PUserReference;
@@ -62,7 +62,7 @@ export class PPostInfoSmallQuote extends PPostInfoBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_POST_INFO_SMALL_QUOTE.MAIN;
+    let s: string = _CPT_POST_INFO_SMALL_QUOTE.MAIN;
     s = s.replace("__ID_REF__", this._getSubElementId("R"));
     s = s.replace("__ID_AUTHOR__", this._getSubElementId("A"));
     s = s.replace("__ID_TIME__", this._getSubElementId("TM"));

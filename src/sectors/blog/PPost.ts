@@ -110,7 +110,7 @@ export class PPost extends PPostBase implements PostInfoPanel {
   getSourceLinkPanel(): Panel { return this.#pSourceLink; }
 
   _renderFramework(): string {
-    let s = _CPT_POST.MAIN;
+    let s: string = _CPT_POST.MAIN;
     s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
     s = s.replace("__ID_ABSTRACT__", this._getSubElementId("AB"));
     s = s.replace("__ID_SUMMARY__", this._getSubElementId("SM"));

@@ -1,3 +1,5 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+
 const _CPT_ROLE_INFO = {
   MAIN :
       `<div id="__ID_MAIN__" class="tw:p-[5px] tw:border-solid tw:border-gray-300 tw:border tw:border-[1px] tw:cursor-pointer">
@@ -7,8 +9,6 @@ const _CPT_ROLE_INFO = {
   </div>
   </div>`,
 } as const;
-
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 export class PRoleInfo extends Panel {
   protected _pName: Panel;
@@ -33,7 +33,7 @@ export class PRoleInfo extends Panel {
   }
 
   _renderFramework(): string {
-    let s = _CPT_ROLE_INFO.MAIN;
+    let s: string = _CPT_ROLE_INFO.MAIN;
     s = s.replace("__ID_MAIN__", this._getSubElementId("M"));
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_STATUS__", this._getSubElementId("S"));

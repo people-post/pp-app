@@ -1,3 +1,7 @@
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
 // This is maily for JournalIssue
 const _CPT_POST_INFO_FULL_PAGE = {
   MAIN : `<div class="tw:h-full h-pad5 tw:py-[5px] tw:overflow-y-auto tw:scroll-none">
@@ -5,10 +9,6 @@ const _CPT_POST_INFO_FULL_PAGE = {
     <div id="__ID_CONTENT__"></div>
   </div>`,
 } as const;
-
-import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class PPostInfoFullPage extends PPostInfoBase {
   #pTitle: Panel;
@@ -30,7 +30,7 @@ export class PPostInfoFullPage extends PPostInfoBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_POST_INFO_FULL_PAGE.MAIN;
+    let s: string = _CPT_POST_INFO_FULL_PAGE.MAIN;
     s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
     s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
     return s;

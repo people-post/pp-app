@@ -1,3 +1,8 @@
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PUserReference } from '../../common/hr/PUserReference.js';
+
 /*
  * +---+-------------+
  * |   |             |
@@ -9,10 +14,10 @@
 
 const _CPT_POST_INFO_LARGE = {
   MAIN : `<div class="tw:flex tw:justify-start tw:py-[5px] info-panel large">
-    <div class="w50px tw:flex-shrink-0">
+    <div class="w50px tw:shrink-0">
       <div id="__ID_OWNER_ICON__" class="user-icon-column"></div>
     </div>
-    <div class="tw:flex-grow tw:min-w-0">
+    <div class="tw:grow tw:min-w-0">
       <div>
         <div id="__ID_USER_REF__" class="crosslink-note"></div>
         <div class="tw:flex tw:justify-between">
@@ -33,11 +38,6 @@ const _CPT_POST_INFO_LARGE = {
     </div>
   </div>`,
 } as const;
-
-import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { PUserReference } from '../../common/hr/PUserReference.js';
 
 export class PPostInfoLarge extends PPostInfoBase {
   protected _pOwnerIcon: PanelWrapper;
@@ -77,7 +77,7 @@ export class PPostInfoLarge extends PPostInfoBase {
   getImagePanel(): PanelWrapper { return this._pImage; }
 
   _renderFramework(): string {
-    let s = _CPT_POST_INFO_LARGE.MAIN;
+    let s: string = _CPT_POST_INFO_LARGE.MAIN;
     s = s.replace("__ID_OWNER_ICON__", this._getSubElementId("O"));
     s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
     s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
