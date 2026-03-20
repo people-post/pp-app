@@ -9,11 +9,11 @@ import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { ProfileHubFacade } from '../../common/plt/ProfileHubFacade.js';
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 
-interface Web3UserInfoDataSource {
+export interface Web3UserInfoDataSource {
   getUserId(): string | null;
 }
 
-interface Web3UserInfoDelegate {
+export interface Web3UserInfoDelegate {
   onFragmentRequestShowView(f: FvcWeb3UserInfo, view: View, title: string): void;
 }
 
@@ -21,8 +21,6 @@ export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
   #fBanner: FUserInfoHeroBanner;
   #fMain: FViewContentMux;
   #userId: string | null = null;
-  protected _dataSource!: Web3UserInfoDataSource;
-  protected _delegate!: Web3UserInfoDelegate;
 
   constructor() {
     super();
@@ -57,12 +55,18 @@ export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
   onUserInfoHeroBannerFragmentRequestStartChat(_fBanner: FUserInfoHeroBanner, target: ChatTarget): void {
     let v = ProfileHubFacade.createChatView(target);
     if (v) {
-      this._delegate.onFragmentRequestShowView(this, v, "Chat");
+      const delegate = this.getDelegate<Web3UserInfoDelegate>();
+      if (delegate) {
+        delegate.onFragmentRequestShowView(this, v, "Chat");
+      }
     }
   }
 
   onUserInfoHeroBannerFragmentRequestShowView(_fBanner: FUserInfoHeroBanner, view: View, title: string): void {
-    this._delegate.onFragmentRequestShowView(this, view, title);
+    const delegate = this.getDelegate<Web3UserInfoDelegate>();
+    if (delegate) {
+      delegate.onFragmentRequestShowView(this, view, title);
+    }
   }
 
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
