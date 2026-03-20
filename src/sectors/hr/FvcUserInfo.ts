@@ -5,30 +5,23 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FUserInfoHeroBanner } from './FUserInfoHeroBanner.js';
-import { FvcOwnerPosts } from '../blog/FvcOwnerPosts.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Users } from '../../common/dba/Users.js';
-import { FvcOwner as WorkshopFvcOwner } from '../workshop/FvcOwner.js';
-import { FvcOwner as ShopFvcOwner } from '../shop/FvcOwner.js';
-import { FvcUserCommunity } from '../community/FvcUserCommunity.js';
-import { FvcChat } from '../messenger/FvcChat.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { Api } from '../../common/plt/Api.js';
+import { ProfileHubFacade } from '../../common/plt/ProfileHubFacade.js';
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 
 export interface FvcUserInfoDataSource {
   getUserId(): string | null;
 }
 
 export interface FvcUserInfoDelegate {
-  onNewProposalRequestedInUserCommunityContentFragment(f: FvcUserCommunity): void;
+  onNewProposalRequestedInUserCommunityContentFragment(f: FViewContentBase): void;
 }
 
 export class FvcUserInfo extends FViewContentWithHeroBanner {
   #fBanner: FUserInfoHeroBanner;
-  #fBlog: FvcOwnerPosts;
-  #fWorkshop: WorkshopFvcOwner;
-  #fShop: ShopFvcOwner;
-  #fCommunity: FvcUserCommunity;
   #fMain: FViewContentMux;
   #userId: string | null = null;
 
@@ -40,25 +33,12 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
     this.setHeroBannerFragment(this.#fBanner);
     this.setEnableAutoHide(true);
 
-    this.#fBlog = new FvcOwnerPosts();
-    this.#fBlog.setDataSource(this);
-    this.#fBlog.setDelegate(this);
-
-    this.#fWorkshop = new WorkshopFvcOwner();
-    this.#fWorkshop.setDelegate(this);
-
-    this.#fShop = new ShopFvcOwner();
-    this.#fShop.setDelegate(this);
-
-    this.#fCommunity = new FvcUserCommunity();
-    this.#fCommunity.setDelegate(this);
-
     this.#fMain = new FViewContentMux();
     this.wrapContentFragment(this.#fMain);
   }
 
   getUserId(): string | null { return this.#userId; }
-  getTagIdsForPostListFragment(_fPostList: unknown): string[] { return []; }
+  getTagIdsForPostListFragment(_fPostList: FViewContentBase): string[] { return []; }
 
   getCustomTheme(): ColorThemeType | null {
     if (!WebConfig.isWebOwner(this.#userId)) {
@@ -72,26 +52,21 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
 
   setUserId(userId: string | null): void {
     this.#userId = userId;
-    this.#fBlog.setOwnerId(userId);
-    this.#fWorkshop.setOwnerId(userId);
-    this.#fShop.setOwnerId(userId);
-    this.#fCommunity.setUserId(userId);
     this.#resetTabs();
   }
 
   onUserInfoHeroBannerFragmentRequestStartChat(_fBanner: FUserInfoHeroBanner, target: ChatTarget): void {
-    let v = new View();
-    let f = new FvcChat();
-    f.setTarget(target);
-    v.setContentFragment(f);
-    this.onFragmentRequestShowView(this, v, "Chat");
+    let v = ProfileHubFacade.createChatView(target);
+    if (v) {
+      this.onFragmentRequestShowView(this, v, "Chat");
+    }
   }
 
   onUserInfoHeroBannerFragmentRequestShowView(_fBanner: FUserInfoHeroBanner, view: View, title: string): void {
     this.onFragmentRequestShowView(this, view, title);
   }
 
-  onNewProposalRequestedInUserCommunityContentFragment(fUCC: FvcUserCommunity): void {
+  onNewProposalRequestedInUserCommunityContentFragment(fUCC: FViewContentBase): void {
     const delegate = this.getDelegate<FvcUserInfoDelegate>();
     if (delegate) {
       delegate.onNewProposalRequestedInUserCommunityContentFragment(fUCC);
@@ -122,28 +97,23 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
 
   #resetTabs(): void {
     this.#fMain.clearContents();
-
-    this.#fMain.addTab({name : "Blog", value : "BLOG", icon : ICON.BLOG},
-                       this.#fBlog);
-    let user = Users.get(this.#userId);
-    if (user && user.isWorkshopOpen?.() === true) {
-      this.#fMain.addTab(
-          {name : "Workshop", value : "WORKSHOP", icon : ICON.WORKSHOP},
-          this.#fWorkshop);
-    }
-
-    if (WebConfig.isDevSite()) {
-      if (user && user.isShopOpen?.() === true) {
-        this.#fMain.addTab({name : "Shop", value : "SHOP", icon : ICON.SHOP},
-                           this.#fShop);
+    let defaultTabId: string | null = null;
+    for (let tab of ProfileHubFacade.getWeb2Tabs()) {
+      if (tab.isEnabled && !tab.isEnabled(this.#userId)) {
+        continue;
       }
-    }
-
-    if (user && user.getCommunityId?.() !== undefined) {
+      let fvc = tab.createTabContent(this.#userId);
+      fvc.setDataSource(this);
+      fvc.setDelegate(this);
+      if (defaultTabId === null) {
+        defaultTabId = tab.id;
+      }
       this.#fMain.addTab(
-          {name : "Community", value : "COMMUNITY", icon : ICON.COMMUNITY},
-          this.#fCommunity);
+          {name : tab.name, value : tab.id, icon : tab.icon || ICON.BLOG},
+          fvc);
     }
-    this.#fMain.switchTo("BLOG");
+    if (defaultTabId) {
+      this.#fMain.switchTo(defaultTabId);
+    }
   }
 }

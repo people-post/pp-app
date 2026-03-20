@@ -17,6 +17,26 @@ import { Web3Ledger } from '../common/pdb/Web3Ledger.js';
 import { Web3Storage } from '../common/pdb/Web3Storage.js';
 import { asInit, Owner as Web3Owner } from 'pp-api';
 import { Account } from '../common/dba/Account.js';
+import { ProfileHubFacade } from '../common/plt/ProfileHubFacade.js';
+import { FvcWeb3OwnerPosts } from '../sectors/blog/FvcWeb3OwnerPosts.js';
+import { FvcChat } from '../sectors/messenger/FvcChat.js';
+
+ProfileHubFacade.registerWeb3Tab({
+  id: "BLOG",
+  name: "Blog",
+  createTabContent: (userId: string | null) => {
+    let f = new FvcWeb3OwnerPosts();
+    f.setOwnerId(userId);
+    return f;
+  }
+});
+ProfileHubFacade.registerChatViewFactory((target) => {
+  let v = new View();
+  let f = new FvcChat();
+  f.setTarget(target);
+  v.setContentFragment(f);
+  return v;
+});
 
 interface Web3ConfigData {
   default_theme: {

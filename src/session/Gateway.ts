@@ -8,6 +8,7 @@ import { Workshop } from '../common/dba/Workshop.js';
 import { Shop } from '../common/dba/Shop.js';
 import { Notifications } from '../common/dba/Notifications.js';
 import { Blog } from '../common/dba/Blog.js';
+import { Users } from '../common/dba/Users.js';
 import { R } from '../common/constants/R.js';
 import { Gateway as FrontPageGateway } from '../sectors/frontpage/Gateway.js';
 import { Gateway as BlogGateway } from '../sectors/blog/Gateway.js';
@@ -31,14 +32,21 @@ import { AuthFacade } from '../common/plt/AuthFacade.js';
 import { CartFacade } from '../common/plt/CartFacade.js';
 import { ProductFacade } from '../common/plt/ProductFacade.js';
 import { PreCheckoutFacade } from '../common/plt/PreCheckoutFacade.js';
+import { ProfileHubFacade } from '../common/plt/ProfileHubFacade.js';
 import type { PageConfig } from '../lib/ui/controllers/PageConfig.js';
 import { Cart as CartDataType } from '../common/datatypes/Cart.js';
+import { ChatTarget } from '../common/datatypes/ChatTarget.js';
 import { Account } from '../common/dba/Account.js';
 import { FvcCurrent } from '../sectors/cart/FvcCurrent.js';
 import { FvcProduct } from '../sectors/shop/FvcProduct.js';
 import { FvcPreCheckout } from './composition/FvcPreCheckout.js';
 import { PseudoComposer } from './composition/PseudoComposer.js';
 import { createCareersViewContentMux } from './composition/CareersComposer.js';
+import { FvcOwnerPosts } from '../sectors/blog/FvcOwnerPosts.js';
+import { FvcOwner as WorkshopFvcOwner } from '../sectors/workshop/FvcOwner.js';
+import { FvcOwner as ShopFvcOwner } from '../sectors/shop/FvcOwner.js';
+import { FvcUserCommunity } from '../sectors/community/FvcUserCommunity.js';
+import { FvcChat } from '../sectors/messenger/FvcChat.js';
 
 AuthFacade.registerLoginViewFactory(() => new AuthGateway().createLoginView());
 CartFacade.registerCartViewFactory(() => {
@@ -57,6 +65,74 @@ PreCheckoutFacade.registerPreCheckoutViewFactory((cart: CartDataType) => {
   let v = new View();
   let f = new FvcPreCheckout();
   f.setCart(cart);
+  v.setContentFragment(f);
+  return v;
+});
+ProfileHubFacade.registerWeb2Tab({
+  id: "BLOG",
+  name: "Blog",
+  icon: ICON.BLOG,
+  createTabContent: (userId: string | null) => {
+    let f = new FvcOwnerPosts();
+    f.setOwnerId(userId);
+    return f;
+  }
+});
+ProfileHubFacade.registerWeb2Tab({
+  id: "WORKSHOP",
+  name: "Workshop",
+  icon: ICON.WORKSHOP,
+  isEnabled: (userId: string | null) => {
+    let user = Users.get(userId);
+    if (!user) {
+      return false;
+    }
+    return user.isWorkshopOpen?.() === true;
+  },
+  createTabContent: (userId: string | null) => {
+    let f = new WorkshopFvcOwner();
+    f.setOwnerId(userId);
+    return f;
+  }
+});
+ProfileHubFacade.registerWeb2Tab({
+  id: "SHOP",
+  name: "Shop",
+  icon: ICON.SHOP,
+  isEnabled: (userId: string | null) => {
+    if (!WebConfig.isDevSite()) {
+      return false;
+    }
+    let user = Users.get(userId);
+    if (!user) {
+      return false;
+    }
+    return user.isShopOpen?.() === true;
+  },
+  createTabContent: (userId: string | null) => {
+    let f = new ShopFvcOwner();
+    f.setOwnerId(userId);
+    return f;
+  }
+});
+ProfileHubFacade.registerWeb2Tab({
+  id: "COMMUNITY",
+  name: "Community",
+  icon: ICON.COMMUNITY,
+  isEnabled: (userId: string | null) => {
+    let user = Users.get(userId);
+    return !!(user && user.getCommunityId?.() !== undefined);
+  },
+  createTabContent: (userId: string | null) => {
+    let f = new FvcUserCommunity();
+    f.setUserId(userId);
+    return f;
+  }
+});
+ProfileHubFacade.registerChatViewFactory((target: ChatTarget) => {
+  let v = new View();
+  let f = new FvcChat();
+  f.setTarget(target);
   v.setContentFragment(f);
   return v;
 });
@@ -417,7 +493,6 @@ export class Gateway extends Controller {
 
   #createPageEntryViews(pageId: string): View[] {
     let gateway: unknown;
-    let f: unknown;
     let vs: View[] = [];
     switch (pageId) {
     case ID.SECTOR.FRONT_PAGE:
@@ -474,15 +549,19 @@ export class Gateway extends Controller {
       break;
     case ID.SECTOR.ABOUT:
       vs = [ new View() ];
-      f = new FvcUserInfo();
-      (f as FvcUserInfo).setUserId(WebConfig.getOwnerId());
-      vs[0].setContentFragment(f);
+      {
+        let f = new FvcUserInfo();
+        f.setUserId(WebConfig.getOwnerId());
+        vs[0].setContentFragment(f);
+      }
       break;
     case ID.SECTOR.PROFILE:
       vs = [ new View() ];
-      f = new FvcUserInfo();
-      (f as FvcUserInfo).setUserId(Account.getId() || "");
-      vs[0].setContentFragment(f);
+      {
+        let f = new FvcUserInfo();
+        f.setUserId(Account.getId() || "");
+        vs[0].setContentFragment(f);
+      }
       break;
     case ID.SECTOR.HOSTING:
       vs = [ new View() ];

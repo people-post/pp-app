@@ -1,14 +1,13 @@
 import { FViewContentWithHeroBanner } from '../../lib/ui/controllers/fragments/FViewContentWithHeroBanner.js';
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FUserInfoHeroBanner } from './FUserInfoHeroBanner.js';
-import { FvcWeb3OwnerPosts } from '../blog/FvcWeb3OwnerPosts.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Users } from '../../common/dba/Users.js';
-import { FvcChat } from '../messenger/FvcChat.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
+import { ProfileHubFacade } from '../../common/plt/ProfileHubFacade.js';
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 
 interface Web3UserInfoDataSource {
   getUserId(): string | null;
@@ -20,7 +19,6 @@ interface Web3UserInfoDelegate {
 
 export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
   #fBanner: FUserInfoHeroBanner;
-  #fBlog: FvcWeb3OwnerPosts;
   #fMain: FViewContentMux;
   #userId: string | null = null;
   protected _dataSource!: Web3UserInfoDataSource;
@@ -34,16 +32,12 @@ export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
     this.setHeroBannerFragment(this.#fBanner);
     this.setEnableAutoHide(true);
 
-    this.#fBlog = new FvcWeb3OwnerPosts();
-    this.#fBlog.setDataSource(this);
-    this.#fBlog.setDelegate(this);
-
     this.#fMain = new FViewContentMux();
     this.wrapContentFragment(this.#fMain);
   }
 
   getUserId(): string | null { return this.#userId; }
-  getTagIdsForPostListFragment(_fPostList: unknown): string[] { return []; }
+  getTagIdsForPostListFragment(_fPostList: FViewContentBase): string[] { return []; }
 
   getCustomTheme(): string | null {
     if (!WebConfig.isWebOwner(this.#userId)) {
@@ -57,16 +51,14 @@ export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
 
   setUserId(userId: string | null): void {
     this.#userId = userId;
-    this.#fBlog.setOwnerId(userId);
     this.#resetTabs();
   }
 
   onUserInfoHeroBannerFragmentRequestStartChat(_fBanner: FUserInfoHeroBanner, target: ChatTarget): void {
-    let v = new View();
-    let f = new FvcChat();
-    f.setTarget(target);
-    v.setContentFragment(f);
-    this._delegate.onFragmentRequestShowView(this, v, "Chat");
+    let v = ProfileHubFacade.createChatView(target);
+    if (v) {
+      this._delegate.onFragmentRequestShowView(this, v, "Chat");
+    }
   }
 
   onUserInfoHeroBannerFragmentRequestShowView(_fBanner: FUserInfoHeroBanner, view: View, title: string): void {
@@ -87,10 +79,23 @@ export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
 
   #resetTabs(): void {
     this.#fMain.clearContents();
-
-    this.#fMain.addTab({name : "Blog", value : "BLOG", icon : ICON.BLOG},
-                       this.#fBlog);
-
-    this.#fMain.switchTo("BLOG");
+    let defaultTabId: string | null = null;
+    for (let tab of ProfileHubFacade.getWeb3Tabs()) {
+      if (tab.isEnabled && !tab.isEnabled(this.#userId)) {
+        continue;
+      }
+      let fvc = tab.createTabContent(this.#userId);
+      fvc.setDataSource(this);
+      fvc.setDelegate(this);
+      if (defaultTabId === null) {
+        defaultTabId = tab.id;
+      }
+      this.#fMain.addTab(
+          {name : tab.name, value : tab.id, icon : tab.icon},
+          fvc);
+    }
+    if (defaultTabId) {
+      this.#fMain.switchTo(defaultTabId);
+    }
   }
 }
