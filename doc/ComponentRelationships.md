@@ -54,7 +54,7 @@ The rule is simple: dependencies should point downward only. A layer may depend 
 | `src/common/plt` | Platform glue, environment, API wrappers, shared contracts used by higher layers | `src/common/datatypes`, `src/common/constants`, `src/lib/*` and lower only |
 | `src/common/dba` | Data-access and stateful shared services | `src/common/plt`, `src/common/datatypes`, `src/common/constants`, `src/lib/*` and lower only |
 | other `src/common/*` | Shared feature-level code reused across sectors | lower common layers and `src/lib/*` only |
-| `src/sectors` | Feature composition, sector gateways, sector-specific UI and flows | any lower layer, never `src/session` |
+| `src/sectors` | Feature composition, sector gateways, sector-specific UI and flows | any lower layer, never `src/session`; **within `src/sectors`, only the same immediate subfolder** (e.g. `blog`, `shop`)—no imports from sibling sector folders |
 | `src/session` | Application shell, top-level composition, cross-sector wiring | any lower layer |
 
 ### Intended relationship boundaries
@@ -62,6 +62,7 @@ The rule is simple: dependencies should point downward only. A layer may depend 
 The main relationships should be:
 
 - `session` knows sectors; sectors do not know session.
+- **Sector isolation:** each top-level folder under `src/sectors` (e.g. `blog`, `shop`, `cart`) is its own feature island. Code in one such folder must not import from another sector folder. Shared behavior belongs in `src/common` (or lower layers), which all sectors may use; cross-sector wiring stays in `src/session` (gateways/composition).
 - sectors know shared code in `common`; `common` does not know sectors.
 - `common` knows `lib`; `lib` does not know `common`.
 - `lib/ui` may depend on `lib/framework`, but `lib/framework` must not depend on `lib/ui`.
@@ -71,7 +72,7 @@ In practice, the architecture should resemble a composition root at the top (`se
 
 ## 2. Current Status
 
-As of the latest update, `npm run check-deps` reports no layer violations.
+As of the latest update, `npm run check-deps` reports no **layer** (ordering) violations. It may still report **sector cross-dependency** violations: imports between different immediate child folders of `src/sectors`. Those are architecture debt to eliminate by moving shared code to `src/common` or lifting composition to `src/session`.
 
 Previously documented dependency debts in this file have been resolved, including:
 
@@ -92,4 +93,5 @@ New code should follow these rules:
 - do not let `lib/framework/*` reference `lib/ui/*`
 - do not let `lib/*` reference product-specific state, resources, or sector contracts
 - do not let `sectors/*` import from `session/*`
+- do not import across top-level folders under `src/sectors` (e.g. `sectors/shop` must not import `sectors/cart`; use `common` or session composition instead)
 - when a lower layer needs information from a higher layer, pass it in as data, callbacks, or small interfaces

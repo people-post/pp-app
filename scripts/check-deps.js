@@ -67,6 +67,20 @@ function getLayer(relativePath) {
   return null;
 }
 
+/** First path segment under `src/sectors/` (e.g. `blog` for `src/sectors/blog/Foo.ts`), or null. */
+function getSectorFolder(relativePath) {
+  const prefix = 'src/sectors/';
+  if (!relativePath.startsWith(prefix)) {
+    return null;
+  }
+  const rest = relativePath.slice(prefix.length);
+  const slash = rest.indexOf('/');
+  if (slash === -1) {
+    return null;
+  }
+  return rest.slice(0, slash);
+}
+
 function resolveImport(fromFile, specifier) {
   if (!specifier.startsWith('.')) {
     return null;
@@ -112,7 +126,8 @@ function getLineNumber(fileContent, matchIndex) {
 }
 
 const files = walk(srcRoot);
-const violations = [];
+const layerViolations = [];
+const sectorCrossViolations = [];
 const unclassified = new Set();
 
 for (const filePath of files) {
@@ -148,7 +163,7 @@ for (const filePath of files) {
       }
 
       if (sourceLayer.rank < targetLayer.rank) {
-        violations.push({
+        layerViolations.push({
           source: relativeFilePath,
           line: getLineNumber(content, match.index),
           sourceLayer: sourceLayer.name,
@@ -157,11 +172,28 @@ for (const filePath of files) {
           specifier,
         });
       }
+
+      const sourceSector = getSectorFolder(relativeFilePath);
+      const targetSector = getSectorFolder(relativeTargetPath);
+      if (
+        sourceSector &&
+        targetSector &&
+        sourceSector !== targetSector
+      ) {
+        sectorCrossViolations.push({
+          source: relativeFilePath,
+          line: getLineNumber(content, match.index),
+          sourceSector,
+          target: relativeTargetPath,
+          targetSector,
+          specifier,
+        });
+      }
     }
   }
 }
 
-violations.sort((left, right) => {
+layerViolations.sort((left, right) => {
   const fileCompare = left.source.localeCompare(right.source);
   if (fileCompare !== 0) {
     return fileCompare;
@@ -169,14 +201,40 @@ violations.sort((left, right) => {
   return left.line - right.line;
 });
 
-if (violations.length === 0) {
+sectorCrossViolations.sort((left, right) => {
+  const fileCompare = left.source.localeCompare(right.source);
+  if (fileCompare !== 0) {
+    return fileCompare;
+  }
+  return left.line - right.line;
+});
+
+if (layerViolations.length === 0) {
   console.log('No layer violations found.');
 } else {
-  console.error(`Found ${violations.length} layer violation${violations.length === 1 ? '' : 's'}:`);
-  for (const violation of violations) {
+  console.error(
+    `Found ${layerViolations.length} layer violation${layerViolations.length === 1 ? '' : 's'}:`
+  );
+  for (const violation of layerViolations) {
     console.error(
       `${violation.source}:${violation.line} [${violation.sourceLayer}] -> ${violation.target} ` +
       `[${violation.targetLayer}] via ${violation.specifier}`
+    );
+  }
+}
+
+if (sectorCrossViolations.length === 0) {
+  console.log('No sector cross-dependency violations found.');
+} else {
+  console.error(
+    `Found ${sectorCrossViolations.length} sector cross-dependency violation` +
+    `${sectorCrossViolations.length === 1 ? '' : 's'} ` +
+    '(src/sectors/<folder> must not import from another sector folder):'
+  );
+  for (const violation of sectorCrossViolations) {
+    console.error(
+      `${violation.source}:${violation.line} [sectors/${violation.sourceSector}] -> ` +
+      `${violation.target} [sectors/${violation.targetSector}] via ${violation.specifier}`
     );
   }
 }
@@ -188,4 +246,5 @@ if (unclassified.size > 0) {
   }
 }
 
-process.exitCode = violations.length > 0 ? 1 : 0;
+process.exitCode =
+  layerViolations.length > 0 || sectorCrossViolations.length > 0 ? 1 : 0;
