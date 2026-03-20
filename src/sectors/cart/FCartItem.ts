@@ -17,7 +17,6 @@ const _CFT_CART_ITEM = {
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { View } from '../../lib/ui/controllers/views/View.js';
 import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
 import { Cart } from '../../common/dba/Cart.js';
 import { Shop } from '../../common/dba/Shop.js';
@@ -28,7 +27,6 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { Utilities } from '../../common/Utilities.js';
 import { PReservedItemInfo } from './PReservedItemInfo.js';
 import { PActiveItemInfo } from './PActiveItemInfo.js';
-import { FvcProduct } from '../shop/FvcProduct.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type Render from '../../lib/ui/renders/Render.js';
 import type { PCartItemInfo } from './PCartItemInfo.js';
@@ -40,6 +38,7 @@ interface CartItemDataSource {
 
 interface CartItemDelegate {
   onCartItemFragmentRequestShowView(f: FCartItem, v: unknown, title: string): void;
+  onCartItemFragmentRequestShowProduct(f: FCartItem, productId: string): void;
   onCartItemFragmentRequestChangeItemQuantity(f: FCartItem, itemId: string, dQty: number): void;
   onCartItemFragmentRequestRemoveItem(f: FCartItem, itemId: string): void;
 }
@@ -273,10 +272,6 @@ export class FCartItem extends Fragment {
   }
 
   #onProductClicked(productId: string): void {
-    let v = new View();
-    let f = new FvcProduct();
-    f.setProductId(productId);
-    v.setContentFragment(f);
-    this._delegate.onCartItemFragmentRequestShowView(this, v, "product");
+    this._delegate.onCartItemFragmentRequestShowProduct(this, productId);
   }
 };

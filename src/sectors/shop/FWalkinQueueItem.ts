@@ -18,7 +18,6 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { PWalkinQueueItem } from './PWalkinQueueItem.js';
 import { PWalkinQueueItemInfo } from './PWalkinQueueItemInfo.js';
 import { PWalkinQueueItemInfoPublic } from './PWalkinQueueItemInfoPublic.js';
-import { FvcPreCheckout } from './FvcPreCheckout.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FLocalUserSearch } from '../../common/search/FLocalUserSearch.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
@@ -28,6 +27,7 @@ import { R } from '../../common/constants/R.js';
 import { STATE } from '../../common/constants/Constants.js';
 import { Api } from '../../common/plt/Api.js';
 import { Utilities } from '../../common/Utilities.js';
+import { PreCheckoutFacade } from '../../common/plt/PreCheckoutFacade.js';
 
 export class FWalkinQueueItem extends Fragment {
   static T_LAYOUT = {INFO : "INFO", FULL: "FULL"};
@@ -275,12 +275,11 @@ export class FWalkinQueueItem extends Fragment {
   }
 
   #goCheckout(cart: CartDataType): void {
-    let v = new View();
-    let f = new FvcPreCheckout();
-    f.setCart(cart);
-    v.setContentFragment(f);
-    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
-                                "Pre checkout");
+    let v = PreCheckoutFacade.createPreCheckoutView(cart);
+    if (v) {
+      Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v,
+                              "Pre checkout");
+    }
   }
 
   #onDismiss(): void {

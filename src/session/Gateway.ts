@@ -27,10 +27,39 @@ import { FvcResetPassword } from '../sectors/auth/FvcResetPassword.js';
 import { FvcAccountActivation } from '../sectors/auth/FvcAccountActivation.js';
 import { Env } from '../common/plt/Env.js';
 import { SectorGateway } from '../common/plt/SectorGateway.js';
+import { AuthFacade } from '../common/plt/AuthFacade.js';
+import { CartFacade } from '../common/plt/CartFacade.js';
+import { ProductFacade } from '../common/plt/ProductFacade.js';
+import { PreCheckoutFacade } from '../common/plt/PreCheckoutFacade.js';
 import type { PageConfig } from '../lib/ui/controllers/PageConfig.js';
+import { Cart as CartDataType } from '../common/datatypes/Cart.js';
 import { Account } from '../common/dba/Account.js';
+import { FvcCurrent } from '../sectors/cart/FvcCurrent.js';
+import { FvcProduct } from '../sectors/shop/FvcProduct.js';
+import { FvcPreCheckout } from './composition/FvcPreCheckout.js';
 import { PseudoComposer } from './composition/PseudoComposer.js';
 import { createCareersViewContentMux } from './composition/CareersComposer.js';
+
+AuthFacade.registerLoginViewFactory(() => new AuthGateway().createLoginView());
+CartFacade.registerCartViewFactory(() => {
+  let v = new View();
+  v.setContentFragment(new FvcCurrent());
+  return v;
+});
+ProductFacade.registerProductViewFactory((productId: string) => {
+  let v = new View();
+  let f = new FvcProduct();
+  f.setProductId(productId);
+  v.setContentFragment(f);
+  return v;
+});
+PreCheckoutFacade.registerPreCheckoutViewFactory((cart: CartDataType) => {
+  let v = new View();
+  let f = new FvcPreCheckout();
+  f.setCart(cart);
+  v.setContentFragment(f);
+  return v;
+});
 
 export class Gateway extends Controller {
   static T_CONFIG: {

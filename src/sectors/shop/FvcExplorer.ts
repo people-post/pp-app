@@ -1,7 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
-import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { URL_PARAM } from '../../lib/ui/Constants.js';
@@ -10,8 +9,8 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { FIdolProductList } from './FIdolProductList.js';
 import { FCartButton } from './FCartButton.js';
 import { FSearchMenu } from '../../common/search/FSearchMenu.js';
-import { FvcCurrent } from '../../sectors/cart/FvcCurrent.js';
 import Render from '../../lib/ui/renders/Render.js';
+import { CartFacade } from '../../common/plt/CartFacade.js';
 
 declare global {
   var SearchIconOperator: new () => { [key: string]: unknown };
@@ -71,11 +70,11 @@ export class FvcExplorer extends FScrollViewContent {
   onScrollFinished(): void { this.#fList.onScrollFinished(); }
 
   onGuiActionButtonClick(_fAction: FCartButton): void {
-    let v = new View();
-    let f = new FvcCurrent();
-    v.setContentFragment(f);
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, v, "Cart");
+    let v = CartFacade.createCartView();
+    if (v) {
+      // @ts-expect-error - owner may have this method
+      this._owner?.onFragmentRequestShowView?.(this, v, "Cart");
+    }
   }
 
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {

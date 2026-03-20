@@ -13,10 +13,11 @@ import { PreviewOrder } from '../../common/datatypes/PreviewOrder.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { URL_PARAM, URL_PARAM_ADDON_VALUE } from '../../common/constants/Constants.js';
 import { FvcCheckout } from './FvcCheckout.js';
-import { Gateway as AuthGateway } from '../auth/Gateway.js';
 import { Api } from '../../common/plt/Api.js';
 import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
+import { AuthFacade } from '../../common/plt/AuthFacade.js';
+import { ProductFacade } from '../../common/plt/ProductFacade.js';
 
 export class FvcCurrent extends FScrollViewContent {
   protected _fPayables: FSimpleFragmentList;
@@ -51,6 +52,12 @@ export class FvcCurrent extends FScrollViewContent {
   }
   onCartFragmentRequestRemoveItem(fCart: FCart, cartId: string | null, itemId: string): void {
     Cart.asyncRemoveItem(cartId, itemId);
+  }
+  onCartFragmentRequestShowProduct(_fCart: FCart, productId: string): void {
+    let v = ProductFacade.createProductView(productId);
+    if (v) {
+      this._owner.onFragmentRequestShowView(this, v, "product");
+    }
   }
   onCartFragmentRequestCheckout(fCart: FCart, cartId: string | null, currencyId: string | null): void {
     let c = Cart.getCart(cartId);
@@ -139,9 +146,10 @@ export class FvcCurrent extends FScrollViewContent {
       v.setContentFragment(f);
       this._owner.onFragmentRequestShowView(this, v, "Checkout");
     } else {
-      let gw = new AuthGateway();
-      let v = gw.createLoginView();
-      this._owner.onFragmentRequestShowView(this, v, "Login");
+      let v = AuthFacade.createLoginView();
+      if (v) {
+        this._owner.onFragmentRequestShowView(this, v, "Login");
+      }
     }
   }
 };

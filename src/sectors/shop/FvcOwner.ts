@@ -20,10 +20,10 @@ import { Cart } from '../../common/dba/Cart.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
-import { FvcCurrent } from '../../sectors/cart/FvcCurrent.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
 import Render from '../../lib/ui/renders/Render.js';
+import { CartFacade } from '../../common/plt/CartFacade.js';
 
 
 declare global {
@@ -179,11 +179,11 @@ export class FvcOwner extends FScrollViewContent {
   }
 
   #onShowCart(): void {
-    let v = new View();
-    let f = new FvcCurrent();
-    v.setContentFragment(f);
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, v, "Cart");
+    let v = CartFacade.createCartView();
+    if (v) {
+      // @ts-expect-error - owner may have this method
+      this._owner?.onFragmentRequestShowView?.(this, v, "Cart");
+    }
   }
 
   #showDraftEditor(product: Product): void {

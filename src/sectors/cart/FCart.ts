@@ -24,6 +24,7 @@ interface CartDataSource {
 
 interface CartDelegate {
   onCartFragmentRequestShowView(f: FCart, v: unknown, title: string): void;
+  onCartFragmentRequestShowProduct(f: FCart, productId: string): void;
   onCartFragmentRequestChangeItemQuantity(f: FCart, cartId: string | null, itemId: string, dQty: number): void;
   onCartFragmentRequestRemoveItem(f: FCart, cartId: string | null, itemId: string): void;
   onCartFragmentRequestCheckout(f: FCart, cartId: string | null, currencyId: string | null): void;
@@ -77,6 +78,9 @@ export class FCart extends Fragment {
 
   onCartItemFragmentRequestShowView(fItem: FCartItem, v: unknown, title: string): void {
     this._delegate.onCartFragmentRequestShowView(this, v, title);
+  }
+  onCartItemFragmentRequestShowProduct(_fItem: FCartItem, productId: string): void {
+    this._delegate.onCartFragmentRequestShowProduct(this, productId);
   }
 
   onCartItemFragmentRequestChangeItemQuantity(fCartItem: FCartItem, itemId: string, dQty: number): void {

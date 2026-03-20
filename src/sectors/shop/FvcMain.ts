@@ -15,10 +15,10 @@ import { FvcReport } from './FvcReport.js';
 import { Notifications } from '../../common/dba/Notifications.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
-import { FvcCurrent } from '../../sectors/cart/FvcCurrent.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
+import { CartFacade } from '../../common/plt/CartFacade.js';
 
 export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {
@@ -200,11 +200,11 @@ export class FvcMain extends FViewContentWithHeroBanner {
   }
 
   #showCart(): void {
-    let v = new View();
-    let f = new FvcCurrent();
-    v.setContentFragment(f);
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, v, "Cart");
+    let v = CartFacade.createCartView();
+    if (v) {
+      // @ts-expect-error - owner may have this method
+      this._owner?.onFragmentRequestShowView?.(this, v, "Cart");
+    }
   }
 
   #asyncOpenShop(): void {
