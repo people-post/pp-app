@@ -6,7 +6,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { PBasic } from './PBasic.js';
-import { FvcChangePassword } from '../auth/FvcChangePassword.js';
+import { AccountCredentialFacade } from '../../common/plt/AccountCredentialFacade.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
@@ -94,8 +94,10 @@ export class FvcBasic extends FScrollViewContent {
   }
 
   #onChangePassword(): void {
-    let v = new View();
-    v.setContentFragment(new FvcChangePassword());
+    let v = AccountCredentialFacade.createChangePasswordView();
+    if (!v) {
+      v = new View();
+    }
     this._owner.onFragmentRequestShowView(this, v, "Change password");
   }
 

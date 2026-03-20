@@ -33,6 +33,7 @@ import { CartFacade } from '../common/plt/CartFacade.js';
 import { ProductFacade } from '../common/plt/ProductFacade.js';
 import { PreCheckoutFacade } from '../common/plt/PreCheckoutFacade.js';
 import { ProfileHubFacade } from '../common/plt/ProfileHubFacade.js';
+import { AccountCredentialFacade } from '../common/plt/AccountCredentialFacade.js';
 import type { PageConfig } from '../lib/ui/controllers/PageConfig.js';
 import { Cart as CartDataType } from '../common/datatypes/Cart.js';
 import { ChatTarget } from '../common/datatypes/ChatTarget.js';
@@ -50,12 +51,18 @@ import { FvcOwner as WorkshopFvcOwner } from '../sectors/workshop/FvcOwner.js';
 import { FvcOwner as ShopFvcOwner } from '../sectors/shop/FvcOwner.js';
 import { FvcUserCommunity } from '../sectors/community/FvcUserCommunity.js';
 import { FvcChat } from '../sectors/messenger/FvcChat.js';
+import { FvcChangePassword } from '../sectors/auth/FvcChangePassword.js';
 
 registerSessionFrontpageBlogBridge();
 registerQuoteTargetFactories();
 registerWeb3ServerRegistrationFactory();
 
 AuthFacade.registerLoginViewFactory(() => new AuthGateway().createLoginView());
+AccountCredentialFacade.registerChangePasswordViewFactory(() => {
+  let v = new View();
+  v.setContentFragment(new FvcChangePassword());
+  return v;
+});
 CartFacade.registerCartViewFactory(() => {
   let v = new View();
   v.setContentFragment(new FvcCurrent());

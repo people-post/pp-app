@@ -6,10 +6,10 @@ import { FWalkinQueue } from './FWalkinQueue.js';
 import { FvcBranchSelection } from './FvcBranchSelection.js';
 import { FvcRegisterSelection } from './FvcRegisterSelection.js';
 import { Counter } from '../../common/dba/Counter.js';
-import { Gateway as AuthGateway } from '../../sectors/auth/Gateway.js';
 import type { UrlParam } from '../../common/constants/Constants.js';
 import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
+import { AuthFacade } from '../../common/plt/AuthFacade.js';
 
 export class FvcCounterMain extends FScrollViewContent {
   protected _fQueue: FWalkinQueue;
@@ -103,9 +103,10 @@ export class FvcCounterMain extends FScrollViewContent {
     // This is hack to avoid dialog pop two times, needs debug
     Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
     // TODO: Only allow users with permission to login
-    let gw = new AuthGateway();
-    let v = gw.createLoginView();
-    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Login",
-                                false);
+    const v = AuthFacade.createLoginView();
+    if (!v) {
+      return;
+    }
+    Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Login", false);
   }
 }
