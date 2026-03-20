@@ -62,7 +62,6 @@
     "src/sectors/email",
     "src/sectors/auth",
     "src/sectors/school",
-    "src/sectors/pseudo",
     "src/sectors/hr",
     "src/sectors/exchange",
     "src/sectors/cart",

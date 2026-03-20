@@ -21,8 +21,6 @@ import { Gateway as ExchangeGateway } from '../sectors/exchange/Gateway.js';
 import { Gateway as EmailGateway } from '../sectors/email/Gateway.js';
 import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
 import { Gateway as SchoolGateway } from '../sectors/school/Gateway.js';
-import { Gateway as PseudoGateway } from '../sectors/pseudo/Gateway.js';
-import { Gateway as HrGateway } from '../sectors/hr/Gateway.js';
 import { FvcMain } from '../sectors/community/FvcMain.js';
 import { FvcUserInfo } from '../sectors/hr/FvcUserInfo.js';
 import { FvcResetPassword } from '../sectors/auth/FvcResetPassword.js';
@@ -31,6 +29,8 @@ import { Env } from '../common/plt/Env.js';
 import { SectorGateway } from '../common/plt/SectorGateway.js';
 import type { PageConfig } from '../lib/ui/controllers/PageConfig.js';
 import { Account } from '../common/dba/Account.js';
+import { PseudoComposer } from './composition/PseudoComposer.js';
+import { createCareersViewContentMux } from './composition/CareersComposer.js';
 
 export class Gateway extends Controller {
   static T_CONFIG: {
@@ -379,7 +379,7 @@ export class Gateway extends Controller {
       break;
     default:
       if (sectorId) {
-        gw = new PseudoGateway(sectorId);
+        gw = new PseudoComposer(sectorId);
       }
       break;
     }
@@ -469,9 +469,7 @@ export class Gateway extends Controller {
       break;
     case ID.SECTOR.CAREERS:
       vs = [ new View() ];
-      gateway = new HrGateway();
-      // @ts-expect-error - gateway may have this method
-      vs[0].setContentFragment(gateway.createMainViewContentFragment?.());
+      vs[0].setContentFragment(createCareersViewContentMux());
       break;
     case ID.SECTOR.EXCHANGE:
       vs = [ new View() ];

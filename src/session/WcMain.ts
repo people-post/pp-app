@@ -9,11 +9,11 @@ import { Events, T_DATA } from '../lib/framework/Events.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
 import { Cart } from '../common/dba/Cart.js';
 import { Notifications } from '../common/dba/Notifications.js';
-import { Gateway as HrGateway } from '../sectors/hr/Gateway.js';
 import { Env } from '../common/plt/Env.js';
 import { AbAccount } from './AbAccount.js';
 import { Api } from '../common/plt/Api.js';
 import { Account } from '../common/dba/Account.js';
+import { createCareersViewContentMux } from './composition/CareersComposer.js';
 
 export class WcMain extends WcSession {
   onLoginClickInAccountActionButtonFragment(_fAbAccount: AbAccount): void {
@@ -90,8 +90,7 @@ export class WcMain extends WcSession {
 
   #showBlogRolesView(): void {
     let v = new View();
-    let gw = new HrGateway();
-    let f = gw.createMainViewContentFragment();
+    let f = createCareersViewContentMux();
     f.switchTo(Tag.T_ID.BLOG);
     v.setContentFragment(f);
     this._pushDialog(v, "Blog open roles");
