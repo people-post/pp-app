@@ -40,41 +40,41 @@ const _CPT_POST_INFO_LARGE = {
 } as const;
 
 export class PPostInfoLarge extends PPostInfoBase {
-  protected _pOwnerIcon: PanelWrapper;
-  protected _pTitle: Panel;
-  protected _pContent: PanelWrapper;
-  protected _pOwnerName: PanelWrapper;
-  protected _pCrossRef: PUserReference;
-  protected _pTime: Panel;
-  protected _pSocial: PanelWrapper;
-  protected _pQuote: PanelWrapper;
-  protected _pAttachment: PanelWrapper;
-  protected _pImage: PanelWrapper;
+  #pOwnerIcon: PanelWrapper;
+  #pTitle: Panel;
+  #pContent: PanelWrapper;
+  #pOwnerName: PanelWrapper;
+  #pCrossRef: PUserReference;
+  #pTime: Panel;
+  #pSocial: PanelWrapper;
+  #pQuote: PanelWrapper;
+  #pAttachment: PanelWrapper;
+  #pImage: PanelWrapper;
 
   constructor() {
     super();
-    this._pOwnerIcon = new PanelWrapper();
-    this._pTitle = new Panel();
-    this._pContent = new PanelWrapper();
-    this._pOwnerName = new PanelWrapper();
-    this._pCrossRef = new PUserReference();
-    this._pTime = new Panel();
-    this._pSocial = new PanelWrapper();
-    this._pQuote = new PanelWrapper();
-    this._pAttachment = new PanelWrapper();
-    this._pImage = new PanelWrapper();
+    this.#pOwnerIcon = new PanelWrapper();
+    this.#pTitle = new Panel();
+    this.#pContent = new PanelWrapper();
+    this.#pOwnerName = new PanelWrapper();
+    this.#pCrossRef = new PUserReference();
+    this.#pTime = new Panel();
+    this.#pSocial = new PanelWrapper();
+    this.#pQuote = new PanelWrapper();
+    this.#pAttachment = new PanelWrapper();
+    this.#pImage = new PanelWrapper();
   }
 
-  getOwnerIconPanel(): PanelWrapper { return this._pOwnerIcon; }
-  getTitlePanel(): Panel { return this._pTitle; }
-  getContentPanel(): PanelWrapper { return this._pContent; }
-  getSocialBarPanel(): PanelWrapper { return this._pSocial; }
-  getOwnerNamePanel(): PanelWrapper { return this._pOwnerName; }
-  getCrossRefPanel(): PUserReference { return this._pCrossRef; }
-  getCreationTimeSmartPanel(): Panel { return this._pTime; }
-  getQuotePanel(): PanelWrapper { return this._pQuote; }
-  getAttachmentPanel(): PanelWrapper { return this._pAttachment; }
-  getImagePanel(): PanelWrapper { return this._pImage; }
+  getOwnerIconPanel(): PanelWrapper { return this.#pOwnerIcon; }
+  getTitlePanel(): Panel { return this.#pTitle; }
+  getContentPanel(): PanelWrapper { return this.#pContent; }
+  getSocialBarPanel(): PanelWrapper { return this.#pSocial; }
+  getOwnerNamePanel(): PanelWrapper { return this.#pOwnerName; }
+  getCrossRefPanel(): PUserReference { return this.#pCrossRef; }
+  getCreationTimeSmartPanel(): Panel { return this.#pTime; }
+  getQuotePanel(): PanelWrapper { return this.#pQuote; }
+  getAttachmentPanel(): PanelWrapper { return this.#pAttachment; }
+  getImagePanel(): PanelWrapper { return this.#pImage; }
 
   _renderFramework(): string {
     let s: string = _CPT_POST_INFO_LARGE.MAIN;
@@ -93,15 +93,15 @@ export class PPostInfoLarge extends PPostInfoBase {
 
   _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
-    this._pOwnerIcon.attach(this._getSubElementId("O"));
-    this._pTitle.attach(this._getSubElementId("T"));
-    this._pContent.attach(this._getSubElementId("C"));
-    this._pAttachment.attach(this._getSubElementId("A"));
-    this._pSocial.attach(this._getSubElementId("S"));
-    this._pOwnerName.attach(this._getSubElementId("N"));
-    this._pCrossRef.attach(this._getSubElementId("R"));
-    this._pTime.attach(this._getSubElementId("TM"));
-    this._pImage.attach(this._getSubElementId("I"));
-    this._pQuote.attach(this._getSubElementId("Q"));
+    this.#pOwnerIcon.attach(this._getSubElementId("O"));
+    this.#pTitle.attach(this._getSubElementId("T"));
+    this.#pContent.attach(this._getSubElementId("C"));
+    this.#pAttachment.attach(this._getSubElementId("A"));
+    this.#pSocial.attach(this._getSubElementId("S"));
+    this.#pOwnerName.attach(this._getSubElementId("N"));
+    this.#pCrossRef.attach(this._getSubElementId("R"));
+    this.#pTime.attach(this._getSubElementId("TM"));
+    this.#pImage.attach(this._getSubElementId("I"));
+    this.#pQuote.attach(this._getSubElementId("Q"));
   }
 }

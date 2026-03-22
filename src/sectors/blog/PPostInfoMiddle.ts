@@ -38,37 +38,37 @@ const _CPT_POST_INFO_MIDDLE = {
 } as const;
 
 export class PPostInfoMiddle extends PPostInfoBase {
-  protected _pImage: PanelWrapper;
-  protected _pTitle: Panel;
-  protected _pContent: PanelWrapper;
-  protected _pQuote: PanelWrapper;
-  protected _pCrossRef: PUserReference;
-  protected _pSocial: PanelWrapper;
-  protected _pPin: Panel;
+  #pImage: PanelWrapper;
+  #pTitle: Panel;
+  #pContent: PanelWrapper;
+  #pQuote: PanelWrapper;
+  #pCrossRef: PUserReference;
+  #pSocial: PanelWrapper;
+  #pPin: Panel;
 
   constructor() {
     super();
-    this._pImage = new PanelWrapper();
-    this._pTitle = new Panel();
-    this._pContent = new PanelWrapper();
-    this._pQuote = new PanelWrapper();
-    this._pCrossRef = new PUserReference();
-    this._pSocial = new PanelWrapper();
-    this._pPin = new Panel();
+    this.#pImage = new PanelWrapper();
+    this.#pTitle = new Panel();
+    this.#pContent = new PanelWrapper();
+    this.#pQuote = new PanelWrapper();
+    this.#pCrossRef = new PUserReference();
+    this.#pSocial = new PanelWrapper();
+    this.#pPin = new Panel();
   }
 
   isColorInvertible(): boolean { return true; }
 
-  getTitlePanel(): Panel { return this._pTitle; }
-  getCrossRefPanel(): PUserReference { return this._pCrossRef; }
-  getContentPanel(): PanelWrapper { return this._pContent; }
-  getQuotePanel(): PanelWrapper { return this._pQuote; }
-  getPinPanel(): Panel { return this._pPin; }
-  getSocialBarPanel(): PanelWrapper { return this._pSocial; }
-  getImagePanel(): PanelWrapper { return this._pImage; }
+  getTitlePanel(): Panel { return this.#pTitle; }
+  getCrossRefPanel(): PUserReference { return this.#pCrossRef; }
+  getContentPanel(): PanelWrapper { return this.#pContent; }
+  getQuotePanel(): PanelWrapper { return this.#pQuote; }
+  getPinPanel(): Panel { return this.#pPin; }
+  getSocialBarPanel(): PanelWrapper { return this.#pSocial; }
+  getImagePanel(): PanelWrapper { return this.#pImage; }
 
   enableImage(): void {
-    this._pImage.setClassName(
+    this.#pImage.setClassName(
         "post-info-image-thumbnail-wrapper tw:flex-shrink-0");
   }
   enableQuote(): void {
@@ -77,7 +77,7 @@ export class PPostInfoMiddle extends PPostInfoBase {
     if (e) {
       e.className = "content tw:max-h-[40px] tw:overflow-hidden";
     }
-    this._pQuote.setClassName("left-pad5 right-pad5");
+    this.#pQuote.setClassName("left-pad5 right-pad5");
   }
   setVisibilityClassName(name: string): void {
     let e = document.getElementById(this._getSubElementId("M"));
@@ -94,13 +94,13 @@ export class PPostInfoMiddle extends PPostInfoBase {
 
   _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
-    this._pImage.attach(this._getSubElementId("I"));
-    this._pCrossRef.attach(this._getSubElementId("R"));
-    this._pTitle.attach(this._getSubElementId("T"));
-    this._pContent.attach(this._getSubElementId("C"));
-    this._pQuote.attach(this._getSubElementId("Q"));
-    this._pSocial.attach(this._getSubElementId("S"));
-    this._pPin.attach(this._getSubElementId("P"));
+    this.#pImage.attach(this._getSubElementId("I"));
+    this.#pCrossRef.attach(this._getSubElementId("R"));
+    this.#pTitle.attach(this._getSubElementId("T"));
+    this.#pContent.attach(this._getSubElementId("C"));
+    this.#pQuote.attach(this._getSubElementId("Q"));
+    this.#pSocial.attach(this._getSubElementId("S"));
+    this.#pPin.attach(this._getSubElementId("P"));
   }
 
   _renderFramework(): string {

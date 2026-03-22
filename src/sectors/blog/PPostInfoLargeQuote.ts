@@ -1,7 +1,4 @@
-import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { PUserReference } from '../../common/hr/PUserReference.js';
+import { PPostInfoQuoteBase } from './PPostInfoQuoteBase.js';
 
 const _CPT_POST_INFO_LARGE_QUOTE = {
   MAIN : `<div class="quote-element tw:p-[5px]">
@@ -18,32 +15,7 @@ const _CPT_POST_INFO_LARGE_QUOTE = {
   </div>`,
 } as const;
 
-export class PPostInfoLargeQuote extends PPostInfoBase {
-  private _pCrossRef: PUserReference;
-  private _pAuthorName: PanelWrapper;
-  private _pTitle: Panel;
-  private _pContent: PanelWrapper;
-  private _pTime: Panel;
-  private _pImage: PanelWrapper;
-
-  constructor() {
-    super();
-    this._pCrossRef = new PUserReference();
-    this._pAuthorName = new PanelWrapper();
-    this._pTitle = new Panel();
-    this._pContent = new PanelWrapper();
-    this._pTime = new Panel();
-    this._pImage = new PanelWrapper();
-  }
-
-  getCrossRefPanel(): PUserReference { return this._pCrossRef; }
-  getOwnerNamePanel(): PanelWrapper | null { return null; }
-  getAuthorNamePanel(): PanelWrapper { return this._pAuthorName; }
-  getCreationTimeSmartPanel(): Panel { return this._pTime; }
-  getTitlePanel(): Panel { return this._pTitle; }
-  getContentPanel(): PanelWrapper { return this._pContent; }
-  getImagePanel(): PanelWrapper | null { return this._pImage; }
-
+export class PPostInfoLargeQuote extends PPostInfoQuoteBase {
   _renderFramework(): string {
     let s: string = _CPT_POST_INFO_LARGE_QUOTE.MAIN;
     s = s.replace("__ID_REF__", this._getSubElementId("R"));
@@ -53,15 +25,5 @@ export class PPostInfoLargeQuote extends PPostInfoBase {
     s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
     s = s.replace("__ID_IMAGE__", this._getSubElementId("I"));
     return s;
-  }
-
-  _onFrameworkDidAppear(): void {
-    super._onFrameworkDidAppear();
-    this._pCrossRef.attach(this._getSubElementId("R"));
-    this._pAuthorName.attach(this._getSubElementId("A"));
-    this._pTime.attach(this._getSubElementId("TM"));
-    this._pTitle.attach(this._getSubElementId("T"));
-    this._pContent.attach(this._getSubElementId("C"));
-    this._pImage.attach(this._getSubElementId("I"));
   }
 };

@@ -31,34 +31,34 @@ const _CPT_POST_INFO_SMALL = {
 } as const;
 
 export class PPostInfoSmall extends PPostInfoBase {
-  protected _pTitle: Panel;
-  protected _pContent: PanelWrapper;
-  protected _pPin: Panel;
-  protected _pCrossRef: PUserReference;
-  protected _pQuote: PanelWrapper;
-  protected _pImage: PanelWrapper;
+  #pTitle: Panel;
+  #pContent: PanelWrapper;
+  #pPin: Panel;
+  #pCrossRef: PUserReference;
+  #pQuote: PanelWrapper;
+  #pImage: PanelWrapper;
 
   constructor() {
     super();
-    this._pTitle = new Panel();
-    this._pContent = new PanelWrapper();
-    this._pPin = new Panel();
-    this._pCrossRef = new PUserReference();
-    this._pQuote = new PanelWrapper();
-    this._pImage = new PanelWrapper();
+    this.#pTitle = new Panel();
+    this.#pContent = new PanelWrapper();
+    this.#pPin = new Panel();
+    this.#pCrossRef = new PUserReference();
+    this.#pQuote = new PanelWrapper();
+    this.#pImage = new PanelWrapper();
   }
 
   isColorInvertible(): boolean { return true; }
 
-  getTitlePanel(): Panel { return this._pTitle; }
-  getContentPanel(): PanelWrapper { return this._pContent; }
-  getPinPanel(): Panel { return this._pPin; }
-  getCrossRefPanel(): PUserReference { return this._pCrossRef; }
-  getQuotePanel(): PanelWrapper { return this._pQuote; }
-  getImagePanel(): PanelWrapper { return this._pImage; }
+  getTitlePanel(): Panel { return this.#pTitle; }
+  getContentPanel(): PanelWrapper { return this.#pContent; }
+  getPinPanel(): Panel { return this.#pPin; }
+  getCrossRefPanel(): PUserReference { return this.#pCrossRef; }
+  getQuotePanel(): PanelWrapper { return this.#pQuote; }
+  getImagePanel(): PanelWrapper { return this.#pImage; }
 
-  enableImage(): void { this._pImage.setClassName("w35 tw:flex-shrink-0"); }
-  enableQuote(): void { this._pQuote.setClassName("left-pad5 right-pad5"); }
+  enableImage(): void { this.#pImage.setClassName("w35 tw:flex-shrink-0"); }
+  enableQuote(): void { this.#pQuote.setClassName("left-pad5 right-pad5"); }
 
   setVisibilityClassName(name: string): void {
     let e = document.getElementById(this._getSubElementId("M"));
@@ -75,12 +75,12 @@ export class PPostInfoSmall extends PPostInfoBase {
 
   _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
-    this._pTitle.attach(this._getSubElementId("T"));
-    this._pContent.attach(this._getSubElementId("C"));
-    this._pImage.attach(this._getSubElementId("I"));
-    this._pPin.attach(this._getSubElementId("P"));
-    this._pCrossRef.attach(this._getSubElementId("R"));
-    this._pQuote.attach(this._getSubElementId("Q"));
+    this.#pTitle.attach(this._getSubElementId("T"));
+    this.#pContent.attach(this._getSubElementId("C"));
+    this.#pImage.attach(this._getSubElementId("I"));
+    this.#pPin.attach(this._getSubElementId("P"));
+    this.#pCrossRef.attach(this._getSubElementId("R"));
+    this.#pQuote.attach(this._getSubElementId("Q"));
   }
 
   _renderFramework(): string {

@@ -12,34 +12,31 @@ const _CPT_DRAFT_ARTICLE_INFO = {
   </div>`,
 } as const;
 
-import { PArticleBase } from './PArticleBase.js';
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-export class PDraftArticleInfo extends PArticleBase {
-  private _pAuthorName: PanelWrapper;
-  private _pTags: PanelWrapper;
-  private _pTitle: Panel;
-  private _pContent: PanelWrapper;
-  private _pTime: Panel;
+export class PDraftArticleInfo extends PPostInfoBase {
+  #pAuthorName: PanelWrapper;
+  #pTags: PanelWrapper;
+  #pTitle: Panel;
+  #pContent: PanelWrapper;
+  #pTime: Panel;
 
   constructor() {
     super();
-    this._pAuthorName = new PanelWrapper();
-    this._pTags = new PanelWrapper();
-    this._pTitle = new Panel();
-    this._pContent = new PanelWrapper();
-    this._pTime = new Panel();
+    this.#pAuthorName = new PanelWrapper();
+    this.#pTags = new PanelWrapper();
+    this.#pTitle = new Panel();
+    this.#pContent = new PanelWrapper();
+    this.#pTime = new Panel();
   }
 
-  getTitlePanel(): Panel { return this._pTitle; }
-  getContentPanel(): PanelWrapper { return this._pContent; }
-  getOwnerIconPanel(): Panel | null { return null; }
-  getOwnerNamePanel(): Panel | null { return null; }
-  getAuthorNamePanel(): PanelWrapper { return this._pAuthorName; }
-  getTagsPanel(): PanelWrapper { return this._pTags; }
-  getCreationTimeSmartPanel(): Panel { return this._pTime; }
-  getCreationDateTimePanel(): Panel | null { return null; }
+  getTitlePanel(): Panel { return this.#pTitle; }
+  getContentPanel(): PanelWrapper { return this.#pContent; }
+  getAuthorNamePanel(): PanelWrapper { return this.#pAuthorName; }
+  getTagsPanel(): PanelWrapper { return this.#pTags; }
+  getCreationTimeSmartPanel(): Panel { return this.#pTime; }
 
   invertColor(): void {
     let e = document.getElementById(this._getSubElementId("W"));
@@ -61,10 +58,10 @@ export class PDraftArticleInfo extends PArticleBase {
 
   _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
-    this._pAuthorName.attach(this._getSubElementId("A"));
-    this._pTime.attach(this._getSubElementId("TM"));
-    this._pTags.attach(this._getSubElementId("TG"));
-    this._pTitle.attach(this._getSubElementId("TT"));
-    this._pContent.attach(this._getSubElementId("C"));
+    this.#pAuthorName.attach(this._getSubElementId("A"));
+    this.#pTime.attach(this._getSubElementId("TM"));
+    this.#pTags.attach(this._getSubElementId("TG"));
+    this.#pTitle.attach(this._getSubElementId("TT"));
+    this.#pContent.attach(this._getSubElementId("C"));
   }
 };

@@ -1,7 +1,4 @@
-import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { PUserReference } from '../../common/hr/PUserReference.js';
+import { PPostInfoThumbnailBase } from './PPostInfoThumbnailBase.js';
 
 const _CPT_POST_INFO_HUGE = {
   MAIN : `<div class="post-info huge">
@@ -17,40 +14,7 @@ const _CPT_POST_INFO_HUGE = {
   </div>`,
 } as const;
 
-export class PPostInfoHuge extends PPostInfoBase {
-  private _pTitle: Panel;
-  private _pCrossRef: PUserReference;
-  private _pQuote: PanelWrapper;
-  private _pDateTime: Panel;
-  private _pImage: PanelWrapper;
-
-  constructor() {
-    super();
-    this._pTitle = new Panel();
-    this._pCrossRef = new PUserReference();
-    this._pQuote = new PanelWrapper();
-    this._pDateTime = new Panel();
-    this._pImage = new PanelWrapper();
-  }
-
-  getTitlePanel(): Panel { return this._pTitle; }
-  getPinPanel(): Panel | null { return null; }
-  getCrossRefPanel(): PUserReference { return this._pCrossRef; }
-  getQuotePanel(): PanelWrapper | null { return this._pQuote; }
-  getCreationDateTimePanel(): Panel { return this._pDateTime; }
-  getImagePanel(): PanelWrapper | null { return this._pImage; }
-
-  enableQuote(): void { this._pQuote.setClassName("left-pad5 right-pad5"); }
-
-  _onFrameworkDidAppear(): void {
-    super._onFrameworkDidAppear();
-    this._pTitle.attach(this._getSubElementId("T"));
-    this._pImage.attach(this._getSubElementId("I"));
-    this._pCrossRef.attach(this._getSubElementId("R"));
-    this._pQuote.attach(this._getSubElementId("Q"));
-    this._pDateTime.attach(this._getSubElementId("DT"));
-  }
-
+export class PPostInfoHuge extends PPostInfoThumbnailBase {
   _renderFramework(): string {
     let s: string = _CPT_POST_INFO_HUGE.MAIN;
     s = s.replace("__ID_TITLE__", this._getSubElementId("T"));

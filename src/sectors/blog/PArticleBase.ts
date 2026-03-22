@@ -1,3 +1,3 @@
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PPostBase } from '../../common/gui/PPostBase.js';
 
-export class PArticleBase extends Panel {};
+export class PArticleBase extends PPostBase {};
