@@ -18,7 +18,7 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
-import { CartFacade } from '../../common/plt/CartFacade.js';
+import { CartFacade } from '../../common/checkout/CartFacade.js';
 
 export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {

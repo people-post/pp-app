@@ -6,7 +6,7 @@ import { FUserInfoHeroBanner } from './FUserInfoHeroBanner.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Users } from '../../common/dba/Users.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
-import { ProfileHubFacade } from '../../common/plt/ProfileHubFacade.js';
+import { ProfileHubFacade } from '../../common/hr/ProfileHubFacade.js';
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 
 export interface Web3UserInfoDataSource {

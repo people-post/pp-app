@@ -16,8 +16,8 @@ import { FvcCheckout } from './FvcCheckout.js';
 import { Api } from '../../common/plt/Api.js';
 import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
-import { AuthFacade } from '../../common/plt/AuthFacade.js';
-import { ProductFacade } from '../../common/plt/ProductFacade.js';
+import { AuthFacade } from '../../common/auth/AuthFacade.js';
+import { ProductFacade } from '../../common/shop/ProductFacade.js';
 
 export class FvcCurrent extends FScrollViewContent {
   protected _fPayables: FSimpleFragmentList;

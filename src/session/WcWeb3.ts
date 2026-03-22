@@ -17,7 +17,7 @@ import { Web3Ledger } from '../common/pdb/Web3Ledger.js';
 import { Web3Storage } from '../common/pdb/Web3Storage.js';
 import { asInit, Owner as Web3Owner } from 'pp-api';
 import { Account } from '../common/dba/Account.js';
-import { ProfileHubFacade } from '../common/plt/ProfileHubFacade.js';
+import { ProfileHubFacade } from '../common/hr/ProfileHubFacade.js';
 import { FvcWeb3OwnerPosts } from '../sectors/blog/FvcWeb3OwnerPosts.js';
 import { FvcChat } from '../sectors/messenger/FvcChat.js';
 

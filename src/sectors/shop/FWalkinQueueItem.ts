@@ -27,7 +27,7 @@ import { R } from '../../common/constants/R.js';
 import { STATE } from '../../common/constants/Constants.js';
 import { Api } from '../../common/plt/Api.js';
 import { Utilities } from '../../common/Utilities.js';
-import { PreCheckoutFacade } from '../../common/plt/PreCheckoutFacade.js';
+import { PreCheckoutFacade } from '../../common/checkout/PreCheckoutFacade.js';
 
 export class FWalkinQueueItem extends Fragment {
   static T_LAYOUT = {INFO : "INFO", FULL: "FULL"};

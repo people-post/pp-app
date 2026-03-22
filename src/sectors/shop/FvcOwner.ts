@@ -23,7 +23,7 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
 import Render from '../../lib/ui/renders/Render.js';
-import { CartFacade } from '../../common/plt/CartFacade.js';
+import { CartFacade } from '../../common/checkout/CartFacade.js';
 
 
 declare global {

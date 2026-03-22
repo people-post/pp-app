@@ -9,7 +9,7 @@ import { Counter } from '../../common/dba/Counter.js';
 import type { UrlParam } from '../../common/constants/Constants.js';
 import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
-import { AuthFacade } from '../../common/plt/AuthFacade.js';
+import { AuthFacade } from '../../common/auth/AuthFacade.js';
 
 export class FvcCounterMain extends FScrollViewContent {
   protected _fQueue: FWalkinQueue;

@@ -9,7 +9,7 @@ import {
   QuoteTargetFacade,
   type QuoteProjectInfoFragment,
   type QuoteProductInfoFragment
-} from '../../common/plt/QuoteTargetFacade.js';
+} from '../../common/shop/QuoteTargetFacade.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type { Fragment as FragmentType } from '../../lib/ui/controllers/fragments/Fragment.js';
 
