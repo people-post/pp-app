@@ -10,7 +10,7 @@ import { FIdolProductList } from './FIdolProductList.js';
 import { FCartButton } from './FCartButton.js';
 import { FSearchMenu } from '../../common/search/FSearchMenu.js';
 import Render from '../../lib/ui/renders/Render.js';
-import { CartFacade } from '../../common/plt/CartFacade.js';
+import { CartFacade } from '../../common/checkout/CartFacade.js';
 
 declare global {
   var SearchIconOperator: new () => { [key: string]: unknown };

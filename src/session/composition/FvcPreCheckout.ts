@@ -10,7 +10,7 @@ import { Shop } from '../../common/dba/Shop.js';
 import { Counter } from '../../common/dba/Counter.js';
 import { Api } from '../../common/plt/Api.js';
 import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
-import { ProductFacade } from '../../common/plt/ProductFacade.js';
+import { ProductFacade } from '../../common/shop/ProductFacade.js';
 
 export class FvcPreCheckout extends FScrollViewContent {
   private _fChoose: FChooseCheckoutItem;

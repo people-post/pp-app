@@ -3,7 +3,7 @@ import {
   Web3ServerRegistrationFacade,
   type Web3RegistrationAgent,
   type Web3ServerRegistrationDelegate
-} from '../../common/plt/Web3ServerRegistrationFacade.js';
+} from '../../common/pdb/Web3ServerRegistrationFacade.js';
 
 export function registerWeb3ServerRegistrationFactory(): void {
   Web3ServerRegistrationFacade.registerFactory((agent: Web3RegistrationAgent, delegate: Web3ServerRegistrationDelegate) => {

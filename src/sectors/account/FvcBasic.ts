@@ -6,7 +6,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { PBasic } from './PBasic.js';
-import { AccountCredentialFacade } from '../../common/plt/AccountCredentialFacade.js';
+import { AccountCredentialFacade } from '../../common/auth/AccountCredentialFacade.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';

@@ -1,5 +1,5 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { QuoteTargetFacade } from '../../common/plt/QuoteTargetFacade.js';
+import { QuoteTargetFacade } from '../../common/shop/QuoteTargetFacade.js';
 import { FProjectInfo } from '../../sectors/workshop/FProjectInfo.js';
 import { FProduct } from '../../sectors/shop/FProduct.js';
 import { FvcProject } from '../../sectors/workshop/FvcProject.js';

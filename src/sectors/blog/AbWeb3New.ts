@@ -10,7 +10,7 @@ import { Env } from '../../common/plt/Env.js';
 import {
   Web3ServerRegistrationFacade,
   type Web3ServerRegistrationDelegate
-} from '../../common/plt/Web3ServerRegistrationFacade.js';
+} from '../../common/pdb/Web3ServerRegistrationFacade.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Account } from '../../common/dba/Account.js';
 
