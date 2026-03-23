@@ -25,6 +25,7 @@ import { Api } from '../../common/plt/Api.js';
 import type { Post } from '../../types/blog.js';
 import type { Article as ArticleType } from '../../common/datatypes/Article.js';
 import { Account } from '../../common/dba/Account.js';
+import { ArticleData } from '../../types/backend2.js';
 
 const _CPT_POST = {
   MAIN : `<div id="__ID_POST__"></div>
@@ -35,6 +36,10 @@ const _CPT_POST = {
   <div id="__ID_COMMENTS__" class="post-comment"></div>
   <div id="__ID_INPUT__" class="sticky tw:bottom-0"></div>`,
 } as const;
+
+interface ApiResponse {
+  article: ArticleData;
+}
 
 class PPost extends Panel {
   #pPost: PanelWrapper;
@@ -59,7 +64,7 @@ class PPost extends Panel {
   getInputPanel(): PanelWrapper { return this.#pInput; }
 
   _renderFramework(): string {
-    let s = _CPT_POST.MAIN;
+    let s: string = _CPT_POST.MAIN;
     s = s.replace("__ID_POST__", this._getSubElementId("T"));
     s = s.replace("__ID_BTN_PREV__", this._getSubElementId("P"));
     s = s.replace("__ID_BTN_NEXT__", this._getSubElementId("N"));
@@ -77,6 +82,15 @@ class PPost extends Panel {
     this.#pInput.attach(this._getSubElementId("I"));
   }
 };
+
+export interface PostContentFragmentDataSource {
+  getPreviousPostIdForPostContentFragment(f: FvcPost): SocialItemId | null;
+  getNextPostIdForPostContentFragment(f: FvcPost): SocialItemId | null;
+}
+
+export interface PostContentFragmentDelegate {
+  onPostIdChangedInPostContentFragment(f: FvcPost, id: SocialItemId): void;
+}
 
 export class FvcPost extends FScrollViewContent {
   #fPost: FPost;
@@ -182,7 +196,7 @@ export class FvcPost extends FScrollViewContent {
     switch (dataType) {
     case T_DATA.USER_PROFILE:
     case T_DATA.USER_PUBLIC_PROFILES:
-      this._owner.onContentFragmentRequestUpdateHeader(this);
+      this._requestUpdateHeader();
       break;
     case T_DATA.POST:
       this.#onPostUpdate(data as Post);
@@ -266,24 +280,26 @@ export class FvcPost extends FScrollViewContent {
   }
 
   #getPrevPostId(): SocialItemId | null {
-    return (this._dataSource as any)
-               ? (this._dataSource as any).getPreviousPostIdForPostContentFragment(this)
-               : null;
+    const dataSource = this.getDataSource<PostContentFragmentDataSource>();
+    if (dataSource) {
+      return dataSource.getPreviousPostIdForPostContentFragment(this);
+    }
+    return null;
   }
 
   #getNextPostId(): SocialItemId | null {
-    return (this._dataSource as any)
-               ? (this._dataSource as any).getNextPostIdForPostContentFragment(this)
-               : null;
+    const dataSource = this.getDataSource<PostContentFragmentDataSource>();
+    if (dataSource) {
+      return dataSource.getNextPostIdForPostContentFragment(this);
+    }
+    return null;
   }
 
   #onNavToPost(id: SocialItemId | null): void {
     if (id) {
       this.#postId = id;
-      if (this._delegate) {
-        (this._delegate as any).onPostIdChangedInPostContentFragment(this, id);
-      }
-      this._owner.onContentFragmentRequestUpdateHeader(this);
+      this.getDelegate<PostContentFragmentDelegate>()?.onPostIdChangedInPostContentFragment(this, id);
+      this._requestUpdateHeader();
       this.render();
     }
   }
@@ -386,10 +402,10 @@ export class FvcPost extends FScrollViewContent {
     fd.append("article_id", articleId);
     fd.append("tag_id", tagId);
     Api.asFragmentPost(this, url, fd)
-        .then((d: {article: unknown}) => this.#onTagCommentRRR(d));
+        .then((d: unknown) => this.#onTagCommentRRR(d as ApiResponse));
   }
 
-  #onTagCommentRRR(data: {article: unknown}): void {
+  #onTagCommentRRR(data: ApiResponse): void {
         Blog.updateArticle(new Article(data.article));
   }
 
@@ -401,10 +417,10 @@ export class FvcPost extends FScrollViewContent {
     fd.append("article_id", articleId);
     fd.append("tag_id", tagId);
     Api.asFragmentPost(this, url, fd)
-        .then((d: {article: unknown}) => this.#onUntagCommentRRR(d));
+        .then((d: unknown) => this.#onUntagCommentRRR(d as ApiResponse));
   }
 
-  #onUntagCommentRRR(data: {article: unknown}): void {
+  #onUntagCommentRRR(data: ApiResponse): void {
         Blog.updateArticle(new Article(data.article));
   }
 }

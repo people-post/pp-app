@@ -1,14 +1,3 @@
-(window as any).CF_BLOG_ROLE_EDITOR = {
-  SUBMIT : "CF_BLOG_ROLE_EDITOR_1",
-};
-
-const _CFT_BLOG_ROLE_EDITOR = {
-  SEC_NAME :
-      `<input id="ID_BLOG_ROLE_NAME" type="text" placeholder="Name" value="__NAME__">`,
-  SEC_SUBMIT : `<br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_BLOG_ROLE_EDITOR.SUBMIT)">Submit<a>`,
-} as const;
-
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ButtonGroup } from '../../lib/ui/controllers/fragments/ButtonGroup.js';
 import { HintText } from '../../lib/ui/controllers/fragments/HintText.js';
@@ -26,14 +15,30 @@ import { Groups } from '../../common/dba/Groups.js';
 import { Blog } from '../../common/dba/Blog.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
+import { GroupData } from '../../types/backend2.js';
 
-interface RoleData {
+(window as any).CF_BLOG_ROLE_EDITOR = {
+  SUBMIT : "CF_BLOG_ROLE_EDITOR_1",
+};
+
+const _CFT_BLOG_ROLE_EDITOR = {
+  SEC_NAME :
+      `<input id="ID_BLOG_ROLE_NAME" type="text" placeholder="Name" value="__NAME__">`,
+  SEC_SUBMIT : `<br>
+    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_BLOG_ROLE_EDITOR.SUBMIT)">Submit<a>`,
+} as const;
+
+interface LocalRoleData {
   id?: string;
   name: string;
   type: string;
   is_open: boolean;
   is_active: boolean;
   tag_ids: string[];
+}
+
+interface ApiResponse {
+  groups: GroupData[];
 }
 
 export class FvcRoleEditor extends FScrollViewContent {
@@ -132,11 +137,11 @@ export class FvcRoleEditor extends FScrollViewContent {
   #getRole(): BlogRole | null { return Blog.getRole(this._roleId); }
 
   #renderNameInputs(): string {
-    let s = _CFT_BLOG_ROLE_EDITOR.SEC_NAME;
+    let s: string = _CFT_BLOG_ROLE_EDITOR.SEC_NAME;
     let name = "";
     let role = this.#getRole();
     if (role) {
-      name = role.getName();
+      name = role.getName() || "";
     }
     s = s.replace("__NAME__", name);
     return s;
@@ -151,8 +156,8 @@ export class FvcRoleEditor extends FScrollViewContent {
     }
   }
 
-  #collectData(): RoleData {
-    let role: RoleData = {
+  #collectData(): LocalRoleData {
+    let role: LocalRoleData = {
       name: "",
       type: "",
       is_open: false,
@@ -171,7 +176,7 @@ export class FvcRoleEditor extends FScrollViewContent {
     return role;
   }
 
-  #makeForm(role: RoleData): FormData {
+  #makeForm(role: LocalRoleData): FormData {
     let fd = new FormData();
     if (role.id) {
       fd.append("id", role.id);
@@ -191,34 +196,34 @@ export class FvcRoleEditor extends FScrollViewContent {
     return fd;
   }
 
-  #asyncRequestAddRole(role: RoleData): void {
+  #asyncRequestAddRole(role: LocalRoleData): void {
     let url = "api/blog/add_role";
     let fd = this.#makeForm(role);
-    Api.asFragmentPost(this, url, fd).then((d: {groups: unknown[]}) => this.#onNewRoleRRR(d));
+    Api.asFragmentPost(this, url, fd).then((d: unknown) => this.#onNewRoleRRR(d as ApiResponse));
   }
 
-  #asyncRequestEditRole(role: RoleData): void {
+  #asyncRequestEditRole(role: LocalRoleData): void {
     let url = "api/blog/update_role";
     let fd = this.#makeForm(role);
-    Api.asFragmentPost(this, url, fd).then((d: {groups: unknown[]}) => this.#onEditRoleRRR(d));
+    Api.asFragmentPost(this, url, fd).then((d: unknown) => this.#onEditRoleRRR(d as ApiResponse));
   }
 
-  #asyncRequestDeleteRole(id: string): void {
+  #asyncRequestDeleteRole(id: string): void { // eslint-disable-line @typescript-eslint/no-unused-vars
     let url = "api/blog/delete_role";
     let fd = new FormData();
     fd.append("id", id);
     Api.asFragmentPost(this, url, fd)
-        .then((d: {groups: unknown[]}) => this.#onDeleteRoleRRR(d));
+        .then((d: unknown) => this.#onDeleteRoleRRR(d as ApiResponse));
   }
 
-  #onNewRoleRRR(data: {groups: unknown[]}): void { this.#onEditRoleFinished(data.groups); }
-  #onEditRoleRRR(data: {groups: unknown[]}): void { this.#onEditRoleFinished(data.groups); }
-  #onDeleteRoleRRR(data: {groups: unknown[]}): void { this.#onEditRoleFinished(data.groups); }
+  #onNewRoleRRR(data: ApiResponse): void { this.#onEditRoleFinished(data.groups); }
+  #onEditRoleRRR(data: ApiResponse): void { this.#onEditRoleFinished(data.groups); }
+  #onDeleteRoleRRR(data: ApiResponse): void { this.#onEditRoleFinished(data.groups); }
 
-  #onEditRoleFinished(groups: unknown[]): void {
+  #onEditRoleFinished(groups: GroupData[]): void {
     WebConfig.resetRoles(groups);
     for (let d of groups) {
-      Groups.update(new UserGroup(d as Record<string, unknown>));
+      Groups.update(new UserGroup(d));
     }
     this._owner.onContentFragmentRequestPopView(this);
   }

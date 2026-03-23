@@ -20,7 +20,7 @@ const _CPT_JOURNAL_ISSUE_EDITOR = {
   <br>
   <br>`,
   SECTOR_TAGGED : `<div class="tw:p-[5px] tw:flex tw:justify-start">
-    <div id="__ID_TAG__" class="tw:flex-shrink-0 tw:text-u-font4"></div>
+    <div id="__ID_TAG__" class="tw:shrink-0 tw:text-u-font4"></div>
     <div>:</div>
     <div id="__ID_CONTENT__"></div>
   </div>`,
@@ -93,7 +93,7 @@ export class PEditor extends Panel {
   }
 
   _renderFramework(): string {
-    let s = _CPT_JOURNAL_ISSUE_EDITOR.MAIN;
+    let s: string = _CPT_JOURNAL_ISSUE_EDITOR.MAIN;
     s = s.replace("__ID_ISSUE_ID__", this._getSubElementId("I"));
     s = s.replace("__ID_ABSTRACT__", this._getSubElementId("A"));
     s = s.replace("__ID_SUMMARY__", this._getSubElementId("Y"));
@@ -118,7 +118,7 @@ class PSectionTagged extends Panel {
   getContentPanel(): ListPanel { return this.#pContent; }
 
   _renderFramework(): string {
-    let s = _CPT_JOURNAL_ISSUE_EDITOR.SECTOR_TAGGED;
+    let s: string = _CPT_JOURNAL_ISSUE_EDITOR.SECTOR_TAGGED;
     s = s.replace("__ID_TAG__", this._getSubElementId("T"));
     s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
     return s;

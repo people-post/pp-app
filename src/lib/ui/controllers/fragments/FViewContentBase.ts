@@ -33,15 +33,28 @@ export class FViewContentBase extends Fragment {
   getMaxWidthClassName(): string { return this.#maxWidthClassName; }
 
   onMenuFragmentRequestCloseMenu(_fMainMenu: Fragment): void {
-    const owner = this.getOwner<ViewContentFragmentOwner>();
-    if (owner) {
-      owner.onContentFragmentRequestCloseMenu(this);
-    }
+    this.getOwner<ViewContentFragmentOwner>()?.onContentFragmentRequestCloseMenu(this);
   }
 
   setPreferredWidth(pw: PreferredWidth | null): void { this.#preferredWidth = pw; }
   setMaxWidthClassName(name: string): void { this.#maxWidthClassName = name; }
 
   knockKnock(): void {}
+
+  protected _requestUpdateHeader(): void {
+    this.getOwner<ViewContentFragmentOwner>()?.onContentFragmentRequestUpdateHeader(this);
+  }
+
+  protected _requestCloseMenu(): void {
+    this.getOwner<ViewContentFragmentOwner>()?.onContentFragmentRequestCloseMenu(this);
+  }
+
+  protected _requestReplaceView(view: View, title: string): void {
+    this.getOwner<ViewContentFragmentOwner>()?.onContentFragmentRequestReplaceView(this, view, title);
+  }
+
+  protected _requestPopView(): void {
+    this.getOwner<ViewContentFragmentOwner>()?.onContentFragmentRequestPopView(this);
+  }
 }
 
