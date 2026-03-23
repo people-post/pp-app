@@ -29,8 +29,8 @@ export class FvcWeb3PostEditor extends FScrollViewContent {
   }
 
   onNewArticlePostedInArticleEditorFragment(_fArticleEditor: FWeb3ArticleEditor): void {
-    this._owner.onContentFragmentRequestPopView(this);
-    Events.trigger(T_DATA.NEW_OWNER_POST);
+    this._requestPopView();
+    Events.trigger(T_DATA.NEW_OWNER_POST, null);
   }
 
   _renderContentOnRender(render: Render): void {

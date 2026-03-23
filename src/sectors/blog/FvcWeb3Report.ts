@@ -15,7 +15,7 @@ export class FvcWeb3Report extends FScrollViewContent {
   }
 
   onBlogNoticeListFragmentRequestShowView(_fNoticeList: FWeb3NoticeList, view: View, title: string): void {
-    this._owner.onFragmentRequestShowView(this, view, title);
+    this.onFragmentRequestShowView(this, view, title);
   }
 
   _renderContentOnRender(render: PanelWrapper): void {

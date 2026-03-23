@@ -12,6 +12,9 @@ export abstract class LongListIdRecord {
     return null;
   }
 
+  abstract findIdAfter(id: string): string | null;
+  abstract findIdBefore(id: string): string | null;
+
   abstract clear(): void;
 }
 

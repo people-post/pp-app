@@ -8,9 +8,8 @@ import { Web2AccountAdapter } from './Web2AccountAdapter.js';
 import { Web3OwnerAdapter } from './Web3OwnerAdapter.js';
 import type { AccountPort, Web3AccountFacet } from './AccountPort.js';
 import type { User as UserType } from '../../types/user.js';
-import type { IdolData, OutRequest } from '../../types/backend2.js';
+import type { BlogStatisticsData, IdolData, OutRequest } from '../../types/backend2.js';
 import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
-import type { BlogConfig as BlogConfigData } from '../../types/backend2.js';
 import { Owner as Web3Owner } from 'pp-api';
 
 type AccountImplementation = Web2Account | Web3Owner;
@@ -152,7 +151,7 @@ class AccountWrapper implements AccountPort {
     return this.#port.getJournalIds();
   }
 
-  getBlogProfile(): BlogConfigData | null {
+  getBlogProfile(): BlogStatisticsData | null {
     return this.#port.getBlogProfile();
   }
 

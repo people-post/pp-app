@@ -5,7 +5,7 @@ import { T_DATA as PltT_DATA } from '../plt/Events.js';
 import { CustomerOrder } from '../datatypes/CustomerOrder.js';
 import { Api } from '../plt/Api.js';
 import type { User as UserType } from '../../types/user.js';
-import type { UserPrivateProfile, IdolData, OutRequest, BlogConfig, CustomerOrderData } from '../../types/backend2.js';
+import type { UserPrivateProfile, IdolData, OutRequest, BlogStatisticsData, CustomerOrderData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -101,7 +101,7 @@ export class Web2Account {
     return this.#profile ? this.#profile.journal_ids || [] : [];
   }
 
-  getBlogProfile(): BlogConfig | null {
+  getBlogProfile(): BlogStatisticsData | null {
     return this.#profile ? this.#profile.blog || null : null;
   }
 

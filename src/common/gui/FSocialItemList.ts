@@ -35,7 +35,7 @@ export class FSocialItemList extends FScrollable implements ILongListDataSource,
     return !this.#isListBackLoaded();
   }
 
-  getCurrentId(): string | number | null { return this.#fList.getCurrentId(); }
+  getCurrentId(): string | null { return this.#fList.getCurrentId(); }
   getIdRecordForLongListFragment(_fLongList: FLongList): LongListIdRecord { return this._getIdRecord(); }
   getItemFragmentForLongListFragment(_fLongList: FLongList, itemIndex: number): Fragment | null {
     return this.#createItemFragment(itemIndex);
@@ -54,10 +54,10 @@ export class FSocialItemList extends FScrollable implements ILongListDataSource,
   }
   onScrollFinished(): void { this.#fList.onScrollFinished(); }
 
-  switchToItem(id: string | number, shouldShowItemView = true): void {
+  switchToItem(id: string, shouldShowItemView = true): void {
     this.#fList.switchToItem(id);
-    const idx = this._getIdRecord().getIndexOf(typeof id === 'string' ? id : String(id));
-    if (idx != null && typeof idx === 'number') {
+    const idx = this._getIdRecord().getIndexOf(id);
+    if (idx != null) {
       this.#fList.scrollToItemIndex(idx);
     }
     if (shouldShowItemView) {

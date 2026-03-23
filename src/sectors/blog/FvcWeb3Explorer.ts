@@ -4,9 +4,9 @@ import { IdolWeb3PostIdLoader } from './IdolWeb3PostIdLoader.js';
 import { FPostList } from './FPostList.js';
 import { AbWeb3New } from './AbWeb3New.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import type { ActionButton } from '../../common/gui/ActionButton.js';
 import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 export class FvcWeb3Explorer extends FScrollViewContent {
   #fPosts: FPostList;
@@ -31,7 +31,7 @@ export class FvcWeb3Explorer extends FScrollViewContent {
 
   scrollToTop(): void { this.#fPosts.scrollToTop(); }
 
-  getActionButton(): ActionButton | null {
+  getActionButton(): Fragment | null {
     return this.#fBtnNew.isAvailable() ? this.#fBtnNew : null;
   }
 
@@ -51,7 +51,7 @@ export class FvcWeb3Explorer extends FScrollViewContent {
       this.#fPosts.reset();
       break;
     case T_DATA.USER_PROFILE:
-      this._owner.onContentFragmentRequestUpdateHeader(this);
+      this._requestUpdateHeader();
       this.render();
       break;
     default:

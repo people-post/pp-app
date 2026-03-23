@@ -108,7 +108,7 @@ export class FQuoteElement extends Fragment {
     let f = new FvcPost();
     f.setPostId(id);
     v.setContentFragment(f);
-    this._delegate.onQuotedElementRequestShowView(this, v,
+    this.getDelegate<QuoteElementDelegate>()?.onQuotedElementRequestShowView?.(this, v,
                                                   "Post " + id.getValue());
   }
 
@@ -117,7 +117,7 @@ export class FQuoteElement extends Fragment {
     if (!v) {
       return;
     }
-    this._delegate.onQuotedElementRequestShowView(this, v, "Project " + id);
+    this.getDelegate<QuoteElementDelegate>()?.onQuotedElementRequestShowView?.(this, v, "Project " + id);
   }
 
   #showProduct(id: string): void {
@@ -125,6 +125,6 @@ export class FQuoteElement extends Fragment {
     if (!v) {
       return;
     }
-    this._delegate.onQuotedElementRequestShowView(this, v, "Product" + id);
+    this.getDelegate<QuoteElementDelegate>()?.onQuotedElementRequestShowView?.(this, v, "Product" + id);
   }
 }

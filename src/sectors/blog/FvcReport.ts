@@ -53,7 +53,7 @@ export class FvcReport extends FScrollViewContent {
   }
 
   onBlogNoticeListFragmentRequestShowView(_fNoticeList: FNoticeList, view: View, title: string): void {
-    this._owner.onFragmentRequestShowView(this, view, title);
+    this.onFragmentRequestShowView(this, view, title);
   }
   onClickInFPostStatisticsInfo(_fInfo: FPostStatisticsInfo, data: PostStatisticsData): void { this.#onViewPost(data.uuid); }
 
@@ -110,7 +110,7 @@ export class FvcReport extends FScrollViewContent {
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PROFILE:
-      this._owner.onContentFragmentRequestUpdateHeader(this);
+      this._requestUpdateHeader();
       this.render();
       break;
     default:
@@ -129,8 +129,8 @@ export class FvcReport extends FScrollViewContent {
 
     let ids = Notifications.getBlogRequestIds();
     if (ids.length) {
-      pp = new SectionPanel("Requests");
-      p.pushPanel(pp);
+      const pSection = new SectionPanel("Requests");
+      p.pushPanel(pSection);
       this._fRequestList.clear();
       for (let id of ids) {
         let f = new FRequestInfo();
@@ -138,14 +138,14 @@ export class FvcReport extends FScrollViewContent {
         f.setDelegate(this);
         this._fRequestList.append(f);
       }
-      this._fRequestList.attachRender(pp.getContentPanel());
+      this._fRequestList.attachRender(pSection.getContentPanel());
       this._fRequestList.render();
     }
 
     if (!Account) {
       return;
     }
-    let profile = Account.getBlogProfile() as BlogProfile | null;
+    const profile = Account.getBlogProfile();
     if (profile) {
       let items = profile.most_commented_articles;
       if (items && items.length) {
@@ -155,14 +155,14 @@ export class FvcReport extends FScrollViewContent {
         this.#renderStatistics(ppStats.getContentPanel(), items);
       }
 
-      items = profile.count_by_tag;
-      if (items && items.length) {
-        items.sort((a, b) => b.count - a.count);
+      const tagItems = profile.count_by_tag;
+      if (tagItems && tagItems.length) {
+        tagItems.sort((a, b) => b.count - a.count);
         let ppCats = new SectionPanel("Posts by category");
         ppCats.setClassName("post-statistics");
         p.pushPanel(ppCats);
         ppCats.getContentPanel().replaceContent(
-            this.#renderTagStatisticsBlock(items));
+            this.#renderTagStatisticsBlock(tagItems));
       }
     }
   }
@@ -176,7 +176,7 @@ export class FvcReport extends FScrollViewContent {
     f.setDataSource(this);
     f.setDelegate(this);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Post " + postId);
+    this.onFragmentRequestShowView(this, v, "Post " + postId);
   }
 
   #renderStatistics(panel: PanelWrapper, notifications: Array<{ uuid: string; title: string; count: number }>): void {

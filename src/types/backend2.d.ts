@@ -81,6 +81,11 @@ export interface BlogConfig {
   pinned_item_layout?: SectorItemLayout;
 }
 
+export interface BlogStatisticsData {
+  most_commented_articles: { uuid: string; title: string; count: number }[];
+  count_by_tag: { tag_id: string; count: number }[];
+}
+
 export interface ShopConfig {
   name: string;
   status: string;
@@ -678,7 +683,7 @@ export interface UserPrivateProfile {
   o_requests: OutRequest[];
   applied_community_id?: string;
   representative_id?: string | null;
-  blog?: BlogConfig;
+  blog?: BlogStatisticsData;
 }
 
 export interface FrontPageLayoutConfigData {

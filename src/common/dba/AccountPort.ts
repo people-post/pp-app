@@ -1,6 +1,6 @@
 import type { User as UserType } from '../../types/user.js';
 import type { MarkInfo } from '../../types/basic.js';
-import type { IdolData, OutRequest, BlogConfig as BlogConfigData } from '../../types/backend2.js';
+import type { IdolData, OutRequest, BlogStatisticsData } from '../../types/backend2.js';
 import type { OwnerProps, PublisherAgent } from 'pp-api';
 import type { dat as Web3Dat } from 'pp-api';
 import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
@@ -36,7 +36,7 @@ export interface AccountPort {
   getOutRequests(): OutRequest[];
   getReferrerId(): string;
   getJournalIds(): string[];
-  getBlogProfile(): BlogConfigData | null;
+  getBlogProfile(): BlogStatisticsData | null;
   getGuestName(): string;
   getGuestContact(): string;
   setGuestName(name: string): void;

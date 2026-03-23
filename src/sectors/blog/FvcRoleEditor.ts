@@ -208,23 +208,25 @@ export class FvcRoleEditor extends FScrollViewContent {
     Api.asFragmentPost(this, url, fd).then((d: unknown) => this.#onEditRoleRRR(d as ApiResponse));
   }
 
-  #asyncRequestDeleteRole(id: string): void { // eslint-disable-line @typescript-eslint/no-unused-vars
+  /*
+  #asyncRequestDeleteRole(id: string): void {
     let url = "api/blog/delete_role";
     let fd = new FormData();
     fd.append("id", id);
     Api.asFragmentPost(this, url, fd)
         .then((d: unknown) => this.#onDeleteRoleRRR(d as ApiResponse));
   }
+  */
 
   #onNewRoleRRR(data: ApiResponse): void { this.#onEditRoleFinished(data.groups); }
   #onEditRoleRRR(data: ApiResponse): void { this.#onEditRoleFinished(data.groups); }
-  #onDeleteRoleRRR(data: ApiResponse): void { this.#onEditRoleFinished(data.groups); }
+  //#onDeleteRoleRRR(data: ApiResponse): void { this.#onEditRoleFinished(data.groups); }
 
   #onEditRoleFinished(groups: GroupData[]): void {
     WebConfig.resetRoles(groups);
     for (let d of groups) {
       Groups.update(new UserGroup(d));
     }
-    this._owner.onContentFragmentRequestPopView(this);
+    this._requestPopView();
   }
 };

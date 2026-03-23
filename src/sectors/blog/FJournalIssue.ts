@@ -89,7 +89,9 @@ export class FJournalIssue extends FPostBase {
     let tConfig = journal.getTemplateConfig();
     switch (tId) {
     case Journal.T_TEMPLATE_ID.TAGGED:
-      this.#renderTaggedSections(pList, tConfig, sections);
+      if (tConfig) {
+        this.#renderTaggedSections(pList, tConfig, sections);
+      }
       break;
     default:
       this.#renderDefaultSections(pList, sections);
@@ -112,7 +114,10 @@ export class FJournalIssue extends FPostBase {
   #renderTaggedSections(pList: ListPanel, config: { getTagIds: () => string[]; getPlaceholder: () => string | null }, sections: JournalIssueSection[]): void {
     let m = new Map<string, JournalIssueSection>();
     for (let s of sections) {
-      m.set(s.getId(), s);
+      const id = s.getId();
+      if (id) {
+        m.set(id, s);
+      }
     }
 
     for (let tId of config.getTagIds()) {

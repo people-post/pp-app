@@ -14,7 +14,7 @@ export interface ILongListDelegate {
 
 export class FLongList extends Fragment {
   #fItems: BufferedList;
-  #currentId: string | number | null = null;
+  #currentId: string | null = null;
 
   constructor() {
     super();
@@ -41,7 +41,7 @@ export class FLongList extends Fragment {
   }
 
   getFirstId(): number { return this.#fItems.getFirstId(); }
-  getCurrentId(): string | number | null { return this.#currentId; }
+  getCurrentId(): string | null { return this.#currentId; }
 
   // Mutators
   setEnableTopBuffer(b: boolean): void { this.#fItems.setEnableTopBuffer(b); }
@@ -60,7 +60,7 @@ export class FLongList extends Fragment {
   // Only refresh items
   refresh(): void { this.#fItems.refresh(); }
 
-  switchToItem(id: string | number): void {
+  switchToItem(id: string): void {
     this.#currentId = id;
     this.#fItems.refresh();
   }
@@ -71,4 +71,3 @@ export class FLongList extends Fragment {
     this.#fItems.render();
   }
 }
-

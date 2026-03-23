@@ -90,12 +90,12 @@ export class Gateway implements SectorGateway {
     f.setPreferredWidth({"min" : 320, "best" : 800, "max" : 0});
     f.setDataSource(this);
 
-    let ff = new FvcOwnerPosts();
-    ff.setOwnerId(WebConfig.getOwnerId());
-    f.addTab(this.#makeTabConfig(_CG_BLOG.OWNER_PUBLIC), ff);
+    let fOwnerPosts = new FvcOwnerPosts();
+    fOwnerPosts.setOwnerId(WebConfig.getOwnerId());
+    f.addTab(this.#makeTabConfig(_CG_BLOG.OWNER_PUBLIC), fOwnerPosts);
 
-    ff = new FvcReport();
-    f.addTab(this.#makeTabConfig(_CG_BLOG.REPORT), ff);
+    let fReport = new FvcReport();
+    f.addTab(this.#makeTabConfig(_CG_BLOG.REPORT), fReport);
 
     f.switchTo(_CG_BLOG.OWNER_PUBLIC.ID);
     return f;
@@ -106,15 +106,15 @@ export class Gateway implements SectorGateway {
     f.setPreferredWidth({"min" : 320, "best" : 800, "max" : 0});
     f.setDataSource(this);
 
-    let ff = new FvcWeb3Explorer();
-    f.addTab(this.#makeTabConfig(_CG_BLOG.NEWS), ff);
+    let fExplorer = new FvcWeb3Explorer();
+    f.addTab(this.#makeTabConfig(_CG_BLOG.NEWS), fExplorer);
 
-    ff = new FvcWeb3OwnerPosts();
-    ff.setOwnerId(Account.getId());
-    f.addTab(this.#makeTabConfig(_CG_BLOG.OWNER), ff);
+    let fOwnerPosts = new FvcWeb3OwnerPosts();
+    fOwnerPosts.setOwnerId(Account.getId());
+    f.addTab(this.#makeTabConfig(_CG_BLOG.OWNER), fOwnerPosts);
 
-    ff = new FvcWeb3Report();
-    f.addTab(this.#makeTabConfig(_CG_BLOG.REPORT), ff);
+    let fReport = new FvcWeb3Report();
+    f.addTab(this.#makeTabConfig(_CG_BLOG.REPORT), fReport);
 
     f.switchTo(_CG_BLOG.NEWS.ID);
     return f;
@@ -128,18 +128,18 @@ export class Gateway implements SectorGateway {
     let ff = new FvcExplorer();
     f.addTab(this.#makeTabConfig(_CG_BLOG.NEWS), ff);
 
-    ff = new FvcOwnerPosts();
-    ff.setOwnerId(WebConfig.getOwnerId());
-    f.addTab(this.#makeTabConfig(_CG_BLOG.OWNER), ff);
+    let fOwnerPosts = new FvcOwnerPosts();
+    fOwnerPosts.setOwnerId(WebConfig.getOwnerId());
+    f.addTab(this.#makeTabConfig(_CG_BLOG.OWNER), fOwnerPosts);
 
-    ff = new FvcDrafts();
-    f.addTab(this.#makeTabConfig(_CG_BLOG.DRAFTS), ff);
+    let fDrafts = new FvcDrafts();
+    f.addTab(this.#makeTabConfig(_CG_BLOG.DRAFTS), fDrafts);
 
-    ff = new FvcConfig();
-    f.addTab(this.#makeTabConfig(_CG_BLOG.CONFIG), ff);
+    let fConfig = new FvcConfig();
+    f.addTab(this.#makeTabConfig(_CG_BLOG.CONFIG), fConfig);
 
-    ff = new FvcReport();
-    f.addTab(this.#makeTabConfig(_CG_BLOG.REPORT), ff);
+    let fReport = new FvcReport();
+    f.addTab(this.#makeTabConfig(_CG_BLOG.REPORT), fReport);
 
     f.switchTo(_CG_BLOG.NEWS.ID);
     return f;

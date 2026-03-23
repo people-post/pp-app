@@ -15,7 +15,6 @@ export class FvcQuoteEditor extends FScrollViewContent {
   protected _fDetail: TextArea;
   protected _fQuote: FQuoteElement;
   protected _fBtnSubmit: Button;
-  protected _delegate!: QuoteEditorDelegate;
 
   constructor() {
     super();
@@ -83,7 +82,7 @@ export class FvcQuoteEditor extends FScrollViewContent {
   }
 
   #onSubmitRRR(_data: unknown): void {
-    this._owner.onContentFragmentRequestPopView(this);
-    this._delegate.onQuotePostedInQuoteEditorContentFragment(this);
+    this._requestPopView();
+    this.getDelegate<QuoteEditorDelegate>()?.onQuotePostedInQuoteEditorContentFragment(this);
   }
 }

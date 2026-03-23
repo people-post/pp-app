@@ -8,10 +8,13 @@ import { SectorNoticeInfoFragment } from '../../common/gui/SectorNoticeInfoFragm
 import { FvcPost } from './FvcPost.js';
 import { Notifications } from '../../common/dba/Notifications.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import type { Post } from '../../types/blog.js';
+
+export interface FWeb3NoticeListDelegate {
+  onBlogNoticeListFragmentRequestShowView(f: FWeb3NoticeList, view: View, title: string): void;
+}
 
 export class FWeb3NoticeList extends Fragment {
-  #selectedPostId: string | null = null;
+  //#selectedPostId: string | null = null;
   #fNotices: FSimpleFragmentList;
 
   constructor() {
@@ -57,12 +60,12 @@ export class FWeb3NoticeList extends Fragment {
   }
 
   #onViewPost(postId: string, idType: string): void {
-    this.#selectedPostId = postId;
+    //this.#selectedPostId = postId;
     let v = new View();
     let f = new FvcPost();
     f.setPostId(new SocialItemId(postId, idType));
     v.setContentFragment(f);
-    (this._delegate as any).onBlogNoticeListFragmentRequestShowView(this, v,
+    this.getDelegate<FWeb3NoticeListDelegate>()?.onBlogNoticeListFragmentRequestShowView(this, v,
                                                            "Post " + postId);
   }
 };

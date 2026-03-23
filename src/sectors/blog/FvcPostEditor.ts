@@ -43,17 +43,17 @@ export class FvcPostEditor extends FScrollViewContent {
   }
 
   onNewArticlePostedInArticleEditorFragment(_fArticleEditor: FArticleEditor): void {
-    this._owner.onContentFragmentRequestPopView(this);
-    Events.trigger(T_DATA.NEW_OWNER_POST);
+    this._requestPopView();
+    Events.trigger(T_DATA.NEW_OWNER_POST, null);
   }
   onArticleUpdatedInArticleEditorFragment(_fEditor: FArticleEditor, article: Article): void {
     Blog.updateArticle(article);
-    this._owner.onContentFragmentRequestPopView(this);
+    this._requestPopView();
   }
   onJournalIssueUpdatedInJournalIssueEditorFragment(_fJournalIssueEditor: FJournalIssueEditor,
                                                     journalIssue: JournalIssue): void {
     Blog.updateJournalIssue(journalIssue);
-    this._owner.onContentFragmentRequestPopView(this);
+    this._requestPopView();
   }
 
   _renderContentOnRender(render: Render): void {

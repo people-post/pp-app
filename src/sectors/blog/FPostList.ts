@@ -1,13 +1,22 @@
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { FSocialItemList } from '../../common/gui/FSocialItemList.js';
-import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FPostInfo } from './FPostInfo.js';
 import { FvcPost } from './FvcPost.js';
 import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import type { Article } from '../../common/datatypes/Article.js';
 import type { LongListIdRecord } from '../../common/datatypes/LongListIdRecord.js';
+
+export interface FPostListDataSource {
+  isUserAdminOfCommentTargetInPostListFragment(fPostList: FPostList, targetId: string): boolean;
+  getContextOptionsForArticleInPostListFragment(fPostList: FPostList, article: Article): unknown[];
+}
+
+export interface FPostListDelegate {
+  onArticleContextOptionClickedInPostListFragment(fPostList: FPostList, value: string, articleId: string): void;
+  onInfoFragmentCreatedInPostListFragment(fPostList: FPostList, f: FPostInfo): void;
+}
 
 export class FPostList extends FSocialItemList {
   #loader: LongListIdLoader | null = null;
@@ -17,31 +26,32 @@ export class FPostList extends FSocialItemList {
   }
 
   getPreviousPostIdForPostContentFragment(_fvcPost: FvcPost): SocialItemId | null {
-    let sid = this._getIdRecord().findIdBefore(this.getCurrentId());
+    const currentId = this.getCurrentId();
+    if (!currentId) {
+      return null;
+    }
+    let sid = this._getIdRecord().findIdBefore(currentId);
     return sid ? SocialItemId.fromEncodedStr(sid) : null;
   }
   getNextPostIdForPostContentFragment(_fvcPost: FvcPost): SocialItemId | null {
-    let sid = this._getIdRecord().findIdAfter(this.getCurrentId());
+    const currentId = this.getCurrentId();
+    if (!currentId) {
+      return null;
+    }
+    let sid = this._getIdRecord().findIdAfter(currentId);
     return sid ? SocialItemId.fromEncodedStr(sid) : null;
   }
   getContextOptionsForPostInfoFragment(_fPostInfo: FPostInfo, article: Article): unknown[] {
-    return UtilitiesExt.optCall(
-        this._dataSource, "getContextOptionsForArticleInPostListFragment", this,
-        article);
+    return this.getDataSource<FPostListDataSource>()?.getContextOptionsForArticleInPostListFragment?.(this, article) ?? [];
   }
 
   setLoader(loader: LongListIdLoader): void {
+    loader.setOwner(this);
     this.#loader = loader;
-    const loaderWithOwner = loader as unknown as { setOwner?: (owner: unknown) => void };
-    if (loaderWithOwner.setOwner) {
-      loaderWithOwner.setOwner(this);
-    }
   }
 
   isUserAdminOfCommentTargetInPostInfoFragment(_fPostInfo: FPostInfo, targetId: string): boolean {
-    return UtilitiesExt.optCall(this._dataSource,
-                                 "isUserAdminOfCommentTargetInPostListFragment",
-                                 this, targetId) as boolean;
+    return this.getDataSource<FPostListDataSource>()?.isUserAdminOfCommentTargetInPostListFragment?.(this, targetId) ?? false;
   }
 
   onVisibilityChangeInPostInfoFragment(_fPostInfo: FPostInfo): void { this.reset(); }
@@ -54,9 +64,7 @@ export class FPostList extends FSocialItemList {
   }
 
   onContextOptionClickedInPostInfoFragment(_fvcPost: FvcPost, value: string, articleId: string): void {
-    UtilitiesExt.optCall(this._delegate,
-                          "onArticleContextOptionClickedInPostListFragment",
-                          this, value, articleId);
+    this.getDelegate<FPostListDelegate>()?.onArticleContextOptionClickedInPostListFragment?.(this, value, articleId);
   }
 
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
@@ -94,12 +102,7 @@ export class FPostList extends FSocialItemList {
     f.setDataSource(this);
     f.setDelegate(this);
     f.setPostId(sid);
-    if (this._delegate) {
-      const delegateWithCallback = this._delegate as { onInfoFragmentCreatedInPostListFragment?: (fPosts: FPostList, f: FPostInfo) => void };
-      if (delegateWithCallback.onInfoFragmentCreatedInPostListFragment) {
-        delegateWithCallback.onInfoFragmentCreatedInPostListFragment(this, f);
-      }
-    }
+    this.getDelegate<FPostListDelegate>()?.onInfoFragmentCreatedInPostListFragment?.(this, f);
     return f;
   }
 

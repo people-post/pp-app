@@ -5,7 +5,7 @@ import { FPostInfo } from './FPostInfo.js';
 import type { JournalIssueSection } from '../../common/datatypes/JournalIssueSection.js';
 
 export class FJournalIssueSection extends Fragment {
-  #data: JournalIssueSection | null = null;
+  //#data: JournalIssueSection | null = null;
   #fPost: FPostInfo;
 
   constructor() {
@@ -18,7 +18,7 @@ export class FJournalIssueSection extends Fragment {
   }
 
   setData(data: JournalIssueSection): void {
-    this.#data = data;
+    //this.#data = data;
     // TODO: Support list
     this.#fPost.setPostId(data.getPostSocialIds()[0]);
   }

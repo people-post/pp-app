@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
-import { ID, URL_PARAM } from '../../common/constants/Constants.js';
+import { URL_PARAM } from '../../lib/ui/Constants.js';
+import { ID } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { MainIconOperator } from '../../lib/ui/animators/MainIconOperator.js';
 import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
@@ -14,7 +15,6 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Users } from '../../common/dba/Users.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
-import type { ActionButton } from '../../common/gui/ActionButton.js';
 import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import type { MenuItem } from '../../common/datatypes/MenuItem.js';
@@ -93,7 +93,7 @@ export class FvcOwnerPosts extends FScrollViewContent {
 
   getMenuFragments(): Fragment[] { return [ this.#fmMain, this.#fmTimeFilter ]; }
 
-  getActionButton(): ActionButton | null {
+  getActionButton(): Fragment | null {
     if (!WebConfig.isWebOwner(this.#loader.getOwnerId())) {
       return null;
     }
@@ -162,7 +162,7 @@ export class FvcOwnerPosts extends FScrollViewContent {
       }
       break;
     case T_DATA.USER_PROFILE:
-      this._owner.onContentFragmentRequestUpdateHeader(this);
+      this._requestUpdateHeader();
       this.render();
       break;
     default:
