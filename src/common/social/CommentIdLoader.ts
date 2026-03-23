@@ -69,9 +69,7 @@ export class CommentIdLoader extends LongListIdLoader {
         this.#idRecord.markComplete();
       }
       const delegate = this.getDelegate<LongListIdLoaderDelegate>();
-      if (delegate) {
-        delegate.onIdUpdatedInLongListIdLoader(this);
-      }
+      delegate?.onIdUpdatedInLongListIdLoader?.(this);
     }
   }
 }

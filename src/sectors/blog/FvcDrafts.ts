@@ -39,9 +39,9 @@ export class FvcDrafts extends FScrollViewContent {
     this.#fInsiderTasks.render();
 
     if (Account.isWebOwner()) {
-      p = new SectionPanel("Tasks");
-      pList.pushPanel(p);
-      this.#fTasks.attachRender(p.getContentPanel());
+      const pTasks = new SectionPanel("Tasks");
+      pList.pushPanel(pTasks);
+      this.#fTasks.attachRender(pTasks.getContentPanel());
       this.#fTasks.render();
     }
   }

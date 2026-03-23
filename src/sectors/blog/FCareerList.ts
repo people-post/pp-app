@@ -6,6 +6,7 @@ import { FCareer, FCareerDelegate, FCareerDataSource } from '../../common/hr/FCa
 import { Blog } from '../../common/dba/Blog.js';
 import { FvcCareer } from '../../common/hr/FvcCareer.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { UserRole } from '../../common/datatypes/UserRole.js';
 
 export class FCareerList extends Fragment implements FCareerDataSource, FCareerDelegate {
   #fList: HrFCareerList;
@@ -22,7 +23,7 @@ export class FCareerList extends Fragment implements FCareerDataSource, FCareerD
   shouldHighlightInCareerFragment(_fCareer: FCareer, roleId: string): boolean {
     return this.#selectedId == roleId;
   }
-  getRoleForCareerFragment(_fCareer: FCareer, roleId: string): unknown { return Blog.getRole(roleId); }
+  getRoleForCareerFragment(_fCareer: FCareer, roleId: string): UserRole | null { return Blog.getRole(roleId); }
   getFragmentsDictForCareerListFragment(_fCareerList: HrFCareerList): Map<string, FCareer[]> {
     let m = new Map<string, FCareer[]>();
     let items: FCareer[] = [];

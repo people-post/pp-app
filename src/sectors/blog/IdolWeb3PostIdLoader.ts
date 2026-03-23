@@ -22,9 +22,7 @@ export class IdolWeb3PostIdLoader extends LongListIdLoader implements LongListId
 
   onIdUpdatedInLongListIdLoader(_loader: LongListIdLoader): void {
     const delegate = this.getDelegate<LongListIdLoaderDelegate>();
-    if (delegate) {
-      delegate.onIdUpdatedInLongListIdLoader(this);
-    }
+    delegate?.onIdUpdatedInLongListIdLoader?.(this);
   }
 
   asyncLoadFrontItems(): void {}

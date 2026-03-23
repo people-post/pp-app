@@ -1,30 +1,23 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { PRoleInfo } from './PRoleInfo.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { UserRole } from '../../common/datatypes/UserRole.js';
 
 export const CF_ROLE = {
   ON_CLICK : Symbol(),
 } as const;
 
-interface Role {
-  getName(): string;
-  getNMembers(): number;
-  isActive(): boolean;
-  isOpen(): boolean;
-}
-
-interface RoleDataSource {
-  getRoleForRoleFragment(f: FRole, roleId: string): Role | null;
+export interface RoleDataSource {
+  getRoleForRoleFragment(f: FRole, roleId: string): UserRole | null;
   shouldHighlightInRoleFragment(f: FRole, roleId: string): boolean;
 }
 
-interface RoleDelegate {
+export interface RoleDelegate {
   onClickInRoleFragment(f: FRole): void;
 }
 
 export class FRole extends Fragment {
   protected _roleId: string = "";
-  protected _dataSource!: RoleDataSource;
-  protected _delegate!: RoleDelegate;
 
   constructor() {
     super();
@@ -36,7 +29,7 @@ export class FRole extends Fragment {
   action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {
     case CF_ROLE.ON_CLICK:
-      this._delegate.onClickInRoleFragment(this);
+      this.getDelegate<RoleDelegate>()?.onClickInRoleFragment(this);
       break;
     default:
       super.action(type, ..._args);
@@ -44,8 +37,8 @@ export class FRole extends Fragment {
     }
   }
 
-  _renderOnRender(render: Panel): void {
-    let role = this._dataSource.getRoleForRoleFragment(this, this._roleId);
+  _renderOnRender(render: PanelWrapper): void {
+    let role = this.getDataSource<RoleDataSource>()?.getRoleForRoleFragment(this, this._roleId);
     if (!role) {
       return;
     }
@@ -55,7 +48,7 @@ export class FRole extends Fragment {
 
     if (panel.isHighlightable()) {
       panel.setAttribute("onclick", "G.action(CF_ROLE.ON_CLICK)");
-      if (this._dataSource.shouldHighlightInRoleFragment(this, this._roleId)) {
+      if (this.getDataSource<RoleDataSource>()?.shouldHighlightInRoleFragment(this, this._roleId)) {
         panel.highlight();
       }
     }
@@ -75,9 +68,9 @@ export class FRole extends Fragment {
     }
   }
 
-  #renderName(role: Role): string {
+  #renderName(role: UserRole): string {
     let s = `__NAME__(__TOTAL__)`;
-    s = s.replace("__NAME__", role.getName());
+    s = s.replace("__NAME__", role.getName() || "");
     s = s.replace("__TOTAL__", String(role.getNMembers()));
     return s;
   }
