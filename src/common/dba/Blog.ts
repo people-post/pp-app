@@ -17,9 +17,10 @@ import { Journal } from '../datatypes/Journal.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
 import { sys } from 'pp-api';
-import type { SocialItemId } from '../../types/basic.js';
+import { SocialItemId } from '../datatypes/SocialItemId.js';
 import { Account } from './Account.js';
 import { BlogConfigData } from '../../types/blog.js';
+import type { SocialItemId as SocialItemIdType } from '../../types/basic.js';
 
 type PostType = Article | FeedArticle | JournalIssue | Comment | EmptyPost;
 
@@ -145,7 +146,7 @@ export class BlogClass implements BlogInterface {
     return this.#draftLib.get(id);
   }
 
-  getPost(postId: SocialItemId | null): PostType | null {
+  getPost(postId: SocialItemIdType | null): PostType | null {
     // postId is object of SocialItemId
     if (!postId) {
       return null;

@@ -5,8 +5,8 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Users } from '../../common/dba/Users.js';
 import { Api } from '../../common/plt/Api.js';
 import type { SocialItemId as SocialItemIdType } from '../../types/basic.js';
-import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { ArticleData } from '../../types/backend2.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 
 interface ApiResponse {
   error?: string;
@@ -117,16 +117,16 @@ export class OwnerPostIdLoader extends LongListIdLoader {
       // pinned articles as the anchor id
       this.#addPinnedPostIds();
     }
-    const delegate = this._delegate as { onIdUpdatedInLongListIdLoader?: (loader: LongListIdLoader) => void };
-    if (delegate.onIdUpdatedInLongListIdLoader) {
+    const delegate = this.getDelegate<LongListIdLoaderDelegate>();
+    if (delegate && delegate.onIdUpdatedInLongListIdLoader) {
       delegate.onIdUpdatedInLongListIdLoader(this);
     }
   }
 
   #markBackComplete(): void {
     this.#idRecord.markBackComplete();
-    const delegate = this._delegate as { onIdUpdatedInLongListIdLoader?: (loader: LongListIdLoader) => void };
-    if (delegate.onIdUpdatedInLongListIdLoader) {
+    const delegate = this.getDelegate<LongListIdLoaderDelegate>();
+    if (delegate && delegate.onIdUpdatedInLongListIdLoader) {
       delegate.onIdUpdatedInLongListIdLoader(this);
     }
   }
@@ -142,6 +142,9 @@ export class OwnerPostIdLoader extends LongListIdLoader {
         let r = this.#idRecord;
         for (let d of ds) {
           let p = Blog.updatePostData(d);
+          if (!p) {
+            continue;
+          }
           r.prependId(p.getSocialId().toEncodedStr());
         }
         const delegate = this.getDelegate<LongListIdLoaderDelegate>();
@@ -169,6 +172,9 @@ export class OwnerPostIdLoader extends LongListIdLoader {
         let pids = this.#getPinnedPostIds();
         for (let d of ds) {
           let p = Blog.updatePostData(d);
+          if (!p) {
+            continue;
+          }
           let sid = p.getSocialId().toEncodedStr();
           // To avoid same post display twice near pinned articles
           if (!r.isEmpty() || pids.indexOf(sid) < 0) {
@@ -190,7 +196,7 @@ export class OwnerPostIdLoader extends LongListIdLoader {
   }
 
   #getPinnedPostIds(): string[] {
-    let ids: SocialItemId[] = [];
+    let ids: SocialItemIdType[] = [];
     if (this.#ownerId == WebConfig.getOwnerId()) {
       ids = Blog.getPinnedPostIds();
     } else {

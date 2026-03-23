@@ -1,31 +1,3 @@
-export const CF_JOURNAL_ISSUE_EDITOR = {
-  ON_CHOOSE : Symbol(),
-} as const;
-
-const _CPT_JOURNAL_ISSUE_EDITOR = {
-  MAIN : `<br>
-  <div id="__ID_ISSUE_ID__"></div>
-  <br>
-  <div id="__ID_ABSTRACT__"></div>
-  <br>
-  <div id="__ID_SECTION_LIST__"></div>
-  <br>
-  <div id="__ID_SUMMARY__"></div>
-  <br>
-  <div id="__ID_TAGS__"></div>
-  <br>
-  <br>
-  <br>
-  <div id="__ID_BTN_LIST__"></div>
-  <br>
-  <br>`,
-  SECTOR_TAGGED : `<div class="tw:p-[5px] tw:flex tw:justify-start">
-    <div id="__ID_TAG__" class="tw:shrink-0 tw:text-u-font4"></div>
-    <div>:</div>
-    <div id="__ID_CONTENT__"></div>
-  </div>`,
-} as const;
-
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
@@ -56,6 +28,36 @@ import { Api } from '../../common/plt/Api.js';
 import type { JournalIssueSection } from '../../common/datatypes/JournalIssueSection.js';
 import type { JournalIssue as JournalIssueType } from '../../common/datatypes/JournalIssue.js';
 import { Account } from '../../common/dba/Account.js';
+import type { RemoteError } from '../../types/basic.js';
+import type { GroupData, JournalIssueData, TagData } from '../../types/backend2.js';
+
+export const CF_JOURNAL_ISSUE_EDITOR = {
+  ON_CHOOSE : Symbol(),
+} as const;
+
+const _CPT_JOURNAL_ISSUE_EDITOR = {
+  MAIN : `<br>
+  <div id="__ID_ISSUE_ID__"></div>
+  <br>
+  <div id="__ID_ABSTRACT__"></div>
+  <br>
+  <div id="__ID_SECTION_LIST__"></div>
+  <br>
+  <div id="__ID_SUMMARY__"></div>
+  <br>
+  <div id="__ID_TAGS__"></div>
+  <br>
+  <br>
+  <br>
+  <div id="__ID_BTN_LIST__"></div>
+  <br>
+  <br>`,
+  SECTOR_TAGGED : `<div class="tw:p-[5px] tw:flex tw:justify-start">
+    <div id="__ID_TAG__" class="tw:shrink-0 tw:text-u-font4"></div>
+    <div>:</div>
+    <div id="__ID_CONTENT__"></div>
+  </div>`,
+} as const;
 
 export class PEditor extends Panel {
   #pIssueId: PanelWrapper;
@@ -245,7 +247,7 @@ class FPostSelectorHandle extends Fragment {
 class FSectionTagged extends Fragment {
   #fTag: FTag;
   #fSelectors: FFragmentList;
-  #data: JournalIssueSection | null = null;
+  //#data: JournalIssueSection | null = null;
   #ownerId: string | null = null;
   #newIds: string[] = [];
 
@@ -265,7 +267,7 @@ class FSectionTagged extends Fragment {
   setTagId(id: string): void { this.#fTag.setTagId(id); }
 
   setData(data: JournalIssueSection | null): void {
-    this.#data = data;
+    //this.#data = data;
     this.#newIds =
         data ? data.getPostSocialIds().map(sid => sid.getValue()!) : [];
   }
@@ -282,6 +284,9 @@ class FSectionTagged extends Fragment {
   }
 
   _renderOnRender(render: PanelWrapper): void {
+    if (!this.#ownerId) {
+      return;
+    }
     let panel = new PSectionTagged();
     render.wrapPanel(panel);
 
@@ -322,6 +327,34 @@ class FSectionTagged extends Fragment {
     this.#fSelectors.append(f);
   }
 };
+
+export interface JournalIssueEditorDataSource {
+  getTagsForJournalIssueEditorFragment(f: FJournalIssueEditor): Tag[];
+  getInitialCheckedIdsForJournalIssueEditorFragment(f: FJournalIssueEditor): string[];
+}
+
+export interface JournalIssueEditorDelegate {
+  onJournalIssueUpdatedInJournalIssueEditorFragment(f: FJournalIssueEditor, journalIssue: JournalIssueType): void;
+}
+
+interface ApiSubmitData {
+  id: string;
+  abstract: string;
+  summary: string;
+  tagIds: string[];
+  issueId: string;
+  sections: Array<{id: string; articleIds: string[]}>;
+  pendingNewTagNames: string[];
+}
+
+interface ApiSubmitResponse {
+  error?: RemoteError;
+  data?: {groups: GroupData[]; journal_issue: JournalIssueData};
+}
+
+interface ApiTagsResponse {
+  tags: TagData[];
+}
 
 export class FJournalIssueEditor extends Fragment {
   #fIssueId: TextInput;
@@ -387,7 +420,9 @@ export class FJournalIssueEditor extends Fragment {
       this.#tags = WebConfig.getTags();
       return this.#tags;
     } else {
-      this.#asyncGetTags(ownerId);
+      if (ownerId) {
+        this.#asyncGetTags(ownerId);
+      }
       return [];
     }
   }
@@ -417,27 +452,27 @@ export class FJournalIssueEditor extends Fragment {
     render.wrapPanel(panel);
 
     let p = panel.getIssueIdPanel();
-    this.#fIssueId.setValue(this.#journalIssue.getIssueId());
+    this.#fIssueId.setValue(this.#journalIssue.getIssueId() || "");
     this.#fIssueId.attachRender(p);
     this.#fIssueId.render();
 
     p = panel.getAbstractPanel();
-    this.#fAbstract.setValue(this.#journalIssue.getAbstract());
+    this.#fAbstract.setValue(this.#journalIssue.getAbstract() || "");
     this.#fAbstract.attachRender(p);
     this.#fAbstract.render();
 
     p = panel.getSummaryPanel();
-    this.#fSummary.setValue(this.#journalIssue.getSummary());
+    this.#fSummary.setValue(this.#journalIssue.getSummary() || "");
     this.#fSummary.attachRender(p);
     this.#fSummary.render();
 
     this.#renderContent(panel.getSectionListPanel(), this.#journalIssue);
 
-    p = panel.getTagsPanel();
+    const pTags = panel.getTagsPanel();
     if (Account.isWebOwner()) {
       this.#fTags.setEnableNewTags(true);
     }
-    this.#fTags.attachRender(p.getContentPanel());
+    this.#fTags.attachRender(pTags.getContentPanel());
     this.#fTags.render();
 
     let pBtnList = panel.getBtnListPanel();
@@ -457,10 +492,15 @@ export class FJournalIssueEditor extends Fragment {
       return;
     }
 
+    const ownerId = issue.getOwnerId();
+    if (!ownerId) {
+      return;
+    }
+
     switch (journal.getTemplateId()) {
     case Journal.T_TEMPLATE_ID.TAGGED:
       this.#renderTaggedSections(pList, journal.getTemplateConfig(),
-                                 issue.getSections(), issue.getOwnerId());
+                                 issue.getSections(), ownerId);
       break;
     default:
       break;
@@ -470,7 +510,10 @@ export class FJournalIssueEditor extends Fragment {
   #renderTaggedSections(pList: ListPanel, config: any, sections: JournalIssueSection[], ownerId: string): void {
     let m = new Map<string, JournalIssueSection>();
     for (let s of sections) {
-      m.set(s.getId(), s);
+      const id = s.getId();
+      if (id) {
+        m.set(id, s);
+      }
     }
 
     this.#fSections.clear();
@@ -496,29 +539,17 @@ export class FJournalIssueEditor extends Fragment {
     }
   }
 
-  #collectData(): {
-    id: string;
-    abstract: string;
-    summary: string;
-    tagIds: string[];
-    issueId: string;
-    sections: Array<{id: string; articleIds: string[]}>;
-    pendingNewTagNames: string[];
-  } {
+  #collectData(): ApiSubmitData {
     if (!this.#journalIssue) {
       throw new Error("Journal issue not set");
     }
-    let data: {
-      id: string;
-      abstract: string;
-      summary: string;
-      tagIds: string[];
-      issueId: string;
-      sections: Array<{id: string; articleIds: string[]}>;
-      pendingNewTagNames: string[];
-    } = {
-      id: this.#journalIssue.getId(),
-      abstract: this.#fAbstract.getValue(),
+    const id = this.#journalIssue.getId();
+    if (!id) {
+      throw new Error("Journal issue id not set");
+    }
+    let data: ApiSubmitData = {
+      id: id,
+      abstract: this.#fAbstract.getValue() || "",
       summary: this.#fSummary.getValue(),
       tagIds: this.#fTags.getSelectedTagIds(),
       issueId: this.#fIssueId.getValue(),
@@ -535,15 +566,7 @@ export class FJournalIssueEditor extends Fragment {
     return data;
   }
 
-  #asyncSubmit(data: {
-    id: string;
-    abstract: string;
-    summary: string;
-    tagIds: string[];
-    issueId: string;
-    sections: Array<{id: string; articleIds: string[]}>;
-    pendingNewTagNames: string[];
-  }): boolean {
+  #asyncSubmit(data: ApiSubmitData): boolean {
     let fd = new FormData();
     fd.append("id", data.id);
     fd.append("abstract", data.abstract);
@@ -577,10 +600,10 @@ export class FJournalIssueEditor extends Fragment {
 
   #asyncGetTags(ownerId: string): void {
     let url = "api/blog/available_tags?from=" + ownerId;
-    Api.asFragmentCall(this, url).then((d: {tags: unknown[]}) => this.#onTagsRRR(d));
+    Api.asFragmentCall<ApiTagsResponse>(this, url).then((d) => this.#onTagsRRR(d));
   }
 
-  #onTagsRRR(data: {tags: unknown[]}): void {
+  #onTagsRRR(data: ApiTagsResponse): void {
     this.#tags = [];
     for (let d of data.tags) {
       this.#tags.push(new Tag(d));
@@ -589,14 +612,14 @@ export class FJournalIssueEditor extends Fragment {
   }
 
   #onSubmitRRR(responseText: string): void {
-    let response: {error?: unknown; data?: {groups: unknown; journal_issue: unknown}} = JSON.parse(responseText);
+    let response: ApiSubmitResponse = JSON.parse(responseText);
     if (response.error) {
       this.onRemoteErrorInFragment(this, response.error);
       this.#unlockActionBtns();
     } else {
       if (response.data) {
         WebConfig.setGroups(response.data.groups);
-        (this._delegate as any).onJournalIssueUpdatedInJournalIssueEditorFragment(
+        this.getDelegate<JournalIssueEditorDelegate>()?.onJournalIssueUpdatedInJournalIssueEditorFragment(
             this, new JournalIssue(response.data.journal_issue));
       }
     }
