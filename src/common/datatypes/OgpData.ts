@@ -1,25 +1,15 @@
-export class OgpData {
-  private _id: string | null;
-  private _type: string;
-  private _title: string;
-  private _description: string;
-  private _imageUrl: string;
-  private _url: string;
-  private _creationTime: Date | null;
-  private _userId: string | null;
-  private _files: unknown[];
+import type { OgpData as OgpDataType } from '../../types/basic.js';
 
-  constructor() {
-    this._id = null;
-    this._type = '';
-    this._title = '';
-    this._description = '';
-    this._imageUrl = '';
-    this._url = '';
-    this._creationTime = null;
-    this._userId = null;
-    this._files = [];
-  }
+export class OgpData implements OgpDataType {
+  private _id: string | null = null;
+  private _type: string = '';
+  private _title: string = '';
+  private _description: string = '';
+  private _imageUrl: string = '';
+  private _url: string = '';
+  private _creationTime: Date | null = null;
+  private _userId: string | null = null;
+  private _files: unknown[] = [];
 
   getId(): string | null {
     return this._id;

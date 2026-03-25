@@ -1,6 +1,7 @@
 import { Post } from '../../types/blog.js';
 import { SocialItemId } from './SocialItemId.js';
 import type { EmptyPostData } from '../../types/backend2.js';
+import { OgpData } from './OgpData.js';
 
 export class EmptyPost implements Post {
   // Use a different name to avoid conflict with SocialItem.TYPE
@@ -90,7 +91,7 @@ export class EmptyPost implements Post {
     return [];
   }
 
-  getOgpData(): unknown {
+  getOgpData(): OgpData | null {
     return null;
   }
 

@@ -23,7 +23,7 @@ import { FEmptyPost } from './FEmptyPost.js';
 import { Utilities as BlogUtilities } from './Utilities.js';
 import { Env } from '../../common/plt/Env.js';
 import { Api } from '../../common/plt/Api.js';
-import type { Post } from '../../types/blog.js';
+import type { BlogConfigData, Post } from '../../types/blog.js';
 import type { Fragment as FragmentType } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Account } from '../../common/dba/Account.js';
 
@@ -35,6 +35,10 @@ const _CFT_POST = {
   PIN :
       `<span class="__CLASS__" onclick="javascript:G.action("${CF_POST.TOGGLE_PIN}")">__ICON__</span>`,
 } as const;
+
+interface ApiTogglePinResponse {
+  blog_config: BlogConfigData;
+}
 
 export class FPost extends Fragment {
   #fReposter: FUserInfo;
@@ -309,7 +313,7 @@ export class FPost extends Fragment {
     let fd = new FormData();
     fd.append("id", postId.getValue()!);
     fd.append("type", postId.getType()!);
-    Api.asFragmentPost(this, url, fd).then((d: {blog_config: unknown}) => this.#onTogglePinRRR(d));
+    Api.asFragmentPost<ApiTogglePinResponse>(this, url, fd).then((d) => this.#onTogglePinRRR(d));
   }
 
   #asyncUnpinPost(postId: SocialItemId): void {
@@ -317,10 +321,10 @@ export class FPost extends Fragment {
     let fd = new FormData();
     fd.append("id", postId.getValue()!);
     fd.append("type", postId.getType()!);
-    Api.asFragmentPost(this, url, fd).then((d: {blog_config: unknown}) => this.#onTogglePinRRR(d));
+    Api.asFragmentPost<ApiTogglePinResponse>(this, url, fd).then((d) => this.#onTogglePinRRR(d));
   }
 
-  #onTogglePinRRR(data: {blog_config: unknown}): void {
+  #onTogglePinRRR(data: ApiTogglePinResponse): void {
     Blog.resetConfig(data.blog_config);
     this.render();
   }

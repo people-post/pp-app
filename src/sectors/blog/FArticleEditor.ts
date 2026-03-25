@@ -25,6 +25,34 @@ import { R } from '../../common/constants/R.js';
 import type { Article as ArticleType } from '../../common/datatypes/Article.js';
 import type { DraftArticle } from '../../common/datatypes/DraftArticle.js';
 import { Account } from '../../common/dba/Account.js';
+import { ArticleData, GroupData } from '../../types/backend2.js';
+import { RemoteError } from '../../types/basic.js';
+
+interface ApiTagsResponse {
+  tags: GroupData[];
+}
+
+interface ApiSubmitData {
+  isDraft: boolean;
+  id: string;
+  title: string;
+  content: string;
+  classificationLevel: number | null;
+  tagIds: string[];
+  pendingNewTagNames: string[];
+  linkTo: string | null;
+  linkType: string | null;
+}
+
+interface ApiSubmitResponse {
+  error?: RemoteError;
+  data?: {groups: GroupData[]; article: ArticleData};
+}
+
+interface ArticleEditorDelegate {
+  onNewArticlePostedInArticleEditorFragment(f: FArticleEditor): void;
+  onArticleUpdatedInArticleEditorFragment(f: FArticleEditor, article: Article): void;
+}
 
 export class FArticleEditor extends Fragment {
   #fTitle: TextArea;
@@ -307,33 +335,17 @@ export class FArticleEditor extends Fragment {
                                     () => this.#asyncDelete());
   }
 
-  #collectData(): {
-    isDraft: boolean;
-    id: string;
-    title: string;
-    content: string;
-    classificationLevel: number | null;
-    tagIds: string[];
-    pendingNewTagNames: string[];
-    linkTo: string | null;
-    linkType: string | null;
-  } {
+  #collectData(): ApiSubmitData {
     if (!this.#baseArticle) {
       throw new Error("Base article not set");
     }
-    let data: {
-      isDraft: boolean;
-      id: string;
-      title: string;
-      content: string;
-      classificationLevel: number | null;
-      tagIds: string[];
-      pendingNewTagNames: string[];
-      linkTo: string | null;
-      linkType: string | null;
-    } = {
+    const id = this.#baseArticle.getId();
+    if (!id) {
+      throw new Error("Base article id not set");
+    }
+    let data: ApiSubmitData = {
       isDraft: this.#baseArticle.isDraft(),
-      id: this.#baseArticle.getId(),
+      id: id,
       title: this.#fTitle.getValue(),
       content: this.#fContent.getValue(),
       classificationLevel: this.#fOptions.isOptionOn("O_VIS") ? null : 1,
@@ -354,17 +366,7 @@ export class FArticleEditor extends Fragment {
     return data;
   }
 
-  #asyncSubmit(data: {
-    isDraft: boolean;
-    id: string;
-    title: string;
-    content: string;
-    classificationLevel: number | null;
-    tagIds: string[];
-    pendingNewTagNames: string[];
-    linkTo: string | null;
-    linkType: string | null;
-  }): boolean {
+  #asyncSubmit(data: ApiSubmitData): boolean {
     let fd = new FormData();
     let f = this.#getCurrentUploaderFragment();
     if (!(f && f.validate())) {
@@ -440,10 +442,10 @@ export class FArticleEditor extends Fragment {
 
   #asyncGetTags(ownerId: string): void {
     let url = "api/blog/available_tags?from=" + ownerId;
-    Api.asFragmentCall(this, url).then((d: {tags: unknown[]}) => this.#onTagsRRR(d));
+    Api.asFragmentCall<ApiTagsResponse>(this, url).then((d) => this.#onTagsRRR(d));
   }
 
-  #onTagsRRR(data: {tags: unknown[]}): void {
+  #onTagsRRR(data: ApiTagsResponse): void {
     this.#tags = [];
     for (let d of data.tags) {
       this.#tags.push(new Tag(d));
@@ -452,18 +454,24 @@ export class FArticleEditor extends Fragment {
   }
 
   #onSubmitRRR(responseText: string): void {
-    let response: {error?: unknown; data?: {groups: unknown; article: unknown}} = JSON.parse(responseText);
+    let response: ApiSubmitResponse = JSON.parse(responseText);
     if (response.error) {
       this.onRemoteErrorInFragment(this, response.error);
       this.#unlockActionBtns();
     } else {
       if (this.#baseArticle && this.#baseArticle.isDraft()) {
-        (this._delegate as any).onNewArticlePostedInArticleEditorFragment(this);
+        const delegate = this.getDelegate<ArticleEditorDelegate>();
+        if (delegate) {
+          delegate.onNewArticlePostedInArticleEditorFragment(this);
+        }
       } else {
         if (response.data) {
           WebConfig.setGroups(response.data.groups);
-          (this._delegate as any).onArticleUpdatedInArticleEditorFragment(
-              this, new Article(response.data.article));
+          const delegate = this.getDelegate<ArticleEditorDelegate>();
+          if (delegate) {
+            delegate.onArticleUpdatedInArticleEditorFragment(
+                this, new Article(response.data.article));
+          }
         }
       }
     }

@@ -19,6 +19,15 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
+import { DraftArticleData, JournalIssueData } from '../../types/backend2.js';
+
+interface ApiDraftArticleResponse {
+  draft: DraftArticleData;
+}
+
+interface ApiDraftJournalIssueResponse {
+  draft: JournalIssueData;
+}
 
 // ActionButton needs some redesign
 export class AbNew extends Fragment {
@@ -58,7 +67,11 @@ export class AbNew extends Fragment {
 
   onClickInJournalFragment(fJournal: FJournal): void {
     this.#lc.dismiss();
-    this.#asyncCreateJournalIssue(fJournal.getJournalId());
+    const journalId = fJournal.getJournalId();
+    if (!journalId) {
+      return;
+    }
+    this.#asyncCreateJournalIssue(journalId);
   }
 
   onOptionClickedInContextLayer(_lContext: LContext, value: string): void {
@@ -92,7 +105,11 @@ export class AbNew extends Fragment {
       }
     } else {
       // Visitor can only create article for owner
-      this.#asyncCreateArticle(WebConfig.getOwnerId());
+      const ownerId = WebConfig.getOwnerId();
+      if (!ownerId) {
+        return;
+      }
+      this.#asyncCreateArticle(ownerId);
     }
   }
 
@@ -105,7 +122,11 @@ export class AbNew extends Fragment {
   }
 
   #showCreateOptions(groupIds: string[]): void {
-    let ids: string[] = [ WebConfig.getOwnerId() ];
+    const ownerId = WebConfig.getOwnerId();
+    if (!ownerId) {
+      return;
+    }
+    let ids: string[] = [ ownerId ];
     for (let id of groupIds) {
       let g = Groups.get(id);
       if (g && g.isWriterGroup()) {
@@ -174,11 +195,11 @@ export class AbNew extends Fragment {
 
   #asyncCreateArticle(forOwnerId: string): void {
     let url = "api/blog/new_draft?for=" + forOwnerId;
-    Api.asFragmentCall(this, url).then((d: {draft: unknown}) => this.#onDraftArticleRRR(d));
+    Api.asFragmentCall<ApiDraftArticleResponse>(this, url).then((d) => this.#onDraftArticleRRR(d));
   }
 
-  #onDraftArticleRRR(data: {draft: unknown}): void {
-    this.#showDraftEditor(new DraftArticle(data.draft as Record<string, unknown>));
+  #onDraftArticleRRR(data: ApiDraftArticleResponse): void {
+    this.#showDraftEditor(new DraftArticle(data.draft));
   }
 
   #showDraftEditor(draftArticle: DraftArticle): void {
@@ -186,16 +207,16 @@ export class AbNew extends Fragment {
     let f = new FvcPostEditor();
     f.setPost(draftArticle);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Draft post");
+    this.onFragmentRequestShowView(this, v, "Draft post");
   }
 
   #asyncCreateJournalIssue(journalId: string): void {
     let url = "api/blog/new_issue?for=" + journalId;
-    Api.asFragmentCall(this, url).then((d: {draft: unknown}) => this.#onDraftIssueRRR(d));
+    Api.asFragmentCall<ApiDraftJournalIssueResponse>(this, url).then((d) => this.#onDraftIssueRRR(d));
   }
 
-  #onDraftIssueRRR(data: {draft: unknown}): void {
-    this.#showDraftIssueEditor(new DraftJournalIssue(data.draft as Record<string, unknown>));
+  #onDraftIssueRRR(data: ApiDraftJournalIssueResponse): void {
+    this.#showDraftIssueEditor(new DraftJournalIssue(data.draft));
   }
 
   #showDraftIssueEditor(draftIssue: DraftJournalIssue): void {
@@ -203,6 +224,6 @@ export class AbNew extends Fragment {
     let f = new FvcPostEditor();
     f.setPost(draftIssue);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Draft issue");
+    this.onFragmentRequestShowView(this, v, "Draft issue");
   }
 };

@@ -19,7 +19,7 @@ class UtilitiesClass {
         .replace(/'/g, "&#039;");
   }
 
-  getVisibilityClassName(visibility: string): string {
+  getVisibilityClassName(visibility: string | null): string {
     switch (visibility) {
     case VIS.PRIVATE:
       return "private";

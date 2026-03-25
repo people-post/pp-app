@@ -4,6 +4,7 @@ import { JournalIssueSection } from './JournalIssueSection.js';
 import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
 import { JournalIssueData } from '../../types/backend2.js';
+import { OgpData } from './OgpData.js';
 
 export class JournalIssue extends ServerDataObject<JournalIssueData> implements JournalIssueInterface {
   #sections: JournalIssueSection[] = [];
@@ -79,7 +80,7 @@ export class JournalIssue extends ServerDataObject<JournalIssueData> implements 
     return this.#mTagComments.has(tagId) ? this.#mTagComments.get(tagId)! : [];
   }
 
-  getOgpData(): unknown {
+  getOgpData(): OgpData | null {
     return null;
   }
 

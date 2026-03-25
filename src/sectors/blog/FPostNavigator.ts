@@ -9,6 +9,7 @@ import { Blog } from '../../common/dba/Blog.js';
 import { Utilities } from './Utilities.js';
 import { FRealTimeComments } from '../../common/social/FRealTimeComments.js';
 import { Account } from '../../common/dba/Account.js';
+import { Post } from '../../types/blog.js';
 
 const _CPT_POST_NAVIGATOR = {
   MAIN : `<div id="__ID_POST__"></div>
@@ -39,7 +40,7 @@ export class PPostNavigator extends Panel {
   getCommentPanel(): PanelWrapper { return this.#pComment; }
 
   _renderFramework(): string {
-    let s = _CPT_POST_NAVIGATOR.MAIN;
+    let s: string = _CPT_POST_NAVIGATOR.MAIN;
     s = s.replace("__ID_POST__", this._getSubElementId("T"));
     s = s.replace("__ID_BTN_PREV__", this._getSubElementId("P"));
     s = s.replace("__ID_BTN_NEXT__", this._getSubElementId("N"));
@@ -72,8 +73,6 @@ class FPostNavigator extends Fragment {
   #fComments: FRealTimeComments;
   #postId: SocialItemId = new SocialItemId(); // Notice: Id from datasource has
                                     // priority if datasource is set.
-  protected _dataSource!: PostNavigatorDataSource;
-  protected _delegate!: PostNavigatorDelegate;
 
   constructor() {
     super();
@@ -112,7 +111,7 @@ class FPostNavigator extends Fragment {
       this.render();
       break;
     case T_DATA.POST:
-      this.#onPostUpdate(data);
+      this.#onPostUpdate(data as Post | null);
       break;
     default:
       break;
@@ -155,20 +154,32 @@ class FPostNavigator extends Fragment {
   }
 
   #getPrevPostId(): SocialItemId | null {
-    return this._dataSource.getPrevPostIdForPostFragment(this);
+    const dataSource = this.getDataSource<PostNavigatorDataSource>();
+    if (!dataSource) {
+      return null;
+    }
+    return dataSource.getPrevPostIdForPostFragment(this);
   }
 
   #getNextPostId(): SocialItemId | null {
-    return this._dataSource.getNextPostIdForPostFragment(this);
+    const dataSource = this.getDataSource<PostNavigatorDataSource>();
+    if (!dataSource) {
+      return null;
+    }
+    return dataSource.getNextPostIdForPostFragment(this);
   }
 
   #onNavToPost(id: SocialItemId): void {
     this.setPostId(id);
-    this._delegate.onPostIdChangedInPostFragment(this, id);
+    const delegate = this.getDelegate<PostNavigatorDelegate>();
+    if (!delegate) {
+      return;
+    }
+    delegate.onPostIdChangedInPostFragment(this, id);
     this.render();
   }
 
-  #onPostUpdate(updatePost: unknown): void {
+  #onPostUpdate(updatePost: Post | null): void {
     let post = Blog.getPost(this.#postId);
     if (Utilities.isPostRelated(updatePost, post)) {
       this.render();
@@ -192,7 +203,13 @@ class FPostNavigator extends Fragment {
     if (!realPost.isSocialable()) {
       return;
     }
-    this.#fComments.setThreadId(realPost.getId(), realPost.getSocialItemType());
+
+    const id = realPost.getId();
+    if (!id) {
+      return;
+    }
+
+    this.#fComments.setThreadId(id, realPost.getSocialItemType());
     if (Account) {
       this.#fComments.setIsAdmin(
           this.#isUserPostAdmin(Account.getId(), realPost));

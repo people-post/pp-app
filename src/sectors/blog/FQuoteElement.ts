@@ -19,15 +19,15 @@ export interface QuoteElementDelegate {
 
 export class FQuoteElement extends Fragment {
   #fItem: FragmentType | null = null;
-  #item: string | undefined = undefined;
-  #type: string | undefined = undefined;
+  #item: string | null = null;
+  #type: string | null = null;
   #sizeType: string = "FULL";
 
-  getItem(): string | undefined { return this.#item; }
-  getType(): string | undefined { return this.#type; }
+  getItem(): string | null { return this.#item; }
+  getType(): string | null { return this.#type; }
 
   setSize(t: string): void { this.#sizeType = t; }
-  setItem(item: string | undefined, type: string | undefined): void {
+  setItem(item: string | null, type: string | null): void {
     this.#item = item;
     this.#type = type;
   }

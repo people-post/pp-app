@@ -4,6 +4,7 @@ import { ChatMessage } from './ChatMessage.js';
 import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
 import type { CommentData, CommentDataWithStatus } from '../../types/backend2.js';
+import { OgpData } from './OgpData.js';
 
 export class Comment extends ServerDataObject<CommentData> implements Post {
   // Synced with backend
@@ -63,7 +64,7 @@ export class Comment extends ServerDataObject<CommentData> implements Post {
     return [];
   }
 
-  getOgpData(): unknown {
+  getOgpData(): OgpData | null {
     return null;
   }
 

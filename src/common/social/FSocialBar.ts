@@ -6,6 +6,7 @@ import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { T_DATA } from '../plt/Events.js';
 import { Social } from '../dba/Social.js';
+import type { SocialItem, OgpData } from '../../types/basic.js';
 import { Factory, T_OBJ } from '../../lib/framework/Factory.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { UiUtilities } from '../../lib/ui/Utilities.js';
@@ -70,17 +71,6 @@ export class PSocialBar extends Panel {
     super._onFrameworkDidAppear();
     this.#pItems.attach(this._getSubElementId("M"));
   }
-}
-
-interface SocialItem {
-  getId(): string;
-  getSocialItemType(): string;
-  getOgpData(): { getTitle(): string; getUrl(): string } | null;
-}
-
-interface OgpData {
-  getTitle(): string;
-  getUrl(): string;
 }
 
 export class FSocialBar extends Fragment {

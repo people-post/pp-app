@@ -4,6 +4,7 @@ import { JournalIssueSection } from './JournalIssueSection.js';
 import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
 import { JournalIssueBaseData } from '../../types/backend2.js';
+import { OgpData } from './OgpData.js';
 
 export class DraftJournalIssue extends ServerDataObject<JournalIssueBaseData> implements JournalIssue {
   #sections: JournalIssueSection[] = [];
@@ -69,7 +70,7 @@ export class DraftJournalIssue extends ServerDataObject<JournalIssueBaseData> im
     return [];
   }
 
-  getOgpData(): unknown {
+  getOgpData(): OgpData | null {
     return null;
   }
 

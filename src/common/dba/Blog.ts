@@ -80,7 +80,10 @@ export class BlogClass implements BlogInterface {
     }
   }
 
-  isPostPinned(postId: string): boolean {
+  isPostPinned(postId: string | null): boolean {
+    if (!postId) {
+      return false;
+    }
     // postId is str of object_id
     const c = this.#config;
     return !!(c && c.isPostPinned(postId));

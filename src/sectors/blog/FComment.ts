@@ -94,12 +94,16 @@ export class FComment extends FPostBase implements IOptionContextButtonDelegate 
   }
 
   #isCommentAdmin(comment: Comment): boolean {
+    const targetItemId = comment.getTargetItemId();
+    if (!targetItemId) {
+      return false;
+    }
     const dataSource = this.getDataSource<CommentDataSource>();
     if (!dataSource) {
       return false;
     }
     return dataSource.isUserAdminOfCommentTargetInCommentFragment(
-        this, comment.getTargetItemId());
+        this, targetItemId);
   }
 
   #renderOwnerIcon(panel: Panel | null, comment: Comment): void {
@@ -150,7 +154,7 @@ export class FComment extends FPostBase implements IOptionContextButtonDelegate 
     }
 
     if (comment.isPending() && this.#isCommentAdmin(comment)) {
-      let s = _CFT_COMMENT.ICON;
+      let s: string = _CFT_COMMENT.ICON;
       s = s.replace("__ICON__",
                     UiUtilities.renderSvgIcon(ICON.INFO, "stkred", "fillred"));
       this.#fAction.setIcon(s);
@@ -170,28 +174,48 @@ export class FComment extends FPostBase implements IOptionContextButtonDelegate 
   }
 
   #asyncKeep(comment: Comment): void {
+    const targetItemId = comment.getTargetItemId();
+    const targetItemType = comment.getTargetItemType();
+    const id = comment.getId();
+    if (!targetItemId || !targetItemType || !id) {
+      return;
+    }
     let url = "api/social/keep_guest_comment";
     let fd = new FormData();
-    fd.append("item_id", comment.getTargetItemId());
-    fd.append("item_type", comment.getTargetItemType());
-    fd.append("comment_id", comment.getId());
+    fd.append("item_id", targetItemId);
+    fd.append("item_type", targetItemType);
+    fd.append("comment_id", id);
     Api.asFragmentPost(this, url, fd).then(d => this.#onKeepRRR(d));
   }
 
   #asyncDiscard(comment: Comment): void {
+    const targetItemId = comment.getTargetItemId();
+    const targetItemType = comment.getTargetItemType();
+    const id = comment.getId();
+    if (!targetItemId || !targetItemType || !id) {
+      return;
+    }
     let url = "api/social/discard_guest_comment";
     let fd = new FormData();
-    fd.append("item_id", comment.getTargetItemId());
-    fd.append("item_type", comment.getTargetItemType());
-    fd.append("comment_id", comment.getId());
+    fd.append("item_id", targetItemId);
+    fd.append("item_type", targetItemType);
+    fd.append("comment_id", id);
     Api.asFragmentPost(this, url, fd).then(d => this.#onDiscardRRR(d));
   }
 
   #onKeepRRR(_data: unknown): void {
-    this._delegate.onGuestCommentStatusChangeInCommentFragment(this);
+    const delegate = this.getDelegate<CommentDelegate>();
+    if (!delegate) {
+      return;
+    }
+    delegate.onGuestCommentStatusChangeInCommentFragment(this);
   }
 
   #onDiscardRRR(_data: unknown): void {
-    this._delegate.onGuestCommentStatusChangeInCommentFragment(this);
+    const delegate = this.getDelegate<CommentDelegate>();
+    if (!delegate) {
+      return;
+    }
+    delegate.onGuestCommentStatusChangeInCommentFragment(this);
   }
 }

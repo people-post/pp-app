@@ -86,10 +86,15 @@ export class FFeedArticleInfo extends FPostBase {
     if (pContent) {
       let s = article.getContent();
       if (UtilitiesExt.isEmptyString(s)) {
-        s = UtilitiesExt.timestampToDateString(article.getCreationTime() /
+        const creationTime = article.getCreationTime();
+        if (creationTime) {
+          s = UtilitiesExt.timestampToDateString(creationTime.getTime() /
                                                 1000);
+        } else {
+          s = "...";
+        }
       } else {
-        s = blogUtilities.stripSimpleTag(s, "p");
+        s = blogUtilities.stripSimpleTag(s!, "p");
       }
       pContent.replaceContent(Utilities.renderContent(s));
     }
@@ -101,7 +106,7 @@ export class FFeedArticleInfo extends FPostBase {
         s = article.getContent();
       }
       if (!UtilitiesExt.isEmptyString(s)) {
-        s = blogUtilities.stripSimpleTag(s, "p");
+        s = blogUtilities.stripSimpleTag(s!, "p");
         pTitle.replaceContent(Utilities.renderContent(s));
       }
     }
@@ -135,15 +140,23 @@ export class FFeedArticleInfo extends FPostBase {
     if (!panel) {
       return;
     }
-    panel.replaceContent(Utilities.renderSmartTime(article.getCreationTime()));
+    const creationTime = article.getCreationTime();
+    if (!creationTime) {
+      return;
+    }
+    panel.replaceContent(Utilities.renderSmartTime(creationTime));
   }
 
   #renderDateTime(panel: Panel | null, article: Article): void {
     if (!panel) {
       return;
     }
+    const creationTime = article.getCreationTime();
+    if (!creationTime) {
+      return;
+    }
     panel.replaceContent(UtilitiesExt.timestampToDateTimeString(
-        article.getCreationTime() / 1000));
+        creationTime.getTime() / 1000));
   }
 
   #renderOwnerIcon(panel: Panel | null, article: Article): void {

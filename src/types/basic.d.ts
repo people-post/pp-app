@@ -22,9 +22,15 @@ export interface ColorTheme {
   getSeparationColor(eTest: HTMLElement | null): string | null;
 }
 
+export interface OgpData {
+  getTitle(): string;
+  getUrl(): string;
+}
+
 export interface SocialItem {
+  getId(): string | null;
   getSocialItemType(): string;
-  getOgpData(): unknown;
+  getOgpData(): OgpData | null;
 }
 
 export interface RemoteError {

@@ -4,6 +4,7 @@ import { RemoteFile } from './RemoteFile.js';
 import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
 import type { FeedArticleData } from '../../types/backend2.js';
+import { OgpData } from './OgpData.js';
 
 export class FeedArticle extends ServerDataObject<FeedArticleData> implements Post {
   #files: RemoteFile[] = [];
@@ -61,7 +62,7 @@ export class FeedArticle extends ServerDataObject<FeedArticleData> implements Po
     return [];
   }
 
-  getOgpData(): unknown {
+  getOgpData(): OgpData | null {
     return null;
   }
 

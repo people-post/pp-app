@@ -146,6 +146,13 @@ export class FPostInfo extends MajorSectorItem {
 
   _renderOnRender(render: PanelWrapper): void {
     let post = Blog.getPost(this.#postId);
+    if (!post) {
+      let p = new Panel();
+      p.setClassName("tw:text-center");
+      render.wrapPanel(p);
+      p.replaceContent(ICONS.LOADING);
+      return;
+    }
     let realPost = this.#getRealPost(post);
     if (!realPost) {
       let p = new Panel();
@@ -316,7 +323,7 @@ export class FPostInfo extends MajorSectorItem {
       return;
     }
     // Pin at upper left corner
-    let s = _CFT_POST_INFO.PIN;
+    let s: string = _CFT_POST_INFO.PIN;
     s = s.replace("__ICON__", UiUtilities.renderSvgIcon(ICON.PIN));
     panel.replaceContent(s);
   }
