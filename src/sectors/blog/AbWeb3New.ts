@@ -9,7 +9,8 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Env } from '../../common/plt/Env.js';
 import {
   Web3ServerRegistrationFacade,
-  type Web3ServerRegistrationDelegate
+  type Web3ServerRegistrationDelegate,
+  type Web3RegistrationAgent
 } from '../../common/pdb/Web3ServerRegistrationFacade.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Account } from '../../common/dba/Account.js';
@@ -94,9 +95,7 @@ export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegat
   }
 
   #onActionClick(): void {
-    const agents = (typeof window !== 'undefined' && window.glb && (window.glb as { web3Publisher?: { getAgents: () => Web3Agent[] } }).web3Publisher) 
-      ? (window.glb as { web3Publisher: { getAgents: () => Web3Agent[] } }).web3Publisher.getAgents() 
-      : [];
+    const agents = window.glb?.web3Publisher?.getAgents() ?? [];
     if (agents.length > 0) {
       this.#onChoosePublisherAgents(agents);
     } else {
@@ -118,7 +117,7 @@ export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegat
                                 this.#lmcPublisher, "Choices");
   }
 
-  #onPublisherAgentsChosen(agents: Web3Agent[]): void {
+  #onPublisherAgentsChosen(agents: Web3RegistrationAgent[]): void {
     if (!Account) {
       return;
     }
@@ -133,10 +132,7 @@ export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegat
         return;
       }
     }
-    const accountWithPublishers = Account as AccountWeb3Selection;
-    if (accountWithPublishers.setPublishers) {
-      accountWithPublishers.setPublishers(agents);
-    }
+    Account.setPublishers(agents);
     this.#evaluateStorageAgents();
   }
 
@@ -144,10 +140,8 @@ export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegat
     if (!Account) {
       return;
     }
-    const web3Storage = (typeof window !== 'undefined' && window.glb && (window.glb as { web3Storage?: { getAgents: (id: string) => Web3Agent[] } }).web3Storage) 
-      ? (window.glb as { web3Storage: { getAgents: (id: string) => Web3Agent[] } }).web3Storage 
-      : null;
-    const agents = web3Storage ? web3Storage.getAgents(Account.getId()) : [];
+    const web3Storage = window.glb?.web3Storage;
+    const agents = web3Storage?.getAgents(Account.getId() ?? "") ?? [];
     if (agents.length > 0) {
       this.#onChooseStorageAgent(agents);
     } else {
@@ -183,12 +177,26 @@ export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegat
   #showDraftEditor(): void {
     let v = new View();
     let f = new FvcWeb3PostEditor();
-    f.setPost(new DraftArticle({}));
+    f.setPost(new DraftArticle({
+      id: "",
+      source_type: "web3",
+      owner_id: Account.getId() ?? "",
+      author_id: Account.getId() ?? "",
+      link_type: "web3",
+      link_to: "",
+      title: "",
+      content: "",
+      updated_at: Date.now(),
+      files: [],
+      tag_ids: [],
+      visibility: "public",
+      status: "published",
+    }));
     v.setContentFragment(f);
     this.onFragmentRequestShowView(this, v, "Draft post");
   }
 
-  #showPublisherRegistration(agent: Web3Agent): void {
+  #showPublisherRegistration(agent: Web3RegistrationAgent): void {
     let v = new View();
     let f = Web3ServerRegistrationFacade.createRegistrationFragment(agent, this);
     if (!f) {

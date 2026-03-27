@@ -2,6 +2,8 @@ import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 export interface Web3RegistrationAgent {
   getHostName(): string;
+  getInitUserId(): string;
+  isInitUserRegistered(): boolean;
   asIsNameRegistrable(name: string): Promise<boolean>;
 }
 

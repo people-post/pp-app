@@ -183,11 +183,18 @@ declare global {
       [key: string]: unknown;
     };
     glb?: {
-      web3Resolver?: unknown;
-      web3Publisher?: unknown;
-      web3Ledger?: unknown;
-      web3Storage?: unknown;
-      [key: string]: unknown;
+      web3Resolver?: {
+        getAgents(): Web3Agent[];
+      };
+      web3Publisher?: {
+        getAgents(): Web3Agent[];
+      };
+      web3Ledger?: {
+        getAgents(): Web3Agent[];
+      };
+      web3Storage?: {
+        getAgents(id: string): Web3Agent[];
+      };
     };
   }
 }

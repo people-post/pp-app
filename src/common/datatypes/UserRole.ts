@@ -7,6 +7,10 @@ export class UserRole {
     this._data = data;
   }
 
+  isActive(): boolean {
+    return false;
+  }
+
   isOpen(): boolean {
     return !!this._data.is_open;
   }
