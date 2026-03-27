@@ -9,13 +9,11 @@ export const CF_JOURNAL = {
   ON_CLICK : Symbol(),
 };
 
-const _CPT_JOURNAL = {} as const;
-
 export class PJournalBase extends Panel {
   getTitlePanel(): Panel | null { return null; }
 }
 
-interface JournalDelegate {
+export interface JournalDelegate {
   onClickInJournalFragment(f: FJournal): void;
 }
 
@@ -27,7 +25,6 @@ export class FJournal extends Fragment {
   #journalId: string | null = null;
   #tLayout: symbol | null = null;
   #fBar: Button;
-  protected _delegate!: JournalDelegate;
 
   constructor() {
     super();
@@ -77,8 +74,8 @@ export class FJournal extends Fragment {
     let panel = this.#createPanel();
     render.wrapPanel(panel);
 
-    if (this.#tLayout == this.constructor.T_LAYOUT.BUTTON_BAR) {
-      this.#fBar.setName(j.getName());
+    if (this.#tLayout === FJournal.T_LAYOUT.BUTTON_BAR) {
+      this.#fBar.setName(j.getName() || "");
       this.#fBar.attachRender(panel);
       this.#fBar.render();
       return;
@@ -86,7 +83,7 @@ export class FJournal extends Fragment {
 
     let p = panel.getTitlePanel();
     if (p) {
-      p.replaceContent(j.getName());
+      p.replaceContent(j.getName() || "");
     }
   }
 
@@ -100,5 +97,5 @@ export class FJournal extends Fragment {
     return p;
   }
 
-  #onClick(): void { this._delegate.onClickInJournalFragment(this); }
+  #onClick(): void { this.getDelegate<JournalDelegate>()?.onClickInJournalFragment(this); }
 }

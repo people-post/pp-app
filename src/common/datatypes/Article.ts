@@ -1,14 +1,15 @@
 import { ServerDataObject } from './ServerDataObject.js';
 import { Article as ArticleInterface } from '../../types/blog.js';
 import { OgpData } from './OgpData.js';
-import { RemoteFile } from './RemoteFile.js';
+import type { RemoteFile as IRemoteFile } from '../../types/basic.js';
 import { SocialItem } from './SocialItem.js';
 import { SocialItemId } from './SocialItemId.js';
+import { RemoteFile } from './RemoteFile.js';
 import { ArticleData, CommentTagData } from '../../types/backend2.js';
 
 export class Article extends ServerDataObject<ArticleData> implements ArticleInterface {
-  #files: RemoteFile[] | undefined = undefined;
-  #attachments: RemoteFile[] | undefined = undefined;
+  #files: IRemoteFile[] | null = null;
+  #attachments: IRemoteFile[] | null = null;
   #mTagComments = new Map<string, SocialItemId[]>();
 
   constructor(data: ArticleData) {
@@ -58,7 +59,7 @@ export class Article extends ServerDataObject<ArticleData> implements ArticleInt
     return this._data.content;
   }
 
-  getFiles(): RemoteFile[] {
+  getFiles(): IRemoteFile[] {
     if (this.#files) {
       return this.#files;
     }
@@ -72,7 +73,7 @@ export class Article extends ServerDataObject<ArticleData> implements ArticleInt
     return this.#files;
   }
 
-  getAttachment(): RemoteFile | undefined {
+  getAttachment(): IRemoteFile | null {
     if (this.#attachments) {
       return this.#attachments[0];
     }

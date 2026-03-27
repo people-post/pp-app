@@ -70,7 +70,7 @@ export class DraftArticle extends ServerDataObject<ArticleBaseData> implements A
     return this.#files;
   }
 
-  getAttachment(): RemoteFile | undefined {
+  getAttachment(): RemoteFile | null {
     return this.#attachments[0];
   }
 

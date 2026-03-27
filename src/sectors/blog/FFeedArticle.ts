@@ -7,8 +7,7 @@ import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Utilities } from '../../common/Utilities.js';
 import { R } from '../../common/constants/R.js';
 import type { PostInfoPanel } from './PPost.js';
-import type { Article } from '../../common/datatypes/Article.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import type { FeedArticle } from '../../common/datatypes/FeedArticle.js';
 
 export class FFeedArticle extends Fragment {
   #fGallery: FGallery;
@@ -28,12 +27,12 @@ export class FFeedArticle extends Fragment {
 
   setArticleId(id: string | null): void { this.#articleId = id; }
 
-  _renderOnRender(render: Render): void {
-    const postPanel = render as PostInfoPanel;
-    let article = Blog.getArticle(this.#articleId);
+  _renderOnRender(render: PostInfoPanel): void {
+    let article = Blog.getFeedArticle(this.#articleId);
     if (!article) {
       return;
     }
+    let postPanel = render;
     let p = postPanel.getTitlePanel();
     p.replaceContent(this.#renderTitle(article.getTitle()));
 
@@ -41,15 +40,21 @@ export class FFeedArticle extends Fragment {
     p.replaceContent("Created at");
 
     p = postPanel.getCreationDateTimePanel();
+    let creationTime = article.getCreationTime();
+    if (creationTime) {
     p.replaceContent(UtilitiesExt.timestampToDateTimeString(
-        article.getCreationTime() / 1000));
+        creationTime.getTime() / 1000));
+    }
 
     p = postPanel.getTUpdateDecorPanel();
     p.replaceContent("Updated at");
 
     p = postPanel.getUpdateDateTimePanel();
+    let updateTime = article.getUpdateTime();
+    if (updateTime) {
     p.replaceContent(UtilitiesExt.timestampToDateTimeString(
-        article.getUpdateTime() / 1000));
+        updateTime.getTime() / 1000));
+    }
 
     p = postPanel.getContentPanel();
     p.replaceContent(Utilities.renderContent(article.getContent()));
@@ -71,7 +76,7 @@ export class FFeedArticle extends Fragment {
     return "...";
   }
 
-  #renderSourceLink(panel: Panel | null, article: Article): void {
+  #renderSourceLink(panel: Panel | null, article: FeedArticle): void {
     if (!panel) {
       return;
     }
@@ -80,7 +85,9 @@ export class FFeedArticle extends Fragment {
       return;
     }
     let e = panel.getDomElement();
-    e.addEventListener("click", () => this.#onGoToSource(url));
+    if (e) {
+      e.addEventListener("click", () => this.#onGoToSource(url));
+    }
     panel.replaceContent(R.t("Source link"));
   }
 };

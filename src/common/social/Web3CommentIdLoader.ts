@@ -3,20 +3,21 @@ import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 import { SocialItemId } from '../datatypes/SocialItemId.js';
 import { Users } from '../dba/Users.js';
 import { Account } from '../dba/Account.js';
+import type { SocialItemId as SocialItemIdType } from '../../types/basic.js';
 
 export interface Web3CommentIdLoaderDelegate {
   onIdUpdatedInLongListIdLoader(loader: Web3CommentIdLoader): void;
 }
 
 export class Web3CommentIdLoader extends LongListIdLoader {
-  #threadId: SocialItemId | null = null;
+  #threadId: SocialItemIdType | null = null;
   #hashtagIds: string[] = [];
   #idRecord = new UniLongListIdRecord();
   #isBusy = false;
 
   getIdRecord(): UniLongListIdRecord { return this.#idRecord; }
 
-  setThreadId(id: SocialItemId, hashtagIds: string[]): void {
+  setThreadId(id: SocialItemIdType, hashtagIds: string[]): void {
     this.#threadId = id;
     this.#hashtagIds = hashtagIds;
     this.#idRecord.clear();

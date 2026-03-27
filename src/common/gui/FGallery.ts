@@ -9,6 +9,7 @@ import { T_DATA } from '../plt/Events.js';
 import { RemoteFile } from '../datatypes/RemoteFile.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
+import type { RemoteFile as IRemoteFile } from '../../types/basic.js';
 
 export const CF_GALLERY = {
   PREV_IMAGE_SLIDE : "CF_GALLERY_1",
@@ -133,7 +134,7 @@ export class FGallery extends Fragment {
         f => {const file = f.getFile(); return file ? file.isVideo() && file.isLivestreaming() : false;});
   }
 
-  setFiles(files: RemoteFile[] | null): void {
+  setFiles(files: IRemoteFile[] | null): void {
     this.#fFiles = [];
     if (files) {
       for (const file of files) {

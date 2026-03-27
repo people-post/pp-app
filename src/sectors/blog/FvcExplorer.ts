@@ -1,6 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
-import { URL_PARAM } from '../../common/constants/Constants.js';
+import { URL_PARAM } from '../../lib/ui/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { T_DATA } from '../../common/plt/Events.js';
@@ -9,7 +9,6 @@ import { FSearchMenu } from '../../common/search/FSearchMenu.js';
 import { IdolPostIdLoader } from './IdolPostIdLoader.js';
 import { FPostList } from './FPostList.js';
 import { AbNew } from './AbNew.js';
-import type { ActionButton } from '../../common/gui/ActionButton.js';
 import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import type Render from '../../lib/ui/renders/Render.js';
@@ -56,7 +55,7 @@ export class FvcExplorer extends FScrollViewContent {
 
   scrollToTop(): void { this.#fPosts.scrollToTop(); }
 
-  getActionButton(): ActionButton | null {
+  getActionButton(): Fragment | null {
     return this.#fBtnNew.isAvailable() ? this.#fBtnNew : null;
   }
 
@@ -78,7 +77,7 @@ export class FvcExplorer extends FScrollViewContent {
       this.#fPosts.reset();
       break;
     case T_DATA.USER_PROFILE:
-      this._owner.onContentFragmentRequestUpdateHeader(this);
+      this._requestUpdateHeader();
       this.render();
       break;
     default:

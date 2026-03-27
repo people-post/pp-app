@@ -10,14 +10,13 @@ import { Blog } from '../../common/dba/Blog.js';
 import type { FPostInfo } from './FPostInfo.js';
 
 interface PostInfoLayoutPreviewDelegate {
-  onPostInfoPreviewFragmentRequestApplySize(f: FPostInfoLayoutPreview, size: string): void;
+  onPostInfoPreviewFragmentRequestApplySize(f: FPostInfoLayoutPreview, size: string | null): void;
 }
 
 export class FPostInfoLayoutPreview extends Fragment {
   protected _desciption: string = "";
   protected _fInfo: FPostInfo | null = null;
   protected _fApply: Button;
-  protected _delegate!: PostInfoLayoutPreviewDelegate;
 
   constructor() {
     super();
@@ -31,7 +30,7 @@ export class FPostInfoLayoutPreview extends Fragment {
 
   onSimpleButtonClicked(_fButton: Button): void {
     if (this._fInfo) {
-      this._delegate.onPostInfoPreviewFragmentRequestApplySize(
+      this.getDelegate<PostInfoLayoutPreviewDelegate>()?.onPostInfoPreviewFragmentRequestApplySize(
           this, this._fInfo.getSizeType());
     }
   }

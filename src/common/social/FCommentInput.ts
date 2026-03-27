@@ -13,7 +13,7 @@ import { Api } from '../plt/Api.js';
 import { R } from '../constants/R.js';
 import { Account } from '../dba/Account.js';
 import { RemoteError } from '../../types/basic.js';
-import { SocialItemId } from '../datatypes/SocialItemId.js';
+import type { SocialItemId } from '../../types/basic.js';
 import { dat as Web3Dat } from 'pp-api';
 
 

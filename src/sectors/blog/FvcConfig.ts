@@ -1,14 +1,3 @@
-(window as any).CF_BLOG_CONFIG = {
-  ADD_ROLE : "CF_BLOG_CONFIG_1",
-};
-
-const _CFT_BLOG_CONFIG_CONTENT = {
-  ROLE_NAME_CELL : `__NAME__(__TOTAL__)`,
-  BTN_NEW_ROLE : `<br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_BLOG_CONFIG.ADD_ROLE)">New writer group...</a>
-    <br>`,
-} as const;
-
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
 import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
@@ -34,6 +23,22 @@ import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
 import type { MenuItem } from '../../common/datatypes/MenuItem.js';
+import { BlogConfigData } from '../../types/blog.js';
+
+(window as any).CF_BLOG_CONFIG = {
+  ADD_ROLE : "CF_BLOG_CONFIG_1",
+};
+
+const _CFT_BLOG_CONFIG_CONTENT = {
+  ROLE_NAME_CELL : `__NAME__(__TOTAL__)`,
+  BTN_NEW_ROLE : `<br>
+    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_BLOG_CONFIG.ADD_ROLE)">New writer group...</a>
+    <br>`,
+} as const;
+
+interface ApiResponse {
+  config: BlogConfigData;
+}
 
 export class FvcConfig extends FScrollViewContent implements MenuConfigDataSource {
   private _fInsiders: FRoleList;
@@ -151,7 +156,7 @@ export class FvcConfig extends FScrollViewContent implements MenuConfigDataSourc
   handleSessionDataUpdate(dataType: symbol, _data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PROFILE:
-      this._owner?.onContentFragmentRequestUpdateHeader(this);
+      this._requestUpdateHeader();
       this.render();
       break;
     case T_DATA.GROUPS:
@@ -212,7 +217,7 @@ export class FvcConfig extends FScrollViewContent implements MenuConfigDataSourc
   #onAddRole(): void {
     let v = new View();
     v.setContentFragment(new FvcRoleEditor());
-    this._owner.onFragmentRequestShowView(this, v, "Blog role");
+    this.onFragmentRequestShowView(this, v, "Blog role");
   }
 
   #asyncUpdateInfoViewSizeConfig(sizeType: string): void {
@@ -249,11 +254,11 @@ export class FvcConfig extends FScrollViewContent implements MenuConfigDataSourc
 
   #asyncUpdateConfig(fd: FormData): void {
     let url = "api/blog/update_config";
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {config: unknown}) => this.#onUpdateConfigRRR(d));
+    Api.asFragmentPost<ApiResponse>(this, url, fd)
+        .then((d) => this.#onUpdateConfigRRR(d));
   }
 
-  #onUpdateConfigRRR(data: {config: unknown}): void {
+  #onUpdateConfigRRR(data: ApiResponse): void {
     Blog.resetConfig(data.config);
     this.render();
   }

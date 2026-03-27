@@ -1,6 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import Render from '../../lib/ui/renders/Render.js';
-import { RemoteFile } from '../datatypes/RemoteFile.js';
+import type { RemoteFile as IRemoteFile } from '../../types/basic.js';
 
 const _CFT_MEDIA_FILE = {
   IMAGE :
@@ -10,11 +10,11 @@ const _CFT_MEDIA_FILE = {
 };
 
 export class FMediaFile extends Fragment {
-  #file: RemoteFile | null = null;
+  #file: IRemoteFile | null = null;
 
-  getFile(): RemoteFile | null { return this.#file; }
+  getFile(): IRemoteFile | null { return this.#file; }
 
-  setFile(file: RemoteFile | null): void { this.#file = file; }
+  setFile(file: IRemoteFile | null): void { this.#file = file; }
 
   _renderOnRender(render: Render): void {
     if (this.#file) {
@@ -22,7 +22,7 @@ export class FMediaFile extends Fragment {
     }
   }
 
-  #renderFile(panel: Render, file: RemoteFile): void {
+  #renderFile(panel: Render, file: IRemoteFile): void {
     let s = "";
     if (file.isImage()) {
       s = _CFT_MEDIA_FILE.IMAGE;

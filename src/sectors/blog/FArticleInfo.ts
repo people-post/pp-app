@@ -23,6 +23,10 @@ import type { Article } from '../../common/datatypes/Article.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
 
+export interface ArticleInfoDataSource {
+  getContextOptionsForArticleInfoFragment(f: FArticleInfo, article: Article): Array<{name: string; value: string}> | null;
+}
+
 export interface ArticleInfoDelegate {
   onClickInArticleInfoFragment(f: FArticleInfo, articleId: string): void;
   onContextOptionClickedInArticleInfoFragment(f: FArticleInfo, value: unknown): void;
@@ -193,7 +197,7 @@ export class FArticleInfo extends FPostBase implements IOptionContextButtonDeleg
         s = article.getContent();
       }
       if (!UtilitiesExt.isEmptyString(s)) {
-        s = blogUtilities.stripSimpleTag(s, "p");
+        s = blogUtilities.stripSimpleTag(s!, "p");
         pTitle.replaceContent(Utilities.renderContent(s));
       }
     }
@@ -203,8 +207,9 @@ export class FArticleInfo extends FPostBase implements IOptionContextButtonDeleg
     if (!panel) {
       return;
     }
-    if (article.getAttachment()) {
-      this.#fAttachment.setFile(article.getAttachment());
+    let attachment = article.getAttachment();
+    if (attachment) {
+      this.#fAttachment.setFile(attachment);
       this.#fAttachment.attachRender(panel);
       this.#fAttachment.render();
     }
@@ -214,11 +219,12 @@ export class FArticleInfo extends FPostBase implements IOptionContextButtonDeleg
     if (!panel) {
       return;
     }
-
     let url = article.getExternalQuoteUrl();
     if (url) {
       let e = panel.getDomElement();
-      e.addEventListener("click", () => this.#onGoToSource(url));
+      if (e) {
+        e.addEventListener("click", () => this.#onGoToSource(url));
+      }
       panel.replaceContent(R.t("Source link"));
     }
   }
@@ -347,7 +353,7 @@ export class FArticleInfo extends FPostBase implements IOptionContextButtonDeleg
     }
 
     let ops =
-        this._dataSource.getContextOptionsForArticleInfoFragment(this, article);
+        this.getDataSource<ArticleInfoDataSource>()?.getContextOptionsForArticleInfoFragment(this, article);
 
     if (!ops) {
       return;

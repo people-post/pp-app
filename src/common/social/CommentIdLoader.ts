@@ -1,5 +1,6 @@
 import { LongListIdLoader, LongListIdLoaderDelegate } from '../plt/LongListIdLoader.js';
 import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
+import type { SocialItemId as SocialItemIdType } from '../../types/basic.js';
 import { SocialItemId } from '../datatypes/SocialItemId.js';
 import { Blog } from '../dba/Blog.js';
 import { Api } from '../plt/Api.js';
@@ -13,13 +14,13 @@ interface ApiResponse {
 
 export class CommentIdLoader extends LongListIdLoader {
   #isBatchLoading = false;
-  #threadId: SocialItemId | null = null;
+  #threadId: SocialItemIdType | null = null;
   #hashtagIds: string[] = [];
   #idRecord = new UniLongListIdRecord();
 
   getIdRecord(): UniLongListIdRecord { return this.#idRecord; }
 
-  setThreadId(id: SocialItemId, hashtagIds: string[]): void {
+  setThreadId(id: SocialItemIdType, hashtagIds: string[]): void {
     this.#threadId = id;
     this.#hashtagIds = hashtagIds;
     this.#idRecord.clear();

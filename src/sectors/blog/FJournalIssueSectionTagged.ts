@@ -10,7 +10,7 @@ import type { JournalIssueSection } from '../../common/datatypes/JournalIssueSec
 
 const _CPT_JOURNAL_ISSUE_SECTION_TAGGED = {
   MAIN : `<div class="tw:flex tw:justify-start">
-    <div id="__ID_TAG__" class="tw:flex-shrink-0 tw:text-u-font4"></div>
+    <div id="__ID_TAG__" class="tw:shrink-0 tw:text-u-font4"></div>
     <div>:</div>
     <div id="__ID_CONTENT__" class="tw:p-[5px]"></div>
   </div>`,
@@ -30,7 +30,7 @@ export class PJournalIssueSectionTagged extends Panel {
   getContentPanel(): ListPanel { return this.#pContent; }
 
   _renderFramework(): string {
-    let s = _CPT_JOURNAL_ISSUE_SECTION_TAGGED.MAIN;
+    let s: string = _CPT_JOURNAL_ISSUE_SECTION_TAGGED.MAIN;
     s = s.replace("__ID_TAG__", this._getSubElementId("T"));
     s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
     return s;

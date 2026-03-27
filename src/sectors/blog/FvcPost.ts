@@ -234,7 +234,7 @@ export class FvcPost extends FScrollViewContent {
     this.#btnNext.render();
 
     let rPost = this.#getRealPost();
-    if (this.#isPostCommentable(rPost)) {
+    if (rPost && this.#isPostCommentable(rPost)) {
       this.#renderComments(panel.getCommentsPanel(), rPost);
       p = panel.getInputPanel();
       this.#fInput.setThreadId(rPost.getSocialId());

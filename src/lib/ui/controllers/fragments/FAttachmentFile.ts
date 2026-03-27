@@ -10,13 +10,13 @@ const _CFT_ATTACHMENT_FILE = {
 } as const;
 
 export class FAttachmentFile extends Fragment {
-  #file: IRemoteFile | undefined = undefined;
+  #file: IRemoteFile | null = null;
 
   constructor() {
     super();
   }
 
-  setFile(f: IRemoteFile | undefined): void { this.#file = f; }
+  setFile(f: IRemoteFile | null): void { this.#file = f; }
 
   _renderOnRender(render: PanelWrapper): void {
     if (!this.#file) {

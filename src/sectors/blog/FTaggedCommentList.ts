@@ -3,7 +3,7 @@ import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { ConstListIdLoader } from '../../common/plt/ConstListIdLoader.js';
 import { FPostList } from './FPostList.js';
-import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import type { SocialItemId } from '../../types/basic.js';
 import type { Article } from '../../common/datatypes/Article.js';
 
 export class FTaggedCommentList extends Fragment {

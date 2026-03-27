@@ -228,7 +228,7 @@ export interface Article extends Post {
    * Get the attachment file
    * @returns The RemoteFile attachment or null
    */
-  getAttachment(): RemoteFile | undefined;
+  getAttachment(): RemoteFile | null;
 
   /**
    * Get the visibility of the article

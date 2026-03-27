@@ -238,7 +238,7 @@ export class FPost extends Fragment {
     }
 
     let isSelected = Blog.isPostPinned(post.getId());
-    let s = _CFT_POST.PIN;
+    let s: string = _CFT_POST.PIN;
     s = s.replace("__ICON__", this.#renderPinIcon(isSelected));
     if (isSelected) {
       s = s.replace("__CLASS__",

@@ -7,9 +7,9 @@ import { ICONS } from '../../lib/ui/Icons.js';
 import { ICON } from '../constants/Icons.js';
 import { UiUtilities } from '../../lib/ui/Utilities.js';
 import { FRealTimeComments } from '../social/FRealTimeComments.js';
-import { RemoteFile } from '../datatypes/RemoteFile.js';
 import { RemoteError } from '../datatypes/RemoteError.js';
 import type { LayerOwner } from '../../lib/ui/controllers/layers/Layer.js';
+import type { RemoteFile as IRemoteFile } from '../../types/basic.js';
 
 export const CLC_GALLERY = {
   TOGGLE_COMMENT : "CLC_GALLERY_1",
@@ -45,7 +45,7 @@ export class LGallery extends Layer {
 
   getUrlParamString(): string { return ""; }
 
-  setFiles(files: RemoteFile[] | null): void { this._fGallery.setFiles(files); }
+  setFiles(files: IRemoteFile[] | null): void { this._fGallery.setFiles(files); }
   setSelection(idx: number): void { this._fGallery.setSelection(idx); }
   setCommentThreadId(id: string | number | null, type: string | null): void {
     if (id !== null && type !== null) {

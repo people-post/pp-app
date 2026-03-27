@@ -3,6 +3,7 @@
  */
 
 export interface SocialItemId {
+  isValid(): boolean;
   getValue(): string | null;
   getType(): string | null;
   setValue(v: string | null): void;
@@ -56,15 +57,15 @@ export interface RemoteFile {
   isVideo(): boolean;
   isLivestreaming(): boolean;
   isPending(): boolean;
-  getName(): string | undefined;
-  getCid(): string | undefined;
-  getImageUrl(): string | undefined;
-  getDownloadUrl(): string | undefined;
-  getThumbnailUrl(forWidth: number): string | undefined;
+  getName(): string | null;
+  getCid(): string | null;
+  getImageUrl(): string | null;
+  getDownloadUrl(): string | null;
+  getThumbnailUrl(forWidth: number): string | null;
   getVideoManifestType(): string;
-  getVideoManifestUrl(): string | undefined;
+  getVideoManifestUrl(): string | null;
   getBackgroundColor(): string;
-  getProgress(): number | undefined;
+  getProgress(): number | null;
   setState(s: string): void;
   setStatus(s: string): void;
   setProgress(p: number): void;

@@ -36,7 +36,6 @@ interface PostStatisticsDelegate {
 
 export class FPostStatisticsInfo extends Fragment {
   protected _data: PostStatisticsData | null = null;
-  protected _delegate!: PostStatisticsDelegate;
 
   constructor() {
     super();
@@ -70,7 +69,7 @@ export class FPostStatisticsInfo extends Fragment {
     if (!data) {
       return "";
     }
-    let s = _CFT_POST_STATISTICS_INFO.MAIN;
+    let s: string = _CFT_POST_STATISTICS_INFO.MAIN;
     let name = data.title;
     if (name && name.length) {
       name = blogUtilities.stripSimpleTag(name, "p");
@@ -84,7 +83,7 @@ export class FPostStatisticsInfo extends Fragment {
 
   #onClick(): void {
     if (this._data) {
-      this._delegate.onClickInFPostStatisticsInfo(this, this._data);
+      this.getDelegate<PostStatisticsDelegate>()?.onClickInFPostStatisticsInfo(this, this._data);
     }
   }
 }

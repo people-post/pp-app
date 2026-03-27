@@ -14,7 +14,6 @@ import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Utilities } from '../../common/Utilities.js';
 import { PostInfoPanel } from './PPost.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 export interface FArticleDelegate {
   onQuotedElementRequestShowView(f: FArticle, view: View, title: string): void;
@@ -53,7 +52,7 @@ export class FArticle extends Fragment {
 
   setArticleId(id: string | null): void { this.#articleId = id; }
 
-  onQuotedElementRequestShowView(_fQuote: FQuoteElement, view: unknown): void {
+  onQuotedElementRequestShowView(_fQuote: FQuoteElement, view: View): void {
     this.onFragmentRequestShowView(this, view, "Quoted element");
   }
   onSimpleButtonClicked(fBtn: Button): void {
@@ -79,8 +78,8 @@ export class FArticle extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Render): void {
-    const postPanel = render as PostInfoPanel;
+  _renderOnRender(render: PostInfoPanel): void {
+    const postPanel = render;
     let article = Blog.getArticle(this.#articleId);
     if (!article) {
       return;
