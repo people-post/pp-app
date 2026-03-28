@@ -105,6 +105,8 @@ export interface Post extends SocialItem {
   getHashtagIds(): string[];
 
   getTaggedCommentIds(tagId: string): SocialItemId[];
+
+  getErrorCode(): string | null;
 }
 
 export interface JournalIssueSection {

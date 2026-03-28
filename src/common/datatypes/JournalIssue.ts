@@ -52,6 +52,10 @@ export class JournalIssue extends ServerDataObject<JournalIssueData> implements 
     return null;
   }
 
+  getErrorCode(): string | null {
+    return this._data.err_code ?? null;
+  }
+
   getLinkTo(): string | null {
     return null;
   }

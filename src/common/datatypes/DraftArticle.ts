@@ -42,6 +42,10 @@ export class DraftArticle extends ServerDataObject<ArticleBaseData> implements A
     return !!this._data.link_to && !this.isRepost();
   }
 
+  getErrorCode(): string | null {
+    return this._data.err_code ?? null;
+  }
+
   getLinkTo(): string | null {
     return this._data.link_to;
   }

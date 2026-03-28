@@ -34,6 +34,8 @@ import { ICON } from '../../common/constants/Icons.js';
 import type { Post } from '../../types/blog.js';
 import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import type { Article } from '../../common/datatypes/Article.js';
+import { PPostInfoBase } from '../../common/gui/PPostInfoBase.js';
+import { FPostBase } from './FPostBase.js';
 
 export const CF_POST_INFO = {
   ON_CLICK : "CF_POST_INFO_1",
@@ -224,8 +226,8 @@ export class FPostInfo extends MajorSectorItem {
     return post;
   }
 
-  #createPostFragment(post: Post): Fragment {
-    let f: Fragment;
+  #createPostFragment(post: Post): FPostBase {
+    let f: FPostBase;
     let t = post.getSocialItemType();
     switch (t) {
     case SocialItem.TYPE.ARTICLE:
@@ -263,8 +265,8 @@ export class FPostInfo extends MajorSectorItem {
     return f;
   }
 
-  #createPanel(): any {
-    let p: any;
+  #createPanel(): PPostInfoBase {
+    let p: PPostInfoBase;
     switch (this.#sizeType) {
     case SocialItem.T_LAYOUT.BIG_HEAD:
       p = new PPostInfoBigHead();

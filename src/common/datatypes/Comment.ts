@@ -36,6 +36,10 @@ export class Comment extends ServerDataObject<CommentData> implements Post {
     return null;
   }
 
+  getErrorCode(): string | null {
+    return this._data.err_code ?? null;
+  }
+
   getLinkTo(): string | null {
     return null;
   }

@@ -2,11 +2,12 @@ import { EmptyPost } from '../../common/datatypes/EmptyPost.js';
 import { FPostBase } from './FPostBase.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type { PPostBase } from '../../common/gui/PPostBase.js';
+import type { Post } from '../../types/blog.js';
 
 export class FEmptyPost extends FPostBase {
-  #post: EmptyPost | null = null;
+  #post: Post | null = null;
 
-  setPost(post: EmptyPost | null): void { this.#post = post; }
+  setPost(post: Post | null): void { this.#post = post; }
 
   _renderOnRender(postPanel: PPostBase): void {
     let p = postPanel.getContentPanel();
@@ -16,7 +17,7 @@ export class FEmptyPost extends FPostBase {
     this.#renderContent(p, this.#post);
   }
 
-  #renderContent(panel: Panel | null, post: EmptyPost | null): void {
+  #renderContent(panel: Panel | null, post: Post | null): void {
     if (!panel) {
       return;
     }

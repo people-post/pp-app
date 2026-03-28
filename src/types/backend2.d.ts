@@ -522,6 +522,7 @@ export interface PostData extends ServerDataObjectData {
   id: string;
   source_type: string | null;
   owner_id: string | null;
+  err_code?: string | null;
 }
 
 export interface CommentData extends PostData {
@@ -618,6 +619,7 @@ export interface FeedArticleData extends ServerDataObjectData {
   content: string | null;
   files: RemoteFileData[];
   url: string | null;
+  err_code?: string | null;
 }
 
 export interface EmailRecipientData {
@@ -750,6 +752,7 @@ export interface ArticleBaseData extends ServerDataObjectData {
   status: string | null;
   link_to: string | null;
   attachments?: RemoteFileData[];
+  err_code?: string | null;
 
   // TODO: Draft only
   publish_mode?: string;
@@ -782,6 +785,7 @@ export interface JournalIssueBaseData extends ServerDataObjectData {
   tag_ids: string[];
   sections: JournalIssueSectionData[];
   summary: string | null;
+  err_code?: string | null;
 }
 
 /**
