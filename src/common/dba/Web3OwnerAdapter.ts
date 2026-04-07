@@ -233,6 +233,10 @@ export class Web3OwnerAdapter implements AccountPort, Web3AccountFacet {
     await this.#owner.asRegister(agent, name);
   }
 
+  setPublishers(agents: PublisherAgent[]): void {
+    this.#owner.setPublishers(agents);
+  }
+
   async asyncFindMark(itemId: string): Promise<MarkInfo | null> {
     return this.#owner.asyncFindMark(itemId);
   }

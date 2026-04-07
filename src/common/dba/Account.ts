@@ -10,7 +10,7 @@ import type { AccountPort, Web3AccountFacet } from './AccountPort.js';
 import type { User as UserType } from '../../types/user.js';
 import type { BlogStatisticsData, IdolData, OutRequest } from '../../types/backend2.js';
 import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
-import { Owner as Web3Owner } from 'pp-api';
+import { Owner as Web3Owner, type PublisherAgent } from 'pp-api';
 
 type AccountImplementation = Web2Account | Web3Owner;
 
@@ -201,6 +201,10 @@ class AccountWrapper implements AccountPort {
 
   asyncReload(): void {
     this.#port.asyncReload();
+  }
+
+  setPublishers(agents: PublisherAgent[]): void {
+    this.web3?.setPublishers(agents);
   }
 }
 

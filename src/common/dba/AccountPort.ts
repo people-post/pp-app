@@ -11,45 +11,50 @@ import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
 export interface AccountPort {
   isAuthenticated(): boolean;
   isWebOwner(): boolean;
-  getId(): string | null;
-  setUserId(id: string | null): void;
-  getNickname(): string;
-  getPreferredLanguage(): string | null;
   isFollowing(userId: string): boolean;
   isIdolOf(user: UserType): boolean;
   isFollowedByWebOwner(): boolean;
-  getIdols(): IdolData[];
-  getUserNickname(userId: string, defaultNickname?: string): string;
-  getUserShopName(userId: string, defaultName: string): string;
-  asyncFollow(userId: string): void;
-  asyncUnfollow(userId: string): void;
-  asyncGetIdolIds(): Promise<string[]>;
   isInGroup(groupId: string): boolean;
   isInCommunity(communityId: string | null): boolean;
   isCommunityApplicationPending(): boolean;
   isRoleApplicationPending(roleId: string): boolean;
+  isBetaTester(): boolean;
+
+  hasDomain(): boolean;
+
+  getId(): string | null;
+  getNickname(): string;
+  getPreferredLanguage(): string | null;
+  getIdols(): IdolData[];
+  getUserNickname(userId: string, defaultNickname?: string): string;
+  getUserShopName(userId: string, defaultName: string): string;
   getGroupIds(): string[];
   getCommunityId(): string | null;
   getRepresentativeId(): string | null;
-  isBetaTester(): boolean;
-  hasDomain(): boolean;
   getOutRequests(): OutRequest[];
   getReferrerId(): string;
   getJournalIds(): string[];
   getBlogProfile(): BlogStatisticsData | null;
   getGuestName(): string;
   getGuestContact(): string;
+  getAddressIds(): string[];
+  getOrder(id: string): CustomerOrder | null;
+  getLiveStreamKey(): string | null;
+
+  setUserId(id: string | null): void;
   setGuestName(name: string): void;
   setGuestContact(contact: string): void;
-  getAddressIds(): string[];
-  resetAddressIds(ids: string[]): void;
-  getOrder(id: string): CustomerOrder | null;
-  updateOrder(order: CustomerOrder): void;
-  getLiveStreamKey(): string | null;
   setLiveStreamKey(key: string | null): void;
+
+  asyncFollow(userId: string): void;
+  asyncUnfollow(userId: string): void;
+  asyncGetIdolIds(): Promise<string[]>;
+  asyncReload(): void;
+
+  resetAddressIds(ids: string[]): void;
+  updateOrder(order: CustomerOrder): void;
   /** Web2: private profile; web3: owner checkpoint JSON / resolved data (opaque). */
   reset(profile?: unknown): void;
-  asyncReload(): void;
 }
 
 /**
@@ -71,6 +76,8 @@ export interface Web3AccountFacet {
   asUploadFile(file: File): Promise<string>;
   asUpdateProfile(profile: unknown, cids: string[]): Promise<void>;
   asRegister(agent: PublisherAgent, name: string): Promise<void>;
+  /** Selected publisher agents used for publishing (Owner internal list). */
+  setPublishers(agents: PublisherAgent[]): void;
   /** Owner marks for an item (like / comments index); delegates to pp-api Owner.asyncFindMark. */
   asyncFindMark(itemId: string): Promise<MarkInfo | null>;
 }
