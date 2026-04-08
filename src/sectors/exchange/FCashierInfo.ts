@@ -1,6 +1,23 @@
-window.CF_CASHIER_INFO = {
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FExchangeItemInfo } from './FExchangeItemInfo.js';
+import { FvcDeposit } from './FvcDeposit.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+
+export const CF_CASHIER_INFO = {
   DEPOSIT : "CF_CASHIER_INFO_1",
   WITHDRAW : "CF_CASHIER_INFO_2",
+} as const;
+
+// Export to window for HTML string templates
+declare global {
+  interface Window {
+    CF_CASHIER_INFO?: typeof CF_CASHIER_INFO;
+    [key: string]: unknown;
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.CF_CASHIER_INFO = CF_CASHIER_INFO;
 }
 
 const _CVF_CASHIER_INFO = {
@@ -9,10 +26,6 @@ const _CVF_CASHIER_INFO = {
   BTN_WITHDRAW :
       `<span class="button-like small danger" onclick="javascript:G.action(CF_CASHIER_INFO.WITHDRAW)">Withdraw...</span>`,
 }
-import { View } from '../../lib/ui/controllers/views/View.js';
-import { FExchangeItemInfo } from './FExchangeItemInfo.js';
-import { FvcDeposit } from './FvcDeposit.js';
-import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
 interface CashierItem {
   icon: string;
@@ -45,7 +58,7 @@ export class FCashierInfo extends FExchangeItemInfo {
     s = s.replace("__RECYCLED__", "123456");
     return s;
   }
-  _renderActions(item: CashierItem): string {
+  _renderActions(_item: CashierItem): string {
     let s = _CVF_CASHIER_INFO.BTN_DEPOSIT;
     s += _CVF_CASHIER_INFO.BTN_WITHDRAW;
     return s;
