@@ -8,13 +8,12 @@ import { Utilities } from '../../common/Utilities.js';
 import { FPreviewItem } from './FPreviewItem.js';
 import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
 
-interface PreviewOrderDataSource {
+export interface PreviewOrderDataSource {
   getOrderForPreviewOrderFragment(f: FPreviewOrder): CustomerOrder;
 }
 
 export class FPreviewOrder extends Fragment {
   protected _fItems: FSimpleFragmentList;
-  protected _dataSource!: PreviewOrderDataSource;
 
   constructor() {
     super();
@@ -26,6 +25,7 @@ export class FPreviewOrder extends Fragment {
     switch (dataType) {
     case T_DATA.CURRENCIES:
       this.render();
+      break;
     default:
       break;
     }
@@ -36,7 +36,10 @@ export class FPreviewOrder extends Fragment {
     let p = new ListPanel();
     render.wrapPanel(p);
     this._fItems.clear();
-    let order = this._dataSource.getOrderForPreviewOrderFragment(this);
+    let order = this.getDelegate<PreviewOrderDataSource>()?.getOrderForPreviewOrderFragment(this);
+    if (!order) {
+      return;
+    }
     for (let item of order.getItems()) {
       for (let subItem of item.getItems()) {
         let f = new FPreviewItem();
@@ -54,6 +57,6 @@ export class FPreviewOrder extends Fragment {
     pp.setClassName("tw:text-right");
     let c = Exchange.getCurrency(order.getCurrencyId());
     p.pushPanel(pp);
-    pp.replaceContent("Total: " + Utilities.renderPrice(c, order.getTotalPrice() || 0));
+    pp.replaceContent("Total: " + Utilities.renderPrice(c ?? null, order.getTotalPrice() || 0));
   }
 };

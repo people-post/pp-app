@@ -79,7 +79,7 @@ export class FvcResetPassword extends FScrollViewContent {
     let password = (document.getElementById("ID_PASSWORD") as HTMLInputElement).value;
     let password2 = (document.getElementById("ID_PASSWORD_2") as HTMLInputElement).value;
     if (password != password2) {
-      this._owner.onLocalErrorInFragment(this, R.get("EL_PASSWORD_MISMATCH"));
+      this.onLocalErrorInFragment(this, R.get("EL_PASSWORD_MISMATCH"));
       return false;
     }
     return true;
@@ -91,9 +91,8 @@ export class FvcResetPassword extends FScrollViewContent {
     f.setMessage(R.get("RESET_PASSWORD_SUCCESS"));
     f.setCloseAction(() => window.close());
     v.setContentFragment(f);
-    this._owner.onContentFragmentRequestReplaceView(this, v,
-                                                    "Reset password success");
+    this._requestReplaceView(v, "Reset password success");
   }
 
-  #onResetPasswordRRR(data: unknown): void { this.#onResetSuccess();   }
+  #onResetPasswordRRR(_data: unknown): void { this.#onResetSuccess();   }
 }

@@ -3,7 +3,6 @@ import type { User as UserType } from '../../types/user.js';
 import type { MarkInfo } from '../../types/basic.js';
 import {
   Owner as Web3Owner,
-  User as Web3PpUser,
   type PublisherAgent,
   type OwnerProps,
   dat as Web3Dat,
@@ -56,7 +55,7 @@ export class Web3OwnerAdapter implements AccountPort, Web3AccountFacet {
   }
 
   isIdolOf(user: UserType): boolean {
-    return this.#owner.isIdolOf(user as Web3PpUser);
+    return user.hasIdol(this.#owner.getId() ?? '');
   }
 
   isFollowedByWebOwner(): boolean {

@@ -5,11 +5,18 @@ import { FvcOrder } from './FvcOrder.js';
 import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
+import { CustomerOrderData } from '../../types/backend2.js';
+import type { RemoteError } from '../../types/basic.js';
+
+interface ApiOrdersResponse {
+  error?: RemoteError;
+  data?: { orders?: CustomerOrderData[] };
+}
 
 export class FOrderList extends DefaultLongList {
   isOrderSelected(orderId: string): boolean { return this._currentId == orderId; }
 
-  onCustomerOrderInfoFragmentRequestShowOrder(fOrderInfo: FOrder, orderId: string): void {
+  onCustomerOrderInfoFragmentRequestShowOrder(_fOrderInfo: FOrder, orderId: string): void {
     this.switchToItem(orderId);
   }
 
@@ -43,21 +50,25 @@ export class FOrderList extends DefaultLongList {
 
   #onOrdersRRR(responseText: string): void {
     this._isBatchLoading = false;
-    let response = JSON.parse(responseText) as { error?: unknown; data?: { orders?: unknown[] } };
+    let response = JSON.parse(responseText) as ApiOrdersResponse;
     if (response.error) {
-      this._owner.onRemoteErrorInFragment(this, response.error);
+      this.onRemoteErrorInFragment(this, response.error);
     } else {
       let orders: CustomerOrder[] = [];
       if (response.data?.orders) {
         for (let o of response.data.orders) {
-          orders.push(new CustomerOrder(o as Parameters<typeof CustomerOrder>[0]));
+          orders.push(new CustomerOrder(o));
         }
       }
 
       if (orders.length) {
         for (let o of orders) {
+          let id = o.getId();
+          if (!id) {
+            continue;
+          }
           Account.updateOrder(o);
-          this._ids.push(o.getId());
+          this._ids.push(id);
         }
       } else {
         this._isIdsComplete = true;

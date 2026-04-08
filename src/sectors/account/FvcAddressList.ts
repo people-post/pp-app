@@ -12,6 +12,10 @@ import { Api } from '../../common/plt/Api.js';
 import type { Address as AddressType } from '../../common/datatypes/Address.js';
 import { Account } from '../../common/dba/Account.js';
 
+interface ApiRemoveAddressResponse {
+  address_ids: string[];
+}
+
 export class FvcAddressList extends FScrollViewContent implements AddressDataSource, AddressDelegate {
   private _fItems: FSimpleFragmentList;
   private _fBtnNew: ActionButton;
@@ -33,7 +37,7 @@ export class FvcAddressList extends FScrollViewContent implements AddressDataSou
   onGuiActionButtonClick(_fActionButton: ActionButton): void {
     let v = new View();
     v.setContentFragment(new FvcAddressEditor());
-    this._owner.onFragmentRequestShowView(this, v, "New Address");
+    this.onFragmentRequestShowView(this, v, "New Address");
   }
 
   onClickInAddressFragment(_fAddress: Address, addressId: string): void {
@@ -79,15 +83,15 @@ export class FvcAddressList extends FScrollViewContent implements AddressDataSou
     let f = new FvcAddressEditor();
     f.setAddressId(addressId);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Edit address");
+    this.onFragmentRequestShowView(this, v, "Edit address");
   }
 
   #asyncDeleteAddress(addressId: string): void {
     let url = "/api/user/remove_address";
     let fd = new FormData();
     fd.append("id", addressId);
-    Api.asFragmentPost(this, url, fd).then((d: {address_ids: string[]}) => this.#onDeleteRRR(d));
+    Api.asFragmentPost<ApiRemoveAddressResponse>(this, url, fd).then((d: ApiRemoveAddressResponse) => this.#onDeleteRRR(d));
   }
 
-  #onDeleteRRR(data: {address_ids: string[]}): void { Account.resetAddressIds(data.address_ids); }
+  #onDeleteRRR(data: ApiRemoveAddressResponse): void { Account.resetAddressIds(data.address_ids); }
 }

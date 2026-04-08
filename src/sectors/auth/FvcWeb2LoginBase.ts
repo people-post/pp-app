@@ -3,7 +3,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { URL_PARAM } from '../../common/constants/Constants.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
-import { Auth } from '../../common/dba/Auth.js';
+import { Auth, type ProxyTargetInfo } from '../../common/dba/Auth.js';
 import { Api } from '../../common/plt/Api.js';
 
 export class FvcWeb2LoginBase extends FvcLoginBase {
@@ -16,9 +16,9 @@ export class FvcWeb2LoginBase extends FvcLoginBase {
 
   initFromUrl(urlParam: URLSearchParams): void {
     // Only called in Gadget
-    let target = {
-      toDomain : urlParam.get(URL_PARAM.FROM_DOMAIN),
-      token : urlParam.get(URL_PARAM.TOKEN)
+    let target: ProxyTargetInfo = {
+      toDomain : urlParam.get(URL_PARAM.FROM_DOMAIN) ?? '',
+      token : urlParam.get(URL_PARAM.TOKEN) ?? ''
     };
     console.log(urlParam);
     console.log(target);
@@ -45,6 +45,6 @@ export class FvcWeb2LoginBase extends FvcLoginBase {
 
   #asyncMarkDomainVisit(): void {
     let url = "api/stat/mark_visit";
-    Api.asFragmentCall(this, url).then((d: any) => {});
+    Api.asFragmentCall(this, url).then((_d: unknown) => {});
   }
 }

@@ -6,7 +6,7 @@ import { FVisit } from '../../common/statistics/FVisit.js';
 import { FvcVisit } from '../../common/statistics/FvcVisit.js';
 import { R } from '../../common/constants/R.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import type { VisitSummary } from '../../common/statistics/VisitSummary.js';
+import { VisitSummary } from '../../common/datatypes/VisitSummary.js';
 
 export class FvcStatistics extends FScrollViewContent {
   protected _fVisit: FVisit;
@@ -26,7 +26,7 @@ export class FvcStatistics extends FScrollViewContent {
                    visitSummary.getSubQueryValue(),
                    this._fVisit.getDuration());
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v);
+    this.onFragmentRequestShowView(this, v, "Profile visits");
   }
 
   _renderContentOnRender(render: PanelWrapper): void {

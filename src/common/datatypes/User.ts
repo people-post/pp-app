@@ -33,6 +33,10 @@ export class User implements UserType {
     }
   }
 
+  hasIdol(_userId: string): boolean {
+    return false;
+  }
+
   // Is following current logged in user
   isFollowingUser(): boolean {
     return !!this._data.is_following_user;

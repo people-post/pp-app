@@ -3,12 +3,20 @@ import { AddressEditor } from '../../common/gui/AddressEditor.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-
 import { Address as AddressDBA } from '../../common/dba/Address.js';
 import { Address as AddressDataType } from '../../common/datatypes/Address.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Address } from '../../common/datatypes/Address.js';
 import { Account } from '../../common/dba/Account.js';
+import { AddressData } from '../../types/backend2.js';
+
+interface ApiUpdateAddressResponse {
+  address: AddressData;
+}
+
+interface ApiAddAddressResponse {
+  address_ids: string[];
+}
 
 export class FvcAddressEditor extends FScrollViewContent {
   #fAddress: AddressEditor;
@@ -67,13 +75,13 @@ export class FvcAddressEditor extends FScrollViewContent {
   }
 
   #fillFormData(formData: FormData, address: Address): void {
-    formData.append("nickname", address.getNickname());
-    formData.append("name", address.getName());
-    formData.append("country", address.getCountry());
-    formData.append("state", address.getState());
-    formData.append("city", address.getCity());
-    formData.append("zipcode", address.getZipcode());
-    formData.append("lines", address.getLine(0));
+    formData.append("nickname", address.getNickname() ?? '');
+    formData.append("name", address.getName() ?? '');
+    formData.append("country", address.getCountry() ?? '');
+    formData.append("state", address.getState() ?? '');
+    formData.append("city", address.getCity() ?? '');
+    formData.append("zipcode", address.getZipcode() ?? '');
+    formData.append("lines", address.getLine(0) ?? '');
     let line1 = address.getLine(1);
     if (line1 && line1.length) {
       formData.append("lines", line1);
@@ -85,25 +93,25 @@ export class FvcAddressEditor extends FScrollViewContent {
     let fd = new FormData();
     fd.append("id", this.#addressId!);
     this.#fillFormData(fd, address);
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {address: unknown}) => this.#onUpdateAddressRRR(d));
+    Api.asFragmentPost<ApiUpdateAddressResponse>(this, url, fd)
+        .then((d: ApiUpdateAddressResponse) => this.#onUpdateAddressRRR(d));
   }
 
   #asyncAddAddress(address: Address): void {
     let url = "/api/user/add_address";
     let fd = new FormData();
     this.#fillFormData(fd, address);
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {address_ids: string[]}) => this.#onAddAddressRRR(d));
+    Api.asFragmentPost<ApiAddAddressResponse>(this, url, fd)
+        .then((d: ApiAddAddressResponse) => this.#onAddAddressRRR(d));
   }
 
-  #onUpdateAddressRRR(data: {address: unknown}): void {
-    AddressDBA.update(new AddressDataType(data.address as Record<string, unknown>));
-    this._owner.onContentFragmentRequestPopView(this);
+  #onUpdateAddressRRR(data: ApiUpdateAddressResponse): void {
+    AddressDBA.update(new AddressDataType(data.address));
+    this._requestPopView();
   }
 
-  #onAddAddressRRR(data: {address_ids: string[]}): void {
+  #onAddAddressRRR(data: ApiAddAddressResponse): void {
     Account.resetAddressIds(data.address_ids);
-    this._owner.onContentFragmentRequestPopView(this);
+    this._requestPopView();
   }
 }

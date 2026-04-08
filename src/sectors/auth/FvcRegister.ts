@@ -8,7 +8,7 @@ import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { Auth } from '../../common/dba/Auth.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export const CF_REGISTER_CONTENT = {
   VALIDATE_EMAIL : "CF_REGISTER_CONTENT_1",
@@ -63,7 +63,7 @@ export class FvcRegister extends FScrollViewContent {
     return new Fragment();
   }
 
-  onSimpleButtonClicked(fButton: Button): void { this.#onSubmit(); }
+  onSimpleButtonClicked(_fButton: Button): void { this.#onSubmit(); }
 
   action(type: string, ...args: unknown[]): void {
     switch (type) {
@@ -82,7 +82,7 @@ export class FvcRegister extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     p.pushSpace(1);
@@ -158,11 +158,11 @@ export class FvcRegister extends FScrollViewContent {
     let f = new FvcNotice();
     f.setMessage(R.get("REGISTER_SUCCESS"));
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Register success");
+    this.onFragmentRequestShowView(this, v, "Register success");
   }
 
   #validateInputs(): boolean {
-    let email = (document.getElementById("ID_EMAIL") as HTMLInputElement).value;
+    //let email = (document.getElementById("ID_EMAIL") as HTMLInputElement).value;
     let password = (document.getElementById("ID_PASSWORD") as HTMLInputElement).value;
     let password2 = (document.getElementById("ID_PASSWORD_2") as HTMLInputElement).value;
     if (password != password2) {
@@ -178,5 +178,5 @@ export class FvcRegister extends FScrollViewContent {
     Api.asFragmentCall(this, url).then((d: unknown) => this.#onValidateEmailRRR(d));
   }
 
-  #onValidateEmailRRR(data: unknown): void {  }
+  #onValidateEmailRRR(_data: unknown): void {  }
 }

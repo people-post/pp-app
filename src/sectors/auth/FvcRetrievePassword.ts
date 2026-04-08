@@ -7,7 +7,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { Api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 const _CFT_RETRIEVE_PASSWORD = {
   MAIN : `<table class="tw:m-auto">
@@ -51,7 +51,7 @@ export class FvcRetrievePassword extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -97,11 +97,11 @@ export class FvcRetrievePassword extends FScrollViewContent {
         d => this.#onRetrievePasswordRRR(d));
   }
 
-  #onRetrievePasswordRRR(data: unknown): void {
+  #onRetrievePasswordRRR(_data: unknown): void {
     let v = new View();
     let f = new FvcNotice();
     f.setMessage(this.#renderSuccessMsg());
     v.setContentFragment(f);
-    this._owner.onContentFragmentRequestReplaceView(this, v, "Message");
+    this._requestReplaceView(v, "Message");
   }
 }

@@ -98,7 +98,7 @@ export class FvcBasic extends FScrollViewContent {
     if (!v) {
       v = new View();
     }
-    this._owner.onFragmentRequestShowView(this, v, "Change password");
+    this.onFragmentRequestShowView(this, v, "Change password");
   }
 
   #onConfigChange(): void {

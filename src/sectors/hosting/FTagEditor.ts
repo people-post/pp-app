@@ -1,7 +1,3 @@
-export const CF_TAG_EDITOR = {
-  ON_CLICK : Symbol(),
-}
-
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
@@ -12,10 +8,14 @@ import { PTagEditor } from './PTagEditor.js';
 import { PTagEditorInfo } from './PTagEditorInfo.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import type { PTagEditorBase } from './PTagEditorBase.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-interface TagEditorDelegate {
+const CF_TAG_EDITOR = {
+  ON_CLICK : Symbol(),
+}
+
+export interface TagEditorDelegate {
   onClickInTagEditorFragment(f: FTagEditor): void;
 }
 
@@ -28,7 +28,6 @@ export class FTagEditor extends Fragment {
   protected _fTheme: ThemeEditorFragment;
   protected _tagId: string | null;
   protected _tLayout: symbol | null;
-  protected _delegate!: TagEditorDelegate;
 
   constructor() {
     super();
@@ -51,8 +50,8 @@ export class FTagEditor extends Fragment {
   setLayoutType(t: symbol | null): void { this._tLayout = t; }
   setTagId(id: string | null): void { this._tagId = id; }
 
-  onSimpleButtonClicked(fBtn: Button): void { this.#onRename(); }
-  onGuiThemeEditorFragmentRequestChangeColor(fThemeEditor: ThemeEditorFragment, key: string, color: string): void {
+  onSimpleButtonClicked(_fBtn: Button): void { this.#onRename(); }
+  onGuiThemeEditorFragmentRequestChangeColor(_fThemeEditor: ThemeEditorFragment, key: string, color: string): void {
     if (this._tagId) {
       WebConfig.asyncUpdateGroupConfig(this._tagId, null, key, color);
     }
@@ -61,7 +60,7 @@ export class FTagEditor extends Fragment {
   action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_TAG_EDITOR.ON_CLICK:
-      this._delegate.onClickInTagEditorFragment(this);
+      this.getDelegate<TagEditorDelegate>()?.onClickInTagEditorFragment(this);
       break;
     default:
       super.action(type, ...args);
@@ -69,7 +68,7 @@ export class FTagEditor extends Fragment {
     }
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._tagId) {
       return;
     }
@@ -104,7 +103,7 @@ export class FTagEditor extends Fragment {
   #createPanel(): PTagEditorBase {
     let p: PTagEditorBase;
     switch (this._tLayout) {
-    case this.constructor.T_LAYOUT.INFO:
+    case FTagEditor.T_LAYOUT.INFO:
       p = new PTagEditorInfo();
       p.setAttribute("onclick", "G.action(CF_TAG_EDITOR.ON_CLICK)");
       break;
@@ -116,10 +115,11 @@ export class FTagEditor extends Fragment {
   }
 
   #onRename(): void {
-    if (!this._tagId) {
+    const tagId = this._tagId;
+    if (!tagId) {
       return;
     }
-    let tag = WebConfig.getTag(this._tagId);
+    let tag = WebConfig.getTag(tagId);
     if (!tag) {
       return;
     }
@@ -136,7 +136,7 @@ export class FTagEditor extends Fragment {
     fvc.setConfig({
       fcnValidate : () => f.validate(),
       fcnOK : () =>
-          WebConfig.asyncUpdateGroupConfig(this._tagId, f.getValue()),
+          WebConfig.asyncUpdateGroupConfig(tagId, f.getValue() ?? ''),
     });
     v.setContentFragment(fvc);
     Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Rename",

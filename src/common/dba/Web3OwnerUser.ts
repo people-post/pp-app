@@ -14,6 +14,10 @@ export class Web3OwnerUser implements UserType {
     this.#owner = owner;
   }
 
+  hasIdol(userId: string): boolean {
+    return this.#owner.hasIdol(userId);
+  }
+
   getWeb3Owner(): Web3Owner {
     return this.#owner;
   }

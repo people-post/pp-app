@@ -49,7 +49,7 @@ export class FvcCreateCommunity extends FScrollViewContent {
   #getDescriptionElementId(): string { return this._getFragmentId() + "-description"; }
 
   #renderForm(): string {
-    let s = _CFT_CREATE_COMMUNITY_CONTENT.MAIN;
+    let s: string = _CFT_CREATE_COMMUNITY_CONTENT.MAIN;
     s = s.replace("__ID_NAME__", this.#getNameElementId());
     s = s.replace("__ID_DESC__", this.#getDescriptionElementId());
     return s;
@@ -61,9 +61,9 @@ export class FvcCreateCommunity extends FScrollViewContent {
     if (e) {
       fd.append("name", e.value);
     }
-    e = document.getElementById(this.#getDescriptionElementId()) as HTMLTextAreaElement | null;
-    if (e) {
-      fd.append("description", e.value);
+    let e2 = document.getElementById(this.#getDescriptionElementId()) as HTMLTextAreaElement | null;
+    if (e2) {
+      fd.append("description", e2.value);
     }
     let url = "api/community/create";
     Api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
@@ -72,7 +72,7 @@ export class FvcCreateCommunity extends FScrollViewContent {
   #onSubmitRRR(data: unknown): void {
     let dataObj = data as { profile: unknown };
     Account.reset(dataObj.profile);
-    Users.reload(Account.getId());
-    this._owner.onContentFragmentRequestPopView(this);
+    Users.reload(Account.getId() ?? '');
+    this._requestPopView();
   }
 }

@@ -8,6 +8,7 @@ import { Api } from '../plt/Api.js';
 import { User as Web3User, Owner as Web3Owner } from 'pp-api';
 import { Account } from './Account.js';
 import { Web3OwnerUser } from './Web3OwnerUser.js';
+import { Web3UserAdapter } from './Web3UserAdapter.js';
 import { UserPublicProfile as Web2UserPublicProfileData } from '../../types/backend2.js';
 
 interface ApiResponse {
@@ -76,14 +77,14 @@ export class UserLib {
       // Lazy access to web3Resolver to avoid circular dependency
       const web3Resolver = (typeof window !== 'undefined' && (window as { glb?: { web3Resolver?: Web3Resolver } }).glb?.web3Resolver) || null;
       const d = web3Resolver ? await web3Resolver.asResolve(id) : null;
-      const u = new Web3User(d as Record<string, unknown>);
-      u.setProps({
+      const raw = new Web3User(d as Record<string, unknown>);
+      raw.setProps({
         callbacks: {
           onWeb3UserIdolsLoaded: (user) => this.onWeb3UserIdolsLoaded(user),
           onWeb3UserProfileLoaded: (user) => this.onWeb3UserProfileLoaded(user),
         },
       });
-      this.#mUsers.set(id, u);
+      this.#mUsers.set(id, new Web3UserAdapter(raw));
     }
     return this.#mUsers.get(id)!;
   }
@@ -172,13 +173,14 @@ export class UserLib {
   }
 
   #onWeb3LoadRRR(userId: string, data: unknown): void {
-    const u = new Web3User(data as Record<string, unknown>);
-    u.setProps({
+    const raw = new Web3User(data as Record<string, unknown>);
+    raw.setProps({
       callbacks: {
         onWeb3UserIdolsLoaded: (user) => this.onWeb3UserIdolsLoaded(user),
         onWeb3UserProfileLoaded: (user) => this.onWeb3UserProfileLoaded(user),
       },
     });
+    const u = new Web3UserAdapter(raw);
     this.#mUsers.set(userId, u);
     FwkEvents.trigger(PltT_DATA.USER_PUBLIC_PROFILES, [u]);
   }

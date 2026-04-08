@@ -3,7 +3,7 @@ import { Events, T_DATA as FWK_T_DATA } from '../../lib/framework/Events.js';
 import { TYPE } from '../constants/Constants.js';
 import { Api } from '../plt/Api.js';
 
-interface ProxyTargetInfo {
+export interface ProxyTargetInfo {
   toDomain: string;
   token: string;
 }

@@ -29,14 +29,13 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import { FvcCreateCommunity } from './FvcCreateCommunity.js';
 import { Account } from '../../common/dba/Account.js';
 
-interface UserCommunityDelegate {
+export interface UserCommunityDelegate {
   onNewProposalRequestedInUserCommunityContentFragment(f: FvcUserCommunity): void;
 }
 
 export class FvcUserCommunity extends FScrollViewContent {
   protected _fOverview: FOverview;
   protected _userId: string | null = null;
-  protected _delegate!: UserCommunityDelegate;
 
   constructor() {
     super();
@@ -48,11 +47,14 @@ export class FvcUserCommunity extends FScrollViewContent {
   setUserId(userId: string | null): void { this._userId = userId; }
 
   onNewProposalRequestAcceptedInOverviewFragment(_fOverview: FOverview): void {
-    this._delegate.onNewProposalRequestedInUserCommunityContentFragment(this);
+    const delegate = this.getDelegate<UserCommunityDelegate>();
+    if (delegate) {
+      delegate.onNewProposalRequestedInUserCommunityContentFragment(this);
+    }
   }
 
   onCommunityOverviewFragmentRequestShowView(_fInfo: FOverview, v: View, title: string): void {
-    this._owner.onFragmentRequestShowView(this, v, title);
+    this.onFragmentRequestShowView(this, v, title);
   }
 
   action(type: string | symbol, ..._args: unknown[]): void {
@@ -103,6 +105,6 @@ export class FvcUserCommunity extends FScrollViewContent {
   #onCreateCommunity(): void {
     let v = new View();
     v.setContentFragment(new FvcCreateCommunity());
-    this._owner.onFragmentRequestShowView(this, v, "Create community");
+    this.onFragmentRequestShowView(this, v, "Create community");
   }
 }

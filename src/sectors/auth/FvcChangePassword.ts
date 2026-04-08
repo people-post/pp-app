@@ -92,9 +92,8 @@ export class FvcChangePassword extends FScrollViewContent {
     f.setMessage(R.get("CHANGE_PASSWORD_SUCCESS"));
     f.setCloseAction(() => window.close());
     v.setContentFragment(f);
-    this._owner.onContentFragmentRequestReplaceView(this, v,
-                                                    "Change password success");
+    this._requestReplaceView(v, "Change password success");
   }
 
-  #onChangePasswordRRR(data: unknown): void { this.#onChangeSuccess();   }
+  #onChangePasswordRRR(_data: unknown): void { this.#onChangeSuccess();   }
 }

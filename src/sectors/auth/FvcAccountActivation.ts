@@ -39,8 +39,7 @@ export class FvcAccountActivation extends FScrollViewContent {
     f.setMessage(R.get("ACK_ACCOUNT_ACTIVATION"));
     f.setCloseAction(() => window.close());
     v.setContentFragment(f);
-    this._owner.onContentFragmentRequestReplaceView(this, v,
-                                                    "Activate success");
+    this._requestReplaceView(v, "Activate success");
   }
 
   #asyncActivateAccount(activationCode: string | null): void {
@@ -54,7 +53,7 @@ export class FvcAccountActivation extends FScrollViewContent {
     Api.asFragmentPost(this, url, fd).then(d => this.#onActivateRRR(d));
   }
 
-  #onActivateRRR(data: unknown): void {
+  #onActivateRRR(_data: unknown): void {
     this.#onActivationSuccess();
     this._isActivating = false;
   }

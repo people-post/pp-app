@@ -25,7 +25,7 @@ export class PBasic extends Panel {
   getBtnsPanel(): Panel { return this._pBtns; }
 
   _renderFramework(): string {
-    let s = _CPT_BASIC.MAIN;
+    let s: string = _CPT_BASIC.MAIN;
     s = s.replace("__ID_NICKNAME__", this._getSubElementId("NN"));
     s = s.replace("__ID_OPTIONS__", this._getSubElementId("O"));
     s = s.replace("__ID_BTNS__", this._getSubElementId("B"));

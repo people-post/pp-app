@@ -8,6 +8,8 @@ import type { UserProps } from 'pp-api';
  * can be used interchangeably when returned from Users.get() or Users.asyncGet().
  */
 export interface User {
+  hasIdol(userId: string): boolean;
+
   /**
    * Get the unique identifier of the user
    * @returns The user's UUID or ID, or null/undefined if not available

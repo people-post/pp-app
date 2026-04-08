@@ -28,7 +28,7 @@ export class FvcProposalEditor extends FScrollViewContent {
     this._fActions.setDelegate(this);
     this._fActions.addButton("Submit", () => this.#asyncSubmit());
     this._fActions.addButton(
-        "Cancel", () => this._owner.onContentFragmentRequestPopView(this),
+        "Cancel", () => this._requestPopView(),
         true);
 
     this.setChild("title", this._fTitle);
@@ -73,5 +73,5 @@ export class FvcProposalEditor extends FScrollViewContent {
     Api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
-  #onSubmitRRR(_data: unknown): void { this._owner.onContentFragmentRequestPopView(this); }
+  #onSubmitRRR(_data: unknown): void { this._requestPopView(); }
 }
