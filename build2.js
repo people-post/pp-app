@@ -8,6 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import {fileURLToPath} from 'url';
 import {dirname} from 'path';
+import {execSync} from 'child_process';
 import * as esbuild from 'esbuild';
 import postcss from 'postcss';
 import tailwindcss from '@tailwindcss/postcss';
@@ -166,11 +167,19 @@ async function buildWeb2() {
   fs.copyFileSync(cssOutputFile,
                   path.join(WEB2_DIR, 'static', 'css', 'hst-min.css'));
 
+  // Create tarball
+  console.log('Creating web2 tarball...');
+  const distDirPath = path.resolve('dist');
+  const tarPath = path.join(distDirPath, 'web2.tar');
+  execSync(`tar -cf ${tarPath} web2`, {cwd : distDirPath});
+  execSync(`gzip -f ${tarPath}`, {cwd : distDirPath});
+
   // Cleanup temp directory
   fs.rmSync(WEB2_WORK_DIR, {recursive : true, force : true});
 
   console.log('[SUCCESS] Web2 build completed!');
   console.log(`Output directory: ${WEB2_DIR}`);
+  console.log(`Web2 package: ${path.join('dist', 'web2.tar.gz')}`);
 }
 
 // Run build
