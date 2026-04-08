@@ -33,8 +33,8 @@ interface NotificationsInterface {
   getNWorkshopNotifications(): number;
   getNShopNotifications(): number;
   getNEmailNotifications(): number;
-  getBlogNotices(): unknown[];
-  getWorkshopNotices(): unknown[];
+  getBlogNotices(): Notice[];
+  getWorkshopNotices(): Notice[];
   getBlogRequestIds(): string[];
   getWorkshopRequestIds(): string[];
   getShopRequestIds(): string[];
@@ -45,7 +45,7 @@ interface NotificationsInterface {
 
 export class NotificationsClass implements NotificationsInterface {
   #mMessages = new Map<string, MessageThreadInfo>();
-  #mNotices = new Map<string, LikedItemNotice | RepostItemNotice>();
+  #mNotices = new Map<string, Notice>();
   #mRequests = new Map<string, UserRequest>();
   #nUnreadEmail = 0;
   #cronJob = new CronJob();
@@ -119,11 +119,11 @@ export class NotificationsClass implements NotificationsInterface {
     return this.#getSectorRequestIds(Tag.T_ID.SHOP);
   }
 
-  getBlogNotices(): unknown[] {
+  getBlogNotices(): Notice[] {
     return this.#getNotices(SocialItem.TYPE.ARTICLE).concat(this.#getNotices(SocialItem.TYPE.FEED_ARTICLE));
   }
 
-  getWorkshopNotices(): unknown[] {
+  getWorkshopNotices(): Notice[] {
     return this.#getNotices(SocialItem.TYPE.PROJECT);
   }
 
@@ -137,8 +137,8 @@ export class NotificationsClass implements NotificationsInterface {
     return n;
   }
 
-  #getNotices(type: string): unknown[] {
-    const ns: unknown[] = [];
+  #getNotices(type: string): Notice[] {
+    const ns: Notice[] = [];
     for (const i of this.#mNotices.values()) {
       if (i.isFrom(type)) {
         ns.push(i);
@@ -236,7 +236,7 @@ export class NotificationsClass implements NotificationsInterface {
 
     const n = this.#mNotices.get(k);
     if (n) {
-      n.addData(d);
+      (n as LikedItemNotice).addData(d);
     }
   }
 
@@ -248,7 +248,7 @@ export class NotificationsClass implements NotificationsInterface {
 
     const n = this.#mNotices.get(k);
     if (n) {
-      n.addData(d);
+      (n as RepostItemNotice).addData(d);
     }
   }
 
@@ -256,7 +256,7 @@ export class NotificationsClass implements NotificationsInterface {
     return subjectId + noticeType;
   }
 
-  #handleSignal(message: unknown): void {
+  #handleSignal(message: string): void {
     FwkEvents.trigger(PltT_DATA.USER_INBOX_SIGNAL, message);
   }
 

@@ -7,13 +7,14 @@ import { FCommentNotice, FCommentNoticeDelegate } from '../social/FCommentNotice
 import { FLikedItemNotice, FLikedItemNoticeDelegate } from '../social/FLikedItemNotice.js';
 import { FRepostItemNotice } from '../social/FRepostItemNotice.js';
 import { Fragment as FragmentBase } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Notice } from '../datatypes/Notice.js';
 
 export interface SectorNoticeInfoFragmentDelegate {
   onSectorNoticeInfoFragmentRequestShowItem(f: SectorNoticeInfoFragment, itemId: string, idType: string): void;
 }
 
 export class SectorNoticeInfoFragment extends Fragment implements FCommentNoticeDelegate, FLikedItemNoticeDelegate {
-  private _notification: MessageThreadInfo | LikedItemNotice | RepostItemNotice | null = null;
+  private _notification: Notice | null = null;
 
   onCommentNoticeInfoFragmentRequestShowItem(_fCommentNoticeInfo: FragmentBase, itemId: string,
                                              idType: string): void {
@@ -26,7 +27,7 @@ export class SectorNoticeInfoFragment extends Fragment implements FCommentNotice
                                                              postType);
   }
 
-  setData(notification: MessageThreadInfo | LikedItemNotice | RepostItemNotice): void { this._notification = notification; }
+  setData(notification: Notice): void { this._notification = notification; }
 
   _renderOnRender(render: PanelWrapper): void {
     if (!this._notification) {

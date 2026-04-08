@@ -10,7 +10,7 @@ interface PahoMessage {
 
 interface PahoClient {
   send(message: PahoMessage): void;
-  subscribe(topic: string, callback: (message: PahoMessage) => void): void;
+  subscribe(topic: string, callback: (message: string) => void): void;
   unsubscribe(topic: string): void;
   disconnect(): void;
   onConnectionLost?: (responseObject: { errorCode: number; errorMessage?: string }) => void;
@@ -30,7 +30,7 @@ interface SignalInterface {
   sendPeerConnectionOffer(fromId: string, toId: string, offer: unknown): void;
   sendPeerConnectionAnswer(fromId: string, toId: string, answer: unknown): void;
   sendIceCandidate(fromId: string, toId: string, candidate: unknown): void;
-  subscribe(channelId: string, topic: string | null, callback: (message: unknown) => void): void;
+  subscribe(channelId: string, topic: string | null, callback: (message: string) => void): void;
   unsubscribe(channelId: string): void;
 }
 
@@ -38,7 +38,7 @@ export class SignalClass implements SignalInterface {
   #cronJob = new CronJob();
   #mqttClient: PahoClient | null = null;
   #cacheClient: PahoClient | null = null;
-  #mFunc = new Map<string, (message: unknown) => void>();
+  #mFunc = new Map<string, (message: string) => void>();
   #mTopic = new Map<string, string>();
 
   isChannelSet(channelId: string): boolean {
@@ -69,7 +69,7 @@ export class SignalClass implements SignalInterface {
     }
   }
 
-  subscribe(channelId: string, topic: string | null, callback: (message: unknown) => void): void {
+  subscribe(channelId: string, topic: string | null, callback: (message: string) => void): void {
     if (!topic) {
       console.warn('Subscribing null topic, channel: ' + channelId);
       return;

@@ -9,14 +9,12 @@ import { Notifications } from '../../common/dba/Notifications.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-interface NoticeListDelegate {
+export interface FNoticeListDelegate {
   onBlogNoticeListFragmentRequestShowView(f: FNoticeList, view: View, title: string): void;
 }
 
 export class FNoticeList extends Fragment {
-  #selectedPostId: string | null = null;
   protected _fNotices: FSimpleFragmentList;
-  protected _delegate!: NoticeListDelegate;
 
   constructor() {
     super();
@@ -62,12 +60,11 @@ export class FNoticeList extends Fragment {
   }
 
   #onViewPost(postId: string, idType: string): void {
-    this.#selectedPostId = postId;
     let v = new View();
     let f = new FvcPost();
     f.setPostId(new SocialItemId(postId, idType));
     v.setContentFragment(f);
-    this._delegate.onBlogNoticeListFragmentRequestShowView(this, v,
+    this.getDelegate<FNoticeListDelegate>()?.onBlogNoticeListFragmentRequestShowView(this, v,
                                                            "Post " + postId);
   }
 }
