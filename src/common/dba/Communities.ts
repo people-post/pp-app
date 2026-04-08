@@ -61,7 +61,7 @@ export class CommunitiesClass implements CommunitiesInterface {
     return this.#globalProfile;
   }
 
-  getProposal(id: string | null): Proposal | null | undefined {
+  getProposal(id: string | null): Proposal | null {
     if (!id) {
       return null;
     }

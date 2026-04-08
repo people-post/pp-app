@@ -38,11 +38,11 @@ import type { PProposalBase } from './PProposalBase.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Account } from '../../common/dba/Account.js';
 
-interface ProposalDataSource {
+export interface ProposalDataSource {
   isProposalSelectedInProposalFragment(f: FProposal, proposalId: string): boolean;
 }
 
-interface ProposalDelegate {
+export interface ProposalDelegate {
   onProposalFragmentRequestShowProposal(f: FProposal, proposalId: string): void;
 }
 
@@ -56,8 +56,6 @@ export class FProposal extends Fragment {
   protected _fVotingSummary: VotingSummaryFragment;
   protected _proposalId: string | null = null;
   protected _tLayout: symbol | null = null;
-  protected _dataSource!: ProposalDataSource;
-  protected _delegate!: ProposalDelegate;
 
   constructor() {
     super();
@@ -132,41 +130,45 @@ export class FProposal extends Fragment {
     render.wrapPanel(pMain);
 
     if (pMain.isColorInvertible() &&
-        this._dataSource.isProposalSelectedInProposalFragment(
+        this.getDataSource<ProposalDataSource>()?.isProposalSelectedInProposalFragment(
             this, this._proposalId)) {
       pMain.invertColor();
     }
 
-    let p = pMain.getIconPanel();
-    if (p) {
-      this.#renderIcon(proposal, p);
+    let pIcon = pMain.getIconPanel();
+    if (pIcon) {
+      this.#renderIcon(proposal, pIcon);
     }
 
-    p = pMain.getTitlePanel();
-    this.#renderTitle(proposal, p);
-
-    p = pMain.getSubtitlePanel();
-    if (p) {
-      this.#renderSubtitle(proposal, p);
+    let pTitle = pMain.getTitlePanel();
+    if (pTitle) {
+      this.#renderTitle(proposal, pTitle);
     }
 
-    p = pMain.getContentPanel();
-    if (p) {
-      this.#renderContent(proposal, p);
+    let pSubtitle = pMain.getSubtitlePanel();
+    if (pSubtitle) {
+      this.#renderSubtitle(proposal, pSubtitle);
     }
 
-    p = pMain.getStatusPanel();
-    if (p) {
-      this.#renderStatus(proposal, p);
+    let pContent = pMain.getContentPanel();
+    if (pContent) {
+      this.#renderContent(proposal, pContent);
     }
 
-    p = pMain.getVotePanel();
-    if (p) {
-      this.#renderVote(proposal, p);
+    let pStatus = pMain.getStatusPanel();
+    if (pStatus) {
+      this.#renderStatus(proposal, pStatus);
     }
 
-    p = pMain.getVotingSummaryPanel();
-    this.#renderVotingSummary(proposal, p);
+    let pVote = pMain.getVotePanel();
+    if (pVote) {
+      this.#renderVote(proposal, pVote);
+    }
+
+    let pVotingSummary = pMain.getVotingSummaryPanel();
+    if (pVotingSummary) {
+      this.#renderVotingSummary(proposal, pVotingSummary);
+    }
   }
 
   #createPanel(): PProposalBase {
@@ -206,7 +208,7 @@ export class FProposal extends Fragment {
   }
 
   #renderStatus(proposal: Proposal, panel: Panel): void {
-    let s = _CFT_PROPOSAL.STATUS;
+    let s: string = _CFT_PROPOSAL.STATUS;
     s = s.replace("__STATUS__", Utilities.renderStatus(proposal.getState(),
                                                        proposal.getStatus()));
     s = s.replace("__T_UPDATE__",
@@ -244,7 +246,7 @@ export class FProposal extends Fragment {
   }
 
   #renderRepresentativeVoteStatus(voteValue: string | null): string {
-    let s = _CFT_PROPOSAL.REP_VOTE_STATUS;
+    let s: string = _CFT_PROPOSAL.REP_VOTE_STATUS;
     if (voteValue) {
       s = s.replace("__STATUS__", voteValue);
     } else {
@@ -254,7 +256,7 @@ export class FProposal extends Fragment {
   }
 
   #renderUserVoteStatus(voteValue: string | null): string {
-    let s = _CFT_PROPOSAL.USER_VOTE_STATUS;
+    let s: string = _CFT_PROPOSAL.USER_VOTE_STATUS;
     if (voteValue) {
       s = s.replace("__STATUS__", voteValue);
     } else {
@@ -264,7 +266,7 @@ export class FProposal extends Fragment {
   }
 
   #renderSubtitle(proposal: Proposal, panel: Panel): void {
-    let s = _CFT_PROPOSAL.SUBTITLE;
+    let s: string = _CFT_PROPOSAL.SUBTITLE;
     let userId = proposal.getAuthorId();
     let nickname = Account.getUserNickname(userId);
     s = s.replace("__AUTHOR__", Utilities.renderSmallButton(
@@ -370,7 +372,7 @@ export class FProposal extends Fragment {
 
   #onViewProposal(): void {
     if (this._proposalId) {
-      this._delegate.onProposalFragmentRequestShowProposal(this,
+      this.getDelegate<ProposalDelegate>()?.onProposalFragmentRequestShowProposal(this,
                                                            this._proposalId);
     }
   }

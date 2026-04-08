@@ -1,4 +1,4 @@
-import type { BallotConfig, VotingSummaryData } from '../../types/backend2.js';
+import type { Ballot, BallotConfig, VotingSummaryData } from '../../types/backend2.js';
 
 export class VotingSummary {
   #data: VotingSummaryData;
@@ -11,7 +11,7 @@ export class VotingSummary {
     return this.#data.config;
   }
 
-  getBallot(value: string): BallotConfig | null {
+  getBallot(value: string): Ballot | null {
     if (!this.#data.items) {
       return null;
     }

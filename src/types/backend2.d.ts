@@ -194,13 +194,13 @@ interface Ballot {
 }
 
 interface BallotConfig {
-  total: number;
-  threshold: number;
+  total: Ballot;
+  threshold: Ballot;
 }
 
 interface BallotItem {
   value: string;
-  ballot: BallotConfig;
+  ballot: Ballot;
 }
 
 export interface VotingSummaryData {

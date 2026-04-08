@@ -1,6 +1,3 @@
-const _CFT_CART_CONTENT = {
-  EMPTY : `<div class="info-message">Cart is empty.</div>`,
-};
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { FCart } from './FCart.js';
@@ -9,15 +6,24 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Cart } from '../../common/dba/Cart.js';
 import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
-import { PreviewOrder } from '../../common/datatypes/PreviewOrder.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { URL_PARAM, URL_PARAM_ADDON_VALUE } from '../../common/constants/Constants.js';
+import { URL_PARAM } from '../../lib/ui/Constants.js';
+import { URL_PARAM_ADDON_VALUE } from '../../common/constants/Constants.js';
 import { FvcCheckout } from './FvcCheckout.js';
 import { Api } from '../../common/plt/Api.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
 import { AuthFacade } from '../../common/auth/AuthFacade.js';
 import { ProductFacade } from '../../common/shop/ProductFacade.js';
+import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
+import { CustomerOrderData } from '../../types/backend2.js';
+
+const _CFT_CART_CONTENT = {
+  EMPTY : `<div class="info-message">Cart is empty.</div>`,
+};
+
+interface ApiOrderPreviewResponse {
+  order: CustomerOrderData;
+}
 
 export class FvcCurrent extends FScrollViewContent {
   protected _fPayables: FSimpleFragmentList;
@@ -42,28 +48,32 @@ export class FvcCurrent extends FScrollViewContent {
     return URL_PARAM.ADDON + "=" + URL_PARAM_ADDON_VALUE.CART;
   }
 
-  getCartForCartFragment(fCart: FCart, cartId: string | null): CartDataType | null { return Cart.getCart(cartId); }
+  getCartForCartFragment(_fCart: FCart, cartId: string | null): CartDataType | null { return Cart.getCart(cartId ?? ''); }
 
-  onCartFragmentRequestShowView(fCart: FCart, view: View, title: string): void {
-    this._owner.onFragmentRequestShowView(this, view, title);
+  onCartFragmentRequestShowView(_fCart: FCart, view: View, title: string): void {
+    this.onFragmentRequestShowView(this, view, title);
   }
-  onCartFragmentRequestChangeItemQuantity(fCart: FCart, cartId: string | null, itemId: string, dQty: number): void {
+  onCartFragmentRequestChangeItemQuantity(_fCart: FCart, _cartId: string | null, itemId: string, dQty: number): void {
     Cart.asyncChangeItemQuantity(itemId, dQty);
   }
-  onCartFragmentRequestRemoveItem(fCart: FCart, cartId: string | null, itemId: string): void {
+  onCartFragmentRequestRemoveItem(_fCart: FCart, cartId: string | null, itemId: string): void {
+    if (!cartId) {
+      return;
+    }
     Cart.asyncRemoveItem(cartId, itemId);
   }
   onCartFragmentRequestShowProduct(_fCart: FCart, productId: string): void {
     let v = ProductFacade.createProductView(productId);
     if (v) {
-      this._owner.onFragmentRequestShowView(this, v, "product");
+      this.onFragmentRequestShowView(this, v, "product");
     }
   }
-  onCartFragmentRequestCheckout(fCart: FCart, cartId: string | null, currencyId: string | null): void {
-    let c = Cart.getCart(cartId);
+  onCartFragmentRequestCheckout(_fCart: FCart, cartId: string | null, currencyId: string | null): void {
+    let c = cartId ? Cart.getCart(cartId) : null;
     let items = c ? c.getItems() : [];
     let ids = items.filter(i => i.getPreferredCurrencyId() == currencyId)
-                  .map(i => i.getId());
+                  .map(i => i.getId() ?? '')
+                  .filter(id => id !== undefined);
     if (currencyId) {
       this.#asyncRequestOrderPreview(currencyId, ids);
     }
@@ -80,7 +90,7 @@ export class FvcCurrent extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -127,28 +137,27 @@ export class FvcCurrent extends FScrollViewContent {
     if (Account.isAuthenticated()) {
       url = "/api/cart/order_preview";
     }
-    Api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost<ApiOrderPreviewResponse>(this, url, fd)
         .then(d => this.#onOrderPreviewRRR(d));
   }
 
-  #onOrderPreviewRRR(data: unknown): void {
-    let orderData = (data as { order?: unknown }).order;
-    if (orderData) {
-      this.#goCheckout(new PreviewOrder(orderData));
+  #onOrderPreviewRRR(data: ApiOrderPreviewResponse): void {
+    if (data.order) {
+      this.#goCheckout(new CustomerOrder(data.order));
     }
   }
 
-  #goCheckout(order: PreviewOrder): void {
+  #goCheckout(order: CustomerOrder): void {
     if (Account.isAuthenticated()) {
       let v = new View();
       let f = new FvcCheckout();
-      f.setOrder(order as unknown as CustomerOrder);
+      f.setOrder(order);
       v.setContentFragment(f);
-      this._owner.onFragmentRequestShowView(this, v, "Checkout");
+      this.onFragmentRequestShowView(this, v, "Checkout");
     } else {
       let v = AuthFacade.createLoginView();
       if (v) {
-        this._owner.onFragmentRequestShowView(this, v, "Login");
+        this.onFragmentRequestShowView(this, v, "Login");
       }
     }
   }

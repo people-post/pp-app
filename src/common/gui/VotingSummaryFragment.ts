@@ -3,19 +3,12 @@ import { VoteProgressFragment } from './VoteProgressFragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Vote } from '../datatypes/Vote.js';
-
-interface VoteSummary {
-  getBallotConfig(): {
-    total: { weight: number; count: number };
-    threshold: { weight: number; count: number };
-  };
-  getBallot(value: string): { weight: number; count: number } | null;
-}
+import { VotingSummary } from '../datatypes/VotingSummary.js';
 
 export class VotingSummaryFragment extends Fragment {
   private _fGeneral: VoteProgressFragment;
   private _fWealth: VoteProgressFragment;
-  private _summary: VoteSummary | null = null;
+  private _summary: VotingSummary | null = null;
 
   constructor() {
     super();
@@ -25,7 +18,7 @@ export class VotingSummaryFragment extends Fragment {
     this.setChild("wealth", this._fWealth);
   }
 
-  setSummary(summary: VoteSummary): void { this._summary = summary; }
+  setSummary(summary: VotingSummary): void { this._summary = summary; }
 
   _renderOnRender(render: PanelWrapper): void {
     if (!this._summary) {
