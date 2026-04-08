@@ -5,7 +5,7 @@ import { Vote } from '../datatypes/Vote.js';
 import { Votes } from './Votes.js';
 import { CommunityProfile } from '../datatypes/CommunityProfile.js';
 import { Api } from '../plt/Api.js';
-import { CommunityProfileData, ProposalData, VoteData } from '../../types/backend2.js';
+import { CommunityProfileData, GlobalCommunityProfileData, ProposalData, VoteData } from '../../types/backend2.js';
 
 interface ApiResponse {
   error?: unknown;
@@ -16,9 +16,16 @@ interface ApiResponse {
   };
 }
 
+interface GlobalCommunityProfileApiResponse {
+  error?: unknown;
+  data?: {
+    profile: GlobalCommunityProfileData;
+  };
+}
+
 interface CommunitiesInterface {
   get(id: string | null): CommunityProfile | null | undefined;
-  getGlobalProfile(): CommunityProfileData | null;
+  getGlobalProfile(): GlobalCommunityProfileData | null;
   getProposal(id: string | null): Proposal | null | undefined;
   updateProposal(proposal: Proposal): void;
   asyncVote(itemId: string, value: number): void;
@@ -27,7 +34,7 @@ interface CommunitiesInterface {
 }
 
 export class CommunitiesClass implements CommunitiesInterface {
-  #globalProfile: CommunityProfileData | null = null;
+  #globalProfile: GlobalCommunityProfileData | null = null;
   #isGlobalProfileLoading = false;
   #profileLib = new Map<string, CommunityProfile | null>();
   #proposalLib = new Map<string, Proposal | null>();
@@ -47,7 +54,7 @@ export class CommunitiesClass implements CommunitiesInterface {
     }
   }
 
-  getGlobalProfile(): CommunityProfileData | null {
+  getGlobalProfile(): GlobalCommunityProfileData | null {
     if (!this.#globalProfile) {
       this.#asyncGetGlobalProfile();
     }
@@ -162,7 +169,7 @@ export class CommunitiesClass implements CommunitiesInterface {
   }
 
   #onGlobalProfileRRR(responseText: string): void {
-    const response = JSON.parse(responseText) as ApiResponse;
+    const response = JSON.parse(responseText) as GlobalCommunityProfileApiResponse;
     if (response.error) {
       FwkEvents.trigger(FwkT_DATA.REMOTE_ERROR, response.error);
     } else {

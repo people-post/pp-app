@@ -8,18 +8,12 @@ import { Communities } from '../../common/dba/Communities.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import type Render from '../../lib/ui/renders/Render.js';
-
-interface ExchangeItemDelegate {
-  onExchangeItemInfoFragmentRequestShowView(f: FExchangeItemInfo, view: View, title: string): void;
-}
 
 export class FvcExchange extends FScrollViewContent {
   protected _fCoin: FExchangeItemInfo;
   protected _fCash: FCashierInfo;
   protected _fFood: FVoucherInfo;
   protected _fAmusement: FVoucherInfo;
-  protected _delegate!: ExchangeItemDelegate;
 
   constructor() {
     super();
@@ -34,8 +28,8 @@ export class FvcExchange extends FScrollViewContent {
     this.setChild("amusement", this._fAmusement);
   }
 
-  onExchangeItemInfoFragmentRequestShowView(fItem: FExchangeItemInfo, view: View, title: string): void {
-    this._owner.onFragmentRequestShowView(this, view, title);
+  onExchangeItemInfoFragmentRequestShowView(_fItem: FExchangeItemInfo, view: View, title: string): void {
+    this.onFragmentRequestShowView(this, view, title);
   }
 
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
@@ -49,7 +43,7 @@ export class FvcExchange extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     this.#updateData();
     let p = new ListPanel();
     render.wrapPanel(p);

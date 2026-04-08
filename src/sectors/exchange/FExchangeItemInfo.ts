@@ -1,3 +1,11 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Env } from '../../common/plt/Env.js';
+import { Account } from '../../common/dba/Account.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
 const CF_EXCHANGE_ITEM_INFO = {
   BUY : "CF_EXCHANGE_ITEM_INFO_1",
   SELL : "CF_EXCHANGE_ITEM_INFO_2",
@@ -28,14 +36,6 @@ const _CVF_EXCHANGE_ITEM = {
   HINT_SAFE_SITE :
       `<span class="tw:text-u-font5 tw:bg-white">Go to <a target="_blank" href="https://gcabin.com/?sector=extras&page=exchange">G-Cabin&#x1f517;</a> for more options</span>`,
 }
-
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { WebConfig } from '../../common/dba/WebConfig.js';
-import { Env } from '../../common/plt/Env.js';
-import type Render from '../../lib/ui/renders/Render.js';
-import { Account } from '../../common/dba/Account.js';
 
 interface ExchangeItem {
   icon: string;
@@ -68,7 +68,7 @@ export class FExchangeItemInfo extends Fragment {
     }
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new Panel();
@@ -107,7 +107,7 @@ export class FExchangeItemInfo extends Fragment {
     return s;
   }
 
-  _renderActions(item: ExchangeItem): string {
+  _renderActions(_item: ExchangeItem): string {
     let s = _CVF_EXCHANGE_ITEM.BTN_BUY;
     s += _CVF_EXCHANGE_ITEM.BTN_SELL;
     return s;

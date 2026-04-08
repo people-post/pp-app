@@ -588,6 +588,28 @@ export interface CommunityProfileData {
   config: CommunityProfileConfigData;
 }
 
+export interface VoucherStatisticsData {
+  n_claimed: number;
+  n_available: number;
+  n_active: number;
+  n_applied: number;
+  n_redeemed: number;
+  n_recycled: number;
+}
+
+export interface GlobalCommunityStatistics {
+  n_users: number;
+  n_web_owners: number;
+  n_coins: number;
+  n_cash: number;
+  food_voucher: VoucherStatisticsData;
+  zest_voucher: VoucherStatisticsData;
+}
+
+export interface GlobalCommunityProfileData {
+  statistics: GlobalCommunityStatistics;
+}
+
 export interface JournalIssueSectionData {
   id: string | null;
   item_ids: SocialItemId[];

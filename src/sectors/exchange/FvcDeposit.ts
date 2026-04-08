@@ -8,7 +8,6 @@ import { FvcNotice } from '../../lib/ui/controllers/views/FvcNotice.js';
 import { FSquareOnline } from '../../common/pay/FSquareOnline.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 interface SelectionItem {
   text: string;
@@ -39,20 +38,20 @@ export class FvcDeposit extends FScrollViewContent {
     this._selectedCurrency = "USD";
   }
 
-  getSelectedValueForSelection(fSelection: Selection): string { return this._selectedCurrency; }
-  getItemsForSelection(fSelection: Selection): SelectionItem[] { return [ {text : "USD", value : "USD"} ]; }
+  getSelectedValueForSelection(_fSelection: Selection): string { return this._selectedCurrency; }
+  getItemsForSelection(_fSelection: Selection): SelectionItem[] { return [ {text : "USD", value : "USD"} ]; }
 
-  onSelectionChangedInSelection(fSelection: Selection, value: string): void {
+  onSelectionChangedInSelection(_fSelection: Selection, value: string): void {
     this._selectedCurrency = value;
   }
 
-  onSquareOnlinePayFragmentRequestPay(fSquare: FSquareOnline, locationId: string, sourceId: string): void {
+  onSquareOnlinePayFragmentRequestPay(_fSquare: FSquareOnline, locationId: string, sourceId: string): void {
     let amount = this._fInput.getValue();
     this.#asyncSubmitPayment(locationId, sourceId, amount,
                              this._selectedCurrency);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new PanelWrapper();
@@ -66,22 +65,22 @@ export class FvcDeposit extends FScrollViewContent {
     this._fSquare.render();
   }
 
-  #asyncSubmitPayment(locationId: string, sourceId: string, amount: number, currency: string): void {
+  #asyncSubmitPayment(locationId: string, sourceId: string, amount: string, currency: string): void {
     let url = '/api/exchange/deposit';
     let fd = new FormData();
     fd.append("location_id", locationId);
     fd.append("source_id", sourceId);
-    fd.append("amount", amount.toString());
+    fd.append("amount", amount);
     fd.append("currency", currency);
 
     Api.asFragmentPost(this, url, fd).then(d => this.#onPayRRR(d));
   }
 
-  #onPayRRR(data: unknown): void {
+  #onPayRRR(_data: unknown): void {
     let v = new View();
     let f = new FvcNotice();
     f.setMessage(R.get("ACK_DEPOSIT"));
     v.setContentFragment(f);
-    this._owner.onContentFragmentRequestReplaceView(this, v, "Notice");
+    this._requestReplaceView(v, "Notice");
   }
 };
