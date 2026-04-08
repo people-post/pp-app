@@ -13,6 +13,8 @@ import {
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type { Fragment as FragmentType } from '../../lib/ui/controllers/fragments/Fragment.js';
 
+type SizedFragment = FragmentType & { setSizeType(t: string): void };
+
 export interface QuoteElementDelegate {
   onQuotedElementRequestShowView(f: FQuoteElement, view: View, title: string): void;
 }
@@ -53,7 +55,7 @@ export class FQuoteElement extends Fragment {
     this.setChild("item", this.#fItem);
 
     if (this.#fItem) {
-      this.#fItem.setSizeType(this.#sizeType == "FULL"
+      (this.#fItem as SizedFragment).setSizeType(this.#sizeType == "FULL"
                                   ? SocialItem.T_LAYOUT.EXT_QUOTE_LARGE
                                   : SocialItem.T_LAYOUT.EXT_QUOTE_SMALL);
       this.#fItem.attachRender(render);
@@ -70,30 +72,23 @@ export class FQuoteElement extends Fragment {
     switch (this.#type) {
     case SocialItem.TYPE.ARTICLE:
     case SocialItem.TYPE.FEED_ARTICLE:
-      f = new FPostInfo();
-      f.setPostId(new SocialItemId(this.#item, this.#type));
-      f.setDataSource(this);
-      f.setDelegate(this);
+      {
+        const postInfo = new FPostInfo();
+        postInfo.setPostId(new SocialItemId(this.#item, this.#type));
+        postInfo.setDataSource(this);
+        postInfo.setDelegate(this);
+        f = postInfo;
+      }
       break;
     case SocialItem.TYPE.PROJECT:
-      f = QuoteTargetFacade.createProjectInfoFragment();
-      if (f) {
-        f.setProjectId(this.#item);
-        f.setDataSource(this);
-        f.setDelegate(this);
-      }
+      f = QuoteTargetFacade.createProjectInfoFragment(this.#item, this, this);
       break;
     case SocialItem.TYPE.PRODUCT:
-      f = QuoteTargetFacade.createProductInfoFragment();
-      if (f) {
-        f.setProductId(this.#item);
-        f.setDataSource(this);
-        f.setDelegate(this);
-      }
+      f = QuoteTargetFacade.createProductInfoFragment(this.#item, this, this);
       break;
     case SocialItem.TYPE.URL:
       f = new FOgp();
-      f.setUrl(this.#item);
+      (f as FOgp).setUrl(this.#item);
       f.setDelegate(this);
       break;
     default:

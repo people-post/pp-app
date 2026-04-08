@@ -56,12 +56,58 @@ export class QuoteTargetFacade {
     gProductViewFactory = factory;
   }
 
-  static createProjectInfoFragment(): QuoteProjectInfoFragment | null {
-    return gProjectInfoFactory ? gProjectInfoFactory() : null;
+  static createProjectInfoFragment(): QuoteProjectInfoFragment | null;
+  static createProjectInfoFragment(
+    projectId: string,
+    dataSource?: QuoteProjectInfoDataSource,
+    delegate?: QuoteProjectInfoDelegate
+  ): QuoteProjectInfoFragment | null;
+  static createProjectInfoFragment(
+    projectId?: string,
+    dataSource?: QuoteProjectInfoDataSource,
+    delegate?: QuoteProjectInfoDelegate
+  ): QuoteProjectInfoFragment | null {
+    const f = gProjectInfoFactory ? gProjectInfoFactory() : null;
+    if (!f) {
+      return null;
+    }
+    if (projectId !== undefined) {
+      f.setProjectId(projectId);
+    }
+    if (dataSource) {
+      f.setDataSource(dataSource);
+    }
+    if (delegate) {
+      f.setDelegate(delegate);
+    }
+    return f;
   }
 
-  static createProductInfoFragment(): QuoteProductInfoFragment | null {
-    return gProductInfoFactory ? gProductInfoFactory() : null;
+  static createProductInfoFragment(): QuoteProductInfoFragment | null;
+  static createProductInfoFragment(
+    productId: string,
+    dataSource?: QuoteProductInfoDataSource,
+    delegate?: QuoteProductInfoDelegate
+  ): QuoteProductInfoFragment | null;
+  static createProductInfoFragment(
+    productId?: string,
+    dataSource?: QuoteProductInfoDataSource,
+    delegate?: QuoteProductInfoDelegate
+  ): QuoteProductInfoFragment | null {
+    const f = gProductInfoFactory ? gProductInfoFactory() : null;
+    if (!f) {
+      return null;
+    }
+    if (productId !== undefined) {
+      f.setProductId(productId);
+    }
+    if (dataSource) {
+      f.setDataSource(dataSource);
+    }
+    if (delegate) {
+      f.setDelegate(delegate);
+    }
+    return f;
   }
 
   static createProjectView(projectId: string): View | null {
