@@ -8,6 +8,7 @@ import { Utilities } from '../../common/Utilities.js';
 import { R } from '../../common/constants/R.js';
 import type { PostInfoPanel } from './PPost.js';
 import type { FeedArticle } from '../../common/datatypes/FeedArticle.js';
+import type Render from '../../lib/ui/renders/Render.js';
 
 export class FFeedArticle extends Fragment {
   #fGallery: FGallery;
@@ -27,12 +28,12 @@ export class FFeedArticle extends Fragment {
 
   setArticleId(id: string | null): void { this.#articleId = id; }
 
-  _renderOnRender(render: PostInfoPanel): void {
+  _renderOnRender(render: Render): void {
     let article = Blog.getFeedArticle(this.#articleId);
     if (!article) {
       return;
     }
-    let postPanel = render;
+    let postPanel = render as unknown as PostInfoPanel;
     let p = postPanel.getTitlePanel();
     p.replaceContent(this.#renderTitle(article.getTitle()));
 
