@@ -27,7 +27,7 @@ export class FvcWeb3Wallet extends FScrollViewContent {
       [ Wallet.T_COIN.CARDANO, 0, CardanoAccount.T_ROLE.EXTERNAL, 0 ];
   #stakingKeyPath: (string | number)[] =
       [ Wallet.T_COIN.CARDANO, 0, CardanoAccount.T_ROLE.STAKING, 0 ];
-  #input_addr: string | undefined;
+  #input_addr: string | null = null;
   #node: string = "http://3.145.68.8:9097/api/tx/";
   #options: { method: string; headers: { 'Content-Type': string } } = {
     method : 'GET',
@@ -68,7 +68,7 @@ export class FvcWeb3Wallet extends FScrollViewContent {
     this.setChild("btnSubmit", this.#btnSubmit);
     this.#btnTopup = new Button();
     this.#btnTopup.setName("Top Up");
-    this.#btnTopup.setValue("Top Up1");
+    this.#btnTopup.setValue("Top Up");
     this.#btnTopup.setDelegate(this);
     this.setChild("btnTopup", this.#btnTopup);
   }
@@ -82,7 +82,7 @@ export class FvcWeb3Wallet extends FScrollViewContent {
       this.#onTransfer();
       break;
     case "Top Up":
-      this.#onTopUp(this.#input_addr as string || "");
+      this.#onTopUp();
       break;
     default:
       break;
@@ -104,14 +104,18 @@ export class FvcWeb3Wallet extends FScrollViewContent {
     let pList = new ListPanel();
     render.wrapPanel(pList);
     console.log("render");
-    let kPayment = Keys.getCip1852(this.#paymentKeyPath as number[]);
-    let kStaking = Keys.getCip1852(this.#stakingKeyPath as number[]);
+    const kPayment = Keys.getCip1852(this.#paymentKeyPath as unknown as number[]);
+    const kStaking = Keys.getCip1852(this.#stakingKeyPath as unknown as number[]);
     if (!kPayment || !kStaking) {
       pList.replaceContent("Preparing keys");
       return;
     }
-    let c = new CardanoAccount(kPayment, kStaking);
-    this.#input_addr = c.getAddress().to_bech32();
+    const c = new CardanoAccount(
+        kPayment as unknown as CardanoBip32PrivateKey,
+        kStaking as unknown as CardanoBip32PrivateKey,
+    );
+    const addr = (c.getAddress() as any).to_bech32() as string;
+    this.#input_addr = addr;
     let p = new Panel();
     pList.pushPanel(p);
     p.replaceContent("Address: " + this.#input_addr);
@@ -145,16 +149,16 @@ export class FvcWeb3Wallet extends FScrollViewContent {
 
   #buildTopUpTransFromHex(cbor_hex: string): string {
     console.log("submit");
-    let prvKey = Cardano.PrivateKey.from_hex(this.#topupKey);
-    let ftx = Cardano.FixedTransaction.from_hex(cbor_hex);
+    const prvKey = Cardano.PrivateKey.from_hex(this.#topupKey);
+    const ftx = Cardano.FixedTransaction.from_hex(cbor_hex);
     console.log(ftx.body());
-    let txHash = ftx.transaction_hash();
+    const txHash = ftx.transaction_hash();
     console.log(txHash.to_hex);
     const witnesses = Cardano.TransactionWitnessSet.new();
     console.log(2);
     // add keyhash witnesses
     const vkeyWitnesses = Cardano.Vkeywitnesses.new();
-    const vkeyWitness = Cardano.make_vkey_witness(txHash, prvKey);
+    const vkeyWitness = Cardano.make_vkey_witness(txHash as any, prvKey);
     vkeyWitnesses.add(vkeyWitness);
     witnesses.set_vkeys(vkeyWitnesses);
     const transaction = Cardano.Transaction.new(
@@ -169,16 +173,19 @@ export class FvcWeb3Wallet extends FScrollViewContent {
 
   #buildTransFromHex(cbor_hex: string): string {
     console.log("submit");
-    let ftx = Cardano.FixedTransaction.from_hex(cbor_hex);
+    const ftx = Cardano.FixedTransaction.from_hex(cbor_hex);
     console.log(ftx.body());
-    let txHash = ftx.transaction_hash();
+    const txHash = ftx.transaction_hash();
     console.log(txHash.to_hex);
     const witnesses = Cardano.TransactionWitnessSet.new();
     console.log(2);
     // add keyhash witnesses
     const vkeyWitnesses = Cardano.Vkeywitnesses.new();
-    const vkeyWitness = Keys.cip1852Witness(this.#paymentKeyPath, txHash);
-    vkeyWitnesses.add(vkeyWitness);
+    const vkeyWitness = Keys.cip1852Witness(
+        this.#paymentKeyPath as unknown as number[],
+        txHash as any,
+    );
+    vkeyWitnesses.add(vkeyWitness as unknown as CardanoVkeyWitness);
     witnesses.set_vkeys(vkeyWitnesses);
     const transaction = Cardano.Transaction.new(
         ftx.body(),
@@ -192,9 +199,9 @@ export class FvcWeb3Wallet extends FScrollViewContent {
   async #parseSubmitTrans(str: string): Promise<{ tx?: string; err?: string }> {
     console.log(str);
     try {
-      let o = JSON.parse(str);
+      const o = JSON.parse(str) as any;
       if (o.hasOwnProperty("data")) {
-        let d = JSON.parse(o.data);
+        const d = JSON.parse(o.data) as any;
         if (d.hasOwnProperty("txhash")) {
           return {
             "tx" : `Transaction successfully submitted. Transaction hash is:${
@@ -204,45 +211,45 @@ export class FvcWeb3Wallet extends FScrollViewContent {
           return {"err" : str};
       } else
         return {"err" : str};
-    } catch (e) {
+    } catch (e: unknown) {
       console.log(e);
-      return {"err" : e};
+      return {"err" : String(e)};
     }
   }
   async #submitTrans(hex: string): Promise<{ tx?: string; err?: string }> {
-    let hex1 = this.#buildTransFromHex(hex);
-    var res = await this.#relayReQuest(`submit?cbor_hex=${hex1}`);
+    const hex1 = this.#buildTransFromHex(hex);
+    const res = await this.#relayReQuest(`submit?cbor_hex=${hex1}`);
     return await this.#parseSubmitTrans(res);
   }
   async #submitTopUpTrans(hex: string): Promise<{ tx?: string; err?: string }> {
-    let hex1 = this.#buildTopUpTransFromHex(hex);
-    var res = await this.#relayReQuest(`submit?cbor_hex=${hex1}`);
+    const hex1 = this.#buildTopUpTransFromHex(hex);
+    const res = await this.#relayReQuest(`submit?cbor_hex=${hex1}`);
     return await this.#parseSubmitTrans(res);
   }
   async #parseBuildTrans(str: string): Promise<{ hex?: string; err?: string }> {
     console.log(str);
     try {
-      let o = JSON.parse(str);
+      const o = JSON.parse(str) as any;
       if (o.hasOwnProperty("data")) {
         if (o.data.hasOwnProperty("cborHex"))
           return {hex : o.data.cborHex};
         else
           return {"err" : str};
       }
-    } catch (e) {
+      return {"err" : str};
+    } catch (e: unknown) {
       console.log(e);
-      return {"err" : e};
+      return {"err" : String(e)};
     }
   }
   async #buildTrans(from: string, to_addr: string, amt: number): Promise<{ hex?: string; err?: string }> {
     console.log(this.#input_hashs);
-    for (let i in this.#input_hashs) {
-      let bo = this.#input_hashs[i];
+    for (const bo of this.#input_hashs) {
       console.log(bo);
       if (bo.amt > amt) {
         console.log("build trans");
         console.log(from);
-        var res = await this.#relayReQuest(`build?tx_in=${bo.hash}%23${
+        const res = await this.#relayReQuest(`build?tx_in=${bo.hash}%23${
             bo.index}&change_addr=${from}&to_addr=${to_addr}&amount=${amt}`);
         return await this.#parseBuildTrans(res);
       } else
@@ -251,74 +258,86 @@ export class FvcWeb3Wallet extends FScrollViewContent {
     return {err : "no enough fund"};
   }
   async #onTransfer(): Promise<void> {
-    this.#pBalance.replaceContent("Transfering fund ...");
-    this.#pBalance.replaceContent("Querying Account...");
-    var o = await this.#queryBalance(this.#input_addr);
-    if (o.hasOwnProperty("inputs")) {
-      this.#input_hashs = o.inputs;
-      let to_addr = this.#fToAddr._getInputElement().value;
-      let amt = this.#fAmt._getInputElement().value;
-      this.#pBalance.replaceContent("Building Transaction...");
-      var bo = await this.#buildTrans(this.#input_addr, to_addr, amt);
+    const fromAddr = this.#input_addr;
+    if (!fromAddr) {
+      this.#setBalanceContent("Missing from address");
+      return;
+    }
+    this.#setBalanceContent("Transfering fund ...");
+    this.#setBalanceContent("Querying Account...");
+    const o = await this.#queryBalance(fromAddr);
+    if (o.inputs) {
+      this.#input_hashs = o.inputs ?? [];
+      const to_addr =
+          (this.#fToAddr._getInputElement() as HTMLInputElement | null)?.value ??
+          "";
+      const amtStr =
+          (this.#fAmt._getInputElement() as HTMLInputElement | null)?.value ??
+          "0";
+      const amt = Number(amtStr);
+      this.#setBalanceContent("Building Transaction...");
+      const bo = await this.#buildTrans(fromAddr, to_addr, amt);
       console.log("build");
       console.log(bo);
-      if (bo.hasOwnProperty("hex")) {
-        this.#pBalance.replaceContent("Submitting Transaction...");
-        var d = await this.#submitTrans(bo.hex);
-        if (d.hasOwnProperty("tx"))
-          this.#pBalance.replaceContent(
-              `Transaction successfully submitted. Transaction hash is:${
-                  d.tx}`);
+      if (bo.hex) {
+        this.#setBalanceContent("Submitting Transaction...");
+        const d = await this.#submitTrans(bo.hex);
+        if (d.tx)
+          this.#setBalanceContent(
+              `Transaction successfully submitted. Transaction hash is:${d.tx}`);
         else
-          this.#pBalance.replaceContent(d.err);
+          this.#setBalanceContent(d.err ?? "Unknown submit error");
       } else
-        this.#pBalance.replaceContent(bo.err);
+        this.#setBalanceContent(bo.err ?? "Unknown build error");
     } else
-      this.#pBalance.replaceContent("no fund");
+      this.#setBalanceContent("no fund");
   }
   async #onBalance(addr: string): Promise<void> {
-    this.#pBalance.replaceContent("Balance: getting balance...");
-    var o = await this.#queryBalance(addr);
+    this.#setBalanceContent("Balance: getting balance...");
+    const o = await this.#queryBalance(addr);
     console.log(o);
-    if (o.hasOwnProperty("balance")) {
-      this.#pBalance.replaceContent("Balance: " + o.balance + " lovelace<br/>" +
-                                    o.trans);
-      this.#input_hashs = o.inputs;
+    if (typeof o.balance === "number") {
+      this.#setBalanceContent("Balance: " + o.balance + " lovelace<br/>" +
+                              (o.trans ?? ""));
+      this.#input_hashs = o.inputs ?? [];
     } else
-      this.#pBalance.replaceContent(o.err);
+      this.#setBalanceContent(o.err ?? "Unknown balance error");
   }
-  async #onTopUp(addr: string): Promise<void> {
-    this.#pBalance.replaceContent("Topup your account...");
-    this.#pBalance.replaceContent("Querying account...");
-    var o = await this.#queryBalance(this.#topupFrom);
-    if (o.hasOwnProperty("inputs")) {
-      this.#input_hashs = o.inputs;
-      let to_addr = this.#input_addr;
-      let amt = 100000000;
-      this.#pBalance.replaceContent("Building Transaction...");
-      var bo = await this.#buildTrans(this.#topupFrom, to_addr, amt);
-      if (bo.hasOwnProperty("hex")) {
-        this.#pBalance.replaceContent("Submitting Transaction...");
-        var d = await this.#submitTopUpTrans(bo.hex);
-        if (d.hasOwnProperty("tx"))
-          this.#pBalance.replaceContent(
-              `TopUp Transaction successfully submitted. Transaction hash is:${
-                  d.tx}`);
+  async #onTopUp(): Promise<void> {
+    const to_addr = this.#input_addr;
+    if (!to_addr) {
+      this.#setBalanceContent("Missing to address");
+      return;
+    }
+    this.#setBalanceContent("Topup your account...");
+    this.#setBalanceContent("Querying account...");
+    const o = await this.#queryBalance(this.#topupFrom);
+    if (o.inputs) {
+      this.#input_hashs = o.inputs ?? [];
+      const amt = 100000000;
+      this.#setBalanceContent("Building Transaction...");
+      const bo = await this.#buildTrans(this.#topupFrom, to_addr, amt);
+      if (bo.hex) {
+        this.#setBalanceContent("Submitting Transaction...");
+        const d = await this.#submitTopUpTrans(bo.hex);
+        if (d.tx)
+          this.#setBalanceContent(
+              `TopUp Transaction successfully submitted. Transaction hash is:${d.tx}`);
         else
-          this.#pBalance.replaceContent(d.err);
+          this.#setBalanceContent(d.err ?? "Unknown submit error");
       } else
-        this.#pBalance.replaceContent(bo.err);
+        this.#setBalanceContent(bo.err ?? "Unknown build error");
     } else
-      this.#pBalance.replaceContent("no fund");
+      this.#setBalanceContent("no fund");
   }
 
   #parseBalance(str: string): { inputs?: InputHash[]; balance?: number; trans?: string; err?: string } {
     console.log(str);
     try {
-      let o = JSON.parse(str);
-      var bal = 0;
-      var trans = "";
-      var inputs = [];
+      const o = JSON.parse(str) as any;
+      let bal = 0;
+      let trans = "";
+      const inputs: InputHash[] = [];
       if (o.hasOwnProperty("data")) {
         for (let k in o["data"]) {
           if (o["data"][k].hasOwnProperty("value")) {
@@ -338,15 +357,15 @@ export class FvcWeb3Wallet extends FScrollViewContent {
         }
       }
       return {"inputs" : inputs, "balance" : bal, "trans" : trans};
-    } catch (e) {
+    } catch (e: unknown) {
       console.log(e);
-      return {"err" : e};
+      return {"err" : String(e)};
     }
   }
   async #queryBalance(addr: string): Promise<{ inputs?: InputHash[]; balance?: number; trans?: string; err?: string }> {
     console.log("get balance");
     console.log(addr);
-    var res = await this.#relayReQuest("query?addr=" + addr);
+    const res = await this.#relayReQuest("query?addr=" + addr);
     console.log("async1");
     console.log(res);
     return this.#parseBalance(res);
@@ -357,5 +376,9 @@ export class FvcWeb3Wallet extends FScrollViewContent {
     console.log("async");
     console.log(t);
     return t;
+  }
+
+  #setBalanceContent(content: string): void {
+    if (this.#pBalance) this.#pBalance.replaceContent(content);
   }
 };
