@@ -42,20 +42,20 @@ export class Gateway implements SectorGateway {
     let f = new FViewContentMux();
     f.setDataSource(this);
 
-    let ff = new FvcChatThreadList();
-    f.addTab({name : R.t("Chats"), value : "THREADS", icon : ICON.CHAT}, ff);
+    let fChatThreadList = new FvcChatThreadList();
+    f.addTab({name : R.t("Chats"), value : "THREADS", icon : ICON.CHAT}, fChatThreadList);
 
-    ff = new FvcContactList();
+    let fContactList = new FvcContactList();
     f.addTab(
         {name : R.t("Contacts"), value : "CONTACTS", icon : ICON.CONTACT},
-        ff);
+        fContactList);
 
-    ff = new FvcChatGroupList();
-    f.addTab({name : R.t("Groups"), value : "GROUPS", icon : ICON.GROUP}, ff);
+    let fChatGroupList = new FvcChatGroupList();
+    f.addTab({name : R.t("Groups"), value : "GROUPS", icon : ICON.GROUP}, fChatGroupList);
 
-    ff = new FvcMessengerNoticeList();
+    let fMessengerNoticeList = new FvcMessengerNoticeList();
     f.addTab({name : R.t("Notices"), value : "NOTICES", icon : ICON.BELL},
-             ff);
+             fMessengerNoticeList);
 
     f.switchTo("THREADS");
     return f;

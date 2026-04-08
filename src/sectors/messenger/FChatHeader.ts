@@ -37,10 +37,10 @@ export class FChatHeader extends Fragment {
       return "Unknown";
     }
     if (this._target.isGroup()) {
-      return MessengerUtilities.getGroupName(this._target.getId());
+      return MessengerUtilities.getGroupName(this._target.getId() || "");
     } else {
       if (Account) {
-        return Account.getUserNickname(this._target.getId(), "Unknown user");
+        return Account.getUserNickname(this._target.getId() || "", "Unknown user");
       }
       return "Unknown user";
     }

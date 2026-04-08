@@ -9,16 +9,11 @@ import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Account } from '../../common/dba/Account.js';
 
-interface CommunityMainDelegate {
-  onNewProposalRequestedInUserCommunityContentFragment(f: FvcUserCommunity): void;
-}
-
 export class FvcMain extends FViewContentMux {
   #fProposals: FvcProposalList;
   #fMemberList: FvcMemberList;
   #fGlobal: FvcGlobalCommunity;
   #fOverview: FvcUserCommunity;
-  protected _delegate!: CommunityMainDelegate;
 
   constructor() {
     super();
@@ -57,7 +52,7 @@ export class FvcMain extends FViewContentMux {
         {name : R.t("Overview"), value : "OVERVIEW", icon : ICON.COMMUNITY},
         this.#fOverview);
 
-    if (Account.isInCommunity(WebConfig.getOwner().getCommunityId())) {
+    if (Account.isInCommunity(WebConfig.getOwner()?.getCommunityId() || null)) {
       this.addTab(
           {name : R.t("Proposals"), value : "PROPOSALS", icon : ICON.ARTICLE},
           this.#fProposals);

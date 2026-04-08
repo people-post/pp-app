@@ -50,7 +50,7 @@ export class PProposalInfo extends PProposalBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_PROPOSAL_INFO.MAIN;
+    let s: string = _CPT_PROPOSAL_INFO.MAIN;
     s = s.replace("__ID_MAIN__", this._getSubElementId("M"));
     s = s.replace("__ID_ICON__", this._getSubElementId("I"));
     s = s.replace("__ID_TITLE__", this._getSubElementId("T"));

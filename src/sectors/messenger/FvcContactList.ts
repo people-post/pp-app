@@ -44,7 +44,7 @@ export class FvcContactList extends FScrollViewContent {
     let f = new FvcChat();
     f.setTarget(target);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Chat");
+    this.onFragmentRequestShowView(this, v, "Chat");
   }
 
   _renderContentOnRender(render: Render): void {

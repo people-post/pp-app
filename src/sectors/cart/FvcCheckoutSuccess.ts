@@ -31,7 +31,7 @@ export class FvcCheckoutSuccess extends FScrollViewContent {
   action(type: symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_CHECKOUT_SUCCESS.CONTINUE:
-      this._owner.onViewRequestPop(this);
+      this._requestPopView();
       break;
     case CF_CHECKOUT_SUCCESS.SHOW_ORDER:
       this.#onShowOrder();
@@ -53,6 +53,6 @@ export class FvcCheckoutSuccess extends FScrollViewContent {
     let f = new FvcOrder();
     f.setOrderId(this._orderId);
     v.setContentFragment(f);
-    this._owner.onContentFragmentRequestReplaceView(this, v, "Order");
+    this._requestReplaceView(v, "Order");
   }
 };

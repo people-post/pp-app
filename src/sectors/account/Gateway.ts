@@ -39,20 +39,17 @@ export class Gateway implements SectorGateway {
   #createWeb2MainViewContentFragment(): FViewContentBase {
     let f = new FViewContentMux();
 
-    let ff = new FvcStatistics();
-    f.addTab({name : R.t("Statistics"), value : "REPORT", icon : ICON.REPORT},
-             ff);
+    let fStatistics = new FvcStatistics();
+    f.addTab({name : R.t("Statistics"), value : "REPORT", icon : ICON.REPORT}, fStatistics);
 
-    ff = new FvcAddressList();
-    f.addTab({name : R.t("Addresses"), value : "ADDRESSES", icon : ICON.TAG},
-             ff);
+    let fAddressList = new FvcAddressList();
+    f.addTab({name : R.t("Addresses"), value : "ADDRESSES", icon : ICON.TAG}, fAddressList);
 
-    ff = new FvcBasic();
-    f.addTab({name : R.t("Settings"), value : "CONFIG", icon : ICON.CONFIG},
-             ff);
+    let fBasic = new FvcBasic();
+    f.addTab({name : R.t("Settings"), value : "CONFIG", icon : ICON.CONFIG}, fBasic);
 
-    ff = new FvcCloudFiles();
-    f.addTab({name : R.t("Files"), value : "FILES", icon : ICON.FILES}, ff);
+    let fCloudFiles = new FvcCloudFiles();
+    f.addTab({name : R.t("Files"), value : "FILES", icon : ICON.FILES}, fCloudFiles);
 
     f.switchTo("REPORT");
     return f;

@@ -98,6 +98,6 @@ export class FvcChatThreadList extends FScrollViewContent {
     let f = new FvcChat();
     f.setTarget(target);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Chat");
+    this.onFragmentRequestShowView(this, v, "Chat");
   }
 }

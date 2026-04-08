@@ -18,7 +18,7 @@ export const Utilities = {
       if (id == Account.getId()) {
         continue;
       }
-      let nn = Account.getUserNickname(id, null);
+      let nn = Account.getUserNickname(id, "");
       if (nn && nn.length) {
         if (items.length > 3) {
           items.push("...");

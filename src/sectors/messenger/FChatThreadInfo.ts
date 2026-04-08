@@ -41,7 +41,7 @@ export class FChatThreadInfo extends Fragment {
     let infos = this._getIconInfos();
     let files: RemoteFile[] = [];
     for (let i of infos) {
-      files.push(new RemoteFile({type : "image", url : i.url, bg : i.bg}));
+      files.push(new RemoteFile({id: "", type : "image", url : i.url, bg : i.bg}));
     }
     return files;
   }

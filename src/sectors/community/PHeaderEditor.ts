@@ -26,7 +26,7 @@ export class PHeaderEditor extends Panel {
   getUploadButtonPanel(): PanelWrapper { return this._pBgUpload; }
 
   _renderFramework(): string {
-    let s = _CPT_COMMUNITY_HEADER_EDITOR.MAIN;
+    let s: string = _CPT_COMMUNITY_HEADER_EDITOR.MAIN;
     s = s.replace("__ID_BG_IMAGE__", this._getSubElementId("B"));
     s = s.replace("__ID_COMMUNITY_ICON__", this._getSubElementId("I"));
     s = s.replace("__ID_BG_UPLOAD__", this._getSubElementId("U"));

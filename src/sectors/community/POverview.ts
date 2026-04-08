@@ -102,7 +102,7 @@ export class POverview extends Panel {
   getBtnIssueCoinPanel(): PanelWrapper { return this.#pBtnIssue; }
 
   _renderFramework(): string {
-    let s = _CPT_OVERVIEW.MAIN;
+    let s: string = _CPT_OVERVIEW.MAIN;
     s = s.replace("__ID_HEADER__", this._getSubElementId("H"));
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_DESCRIPTION__", this._getSubElementId("D"));

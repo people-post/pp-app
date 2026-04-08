@@ -9,10 +9,10 @@ export interface FOverviewDelegate {
 }
 
 export class FOverview extends Fragment {
-  private _communityId: string | null = null;
+  //private _communityId: string | null = null;
 
-  setCommunityId(id: string | null): void {
-    this._communityId = id;
+  setCommunityId(_id: string | null): void {
+    //this._communityId = id;
     this.render();
   }
 

@@ -52,14 +52,9 @@
     "legacy",
     "src/*.ts",
     "src/session",
-    "src/sectors/account",
-    "src/sectors/messenger",
     "src/sectors/workshop",
     "src/sectors/shop",
     "src/sectors/frontpage",
-    "src/sectors/community",
-    "src/sectors/auth",
-    "src/sectors/cart",
     "**/*.test.js",
     "**/__tests__/**"
   ]

@@ -3,15 +3,11 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { FOrderSupplierItem } from './FOrderSupplierItem.js';
 import { SupplierOrderPublic } from '../../common/datatypes/SupplierOrderPublic.js';
 import type Render from '../../lib/ui/renders/Render.js';
-
-interface OrderItemData {
-  getItems(): SupplierOrderPublic[];
-  getCurrencyId(): string;
-}
+import type { SupplierOrderPublicData } from '../../types/backend2.js';
 
 export class FOrderItem extends Fragment {
   protected _fSubItems: FSimpleFragmentList;
-  protected _item: OrderItemData | null;
+  protected _item: SupplierOrderPublic<SupplierOrderPublicData> | null;
 
   constructor() {
     super();
@@ -20,7 +16,7 @@ export class FOrderItem extends Fragment {
     this._item = null;
   }
 
-  setItem(item: OrderItemData): void { this._item = item; }
+  setItem(item: SupplierOrderPublic<SupplierOrderPublicData>): void { this._item = item; }
 
   _renderOnRender(render: Render): void {
     if (!this._item) {

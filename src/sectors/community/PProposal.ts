@@ -31,7 +31,7 @@ export class PProposal extends PProposalBase {
   getContentPanel(): Panel { return this._pContent; }
 
   _renderFramework(): string {
-    let s = _CPT_PROPOSAL.MAIN;
+    let s: string = _CPT_PROPOSAL.MAIN;
     s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
     s = s.replace("__ID_SUBTITLE__", this._getSubElementId("ST"));
     s = s.replace("__ID_VOTING_SUMMARY__", this._getSubElementId("VS"));

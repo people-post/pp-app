@@ -7,7 +7,7 @@ export const GMessenger = (function() {
   let _mHandlers = new Map<string, MessageHandler>();
 
   function _getOrInitHandler(target: ChatTarget): MessageHandler {
-    if (!_mHandlers.has(target.getId())) {
+    if (!_mHandlers.has(target.getId() || "")) {
       let h: MessageHandler;
       if (target.isGroup()) {
         h = new GroupMessageHandler();
@@ -15,9 +15,9 @@ export const GMessenger = (function() {
         h = new PeerMessageHandler();
       }
       h.setTarget(target);
-      _mHandlers.set(target.getId(), h);
+      _mHandlers.set(target.getId() || "", h);
     }
-    return _mHandlers.get(target.getId())!;
+    return _mHandlers.get(target.getId() || "")!;
   }
 
   return {
