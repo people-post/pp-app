@@ -1,15 +1,13 @@
 import { T_DATA } from '../../common/plt/Events.js';
-import { FChatThreadInfo } from './FChatThreadInfo.js';
+import { FChatThreadInfo, IconInfo } from './FChatThreadInfo.js';
 import { Users } from '../../common/dba/Users.js';
 import { Account } from '../../common/dba/Account.js';
 
-interface ConversationInfoDelegate {
+export interface ConversationInfoDelegate {
   onClickInConversationInfoFragment(f: FConversationInfo, threadId: string): void;
 }
 
 export class FConversationInfo extends FChatThreadInfo {
-  protected _delegate!: ConversationInfoDelegate;
-
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PROFILE:
@@ -22,23 +20,29 @@ export class FConversationInfo extends FChatThreadInfo {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _getIconInfos(): Array<{ url: string; bg: string }> {
-    let infos: Array<{ url: string; bg: string }> = [];
+  _getIconInfos(): IconInfo[] {
+    let infos: IconInfo[] = [];
     let u = Users.get(this._threadId);
     if (u) {
-      infos.push({url : u.getIconUrl(), bg : u.getBackgroundColor()});
+      infos.push({url : u.getIconUrl(), bg : u.getBackgroundColor() ?? ""});
     }
     return infos;
   }
 
   _renderTitle(): string {
-    if (Account) {
+    if (this._threadId) {
       return Account.getUserNickname(this._threadId, "Unknown user");
     }
     return "Unknown user";
   }
 
   _onClick(): void {
-    this._delegate.onClickInConversationInfoFragment(this, this._threadId);
+    if (!this._threadId) {
+      return;
+    }
+    const delegate = this.getDelegate<ConversationInfoDelegate>();
+    if (delegate) {
+      delegate.onClickInConversationInfoFragment(this, this._threadId);
+    }
   }
 }

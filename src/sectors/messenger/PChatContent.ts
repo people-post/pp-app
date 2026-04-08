@@ -32,7 +32,7 @@ export class PChatContent extends Panel {
   }
 
   _renderFramework(): string {
-    let s = _CPT_CHAT_VIEW_CONTENT.MAIN;
+    let s: string = _CPT_CHAT_VIEW_CONTENT.MAIN;
     s = s.replace("__ID_HEADER__", this._getSubElementId("H"));
     s = s.replace("__ID_CONTENT__", this._getSubElementId("T"));
     s = s.replace("__ID_CONSOLE__", this._getSubElementId("S"));

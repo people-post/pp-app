@@ -1,4 +1,15 @@
-export const CF_CHAT_MESSAGE = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
+import { T_ACTION } from '../../common/plt/Events.js';
+import { Events } from '../../lib/framework/Events.js';
+import { Users } from '../../common/dba/Users.js';
+import { Groups } from '../../common/dba/Groups.js';
+import { Utilities } from '../../common/Utilities.js';
+import type { User as UserType } from '../../types/user.js';
+import type { ChatTarget } from '../../common/datatypes/ChatTarget.js';
+import { Account } from '../../common/dba/Account.js';
+
+const CF_CHAT_MESSAGE = {
   GROUP_INFO : "CF_CHAT_MESSAGE_1",
   USER_INFO : "CF_CHAT_MESSAGE_2",
 } as const;
@@ -22,16 +33,10 @@ const _CFT_CHAT_MESSAGE = {
   </span>`,
 } as const;
 
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
-import { T_ACTION } from '../../common/plt/Events.js';
-import { Events } from '../../lib/framework/Events.js';
-import { Users } from '../../common/dba/Users.js';
-import { Groups } from '../../common/dba/Groups.js';
-import { Utilities } from '../../common/Utilities.js';
-import type { User } from '../../common/datatypes/User.js';
-import type { ChatTarget } from '../../common/datatypes/ChatTarget.js';
-import { Account } from '../../common/dba/Account.js';
+interface FormattedMessageData {
+  id: string;
+  data: Record<string, unknown>;
+}
 
 export class FChatMessage extends Fragment {
   protected _message: ChatMessage | null = null;
@@ -76,7 +81,7 @@ export class FChatMessage extends Fragment {
     }
 
     let fromUser = Users.get(this._message.getFromUserId());
-    let s = _CFT_CHAT_MESSAGE.SENDER_MAIN;
+    let s: string = _CFT_CHAT_MESSAGE.SENDER_MAIN;
     if (fromUser) {
       s = s.replace("__SENDER__", this.#renderUserLink(fromUser));
     } else {
@@ -97,13 +102,13 @@ export class FChatMessage extends Fragment {
       return "";
     }
 
-    let s = _CFT_CHAT_MESSAGE.OWNER_MAIN;
+    let s: string = _CFT_CHAT_MESSAGE.OWNER_MAIN;
     s = s.replace("__TEXT__", this.#makeMessageContent(this._message));
     return s;
   }
 
   #renderMessageContentWithUserName(message: ChatMessage): string {
-    let s = _CFT_CHAT_MESSAGE.GROUP_MSG_BODY;
+    let s: string = _CFT_CHAT_MESSAGE.GROUP_MSG_BODY;
     s = s.replace("__FROM_USER_NAME__",
                   Account.getUserNickname(message.getFromUserId()));
     s = s.replace("__TEXT__", this.#renderMessageContent(message));
@@ -111,7 +116,7 @@ export class FChatMessage extends Fragment {
   }
 
   #renderMessageContent(message: ChatMessage): string {
-    let s = this.#makeMessageContent(message);
+    let s: string = this.#makeMessageContent(message);
     return _CFT_CHAT_MESSAGE.TEXT.replace("__TEXT__", s);
   }
 
@@ -119,7 +124,7 @@ export class FChatMessage extends Fragment {
     let s = "";
     switch (message.getType()) {
     case ChatMessage.T_TYPE.FMT:
-      s = this.#renderFormattedMsg(message.getData() as { id: string; data: Record<string, unknown> });
+      s = this.#renderFormattedMsg(message.getData() as FormattedMessageData);
       break;
     default:
       s = String(message.getData());
@@ -128,9 +133,9 @@ export class FChatMessage extends Fragment {
     return s;
   }
 
-  #renderFormattedMsg(msg: { id: string; data: Record<string, unknown> }): string {
+  #renderFormattedMsg(msg: FormattedMessageData): string {
     let s = "";
-    let t = ChatMessage.T_FMT_TEMPLATES[msg.id];
+    let t: string | undefined = ChatMessage.T_FMT_TEMPLATES[msg.id as keyof typeof ChatMessage.T_FMT_TEMPLATES];
     switch (msg.id) {
     case ChatMessage.T_FMT.REQUEST_ACCEPT:
       s = t.replace("__NAME__", this.#renderGroupLink(String(msg.data.GROUP_ID)));
@@ -166,8 +171,8 @@ export class FChatMessage extends Fragment {
                                        name);
   }
 
-  #renderUserLink(user: User): string {
-    let s = _CFT_CHAT_MESSAGE.FROM_USER;
+  #renderUserLink(user: UserType): string {
+    let s: string = _CFT_CHAT_MESSAGE.FROM_USER;
     s = s.replace("__ID__", user.getId());
     s = s.replace("__ICON__", user.getIconUrl());
     return s;

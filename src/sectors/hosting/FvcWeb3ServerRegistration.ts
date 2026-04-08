@@ -4,23 +4,18 @@ import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Account } from '../../common/dba/Account.js';
+import { Web3PeerPublisherAgent } from '../../common/pdb/Web3Publisher.js';
 
-interface Web3Agent {
-  getHostName(): string;
-  asIsNameRegistrable(name: string): Promise<boolean>;
-}
-
-interface ServerRegistrationDelegate {
+export interface FvcWeb3ServerRegistrationDelegate {
   onRegistrationCanceledInServerRegistrationContentFragment(f: FvcWeb3ServerRegistration): void;
   onRegistrationSuccessInServerRegistrationContentFragment(f: FvcWeb3ServerRegistration): void;
 }
 
 export class FvcWeb3ServerRegistration extends FScrollViewContent {
-  #agent: Web3Agent | null;
+  #agent: Web3PeerPublisherAgent | null;
   #fNameInput: TextInput;
   #btnSubmit: Button;
   #btnCancel: Button;
-  protected _delegate!: ServerRegistrationDelegate;
 
   constructor() {
     super();
@@ -41,7 +36,7 @@ export class FvcWeb3ServerRegistration extends FScrollViewContent {
     this.setChild("btnCancel", this.#btnCancel);
   }
 
-  setAgent(agent: Web3Agent): void { this.#agent = agent; }
+  setAgent(agent: Web3PeerPublisherAgent): void { this.#agent = agent; }
 
   onSimpleButtonClicked(fBtn: Button): void {
     switch (fBtn) {
@@ -49,12 +44,15 @@ export class FvcWeb3ServerRegistration extends FScrollViewContent {
       this.#onSubmit();
       break;
     default:
-      this._delegate.onRegistrationCanceledInServerRegistrationContentFragment(
-          this);
+      const delegate = this.getDelegate<FvcWeb3ServerRegistrationDelegate>();
+      if (delegate) {
+        delegate.onRegistrationCanceledInServerRegistrationContentFragment(this);
+      }
       break;
     }
   }
-  onInputChangeInTextInputFragment(fInput: TextInput, value: string): void { this.#testName(value); }
+
+  onInputChangeInTextInputFragment(_fInput: TextInput, value: string): void { this.#testName(value); }
 
   _renderContentOnRender(render: PanelWrapper): void {
     if (!this.#agent) {
@@ -91,8 +89,8 @@ export class FvcWeb3ServerRegistration extends FScrollViewContent {
       return;
     }
     this.#agent.asIsNameRegistrable(name)
-        .then(b => this.#onNameResult(b))
-        .catch(e => this.#onNameResult(false));
+        .then((b: boolean) => this.#onNameResult(b))
+        .catch((_e: unknown) => this.#onNameResult(false));
   }
 
   #onNameResult(b: boolean): void {
@@ -117,8 +115,11 @@ export class FvcWeb3ServerRegistration extends FScrollViewContent {
   }
 
   #onRegisterSuccess(): void {
-    this._delegate.onRegistrationSuccessInServerRegistrationContentFragment(
+    const delegate = this.getDelegate<FvcWeb3ServerRegistrationDelegate>();
+    if (delegate) {
+      delegate.onRegistrationSuccessInServerRegistrationContentFragment(
         this);
+    }
   }
 
   #onRegisterError(e: unknown): void {

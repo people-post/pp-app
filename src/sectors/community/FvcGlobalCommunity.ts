@@ -1,7 +1,19 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FGlobalCommunityInfo } from './FGlobalCommunityInfo.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
+import { Events } from '../../lib/framework/Events.js';
+import { Users } from '../../common/dba/Users.js';
+import { Utilities } from '../../common/Utilities.js';
+import { Account } from '../../common/dba/Account.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
 export const CF_GLOBAL_COMMUNITY_CONTENT = {
   VIEW_USER : "CF_COMMUNITY_CONTENT_1",
 } as const;
 
+/*
 const _CFT_GLOBAL_COMMUNITY_CONTENT = {
   HOF : `<ol>
     <li>By lifetime credit</li>
@@ -19,18 +31,7 @@ const _CFT_GLOBAL_COMMUNITY_CONTENT = {
     <li>Vote to</li>
   </ol>`,
 } as const;
-
-import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
-import { FGlobalCommunityInfo } from './FGlobalCommunityInfo.js';
-import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
-import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
-import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
-import { Events } from '../../lib/framework/Events.js';
-import { Users } from '../../common/dba/Users.js';
-import { Utilities } from '../../common/Utilities.js';
-import type Render from '../../lib/ui/renders/Render.js';
-import { Account } from '../../common/dba/Account.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+*/
 
 export class FvcGlobalCommunity extends FScrollViewContent {
   protected _userId: string | null = null;
@@ -85,7 +86,7 @@ export class FvcGlobalCommunity extends FScrollViewContent {
     pp.getContentPanel().replaceContent(this.#renderPersonal());
   }
 
-  #renderHof(): string { return ""; }
+  // #renderHof(): string { return ""; }
 
   #renderPersonal(): string {
     let user = Users.get(this._userId);

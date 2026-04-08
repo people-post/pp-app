@@ -14,7 +14,7 @@ import { Api } from '../../common/plt/Api.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { Account } from '../../common/dba/Account.js';
 
-interface CreateChatTargetDelegate {
+export interface CreateChatTargetDelegate {
   onTargetCreatedInCreateChatTargetContentFragment(f: FvcCreateChatTarget, target: ChatTarget): void;
 }
 
@@ -24,7 +24,6 @@ export class FvcCreateChatTarget extends FScrollViewContent {
   protected _fContacts: SimpleLongListFragment;
   protected _fActions: ButtonList;
   protected _selectedIds: string[] = [];
-  protected _delegate!: CreateChatTargetDelegate;
 
   constructor() {
     super();
@@ -109,7 +108,7 @@ export class FvcCreateChatTarget extends FScrollViewContent {
     this._fActions.render();
   }
 
-  #onInputCancelled(): void { this._owner.onContentFragmentRequestPopView(this); }
+  #onInputCancelled(): void { this._requestPopView(); }
 
   #onInputOk(): void {
     let n = this._selectedIds.length;
@@ -120,9 +119,11 @@ export class FvcCreateChatTarget extends FScrollViewContent {
       let target = new ChatTarget();
       target.setId(this._selectedIds[0]);
       target.setIdType(SocialItem.TYPE.USER);
-      this._owner.onContentFragmentRequestPopView(this);
-      this._delegate.onTargetCreatedInCreateChatTargetContentFragment(this,
-                                                                      target);
+      this._requestPopView();
+      const delegate = this.getDelegate<CreateChatTargetDelegate>();
+      if (delegate) {
+        delegate.onTargetCreatedInCreateChatTargetContentFragment(this, target);
+      }
     } else {
       this.#asyncCreateGroup(this._selectedIds);
     }
@@ -152,8 +153,10 @@ export class FvcCreateChatTarget extends FScrollViewContent {
     let target = new ChatTarget();
     target.setId(g.getId());
     target.setIdType(SocialItem.TYPE.GROUP);
-    this._owner.onContentFragmentRequestPopView(this);
-    this._delegate.onTargetCreatedInCreateChatTargetContentFragment(this,
-                                                                    target);
+    this._requestPopView();
+    const delegate = this.getDelegate<CreateChatTargetDelegate>();
+    if (delegate) {
+      delegate.onTargetCreatedInCreateChatTargetContentFragment(this, target);
+    }
   }
 }

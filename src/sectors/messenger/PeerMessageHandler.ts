@@ -3,7 +3,7 @@ import { MessageHandler } from './MessageHandler.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Signal } from '../../common/dba/Signal.js';
 import { STUN_URLS } from '../../common/constants/Constants.js';
-import type { ClientSignalData } from '../../common/datatypes/ClientSignal.js';
+import type { ClientSignalData } from '../../types/backend2.js';
 import { Account } from '../../common/dba/Account.js';
 
 export class PeerMessageHandler extends MessageHandler {
@@ -48,11 +48,19 @@ export class PeerMessageHandler extends MessageHandler {
     }
   }
 
-  #initPeerConnection(toUserId: string): RTCPeerConnection {
+  #initPeerConnection(toUserId: string | null): RTCPeerConnection | null {
+    if (!toUserId) {
+      return null;
+    }
+    const id = Account.getId();
+    if (!id) {
+      return null;
+    }
+    let iceUrl = WebConfig.getIceUrl();
     let config: RTCConfiguration = {
       iceServers : [
         {urls : [...STUN_URLS]}, {
-          urls : [ WebConfig.getIceUrl() ],
+          urls : iceUrl ? [ iceUrl ] : [],
           username : "myuser",
           credential : "mypass"
         }
@@ -68,7 +76,7 @@ export class PeerMessageHandler extends MessageHandler {
         this.#onIceGatheringStageChange(conn);
     conn.createOffer({offerToReceiveAudio : true}).then(offer => {
       conn.setLocalDescription(offer);
-      Signal.sendPeerConnectionOffer(Account.getId(), toUserId, offer);
+      Signal.sendPeerConnectionOffer(id, toUserId, offer);
     });
     return conn;
   }
@@ -81,21 +89,35 @@ export class PeerMessageHandler extends MessageHandler {
 
   #onIceGatheringStageChange(_conn: RTCPeerConnection): void {}
   #onIceConnectionStageChange(_conn: RTCPeerConnection): void {}
-  #onIceCandidate(conn: RTCPeerConnection, e: RTCPeerConnectionIceEvent): void {
+  #onIceCandidate(_conn: RTCPeerConnection, e: RTCPeerConnectionIceEvent): void {
     if (e.candidate) {
-      Signal.sendIceCandidate(Account.getId(), this._target.getId(),
-                                  e.candidate);
+      const id = Account.getId();
+      if (!id) {
+        return;
+      }
+      const targetId = this._target.getId();
+      if (!targetId) {
+        return;
+      }
+      Signal.sendIceCandidate(id, targetId, e.candidate);
     }
   }
 
   #handlePeerConnectionOffer(offer: RTCSessionDescriptionInit): void {
+    const id = Account.getId();
+    if (!id) {
+      return;
+    }
+    const targetId = this._target.getId();
+    if (!targetId) {
+      return;
+    }
     if (this._peerConnection) {
       this._peerConnection.setRemoteDescription(offer);
       this._peerConnection.createAnswer().then(answer => {
         if (this._peerConnection) {
           this._peerConnection.setLocalDescription(answer);
-          Signal.sendPeerConnectionAnswer(Account.getId(),
-                                            this._target.getId(), answer);
+          Signal.sendPeerConnectionAnswer(id, targetId, answer);
         }
       });
     }

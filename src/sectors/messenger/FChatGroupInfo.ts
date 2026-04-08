@@ -1,12 +1,11 @@
 import { T_DATA } from '../../common/plt/Events.js';
 import { Groups } from '../../common/dba/Groups.js';
 import { Users } from '../../common/dba/Users.js';
-import { FChatThreadInfo } from './FChatThreadInfo.js';
+import { FChatThreadInfo, IconInfo } from './FChatThreadInfo.js';
 import { Utilities as MessengerUtilities } from './Utilities.js';
 
-interface IconInfo {
-  url: string;
-  bg: string;
+export interface ChatGroupInfoDelegate {
+  onClickInChatGroupInfoFragment(f: FChatGroupInfo, threadId: string): void;
 }
 
 export class FChatGroupInfo extends FChatThreadInfo {
@@ -30,16 +29,27 @@ export class FChatGroupInfo extends FChatThreadInfo {
       for (let id of g.getMemberIds()) {
         let u = Users.get(id);
         if (u) {
-          infos.push({url : u.getIconUrl(), bg : u.getBackgroundColor()});
+          infos.push({url : u.getIconUrl(), bg : u.getBackgroundColor() ?? ""});
         }
       }
     }
     return infos;
   }
 
-  _renderTitle(): string { return MessengerUtilities.getGroupName(this._threadId); }
+  _renderTitle(): string {
+    if (!this._threadId) {
+      return "Unknown group";
+    }
+    return MessengerUtilities.getGroupName(this._threadId);
+  }
 
   _onClick(): void {
-    this._delegate.onClickInChatGroupInfoFragment(this, this._threadId);
+    if (!this._threadId) {
+      return;
+    }
+    const delegate = this.getDelegate<ChatGroupInfoDelegate>();
+    if (delegate) {
+      delegate.onClickInChatGroupInfoFragment(this, this._threadId);
+    }
   }
 }

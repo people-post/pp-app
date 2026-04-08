@@ -6,14 +6,13 @@ import { Api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 
-interface ConversationOptionsDelegate {
+export interface ConversationOptionsDelegate {
   onConversationDeletedInConversationOptionsContentFragment(f: FvcConversationOptions): void;
 }
 
 export class FvcConversationOptions extends FScrollViewContent {
   protected _fDelete: Button;
   protected _target: ChatTarget | null = null;
-  protected _delegate!: ConversationOptionsDelegate;
 
   constructor() {
     super();
@@ -47,16 +46,21 @@ export class FvcConversationOptions extends FScrollViewContent {
     if (!this._target) {
       return;
     }
-
+    const id = this._target.getId();
+    if (!id) {
+      return;
+    }
     let url = "/api/messenger/delete_chat";
     let fd = new FormData();
-    fd.append("target_id", this._target.getId());
+    fd.append("target_id", id);
     Api.asFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
   }
 
   #onDeleteRRR(_data: unknown): void {
-    this._owner.onContentFragmentRequestPopView(this);
-    this._delegate.onConversationDeletedInConversationOptionsContentFragment(
-        this);
+    this._requestPopView();
+    const delegate = this.getDelegate<ConversationOptionsDelegate>();
+    if (delegate) {
+      delegate.onConversationDeletedInConversationOptionsContentFragment(this);
+    }
   }
 }

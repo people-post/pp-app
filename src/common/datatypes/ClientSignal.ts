@@ -1,3 +1,5 @@
+import type { ClientSignalData } from '../../types/backend2.js';
+
 export class ClientSignal {
   // Partially synced with backend
   static readonly T_SOURCE = {
@@ -14,12 +16,7 @@ export class ClientSignal {
     ICE_CANDIDATE: 'ICE_CANDIDATE',
   } as const;
 
-  private _data: {
-    source: string;
-    type?: string;
-    from_id?: string;
-    data?: unknown;
-  };
+  private _data: ClientSignalData;
 
   constructor() {
     // TODO: Make a base class?

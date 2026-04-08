@@ -1,4 +1,14 @@
-export const CF_CHAT_THREAD_INFO = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { RemoteFile } from '../../common/datatypes/RemoteFile.js';
+import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
+import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
+import { Notifications } from '../../common/dba/Notifications.js';
+import type { MessageThreadInfo } from '../../common/datatypes/MessageThreadInfo.js';
+
+const CF_CHAT_THREAD_INFO = {
   ON_CLICK : "CF_CHAT_THREAD_INFO_1",
 } as const;
 
@@ -14,15 +24,10 @@ if (typeof window !== 'undefined') {
   window.CF_CHAT_THREAD_INFO = CF_CHAT_THREAD_INFO;
 }
 
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { RemoteFile } from '../../common/datatypes/RemoteFile.js';
-import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
-import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
-import { Notifications } from '../../common/dba/Notifications.js';
-import type { MessageThreadInfo } from '../../common/datatypes/MessageThreadInfo.js';
+export interface IconInfo {
+  url: string;
+  bg: string;
+}
 
 export class FChatThreadInfo extends Fragment {
   protected _fThumbnail: FilesThumbnailFragment;
@@ -61,7 +66,7 @@ export class FChatThreadInfo extends Fragment {
     }
   }
 
-  _getIconInfos(): Array<{ url: string; bg: string }> { return []; }
+  _getIconInfos(): IconInfo[] { return []; }
 
   _renderOnRender(render: PanelWrapper): void {
     let pList = new ListPanel();

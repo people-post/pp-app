@@ -78,6 +78,10 @@ export class Web3OwnerUser implements UserType {
     return this.#owner.getBriefBio();
   }
 
+  getReferrerId(): string | null {
+    return null;
+  }
+
   isFollowingUser(): boolean {
     return this.#owner.isFollowingUser();
   }

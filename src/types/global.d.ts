@@ -193,7 +193,7 @@ declare global {
         getAgents(): Web3Agent[];
       };
       web3Storage?: {
-        getAgents(id: string): Web3Agent[];
+        getAgents(id?: string): Web3Agent[];
       };
     };
   }

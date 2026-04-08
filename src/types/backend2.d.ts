@@ -130,11 +130,14 @@ export interface CurrencyData extends ServerDataObjectData {
   icon: string | null;
 }
 
-interface MessageData extends ServerDataObjectData {
+export interface MessageData extends ServerDataObjectData {
+  id: string;
   from_user_id: string;
+  to_user_id: string | null;
   in_group_id: string | null;
   data: unknown;
   type: string;
+  created_at: number;
 }
 
 export interface MessageThreadData {
@@ -562,6 +565,13 @@ export interface ProposalData extends ServerDataObjectData {
 interface TributeData {
   type: string | null;
   data: unknown;
+}
+
+export interface ClientSignalData {
+  source: string;
+  type?: string;
+  from_id?: string;
+  data?: unknown;
 }
 
 interface CommunityProfileConfigData {

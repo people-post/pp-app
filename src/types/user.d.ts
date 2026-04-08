@@ -70,6 +70,8 @@ export interface User {
 
   getBriefBio(): string;
 
+  getReferrerId(): string | null;
+
   /**
    * Check if the user is following the current logged-in user
    * @returns true if following, false otherwise

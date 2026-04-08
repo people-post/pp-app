@@ -21,6 +21,8 @@ import { ICON } from '../../common/constants/Icons.js';
 import { R } from '../../common/constants/R.js';
 import { Account } from '../../common/dba/Account.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import type { User as UserType } from '../../types/user.js';
+import { UserPublicProfile } from '../../types/backend2.js';
 
 const CF_USER_INFO_HERO_BANNER = {
   FOLLOW : "CF_USER_INFO_HERO_BANNER_1",
@@ -79,6 +81,10 @@ export interface FUserInfoHeroBannerDataSource {
 export interface FUserInfoHeroBannerDelegate {
   onUserInfoHeroBannerFragmentRequestStartChat(f: FUserInfoHeroBanner, target: ChatTarget): void;
   onUserInfoHeroBannerFragmentRequestShowView(f: FUserInfoHeroBanner, view: View, title: string): void;
+}
+
+interface ApiUserUpdateBriefBioResponse {
+  profile: UserPublicProfile;
 }
 
 export class FUserInfoHeroBanner extends Fragment {
@@ -223,7 +229,7 @@ export class FUserInfoHeroBanner extends Fragment {
     }
   }
 
-  #renderBackgroundImage(user: User | undefined): string {
+  #renderBackgroundImage(user: UserType | null): string {
     let s: string = _CFT_USER_INFO_HERO_BANNER.BG_IMAGE;
     if (user) {
       s = s.replace("__BG_URL__", user.getInfoImageUrl() || "");
@@ -233,8 +239,8 @@ export class FUserInfoHeroBanner extends Fragment {
     return s;
   }
 
-  #renderUserIcon(user: User | null): string {
-    let s = _CFT_USER_INFO_HERO_BANNER.USER_ICON;
+  #renderUserIcon(user: UserType | null): string {
+    let s: string = _CFT_USER_INFO_HERO_BANNER.USER_ICON;
     if (user) {
       s = s.replace("__ICON_URL__", user.getIconUrl());
     } else {
@@ -243,7 +249,7 @@ export class FUserInfoHeroBanner extends Fragment {
     return s;
   }
 
-  #renderUploadButton(panel: Panel, user: User | null): void {
+  #renderUploadButton(panel: Panel, user: UserType | null): void {
     if (user && WebConfig.getOwnerId() == user.getId() &&
         Account.getId() == user.getId()) {
 
@@ -253,7 +259,10 @@ export class FUserInfoHeroBanner extends Fragment {
     }
   }
 
-  #renderName(user: User): string {
+  #renderName(user: UserType | null): string {
+    if (!user) {
+      return "";
+    }
     let userId: string = user.getId() || "";
     let s: string = _CFT_USER_INFO_HERO_BANNER.NAME;
     if (user.isFeed()) {
@@ -288,7 +297,7 @@ export class FUserInfoHeroBanner extends Fragment {
     return s;
   }
 
-  #renderSocialConnections(user: User | null): string {
+  #renderSocialConnections(user: UserType | null): string {
     if (!user) {
       return "";
     }
@@ -299,7 +308,10 @@ export class FUserInfoHeroBanner extends Fragment {
     return s;
   }
 
-  #renderDomain(user: User): string {
+  #renderDomain(user: UserType | null): string {
+    if (!user) {
+      return "";
+    }
     let s: string = _CFT_USER_INFO_HERO_BANNER.DOMAIN;
     s = s.replace("__TEXT__", user.getDomainUrl());
     s = s.replace("__URL__", user.getDomainUrl());
@@ -404,13 +416,12 @@ export class FUserInfoHeroBanner extends Fragment {
     let url = "/api/user/update_brief_biography";
     let fd = new FormData();
     fd.append('text', text);
-    Api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost<ApiUserUpdateBriefBioResponse>(this, url, fd)
         .then(d => this.#onBriefBioUpdateRRR(d));
   }
 
-  #onBriefBioUpdateRRR(data: unknown): void {
-    let dataObj = data as { profile: unknown };
-    Users.update(new User(dataObj.profile));
+  #onBriefBioUpdateRRR(data: ApiUserUpdateBriefBioResponse): void {
+    Users.update(new User(data.profile));
     this.render();
   }
 }

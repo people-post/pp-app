@@ -6,15 +6,24 @@ import { Events } from '../../lib/framework/Events.js';
 import Controller from '../../lib/ext/Controller.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
+import { MessageData } from '../../types/backend2.js';
+import { RemoteError } from '../../types/basic.js';
+
+interface ApiResponse {
+  error?: RemoteError;
+  data?: {
+    messages: MessageData[];
+  };
+}
 
 export class MessageHandler extends Controller {
   protected _target: ChatTarget;
-  protected _messageBuffer: BufferedList;
+  protected _messageBuffer: BufferedList<ChatMessage>;
 
   constructor() {
     super();
     this._target = new ChatTarget();
-    this._messageBuffer = new BufferedList();
+    this._messageBuffer = new BufferedList<ChatMessage>();
   }
 
   getTarget(): ChatTarget { return this._target; }
@@ -27,7 +36,7 @@ export class MessageHandler extends Controller {
 
   onUserInboxSignal(_message: unknown): void {}
 
-  asyncPost(data: string, onSuccess: (m: ChatMessage) => void, onFail: (err: string) => void): void {
+  asyncPost(data: string, onSuccess: (m: ChatMessage) => void, onFail: (err: RemoteError) => void): void {
     this.#asyncPost(data, onSuccess, onFail);
   }
 
@@ -36,21 +45,33 @@ export class MessageHandler extends Controller {
   }
 
   protected _asyncPullMessages(): void {
+    const id = this._target.getId();
+    if (!id) {
+      return;
+    }
     let url = "api/messenger/pull_message";
     let fd = new FormData();
-    fd.append("id", this._target.getId());
-    if (this._messageBuffer.getLatestObjectId()) {
-      fd.append("from_id", this._messageBuffer.getLatestObjectId());
+    fd.append("id", id);
+    const latestId = this._messageBuffer.getLatestObjectId();
+    if (latestId) {
+      fd.append("from_id", latestId);
     }
     if (this._target.isGroup()) {
       fd.append("is_group", "1");
     }
-    Api.asyncRawPost(url, fd, r => this.#onPullRRR(r));
+    Api.asyncRawPost(url, fd, r => this.#onPullRRR(r), null, null);
   }
 
   #createMessage(data: string): ChatMessage {
-    let m: Record<string, unknown> = {};
-    m.from_user_id = Account.getId();
+    let m: MessageData = {
+      id: "",
+      from_user_id: Account.getId()!,
+      to_user_id: null,
+      in_group_id: null,
+      data: data,
+      type: ChatMessage.T_TYPE.TEXT,
+      created_at: 0,
+    };
     if (this._target.isGroup()) {
       m.in_group_id = this._target.getId();
       m.to_user_id = null;
@@ -58,21 +79,23 @@ export class MessageHandler extends Controller {
       m.in_group_id = null;
       m.to_user_id = this._target.getId();
     }
-    m.type = ChatMessage.T_TYPE.TEXT;
-    m.data = data;
     return new ChatMessage(m);
   }
 
-  #asyncPost(data: string, onSuccess: (m: ChatMessage) => void, onFail: (err: string) => void): void {
+  #asyncPost(data: string, onSuccess: (m: ChatMessage) => void, onFail: (err: RemoteError) => void): void {
+    const id = this._target.getId();
+    if (!id) {
+      return;
+    }
     let url = "/api/messenger/post_message";
     let fd = new FormData();
-    fd.append("to", this._target.getId());
+    fd.append("to", id);
     if (this._target.isGroup()) {
       fd.append("is_group", "1");
     }
     fd.append("data", data);
     Api.asyncRawPost(url, fd,
-                     r => this.#onPostRRR(r, data, onSuccess, onFail));
+                     r => this.#onPostRRR(r, data, onSuccess, onFail), null, null);
   }
 
   #asyncPostFile(_file: File, _onSuccess: (m: ChatMessage) => void, _onFail: (err: string) => void): void {
@@ -82,11 +105,19 @@ export class MessageHandler extends Controller {
   }
 
   #asyncGetRelatedMessages(): void {
+    const id = this._target.getId();
+    if (!id) {
+      return;
+    }
+    const idType = this._target.getIdType();
+    if (!idType) {
+      return;
+    }
     let url = "/api/messenger/messages";
     let fd = new FormData();
-    fd.append("target_id", this._target.getId());
-    fd.append("target_type", this._target.getIdType());
-    Api.asyncRawPost(url, fd, r => this.#onPullRRR(r));
+    fd.append("target_id", id);
+    fd.append("target_type", idType);
+    Api.asyncRawPost(url, fd, r => this.#onPullRRR(r), null, null);
   }
 
   #asyncUpdateReadership(untilMessageId: string | null): void {
@@ -99,8 +130,8 @@ export class MessageHandler extends Controller {
     Api.asyncRawCall(url);
   }
 
-  #onPostRRR(responseText: string, data: string, onSuccess: (m: ChatMessage) => void, onFail: (err: string) => void): void {
-    let response = JSON.parse(responseText) as { error?: string };
+  #onPostRRR(responseText: string, data: string, onSuccess: (m: ChatMessage) => void, onFail: (err: RemoteError) => void): void {
+    let response = JSON.parse(responseText) as ApiResponse;
     if (response.error) {
       onFail(response.error);
     } else {
@@ -110,7 +141,7 @@ export class MessageHandler extends Controller {
   }
 
   #onPullRRR(responseText: string): void {
-    let response = JSON.parse(responseText) as { error?: string; data?: { messages: unknown[] } };
+    let response = JSON.parse(responseText) as ApiResponse;
     if (!response.error && response.data) {
       let messages: ChatMessage[] = [];
       for (let m of response.data.messages) {

@@ -54,12 +54,14 @@ export class FChatInputMenu extends Fragment {
     //                                  ICON.CALL_VIDEO));
   }
 
+  /*
   #renderActionIcon(action: string, icon: string): string {
-    let s = _CFT_CHAT_INPUT_MENU.ACTION_ICON;
+    let s: string = _CFT_CHAT_INPUT_MENU.ACTION_ICON;
     s = s.replace("__ACTION__", action);
     s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(icon));
     return s;
   }
+  */
 
   #renderSendFileButton(): string {
     let s = _CFT_CHAT_INPUT_MENU.BTN_FILE;

@@ -10,7 +10,6 @@ import { PChatContent } from './PChatContent.js';
 import { FvcConversationOptions } from './FvcConversationOptions.js';
 import { FChatMessage } from './FChatMessage.js';
 import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
-import { Notifications } from '../../common/dba/Notifications.js';
 import { Events } from '../../lib/framework/Events.js';
 import { Env } from '../../common/plt/Env.js';
 import { GMessenger } from './GMessenger.js';
@@ -19,6 +18,7 @@ import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
 import { MessageHandler } from './MessageHandler.js';
 import { R } from '../../common/constants/R.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { RemoteError } from '../../types/basic.js';
 
 interface MessagesData {
   target: ChatTarget;
@@ -83,7 +83,7 @@ export class FvcChat extends FViewContentBase {
   }
 
   onConversationDeletedInConversationOptionsContentFragment(_fvcOptions: FvcConversationOptions): void {
-    this._owner.onContentFragmentRequestPopView(this);
+    this._requestPopView();
   }
 
   onGuiActionButtonClick(fActionBtn: ActionButton): void {
@@ -185,9 +185,9 @@ export class FvcChat extends FViewContentBase {
   }
 
   #onPostSuccess(message: ChatMessage): void { this.#updateChatPanel([ message ]); }
-  #onPostFailed(text: string, err: string): void {
+  #onPostFailed(text: string, err: RemoteError): void {
     this.#fConsole.setText(text);
-    this._owner.onRemoteErrorInFragment(this, err);
+    this.onRemoteErrorInFragment(this, err);
   }
 
   #onP2PMore(): void {
@@ -200,10 +200,13 @@ export class FvcChat extends FViewContentBase {
     f.setTarget(this.#target);
     f.setDelegate(this);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "options");
+    this.onFragmentRequestShowView(this, v, "options");
   }
 
-  #onShowGroupInfo(groupId: string): void {
+  #onShowGroupInfo(groupId: string | null): void {
+    if (!groupId) {
+      return;
+    }
     Events.triggerTopAction(T_ACTION.SHOW_GROUP_INFO, groupId);
   }
 
