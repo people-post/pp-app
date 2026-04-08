@@ -1,16 +1,16 @@
 export const CF_CART_ITEM = {
-  SHOW_PRODUCT : Symbol(),
-  INCREASE_ITEM : Symbol(),
-  DESCREASE_ITEM : Symbol(),
-};
+  SHOW_PRODUCT : "CF_CART_ITEM_1",
+  INCREASE_ITEM : "CF_CART_ITEM_2",
+  DESCREASE_ITEM : "CF_CART_ITEM_3",
+} as const;
 
 const _CFT_CART_ITEM = {
   NAME :
-      `<span onclick="javascript:G.action(cart.CF_CART_ITEM.SHOW_PRODUCT, '__PRODUCT_ID__')">__NAME__</div>`,
+      `<span data-pp-action="${CF_CART_ITEM.SHOW_PRODUCT}" data-pp-args='["__PRODUCT_ID__"]'>__NAME__</div>`,
   QUANTITY : `<span>
-    <span class="button-like tiny low-profile s-cinfotext tw:font-bold" onclick="javascript:G.action(cart.CF_CART_ITEM.DESCREASE_ITEM, '__ITEM_ID__')">-</span>
+    <span class="button-like tiny low-profile s-cinfotext tw:font-bold" data-pp-action="${CF_CART_ITEM.DESCREASE_ITEM}" data-pp-args='["__ITEM_ID__"]'>-</span>
     <span class="quantity-between-knob">__QUANTITY__</span>
-    <span class="button-like tiny low-profile s-cinfotext tw:font-bold" onclick="javascript:G.action(cart.CF_CART_ITEM.INCREASE_ITEM, '__ITEM_ID__')">+</span>
+    <span class="button-like tiny low-profile s-cinfotext tw:font-bold" data-pp-action="${CF_CART_ITEM.INCREASE_ITEM}" data-pp-args='["__ITEM_ID__"]'>+</span>
   </span>`,
 };
 
@@ -127,7 +127,7 @@ export class FCartItem extends Fragment {
     }
   }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: symbol | string, ...args: unknown[]): void {
     switch (type) {
     case CF_CART_ITEM.SHOW_PRODUCT:
       this.#onProductClicked(args[0] as string);

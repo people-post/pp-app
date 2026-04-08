@@ -22,55 +22,37 @@ import { R } from '../../common/constants/R.js';
 import { Account } from '../../common/dba/Account.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-export const CF_USER_INFO_HERO_BANNER = {
-  FOLLOW : Symbol(),
-  UNFOLLOW : Symbol(),
-  SEND_MESSAGE : Symbol(),
-  SEND_FUND : Symbol(),
-  ON_INFO_IMAGE_CHANGE : Symbol(),
-  SHOW_FOLLOWERS : Symbol(),
-  SHOW_IDOLS : Symbol(),
+const CF_USER_INFO_HERO_BANNER = {
+  FOLLOW : "CF_USER_INFO_HERO_BANNER_1",
+  UNFOLLOW : "CF_USER_INFO_HERO_BANNER_2",
+  SEND_MESSAGE : "CF_USER_INFO_HERO_BANNER_3",
+  SEND_FUND : "CF_USER_INFO_HERO_BANNER_4",
+  ON_INFO_IMAGE_CHANGE : "CF_USER_INFO_HERO_BANNER_5",
+  SHOW_FOLLOWERS : "CF_USER_INFO_HERO_BANNER_6",
+  SHOW_IDOLS : "CF_USER_INFO_HERO_BANNER_7",
 } as const;
-
-// Make available on window for HTML string templates
-declare global {
-  interface Window {
-    hr?: {
-      CF_USER_INFO_HERO_BANNER?: typeof CF_USER_INFO_HERO_BANNER;
-      [key: string]: unknown;
-    };
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  if (!window.hr) {
-    window.hr = {};
-  }
-  window.hr.CF_USER_INFO_HERO_BANNER = CF_USER_INFO_HERO_BANNER;
-}
 
 const _CFT_USER_INFO_HERO_BANNER = {
   BG_IMAGE : `<img class="overview-header" src="__BG_URL__" alt=""></img>`,
   USER_ICON : `<img class="user-info-icon tw:w-s-icon2 tw:h-s-icon2" src="__ICON_URL__"></img>`,
   INFO_IMAGE_UPLOAD :
       `<span onclick="javascript:this.nextElementSibling.click()">Upload</span>
-    <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.ON_INFO_IMAGE_CHANGE, this.files[0])">`,
+    <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action('${CF_USER_INFO_HERO_BANNER.ON_INFO_IMAGE_CHANGE}', this.files[0])">`,
   NAME :
       `<span class="tw:inline-block tw:w-s-icon7 tw:h-s-icon7">__ICON__</span>&nbsp;<span>__NAME__</span> __ACTION_BTN__ __MSG_BTN__ __SEND_FUND_BTN__</div>`,
   MESSAGE_BTN :
-      `<span class="tw:inline-block tw:w-s-icon6 tw:h-s-icon6 tw:cursor-pointer" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SEND_MESSAGE, '__USER_ID__')">__ICON__</span>`,
+      `<span class="tw:inline-block tw:w-s-icon6 tw:h-s-icon6 tw:cursor-pointer" data-pp-action="${CF_USER_INFO_HERO_BANNER.SEND_MESSAGE}" data-pp-args='["__USER_ID__"]'>__ICON__</span>`,
   SEND_FUND_BTN :
-      `<span class="tw:inline-block tw:w-s-icon6 tw:h-s-icon6 tw:cursor-pointer" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SEND_FUND, '__USER_ID__')">__ICON__</span>`,
+      `<span class="tw:inline-block tw:w-s-icon6 tw:h-s-icon6 tw:cursor-pointer" data-pp-action="${CF_USER_INFO_HERO_BANNER.SEND_FUND}" data-pp-args='["__USER_ID__"]'>__ICON__</span>`,
   FOLLOW_BTN :
-      `<span class="button-like small s-primary" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.FOLLOW, '__USER_ID__')">follow</span>`,
+      `<span class="button-like small s-primary" data-pp-action="${CF_USER_INFO_HERO_BANNER.FOLLOW}" data-pp-args='["__USER_ID__"]'>follow</span>`,
   UNFOLLOW_BTN :
-      `<span class="button-like small pale" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.UNFOLLOW, '__USER_ID__')">unfollow...</span>`,
+      `<span class="button-like small pale" data-pp-action="${CF_USER_INFO_HERO_BANNER.UNFOLLOW}" data-pp-args='["__USER_ID__"]'>unfollow...</span>`,
   DOMAIN :
       `<span>Website: </span><a href="__URL__" target="_blank">__TEXT__&#x1f517;</a>`,
   SOCIAL_CONNECTIONS :
-      `<span class="button-like small low-profile s-cinfotext tw:font-bold" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SHOW_FOLLOWERS, '__USER_ID__')">__N_FOLLOWERS__ followers</span>
-  <span class="button-like small low-profile s-cinfotext tw:font-bold" onclick="javascript:G.action(hr.CF_USER_INFO_HERO_BANNER.SHOW_IDOLS, '__USER_ID__')">Following __N_IDOLS__</span>`,
+      `<span class="button-like small low-profile s-cinfotext tw:font-bold" data-pp-action="${CF_USER_INFO_HERO_BANNER.SHOW_FOLLOWERS}" data-pp-args='["__USER_ID__"]'>__N_FOLLOWERS__ followers</span>
+  <span class="button-like small low-profile s-cinfotext tw:font-bold" data-pp-action="${CF_USER_INFO_HERO_BANNER.SHOW_IDOLS}" data-pp-args='["__USER_ID__"]'>Following __N_IDOLS__</span>`,
   OWNER_PRIVATE_INFO : `<table class="tw:w-full">
     <tbody>
       <tr>

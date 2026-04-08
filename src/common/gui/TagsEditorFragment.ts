@@ -8,7 +8,7 @@ import { MAX } from '../constants/Constants.js';
 import { R } from '../constants/R.js';
 import { Tag } from '../datatypes/Tag.js';
 
-export const CF_TAGS_EDITOR = {
+const CF_TAGS_EDITOR = {
   TOGGLE : "CF_TAGS_EDITOR_1",
   NEW_TAG : "CF_TAGS_EDITOR_2",
   REMOVE_EXTRA_TAG : "CF_TAGS_EDITOR_3",
@@ -20,11 +20,11 @@ const _CFT_TAGS_EDITOR = {
       <span id="ID_EXTRA_TAGS">__EXTRA_TAGS__</span>
     </div>`,
   BTN_NEW_TAG :
-      `<span class="button-like small s-primary" onclick="javascript:G.action('${CF_TAGS_EDITOR.NEW_TAG}')">+New tag</span>`,
+      `<span class="button-like small s-primary" data-pp-action="${CF_TAGS_EDITOR.NEW_TAG}">+New tag</span>`,
   TAG :
-      `<span name="__NAME__" class="__CLASS__" value="__VALUE__" onclick="javascript:G.action('${CF_TAGS_EDITOR.TOGGLE}', this)">__TEXT__</span>`,
+      `<span name="__NAME__" class="__CLASS__" value="__VALUE__" data-pp-action="${CF_TAGS_EDITOR.TOGGLE}" data-pp-args='[\"$this\"]'>__TEXT__</span>`,
   EXTRA_TAG :
-      `<span class="tag selected">__TEXT__ <span class="button-like tiny" onclick="javascript:G.action('${CF_TAGS_EDITOR.REMOVE_EXTRA_TAG}', '__VALUE__')">x</span></span>`,
+      `<span class="tag selected">__TEXT__ <span class="button-like tiny" data-pp-action="${CF_TAGS_EDITOR.REMOVE_EXTRA_TAG}" data-pp-args='[\"__VALUE__\"]'>x</span></span>`,
 };
 
 export interface TagsEditorFragmentDataSource {

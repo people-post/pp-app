@@ -11,7 +11,7 @@ import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
 import type { RemoteFile as IRemoteFile } from '../../types/basic.js';
 
-export const CF_GALLERY = {
+const CF_GALLERY = {
   PREV_IMAGE_SLIDE : "CF_GALLERY_1",
   NEXT_IMAGE_SLIDE : "CF_GALLERY_2",
   SHOW_IMAGE_SLIDE : "CF_GALLERY_3",
@@ -24,8 +24,8 @@ const _CFT_GALLERY = {
   SLIDE_SHOW : `<div class="tw:text-center tw:h-full">
       <div id="__ID_SLIDES__" class="tw:h-full tw:relative tw:overflow-x-scroll tw:snap-x tw:snap-mandatory tw:whitespace-nowrap tw:flex tw:justify-start" onscroll="javascript:G.action('${CF_GALLERY.ON_SCROLL}', this)">
       </div>
-      <div class="slide-show-nav slide-show-prev tw:opacity-50 tw:bg-gray-500 tw:transition-opacity hover:tw:opacity-100" onclick="javascript:G.action('${CF_GALLERY.PREV_IMAGE_SLIDE}')">&#10094;</div>
-      <div class="slide-show-nav slide-show-next tw:opacity-50 tw:bg-gray-500 tw:transition-opacity hover:tw:opacity-100" onclick="javascript:G.action('${CF_GALLERY.NEXT_IMAGE_SLIDE}')">&#10095;</div>
+      <div class="slide-show-nav slide-show-prev tw:opacity-50 tw:bg-gray-500 tw:transition-opacity hover:tw:opacity-100" data-pp-action="${CF_GALLERY.PREV_IMAGE_SLIDE}">&#10094;</div>
+      <div class="slide-show-nav slide-show-next tw:opacity-50 tw:bg-gray-500 tw:transition-opacity hover:tw:opacity-100" data-pp-action="${CF_GALLERY.NEXT_IMAGE_SLIDE}">&#10095;</div>
       <div id="__ID_DOTS__" class="tw:absolute tw:w-full tw:bottom-0 tw:text-center"></div>
     </div>`,
   SLIDE_SHOW_SLIDE : `<div id="__ID_LABEL__" class="slide-show-label"></div>

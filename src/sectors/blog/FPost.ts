@@ -27,13 +27,13 @@ import type { BlogConfigData, Post } from '../../types/blog.js';
 import type { Fragment as FragmentType } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Account } from '../../common/dba/Account.js';
 
-export const CF_POST = {
+const CF_POST = {
   TOGGLE_PIN : "CF_POST_1",
 } as const;
 
 const _CFT_POST = {
   PIN :
-      `<span class="__CLASS__" onclick="javascript:G.action("${CF_POST.TOGGLE_PIN}")">__ICON__</span>`,
+      `<span class="__CLASS__" data-pp-action="${CF_POST.TOGGLE_PIN}">__ICON__</span>`,
 } as const;
 
 interface ApiTogglePinResponse {

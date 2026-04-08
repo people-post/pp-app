@@ -3,14 +3,14 @@ import { ICONS } from '../../lib/ui/Icons.js';
 import { ICON } from '../constants/Icons.js';
 import { UiUtilities } from '../../lib/ui/Utilities.js';
 
-export const CF_ACTION_BUTTON = {
+const CF_ACTION_BUTTON = {
   ONCLICK : "CF_GUI_ACTION_BUTTON_1",
 };
 
 // TODO: Relative is for badge, needs improvement
 const _CFT_ACTION_BUTTON = {
   MAIN : `<div class="menu-slot-icon-wrapper tw:p-[5px] tw:relative">
-      <a class="menu" href="javascript:void(0)" onclick="G.action('${CF_ACTION_BUTTON.ONCLICK}')">__ICON__</a>
+      <a class="menu" href="javascript:void(0)" data-pp-action="${CF_ACTION_BUTTON.ONCLICK}">__ICON__</a>
   </div>`,
 };
 

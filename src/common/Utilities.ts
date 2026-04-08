@@ -5,6 +5,7 @@ import { COUNTRIES } from './constants/CountryCodes.js';
 import { Env } from './plt/Env.js';
 import { R } from './constants/R.js';
 import { Currency } from './datatypes/Currency.js';
+import { CR_VIEW_FRAME } from '../lib/ui/controllers/views/View.js';
 
 class UtilitiesClass {
   isOrderReferenceId(key: string): boolean {
@@ -73,7 +74,7 @@ class UtilitiesClass {
 
   renderSmallButton(actionId: string, id: string, name: string, className: string = "s-primary"): string {
     let s =
-        `<span class="button-like small __CLASS_NAME__" onclick="javascript:G.action('__ACTION_ID__', '__ID__')">__NAME__</span>`;
+        `<span class="button-like small __CLASS_NAME__" data-pp-action="__ACTION_ID__" data-pp-args='["__ID__"]'>__NAME__</span>`;
     s = s.replace("__ACTION_ID__", actionId);
     s = s.replace("__NAME__", name);
     s = s.replace("__ID__", id);
@@ -98,12 +99,12 @@ class UtilitiesClass {
     }
     // Safari has issue with lookbehind, workaround needed...
     let btn1 =
-        `$1<a class="hashtag" href="javascript:void(0)" onclick="G.action(window.CR_VIEW_FRAME.ON_SEARCH, '$2')">$2</a>`;
+        `$1<a class="hashtag" href="javascript:void(0)" data-pp-action="${CR_VIEW_FRAME.ON_SEARCH}" data-pp-args='[\"$2\"]'>$2</a>`;
     s = s.replace(/([ >\w!\p{L}]{1})(#[\w!\p{L}]{2,32})/gu, btn1);
     // Second times for # right after first match
     s = s.replace(/([ >\w!\p{L}]{1})(#[\w!\p{L}]{2,32})/gu, btn1);
     let btn2 =
-        `<a class="hashtag" href="javascript:void(0)" onclick="G.action(window.CR_VIEW_FRAME.ON_SEARCH, '$&')">$&</a>`;
+        `<a class="hashtag" href="javascript:void(0)" data-pp-action="${CR_VIEW_FRAME.ON_SEARCH}" data-pp-args='[\"$&\"]'>$&</a>`;
     s = s.replace(/^(#[\w!\p{L}]{2,32})/gu, btn2);
     return s;
   }

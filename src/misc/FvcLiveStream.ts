@@ -6,27 +6,13 @@ import Render from '../lib/ui/renders/Render.js';
 import { Api } from '../common/plt/Api.js';
 import { R } from '../common/constants/R.js';
 
-declare global {
-  interface Window {
-    C_LIVE_STREAM: {
-      START_RECORD: string;
-      STOP_RECORD: string;
-      TOGGLE_VIDEO: string;
-      START_PREVIEW: string;
-      STOP_PREVIEW: string;
-    };
-  }
-}
-
-window.C_LIVE_STREAM = {
+const C_LIVE_STREAM = {
   START_RECORD : "C_LIVE_STREAM_1",
   STOP_RECORD : "C_LIVE_STREAM_2",
   TOGGLE_VIDEO : "C_LIVE_STREAM_3",
   START_PREVIEW : "C_LIVE_STREAM_4",
   STOP_PREVIEW : "C_LIVE_STREAM_5",
-}
-
-const C_LIVE_STREAM = window.C_LIVE_STREAM;
+} as const;
 
 const _CVT_LIVE_STREAM = {
   MAIN : `<div>
@@ -41,7 +27,7 @@ const _CVT_LIVE_STREAM = {
       <div>
         <span>Video:</span>
         <label class="switch tw:text-s-font5">
-            <input type="checkbox" checked onclick="javascript:G.action(C_LIVE_STREAM.TOGGLE_VIDEO, this.checked)">
+            <input type="checkbox" checked data-pp-action="${C_LIVE_STREAM.TOGGLE_VIDEO}" data-pp-args='[\"$checked\"]'>
             <span class="slider"></span>
         </label>
       </div>
@@ -53,13 +39,13 @@ const _CVT_LIVE_STREAM = {
       <br>
     </div>`,
   BTN_START_PREVIEW :
-      `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(C_LIVE_STREAM.START_PREVIEW)">Start Preview</a>`,
+      `<a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${C_LIVE_STREAM.START_PREVIEW}">Start Preview</a>`,
   BTN_START :
-      `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(C_LIVE_STREAM.START_RECORD)">Start</a>`,
+      `<a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${C_LIVE_STREAM.START_RECORD}">Start</a>`,
   BTN_STOP :
-      `<a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action(C_LIVE_STREAM.STOP_RECORD)">Stop</a>`,
+      `<a class="button-bar danger" href="javascript:void(0)" data-pp-action="${C_LIVE_STREAM.STOP_RECORD}">Stop</a>`,
   BTN_STOP_PREVIEW :
-      `<a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action(C_LIVE_STREAM.STOP_PREVIEW)">Stop Preview</a>`,
+      `<a class="button-bar danger" href="javascript:void(0)" data-pp-action="${C_LIVE_STREAM.STOP_PREVIEW}">Stop Preview</a>`,
 }
 
 interface MediaOption {

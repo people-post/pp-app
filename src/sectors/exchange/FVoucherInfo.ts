@@ -1,8 +1,11 @@
-window.CF_VOUCHER_INFO = {
+import { FExchangeItemInfo } from './FExchangeItemInfo.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
+
+const CF_VOUCHER_INFO = {
   DONATE : "CF_VOUCHER_INFO_1",
   CLAIM : "CF_VOUCHER_INFO_2",
   REDEEM : "CF_VOUCHER_INFO_3"
-}
+} as const;
 
 const _CVF_VOUCHER_INFO = {
   DETAIL : `<div>Claimed: __N_CLAIMED__</div>
@@ -12,17 +15,14 @@ const _CVF_VOUCHER_INFO = {
     <div>Redeemed: __N_REDEEMED__</div>
     <div>Recycled: __N_RECYCLED__</div>`,
   BTN_DONATE :
-      `<span class="button-like small s-primary" onclick="javascript:G.action(CF_VOUCHER_INFO.DONATE, '__ID__')">Donate...</span>`,
+      `<span class="button-like small s-primary" data-pp-action="${CF_VOUCHER_INFO.DONATE}" data-pp-args='["__ID__"]'>Donate...</span>`,
   BTN_CLAIM :
-      `<span class="button-like small s-primary" onclick="javascript:G.action(CF_VOUCHER_INFO.CLAIM, '__ID__')">Claim...</span>`,
+      `<span class="button-like small s-primary" data-pp-action="${CF_VOUCHER_INFO.CLAIM}" data-pp-args='["__ID__"]'>Claim...</span>`,
   BTN_REDEEM :
-      `<span class="button-like small danger" onclick="javascript:G.action(CF_VOUCHER_INFO.REDEEM, '__ID__')">Redeem...</span>`,
+      `<span class="button-like small danger" data-pp-action="${CF_VOUCHER_INFO.REDEEM}" data-pp-args='["__ID__"]'>Redeem...</span>`,
   CLAIM_HINT :
       `<span class="button-like small disabled">Available in __DT__.</span>`
 }
-
-import { FExchangeItemInfo } from './FExchangeItemInfo.js';
-import UtilitiesExt from '../../lib/ext/Utilities.js';
 
 interface VoucherItem {
   id: string;

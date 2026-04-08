@@ -1,7 +1,7 @@
-window.CF_EXCHANGE_ITEM_INFO = {
+const CF_EXCHANGE_ITEM_INFO = {
   BUY : "CF_EXCHANGE_ITEM_INFO_1",
   SELL : "CF_EXCHANGE_ITEM_INFO_2",
-}
+} as const;
 
 const _CVF_EXCHANGE_ITEM = {
   MAIN : `<table class="tw:w-full">
@@ -20,9 +20,9 @@ const _CVF_EXCHANGE_ITEM = {
     </table>`,
   ICON : ``,
   BTN_BUY :
-      `<span class="button-like small s-primary" onclick="javascript:G.action(CF_EXCHANGE_ITEM_INFO.BUY)">Buy...</span>`,
+      `<span class="button-like small s-primary" data-pp-action="${CF_EXCHANGE_ITEM_INFO.BUY}">Buy...</span>`,
   BTN_SELL :
-      `<span class="button-like small danger" onclick="javascript:G.action(CF_EXCHANGE_ITEM_INFO.SELL)">Sell...</span>`,
+      `<span class="button-like small danger" data-pp-action="${CF_EXCHANGE_ITEM_INFO.SELL}">Sell...</span>`,
   HINT_LOGIN :
       `<span class="tw:text-u-font5 tw:bg-white">Login or register for more options</span>`,
   HINT_SAFE_SITE :

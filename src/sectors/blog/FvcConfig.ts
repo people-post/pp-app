@@ -25,14 +25,14 @@ import { Account } from '../../common/dba/Account.js';
 import type { MenuItem } from '../../common/datatypes/MenuItem.js';
 import { BlogConfigData } from '../../types/blog.js';
 
-(window as any).CF_BLOG_CONFIG = {
+const CF_BLOG_CONFIG = {
   ADD_ROLE : "CF_BLOG_CONFIG_1",
-};
+} as const;
 
 const _CFT_BLOG_CONFIG_CONTENT = {
   ROLE_NAME_CELL : `__NAME__(__TOTAL__)`,
   BTN_NEW_ROLE : `<br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_BLOG_CONFIG.ADD_ROLE)">New writer group...</a>
+    <a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_BLOG_CONFIG.ADD_ROLE}">New writer group...</a>
     <br>`,
 } as const;
 
@@ -168,9 +168,9 @@ export class FvcConfig extends FScrollViewContent implements MenuConfigDataSourc
     super.handleSessionDataUpdate(dataType, _data);
   }
 
-  action(type: symbol, ..._args: unknown[]): void {
+  action(type: symbol | string, ..._args: unknown[]): void {
     switch (type) {
-    case (window as any).CF_BLOG_CONFIG.ADD_ROLE:
+    case CF_BLOG_CONFIG.ADD_ROLE:
       this.#onAddRole();
       break;
     default:

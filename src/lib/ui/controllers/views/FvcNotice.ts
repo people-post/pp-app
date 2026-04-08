@@ -1,13 +1,13 @@
 import { FScrollViewContent } from '../fragments/FScrollViewContent.js';
 
 export const CF_NOTICE = {
-  CLOSE : Symbol(),
+  CLOSE : "CF_NOTICE_1",
 } as const;
 
 const _CFT_NOTICE = {
   MAIN : `<div class="info-message">__MESSAGE__</div>
   <br>
-  <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(window.CF_NOTICE.CLOSE)">Close</a>`,
+  <a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_NOTICE.CLOSE}">Close</a>`,
 } as const;
 
 export class FvcNotice extends FScrollViewContent {
@@ -23,7 +23,7 @@ export class FvcNotice extends FScrollViewContent {
   setMessage(msg: string): void { this._msg = msg; }
   setCloseAction(func: () => void): void { this._fcnClose = func; }
 
-  action(type: symbol, ..._args: unknown[]): void {
+  action(type: symbol | string, ..._args: unknown[]): void {
     switch (type) {
     case CF_NOTICE.CLOSE:
       this.#onClose();
@@ -49,9 +49,3 @@ export class FvcNotice extends FScrollViewContent {
     }
   }
 }
-
-// Export to window for string template access
-if (typeof window !== 'undefined') {
-  (window as any).CF_NOTICE = CF_NOTICE;
-}
-

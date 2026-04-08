@@ -4,7 +4,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Menus } from '../dba/Menus.js';
 import { WebConfig } from '../dba/WebConfig.js';
 
-export const CF_MENU_ITEM_NAME = {
+const CF_MENU_ITEM_NAME = {
   ONCLICK : "CF_GUI_MENU_ITEM_NAME_1",
   DELETE : "CF_GUI_MENU_ITEM_NAME_2",
 }
@@ -17,13 +17,13 @@ const _CFT_MENU_ITEM_NAME = {
         __NAME__
         </td>
         <td class="tw:text-right">
-          <span class="button-like small danger" onclick="javascript:G.action('${CF_MENU_ITEM_NAME.DELETE}')">Delete...</span>
+          <span class="button-like small danger" data-pp-action="${CF_MENU_ITEM_NAME.DELETE}">Delete...</span>
         </td>
       </tr>
     </tbody>
   </table>`,
   DIR_NAME :
-      `<span class="tw:cursor-pointer tw:underline" onclick="javascript:G.action('${CF_MENU_ITEM_NAME.ONCLICK}')">__TEXT__</span>`,
+      `<span class="tw:cursor-pointer tw:underline" data-pp-action="${CF_MENU_ITEM_NAME.ONCLICK}">__TEXT__</span>`,
 }
 
 export class MenuItemName extends Fragment {

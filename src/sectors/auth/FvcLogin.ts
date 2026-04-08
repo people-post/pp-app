@@ -9,7 +9,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { Auth } from '../../common/dba/Auth.js';
 import { R } from '../../common/constants/R.js';
 
-export const CF_LOGIN = {
+const CF_LOGIN = {
   REGISTER : "CF_LOGIN_1",
   RETRIEVE_PASSWORD : "CF_LOGIN_2",
   ON_USERNAME_KEY_DOWN : "CF_LOGIN_3",
@@ -24,9 +24,9 @@ const _CFT_LOGIN = {
     <div><label class="tw:text-s-font5" for="password">__R_PASS__:</label></div>
     <div><input id="password" name="password" type="password" autocomplete="current-password" placeholder="__R_PASS_HINT__" onkeydown="javascript:G.action('${CF_LOGIN.ON_PASSWD_KEY_DOWN}', this)"></div>
     <div>
-      <a class="tw:text-s-font7" href="javascript:void(0)" onclick="javascript:G.action('${CF_LOGIN.RETRIEVE_PASSWORD}')">__R_FORGET_PASS__?</a>
+      <a class="tw:text-s-font7" href="javascript:void(0)" data-pp-action="${CF_LOGIN.RETRIEVE_PASSWORD}">__R_FORGET_PASS__?</a>
       <span class="tw:text-s-font7">__R_NO_ACCOUNT__?</span>
-      <a class="tw:text-s-font7" href="javascript:void(0)" onclick="javascript:G.action('${CF_LOGIN.REGISTER}')">__R_REGISTER__.</a>
+      <a class="tw:text-s-font7" href="javascript:void(0)" data-pp-action="${CF_LOGIN.REGISTER}">__R_REGISTER__.</a>
     </div>
   </div>
   </div>`,

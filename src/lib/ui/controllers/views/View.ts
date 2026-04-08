@@ -11,13 +11,8 @@ import { FViewContentBase, PreferredWidth, ViewContentFragmentOwner } from '../f
 
 // Note. following constants are used elsewhere, please be careful
 export const CR_VIEW_FRAME = {
-  ON_SEARCH : Symbol(),
+  ON_SEARCH : "CR_VIEW_FRAME_1",
 } as const;
-
-// Export to window for string template access
-if (typeof window !== 'undefined') {
-  (window as any).CR_VIEW_FRAME = CR_VIEW_FRAME;
-}
 
 export interface ViewOwner {
   onViewRequestPop(v: View): void;
@@ -124,7 +119,7 @@ export class View extends RenderController implements ViewContentFragmentOwner {
 
   reloadActionButton(): void { this.#fHeader.reloadActionButton(); }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: symbol | string, ...args: unknown[]): void {
     switch (type) {
     case CR_VIEW_FRAME.ON_SEARCH:
       this.#search(args[0] as string);

@@ -22,6 +22,7 @@ import { FNavigation } from './lib/ui/controllers/fragments/FNavigation.js';
 import { R } from './common/constants/R.js';
 import { WebConfig } from './common/dba/WebConfig.js';
 import { Account } from './common/dba/Account.js';
+import { installDomActionDelegator } from './lib/framework/DomActionDelegator.js';
 
 // Set initial Api config
 Api.setConfig({
@@ -128,6 +129,7 @@ const G = function(): GInterface {
 // Export to window for global access
 if (typeof window !== 'undefined') {
   window.G = G;
+  installDomActionDelegator();
 }
 
 export default G;

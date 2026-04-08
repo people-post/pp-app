@@ -3,28 +3,16 @@ import { FExchangeItemInfo } from './FExchangeItemInfo.js';
 import { FvcDeposit } from './FvcDeposit.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 
-export const CF_CASHIER_INFO = {
+const CF_CASHIER_INFO = {
   DEPOSIT : "CF_CASHIER_INFO_1",
   WITHDRAW : "CF_CASHIER_INFO_2",
 } as const;
 
-// Export to window for HTML string templates
-declare global {
-  interface Window {
-    CF_CASHIER_INFO?: typeof CF_CASHIER_INFO;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_CASHIER_INFO = CF_CASHIER_INFO;
-}
-
 const _CVF_CASHIER_INFO = {
   BTN_DEPOSIT :
-      `<span class="button-like small s-primary" onclick="javascript:G.action(CF_CASHIER_INFO.DEPOSIT)">Deposit...</span>`,
+      `<span class="button-like small s-primary" data-pp-action="${CF_CASHIER_INFO.DEPOSIT}">Deposit...</span>`,
   BTN_WITHDRAW :
-      `<span class="button-like small danger" onclick="javascript:G.action(CF_CASHIER_INFO.WITHDRAW)">Withdraw...</span>`,
+      `<span class="button-like small danger" data-pp-action="${CF_CASHIER_INFO.WITHDRAW}">Withdraw...</span>`,
 }
 
 interface CashierItem {

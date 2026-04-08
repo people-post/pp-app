@@ -1,20 +1,20 @@
-window.CFM_DS_SETUP = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+
+const CFM_DS_SETUP = {
   SUBMIT : "CFM_DS_SETUP_1",
   DS_HOW_TO : "CFM_DS_SETUP_2",
   CANCEL : "CFM_DS_SETUP_3",
 }
 
-const CFM_DS_SETUP: { SUBMIT: string; DS_HOW_TO: string; CANCEL: string } = window.CFM_DS_SETUP as { SUBMIT: string; DS_HOW_TO: string; CANCEL: string };
-
 const _CFMT_DS_SETUP = {
   MAIN : `
     <p class="title">Domain name:</p>
     <div class="tw:text-center">__DOMAIN_NAME__</div>
-    <p class="title">DS record(<a class="knowledge-tip" href="javascript:void(0)" onclick="javascript:G.action(CFM_DS_SETUP.DS_HOW_TO)">How to</a>):</p>
+    <p class="title">DS record(<a class="knowledge-tip" href="javascript:void(0)" data-pp-action="${CFM_DS_SETUP.DS_HOW_TO}">How to</a>):</p>
     <div>__DS_RECORD__</div>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CFM_DS_SETUP.SUBMIT)">I'm ready</a>
+    <a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CFM_DS_SETUP.SUBMIT}">I'm ready</a>
     <br>
-    <a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action(CFM_DS_SETUP.CANCEL)">Cancel</a>
+    <a class="button-bar danger" href="javascript:void(0)" data-pp-action="${CFM_DS_SETUP.CANCEL}">Cancel</a>
     `,
   DS_RECORD : `<table class="tw:m-auto">
       <tbody>
@@ -37,8 +37,6 @@ const _CFMT_DS_SETUP = {
       </tbody>
     </table>`,
 }
-
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 interface DsRecord {
   key_tag?: number;
