@@ -26,7 +26,7 @@ export class PUserOverview extends Panel {
   getUploadButtonPanel(): PanelWrapper { return this._pBgUpload; }
 
   _renderFramework(): string {
-    let s = _CPT_USER_OVERVIEW.MAIN;
+    let s: string = _CPT_USER_OVERVIEW.MAIN;
     s = s.replace("__ID_BG_IMAGE__", this._getSubElementId("B"));
     s = s.replace("__ID_USER_ICON__", this._getSubElementId("I"));
     s = s.replace("__ID_BG_UPLOAD__", this._getSubElementId("U"));

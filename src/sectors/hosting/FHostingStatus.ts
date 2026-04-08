@@ -1,22 +1,19 @@
-declare global {
-  interface Window {
-    CF_HOSTING_STATUS: {
-      NS_HOW_TO: string;
-      SHOW_TIP: string;
-    };
-  }
-}
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Button } from '../../lib/ui/controllers/fragments/Button.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { R } from '../../common/constants/R.js';
 
-window.CF_HOSTING_STATUS = {
+const CF_HOSTING_STATUS = {
   NS_HOW_TO : "CFM_HOSTING_STATUS_1",
   SHOW_TIP : "CFM_HOSTING_STATUS_2",
-}
+} as const;
 
 const _CFT_HOSTING_STATUS = {
   MAIN : `<p class="title">__R_DOMAIN__:</p>
       <div class="tw:text-center">__DOMAIN_NAME__</div>
 
-      <p class="title">__NS__(<a class="knowledge-tip" href="javascript:void(0)" onclick="javascript:G.action(CF_HOSTING_STATUS.NS_HOW_TO)">__R_HOW_TO__</a>):</p>
+      <p class="title">__NS__(<a class="knowledge-tip" href="javascript:void(0)" data-pp-action="CFM_HOSTING_STATUS_1">__R_HOW_TO__</a>):</p>
       <div class="tw:text-center">__NS_RECORD__</div>`,
 
   NS_RECORD : `<p>ns1.gcabin.com</p>
@@ -24,12 +21,6 @@ const _CFT_HOSTING_STATUS = {
     <p>ns3.gcabin.com</p>
     <p>ns4.gcabin.com</p>`,
 }
-
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { Button } from '../../lib/ui/controllers/fragments/Button.js';
-import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { R } from '../../common/constants/R.js';
 
 interface FHostingStatusDelegate {
   onNsHowtoClicked(): void;
@@ -39,7 +30,6 @@ interface FHostingStatusDelegate {
 export class FHostingStatus extends Fragment {
   protected _domainName: string | null = null;
   protected _fBtn: Button;
-  protected _delegate!: FHostingStatusDelegate;
 
   constructor() {
     super();
@@ -53,14 +43,14 @@ export class FHostingStatus extends Fragment {
 
   setDomainName(name: string | null): void { this._domainName = name; }
 
-  onSimpleButtonClicked(fBtn: Button): void { this.#onRemoveClicked(); }
+  onSimpleButtonClicked(_fBtn: Button): void { this.#onRemoveClicked(); }
 
   action(type: string, ...args: any[]): void {
     switch (type) {
-    case window.CF_HOSTING_STATUS.NS_HOW_TO:
-      this._delegate.onNsHowtoClicked();
+    case CF_HOSTING_STATUS.NS_HOW_TO:
+      this.getDelegate<FHostingStatusDelegate>()?.onNsHowtoClicked();
       break;
-    case window.CF_HOSTING_STATUS.SHOW_TIP:
+    case CF_HOSTING_STATUS.SHOW_TIP:
       this._displayMessage(args[0]);
       break;
     default:
@@ -89,7 +79,7 @@ export class FHostingStatus extends Fragment {
     s = s.replace("__R_DOMAIN__", R.t("Domain"));
     s = s.replace("__DOMAIN_NAME__", this._domainName || "");
     s = s.replace("__NS__",
-                  this._renderTipLink("CF_HOSTING_STATUS.SHOW_TIP",
+                  this._renderTipLink(CF_HOSTING_STATUS.SHOW_TIP,
                                       R.t("Name server"), "TIP_NAME_SERVER"));
     s = s.replace("__NS_RECORD__", this.#renderNsRecord());
     s = s.replace("__R_HOW_TO__", R.t("How to"));
@@ -101,6 +91,6 @@ export class FHostingStatus extends Fragment {
   #onRemoveClicked(): void {
     this._confirmDangerousOperation(R.get("CONFIRM_UNREGISTER"),
                                     () =>
-                                        this._delegate.onRequestRemoveDomain());
+                                        this.getDelegate<FHostingStatusDelegate>()?.onRequestRemoveDomain());
   }
 }

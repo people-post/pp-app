@@ -27,11 +27,11 @@ export class Gateway implements SectorGateway {
   createWebConfigMainViewContentFragment(): Fragment {
     let f = new FViewContentMux();
 
-    let ff = new FvcBasicWebConfig();
-    f.addTab({name : R.t("Basic"), value : "BASIC", icon : ICON.CONFIG}, ff);
+    let fWebConfig = new FvcBasicWebConfig();
+    f.addTab({name : R.t("Basic"), value : "BASIC", icon : ICON.CONFIG}, fWebConfig);
 
-    ff = new FvcTagEditorList();
-    f.addTab({name : R.t("Tags"), value : "TAGS", icon : ICON.TAG}, ff);
+    let fTagEditorList = new FvcTagEditorList();
+    f.addTab({name : R.t("Tags"), value : "TAGS", icon : ICON.TAG}, fTagEditorList);
 
     f.switchTo("BASIC");
     return f;
@@ -52,13 +52,13 @@ export class Gateway implements SectorGateway {
   #createWeb2MemberMainViewContentFragment(): Fragment {
     let f = new FViewContentMux();
 
-    let ff = new FvcReport();
+    let fReport = new FvcReport();
     f.addTab({name : R.t("Report"), value : "REPORT", icon : ICON.REPORT},
-             ff);
+             fReport);
 
-    ff = new FvcMemberHosting();
+    let fMemberHosting = new FvcMemberHosting();
     f.addTab({name : R.t("Config"), value : "CONFIG", icon : ICON.CONFIG},
-             ff);
+             fMemberHosting);
 
     f.switchTo("REPORT");
     return f;

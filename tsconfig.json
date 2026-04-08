@@ -53,7 +53,6 @@
     "src/*.ts",
     "src/session",
     "src/sectors/account",
-    "src/sectors/hosting",
     "src/sectors/messenger",
     "src/sectors/workshop",
     "src/sectors/shop",

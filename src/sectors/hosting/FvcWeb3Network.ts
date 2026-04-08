@@ -67,7 +67,7 @@ export class PWeb3Network extends Panel {
 export class FvcWeb3Network extends FScrollViewContent {
   constructor() { super(); }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let panel = new PWeb3Network();
     render.wrapPanel(panel);
 

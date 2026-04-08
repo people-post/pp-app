@@ -1,20 +1,3 @@
-window.CF_GUEST_HOSTING_CONTENT = {
-  REGISTER : "CF_GUEST_HOSTING_CONTENT_1",
-  SHOW_TIP : "CF_GUEST_HOSTING_CONTENT_2",
-}
-
-const _CFT_GUEST_HOSTING_CONTENT = {
-  MAIN_PANEL : `<div class="tw:text-center">
-      <span class="steps-stage-module">__R_REGISTER__ <a class="internal-page-link" href="javascript:void(0)" onclick="javascript:G.action(CF_GUEST_HOSTING_CONTENT.REGISTER)">G-Cabin</a>.</span>
-    </div>
-    <div class="tw:text-center">
-      <span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer">__DOWN_ICON__</span>
-    </div>
-    <div class="tw:text-center">
-      <span class="steps-stage-module">__R_PARK__</span>
-    </div>`,
-}
-
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
@@ -23,7 +6,24 @@ import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 import { R } from '../../common/constants/R.js';
 import { UiUtilities } from '../../lib/ui/Utilities.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+const CF_GUEST_HOSTING_CONTENT = {
+  REGISTER : "CF_GUEST_HOSTING_CONTENT_1",
+  SHOW_TIP : "CF_GUEST_HOSTING_CONTENT_2",
+} as const;
+
+const _CFT_GUEST_HOSTING_CONTENT = {
+  MAIN_PANEL : `<div class="tw:text-center">
+      <span class="steps-stage-module">__R_REGISTER__ <a class="internal-page-link" href="javascript:void(0)" data-pp-action="__ACTION_REGISTER__">G-Cabin</a>.</span>
+    </div>
+    <div class="tw:text-center">
+      <span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer">__DOWN_ICON__</span>
+    </div>
+    <div class="tw:text-center">
+      <span class="steps-stage-module">__R_PARK__</span>
+    </div>`,
+}
 
 export class FvcGuestHosting extends FScrollViewContent {
   action(type: string, ...args: unknown[]): void {
@@ -40,7 +40,7 @@ export class FvcGuestHosting extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -60,10 +60,11 @@ export class FvcGuestHosting extends FScrollViewContent {
 
   #renderMain(): string {
     let s = _CFT_GUEST_HOSTING_CONTENT.MAIN_PANEL;
+    s = s.replace("__ACTION_REGISTER__", CF_GUEST_HOSTING_CONTENT.REGISTER);
     s = s.replace("__R_REGISTER__", R.t("Login"));
     s = s.replace("__R_PARK__", R.get("PARK_DOMAIN"));
     s = s.replace("__DOMAIN__",
-                  this._renderTipLink("CF_GUEST_HOSTING_CONTENT.SHOW_TIP",
+                  this._renderTipLink(CF_GUEST_HOSTING_CONTENT.SHOW_TIP,
                                       R.t("domain"), "TIP_DOMAIN"));
     s = s.replace("__DOWN_ICON__", UiUtilities.renderSvgFuncIcon(ICONS.DOWN));
     return s;
@@ -73,7 +74,7 @@ export class FvcGuestHosting extends FScrollViewContent {
     let s = "*__MSG__ __REGISTRAR__";
     s = s.replace("__MSG__", R.get("HOSTING_MSG_FOOTNOTE"));
     s = s.replace("__REGISTRAR__",
-                  this._renderTipLink("CF_GUEST_HOSTING_CONTENT.SHOW_TIP",
+                  this._renderTipLink(CF_GUEST_HOSTING_CONTENT.SHOW_TIP,
                                       R.t("registrars"), "TIP_DOMAIN"));
     return s;
   }

@@ -8,6 +8,7 @@ import { Users } from '../../common/dba/Users.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { ProfileHubFacade } from '../../common/hr/ProfileHubFacade.js';
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
+import { ColorTheme as ColorThemeType } from '../../types/basic.js';
 
 export interface Web3UserInfoDataSource {
   getUserId(): string | null;
@@ -37,7 +38,7 @@ export class FvcWeb3UserInfo extends FViewContentWithHeroBanner {
   getUserId(): string | null { return this.#userId; }
   getTagIdsForPostListFragment(_fPostList: FViewContentBase): string[] { return []; }
 
-  getCustomTheme(): string | null {
+  getCustomTheme(): ColorThemeType | null {
     if (!WebConfig.isWebOwner(this.#userId)) {
       let u = Users.get(this.#userId);
       if (u) {

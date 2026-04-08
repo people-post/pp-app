@@ -72,6 +72,6 @@ export class FvcLegacyIdolList extends FScrollViewContent {
   #onAddIdol(): void {
     let v = new View();
     v.setContentFragment(new FvcAddIdol());
-    this._owner.onFragmentRequestShowView(this, v, "Add idol");
+    this.onFragmentRequestShowView(this, v, "Add idol");
   }
 }

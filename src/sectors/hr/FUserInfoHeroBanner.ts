@@ -300,7 +300,7 @@ export class FUserInfoHeroBanner extends Fragment {
   }
 
   #renderDomain(user: User): string {
-    let s = _CFT_USER_INFO_HERO_BANNER.DOMAIN;
+    let s: string = _CFT_USER_INFO_HERO_BANNER.DOMAIN;
     s = s.replace("__TEXT__", user.getDomainUrl());
     s = s.replace("__URL__", user.getDomainUrl());
     return s;
@@ -310,7 +310,7 @@ export class FUserInfoHeroBanner extends Fragment {
     if (!WebConfig.isDevSite()) {
       return "";
     }
-    let s = _CFT_USER_INFO_HERO_BANNER.OWNER_PRIVATE_INFO;
+    let s: string = _CFT_USER_INFO_HERO_BANNER.OWNER_PRIVATE_INFO;
     s = s.replace("__COIN_ICON__", UiUtilities.renderSvgFuncIcon(ICON.COIN));
     s = s.replace("__CREDIT_ICON__",
             UiUtilities.renderSvgFuncIcon(ICON.CREDIT));
@@ -333,21 +333,21 @@ export class FUserInfoHeroBanner extends Fragment {
   #onSendFund(_userId: string): void {}
 
   #renderMessageBtn(userId: string): string {
-    let s = _CFT_USER_INFO_HERO_BANNER.MESSAGE_BTN;
+    let s: string = _CFT_USER_INFO_HERO_BANNER.MESSAGE_BTN;
     s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICON.MESSENGER));
     s = s.replace("__USER_ID__", userId);
     return s;
   }
 
   #renderSendFundBtn(userId: string): string {
-    let s = _CFT_USER_INFO_HERO_BANNER.SEND_FUND_BTN;
+    let s: string = _CFT_USER_INFO_HERO_BANNER.SEND_FUND_BTN;
     s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICON.SEND_MONEY));
     s = s.replace("__USER_ID__", userId);
     return s;
   }
 
   #onUnfollow(userId: string): void {
-    let s = R.get("CONFIRM_UNFOLLOW");
+    let s: string = R.get("CONFIRM_UNFOLLOW");
     s = s.replace("__NAME__", Account.getUserNickname(userId, userId));
     this._confirmDangerousOperation(s, () => Account.asyncUnfollow(userId));
   }

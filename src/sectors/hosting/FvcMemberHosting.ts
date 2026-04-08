@@ -35,7 +35,6 @@ interface HostingDelegate {
 }
 
 export class FvcMemberHosting extends FScrollViewContent {
-  protected _delegate!: HostingDelegate;
 
   constructor() {
     super();
@@ -83,13 +82,13 @@ export class FvcMemberHosting extends FScrollViewContent {
   onNsHowtoClicked(): void {
     let v = new View();
     v.setContentFragment(new FvcNsHowto());
-    this._owner.onFragmentRequestShowView(this, v, "NS howto");
+    this.onFragmentRequestShowView(this, v, "NS howto");
   }
 
   onDsHowtoClicked(): void {
     let v = new View();
     v.setContentFragment(new FvcDsHowto());
-    this._owner.onFragmentRequestShowView(this, v, "DS howto");
+    this.onFragmentRequestShowView(this, v, "DS howto");
   }
 
   onRequestRegisterDomain(name: string): void {
@@ -152,7 +151,7 @@ export class FvcMemberHosting extends FScrollViewContent {
     let f = new FvcConfirmAction();
     f.setMessage(msg);
     f.addOption("Yes", () => this.#onClaimDomain());
-    f.addOption("No", null);
+    f.addOption("No", () => {});
     v.setContentFragment(f);
     Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Claim",
                                 false);
@@ -163,14 +162,14 @@ export class FvcMemberHosting extends FScrollViewContent {
         err.code == "E_DOMAIN_IN_USE") {
       this.#onDomainAlreayRegistered();
     } else {
-      this._owner.onRemoteErrorInFragment(this, err);
+      this.onRemoteErrorInFragment(this, err);
     }
   }
 
   #onClaimDomain(): void {
     let v = new View();
     v.setContentFragment(new FvcClaimDomain());
-    this._owner.onFragmentRequestShowView(this, v, "Claim domain");
+    this.onFragmentRequestShowView(this, v, "Claim domain");
   }
 
   #onNsSetupFinished(): void { this.#refresh(); }

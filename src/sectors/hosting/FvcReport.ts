@@ -5,7 +5,7 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { FVisit } from '../../common/statistics/FVisit.js';
 import { FvcVisit } from '../../common/statistics/FvcVisit.js';
 import { R } from '../../common/constants/R.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcReport extends FScrollViewContent {
   protected _fVisit: FVisit;
@@ -25,10 +25,10 @@ export class FvcReport extends FScrollViewContent {
                    (visitSummary as { getSubQueryKey(): string; getSubQueryValue(): string; getDuration(): unknown }).getSubQueryValue(),
                    fVisitSummary.getDuration());
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v);
+    this.onFragmentRequestShowView(this, v, "Domain visits");
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new SectionPanel(R.t("Your domain visits"));

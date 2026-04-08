@@ -86,33 +86,33 @@ export class FvcBasicWebConfig extends FScrollViewContent {
     let config = WebConfig.getDefaultTheme();
     let owner = WebConfig.getOwner();
     let iconUrl = owner ? owner.getIconUrl() : "";
-    let cPrimary = config.getPrimaryColor();
-    let cSecondary = config.getSecondaryColor();
+    let cPrimary = config ? config.getPrimaryColor() : "";
+    let cSecondary = config ? config.getSecondaryColor() : "";
     let eTest = document.getElementById("ID_COLOR_TEST");
     if (!eTest) {
       return "";
     }
     eTest.className = "tw:inline-block";
-    let cMenu = config.getMenuColor(eTest);
-    let cFunc = config.getFuncColor(eTest);
+    let cMenu = config ? config.getMenuColor(eTest) : "";
+    let cFunc = config ? config.getFuncColor(eTest) : "";
     eTest.className = "no-display";
 
     let table = document.createElement("TABLE");
     table.className = "tw:text-center";
 
-    let row = table.insertRow(-1);
+    let row = (table as HTMLTableElement).insertRow(-1);
     let cell = row.insertCell(-1);
     cell.innerHTML = "Icon:";
     cell = row.insertCell(-1);
     this.#renderIconCell(cell, iconUrl);
 
-    row = table.insertRow(-1);
+    row = (table as HTMLTableElement).insertRow(-1);
     cell = row.insertCell(-1);
     cell.innerHTML = "Header:";
     cell = row.insertCell(-1);
     this.#renderDefaultThemeColorCell(cell, cMenu, cPrimary, "primary");
 
-    row = table.insertRow(-1);
+    row = (table as HTMLTableElement).insertRow(-1);
     cell = row.insertCell(-1);
     cell.innerHTML = "Content:";
     cell = row.insertCell(-1);
@@ -150,7 +150,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
                                      : config.getPrimaryColor();
       this.#asyncUpdateDefaultTheme(key, c);
     } else {
-      this._owner.onLocalErrorInFragment(this, R.get("EL_INVALID_COLOR"));
+      this.onLocalErrorInFragment(this, R.get("EL_INVALID_COLOR"));
     }
   }
 

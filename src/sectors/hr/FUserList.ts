@@ -1,5 +1,5 @@
 import { FSocialItemList } from '../../common/gui/FSocialItemList.js';
-import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Events } from '../../lib/framework/Events.js';
 import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';

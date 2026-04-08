@@ -1,6 +1,6 @@
 export const CF_DS_HOWTO = {
-  TOGGLE : Symbol(),
-};
+  TOGGLE : "CF_DS_HOWTO_1",
+} as const;
 
 const _CF_DS_HOWTO = {
   VENDERS : [
@@ -27,7 +27,7 @@ const _CFT_DS_HOWTO = {
     __DS_RECORDS__`,
   TOGGLE_BLOCK : `<div>
       <p>
-        <span>+</span><a href="javascript:void(0)" onclick="javascript:G.action(hstn.CF_DS_HOWTO.TOGGLE, this.parentNode.parentNode)">__TITLE__</a>
+        <span>+</span><a href="javascript:void(0)" data-pp-action="CF_DS_HOWTO_1" data-pp-args='["$this"]'>__TITLE__</a>
       </p>
       <div hidden>__CONTENT__</div>
     </div>`,
@@ -39,10 +39,10 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcDsHowto extends FScrollViewContent {
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: symbol | string, ...args: unknown[]): void {
     switch (type) {
     case CF_DS_HOWTO.TOGGLE:
-      this.#onToggle(args[0] as HTMLElement);
+      this.#onToggleLink(args[0] as HTMLElement);
       break;
     default:
       break;
@@ -83,7 +83,11 @@ export class FvcDsHowto extends FScrollViewContent {
     return s;
   }
 
-  #onToggle(rootNode: HTMLElement): void {
+  #onToggleLink(link: HTMLElement): void {
+    const rootNode = link.parentElement?.parentElement as HTMLElement | null;
+    if (!rootNode) {
+      return;
+    }
     let eContent = rootNode.lastElementChild as HTMLElement;                 // Content
     let eIcon = rootNode.firstElementChild?.firstElementChild as HTMLElement; // Icon
     if (eContent && eIcon) {
