@@ -7,6 +7,7 @@ import {
   type PublisherAgent,
   type OwnerProps,
   dat as Web3Dat,
+  StorageAgent,
 } from 'pp-api';
 import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
 
@@ -235,6 +236,10 @@ export class Web3OwnerAdapter implements AccountPort, Web3AccountFacet {
 
   setPublishers(agents: PublisherAgent[]): void {
     this.#owner.setPublishers(agents);
+  }
+
+  setStorage(agent: StorageAgent): void {
+    this.#owner.setStorage(agent);
   }
 
   async asyncFindMark(itemId: string): Promise<MarkInfo | null> {

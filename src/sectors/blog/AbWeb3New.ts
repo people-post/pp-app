@@ -10,11 +10,12 @@ import { Env } from '../../common/plt/Env.js';
 import {
   Web3ServerRegistrationFacade,
   type Web3ServerRegistrationDelegate,
-  type Web3RegistrationAgent
 } from '../../common/pdb/Web3ServerRegistrationFacade.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Account } from '../../common/dba/Account.js';
-import type { PublisherAgent, StorageAgent } from 'pp-api';
+import type { StorageAgent } from 'pp-api';
+import { Web3PeerPublisherAgent } from '../../common/pdb/Web3Publisher.js';
+import { Web3PeerStorageAgent } from '../../common/pdb/Web3Storage.js';
 
 // ActionButton needs some redesign
 export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegate {
@@ -49,14 +50,14 @@ export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegat
   onRegistrationSuccessInServerRegistrationContentFragment(_fvc: Fragment): void {
     Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
   }
-  onOptionClickedInContextLayer(_lc: LContext, value: unknown): void {
+  onOptionClickedInContextLayer(_lc: LContext, value: StorageAgent): void {
     if (value) {
       this.#onStorageAgentChosen(value);
     } else {
       this.#showStorageSetup();
     }
   }
-  onItemsChosenInMultiChoiceLayer(lmc: LMultiChoice, agents: unknown[]): void {
+  onItemsChosenInMultiChoiceLayer(lmc: LMultiChoice, agents: Web3PeerPublisherAgent[]): void {
     switch (lmc) {
     case this.#lmcPublisher:
       if (agents && agents.length) {
@@ -92,7 +93,7 @@ export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegat
     }
   }
 
-  #onChoosePublisherAgents(agents: PublisherAgent[]): void {
+  #onChoosePublisherAgents(agents: Web3PeerPublisherAgent[]): void {
     this.#lmcPublisher.clearItems();
     for (let a of agents) {
       this.#lmcPublisher.addChoice(a.getHostName(), a, null, null,
@@ -106,7 +107,7 @@ export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegat
                                 this.#lmcPublisher, "Choices");
   }
 
-  #onPublisherAgentsChosen(agents: PublisherAgent[]): void {
+  #onPublisherAgentsChosen(agents: Web3PeerPublisherAgent[]): void {
     if (!Account) {
       return;
     }
@@ -138,7 +139,7 @@ export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegat
     }
   }
 
-  #onChooseStorageAgent(agents: StorageAgent[]): void {
+  #onChooseStorageAgent(agents: Web3PeerStorageAgent[]): void {
     this.#lcStorage.clearOptions();
     for (let a of agents) {
       this.#lcStorage.addOption(a.getHostName(), a, null, null,
@@ -182,7 +183,7 @@ export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegat
     this.onFragmentRequestShowView(this, v, "Draft post");
   }
 
-  #showPublisherRegistration(agent: Web3RegistrationAgent): void {
+  #showPublisherRegistration(agent: Web3PeerPublisherAgent): void {
     let v = new View();
     let f = Web3ServerRegistrationFacade.createRegistrationFragment(agent, this);
     if (!f) {

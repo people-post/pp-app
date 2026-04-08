@@ -63,7 +63,6 @@
     "src/sectors/auth",
     "src/sectors/school",
     "src/sectors/hr",
-    "src/sectors/exchange",
     "src/sectors/cart",
     "**/*.test.js",
     "**/__tests__/**"

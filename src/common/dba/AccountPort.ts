@@ -1,7 +1,7 @@
 import type { User as UserType } from '../../types/user.js';
 import type { MarkInfo } from '../../types/basic.js';
 import type { IdolData, OutRequest, BlogStatisticsData } from '../../types/backend2.js';
-import type { OwnerProps, PublisherAgent } from 'pp-api';
+import type { OwnerProps, PublisherAgent, StorageAgent } from 'pp-api';
 import type { dat as Web3Dat } from 'pp-api';
 import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
 
@@ -61,14 +61,18 @@ export interface AccountPort {
  * Chain / Owner-only capabilities. Exposed as {@link AccountWrapper.web3}; null in web2 mode.
  */
 export interface Web3AccountFacet {
-  setProps(props: OwnerProps): void;
-  loadCheckPoint(): void;
-  saveCheckPoint(): void;
+  hasPublished(): boolean;
+
   /** Human-readable encoding of the posting public key (for UI). */
   getPublicKeyDisplay(): string;
   getIconUrl(): string;
   getProfile(): Record<string, unknown>;
-  hasPublished(): boolean;
+
+  setProps(props: OwnerProps): void;
+  /** Selected publisher agents used for publishing (Owner internal list). */
+  setPublishers(agents: PublisherAgent[]): void;
+  setStorage(agent: StorageAgent): void;
+
   asPublishArticle(article: Web3Dat.OArticle): Promise<void>;
   asComment(threadId: string, article: Web3Dat.OArticle, asPost: boolean): Promise<void>;
   asLike(itemId: string): Promise<void>;
@@ -76,8 +80,9 @@ export interface Web3AccountFacet {
   asUploadFile(file: File): Promise<string>;
   asUpdateProfile(profile: unknown, cids: string[]): Promise<void>;
   asRegister(agent: PublisherAgent, name: string): Promise<void>;
-  /** Selected publisher agents used for publishing (Owner internal list). */
-  setPublishers(agents: PublisherAgent[]): void;
   /** Owner marks for an item (like / comments index); delegates to pp-api Owner.asyncFindMark. */
   asyncFindMark(itemId: string): Promise<MarkInfo | null>;
+
+  loadCheckPoint(): void;
+  saveCheckPoint(): void;
 }

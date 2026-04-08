@@ -1,11 +1,5 @@
 import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-
-export interface Web3RegistrationAgent {
-  getHostName(): string;
-  getInitUserId(): string;
-  isInitUserRegistered(): boolean;
-  asIsNameRegistrable(name: string): Promise<boolean>;
-}
+import { Web3PeerPublisherAgent } from './Web3Publisher.js';
 
 export interface Web3ServerRegistrationDelegate {
   onRegistrationCanceledInServerRegistrationContentFragment(f: Fragment): void;
@@ -13,7 +7,7 @@ export interface Web3ServerRegistrationDelegate {
 }
 
 type Web3ServerRegistrationFactory = (
-  agent: Web3RegistrationAgent,
+  agent: Web3PeerPublisherAgent,
   delegate: Web3ServerRegistrationDelegate
 ) => Fragment | null;
 
@@ -25,7 +19,7 @@ export class Web3ServerRegistrationFacade {
   }
 
   static createRegistrationFragment(
-      agent: Web3RegistrationAgent,
+      agent: Web3PeerPublisherAgent,
       delegate: Web3ServerRegistrationDelegate): Fragment | null {
     if (!gFactory) {
       return null;
