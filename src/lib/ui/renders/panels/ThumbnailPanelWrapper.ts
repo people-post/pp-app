@@ -2,8 +2,8 @@ import { PanelWrapper } from './PanelWrapper.js';
 
 const _CPW_THUMBNAIL = {
   MAIN : `<div class="tw:absolute tw:inset-0">
-    <div class="thumbnail-wrapper">
-      <div id="__ID__" class="thumbnail"></div>
+    <div class="thumbnail-wrapper tw:w-full tw:h-full">
+      <div id="__ID__" class="thumbnail tw:w-full tw:h-full"></div>
     </div>
   </div>`,
 } as const;

@@ -318,11 +318,6 @@ div.thumbnail-wrapper {
     box-sizing: border-box;
 }
 
-div.aspect-content div.thumbnail-wrapper {
-    width: 100%;
-    height: 100%;
-}
-
 div.thumbnail {
     border: 2px solid white;
     border-radius: 5px;
@@ -334,11 +329,6 @@ div.thumbnail {
 div.thumbnail.small {
     width: 100px;
     height: 60px;
-}
-
-div.aspect-content div.thumbnail {
-    width: 100%;
-    height: 100%;
 }
 
 div.thumbnail-grid-wrapper {
@@ -559,8 +549,8 @@ span.icon-btn-wrapper svg {
 }
 
 /* Ensure SVG icons fill their tw:w-s-icon* / tw:h-s-icon* containers */
-[class*="tw:w-s-icon"] > svg,
-[class*="tw:h-s-icon"] > svg {
+[class*="tw:w-s-icon"]>svg,
+[class*="tw:h-s-icon"]>svg {
     width: 100%;
     height: 100%;
 }
@@ -2804,9 +2794,12 @@ svg .coffee-mug {
 }
 
 /* CSS transitions for SVG icon child elements (hamburger, search, clock) */
-svg line.top, svg line.middle, svg line.bottom,
+svg line.top,
+svg line.middle,
+svg line.bottom,
 svg line.time-menu-icon-hour,
-svg line.top-bar, svg line.bottom-bar,
+svg line.top-bar,
+svg line.bottom-bar,
 svg circle.circle.s-cmenustk {
     transition: transform 0.3s ease, visibility 0.3s;
 }

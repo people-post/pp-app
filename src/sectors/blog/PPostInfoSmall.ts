@@ -12,7 +12,7 @@ import { PUserReference } from '../../common/hr/PUserReference.js';
  */
 
 const _CPT_POST_INFO_SMALL = {
-  MAIN : `<div id="__ID_WRAPPER__" class="post-info-small-wrapper">
+  MAIN: `<div id="__ID_WRAPPER__" class="post-info-small-wrapper">
   <div id="__ID_PIN__"></div>
   <div id="__ID_REF__" class="crosslink-note tw:min-h-[10px]"></div>
   <div id="__ID_MAIN__" class="post-info small">
@@ -48,51 +48,69 @@ export class PPostInfoSmall extends PPostInfoBase {
     this._pImage = new PanelWrapper();
   }
 
-  isColorInvertible(): boolean { return true; }
+  isColorInvertible(): boolean {
+    return true;
+  }
 
-  getTitlePanel(): Panel { return this._pTitle; }
-  getContentPanel(): PanelWrapper { return this._pContent; }
-  getPinPanel(): Panel { return this._pPin; }
-  getCrossRefPanel(): PUserReference { return this._pCrossRef; }
-  getQuotePanel(): PanelWrapper { return this._pQuote; }
-  getImagePanel(): PanelWrapper { return this._pImage; }
+  getTitlePanel(): Panel {
+    return this._pTitle;
+  }
+  getContentPanel(): PanelWrapper {
+    return this._pContent;
+  }
+  getPinPanel(): Panel {
+    return this._pPin;
+  }
+  getCrossRefPanel(): PUserReference {
+    return this._pCrossRef;
+  }
+  getQuotePanel(): PanelWrapper {
+    return this._pQuote;
+  }
+  getImagePanel(): PanelWrapper {
+    return this._pImage;
+  }
 
-  enableImage(): void { this._pImage.setClassName("w35 tw:flex-shrink-0"); }
-  enableQuote(): void { this._pQuote.setClassName("left-pad5 right-pad5"); }
+  enableImage(): void {
+    this._pImage.setClassName('tw:w-[35%] tw:flex-shrink-0');
+  }
+  enableQuote(): void {
+    this._pQuote.setClassName('left-pad5 right-pad5');
+  }
 
   setVisibilityClassName(name: string): void {
-    let e = document.getElementById(this._getSubElementId("M"));
+    let e = document.getElementById(this._getSubElementId('M'));
     if (e) {
-      e.className = "post-info small " + name;
+      e.className = 'post-info small ' + name;
     }
   }
   invertColor(): void {
-    let e = document.getElementById(this._getSubElementId("W"));
+    let e = document.getElementById(this._getSubElementId('W'));
     if (e) {
-      e.className = "post-info-small-wrapper s-cfuncbg s-csecondary";
+      e.className = 'post-info-small-wrapper s-cfuncbg s-csecondary';
     }
   }
 
   _onFrameworkDidAppear(): void {
     super._onFrameworkDidAppear();
-    this._pTitle.attach(this._getSubElementId("T"));
-    this._pContent.attach(this._getSubElementId("C"));
-    this._pImage.attach(this._getSubElementId("I"));
-    this._pPin.attach(this._getSubElementId("P"));
-    this._pCrossRef.attach(this._getSubElementId("R"));
-    this._pQuote.attach(this._getSubElementId("Q"));
+    this._pTitle.attach(this._getSubElementId('T'));
+    this._pContent.attach(this._getSubElementId('C'));
+    this._pImage.attach(this._getSubElementId('I'));
+    this._pPin.attach(this._getSubElementId('P'));
+    this._pCrossRef.attach(this._getSubElementId('R'));
+    this._pQuote.attach(this._getSubElementId('Q'));
   }
 
   _renderFramework(): string {
     let s: string = _CPT_POST_INFO_SMALL.MAIN;
-    s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
-    s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
-    s = s.replace("__ID_IMAGE__", this._getSubElementId("I"));
-    s = s.replace("__ID_PIN__", this._getSubElementId("P"));
-    s = s.replace("__ID_REF__", this._getSubElementId("R"));
-    s = s.replace("__ID_QUOTE__", this._getSubElementId("Q"));
-    s = s.replace("__ID_WRAPPER__", this._getSubElementId("W"));
-    s = s.replace("__ID_MAIN__", this._getSubElementId("M"));
+    s = s.replace('__ID_TITLE__', this._getSubElementId('T'));
+    s = s.replace('__ID_CONTENT__', this._getSubElementId('C'));
+    s = s.replace('__ID_IMAGE__', this._getSubElementId('I'));
+    s = s.replace('__ID_PIN__', this._getSubElementId('P'));
+    s = s.replace('__ID_REF__', this._getSubElementId('R'));
+    s = s.replace('__ID_QUOTE__', this._getSubElementId('Q'));
+    s = s.replace('__ID_WRAPPER__', this._getSubElementId('W'));
+    s = s.replace('__ID_MAIN__', this._getSubElementId('M'));
     return s;
   }
 }
