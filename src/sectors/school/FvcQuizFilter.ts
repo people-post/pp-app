@@ -21,15 +21,14 @@ export class FvcQuizFilter extends FScrollViewContent {
   protected _fMethod: ButtonGroup;
   protected _fBtnApply: Button;
   protected _pScope: PFilterItem;
-  protected _delegate!: FvcQuizFilterDelegate;
 
   constructor() {
     super();
     this._fScope = new ButtonGroup();
     // Values are synced with backend
-    this._fScope.addChoice({name : "Learned", value : "MARKED", icon : null});
-    this._fScope.addChoice({name : "New", value : "NEW", icon : null});
-    this._fScope.addChoice({name : "All", value : "ALL", icon : null});
+    this._fScope.addChoice({name : "Learned", value : "MARKED", icon : undefined});
+    this._fScope.addChoice({name : "New", value : "NEW", icon : undefined});
+    this._fScope.addChoice({name : "All", value : "ALL", icon : undefined});
     this._fScope.setSelectedValue("MARKED");
     this._fScope.setDelegate(this);
     this.setChild("scope", this._fScope);
@@ -38,12 +37,12 @@ export class FvcQuizFilter extends FScrollViewContent {
     this._fMethod.addChoice({
       name : "Quiz",
       value : FvcQuizFilter.T_PRESENTATION.QUIZ,
-      icon : null
+      icon : undefined
     });
     this._fMethod.addChoice({
       name : "Flashcard",
       value : FvcQuizFilter.T_PRESENTATION.FLASHCARD,
-      icon : null
+      icon : undefined
     });
     this._fMethod.setSelectedValue(FvcQuizFilter.T_PRESENTATION.QUIZ);
     this._fMethod.setDelegate(this);
@@ -57,8 +56,8 @@ export class FvcQuizFilter extends FScrollViewContent {
     this._pScope = new PFilterItem();
   }
 
-  onSimpleButtonClicked(fBtn: Button): void { this.#onSubmit(); }
-  onButtonGroupSelectionChanged(fBtnGroup: ButtonGroup, value: string | symbol): void {
+  onSimpleButtonClicked(_fBtn: Button): void { this.#onSubmit(); }
+  onButtonGroupSelectionChanged(fBtnGroup: ButtonGroup, _value: string | symbol): void {
     switch (fBtnGroup) {
     case this._fScope:
       this.#asyncEstimateFilter(this._pScope.getHintPanel());
@@ -68,7 +67,7 @@ export class FvcQuizFilter extends FScrollViewContent {
     }
   }
 
-  _renderContentOnRender(render: any): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let pList = new ListPanel();
     render.wrapPanel(pList);
 
@@ -125,7 +124,7 @@ export class FvcQuizFilter extends FScrollViewContent {
   #onQuizIdListRRR(data: { ids: string[] }): void {
     let ids = data.ids as string[];
     // TODO: Shuffle if needed
-    this._delegate.onQuizIdListGeneratedInQuizFilterContentFragment(
+    this.getDelegate<FvcQuizFilterDelegate>()?.onQuizIdListGeneratedInQuizFilterContentFragment(
         this, ids, this._fMethod.getSelectedValue() as symbol);
   }
 }

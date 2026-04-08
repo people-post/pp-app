@@ -30,7 +30,7 @@ export class FvcFlashcard extends FScrollViewContent {
     }
   }
 
-  onNavigableListItemFragmentRequestSwitchItem(fNavBar: FListNavigationBar, idx: number): void {
+  onNavigableListItemFragmentRequestSwitchItem(_fNavBar: FListNavigationBar, idx: number): void {
     if (idx >= 0 && idx < this._idList.length) {
       this._fCard.setQuizId(this._idList[idx]);
       this._fCard.render();

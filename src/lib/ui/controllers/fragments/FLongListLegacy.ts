@@ -3,8 +3,8 @@ import { BufferedList } from './BufferedList.js';
 import type { BufferedListDataSource, BufferedListDelegate } from './BufferedList.js';
 
 export class FLongListLegacy extends Fragment implements BufferedListDataSource, BufferedListDelegate {
-  declare _fItems: BufferedList;
-  declare _currentId: string | null;
+  protected _fItems: BufferedList;
+  protected _currentId: string | null = null;
 
   constructor() {
     super();

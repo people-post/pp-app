@@ -60,7 +60,6 @@
     "src/sectors/frontpage",
     "src/sectors/community",
     "src/sectors/auth",
-    "src/sectors/hr",
     "src/sectors/cart",
     "**/*.test.js",
     "**/__tests__/**"

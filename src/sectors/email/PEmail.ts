@@ -31,7 +31,7 @@ export class PEmail extends PEmailBase {
   getCarbonCopyPanel(): Panel { return this._pCarbonCopy; }
 
   _renderFramework(): string {
-    let s = _CPT_EMAIL.MAIN;
+    let s: string = _CPT_EMAIL.MAIN;
     s = s.replace("__ID_TITLE__", this._getSubElementId("T"));
     s = s.replace("__ID_CONTENT__", this._getSubElementId("C"));
     s = s.replace("__ID_TIME__", this._getSubElementId("TI"));

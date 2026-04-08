@@ -1,10 +1,12 @@
 import { MajorSectorItem } from '../../common/gui/MajorSectorItem.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Quiz } from '../../common/dba/Quiz.js';
+import type { Quiz as QuizData } from '../../common/datatypes/Quiz.js';
 import { PQuiz } from './PQuiz.js';
 import { PQuizInfo } from './PQuizInfo.js';
 import { Utilities } from '../../common/Utilities.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export const CF_QUIZ_INFO = {
   VIEW_QUIZ : Symbol(),
@@ -15,11 +17,11 @@ if (typeof window !== 'undefined') {
   (window as any).CF_QUIZ_INFO = CF_QUIZ_INFO;
 }
 
-interface FQuizDelegate {
+export interface FQuizDelegate {
   onQuizInfoClickedInQuizFragment(f: FQuiz, quizId: string | null): void;
 }
 
-interface FQuizDataSource {
+export interface FQuizDataSource {
   isQuizSelectedInQuizFragment(f: FQuiz, quizId: string | null): boolean;
 }
 
@@ -31,8 +33,6 @@ export class FQuiz extends MajorSectorItem {
 
   protected _quizId: string | null = null;
   protected _tLayout: symbol | null = null;
-  protected _delegate!: FQuizDelegate;
-  protected _dataSource!: FQuizDataSource;
 
   constructor() {
     super();
@@ -43,13 +43,13 @@ export class FQuiz extends MajorSectorItem {
   setQuizId(id: string | null): void { this._quizId = id; }
   setLayoutType(t: symbol | null): void { this._tLayout = t; }
 
-  action(type: string | symbol, ...args: any[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_QUIZ_INFO.VIEW_QUIZ:
-      this._delegate.onQuizInfoClickedInQuizFragment(this, this._quizId);
+      this.getDelegate<FQuizDelegate>()?.onQuizInfoClickedInQuizFragment(this, this._quizId);
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
@@ -57,7 +57,7 @@ export class FQuiz extends MajorSectorItem {
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.QUIZ:
-      if (data.getId() == this._quizId) {
+      if ((data as QuizData).getId() == this._quizId) {
         this.render();
       }
       break;
@@ -67,7 +67,7 @@ export class FQuiz extends MajorSectorItem {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: any): void {
+  _renderOnRender(render: PanelWrapper): void {
     // Wrap panel first to occupy necessary space, it will impact progressive
     // loading in long list
     let panel = this.#createPanel();
@@ -79,7 +79,7 @@ export class FQuiz extends MajorSectorItem {
     }
 
     if (panel.isColorInvertible()) {
-      if (this._dataSource.isQuizSelectedInQuizFragment(this, this._quizId)) {
+      if (this.getDataSource<FQuizDataSource>()?.isQuizSelectedInQuizFragment(this, this._quizId)) {
         panel.invertColor();
       }
     }
@@ -87,9 +87,9 @@ export class FQuiz extends MajorSectorItem {
     let p = panel.getQuestionPanel();
     this.#renderQuestion(quiz, p);
 
-    p = panel.getChoicesPanel();
-    if (p) {
-      this.#renderChoices(quiz, p);
+    let pChoices = panel.getChoicesPanel();
+    if (pChoices) {
+      this.#renderChoices(quiz, pChoices);
     }
   }
 

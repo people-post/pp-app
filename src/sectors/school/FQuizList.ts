@@ -1,6 +1,6 @@
 import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import { URL_PARAM } from '../../common/constants/Constants.js';
+import { URL_PARAM } from '../../lib/ui/Constants.js';
 import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
 import { FvcQuiz } from './FvcQuiz.js';
 import { FQuiz } from './FQuiz.js';
@@ -28,10 +28,10 @@ export class FQuizList extends FLongListLegacy {
     return "";
   }
 
-  shouldBufferedListClearBuffer(fBufferedList: any): boolean {
+  shouldBufferedListClearBuffer(_fBufferedList: unknown): boolean {
     return this._idRecord.isEmpty();
   }
-  isQuizSelectedInQuizFragment(fQuiz: FQuiz, quizId: string | null): boolean {
+  isQuizSelectedInQuizFragment(_fQuiz: FQuiz, quizId: string | null): boolean {
     return this._currentId == quizId;
   }
 
@@ -42,12 +42,12 @@ export class FQuizList extends FLongListLegacy {
     this._idRecord.markComplete();
   }
 
-  onQuizInfoClickedInQuizFragment(fQuiz: FQuiz, quizId: string | null): void { 
+  onQuizInfoClickedInQuizFragment(_fQuiz: FQuiz, quizId: string | null): void { 
     if (quizId) {
       this.switchToItem(quizId);
     }
   }
-  onQuizIdxChangedInQuizContentFragment(fvcQuiz: FvcQuiz, idx: number): void {
+  onQuizIdxChangedInQuizContentFragment(_fvcQuiz: FvcQuiz, idx: number): void {
     this._currentId = this._idRecord.getId(idx);
     this.refreshItems();
     this.scrollToItemIndex(idx);
@@ -65,7 +65,7 @@ export class FQuizList extends FLongListLegacy {
     return id ? this._createInfoFragment(id) : null;
   }
 
-  _createItemView(id: string): View {
+  _createItemView(_id: string): View {
     let v = new View();
     let f = new FvcQuiz();
     f.setDelegate(this);

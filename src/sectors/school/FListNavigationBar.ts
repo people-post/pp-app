@@ -5,7 +5,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-interface FListNavigationBarDelegate {
+export interface FListNavigationBarDelegate {
   onNavigableListItemFragmentRequestSwitchItem(f: FListNavigationBar, idx: number): void;
 }
 
@@ -15,7 +15,6 @@ export class FListNavigationBar extends Fragment {
   protected _fBtnNext: Button;
   protected _currentIdx: number = 0;
   protected _nTotal: number = 0;
-  protected _delegate!: FListNavigationBarDelegate;
 
   constructor() {
     super();
@@ -103,7 +102,7 @@ export class FListNavigationBar extends Fragment {
 
   #switchIdx(idx: number): void {
     this._currentIdx = idx;
-    this._delegate.onNavigableListItemFragmentRequestSwitchItem(
+    this.getDelegate<FListNavigationBarDelegate>()?.onNavigableListItemFragmentRequestSwitchItem(
         this, this._currentIdx);
     this.render();
   }

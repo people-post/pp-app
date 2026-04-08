@@ -11,7 +11,11 @@ import { R } from '../../common/constants/R.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { EmailData } from '../../types/backend2.js';
+
+interface EmailApiResponse {
+  email: EmailData;
+}
 
 export class FvcEmail extends FScrollViewContent {
   private _timer: Timer;
@@ -45,7 +49,7 @@ export class FvcEmail extends FScrollViewContent {
 
   onGuiActionButtonClick(_fActionButton: ActionButton): void {
     this._lc.setTargetName(R.get("email"));
-    this._lc.setDescription(null);
+    this._lc.setDescription("");
     this._lc.clearOptions();
     this._lc.addOption("Mark unread", "MARK_UNREAD");
     this._lc.addOption("Delete", "DELETE", null, Button.T_THEME.RISKY);
@@ -102,32 +106,40 @@ export class FvcEmail extends FScrollViewContent {
   }
 
   #asyncMarkReadership(email: Email, isRead: boolean = true): void {
+    let emailId = email.getId();
+    if (!emailId) {
+      return;
+    }
     let url = "api/email/mark_readership";
     let fd = new FormData();
-    fd.append("email_id", email.getId());
+    fd.append("email_id", emailId);
     if (isRead) {
       fd.append("is_read", "1");
     }
-    Api.asFragmentPost(this, url, fd)
-        .then((d: unknown) => this.#onMarkReadershipRRR(d));
+    Api.asFragmentPost<EmailApiResponse>(this, url, fd)
+        .then((d: EmailApiResponse) => this.#onMarkReadershipRRR(d));
   }
 
   #asyncDelete(email: Email): void {
+    let emailId = email.getId();
+    if (!emailId) {
+      return;
+    }
     let url = "api/email/delete";
     let fd = new FormData();
-    fd.append("email_id", email.getId());
-    Api.asFragmentPost(this, url, fd)
-        .then((d: unknown) => this.#onDeleteRRR(d, email.getId()));
+    fd.append("email_id", emailId);
+    Api.asFragmentPost<EmailApiResponse>(this, url, fd)
+        .then((d: EmailApiResponse) => this.#onDeleteRRR(d, emailId));
   }
 
-  #onMarkReadershipRRR(data: {email?: unknown}): void {
+  #onMarkReadershipRRR(data: EmailApiResponse): void {
     if (data.email) {
-      Mail.update(new Email(data.email as Record<string, unknown>));
+      Mail.update(new Email(data.email));
     }
   }
 
-  #onDeleteRRR(_data: unknown, emailId: string): void {
-    this._owner.onContentFragmentRequestPopView(this);
+  #onDeleteRRR(_data: EmailApiResponse, emailId: string): void {
+    this._requestPopView();
     Mail.remove(emailId);
   }
 };

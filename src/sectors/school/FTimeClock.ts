@@ -4,7 +4,6 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { TimeClock } from '../../common/datatypes/TimeClock.js';
-import { TimeClockRecord } from '../../common/datatypes/TimeClockRecord.js';
 import { CronJob } from '../../lib/ext/CronJob.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
@@ -44,7 +43,7 @@ export class FTimeClock extends Fragment {
     }
   }
 
-  _renderOnRender(render: any): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._isInitialized) {
       if (Account.isAuthenticated()) {
         this._isInitialized = true;
@@ -132,7 +131,7 @@ export class FTimeClock extends Fragment {
     let dt = tc.getDurationMs();
     this._tStart = Date.now() - dt;
     this._dtLast = dt;
-    this._beeper.reset(() => this.#onInterval(), 300);
+    this._beeper.reset(() => this.#onInterval(), 300, null, null);
     this.render();
   }
 
@@ -143,8 +142,8 @@ export class FTimeClock extends Fragment {
     Api.asFragmentPost<{ record: TimeClockRecordData }>(this, url, fd, null, d => this.#onClockOutRRR(d));
   }
 
-  #onClockOutRRR(data: { record: TimeClockRecordData }): void {
-    let r = new TimeClockRecord(data.record);
+  #onClockOutRRR(_data: { record: TimeClockRecordData }): void {
+    //let r = new TimeClockRecord(data.record);
     this._beeper.stop();
     this.render();
   }

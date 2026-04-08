@@ -23,12 +23,11 @@ export class Gateway implements SectorGateway {
   createMainViewContentFragment(): FViewContentBase {
     let f = new FViewContentMux();
 
-    let ff = new FvcInbox();
-    f.addTab({name : R.t("Inbox"), value : "INBOX", icon : ICON.EMAIL}, ff);
+    let fInbox = new FvcInbox();
+    f.addTab({name : R.t("Inbox"), value : "INBOX", icon : ICON.EMAIL}, fInbox);
 
-    ff = new FvcConfig();
-    f.addTab({name : R.t("Config"), value : "CONFIG", icon : ICON.CONFIG},
-             ff);
+    let fConfig = new FvcConfig();
+    f.addTab({name : R.t("Config"), value : "CONFIG", icon : ICON.CONFIG}, fConfig);
 
     f.switchTo("INBOX");
     return f;

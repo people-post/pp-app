@@ -1,10 +1,10 @@
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
 export class PEmailBase extends Panel {
-  private _pTitle: Panel;
-  private _pContent: Panel;
-  private _pTime: Panel;
-  private _pSender: Panel;
+  protected _pTitle: Panel;
+  protected _pContent: Panel;
+  protected _pTime: Panel;
+  protected _pSender: Panel;
 
   constructor() {
     super();

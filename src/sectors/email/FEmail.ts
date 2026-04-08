@@ -1,11 +1,3 @@
-export const CF_EMAIL_INFO = {
-  VIEW_EMAIL : "CF_EMAIL_INFO_1",
-} as const;
-
-const _CFCT_EMAIL_INFO = {
-  READERSHIP_MARK : `<div class="colorable-info-cycle s-cfuncbg"></div>`,
-} as const;
-
 import { MajorSectorItem } from '../../common/gui/MajorSectorItem.js';
 import { Mail } from '../../common/dba/Mail.js';
 import { T_DATA } from '../../common/plt/Events.js';
@@ -16,10 +8,22 @@ import { PEmailInfo } from './PEmailInfo.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import type { Email } from '../../common/datatypes/Email.js';
+import { EmailRecipientData } from '../../types/backend2.js';
 
-interface Recipient {
-  name: string;
-  address: string;
+export const CF_EMAIL_INFO = {
+  VIEW_EMAIL : "CF_EMAIL_INFO_1",
+} as const;
+
+const _CFCT_EMAIL_INFO = {
+  READERSHIP_MARK : `<div class="colorable-info-cycle s-cfuncbg"></div>`,
+} as const;
+
+export interface FEmailDelegate {
+  onEmailInfoClickedInEmailFragment(f: FEmail, emailId: string | null): void;
+}
+
+export interface FEmailDataSource {
+  isEmailSelectedInEmailFragment(f: FEmail, emailId: string | null): boolean;
 }
 
 export class FEmail extends MajorSectorItem {
@@ -43,7 +47,7 @@ export class FEmail extends MajorSectorItem {
   action(type: symbol | string, ..._args: unknown[]): void {
     switch (type) {
     case CF_EMAIL_INFO.VIEW_EMAIL:
-      this._delegate.onEmailInfoClickedInEmailFragment(this, this._emailId!);
+      this.getDelegate<FEmailDelegate>()?.onEmailInfoClickedInEmailFragment(this, this._emailId!);
       break;
     default:
       super.action(type, ..._args);
@@ -74,44 +78,44 @@ export class FEmail extends MajorSectorItem {
     render.wrapPanel(panel);
 
     if (panel.isColorInvertible()) {
-      if (this._dataSource.isEmailSelectedInEmailFragment(this,
+      if (this.getDataSource<FEmailDataSource>()?.isEmailSelectedInEmailFragment(this,
                                                           this._emailId!)) {
         panel.invertColor();
       }
     }
 
-    let p = panel.getSenderPanel();
-    this.#renderSender(email, p);
+    let pSender = panel.getSenderPanel();
+    this.#renderSender(email, pSender);
 
-    p = panel.getReceiverPanel();
-    if (p) {
-      this.#renderReceiver(email, p);
+    let pReceiver = panel.getReceiverPanel();
+    if (pReceiver) {
+      this.#renderReceiver(email, pReceiver);
     }
 
-    p = panel.getCarbonCopyPanel();
-    if (p) {
-      this.#renderCarbonCopy(email, p);
+    let pCarbonCopy = panel.getCarbonCopyPanel();
+    if (pCarbonCopy) {
+      this.#renderCarbonCopy(email, pCarbonCopy);
     }
 
-    p = panel.getTitlePanel();
-    this.#renderTitle(email, p);
+    let pTitle = panel.getTitlePanel();
+    this.#renderTitle(email, pTitle);
 
-    p = panel.getContentPanel();
-    this.#renderContent(email, p);
+    let pContent = panel.getContentPanel();
+    this.#renderContent(email, pContent);
 
-    p = panel.getTimePanel();
-    this.#renderTime(email, p);
+    let pTime = panel.getTimePanel();
+    this.#renderTime(email, pTime);
 
-    p = panel.getIconPanel();
-    if (p && !email.isRead()) {
-      p.replaceContent(_CFCT_EMAIL_INFO.READERSHIP_MARK);
+    let pIcon = panel.getIconPanel();
+    if (pIcon && !email.isRead()) {
+      pIcon.replaceContent(_CFCT_EMAIL_INFO.READERSHIP_MARK);
     }
   }
 
   #createPanel(): PEmail | PEmailInfo {
     let p: PEmail | PEmailInfo;
     switch (this._tLayout) {
-    case this.constructor.T_LAYOUT.FULL:
+    case FEmail.T_LAYOUT.FULL:
       p = new PEmail();
       break;
     default:
@@ -144,14 +148,19 @@ export class FEmail extends MajorSectorItem {
       return;
     }
 
-    if (this._tLayout == this.constructor.T_LAYOUT.FULL &&
+    if (this._tLayout == FEmail.T_LAYOUT.FULL &&
         email.getContentType() == "text/html") {
-      // IFrame
-      let e = panel.getDomElement();
-      let iframe = document.createElement("iframe");
-      iframe.className = "email";
-      e.appendChild(iframe);
-      Utilities.writeIframe(iframe, email.getContent());
+      let content = email.getContent();
+      if (content) {
+        // IFrame
+        let e = panel.getDomElement();
+        if (e) {
+          let iframe = document.createElement("iframe");
+          iframe.className = "email";
+          e.appendChild(iframe);
+          Utilities.writeIframe(iframe, content);
+        }
+      }
     } else {
       let s = Utilities.renderContent(email.getContent());
       panel.replaceContent(s);
@@ -160,11 +169,11 @@ export class FEmail extends MajorSectorItem {
 
   #renderSender(email: Email | null, panel: Panel): void {
     let s = "";
-    if (this._tLayout == this.constructor.T_LAYOUT.FULL) {
+    if (this._tLayout == FEmail.T_LAYOUT.FULL) {
       s = "From: ";
     }
 
-    if (email) {
+    if (email && email.getSender()) {
       s += this.#renderRecipient(email.getSender());
     } else {
       s += "...";
@@ -201,11 +210,21 @@ export class FEmail extends MajorSectorItem {
   #renderTime(email: Email | null, panel: Panel): void {
     let s: string;
     if (email) {
-      if (this._tLayout == this.constructor.T_LAYOUT.FULL) {
-        s = UtilitiesExt.timestampToDateTimeString(email.getCreationTime() /
+      if (this._tLayout == FEmail.T_LAYOUT.FULL) {
+        let creationTime = email.getCreationTime();
+        if (creationTime) {
+          s = UtilitiesExt.timestampToDateTimeString(creationTime.getTime() /
                                                     1000);
+        } else {
+          s = "...";
+        }
       } else {
-        s = Utilities.renderTimeDiff(email.getCreationTime());
+        let creationTime = email.getCreationTime();
+        if (creationTime) {
+          s = Utilities.renderTimeDiff(creationTime.getTime());
+        } else {
+          s = "...";
+        }
       }
     } else {
       s = "...";
@@ -213,10 +232,10 @@ export class FEmail extends MajorSectorItem {
     panel.replaceContent(s);
   }
 
-  #renderRecipient(r: Recipient): string {
+  #renderRecipient(r: EmailRecipientData): string {
     let s = `__NAME__&lt;__EMAIL__&gt;`;
-    s = s.replace("__NAME__", r.name);
-    s = s.replace("__EMAIL__", r.address);
+    s = s.replace("__NAME__", r.name ?? "");
+    s = s.replace("__EMAIL__", r.address ?? "");
     return s;
   }
 };

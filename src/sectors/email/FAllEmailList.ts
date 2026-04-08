@@ -3,11 +3,14 @@ import { FEmail } from './FEmail.js';
 import { Mail } from '../../common/dba/Mail.js';
 import { Email } from '../../common/datatypes/Email.js';
 import { Api } from '../../common/plt/Api.js';
+import type { RemoteError } from '../../types/basic.js';
+import { EmailData } from '../../types/backend2.js';
+import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
 
 export class FAllEmailList extends FEmailList {
   private _isBatchLoading: boolean = false;
 
-  _getIdRecord(): {isEmpty(): boolean; isComplete(): boolean; getId(index: number): string | null; clear(): void; getLastId(): string | null; appendId(id: string): void; markComplete(): void} {
+  _getIdRecord(): UniLongListIdRecord {
     return Mail.getIdRecord();
   }
 
@@ -34,18 +37,18 @@ export class FAllEmailList extends FEmailList {
 
   #onEmailsRRR(responseText: string): void {
     this._isBatchLoading = false;
-    let response = JSON.parse(responseText) as {error?: unknown; data?: {emails: unknown[]}};
+    let response = JSON.parse(responseText) as {error?: RemoteError; data?: {emails: EmailData[]}};
     if (response.error) {
-      this._owner.onRemoteErrorInFragment(this, response.error);
+      this.onRemoteErrorInFragment(this, response.error);
     } else {
       let emails: Email[] = [];
       for (let e of response.data!.emails) {
-        emails.push(new Email(e as Record<string, unknown>));
+        emails.push(new Email(e));
       }
       if (emails.length) {
         for (let e of emails) {
           Mail.update(e);
-          this._getIdRecord().appendId(e.getId());
+          this._getIdRecord().appendId(e.getId()!);
         }
       } else {
         this._getIdRecord().markComplete();

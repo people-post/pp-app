@@ -12,7 +12,6 @@ export class FvcQuiz extends FScrollViewContent {
   protected _fQuiz: FQuiz;
   protected _fNavBar: FListNavigationBar;
   protected _idList: string[] = [];
-  protected _delegate!: FvcQuizDelegate;
 
   constructor() {
     super();
@@ -30,7 +29,7 @@ export class FvcQuiz extends FScrollViewContent {
     this._idList = [];
   }
 
-  isQuizSelectedInQuizFragment(fQuiz: FQuiz, quizId: string | null): boolean { 
+  isQuizSelectedInQuizFragment(_fQuiz: FQuiz, _quizId: string | null): boolean { 
     return false; 
   }
   setQuizIds(ids: string[]): void {
@@ -42,16 +41,16 @@ export class FvcQuiz extends FScrollViewContent {
     }
   }
 
-  onQuizInfoClickedInQuizFragment(fQuiz: FQuiz, quizId: string | null): void {}
-  onNavigableListItemFragmentRequestSwitchItem(fNavListItem: FListNavigationBar, idx: number): void {
+  onQuizInfoClickedInQuizFragment(_fQuiz: FQuiz, _quizId: string | null): void {}
+  onNavigableListItemFragmentRequestSwitchItem(_fNavListItem: FListNavigationBar, idx: number): void {
     if (idx >= 0 && idx < this._idList.length) {
       this._fQuiz.setQuizId(this._idList[idx]);
       this._fQuiz.render();
-      this._delegate.onQuizIdxChangedInQuizContentFragment(this, idx);
+      this.getDelegate<FvcQuizDelegate>()?.onQuizIdxChangedInQuizContentFragment(this, idx);
     }
   }
 
-  _renderContentOnRender(render: any): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let pList = new ListPanel();
     render.wrapPanel(pList);
 

@@ -1,13 +1,11 @@
 import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
-import { URL_PARAM } from '../../common/constants/Constants.js';
+import { URL_PARAM } from '../../lib/ui/Constants.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcEmail } from './FvcEmail.js';
 import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 export class FEmailList extends FLongListLegacy {
-  protected _currentId: string | null = null;
-
   initFromUrl(urlParam: URLSearchParams): void {
     let id = urlParam.get(URL_PARAM.ID);
     if (id) {

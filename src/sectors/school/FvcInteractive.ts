@@ -39,7 +39,7 @@ export class FvcInteractive extends FScrollViewContent {
       break;
     }
   }
-  onQuizIdListGeneratedInQuizFilterContentFragment(fvcFilter: FvcQuizFilter, ids: string[],
+  onQuizIdListGeneratedInQuizFilterContentFragment(_fvcFilter: FvcQuizFilter, ids: string[],
                                                    displayMethod: symbol): void {
     Events.triggerTopAction(T_ACTION.CLOSE_DIALOG, this);
     switch (displayMethod) {
@@ -54,11 +54,11 @@ export class FvcInteractive extends FScrollViewContent {
     }
   }
 
-  renderItemForSimpleListFragment(fSimpleList: any, item: any, panel: Panel): void {
+  renderItemForSimpleListFragment(_fSimpleList: any, item: any, panel: Panel): void {
     panel.replaceContent(item.data.name);
   }
 
-  _renderContentOnRender(render: any): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     // TODO:
     // Puzzles, real practice client queue etc.
     let pList = new ListPanel();
@@ -106,7 +106,7 @@ export class FvcInteractive extends FScrollViewContent {
     let f = new FvcQuizList();
     f.setQuizIds(ids);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Quizzes");
+    this.onFragmentRequestShowView(this, v, "Quizzes");
   }
 
   #showFlashcards(ids: string[]): void {
@@ -114,6 +114,6 @@ export class FvcInteractive extends FScrollViewContent {
     let f = new FvcFlashcard();
     f.setQuizIds(ids);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Flashcard");
+    this.onFragmentRequestShowView(this, v, "Flashcard");
   }
 }

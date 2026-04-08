@@ -1,15 +1,16 @@
-export const CF_FLASHCARD = {
-  ON_CLICK : Symbol(),
-};
-
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { PFlashcard } from './PFlashcard.js';
 import { Quiz } from '../../common/dba/Quiz.js';
 import { Utilities } from '../../common/Utilities.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { Quiz as QuizData } from '../../common/datatypes/Quiz.js';
 
-interface FFlashcardDelegate {
+export const CF_FLASHCARD = {
+  ON_CLICK : Symbol(),
+};
+
+export interface FFlashcardDelegate {
   onQuizInfoClickedInQuizFragment?(f: FFlashcard, quizId: string | null): void;
 }
 
@@ -17,7 +18,6 @@ export class FFlashcard extends Fragment {
   protected _quizId: string | null = null;
   protected _isToggled: boolean = false;
   protected _panel: PFlashcard | null = null;
-  protected _delegate!: FFlashcardDelegate;
 
   constructor() {
     super();
@@ -37,7 +37,7 @@ export class FFlashcard extends Fragment {
       this.#onToggle();
       break;
     default:
-      super.action.apply(this, arguments);
+      super.action(type, ...args);
       break;
     }
   }
@@ -45,7 +45,7 @@ export class FFlashcard extends Fragment {
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.QUIZ:
-      if (data.getId() == this._quizId) {
+      if ((data as QuizData).getId() == this._quizId) {
         this.render();
       }
       break;
@@ -109,29 +109,29 @@ export class FFlashcard extends Fragment {
             opacity : "0",
           }
         ],
-        {duration : 400, easing : [ "ease-in" ], fill : "forwards"});
+        {duration : 400, easing : "ease-in", fill : "forwards"});
     a && a.finished.then(() => this.#onAnimationEnd());
   }
 
   #onAnimationEnd(): void { this.render(); }
 
-  #renderNavHint(quiz: any, panel: Panel, isToggled: boolean): void {
+  #renderNavHint(_quiz: QuizData, panel: Panel, isToggled: boolean): void {
     if (isToggled) {
       panel.replaceContent("Click to go back...");
     } else {
       panel.replaceContent("Click to see answer...");
     }
   }
-  #renderQuestion(quiz: any, panel: Panel): void {
+  #renderQuestion(quiz: QuizData, panel: Panel): void {
     panel.replaceContent(Utilities.renderContent(quiz.getQuestion()));
   }
 
-  #renderChoices(quiz: any, panel: Panel): void {
+  #renderChoices(quiz: QuizData, panel: Panel): void {
     let s = Utilities.renderContent(quiz.getChoices().join('<br>'));
     panel.replaceContent(s);
   }
 
-  #renderAnswers(quiz: any, panel: Panel): void {
+  #renderAnswers(quiz: QuizData, panel: Panel): void {
     let s = Utilities.renderContent(quiz.getAnswers().join('<br>'));
     panel.replaceContent(s);
   }
