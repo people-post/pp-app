@@ -1,6 +1,3 @@
-window.CF_PROJECT_INFO = {
-  VIEW_PROJECT : "CF_PROJECT_INFO_1",
-}
 import { RichProgress } from '../../lib/ui/controllers/fragments/RichProgress.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
@@ -22,6 +19,10 @@ import { PProjectInfoMiddle } from './PProjectInfoMiddle.js';
 import { Project } from '../../common/datatypes/Project.js';
 import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import type { PProjectInfoBase } from './PProjectInfoBase.js';
+
+const CF_PROJECT_INFO = {
+  VIEW_PROJECT: "CF_PROJECT_INFO_1",
+} as const;
 
 interface ProjectInfoDataSource {
   isProjectSelectedInProjectInfoFragment(f: FProjectInfo, projectId: string): boolean;
@@ -134,8 +135,7 @@ export class FProjectInfo extends MajorSectorItem {
 
     let panel = this.#createPanel();
     panel.setClassName("tw:cursor-pointer");
-    panel.setAttribute("onclick",
-                       "javascript:G.action(CF_PROJECT_INFO.VIEW_PROJECT)");
+    panel.setAttribute("data-pp-action", CF_PROJECT_INFO.VIEW_PROJECT);
 
     render.wrapPanel(panel);
 

@@ -1,22 +1,10 @@
 export const CF_STAGE_EDITOR = {
-  SUBMIT : "CF_STAGE_EDITOR_1",
+  SUBMIT: "CF_STAGE_EDITOR_1",
 } as const;
 
-// Export to window for HTML string templates
-declare global {
-  interface Window {
-    CF_STAGE_EDITOR?: typeof CF_STAGE_EDITOR;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_STAGE_EDITOR = CF_STAGE_EDITOR;
-}
-
 const _CFT_STAGE_EDITOR = {
-  BTN_SUBMIT :
-      `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_STAGE_EDITOR.SUBMIT)">Submit</a>`,
+  BTN_SUBMIT:
+      `<a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_STAGE_EDITOR.SUBMIT}">Submit</a>`,
 } as const;
 
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';

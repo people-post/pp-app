@@ -1,5 +1,5 @@
 export const CF_STORY_EVENT_INFO = {
-  ONCLICK : Symbol(),
+  ONCLICK: "CF_STORY_EVENT_INFO_1",
 } as const;
 
 const _CFT_STORY_EVENT_INFO = {
@@ -55,8 +55,7 @@ export class FStoryEventInfo extends Fragment {
     }
 
     let p = new Panel();
-    p.setAttribute("onclick",
-                   "javascript:G.action(CF_STORY_EVENT_INFO.ONCLICK)");
+    p.setAttribute("data-pp-action", CF_STORY_EVENT_INFO.ONCLICK);
     render.wrapPanel(p);
     let s = "";
     switch (this._event.getType()) {

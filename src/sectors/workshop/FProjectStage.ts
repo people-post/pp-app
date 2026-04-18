@@ -1,6 +1,6 @@
 export const CF_PROJECT_STAGE = {
-  ON_CLICK : Symbol(),
-};
+  ON_CLICK: "CF_PROJECT_STAGE_1",
+} as const;
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { OptionContextButton, IOptionContextButtonDelegate } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
@@ -96,7 +96,7 @@ export class FProjectStage extends Fragment implements IOptionContextButtonDeleg
     }
   }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: symbol | string, ...args: unknown[]): void {
     switch (type) {
     case CF_PROJECT_STAGE.ON_CLICK:
       this._delegate.onClickInProjectStageFragment(this);
@@ -114,8 +114,7 @@ export class FProjectStage extends Fragment implements IOptionContextButtonDeleg
     let p = this.#createPanel();
     if (this._isEnabled) {
       p.setClassName("tw:cursor-pointer");
-      p.setAttribute("onclick",
-                     "javascript:G.action(CF_PROJECT_STAGE.ON_CLICK)");
+      p.setAttribute("data-pp-action", CF_PROJECT_STAGE.ON_CLICK);
     }
     render.wrapPanel(p);
 

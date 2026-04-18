@@ -1,5 +1,5 @@
 export const CF_TEAM = {
-  ON_CLICK : Symbol(),
+  ON_CLICK: "CF_WS_TEAM_1",
 } as const;
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
@@ -54,7 +54,7 @@ export class FTeam extends Fragment {
     render.wrapPanel(panel);
 
     if (panel.isHighlightable()) {
-      panel.setAttribute("onclick", "G.action(CF_TEAM.ON_CLICK)");
+      panel.setAttribute("data-pp-action", CF_TEAM.ON_CLICK);
       if (this._dataSource.shouldHighlightInTeamFragment(this, this._teamId)) {
         panel.highlight();
       }

@@ -4,6 +4,13 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { Api } from '../../common/plt/Api.js';
+import { RemoteError } from '../../types/basic.js';
+import { ProjectData } from '../../types/backend2.js';
+
+interface ApiProjectsResponse {
+  error?: RemoteError;
+  data?: { projects?: ProjectData[] };
+};
 
 export class FIdolProjectList extends FProjectList {
   #isBatchLoading = false;
@@ -33,16 +40,19 @@ export class FIdolProjectList extends FProjectList {
 
   #onProjectsRRR(responseText: string): void {
     this.#isBatchLoading = false;
-    let response = JSON.parse(responseText) as { error?: unknown; data?: { projects?: unknown[] } };
+    let response = JSON.parse(responseText) as ApiProjectsResponse;
     if (response.error) {
       this.onRemoteErrorInFragment(this, response.error);
     } else {
       let ds = response.data?.projects || [];
       if (ds.length) {
         for (let d of ds) {
-          let p = new Project(d as Parameters<typeof Project>[0]);
+          let p = new Project(d);
           Workshop.updateProject(p);
-          this._getIdRecord().appendId(p.getId());
+          let id = p.getId();
+          if (id) {
+            this._getIdRecord().appendId(id);
+          }
         }
       } else {
         this._getIdRecord().markComplete();

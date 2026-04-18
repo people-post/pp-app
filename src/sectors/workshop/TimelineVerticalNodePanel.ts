@@ -56,7 +56,7 @@ export class TimelineVerticalNodePanel extends PanelWrapper {
   }
 
   _getWrapperFramework(wrapperElementId: string): string {
-    let s = _CPT_TIMELINE_VERTICAL_NODE.MAIN;
+    let s: string = _CPT_TIMELINE_VERTICAL_NODE.MAIN;
     s = s.replace("__ID_CONTENT_WRAPPER__", wrapperElementId);
     s = s.replace("__ID_NODE__", this._getSubElementId("N"));
     s = s.replace("__ID_U_PIPE__", this._getSubElementId("UP"));

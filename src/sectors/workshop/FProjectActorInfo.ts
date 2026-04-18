@@ -1,18 +1,6 @@
 export const CF_PROJECT_ACTOR_INFO = {
-  ON_CLICK : "CF_PROJECT_ACTOR_INFO_1",
+  ON_CLICK: "CF_PROJECT_ACTOR_INFO_1",
 } as const;
-
-// Export to window for HTML string templates
-declare global {
-  interface Window {
-    CF_PROJECT_ACTOR_INFO?: typeof CF_PROJECT_ACTOR_INFO;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_PROJECT_ACTOR_INFO = CF_PROJECT_ACTOR_INFO;
-}
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FUserIcon } from '../../common/hr/FUserIcon.js';
@@ -86,8 +74,7 @@ export class FProjectActorInfo extends Fragment {
 
     let u = Users.get(this._fIcon.getUserId());
     let p = this.#createPanel();
-    p.setAttribute("onclick",
-                   "javascript:G.action(CF_PROJECT_ACTOR_INFO.ON_CLICK)");
+    p.setAttribute("data-pp-action", CF_PROJECT_ACTOR_INFO.ON_CLICK);
     render.wrapPanel(p);
     p.setThemeClassNames(this.#getThemeClassNames());
 

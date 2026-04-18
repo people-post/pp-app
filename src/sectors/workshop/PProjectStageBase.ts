@@ -14,7 +14,7 @@ export class PProjectStageBase extends Panel {
   getCommentPanel(): Panel | null { return null; }
   getOptionBtnPanel(): PanelWrapper | null { return null; }
 
-  setThemeForState(state: string, status: string): void {}
-  setSelected(b: boolean): void {}
-  setEnabled(b: boolean): void {}
+  setThemeForState(_state: string, _status: string): void {}
+  setSelected(_b: boolean): void {}
+  setEnabled(_b: boolean): void {}
 }

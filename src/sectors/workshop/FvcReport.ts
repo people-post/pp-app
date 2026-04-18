@@ -7,7 +7,7 @@ import { Notifications } from '../../common/dba/Notifications.js';
 import { FRequestInfo } from '../../common/hr/FRequestInfo.js';
 import { T_DATA } from '../../lib/framework/Events.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcReport extends FScrollViewContent {
   protected _fNoticeList: FNoticeList;
@@ -23,8 +23,8 @@ export class FvcReport extends FScrollViewContent {
     this.setChild("requests", this._fRequestList);
   }
 
-  onNoticeListFragmentRequestShowView(fNoticeList: FNoticeList, view: View, title: string): void {
-    this._owner.onFragmentRequestShowView(this, view, title);
+  onNoticeListFragmentRequestShowView(_fNoticeList: FNoticeList, view: View, title: string): void {
+    this.onFragmentRequestShowView(this, view, title);
   }
 
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
@@ -38,7 +38,7 @@ export class FvcReport extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let panel = new ListPanel();
     render.wrapPanel(panel);
 

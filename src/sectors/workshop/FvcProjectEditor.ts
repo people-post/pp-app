@@ -1,36 +1,24 @@
 export const CF_PROJECT_EDITOR_CONTENT = {
-  SUBMIT : "C_PROJECT_EDITOR_1",
-  DELETE : "C_PROJECT_EDITOR_2",
+  SUBMIT: "C_PROJECT_EDITOR_1",
+  DELETE: "C_PROJECT_EDITOR_2",
 } as const;
 
-// Export to window for HTML string templates
-declare global {
-  interface Window {
-    CF_PROJECT_EDITOR_CONTENT?: typeof CF_PROJECT_EDITOR_CONTENT;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_PROJECT_EDITOR_CONTENT = CF_PROJECT_EDITOR_CONTENT;
-}
-
 const _CFT_PROJECT_EDITOR_CONTENT = {
-  TITLE : `<div>
+  TITLE: `<div>
       <label class="tw:text-s-font5" for="ID_PROJECT_EDITOR_NAME">Name</label>
       <br>
       <textarea id="ID_PROJECT_EDITOR_NAME" class="edit-project-name">__NAME__</textarea>
     </div>
     <br>`,
-  LOWER : `<br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_PROJECT_EDITOR_CONTENT.SUBMIT)">Submit</a>
+  LOWER: `<br>
+    <a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_PROJECT_EDITOR_CONTENT.SUBMIT}">Submit</a>
     <br>
     <br>
     __DELETE_BUTTON__
     <br>
     <br>`,
-  DELETE_BUTTON :
-      `<a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action(CF_PROJECT_EDITOR_CONTENT.DELETE)">Delete</a>`,
+  DELETE_BUTTON:
+      `<a class="button-bar danger" href="javascript:void(0)" data-pp-action="${CF_PROJECT_EDITOR_CONTENT.DELETE}">Delete</a>`,
 } as const;
 
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';

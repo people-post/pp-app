@@ -1,6 +1,6 @@
 export const CF_PROJECT_FLOW_CHART = {
-  ONCLICK_AT_BEGIN : Symbol(),
-  ONCLICK_AT_END : Symbol(),
+  ONCLICK_AT_BEGIN: "CF_PROJECT_FLOW_CHART_1",
+  ONCLICK_AT_END: "CF_PROJECT_FLOW_CHART_2",
 } as const;
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
@@ -146,7 +146,7 @@ export class FProjectFlowChart extends Fragment {
     p.wrapPanel(pp);
     p.setThemeClassName(this.#getBeginTerminalClassName());
     p.setMainElementAttribute(
-        "onclick", "G.action(CF_PROJECT_FLOW_CHART.ONCLICK_AT_BEGIN)");
+        "data-pp-action", CF_PROJECT_FLOW_CHART.ONCLICK_AT_BEGIN);
     pp.setClassName("small-info-text");
     pp.replaceContent("Start");
 
@@ -202,7 +202,7 @@ export class FProjectFlowChart extends Fragment {
     p.wrapPanel(pp);
     p.setThemeClassName(this.#getEndTerminalClassName());
     p.setMainElementAttribute(
-        "onclick", "G.action(CF_PROJECT_FLOW_CHART.ONCLICK_AT_END)");
+        "data-pp-action", CF_PROJECT_FLOW_CHART.ONCLICK_AT_END);
     pp.setClassName("small-info-text");
     pp.replaceContent("End");
 

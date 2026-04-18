@@ -1,26 +1,3 @@
-export const CF_WORKSHOP_TEAM_EDITOR = {
-  SUBMIT : "CF_WORKSHOP_TEAM_EDITOR_1",
-} as const;
-
-// Export to window for HTML string templates
-declare global {
-  interface Window {
-    CF_WORKSHOP_TEAM_EDITOR?: typeof CF_WORKSHOP_TEAM_EDITOR;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_WORKSHOP_TEAM_EDITOR = CF_WORKSHOP_TEAM_EDITOR;
-}
-
-const _CFT_WORKSHOP_TEAM_EDITOR = {
-  SEC_NAME :
-      `<input id="ID_WORKSHOP_TEAM_NAME" type="text" placeholder="Name" value="__NAME__">`,
-  SEC_SUBMIT : `<br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_WORKSHOP_TEAM_EDITOR.SUBMIT)">Submit<a>`,
-} as const;
-
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
@@ -33,6 +10,18 @@ import { WorkshopTeam } from '../../common/datatypes/WorkshopTeam.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
 import { Api } from '../../common/plt/Api.js';
 import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { GroupData } from '../../types/backend2.js';
+
+export const CF_WORKSHOP_TEAM_EDITOR = {
+  SUBMIT: "CF_WORKSHOP_TEAM_EDITOR_1",
+} as const;
+
+const _CFT_WORKSHOP_TEAM_EDITOR = {
+  SEC_NAME:
+      `<input id="ID_WORKSHOP_TEAM_NAME" type="text" placeholder="Name" value="__NAME__">`,
+  SEC_SUBMIT: `<br>
+    <a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_WORKSHOP_TEAM_EDITOR.SUBMIT}">Submit</a>`,
+} as const;
 
 interface TeamData {
   id: string | null;
@@ -41,6 +30,10 @@ interface TeamData {
   is_active: boolean;
   permissions: string[];
 }
+
+interface ApiGroupsResponse {
+  groups: GroupData[];
+};
 
 export class FvcTeamEditor extends FScrollViewContent {
   protected _fOptions: OptionSwitch;
@@ -122,11 +115,11 @@ export class FvcTeamEditor extends FScrollViewContent {
   }
 
   #renderNameInputs(): string {
-    let s = _CFT_WORKSHOP_TEAM_EDITOR.SEC_NAME;
+    let s: string = _CFT_WORKSHOP_TEAM_EDITOR.SEC_NAME;
     let name = "";
     let team = this.#getTeam();
     if (team) {
-      name = team.getName();
+      name = team.getName() || "";
     }
     s = s.replace("__NAME__", name);
     return s;
@@ -181,15 +174,16 @@ export class FvcTeamEditor extends FScrollViewContent {
   #asyncRequestAddTeam(data: TeamData): void {
     let url = "api/workshop/add_team";
     let fd = this.#makeForm(data);
-    Api.asFragmentPost(this, url, fd).then(d => this.#onNewTeamRRR(d));
+    Api.asFragmentPost<ApiGroupsResponse>(this, url, fd).then(d => this.#onNewTeamRRR(d));
   }
 
   #asyncRequestEditTeam(data: TeamData): void {
     let url = "api/workshop/update_team";
     let fd = this.#makeForm(data);
-    Api.asFragmentPost(this, url, fd).then(d => this.#onEditTeamRRR(d));
+    Api.asFragmentPost<ApiGroupsResponse>(this, url, fd).then(d => this.#onEditTeamRRR(d));
   }
 
+  /*
   #asyncRequestDeleteTeam(id: string): void {
     let url = "api/workshop/delete_team";
     let fd = new FormData();
@@ -197,25 +191,27 @@ export class FvcTeamEditor extends FScrollViewContent {
     Api.asFragmentPost(this, url, fd)
         .then(d => this.#onDeleteTeamRRR(d));
   }
+  */
 
-  #onNewTeamRRR(data: unknown): void {
-    let dataObj = data as { groups: unknown[] };
-    this.#onEditTeamFinished(dataObj.groups);
+  #onNewTeamRRR(data: ApiGroupsResponse): void {
+    this.#onEditTeamFinished(data.groups);
   }
-  #onEditTeamRRR(data: unknown): void {
-    let dataObj = data as { groups: unknown[] };
-    this.#onEditTeamFinished(dataObj.groups);
+
+  #onEditTeamRRR(data: ApiGroupsResponse): void {
+    this.#onEditTeamFinished(data.groups);
   }
+  /*
   #onDeleteTeamRRR(data: unknown): void {
     let dataObj = data as { groups: unknown[] };
     this.#onEditTeamFinished(dataObj.groups);
   }
+  */
 
-  #onEditTeamFinished(groups: unknown[]): void {
+  #onEditTeamFinished(groups: GroupData[]): void {
     WebConfig.resetRoles(groups);
     for (let d of groups) {
-      Groups.update(new UserGroup(d as ConstructorParameters<typeof UserGroup>[0]));
+      Groups.update(new UserGroup(d));
     }
-    this._owner.onContentFragmentRequestPopView(this);
+    this._requestPopView();
   }
 }
