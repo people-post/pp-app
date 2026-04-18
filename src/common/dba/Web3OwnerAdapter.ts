@@ -66,11 +66,14 @@ export class Web3OwnerAdapter implements AccountPort, Web3AccountFacet {
     return [];
   }
 
-  getUserNickname(userId: string, defaultNickname?: string): string {
+  getUserNickname(userId: string | null, defaultNickname?: string): string {
+    if (!userId) {
+      return defaultNickname || '';
+    }
     return this.#owner.getUserNickname(userId, defaultNickname || '');
   }
 
-  getUserShopName(_userId: string, defaultName: string): string {
+  getUserShopName(_userId: string | null, defaultName: string): string {
     return defaultName;
   }
 

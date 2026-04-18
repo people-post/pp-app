@@ -55,11 +55,11 @@ export class Web2AccountAdapter implements AccountPort {
     return this.#inner.getIdols();
   }
 
-  getUserNickname(userId: string, defaultNickname?: string): string {
+  getUserNickname(userId: string | null, defaultNickname?: string): string {
     return this.#inner.getUserNickname(userId, defaultNickname || '');
   }
 
-  getUserShopName(userId: string, defaultName: string): string {
+  getUserShopName(userId: string | null, defaultName: string): string {
     return this.#inner.getUserShopName(userId, defaultName);
   }
 

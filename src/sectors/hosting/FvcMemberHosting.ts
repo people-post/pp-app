@@ -1,3 +1,21 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { FWaiting } from '../../lib/ui/controllers/fragments/FWaiting.js';
+import { FvcConfirmAction } from '../../lib/ui/controllers/views/FvcConfirmAction.js';
+import { RemoteError as RemoteErrorData } from '../../types/basic.js';
+import { RemoteError } from '../../common/datatypes/RemoteError.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { Hosting } from '../../common/dba/Hosting.js';
+import { FvcNsHowto } from './FvcNsHowto.js';
+import { FvcDsHowto } from './FvcDsHowto.js';
+import { FHostingStatus } from './FHostingStatus.js';
+import { FNsSetup } from './FNsSetup.js';
+import { FvcClaimDomain } from './FvcClaimDomain.js';
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Api } from '../../common/plt/Api.js';
+import type Render from '../../lib/ui/renders/Render.js';
+import { HostingData } from '../../types/backend2.js';
+
 const _CFT_MEMBER_HOSTING_CONTENT = {
   INIT : `Initializing...`,
   NS_PENDING :
@@ -10,23 +28,7 @@ const _CFT_MEMBER_HOSTING_CONTENT = {
       `__DOMAIN___ is already registered. If your spell is correct, do you want to claim it?`,
 }
 
-import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
-import { View } from '../../lib/ui/controllers/views/View.js';
-import { FWaiting } from '../../lib/ui/controllers/fragments/FWaiting.js';
-import { FvcConfirmAction } from '../../lib/ui/controllers/views/FvcConfirmAction.js';
-import { RemoteError } from '../../common/datatypes/RemoteError.js';
-import { Events, T_ACTION } from '../../lib/framework/Events.js';
-import { Hosting } from '../../common/dba/Hosting.js';
-import { FvcNsHowto } from './FvcNsHowto.js';
-import { FvcDsHowto } from './FvcDsHowto.js';
-import { FHostingStatus } from './FHostingStatus.js';
-import { FNsSetup } from './FNsSetup.js';
-import { FvcClaimDomain } from './FvcClaimDomain.js';
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { Api } from '../../common/plt/Api.js';
-import type Render from '../../lib/ui/renders/Render.js';
-
-interface HostingDelegate {
+export interface FvcMemberHostingDelegate {
   onNsHowtoClicked(): void;
   onDsHowtoClicked(): void;
   onRequestRegisterDomain(name: string): void;
@@ -41,7 +43,7 @@ export class FvcMemberHosting extends FScrollViewContent {
     this.setChild("content", this.#initContentFragment());
   }
 
-  getContentForWaitingFragment(wf: FWaiting): string {
+  getContentForWaitingFragment(_wf: FWaiting): string {
     let s = Hosting.getStatus();
     if (s) {
       if (s.ds_record) {
@@ -95,7 +97,7 @@ export class FvcMemberHosting extends FScrollViewContent {
     let url = "api/hosting/register";
     let fd = new FormData();
     fd.append("name", name);
-    Api.asyncRawPost(url, fd, r => this.#onRegisterDomainRRR(r));
+    Api.asyncRawPost(url, fd, r => this.#onRegisterDomainRRR(r), null);
   }
 
   onRequestRemoveDomain(): void { this.#asyncUnregisterDomain() }
@@ -157,7 +159,7 @@ export class FvcMemberHosting extends FScrollViewContent {
                                 false);
   }
 
-  #handleRemoteError(err: RemoteError): void {
+  #handleRemoteError(err: RemoteErrorData): void {
     if (err.type == RemoteError.T_TYPE.USER &&
         err.code == "E_DOMAIN_IN_USE") {
       this.#onDomainAlreayRegistered();
@@ -190,7 +192,7 @@ export class FvcMemberHosting extends FScrollViewContent {
   }
 
   #onRegisterDomainRRR(responseText: string): void {
-    let response = JSON.parse(responseText) as { error?: RemoteError; data?: unknown };
+    let response = JSON.parse(responseText) as { error?: RemoteErrorData; data?: HostingData };
     if (response.error) {
       this.#handleRemoteError(response.error);
     } else {
@@ -207,7 +209,7 @@ export class FvcMemberHosting extends FScrollViewContent {
   }
 
   #onUnregisterRRR(responseText: string): void {
-    let response = JSON.parse(responseText) as { error?: RemoteError; data?: unknown };
+    let response = JSON.parse(responseText) as { error?: RemoteErrorData; data?: HostingData };
     if (response.error) {
       this.#handleRemoteError(response.error);
     } else {

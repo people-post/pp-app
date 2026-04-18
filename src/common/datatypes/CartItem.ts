@@ -1,4 +1,4 @@
-import type { CartItemData, Price } from '../../types/backend2.js';
+import type { CartItemData, Price, SpecificationsData } from '../../types/backend2.js';
 
 export class CartItem {
   #data: CartItemData;
@@ -7,15 +7,15 @@ export class CartItem {
     this.#data = data;
   }
 
-  getId(): string | undefined {
+  getId(): string | null {
     return this.#data.id;
   }
 
-  getProductId(): string | undefined {
+  getProductId(): string | null {
     return this.#data.product_id;
   }
 
-  getSpecs(): unknown {
+  getSpecs(): SpecificationsData[] {
     return this.#data.specifications;
   }
 
@@ -71,7 +71,7 @@ export class CartItem {
   }
 
   toJsonDict(): {
-    product_id: string | undefined;
+    product_id: string | null;
     preferred_currency_id: string | null;
     quantity: number;
     specifications: unknown[];

@@ -125,7 +125,10 @@ export class Web2Account {
     return this.#profile?.community_id || null;
   }
 
-  getUserShopName(userId: string, defaultName: string): string {
+  getUserShopName(userId: string | null, defaultName: string): string {
+    if (!userId) {
+      return defaultName;
+    }
     let n = defaultName;
     const u = Users.get(userId);
     if (u && 'getShopName' in u && typeof u.getShopName === 'function') {
@@ -139,7 +142,10 @@ export class Web2Account {
     return n;
   }
 
-  getUserNickname(userId: string, defaultNickname: string): string {
+  getUserNickname(userId: string | null, defaultNickname: string): string {
+    if (!userId) {
+      return defaultNickname;
+    }
     const idol = this.#getIdol(userId);
     if (idol && idol.nickname && idol.nickname.length) {
       return idol.nickname;

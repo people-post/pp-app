@@ -1,4 +1,26 @@
-export const CF_CUSTOMER_ORDER = {
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Exchange } from '../../common/dba/Exchange.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { STATE } from '../../common/constants/Constants.js';
+import { Utilities } from '../../common/Utilities.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
+import { Events } from '../../lib/framework/Events.js';
+import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
+import { POrder } from './POrder.js';
+import { POrderInfo } from './POrderInfo.js';
+import { FOrderItem } from './FOrderItem.js';
+import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
+import { Currency } from '../../common/datatypes/Currency.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import type { POrderBase } from './POrderBase.js';
+import { Account } from '../../common/dba/Account.js';
+import { SupplierOrderItem } from '../../common/datatypes/SupplierOrderItem.js';
+
+const CF_CUSTOMER_ORDER = {
   ON_CLICK : "CF_CUSTOMER_ORDER_1",
   USER_INFO : "CF_CUSTOMER_ORDER_2",
 };
@@ -10,29 +32,6 @@ const _CFT_CUSTOMER_ORDER = {
   <div>__QUANTITY__x</div>`,
   ACT_ONCLICK : `javascript:G.action("${CF_CUSTOMER_ORDER.ON_CLICK}")`,
 };
-
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
-import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
-import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { Exchange } from '../../common/dba/Exchange.js';
-import { T_DATA } from '../../common/plt/Events.js';
-import { STATE } from '../../common/constants/Constants.js';
-import { Utilities } from '../../common/Utilities.js';
-import UtilitiesExt from '../../lib/ext/Utilities.js';
-import { Events, T_ACTION } from '../../lib/framework/Events.js';
-import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
-import { POrder } from './POrder.js';
-import { POrderInfo } from './POrderInfo.js';
-import { FOrderItem } from './FOrderItem.js';
-import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
-import { SupplierOrderPublic } from '../../common/datatypes/SupplierOrderPublic.js';
-import { Currency } from '../../common/datatypes/Currency.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import type Render from '../../lib/ui/renders/Render.js';
-import type { POrderBase } from './POrderBase.js';
-import { Account } from '../../common/dba/Account.js';
 
 export interface OrderDataSource {
   getOrderForOrderFragment(f: FOrder, orderId: string | null): CustomerOrder | null;
@@ -91,8 +90,8 @@ export class FOrder extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Render): void {
-    let order = Account.getOrder(this._orderId);
+  _renderOnRender(render: PanelWrapper): void {
+    let order = this._orderId ? Account.getOrder(this._orderId) : null;
     if (!order) {
       return;
     }
@@ -203,24 +202,31 @@ export class FOrder extends Fragment {
     let s = "";
     if (order.getState() == STATE.ACTIVE) {
       s = _CFT_CUSTOMER_ORDER.T_UPDATE;
-      s = s.replace("__DT__", Utilities.renderTimeDiff(order.getUpdateTime()));
+      s = s.replace("__DT__", Utilities.renderTimeDiff(order.getUpdateTime().getTime()));
     } else {
       s = _CFT_CUSTOMER_ORDER.T_CREATE;
-      s = s.replace("__DT__",
-                    Utilities.renderTimeDiff(order.getCreationTime()));
+      let t = order.getCreationTime();
+      if (t) {
+        s = s.replace("__DT__", Utilities.renderTimeDiff(t.getTime()));
+      } else {
+        s = s.replace("__DT__", "N/A");
+      }
     }
     panel.replaceContent(s);
   }
 
-  #renderOrderItem(item: SupplierOrderPublic): string {
+  #renderOrderItem(item: SupplierOrderItem): string {
     let s = _CFT_CUSTOMER_ORDER.ITEM;
-    s = s.replace("__NAME__", item.getDescription());
-    s = s.replace("__QUANTITY__", item.getQuantity().toString());
+    s = s.replace("__NAME__", item.getDescription() ?? "");
+    s = s.replace("__QUANTITY__", item.getQuantity()?.toString() ?? "");
     return s;
   }
 
   #renderShopNameInfo(order: CustomerOrder, panel: Panel): void {
     let userId = order.getShopId();
+    if (!userId) {
+      return;
+    }
     let name = Account.getUserShopName(userId, "...");
     let s =
         Utilities.renderSmallButton(CF_CUSTOMER_ORDER.USER_INFO, userId,
@@ -230,6 +236,9 @@ export class FOrder extends Fragment {
 
   #renderShopName(order: CustomerOrder, panel: Panel): void {
     let userId = order.getShopId();
+    if (!userId) {
+      return;
+    }
     let name = Account.getUserShopName(userId, "...");
     let s = "Shop: ";
     s += Utilities.renderSmallButton(CF_CUSTOMER_ORDER.USER_INFO, userId,
@@ -239,14 +248,23 @@ export class FOrder extends Fragment {
 
   #renderOrderId(order: CustomerOrder, panel: Panel): void {
     let s = "Order id: ";
-    s += Utilities.orderIdToReferenceId(order.getId());
+    let id = order.getId();
+    if (id) {
+      s += Utilities.orderIdToReferenceId(id);
+    } else {
+      s += "N/A";
+    }
     panel.replaceContent(s);
   }
 
   #renderCreationTime(order: CustomerOrder, panel: Panel): void {
     let s = "Created at: ";
-    s +=
-        UtilitiesExt.timestampToDateTimeString(order.getCreationTime() / 1000);
+    let t = order.getCreationTime();
+    if (t) {
+      s += UtilitiesExt.timestampToDateTimeString(t.getTime() / 1000);
+    } else {
+      s += "N/A";
+    }
     panel.replaceContent(s);
   }
 
@@ -330,7 +348,7 @@ export class FOrder extends Fragment {
   }
 
   #onClick(): void {
-    this._delegate.onCustomerOrderInfoFragmentRequestShowOrder(this,
+    this.getDelegate<OrderDelegate>()?.onCustomerOrderInfoFragmentRequestShowOrder(this,
                                                                this._orderId);
   }
 

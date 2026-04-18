@@ -34,6 +34,14 @@ export interface IdolData {
   nickname?: string;
 }
 
+export interface HostingData {
+  domain_name: string | null;
+  is_tls_pending: boolean;
+  is_tls_ready: boolean;
+  is_ns_pending: boolean;
+  ds_record?: { key_tag: string; algorithm: string; digest_type: string; digest: string };
+}
+
 export interface GroupData extends ServerDataObjectData {
   owner_id: string;
   name: string;
@@ -388,6 +396,9 @@ export interface Price {
   value: number;
 }
 
+export interface SpecificationsData {
+}
+
 export interface CartItemData {
   id: string;
   product_id: string;
@@ -395,7 +406,7 @@ export interface CartItemData {
   quantity: number;
   preferred_currency_id: string | null;
   prices: Price[];
-  specifications: unknown[];
+  specifications: SpecificationsData[];
 }
 
 interface HistoryEventData {

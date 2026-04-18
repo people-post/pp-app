@@ -1,7 +1,3 @@
-const _CFT_CART = {
-  TITLE : `[__NAME__]`,
-};
-
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
@@ -16,13 +12,16 @@ import { Utilities } from '../../common/Utilities.js';
 import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
 import { CartItem } from '../../common/datatypes/CartItem.js';
 import { Currency } from '../../common/datatypes/Currency.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
-interface CartDataSource {
+const _CFT_CART = {
+  TITLE : `[__NAME__]`,
+};
+
+export interface FCartDataSource {
   getCartForCartFragment(f: FCart, cartId: string | null): CartDataType | null;
 }
 
-interface CartDelegate {
+export interface FCartDelegate {
   onCartFragmentRequestShowView(f: FCart, v: unknown, title: string): void;
   onCartFragmentRequestShowProduct(f: FCart, productId: string): void;
   onCartFragmentRequestChangeItemQuantity(f: FCart, cartId: string | null, itemId: string, dQty: number): void;
@@ -43,8 +42,6 @@ export class FCart extends Fragment {
   protected _tLayout: symbol | null;
   protected _currencyId: string | null;
   protected _isCartTransferEnabled: boolean;
-  protected _dataSource!: CartDataSource;
-  protected _delegate!: CartDelegate;
 
   constructor() {
     super();
@@ -69,27 +66,27 @@ export class FCart extends Fragment {
   setLayoutType(t: symbol | null): void { this._tLayout = t; }
   setEnableCartTransfer(b: boolean): void { this._isCartTransferEnabled = b; }
 
-  getItemForCartItemFragment(fCartItem: FCartItem, itemId: string): CartItem | null {
+  getItemForCartItemFragment(_fCartItem: FCartItem, itemId: string): CartItem | null {
     let c = this.#getCart();
     return c ? c.get(itemId) || null : null;
   }
 
-  onSimpleButtonClicked(fBtn: Button): void { this.#onCheckoutClicked(); }
+  onSimpleButtonClicked(_fBtn: Button): void { this.#onCheckoutClicked(); }
 
-  onCartItemFragmentRequestShowView(fItem: FCartItem, v: unknown, title: string): void {
-    this._delegate.onCartFragmentRequestShowView(this, v, title);
+  onCartItemFragmentRequestShowView(_fItem: FCartItem, v: unknown, title: string): void {
+    this.getDelegate<FCartDelegate>()?.onCartFragmentRequestShowView(this, v, title);
   }
   onCartItemFragmentRequestShowProduct(_fItem: FCartItem, productId: string): void {
-    this._delegate.onCartFragmentRequestShowProduct(this, productId);
+    this.getDelegate<FCartDelegate>()?.onCartFragmentRequestShowProduct(this, productId);
   }
 
-  onCartItemFragmentRequestChangeItemQuantity(fCartItem: FCartItem, itemId: string, dQty: number): void {
-    this._delegate.onCartFragmentRequestChangeItemQuantity(this, this._cartId,
+  onCartItemFragmentRequestChangeItemQuantity(_fCartItem: FCartItem, itemId: string, dQty: number): void {
+    this.getDelegate<FCartDelegate>()?.onCartFragmentRequestChangeItemQuantity(this, this._cartId,
                                                            itemId, dQty);
   }
 
-  onCartItemFragmentRequestRemoveItem(fItem: FCartItem, itemId: string): void {
-    this._delegate.onCartFragmentRequestRemoveItem(this, this._cartId, itemId);
+  onCartItemFragmentRequestRemoveItem(_fItem: FCartItem, itemId: string): void {
+    this.getDelegate<FCartDelegate>()?.onCartFragmentRequestRemoveItem(this, this._cartId, itemId);
   }
 
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
@@ -98,13 +95,14 @@ export class FCart extends Fragment {
     case T_DATA.CURRENCIES:
     case T_DATA.DRAFT_ORDERS:
       this.render();
+      break;
     default:
       break;
     }
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let pMain = new ListPanel();
     render.wrapPanel(pMain);
 
@@ -133,7 +131,10 @@ export class FCart extends Fragment {
     if (this._currencyId) {
       let total = 0;
       for (let item of items) {
-        total += item.getPrice(this._currencyId);
+        let price = item.getPrice(this._currencyId);
+        if (price) {
+          total += price;
+        }
       }
 
       if (total > 0) {
@@ -153,7 +154,7 @@ export class FCart extends Fragment {
   }
 
   #getCart(): CartDataType | null {
-    return this._dataSource.getCartForCartFragment(this, this._cartId);
+    return this.getDataSource<FCartDataSource>()?.getCartForCartFragment(this, this._cartId) || null;
   }
 
   #getItems(): CartItem[] {
@@ -169,7 +170,7 @@ export class FCart extends Fragment {
   #getItemLayoutType(): symbol {
     let t: symbol;
     switch (this._tLayout) {
-    case this.constructor.T_LAYOUT.RESERVE:
+    case FCart.T_LAYOUT.RESERVE:
       t = FCartItem.T_LAYOUT.RESERVE;
       break;
     default:
@@ -193,8 +194,8 @@ export class FCart extends Fragment {
   #renderCurrencyName(currency: Currency | null): string {
     if (currency) {
       let s = `__NAME__(__CODE__)`;
-      s = s.replace("__NAME__", currency.getName());
-      s = s.replace("__CODE__", currency.getCode());
+      s = s.replace("__NAME__", currency.getName() || "");
+      s = s.replace("__CODE__", currency.getCode() || "");
       return s;
     } else {
       return "N/A";
@@ -209,7 +210,7 @@ export class FCart extends Fragment {
   }
 
   #onCheckoutClicked(): void {
-    this._delegate.onCartFragmentRequestCheckout(this, this._cartId,
+    this.getDelegate<FCartDelegate>()?.onCartFragmentRequestCheckout(this, this._cartId,
                                                  this._currencyId);
   }
 };

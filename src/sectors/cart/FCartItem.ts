@@ -28,15 +28,14 @@ import { Utilities } from '../../common/Utilities.js';
 import { PReservedItemInfo } from './PReservedItemInfo.js';
 import { PActiveItemInfo } from './PActiveItemInfo.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import type { PCartItemInfo } from './PCartItemInfo.js';
 import { Account } from '../../common/dba/Account.js';
 
-interface CartItemDataSource {
+export interface FCartItemDataSource {
   getItemForCartItemFragment(f: FCartItem, itemId: string): CartItem | null;
 }
 
-interface CartItemDelegate {
+export interface FCartItemDelegate {
   onCartItemFragmentRequestShowView(f: FCartItem, v: unknown, title: string): void;
   onCartItemFragmentRequestShowProduct(f: FCartItem, productId: string): void;
   onCartItemFragmentRequestChangeItemQuantity(f: FCartItem, itemId: string, dQty: number): void;
@@ -57,8 +56,6 @@ export class FCartItem extends Fragment {
   protected _tLayout: symbol | null;
   protected _currencyId: string | null;
   protected _isTransferButtonEnabled: boolean;
-  protected _dataSource!: CartItemDataSource;
-  protected _delegate!: CartItemDelegate;
 
   constructor() {
     super();
@@ -99,7 +96,7 @@ export class FCartItem extends Fragment {
   setLayoutType(t: symbol | null): void { this._tLayout = t; }
   setEnableTransferBtn(b: boolean): void { this._isTransferButtonEnabled = b; }
 
-  getFilesForThumbnailFragment(fThumbnail: FilesThumbnailFragment): unknown[] {
+  getFilesForThumbnailFragment(_fThumbnail: FilesThumbnailFragment): unknown[] {
     let f = this.#getThumbnialFile();
     return f ? [ f ] : [];
   }
@@ -107,7 +104,7 @@ export class FCartItem extends Fragment {
   onSimpleButtonClicked(fBtn: Button): void {
     switch (fBtn) {
     case this._fBtnDelete:
-      this._delegate.onCartItemFragmentRequestRemoveItem(this, this._itemId as string);
+      this.getDelegate<FCartItemDelegate>()?.onCartItemFragmentRequestRemoveItem(this, this._itemId as string);
       break;
     case this._fBtnMoveToCart:
       Cart.asyncMoveItem(this._itemId as string, CartDataType.T_ID.ACTIVE);
@@ -120,7 +117,7 @@ export class FCartItem extends Fragment {
     }
   }
 
-  onThumbnailClickedInThumbnailFragment(fThumbnail: FilesThumbnailFragment, idx: number): void {
+  onThumbnailClickedInThumbnailFragment(_fThumbnail: FilesThumbnailFragment, _idx: number): void {
     let item = this.#getItem();
     if (item) {
       this.#onProductClicked(item.getProductId());
@@ -133,11 +130,11 @@ export class FCartItem extends Fragment {
       this.#onProductClicked(args[0] as string);
       break;
     case CF_CART_ITEM.INCREASE_ITEM:
-      this._delegate.onCartItemFragmentRequestChangeItemQuantity(this, args[0] as string,
+      this.getDelegate<FCartItemDelegate>()?.onCartItemFragmentRequestChangeItemQuantity(this, args[0] as string,
                                                                  1);
       break;
     case CF_CART_ITEM.DESCREASE_ITEM:
-      this._delegate.onCartItemFragmentRequestChangeItemQuantity(this, args[0] as string,
+      this.getDelegate<FCartItemDelegate>()?.onCartItemFragmentRequestChangeItemQuantity(this, args[0] as string,
                                                                  -1);
       break;
     default:
@@ -158,7 +155,7 @@ export class FCartItem extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let item = this.#getItem();
     if (!item) {
       return;
@@ -211,7 +208,7 @@ export class FCartItem extends Fragment {
   #createPanel(): PCartItemInfo {
     let p: PCartItemInfo;
     switch (this._tLayout) {
-    case this.constructor.T_LAYOUT.RESERVE:
+    case FCartItem.T_LAYOUT.RESERVE:
       p = new PReservedItemInfo();
       break;
     default:
@@ -235,8 +232,8 @@ export class FCartItem extends Fragment {
     let product = Shop.getProduct(item.getProductId());
     if (product) {
       let s = _CFT_CART_ITEM.NAME;
-      s = s.replace("__NAME__", product.getName());
-      s = s.replace("__PRODUCT_ID__", product.getId());
+      s = s.replace("__NAME__", product.getName() ?? "");
+      s = s.replace("__PRODUCT_ID__", product.getId() ?? "");
       return s;
     }
     return "N/A";
@@ -252,12 +249,13 @@ export class FCartItem extends Fragment {
   #renderQuantity(item: CartItem, panel: Panel): void {
     let s = _CFT_CART_ITEM.QUANTITY;
     s = s.replace("__QUANTITY__", item.getQuantity() + "x");
-    s = s.replace(/__ITEM_ID__/g, item.getId());
+    s = s.replace(/__ITEM_ID__/g, item.getId() ?? "");
     panel.replaceContent(s);
   }
 
   #getItem(): CartItem | null {
-    return this._dataSource.getItemForCartItemFragment(this, this._itemId as string);
+    let ds = this.getDataSource<FCartItemDataSource>();
+    return ds ? ds.getItemForCartItemFragment(this, this._itemId as string) : null;
   }
 
   #getThumbnialFile(): unknown {
@@ -271,7 +269,13 @@ export class FCartItem extends Fragment {
     return null;
   }
 
-  #onProductClicked(productId: string): void {
-    this._delegate.onCartItemFragmentRequestShowProduct(this, productId);
+  #onProductClicked(productId: string | null): void {
+    if (!productId) {
+      return;
+    }
+    let ds = this.getDelegate<FCartItemDelegate>();
+    if (ds) {
+      ds.onCartItemFragmentRequestShowProduct(this, productId);
+    }
   }
 };

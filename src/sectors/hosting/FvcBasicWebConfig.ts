@@ -7,24 +7,29 @@ import { WebConfig } from '../../common/dba/WebConfig.js';
 import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { Api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { WebConfigData } from '../../types/backend2.js';
 
-window.CF_BASIC_WEB_CONFIG = {
-  ON_DEFAULT_COLOR_CHANGE : "CF_BASIC_WEB_CONFIG_1",
-  ON_ICON_CHANGE : "CF_BASIC_WEB_CONFIG_2",
-  ON_TITLE_SET : "CF_BASIC_WEB_CONFIG_3",
-}
+const CF_BASIC_WEB_CONFIG = {
+  ON_DEFAULT_COLOR_CHANGE: "CF_BASIC_WEB_CONFIG_1",
+  ON_ICON_CHANGE: "CF_BASIC_WEB_CONFIG_2",
+  ON_TITLE_SET: "CF_BASIC_WEB_CONFIG_3",
+} as const;
 
 const _CFT_BASIC_WEB_CONFIG = {
-  HOME_PAGE_TITLE :
-      `<input type="text" class="tight-label-like tw:box-border s-cfunc" placeholder="Your homepage title" value="__VALUE__" onchange="javascript:G.action(CF_BASIC_WEB_CONFIG.ON_TITLE_SET, this.value)">`,
-  PROFILE_ICON : `
+  HOME_PAGE_TITLE:
+      `<input type="text" class="tight-label-like tw:box-border s-cfunc" placeholder="Your homepage title" value="__VALUE__" onchange="javascript:G.action('${CF_BASIC_WEB_CONFIG.ON_TITLE_SET}', this.value)">`,
+  PROFILE_ICON: `
     <div class="profile-icon tw:inline-block tw:w-s-icon1 tw:h-s-icon1 s-cprimebg">
        <img class="photo" src="__SRC__" alt="Icon" onclick="javascript:this.nextElementSibling.click()">
-       <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action(CF_BASIC_WEB_CONFIG.ON_ICON_CHANGE, this.files[0])">
+       <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action('${CF_BASIC_WEB_CONFIG.ON_ICON_CHANGE}', this.files[0])">
     </div>`,
-  THEME_COLOR :
-      `<input type="text" class="tight-label-like" placeholder="Color" value-bak="__VALUE__" value="__VALUE__" style="color: __COLOR__" onchange="javascript:G.action(CF_BASIC_WEB_CONFIG.ON_DEFAULT_COLOR_CHANGE, '__KEY__', this)">`,
+  THEME_COLOR:
+      `<input type="text" class="tight-label-like" placeholder="Color" value-bak="__VALUE__" value="__VALUE__" style="color: __COLOR__" onchange="javascript:G.action('${CF_BASIC_WEB_CONFIG.ON_DEFAULT_COLOR_CHANGE}', '__KEY__', this)">`,
+};
+
+interface ApiUpdateWebConfigResponse {
+  web_config?: WebConfigData;
 }
 
 export class FvcBasicWebConfig extends FScrollViewContent {
@@ -48,7 +53,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case FwkT_DATA.WEB_CONFIG:
-      this._owner.onContentFragmentRequestUpdateHeader(this);
+      this._requestUpdateHeader();
       this.render();
       break;
     case T_DATA.USER_PROFILE:
@@ -60,7 +65,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
 
@@ -69,7 +74,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
     let cp = pp.getContentPanel();
     if (cp) {
       cp.replaceContent(_CFT_BASIC_WEB_CONFIG.HOME_PAGE_TITLE.replace(
-          "__VALUE__", WebConfig.getHomePageTitle()));
+          "__VALUE__", WebConfig.getHomePageTitle() ?? ""));
     }
 
     pp = new SectionPanel("Default theme");
@@ -144,10 +149,10 @@ export class FvcBasicWebConfig extends FScrollViewContent {
       return;
     }
 
-      if (UtilitiesExt.isValidColor(c)) {
-      let config = WebConfig.getDefaultTheme();
-      let other = (key == "primary") ? config.getSecondaryColor()
-                                     : config.getPrimaryColor();
+    if (UtilitiesExt.isValidColor(c)) {
+      // let config = WebConfig.getDefaultTheme();
+      //let other = (key == "primary") ? config.getSecondaryColor()
+      //                               : config.getPrimaryColor();
       this.#asyncUpdateDefaultTheme(key, c);
     } else {
       this.onLocalErrorInFragment(this, R.get("EL_INVALID_COLOR"));
@@ -162,7 +167,7 @@ export class FvcBasicWebConfig extends FScrollViewContent {
         .then(d => this.#onMajorUpdateRRR(d));
   }
 
-  #onMajorUpdateRRR(data: unknown): void {
+  #onMajorUpdateRRR(_data: unknown): void {
     Events.triggerTopAction(T_ACTION.RELOAD_URL, this);
   }
 
@@ -183,12 +188,12 @@ export class FvcBasicWebConfig extends FScrollViewContent {
 
   #asyncUpdateConfig(fd: FormData): void {
     let url = "/api/user/update_web_config";
-    Api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost<ApiUpdateWebConfigResponse>(this, url, fd)
         .then(d => this.#onWebConfigDataReceived(d));
   }
 
-  #onWebConfigDataReceived(data: unknown): void { 
-    let webConfig = (data as { web_config?: unknown }).web_config;
+  #onWebConfigDataReceived(data: ApiUpdateWebConfigResponse): void { 
+    let webConfig = data.web_config;
     if (webConfig) {
       WebConfig.reset(webConfig);
     }

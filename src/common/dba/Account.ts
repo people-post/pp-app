@@ -83,11 +83,11 @@ class AccountWrapper implements AccountPort {
     return this.#port.getIdols();
   }
 
-  getUserNickname(userId: string, defaultNickname?: string): string {
+  getUserNickname(userId: string | null, defaultNickname?: string): string {
     return this.#port.getUserNickname(userId, defaultNickname);
   }
 
-  getUserShopName(userId: string, defaultName: string): string {
+  getUserShopName(userId: string | null, defaultName: string): string {
     return this.#port.getUserShopName(userId, defaultName);
   }
 

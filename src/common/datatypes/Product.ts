@@ -5,7 +5,7 @@ import { RemoteFile } from './RemoteFile.js';
 import { ProductDeliveryChoice } from './ProductDeliveryChoice.js';
 import { SocialItemId } from './SocialItemId.js';
 import { OgpData } from './OgpData.js';
-import type { ProductData, BasePrice } from '../../types/backend2.js';
+import type { ProductData, BasePrice, SpecificationsData } from '../../types/backend2.js';
 
 export class Product extends ServerDataObject<ProductData> implements SocialItemInterface {
   #files: RemoteFile[] = [];
@@ -66,7 +66,8 @@ export class Product extends ServerDataObject<ProductData> implements SocialItem
     return this._data.supplier_id;
   }
 
-  getFileForSpecs(): RemoteFile | null {
+  getFileForSpecs(_specs: SpecificationsData[]): RemoteFile | null {
+    // TODO: Implement this
     return this.#files[0];
   }
 

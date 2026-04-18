@@ -12,15 +12,19 @@ import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
 import { FvcTagEditor } from './FvcTagEditor.js';
 import { FTagEditor } from './FTagEditor.js';
 import { Api } from '../../common/plt/Api.js';
+import { TagData } from '../../types/backend2.js';
 
-interface TagEditorListDelegate {
+interface ApiAddTagResponse {
+  groups?: TagData[];
+}
+
+export interface TagEditorListDelegate {
   onClickInTagEditorFragment(fTagEditor: FTagEditor): void;
 }
 
 export class FvcTagEditorList extends FScrollViewContent {
   protected _fList: FSimpleFragmentList;
   protected _fBtnNew: ActionButton;
-  protected _delegate!: TagEditorListDelegate;
 
   constructor() {
     super();
@@ -34,7 +38,7 @@ export class FvcTagEditorList extends FScrollViewContent {
 
   getActionButton(): ActionButton { return this._fBtnNew }
 
-  onGuiActionButtonClick(fActionButton: ActionButton): void {
+  onGuiActionButtonClick(_fActionButton: ActionButton): void {
     let v = new View();
     let fvc = new FvcUserInput();
     let f = new TextInput();
@@ -59,13 +63,13 @@ export class FvcTagEditorList extends FScrollViewContent {
     let f = new FvcTagEditor();
     f.setTagId(fTagEditor.getTagId());
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Tag editor");
+    this.onFragmentRequestShowView(this, v, "Tag editor");
   }
 
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case FwkT_DATA.WEB_CONFIG:
-      this._owner.onContentFragmentRequestUpdateHeader(this);
+      this._requestUpdateHeader();
       this.render();
       break;
     case T_DATA.USER_PROFILE:
@@ -102,11 +106,11 @@ export class FvcTagEditorList extends FScrollViewContent {
     let url = "api/user/add_tag";
     let fd = new FormData();
     fd.append("name", tag);
-    Api.asFragmentPost(this, url, fd).then(d => this.#onAddTagRRR(d));
+    Api.asFragmentPost<ApiAddTagResponse>(this, url, fd).then(d => this.#onAddTagRRR(d));
   }
 
-  #onAddTagRRR(data: unknown): void {
-    let groups = (data as { groups?: unknown }).groups;
+  #onAddTagRRR(data: ApiAddTagResponse): void {
+    let groups = data.groups;
     if (groups) {
       WebConfig.resetTags(groups);
     }

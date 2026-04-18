@@ -12,8 +12,8 @@ import type { PTagEditorBase } from './PTagEditorBase.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 const CF_TAG_EDITOR = {
-  ON_CLICK : Symbol(),
-}
+  ON_CLICK: "CF_TAG_EDITOR_1",
+} as const;
 
 export interface TagEditorDelegate {
   onClickInTagEditorFragment(f: FTagEditor): void;
@@ -57,7 +57,7 @@ export class FTagEditor extends Fragment {
     }
   }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: symbol | string, ...args: unknown[]): void {
     switch (type) {
     case CF_TAG_EDITOR.ON_CLICK:
       this.getDelegate<TagEditorDelegate>()?.onClickInTagEditorFragment(this);
@@ -105,7 +105,7 @@ export class FTagEditor extends Fragment {
     switch (this._tLayout) {
     case FTagEditor.T_LAYOUT.INFO:
       p = new PTagEditorInfo();
-      p.setAttribute("onclick", "G.action(CF_TAG_EDITOR.ON_CLICK)");
+      p.setAttribute("data-pp-action", CF_TAG_EDITOR.ON_CLICK);
       break;
     default:
       p = new PTagEditor();
