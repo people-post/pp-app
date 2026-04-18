@@ -1,3 +1,14 @@
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Events, T_DATA as FwkT_DATA, T_ACTION } from '../../lib/framework/Events.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import UtilitiesExt from '../../lib/ext/Utilities.js';
+import { Api } from '../../common/plt/Api.js';
+import { R } from '../../common/constants/R.js';
+import type Render from '../../lib/ui/renders/Render.js';
+
 window.CF_BASIC_WEB_CONFIG = {
   ON_DEFAULT_COLOR_CHANGE : "CF_BASIC_WEB_CONFIG_1",
   ON_ICON_CHANGE : "CF_BASIC_WEB_CONFIG_2",
@@ -15,17 +26,6 @@ const _CFT_BASIC_WEB_CONFIG = {
   THEME_COLOR :
       `<input type="text" class="tight-label-like" placeholder="Color" value-bak="__VALUE__" value="__VALUE__" style="color: __COLOR__" onchange="javascript:G.action(CF_BASIC_WEB_CONFIG.ON_DEFAULT_COLOR_CHANGE, '__KEY__', this)">`,
 }
-
-import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
-import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
-import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
-import { T_DATA } from '../../common/plt/Events.js';
-import { Events, T_DATA as FwkT_DATA, T_ACTION } from '../../lib/framework/Events.js';
-import { WebConfig } from '../../common/dba/WebConfig.js';
-import UtilitiesExt from '../../lib/ext/Utilities.js';
-import { Api } from '../../common/plt/Api.js';
-import { R } from '../../common/constants/R.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcBasicWebConfig extends FScrollViewContent {
   action(type: string, ...args: unknown[]): void {

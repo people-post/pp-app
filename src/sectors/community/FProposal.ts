@@ -212,7 +212,7 @@ export class FProposal extends Fragment {
     s = s.replace("__STATUS__", Utilities.renderStatus(proposal.getState(),
                                                        proposal.getStatus()));
     s = s.replace("__T_UPDATE__",
-                  Utilities.renderTimeDiff(proposal.getUpdateTime()));
+                  Utilities.renderTimeDiff(proposal.getUpdateTime().getTime() / 1000));
     panel.replaceContent(s);
   }
 
@@ -268,14 +268,25 @@ export class FProposal extends Fragment {
   #renderSubtitle(proposal: Proposal, panel: Panel): void {
     let s: string = _CFT_PROPOSAL.SUBTITLE;
     let userId = proposal.getAuthorId();
+    if (!userId) {
+      return;
+    }
     let nickname = Account.getUserNickname(userId);
+    if (!nickname) {
+      return;
+    }
     s = s.replace("__AUTHOR__", Utilities.renderSmallButton(
                                     CF_PROPOSAL.USER_INFO, userId,
                                     nickname, "low-profile s-cinfotext tw:font-bold"));
-    s = s.replace("__T_CREATE__", UtilitiesExt.timestampToDateTimeString(
-                                      proposal.getCreationTime() / 1000));
+    let creationTime = proposal.getCreationTime();
+    if (!creationTime) {
+      s = s.replace("__T_CREATE__", "N/A");
+    } else {
+      s = s.replace("__T_CREATE__", UtilitiesExt.timestampToDateTimeString(
+                                        creationTime.getTime() / 1000));
+    }
     s = s.replace("__T_UPDATE__", UtilitiesExt.timestampToDateTimeString(
-                                      proposal.getUpdateTime() / 1000));
+                                      proposal.getUpdateTime().getTime() / 1000));
     s = s.replace("__STATUS__", Utilities.renderStatus(proposal.getState(),
                                                        proposal.getStatus()));
     panel.replaceContent(s);
@@ -307,7 +318,7 @@ export class FProposal extends Fragment {
     return Utilities.renderSmallButton(CF_PROPOSAL.VOTE, "", "Vote...");
   }
 
-  #makeChangeConfigContent(communityId: string, data: unknown): string {
+  #makeChangeConfigContent(communityId: string | null, data: unknown): string {
     let dataObj = data as { old?: unknown; new?: unknown };
     let oldConfig = dataObj.old;
     if (!oldConfig) {

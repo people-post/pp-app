@@ -28,7 +28,7 @@ interface CommunitiesInterface {
   getGlobalProfile(): GlobalCommunityProfileData | null;
   getProposal(id: string | null): Proposal | null | undefined;
   updateProposal(proposal: Proposal): void;
-  asyncVote(itemId: string, value: number): void;
+  asyncVote(itemId: string, value: string): void;
   updateProfile(profile: CommunityProfile): void;
   reload(id: string): void;
 }
@@ -93,11 +93,11 @@ export class CommunitiesClass implements CommunitiesInterface {
     this.#load(id);
   }
 
-  asyncVote(itemId: string, value: number): void {
+  asyncVote(itemId: string, value: string): void {
     const url = '/api/community/vote';
     const fd = new FormData();
     fd.append('id', itemId);
-    fd.append('value', value.toString());
+    fd.append('value', value);
     Api.asyncRawPost(url, fd, (r) => this.#onVoteRRR(r), null);
   }
 

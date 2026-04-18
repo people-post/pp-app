@@ -23,7 +23,7 @@ export class FvcConfirmAction extends FScrollViewContent {
 
   setMessage(msg: string): void { this._fTitle.setText(msg); }
 
-  addOption(text: string, func: () => void, watchful: boolean = false): void {
+  addOption(text: string, func: (() => void) | null, watchful: boolean = false): void {
     this._fButtons.addButton(text, func, watchful);
   }
 

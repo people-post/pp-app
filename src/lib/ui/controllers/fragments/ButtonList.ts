@@ -12,7 +12,7 @@ const _CVT_BUTTON_LIST = {
 
 interface ButtonConfig {
   text: string;
-  func?: () => void;
+  func: (() => void) | null;
   watchful: boolean;
 }
 
@@ -28,7 +28,7 @@ export class ButtonList extends Fragment {
     this._configs = [];
   }
 
-  addButton(text: string, func?: () => void, watchful: boolean = false): void {
+  addButton(text: string, func: (() => void) | null, watchful: boolean = false): void {
     this._configs.push({"text" : text, "func" : func, "watchful" : watchful});
   }
 

@@ -146,15 +146,15 @@ class UtilitiesClass {
 
   orderReferenceIdToOrderId(refId: string): string { return refId.substring(3); }
 
-  renderStatus(state: string, status: string | null): string {
+  renderStatus(state: string | null, status: string | null): string {
     let s = `<span class="status-text __CLASS_NAME__">__TEXT__</span>`;
     s = s.replace("__CLASS_NAME__", this.getStateClassName(state, status));
     let t = status ? status : state;
-    s = s.replace("__TEXT__", R.get(t));
+    s = s.replace("__TEXT__", t ? R.get(t) : "");
     return s;
   }
 
-  getStateClassName(state: string, status: string | null = null): string {
+  getStateClassName(state: string | null, status: string | null = null): string {
     let name = "unknown";
     switch (state) {
     case STATE.NEW:
