@@ -12,17 +12,9 @@ import { Communities } from '../../common/dba/Communities.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Api } from '../../common/plt/Api.js';
 import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import type { CommunityProfileConfigData, CommunityProfileData } from '../../types/backend2.js';
 
-interface CommunityConfig {
-  captain_id: string;
-  n_join_approvals: number;
-  voting_threshold: number;
-  days_to_expire: number;
-  tribute: unknown;
-  member_profit_share: number;
-}
-
-interface CommunityConfigDelegate {
+export interface CommunityConfigDelegate {
   onNewProposalRequestAcceptedInConfigEditorContentFragmet(f: FvcConfigEditor): void;
 }
 
@@ -35,7 +27,6 @@ export class FvcConfigEditor extends FScrollViewContent {
   protected _fTribute: FTributeInput;
   protected _fActions: ButtonList;
   protected _communityId: string | null = null;
-  protected _delegate!: CommunityConfigDelegate;
 
   constructor() {
     super();
@@ -50,7 +41,7 @@ export class FvcConfigEditor extends FScrollViewContent {
     this._fActions.setDelegate(this);
     this._fActions.addButton("Propose", () => this.#asyncPropose());
     this._fActions.addButton(
-        "Cancel", () => this._owner.onContentFragmentRequestPopView(this),
+        "Cancel", () => this._requestPopView(),
         true);
 
     this.setChild("captain", this._fCaptain);
@@ -69,7 +60,7 @@ export class FvcConfigEditor extends FScrollViewContent {
     if (communityId) {
       let community = Communities.get(communityId);
       if (community) {
-        this.#setConfig(community.getConfig() as CommunityConfig);
+        this.#setConfig(community.getConfig());
       }
     }
   }
@@ -77,7 +68,7 @@ export class FvcConfigEditor extends FScrollViewContent {
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.COMMUNITY_PROFILE:
-      let dataObj = data as { id: string; config: CommunityConfig };
+      let dataObj = data as CommunityProfileData;
       if (this._communityId == dataObj.id) {
         this.#setConfig(dataObj.config);
         this.render();
@@ -170,12 +161,12 @@ export class FvcConfigEditor extends FScrollViewContent {
   }
 
   #onSubmitRRR(_data: unknown): void {
-    this._delegate.onNewProposalRequestAcceptedInConfigEditorContentFragmet(
+    this.getDelegate<CommunityConfigDelegate>()?.onNewProposalRequestAcceptedInConfigEditorContentFragmet(
         this);
-    this._owner.onContentFragmentRequestPopView(this);
+    this._requestPopView();
   }
 
-  #setConfig(config: CommunityConfig): void {
+  #setConfig(config: CommunityProfileConfigData): void {
     this._fCaptain.setUserId(config.captain_id);
     this._fNJoinApprovals.setConfig({
       max : 100,

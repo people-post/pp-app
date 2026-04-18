@@ -185,15 +185,23 @@ declare global {
     glb?: {
       web3Resolver?: {
         getAgents(): Web3Agent[];
+        asResolveFromCid(cid: string): Promise<any>;
+        asResolve(userId: string): Promise<any>;
       };
       web3Publisher?: {
         getAgents(): Web3Agent[];
+        asInitForUser(userId: string): Promise<void>;
+        getInitUserRootCid(): string | null;
       };
       web3Ledger?: {
         getAgents(): Web3Agent[];
+        asInit(blockchains: BlockchainConfig[] | null): Promise<void>;
+        asInitForUser(userId: string): Promise<void>;
       };
       web3Storage?: {
         getAgents(id?: string): Web3Agent[];
+        asInit(blockchains: BlockchainConfig[] | null): Promise<void>;
+        asInitForUser(userId: string): Promise<void>;
       };
     };
   }

@@ -9,7 +9,8 @@ import { Auth } from '../../common/dba/Auth.js';
 import { R } from '../../common/constants/R.js';
 import { Utilities } from '../../common/Utilities.js';
 import { Api } from '../../common/plt/Api.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { RemoteError } from '../../types/basic.js';
 
 export const CF_LOGIN_PROXY = {
   TRIGGER_CHECK : Symbol(),
@@ -18,6 +19,26 @@ export const CF_LOGIN_PROXY = {
 const _CFT_LOGIN_PROXY = {
   OPTIONS :
       `left=__LEFT__,top=__TOP__,directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=320,height=480`,
+};
+
+interface ApiLoginTokenResponse {
+  error?: RemoteError;
+  data?: { token?: string };
+};
+
+interface ApiLoginResponse {
+  error?: RemoteError;
+  data?: { profile?: unknown };
+};
+
+interface ApiActivateTokenResponse {
+  error?: RemoteError;
+  data?: unknown;
+};
+
+interface ApiTokenCheckResponse {
+  error?: RemoteError;
+  data?: { is_ready?: boolean };
 };
 
 export class FvcLoginProxy extends FvcWeb2LoginBase {
@@ -39,7 +60,7 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
     this._token = null;
   }
 
-  onSimpleButtonClicked(fButton: Button): void {
+  onSimpleButtonClicked(_fButton: Button): void {
     // Event driven open window, don't do async work here
     this.#startProxy(this._token);
   }
@@ -61,7 +82,7 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
     }
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new Panel();
@@ -125,9 +146,9 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
     Auth.asyncLoginWithToken(token, r => this.#onLoginRRR(r));
   }
 
-  #onLoginError(err: unknown): void {
+  #onLoginError(err: RemoteError): void {
     this._token = null;
-    this._owner.onRemoteErrorInFragment(this, err);
+    this.onRemoteErrorInFragment(this, err);
     this.#asyncRequestLoginToken();
   }
 
@@ -139,7 +160,7 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
   }
 
   #onLoginRRR(responseText: string): void {
-    let response = JSON.parse(responseText) as { error?: unknown; data?: { profile?: unknown } };
+    let response = JSON.parse(responseText) as ApiLoginResponse;
     if (response.error) {
       this.#onLoginError(response.error);
     } else {
@@ -160,9 +181,9 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
       this._pMsg.replaceContent("");
       this._pMsg.setVisible(false);
     }
-    let response = JSON.parse(responseText) as { error?: unknown; data?: { token?: string } };
+    let response = JSON.parse(responseText) as ApiLoginTokenResponse;
     if (response.error) {
-      this._owner.onRemoteErrorInFragment(this, response.error);
+      this.onRemoteErrorInFragment(this, response.error);
     } else {
       this.#onTokenReady(response.data?.token || "");
     }
@@ -177,11 +198,11 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
     let url = "/api/auth/activate_login_token";
     let fd = new FormData();
     fd.append("token", token);
-    Api.asyncRawPost(url, fd, r => this.#onActivateTokenRRR(token, r));
+    Api.asyncRawPost(url, fd, r => this.#onActivateTokenRRR(token, r), null, null);
   }
 
   #onActivateTokenRRR(token: string, responseText: string): void {
-    let response = JSON.parse(responseText) as { error?: unknown; data?: unknown };
+    let response = JSON.parse(responseText) as ApiActivateTokenResponse;
     if (response.error) {
       this.#onLoginError(response.error);
     } else {
@@ -193,11 +214,11 @@ export class FvcLoginProxy extends FvcWeb2LoginBase {
     let url = "/api/auth/check_login_token";
     let fd = new FormData();
     fd.append("token", token);
-    Api.asyncRawPost(url, fd, r => this.#onTokenCheckRRR(token, r));
+    Api.asyncRawPost(url, fd, r => this.#onTokenCheckRRR(token, r), null, null);
   }
 
   #onTokenCheckRRR(token: string, responseText: string): void {
-    let response = JSON.parse(responseText) as { error?: unknown; data?: { is_ready?: boolean } };
+    let response = JSON.parse(responseText) as ApiTokenCheckResponse;
     if (response.error) {
       this.#onLoginError(response.error);
     } else {

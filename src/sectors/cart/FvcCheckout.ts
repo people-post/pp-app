@@ -7,9 +7,9 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { FPayment } from '../../common/pay/FPayment.js';
 import { FvcCheckoutSuccess } from './FvcCheckoutSuccess.js';
 import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-interface PaymentDelegate {
+export interface PaymentDelegate {
   onPaymentSuccessInCartPaymentFragment(fCartPayment: FPayment, orderId: string): void;
 }
 
@@ -19,7 +19,6 @@ export class FvcCheckout extends FScrollViewContent {
   protected _fPayment: FPayment;
   protected _order: CustomerOrder | null;
   protected _isShippingNeeded: boolean;
-  protected _delegate!: PaymentDelegate;
 
   constructor() {
     super();
@@ -43,18 +42,18 @@ export class FvcCheckout extends FScrollViewContent {
   setOrder(order: CustomerOrder): void { this._order = order; }
   setRegisterId(id: string): void { this._fPayment.setRegisterId(id); }
 
-  getOrderForPreviewOrderFragment(fPreviewOrder: FPreviewOrder): CustomerOrder | null { return this._order; }
-  getOrderForCartPaymentFragment(fCartPayment: FPayment): CustomerOrder | null { return this._order; }
+  getOrderForPreviewOrderFragment(_fPreviewOrder: FPreviewOrder): CustomerOrder | null { return this._order; }
+  getOrderForCartPaymentFragment(_fCartPayment: FPayment): CustomerOrder | null { return this._order; }
 
-  onPaymentSuccessInCartPaymentFragment(fCartPayment: FPayment, orderId: string): void {
+  onPaymentSuccessInCartPaymentFragment(_fCartPayment: FPayment, orderId: string): void {
     let v = new View();
     let f = new FvcCheckoutSuccess();
     f.setOrderId(orderId);
     v.setContentFragment(f);
-    this._owner.onContentFragmentRequestReplaceView(this, v, "Payment success");
+    this._requestReplaceView(v, "Payment success");
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     let p = new ListPanel();
     render.wrapPanel(p);
     let pp = new SectionPanel("Order review");

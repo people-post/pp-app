@@ -1,3 +1,10 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { Exchange } from '../../common/dba/Exchange.js';
+import { Utilities } from '../../common/Utilities.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { SupplierOrderItem } from '../../common/datatypes/SupplierOrderItem.js';
+
 const _CFT_CUSTOMER_ORDER_SUPPLIER_ITEM = {
   MAIN : `<div class="w40">__DESCRIPTION__</div>
   <div>
@@ -10,16 +17,9 @@ const _CFT_CUSTOMER_ORDER_SUPPLIER_ITEM = {
   <div>__UNIT_PRICE__</div>`,
 }
 
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { Exchange } from '../../common/dba/Exchange.js';
-import { Utilities } from '../../common/Utilities.js';
-import { SupplierOrderPublic } from '../../common/datatypes/SupplierOrderPublic.js';
-import type Render from '../../lib/ui/renders/Render.js';
-
 export class FOrderSupplierItem extends Fragment {
   protected _currencyId: string | null;
-  protected _item: SupplierOrderPublic | null;
+  protected _item: SupplierOrderItem | null;
 
   constructor() {
     super();
@@ -28,9 +28,9 @@ export class FOrderSupplierItem extends Fragment {
   }
 
   setCurrencyId(id: string | null): void { this._currencyId = id; }
-  setItem(item: SupplierOrderPublic): void { this._item = item; }
+  setItem(item: SupplierOrderItem): void { this._item = item; }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._item) {
       return;
     }
@@ -40,9 +40,9 @@ export class FOrderSupplierItem extends Fragment {
     p.replaceContent(this.#renderItem(this._item));
   }
 
-  #renderItem(item: SupplierOrderPublic): string {
+  #renderItem(item: SupplierOrderItem): string {
     let s = _CFT_CUSTOMER_ORDER_SUPPLIER_ITEM.MAIN;
-    s = s.replace("__DESCRIPTION__", item.getDescription());
+    s = s.replace("__DESCRIPTION__", item.getDescription() || "");
     s = s.replace("__QTY__", item.getQuantity().toString());
     s = s.replace("__STATUS__",
                   Utilities.renderStatus(item.getState(), item.getStatus()));

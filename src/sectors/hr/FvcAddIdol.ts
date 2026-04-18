@@ -19,14 +19,17 @@ export class FvcAddIdol extends FScrollViewContent {
     super();
     let c = new SearchConfig();
     if (Env.isWeb3()) {
-      this.#fSearch = new FWeb3Search();
+      let f = new FWeb3Search();
+      f.setConfig(c);
+      this.#fSearch = f;
       c.setCategories([ SocialItem.TYPE.USER ]);
     } else {
-      this.#fSearch = new FGeneralSearch();
-      this.#fSearch.enableAddFeed();
+      let f = new FGeneralSearch();
+      f.enableAddFeed();
+      f.setConfig(c);
+      this.#fSearch = f;
       c.setCategories([ SocialItem.TYPE.USER, SocialItem.TYPE.FEED ]);
     }
-    this.#fSearch.setConfig(c);
     this.#fSearch.setDelegate(this);
     this.setChild("search", this.#fSearch);
   }

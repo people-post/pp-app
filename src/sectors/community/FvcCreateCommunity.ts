@@ -6,8 +6,8 @@ const _CFT_CREATE_COMMUNITY_CONTENT = {
   MAIN : `<input id="__ID_NAME__" type="text" placeholder="Name">
     <br>
     <textarea id="__ID_DESC__" placeholder="Description"></textarea>`,
-  BTN_SUBMIT :
-      `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_CREATE_COMMUNITY_CONTENT.SUBMIT)">Submit</a>`
+  BTN_SUBMIT:
+      `<a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_CREATE_COMMUNITY_CONTENT.SUBMIT}">Submit</a>`,
 } as const;
 
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';

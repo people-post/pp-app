@@ -1,39 +1,27 @@
-export const CF_COMMUNITY_HEADER_EDITOR = {
-  ON_ICON_CHANGE : "CF_COMMUNITY_HEADER_EDITOR_1",
-  ON_INFO_IMAGE_CHANGE : "CF_COMMUNITY_HEADER_EDITOR_2",
-} as const;
-
-// Export to window for HTML string templates
-declare global {
-  interface Window {
-    CF_COMMUNITY_HEADER_EDITOR?: typeof CF_COMMUNITY_HEADER_EDITOR;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_COMMUNITY_HEADER_EDITOR = CF_COMMUNITY_HEADER_EDITOR;
-}
-
-const _CFT_COMMUNITY_HEADER_EDITOR = {
-  INFO_IMAGE : `<img class="overview-header" src="__BG_URL__" alt=""></img>`,
-  FCN_ONCLICK : `this.nextElementSibling.click()`,
-  FCN_VOID : `void(0)`,
-  ICON :
-      `<img class="user-info-icon tw:w-s-icon2 tw:h-s-icon2" src="__URL__" alt="Icon" onclick="javascript:__ONCLICK__">
-       <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action(CF_COMMUNITY_HEADER_EDITOR.ON_ICON_CHANGE, this.files[0])">`,
-  INFO_IMAGE_UPLOAD :
-      `<span onclick="javascript:this.nextElementSibling.click()">Upload</span>
-    <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action(CF_COMMUNITY_HEADER_EDITOR.ON_INFO_IMAGE_CHANGE, this.files[0])">`,
-} as const;
-
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FileUploader } from '../../common/plt/FileUploader.js';
 import { PHeaderEditor } from './PHeaderEditor.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-interface HeaderEditorDelegate {
+const CF_COMMUNITY_HEADER_EDITOR = {
+  ON_ICON_CHANGE: "CF_COMMUNITY_HEADER_EDITOR_1",
+  ON_INFO_IMAGE_CHANGE: "CF_COMMUNITY_HEADER_EDITOR_2",
+} as const;
+
+const _CFT_COMMUNITY_HEADER_EDITOR = {
+  INFO_IMAGE: `<img class="overview-header" src="__BG_URL__" alt=""></img>`,
+  FCN_ONCLICK: `this.nextElementSibling.click()`,
+  FCN_VOID: `void(0)`,
+  ICON:
+      `<img class="user-info-icon tw:w-s-icon2 tw:h-s-icon2" src="__URL__" alt="Icon" onclick="javascript:__ONCLICK__">
+       <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action('${CF_COMMUNITY_HEADER_EDITOR.ON_ICON_CHANGE}', this.files[0])">`,
+  INFO_IMAGE_UPLOAD:
+      `<span onclick="javascript:this.nextElementSibling.click()">Upload</span>
+    <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action('${CF_COMMUNITY_HEADER_EDITOR.ON_INFO_IMAGE_CHANGE}', this.files[0])">`,
+} as const;
+
+export interface HeaderEditorDelegate {
   onImageChangedInHeaderEditorFragment(f: FHeaderEditor): void;
 }
 
@@ -45,15 +33,14 @@ export class FHeaderEditor extends Fragment {
   protected _imageUrl: string = "";
   protected _iconUrl: string = "";
   protected _isEditable: boolean = true;
-  protected _delegate!: HeaderEditorDelegate;
 
   constructor() {
     super();
     this._iconUploader = new FileUploader();
-    this._iconUploader.setCacheId(1);
+    this._iconUploader.setCacheId("1");
     this._iconUploader.setDelegate(this);
     this._imageUploader = new FileUploader();
-    this._imageUploader.setCacheId(2);
+    this._imageUploader.setCacheId("2");
     this._imageUploader.setDelegate(this);
   }
 
@@ -77,7 +64,7 @@ export class FHeaderEditor extends Fragment {
   onThumbnailUploadProgressUpdateInFileUploader(_uploader: FileUploader, _percent: number): void {}
   onFileUploadProgressUpdateInFileUploader(_uploader: FileUploader, percent: number): void {
     if (percent == 100) {
-      this._delegate.onImageChangedInHeaderEditorFragment(this);
+      this.getDelegate<HeaderEditorDelegate>()?.onImageChangedInHeaderEditorFragment(this);
     }
   }
   onThumbnailUploadErrorInFileUploader(_uploader: FileUploader, _text: string): void {}
@@ -121,7 +108,7 @@ export class FHeaderEditor extends Fragment {
       return;
     }
 
-    let s = _CFT_COMMUNITY_HEADER_EDITOR.ICON;
+    let s: string = _CFT_COMMUNITY_HEADER_EDITOR.ICON;
     s = s.replace("__URL__", urlData);
     if (this._isEditable) {
       s = s.replace("__ONCLICK__", _CFT_COMMUNITY_HEADER_EDITOR.FCN_ONCLICK);
@@ -136,7 +123,7 @@ export class FHeaderEditor extends Fragment {
       return;
     }
 
-    let s = _CFT_COMMUNITY_HEADER_EDITOR.INFO_IMAGE;
+    let s: string = _CFT_COMMUNITY_HEADER_EDITOR.INFO_IMAGE;
     s = s.replace("__BG_URL__", urlData);
     this._pInfoImage.replaceContent(s);
   }

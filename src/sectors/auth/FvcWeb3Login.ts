@@ -58,7 +58,7 @@ export class FvcWeb3Login extends FvcLoginBase implements IFvcProgressDelegate {
     }
   }
 
-  onRequestCancelInProgressViewContentFragment(fvcProgress: FvcProgress): void {
+  onRequestCancelInProgressViewContentFragment(_fvcProgress: FvcProgress): void {
     this.#skipAccountSearch();
   }
 
@@ -107,7 +107,7 @@ export class FvcWeb3Login extends FvcLoginBase implements IFvcProgressDelegate {
 
     Events.triggerTopAction(FwkT_ACTION.SHOW_DIALOG, this, v, "Progress");
 
-    f.addProgress("Initializing account...");
+    f.addProgress("Initializing account...", 0);
     Keys.setMnemonic(w);
     Keys.asyncGetAccount()
         .then(k => this.#onAccountKeyReady(f, k, w == this.#newMnemonic))
@@ -127,7 +127,7 @@ export class FvcWeb3Login extends FvcLoginBase implements IFvcProgressDelegate {
       // NameServer
       this.#onAccountProfileReady(fvcProgress, {uuid : userId});
     } else {
-      fvcProgress.addProgress("Searching account data...");
+      fvcProgress.addProgress("Searching account data...", 0);
       this.#asInitAccount(userId)
           .then(d => this.#onAccountProfileReady(fvcProgress, d))
           .catch(e => this.#onAccountInitError(e));
@@ -162,7 +162,7 @@ export class FvcWeb3Login extends FvcLoginBase implements IFvcProgressDelegate {
   }
 
   #onAccountProfileReady(fvcProgress: FvcProgress, profile: any): void {
-    fvcProgress.addProgress("Account ready");
+    fvcProgress.addProgress("Account ready", 0);
     Events.triggerTopAction(FwkT_ACTION.CLOSE_DIALOG, this);
     Events.triggerTopAction(T_ACTION.LOGIN_SUCCESS, profile);
   }

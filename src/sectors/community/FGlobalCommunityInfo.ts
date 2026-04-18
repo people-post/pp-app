@@ -3,11 +3,6 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { Communities } from '../../common/dba/Communities.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 
-interface GlobalCommunityStatistics {
-  n_users?: number;
-  n_web_owners?: number;
-}
-
 export class FGlobalCommunityInfo extends Fragment {
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
@@ -22,19 +17,19 @@ export class FGlobalCommunityInfo extends Fragment {
 
   _renderOnRender(render: Panel): void {
     let profile = Communities.getGlobalProfile();
-    let statistics: GlobalCommunityStatistics | null = profile ? (profile as { statistics?: GlobalCommunityStatistics }).statistics : null;
+    let statistics = profile?.statistics || null;
     let table = document.createElement("TABLE");
 
     if (statistics) {
-      this.#appendRow(table, "Users", String(statistics.n_users || "N/A"));
+      this.#appendRow(table as HTMLTableElement, "Users", String(statistics.n_users || "N/A"));
     } else {
-      this.#appendRow(table, "Users", "N/A");
+      this.#appendRow(table as HTMLTableElement, "Users", "N/A");
     }
 
     if (statistics) {
-      this.#appendRow(table, "Web owners", String(statistics.n_web_owners || "N/A"));
+      this.#appendRow(table as HTMLTableElement, "Web owners", String(statistics.n_web_owners || "N/A"));
     } else {
-      this.#appendRow(table, "Web owners", "N/A");
+      this.#appendRow(table as HTMLTableElement, "Web owners", "N/A");
     }
 
     // this.#appendRow(table, "Total shops", "N/A");

@@ -1,22 +1,10 @@
 export const CF_USER_COMMUNITY_CONTENT = {
-  CREATE : "CF_USER_COMMUNITY_CONTENT_1",
+  CREATE: "CF_USER_COMMUNITY_CONTENT_1",
 } as const;
 
-// Export to window for HTML string templates
-declare global {
-  interface Window {
-    CF_USER_COMMUNITY_CONTENT?: typeof CF_USER_COMMUNITY_CONTENT;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_USER_COMMUNITY_CONTENT = CF_USER_COMMUNITY_CONTENT;
-}
-
 const _CFT_USER_COMMUNITY_CONTENT = {
-  BTN_CREATE :
-      `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_USER_COMMUNITY_CONTENT.CREATE)">Create community...</a>`
+  BTN_CREATE:
+      `<a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_USER_COMMUNITY_CONTENT.CREATE}">Create community...</a>`,
 } as const;
 
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';

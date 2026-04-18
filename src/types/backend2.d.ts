@@ -585,7 +585,7 @@ export interface ClientSignalData {
   data?: unknown;
 }
 
-interface CommunityProfileConfigData {
+export interface CommunityProfileConfigData {
   captain_id: string | null;
   n_join_approvals: number;
   member_profit_share: number;

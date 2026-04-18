@@ -1,3 +1,10 @@
+import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { Proposal } from '../../common/datatypes/Proposal.js';
+import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
+import { Events } from '../../lib/framework/Events.js';
+import { Utilities } from '../../common/Utilities.js';
+import { Account } from '../../common/dba/Account.js';
+
 export const CF_PROPOSAL_TITLE = {
   USER_INFO : "CF_PROPOSAL_TITLE_1",
 } as const;
@@ -6,13 +13,6 @@ const _CFT_PROPOSAL_TITLE = {
   NEW_MEMBER : `Membership request by __USER__`,
   ISSUE_COINS : `Issue __TOTAL__M coins`,
 } as const;
-
-import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { Proposal } from '../../common/datatypes/Proposal.js';
-import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
-import { Events } from '../../lib/framework/Events.js';
-import { Utilities } from '../../common/Utilities.js';
-import { Account } from '../../common/dba/Account.js';
 
 export interface ProposalTitleDataSource {
   getProposalForProposalTitleFragment(): Proposal | null;
@@ -43,7 +43,7 @@ export class FProposalTitle extends Fragment {
   }
 
   _renderContent(): string {
-    let proposal = this._dataSource.getProposalForProposalTitleFragment();
+    let proposal = this.getDataSource<ProposalTitleDataSource>()?.getProposalForProposalTitleFragment();
     if (!proposal) {
       return "";
     }
@@ -76,8 +76,11 @@ export class FProposalTitle extends Fragment {
   }
 
   #makeMemberApplicationTitle(proposal: Proposal): string {
-    let s = _CFT_PROPOSAL_TITLE.NEW_MEMBER;
+    let s: string = _CFT_PROPOSAL_TITLE.NEW_MEMBER;
     let userId = proposal.getAuthorId();
+    if (!userId) {
+      return "";
+    }
     let nickname = Account.getUserNickname(userId);
     s = s.replace("__USER__",
                   Utilities.renderSmallButton(CF_PROPOSAL_TITLE.USER_INFO,
@@ -88,7 +91,7 @@ export class FProposalTitle extends Fragment {
   #makeChangeConfigTitle(_data: unknown): string { return "Config change"; }
 
   #makeIssueCoinTitle(data: { total: number }): string {
-    let s = _CFT_PROPOSAL_TITLE.ISSUE_COINS;
+    let s: string = _CFT_PROPOSAL_TITLE.ISSUE_COINS;
     s = s.replace("__TOTAL__", String(data.total));
     return s;
   }

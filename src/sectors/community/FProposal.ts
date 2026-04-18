@@ -186,8 +186,7 @@ export class FProposal extends Fragment {
 
   #createInfoPanel(): PProposalInfo {
     let p = new PProposalInfo();
-    p.setAttribute("onclick",
-                   `javascript:G.action("${CF_PROPOSAL.VIEW_PROPOSAL}")`);
+    p.setAttribute("data-pp-action", CF_PROPOSAL.VIEW_PROPOSAL);
     return p;
   }
 

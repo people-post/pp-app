@@ -6,6 +6,13 @@ import UtilitiesExt from '../../lib/ext/Utilities.js';
 import { FProposal } from './FProposal.js';
 import { FvcProposal } from './FvcProposal.js';
 import { Api } from '../../common/plt/Api.js';
+import { ProposalData } from '../../types/backend2.js';
+import type { RemoteError } from '../../types/basic.js';
+
+interface ApiResponse {
+  error?: RemoteError;
+  data?: { proposals: ProposalData[] };
+}
 
 export class FProposalList extends DefaultLongList {
   protected _communityId: string | null = null;
@@ -72,9 +79,9 @@ export class FProposalList extends DefaultLongList {
 
   #onProposalsRRR(responseText: string): void {
     this._isBatchLoading = false;
-    let response = JSON.parse(responseText) as { error?: string; data?: { proposals: unknown[] } };
+    let response = JSON.parse(responseText) as ApiResponse;
     if (response.error) {
-      this._owner.onRemoteErrorInFragment(this, response.error);
+      this.onRemoteErrorInFragment(this, response.error);
     } else if (response.data) {
       let proposals: Proposal[] = [];
       for (let p of response.data.proposals) {
@@ -82,8 +89,11 @@ export class FProposalList extends DefaultLongList {
       }
       if (proposals.length) {
         for (let p of proposals) {
-          Communities.updateProposal(new Proposal(p));
-          this._ids.push(p.getId());
+          Communities.updateProposal(p);
+          let id = p.getId();
+          if (id) {
+            this._ids.push(id);
+          }
         }
       } else {
         this._isIdsComplete = true;

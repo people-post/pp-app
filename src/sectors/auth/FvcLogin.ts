@@ -153,13 +153,13 @@ export class FvcLogin extends FvcWeb2LoginBase {
   #onRegister(): void {
     let v = new View();
     v.setContentFragment(new FvcRegister());
-    this._owner.onFragmentRequestShowView(this, v, "Register");
+    this.onFragmentRequestShowView(this, v, "Register");
   }
 
   #onRetrievePassword(): void {
     let v = new View();
     v.setContentFragment(new FvcRetrievePassword());
-    this._owner.onFragmentRequestShowView(this, v, "Retrieve password");
+    this.onFragmentRequestShowView(this, v, "Retrieve password");
   }
 
   #onSkip(): void { this.#onActionFinished(); }
@@ -167,10 +167,9 @@ export class FvcLogin extends FvcWeb2LoginBase {
   #onActionFinished(): void {
     // Login skipped
     if (this._nextView) {
-      this._owner.onContentFragmentRequestReplaceView(this, this._nextView,
-                                                      "Next");
+      this._requestReplaceView(this._nextView, "Next");
     } else {
-      this._owner.onContentFragmentRequestPopView(this);
+      this._requestPopView();
     }
   }
 
