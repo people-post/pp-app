@@ -269,7 +269,7 @@ export class Project extends ServerDataObject<ProjectData> implements SocialItem
     return d;
   }
 
-  getActionableStagesForUser(userId: string | null | undefined): SimpleProjectStage[] {
+  getActionableStagesForUser(userId: string | null): SimpleProjectStage[] {
     if (!userId) {
       return [];
     }

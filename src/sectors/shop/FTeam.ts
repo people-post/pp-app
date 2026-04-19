@@ -48,7 +48,7 @@ export class FTeam extends Fragment {
     render.wrapPanel(panel);
 
     if (panel.isHighlightable()) {
-      panel.setAttribute("onclick", "javascript:G.action('${CF_TEAM.ON_CLICK}')");
+      panel.setAttribute("data-pp-action", CF_TEAM.ON_CLICK);
       if (this._dataSource.shouldHighlightInTeamFragment(this, this._teamId)) {
         panel.highlight();
       }

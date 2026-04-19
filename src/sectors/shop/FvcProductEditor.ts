@@ -1,25 +1,25 @@
 export const CF_PRODUCT_EDITOR = {
-  SUBMIT : "CF_SHOP_PRODUCT_EDITOR_1",
-}
+  SUBMIT: "CF_SHOP_PRODUCT_EDITOR_1",
+} as const;
 
 const _CFT_PRODUCT_EDITOR = {
-  NAME : `<div>
+  NAME: `<div>
       <label class="tw:text-s-font5" for="edit-product-name">Name</label>
       <br>
       <textarea id="edit-product-name" class="edit-product-name">__NAME__</textarea>
     </div>
     <br>`,
-  ACTIONS : `<br>
+  ACTIONS: `<br>
     <br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action('${CF_PRODUCT_EDITOR.SUBMIT}')">Submit</a>
+    <a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_PRODUCT_EDITOR.SUBMIT}">Submit</a>
     <br>
     <br>
     __DELETE_BUTTON__
     <br>
     <br>`,
-  DELETE_BUTTON :
+  DELETE_BUTTON:
       `<a class="button-bar danger" href="javascript:void(0)">Delete</a>`,
-}
+} as const;
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';

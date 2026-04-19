@@ -175,7 +175,7 @@ export class FBranch extends Fragment implements AddressDataSource, AddressDeleg
     switch (this._tLayout) {
     case FBranch.T_LAYOUT.SMALL:
       p = new PBranchSmall();
-      p.setAttribute("onclick", "javascript:G.action('${CF_BRANCH.ON_CLICK}')");
+      p.setAttribute("data-pp-action", CF_BRANCH.ON_CLICK);
       break;
     default:
       p = new PBranch();

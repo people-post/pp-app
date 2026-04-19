@@ -91,8 +91,7 @@ export class FServiceLocation extends Fragment {
     let panel = new PServiceLocation();
     render.wrapPanel(panel);
 
-    panel.setAttribute(
-        "onclick", "javascript:G.action('${CF_SERVICE_LOCATION.ON_CLICK}')");
+    panel.setAttribute("data-pp-action", CF_SERVICE_LOCATION.ON_CLICK);
     if (this._dataSource.shouldServiceLocationFragmentHighlight(this)) {
       panel.invertColor();
     }

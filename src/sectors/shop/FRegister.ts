@@ -144,8 +144,7 @@ export class FRegister extends Fragment {
     switch (this._tLayout) {
     case FRegister.T_LAYOUT.SMALL:
       p = new PRegisterSmall();
-      p.setAttribute("onclick",
-                     "javascript:G.action('${CF_REGISTER.ON_CLICK}')");
+      p.setAttribute("data-pp-action", CF_REGISTER.ON_CLICK);
       break;
     default:
       p = new PRegister();

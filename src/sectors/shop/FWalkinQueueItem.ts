@@ -202,8 +202,7 @@ export class FWalkinQueueItem extends Fragment {
       this._fAction1.setLayoutType(Button.LAYOUT_TYPE.SMALL);
       if (this._isActionEnabled) {
         p = new PWalkinQueueItemInfo();
-        p.setAttribute("onclick",
-                       "javascript:G.action('${CF_SHOP_WALKIN_QUEUE_ITEM.ON_CLICK}')");
+        p.setAttribute("data-pp-action", CF_SHOP_WALKIN_QUEUE_ITEM.ON_CLICK);
       } else {
         p = new PWalkinQueueItemInfoPublic();
       }

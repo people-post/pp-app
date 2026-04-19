@@ -1,12 +1,3 @@
-export const CF_STAGE_EDITOR = {
-  SUBMIT: "CF_STAGE_EDITOR_1",
-} as const;
-
-const _CFT_STAGE_EDITOR = {
-  BTN_SUBMIT:
-      `<a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_STAGE_EDITOR.SUBMIT}">Submit</a>`,
-} as const;
-
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { TextArea } from '../../lib/ui/controllers/fragments/TextArea.js';
@@ -18,6 +9,20 @@ import { Project } from '../../common/datatypes/Project.js';
 import { Api } from '../../common/plt/Api.js';
 import type { ProjectStage } from '../../common/datatypes/ProjectStage.js';
 import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ProjectData } from '../../types/backend2.js';
+
+export const CF_STAGE_EDITOR = {
+  SUBMIT: "CF_STAGE_EDITOR_1",
+} as const;
+
+const _CFT_STAGE_EDITOR = {
+  BTN_SUBMIT:
+      `<a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_STAGE_EDITOR.SUBMIT}">Submit</a>`,
+} as const;
+
+interface ApiProjectResponse {
+  project: ProjectData;
+};
 
 export class FvcProjectStageEditor extends FScrollViewContent {
   protected _fTitle: TextInput;
@@ -88,7 +93,10 @@ export class FvcProjectStageEditor extends FScrollViewContent {
       return fd;
     }
     fd.append("project_id", stage.getProjectId());
-    fd.append("stage_id", stage.getId());
+    let id = stage.getId();
+    if (id) {
+      fd.append("stage_id", id);
+    }
     fd.append("description", this._fContent.getValue());
     return fd;
   }
@@ -96,12 +104,11 @@ export class FvcProjectStageEditor extends FScrollViewContent {
   #onSubmit(): void {
     let url = 'api/workshop/update_project_stage';
     let fd = this.#collectData();
-    Api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    Api.asFragmentPost<ApiProjectResponse>(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
-  #onSubmitRRR(data: unknown): void {
-    let dataObj = data as { project: unknown };
-    Workshop.updateProject(new Project(dataObj.project));
-    this._owner.onContentFragmentRequestPopView(this);
+  #onSubmitRRR(data: ApiProjectResponse): void {
+    Workshop.updateProject(new Project(data.project));
+    this._requestPopView();
   }
 }

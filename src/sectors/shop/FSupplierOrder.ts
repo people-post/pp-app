@@ -5,9 +5,8 @@ export const CF_SUPPLIER_ORDER = {
 };
 
 const _CFT_SUPPLIER_ORDER = {
-  ACT_ONCLICK : `javascript:G.action('${CF_SUPPLIER_ORDER.ON_CLICK}')`,
-  ADDERSS :
-      `<span class="button-like small" onclick="javascript:G.action('${CF_SUPPLIER_ORDER.SHOW_ADDRESS}')">Address</span>`,
+  ADDERSS:
+      `<span class="button-like small" data-pp-action="${CF_SUPPLIER_ORDER.SHOW_ADDRESS}">Address</span>`,
   ITEM : `<div class="w60">__NAME__</div>
   <div>__QUANTITY__x</div>`,
 } as const;
@@ -236,7 +235,7 @@ export class FSupplierOrder extends Fragment {
   #renderItemInfos(order: SupplierOrderPrivate, panel: PanelWrapper): void {
     let pItems = new ListPanel();
     pItems.setClassName("tw:cursor-pointer");
-    pItems.setAttribute("onclick", _CFT_SUPPLIER_ORDER.ACT_ONCLICK);
+    pItems.setAttribute("data-pp-action", CF_SUPPLIER_ORDER.ON_CLICK);
     panel.wrapPanel(pItems);
     for (let item of order.getItems()) {
       let p = new Panel();

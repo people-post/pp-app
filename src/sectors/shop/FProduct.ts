@@ -4,8 +4,8 @@ export const CF_PRODUCT = {
 };
 
 const _CFT_PRODUCT = {
-  EDIT_BUTTON : `<div class="tw:text-center">
-    <span class="button-like small s-primary" onclick="javascript:G.action('${CF_PRODUCT.EDIT}')">Edit</span>
+  EDIT_BUTTON: `<div class="tw:text-center">
+    <span class="button-like small s-primary" data-pp-action="${CF_PRODUCT.EDIT}">Edit</span>
   </div>`,
 } as const;
 
@@ -222,7 +222,7 @@ export class FProduct extends MajorSectorItem {
       break;
     }
     p.setClassName("tw:cursor-pointer");
-    p.setAttribute("onclick", `javascript:G.action('${CF_PRODUCT.VIEW}')`);
+    p.setAttribute("data-pp-action", CF_PRODUCT.VIEW);
     return p;
   }
 

@@ -39,6 +39,14 @@ export class ProjectStage {
     return this.#data.id;
   }
 
+  getName(): string | null {
+    return this.#data.name;
+  }
+
+  getDescription(): string | null {
+    return this.#data.description;
+  }
+
   getProjectId(): string {
     return this.#projectId;
   }

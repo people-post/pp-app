@@ -36,7 +36,7 @@ import { LGallery } from '../../common/gui/LGallery.js';
 import { R } from '../../common/constants/R.js';
 import { MAX } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
-import { URL_PARAM } from '../../common/constants/Constants.js';
+import { URL_PARAM } from '../../lib/ui/Constants.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
 import { Api } from '../../common/plt/Api.js';
@@ -44,6 +44,15 @@ import type { Project as ProjectType } from '../../common/datatypes/Project.js';
 import type { ProjectActor as ProjectActorType } from '../../common/datatypes/ProjectActor.js';
 import type { ProjectStage } from '../../common/datatypes/ProjectStage.js';
 import { Account } from '../../common/dba/Account.js';
+import { ProjectData } from '../../types/backend2.js';
+
+interface ApiProjectResponse {
+  project: ProjectData;
+}
+
+interface ApiWorkerIdsResponse {
+  ids: string[];
+}
 
 export class FvcProject extends FScrollViewContent implements IOptionContextButtonDelegate {
   private _fThumbnail: FilesThumbnailFragment;
@@ -152,6 +161,9 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
       return;
     }
     let userId = project.getOwnerId();
+    if (!userId) {
+      return;
+    }
     switch (fSearch) {
     case this._fAgentSearch:
       this.#asyncGetFollowerIds(userId);
@@ -469,7 +481,7 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
     let f = new FvcProjectStage();
     f.setStage(stage);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Stage");
+    this.onFragmentRequestShowView(this, v, "Stage");
   }
 
   #onAssign(): void {
@@ -511,7 +523,10 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
     Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Add agent");
   }
 
-  #onReplaceAgent(userId: string): void {
+  #onReplaceAgent(userId: string | null): void {
+    if (!userId) {
+      return;
+    }
     let v = new View();
     let f = new FvcSimpleFragmentList();
     f.append(this._fAgentSearch);
@@ -541,7 +556,10 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
         () => this.#asyncRequestReject(actor.getRoleId()));
   }
 
-  #onDismissAgent(userId: string): void {
+  #onDismissAgent(userId: string | null): void {
+    if (!userId) {
+      return;
+    }
     this._confirmDangerousOperation(
         R.get("CONFIRM_DISMISS_ROLE"),
         () => this.#asyncRequestDismiss(userId, ProjectActor.T_ROLE.AGENT));
@@ -613,8 +631,8 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
     fd.append("to_user_id", userId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {project: unknown}) => this.#onProjectDataReceived(d));
+    Api.asFragmentPost<ApiProjectResponse>(this, url, fd)
+        .then((d) => this.#onProjectDataReceived(d));
   }
 
   #asyncRequestAdd(userId: string, roleId: string): void {
@@ -623,8 +641,8 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
     fd.append("to_user_id", userId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {project: unknown}) => this.#onProjectDataReceived(d));
+    Api.asFragmentPost<ApiProjectResponse>(this, url, fd)
+        .then((d) => this.#onProjectDataReceived(d));
   }
 
   #asyncRequestReplace(fromUserId: string, toUserId: string, roleId: string): void {
@@ -637,18 +655,21 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
     fd.append("to_user_id", toUserId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {project: unknown}) => this.#onProjectDataReceived(d));
+    Api.asFragmentPost<ApiProjectResponse>(this, url, fd)
+        .then((d) => this.#onProjectDataReceived(d));
   }
 
-  #asyncRequestResign(userId: string, roleId: string): void {
+  #asyncRequestResign(userId: string | null, roleId: string): void {
+    if (!userId) {
+      return;
+    }
     let fd = new FormData();
     fd.append("project_id", this._projectId!);
     fd.append("from_user_id", userId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {project: unknown}) => this.#onProjectDataReceived(d));
+    Api.asFragmentPost<ApiProjectResponse>(this, url, fd)
+        .then((d) => this.#onProjectDataReceived(d));
   }
 
   #asyncRequestAccept(roleId: string): void {
@@ -656,8 +677,8 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
     fd.append("project_id", this._projectId!);
     fd.append("role_id", roleId);
     let url = "api/workshop/project_actor_accept";
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {project: unknown}) => this.#onProjectDataReceived(d));
+    Api.asFragmentPost<ApiProjectResponse>(this, url, fd)
+        .then((d) => this.#onProjectDataReceived(d));
   }
 
   #asyncRequestReject(roleId: string): void {
@@ -665,8 +686,8 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
     fd.append("project_id", this._projectId!);
     fd.append("role_id", roleId);
     let url = "api/workshop/project_actor_reject";
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {project: unknown}) => this.#onProjectDataReceived(d));
+    Api.asFragmentPost<ApiProjectResponse>(this, url, fd)
+        .then((d) => this.#onProjectDataReceived(d));
   }
 
   #asyncRequestDismiss(userId: string, roleId: string): void {
@@ -675,8 +696,8 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
     fd.append("from_user_id", userId);
     fd.append("role_id", roleId);
     let url = "api/workshop/update_project_actor";
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {project: unknown}) => this.#onProjectDataReceived(d));
+    Api.asFragmentPost<ApiProjectResponse>(this, url, fd)
+        .then((d) => this.#onProjectDataReceived(d));
   }
 
   #asyncRequestPause(comment: string): void {
@@ -684,8 +705,8 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
     fd.append("project_id", this._projectId!);
     fd.append("comment", comment);
     let url = "api/workshop/pause_project";
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {project: unknown}) => this.#onProjectDataReceived(d));
+    Api.asFragmentPost<ApiProjectResponse>(this, url, fd)
+        .then((d) => this.#onProjectDataReceived(d));
   }
 
   #asyncRequestCancel(comment: string): void {
@@ -693,8 +714,8 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
     fd.append("project_id", this._projectId!);
     fd.append("comment", comment);
     let url = "api/workshop/cancel_project";
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {project: unknown}) => this.#onProjectDataReceived(d));
+    Api.asFragmentPost<ApiProjectResponse>(this, url, fd)
+        .then((d) => this.#onProjectDataReceived(d));
   }
 
   #asyncRequestReopen(comment: string): void {
@@ -702,47 +723,47 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
     fd.append("project_id", this._projectId!);
     fd.append("comment", comment);
     let url = "api/workshop/reopen_project";
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {project: unknown}) => this.#onProjectDataReceived(d));
+    Api.asFragmentPost<ApiProjectResponse>(this, url, fd)
+        .then((d) => this.#onProjectDataReceived(d));
   }
 
   #asyncRequestResume(): void {
     let fd = new FormData();
     fd.append("project_id", this._projectId!);
     let url = "api/workshop/resume_project";
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {project: unknown}) => this.#onProjectDataReceived(d));
+    Api.asFragmentPost<ApiProjectResponse>(this, url, fd)
+        .then((d) => this.#onProjectDataReceived(d));
   }
 
   #asyncRequestDone(): void {
     let fd = new FormData();
     fd.append("project_id", this._projectId!);
     let url = "api/workshop/mark_project_done";
-    Api.asFragmentPost(this, url, fd)
-        .then((d: {project: unknown}) => this.#onProjectDataReceived(d));
+    Api.asFragmentPost<ApiProjectResponse>(this, url, fd)
+        .then((d) => this.#onProjectDataReceived(d));
   }
 
-  #onProjectDataReceived(data: {project: unknown}): void {
+  #onProjectDataReceived(data: ApiProjectResponse): void {
     Workshop.updateProject(new Project(data.project));
   }
 
   #asyncGetFollowerIds(ownerId: string): void {
     let url = "api/user/followers?user_id=" + ownerId;
-    Api.asFragmentCall(this, url).then((d: {ids: string[]}) =>
+    Api.asFragmentCall<ApiWorkerIdsResponse>(this, url).then((d) =>
                                                   this.#onGetFollowerIdsRRR(d));
   }
 
-  #onGetFollowerIdsRRR(data: {ids: string[]}): void {
+  #onGetFollowerIdsRRR(data: ApiWorkerIdsResponse): void {
     this._fAgentSearch.setUserIds(data.ids);
     this._fAgentSearch.render();
   }
 
   #asyncGetWorkerIds(ownerId: string): void {
     let url = "api/workshop/workers?owner_id=" + ownerId;
-    Api.asFragmentCall(this, url).then((d: {ids: string[]}) => this.#onGetWorkerIdsRRR(d));
+    Api.asFragmentCall<ApiWorkerIdsResponse>(this, url).then((d) => this.#onGetWorkerIdsRRR(d));
   }
 
-  #onGetWorkerIdsRRR(data: {ids: string[]}): void {
+  #onGetWorkerIdsRRR(data: ApiWorkerIdsResponse): void {
     this._fWorkerSearch.setUserIds(data.ids);
     this.render();
   }

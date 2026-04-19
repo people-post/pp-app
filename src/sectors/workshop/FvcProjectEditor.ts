@@ -36,18 +36,23 @@ import { Workshop } from '../../common/dba/Workshop.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { VIS } from '../../common/constants/Constants.js';
 import { Api } from '../../common/plt/Api.js';
+import { ProjectData } from '../../types/backend2.js';
 
-interface ProjectEditorDelegate {
+export interface FvcProjectEditorDelegate {
   onNewProjectPostedInProjectEditorContentFragment(f: FvcProjectEditor): void;
 }
 
-interface ProjectData {
+interface SubmitProjectData {
   id: string;
   name: string;
   description: string;
   visibility: string;
   tag_ids: string[];
   tag_names: string[];
+};
+
+interface ApiProjectResponse {
+  project: ProjectData;
 }
 
 export class FvcProjectEditor extends FScrollViewContent {
@@ -56,7 +61,6 @@ export class FvcProjectEditor extends FScrollViewContent {
   protected _fteOwner: TagsEditorFragment;
   protected _fVisibility: ButtonGroup;
   protected _project: Project | null = null;
-  protected _delegate!: ProjectEditorDelegate;
 
   constructor() {
     super();
@@ -64,7 +68,7 @@ export class FvcProjectEditor extends FScrollViewContent {
     this.setChild("content", this._fContent);
 
     this._fFiles = new FMultiMediaFileUploader();
-    this._fFiles.setCacheIds([ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]);
+    this._fFiles.setCacheIds([ "0", "1", "2", "3", "4", "5", "6", "7", "8" ]);
     this._fFiles.setDataSource(this);
     this._fFiles.setDelegate(this);
     this.setChild("files", this._fFiles);
@@ -147,9 +151,10 @@ export class FvcProjectEditor extends FScrollViewContent {
   }
 
   #renderTitle(project: Project): string {
-    let s = _CFT_PROJECT_EDITOR_CONTENT.TITLE;
-    if (project.getName()) {
-      s = s.replace("__NAME__", project.getName());
+    let s: string = _CFT_PROJECT_EDITOR_CONTENT.TITLE;
+    let name = project.getName();
+    if (name) {
+      s = s.replace("__NAME__", name);
     } else {
       s = s.replace("__NAME__", "");
     }
@@ -157,7 +162,7 @@ export class FvcProjectEditor extends FScrollViewContent {
   }
 
   #renderLower(project: Project): string {
-    let s = _CFT_PROJECT_EDITOR_CONTENT.LOWER;
+    let s: string = _CFT_PROJECT_EDITOR_CONTENT.LOWER;
     if (project.isDraft()) {
       s = s.replace("__DELETE_BUTTON__", "");
     } else {
@@ -193,11 +198,11 @@ export class FvcProjectEditor extends FScrollViewContent {
     }
   }
 
-  #validateData(_data: ProjectData): boolean {
+  #validateData(_data: SubmitProjectData): boolean {
     return true;
   }
 
-  #asyncSubmit(data: ProjectData): void {
+  #asyncSubmit(data: SubmitProjectData): void {
     let fd = new FormData();
     fd.append("id", data.id ? data.id : "");
     fd.append("name", data.name);
@@ -214,12 +219,12 @@ export class FvcProjectEditor extends FScrollViewContent {
     this._fFiles.saveDataToForm(fd);
 
     let url = "/api/workshop/update_project";
-    Api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    Api.asFragmentPost<ApiProjectResponse>(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
-  #collectData(): ProjectData {
+  #collectData(): SubmitProjectData {
     let e = document.getElementById("ID_PROJECT_EDITOR_NAME") as HTMLTextAreaElement | null;
-    let project: ProjectData = {id : this._project ? this._project.getId() : "", name: "", description: "", visibility: "", tag_ids: [], tag_names: []};
+    let project: SubmitProjectData = {id : this._project?.getId() || "", name: "", description: "", visibility: "", tag_ids: [], tag_names: []};
     project.name = e ? e.value : "";
     project.description = this._fContent.getValue();
     project.visibility = this._fVisibility.getSelectedValue() as string;
@@ -228,18 +233,20 @@ export class FvcProjectEditor extends FScrollViewContent {
     return project;
   }
 
-  #onSubmitRRR(data: unknown): void {
+  #onSubmitRRR(data: ApiProjectResponse): void {
     if (!this._project) {
       return;
     }
 
-    let dataObj = data as { project: unknown };
     if (this._project.isDraft()) {
-      this._delegate.onNewProjectPostedInProjectEditorContentFragment(this);
+      let delegate = this.getDelegate<FvcProjectEditorDelegate>();
+      if (delegate) {
+        delegate.onNewProjectPostedInProjectEditorContentFragment(this);
+      }
     } else {
-      Workshop.updateProject(new Project(dataObj.project));
+      Workshop.updateProject(new Project(data.project));
     }
-    this._owner.onContentFragmentRequestPopView(this);
+    this._requestPopView();
   }
 
   #asyncRequestDelete(): void {
@@ -247,8 +254,13 @@ export class FvcProjectEditor extends FScrollViewContent {
       return;
     }
 
+    let projectId = this._project.getId();
+    if (!projectId) {
+      return;
+    }
+
     let fd = new FormData();
-    fd.append("project_id", this._project.getId());
+    fd.append("project_id", projectId);
     let url = "/api/workshop/delete_project";
     Api.asFragmentPost(this, url, fd).then(d => this.#onDeleteRRR(d));
   }

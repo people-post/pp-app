@@ -1,13 +1,13 @@
 export const CF_SHOP_TEAM_EDITOR = {
-  SUBMIT : "CF_SHOP_TEAM_EDITOR_1",
-}
+  SUBMIT: "CF_SHOP_TEAM_EDITOR_1",
+} as const;
 
 const _CFT_SHOP_TEAM_EDITOR = {
-  SEC_NAME :
+  SEC_NAME:
       `<input id="ID_SHOP_TEAM_NAME" type="text" placeholder="Name" value="__NAME__">`,
-  SEC_SUBMIT : `<br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action('${CF_SHOP_TEAM_EDITOR.SUBMIT}')">Submit<a>`,
-}
+  SEC_SUBMIT: `<br>
+    <a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_SHOP_TEAM_EDITOR.SUBMIT}">Submit</a>`,
+} as const;
 
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
