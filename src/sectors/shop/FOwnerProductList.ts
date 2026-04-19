@@ -13,7 +13,6 @@ interface OwnerProductListDataSource {
 export class FOwnerProductList extends FProductList {
   #ownerId: string | null = null;
   #isBatchLoading: boolean = false;
-  protected _dataSource!: OwnerProductListDataSource;
 
   setOwnerId(ownerId: string | null): void { this.#ownerId = ownerId; }
 
@@ -22,10 +21,14 @@ export class FOwnerProductList extends FProductList {
   }
 
   onRequestEditProduct(productId: string): void {
+    let product = Shop.getProduct(productId);
+    if (!product) {
+      return;
+    }
     let v = new View();
     let f = new FvcProductEditor();
     f.setDelegate(this);
-    f.setProduct(Shop.getProduct(productId));
+    f.setProduct(product);
     v.setContentFragment(f);
     this.onFragmentRequestShowView(this, v, "Product editor");
   }
@@ -44,7 +47,8 @@ export class FOwnerProductList extends FProductList {
     if (this.#isBatchLoading) {
       return;
     }
-    let tagIds = this._dataSource.getTagIdsForProductListFragment(this);
+    let dataSource = this.getDataSource<OwnerProductListDataSource>();
+    let tagIds = dataSource ? dataSource.getTagIdsForProductListFragment(this) : [];
     let url = "api/shop/products?";
     let params: string[] = [];
     for (let id of tagIds) {
@@ -73,7 +77,10 @@ export class FOwnerProductList extends FProductList {
         for (let d of ds) {
           let p = new Product(d);
           Shop.updateProduct(p);
-          this._getIdRecord().appendId(p.getId());
+          let id = p.getId();
+          if (id) {
+            this._getIdRecord().appendId(id);
+          }
         }
       } else {
         this._getIdRecord().markComplete();

@@ -4,6 +4,17 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { Api } from '../../common/plt/Api.js';
+import { RemoteError } from '../../types/basic.js';
+import { ProjectData } from '../../types/backend2.js';
+
+interface ApiProjectsResponse {
+  error?: RemoteError;
+  data?: { projects?: ProjectData[] };
+};
+
+interface OwnerProjectListDataSource {
+  getTagIdsForProjectListFragment(f: FOwnerProjectList): string[];
+}
 
 export class FOwnerProjectList extends FProjectList {
   #ownerId: string | null = null;
@@ -25,7 +36,8 @@ export class FOwnerProjectList extends FProjectList {
     if (this.#isBatchLoading) {
       return;
     }
-    let tagIds = this._dataSource.getTagIdsForProjectListFragment(this);
+    let dataSource = this.getDataSource<OwnerProjectListDataSource>();
+    let tagIds = dataSource ? dataSource.getTagIdsForProjectListFragment(this) : [];
     let url = "api/workshop/projects?";
     let params: string[] = [];
     for (let id of tagIds) {
@@ -45,16 +57,19 @@ export class FOwnerProjectList extends FProjectList {
 
   #onProjectsRRR(responseText: string): void {
     this.#isBatchLoading = false;
-    let response = JSON.parse(responseText) as { error?: string; data?: { projects: unknown[] } };
+    let response = JSON.parse(responseText) as ApiProjectsResponse;
     if (response.error) {
       this.onRemoteErrorInFragment(this, response.error);
-    } else if (response.data) {
-      let ds = response.data.projects;
+    } else {
+      let ds = response.data?.projects || [];
       if (ds.length) {
         for (let d of ds) {
           let p = new Project(d);
           Workshop.updateProject(p);
-          this._getIdRecord().appendId(p.getId());
+          let id = p.getId();
+          if (id) {
+            this._getIdRecord().appendId(id);
+          }
         }
       } else {
         this._getIdRecord().markComplete();
