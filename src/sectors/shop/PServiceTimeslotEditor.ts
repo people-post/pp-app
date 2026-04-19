@@ -36,7 +36,7 @@ export class PServiceTimeslotEditor extends Panel {
   getBtnDeletePanel(): PanelWrapper { return this._pBtnDelete; }
 
   _renderFramework(): string {
-    let s = _CPT_SERVICE_TIME_SLOT_EDITOR.MAIN;
+    let s: string = _CPT_SERVICE_TIME_SLOT_EDITOR.MAIN;
     s = s.replace("__ID_FROM__", this._getSubElementId("F"));
     s = s.replace("__ID_TO__", this._getSubElementId("T"));
     s = s.replace("__ID_TOTAL__", this._getSubElementId("TT"));

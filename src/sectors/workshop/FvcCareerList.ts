@@ -21,13 +21,13 @@ export class FvcCareerList extends FScrollViewContent implements FCareerDataSour
     this._selectedId = null;
   }
 
-  shouldHighlightInCareerFragment(fCareer: FCareer, roleId: string): boolean {
+  shouldHighlightInCareerFragment(_fCareer: FCareer, roleId: string): boolean {
     return this._selectedId == roleId;
   }
-  getRoleForCareerFragment(fCareer: FCareer, roleId: string): UserRole | null {
+  getRoleForCareerFragment(_fCareer: FCareer, roleId: string): UserRole | null {
     return Workshop.getTeam(roleId);
   }
-  getFragmentsDictForCareerListFragment(fCareerList: FCareerList): Map<unknown, FCareer[]> {
+  getFragmentsDictForCareerListFragment(_fCareerList: FCareerList): Map<unknown, FCareer[]> {
     let m = new Map<unknown, FCareer[]>();
     if (!Workshop.isOpen()) {
       return m;

@@ -34,7 +34,10 @@ export class WorkshopClass implements WorkshopInterface {
     return WebConfig.isWorkshopOpen();
   }
 
-  getTeam(id: string): WorkshopTeam | null {
+  getTeam(id: string | null): WorkshopTeam | null {
+    if (!id) {
+      return null;
+    }
     const d = WebConfig.getRoleData(id);
     return d ? new WorkshopTeam(d) : null;
   }

@@ -68,13 +68,13 @@ export class FvcConfig extends FScrollViewContent implements MenuConfigDataSourc
   getTeamForTeamFragment(_fTeam: FTeam, teamId: string | null): any { 
     return Workshop.getTeam(teamId); 
   }
-  onClickInTeamFragment(_fTeam: FTeam): void {
+  onClickInTeamFragment(fTeam: FTeam): void {
     let teamId = fTeam.getTeamId();
     this._selectedTeamId = teamId;
     this.#onEditTeam(teamId);
     this._fTeams.render();
   }
-  onSimpleButtonClicked(_fBtn: Button): void {
+  onSimpleButtonClicked(fBtn: Button): void {
     switch (fBtn) {
     case this._fBtnAddTeam:
       this.#onAddTeam();

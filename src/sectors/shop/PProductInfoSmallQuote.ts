@@ -8,10 +8,10 @@
  */
 
 const _CPT_PRODUCT_INFO_SMALL_QUOTE = {
-  MAIN : `<div class="tw:aspect-[3/1] tw:relative">
+  MAIN : `<div class="tw:aspect-3/1 tw:relative">
   <div class="tw:absolute tw:inset-0 tw:h-full tw:overflow-hidden quote-element small tw:flex tw:justify-start">
     <div id="__ID_IMAGE__"></div>
-    <div class="tw:flex-grow tw:p-[5px]">
+    <div class="tw:grow tw:p-[5px]">
       <div id="__ID_SELLER_NAME__"></div>
       <div id="__ID_NAME__" class="tw:text-u-font5"></div>
       <div id="__ID_DESCRIPTION__" class="tw:text-u-font5"></div>
@@ -47,7 +47,7 @@ export class PProductInfoSmallQuote extends PProductInfoBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_PRODUCT_INFO_SMALL_QUOTE.MAIN;
+    let s: string = _CPT_PRODUCT_INFO_SMALL_QUOTE.MAIN;
     s = s.replace("__ID_SELLER_NAME__", this._getSubElementId("SN"));
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_DESCRIPTION__", this._getSubElementId("D"));

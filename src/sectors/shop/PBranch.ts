@@ -31,7 +31,7 @@ export class PBranch extends PBranchBase {
   getRegisterListPanel(): PanelWrapper { return this._pRegisters; }
 
   _renderFramework(): string {
-    let s = _CPT_BRANCH.MAIN;
+    let s: string = _CPT_BRANCH.MAIN;
     s = s.replace("__ID_NAME_DECOR__", this._getSubElementId("ND"));
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_ADDRESS__", this._getSubElementId("A"));

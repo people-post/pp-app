@@ -43,7 +43,7 @@ export class PServiceLocation extends Panel {
   }
 
   _renderFramework(): string {
-    let s = _CPT_SERVICE_LOCATION.MAIN;
+    let s: string = _CPT_SERVICE_LOCATION.MAIN;
     s = s.replace("__ID_MAIN__", this._getSubElementId("M"));
     s = s.replace("__ID_TIME_OVERHEAD__", this._getSubElementId("T"));
     s = s.replace("__ID_PRICE_OVERHEAD__", this._getSubElementId("P"));

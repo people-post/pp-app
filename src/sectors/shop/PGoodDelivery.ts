@@ -7,7 +7,7 @@ const _CPT_PRODUCT = {
 
 export class PGoodDelivery extends PGoodDeliveryBase {
   _renderFramework(): string {
-    let s = _CPT_PRODUCT.MAIN;
+    let s: string = _CPT_PRODUCT.MAIN;
     s = s.replace("__ID_BTN_ADD__", this._getSubElementId("BA"));
     s = s.replace("__ID_COUNT__", this._getSubElementId("C"));
     return s;

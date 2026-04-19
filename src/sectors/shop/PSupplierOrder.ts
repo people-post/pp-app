@@ -71,7 +71,7 @@ export class PSupplierOrder extends PSupplierOrderBase {
   getShippingAddressPanel(): PanelWrapper { return this._pShippingAddress; }
 
   _renderFramework(): string {
-    let s = _CPT_SUPPLIER_ORDER.MAIN;
+    let s: string = _CPT_SUPPLIER_ORDER.MAIN;
     s = s.replace("__ID_CUSTOMER_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_T_CREATE__", this._getSubElementId("T"));
     s = s.replace("__ID_T_UPDATE__", this._getSubElementId("U"));

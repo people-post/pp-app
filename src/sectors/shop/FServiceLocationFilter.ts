@@ -3,9 +3,8 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FServiceLocation } from './FServiceLocation.js';
 import { R } from '../../common/constants/R.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
-interface ServiceLocationFilterDelegate {
+export interface FServiceLocationFilterDelegate {
   onLocationSelectedInServiceLocationFilterFragment(f: FServiceLocationFilter, data: any): void;
 }
 
@@ -14,7 +13,6 @@ export class FServiceLocationFilter extends Fragment {
   protected _shouldUseCurrentTime: boolean = false;
   protected _fLocations: FSimpleFragmentList;
   protected _fSelected: FServiceLocation | null = null;
-  protected _delegate!: ServiceLocationFilterDelegate;
 
   constructor() {
     super();
@@ -46,7 +44,7 @@ export class FServiceLocationFilter extends Fragment {
     }
     this._fSelected = fLocation;
     this.render();
-    this._delegate.onLocationSelectedInServiceLocationFilterFragment(
+    this.getDelegate<FServiceLocationFilterDelegate>()?.onLocationSelectedInServiceLocationFilterFragment(
         this, this._fSelected.getData()!);
   }
 

@@ -16,7 +16,7 @@ interface ServiceLocationData {
   getTimeOverhead(): number;
 }
 
-interface ServiceLocationDataSource {
+export interface FServiceLocationDataSource {
   shouldServiceLocationFragmentHighlight(f: FServiceLocation): boolean;
 }
 
@@ -92,7 +92,7 @@ export class FServiceLocation extends Fragment {
     render.wrapPanel(panel);
 
     panel.setAttribute("data-pp-action", CF_SERVICE_LOCATION.ON_CLICK);
-    if (this._dataSource.shouldServiceLocationFragmentHighlight(this)) {
+    if (this.getDataSource<FServiceLocationDataSource>()?.shouldServiceLocationFragmentHighlight(this)) {
       panel.invertColor();
     }
 

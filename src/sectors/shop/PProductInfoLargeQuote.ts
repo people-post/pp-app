@@ -23,7 +23,7 @@ export class PProductInfoLargeQuote extends PProductInfoBase {
   getSellerNamePanel(): PanelWrapper { return this._pSellerName; }
 
   _renderFramework(): string {
-    let s = _CPT_PRODUCT_INFO_LARGE_QUOTE.MAIN;
+    let s: string = _CPT_PRODUCT_INFO_LARGE_QUOTE.MAIN;
     s = s.replace("__ID_SELLER_NAME__", this._getSubElementId("SN"));
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_DESCRIPTION__", this._getSubElementId("D"));

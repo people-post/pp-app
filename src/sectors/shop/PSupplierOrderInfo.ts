@@ -38,7 +38,7 @@ export class PSupplierOrderInfo extends PSupplierOrderBase {
   getTotalPriceInfoPanel(): Panel { return this._pTotalPriceInfo; }
 
   _renderFramework(): string {
-    let s = _CPT_SUPPLIER_ORDER_INFO.MAIN;
+    let s: string = _CPT_SUPPLIER_ORDER_INFO.MAIN;
     s = s.replace("__ID_ADDRESS_BTN__", this._getSubElementId("A"));
     s = s.replace("__ID_STATUS_INFO__", this._getSubElementId("S"));
     s = s.replace("__ID_PRICE__", this._getSubElementId("P"));

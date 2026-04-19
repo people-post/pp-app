@@ -9,14 +9,13 @@ import { STATE } from '../../common/constants/Constants.js';
 import type { Project } from '../../common/datatypes/Project.js';
 import type { ProjectStage } from '../../common/datatypes/ProjectStage.js';
 
-interface ProjectProgressDataSource {
+export interface FProjectProgressDataSource {
   getProjectForProgressFragment(f: FProjectProgress): Project | null;
 }
 
 export class FProjectProgress extends Fragment {
   protected _fTimeline: TimelineFragment;
   protected _currentItemId: string | null = null;
-  protected _dataSource!: ProjectProgressDataSource;
 
   constructor() {
     super();
@@ -71,7 +70,7 @@ export class FProjectProgress extends Fragment {
   }
 
   #getStoryStageItems(): ProjectStage[] {
-    let project = this._dataSource.getProjectForProgressFragment(this);
+    let project = this.getDataSource<FProjectProgressDataSource>()?.getProjectForProgressFragment(this);
     if (!project) {
       return [];
     }
@@ -93,13 +92,15 @@ export class FProjectProgress extends Fragment {
 
   #getStoryEvents(): StoryEvent[] {
     let events: StoryEvent[] = [];
-    let project = this._dataSource.getProjectForProgressFragment(this);
+    let project = this.getDataSource<FProjectProgressDataSource>()?.getProjectForProgressFragment(this);
     if (project) {
       // Created at
+      let tCreate = project.getCreationTime()?.getTime();
       events.push(new StoryEvent({
         name : "Created",
         type : StoryEvent.T_TYPE.STATUS,
-        time : project.getCreationTime().getTime() / 1000
+        time : tCreate ? tCreate / 1000 : 0,
+        description : ""
       }));
 
       // Done events

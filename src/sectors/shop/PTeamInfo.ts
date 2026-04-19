@@ -1,7 +1,7 @@
 
 const _CPT_TEAM_INFO = {
   MAIN :
-      `<div id="__ID_MAIN__" class="tw:p-[5px] tw:border-solid tw:border-gray-300 tw:border tw:border-[1px] tw:cursor-pointer">
+      `<div id="__ID_MAIN__" class="tw:p-[5px] tw:border-solid tw:border-gray-300 tw:border tw:cursor-pointer">
   <div class="tw:flex tw:justify-between">
     <div id="__ID_NAME__"></div>
     <div id="__ID_STATUS__"></div>
@@ -33,7 +33,7 @@ export class PTeamInfo extends Panel {
   }
 
   _renderFramework(): string {
-    let s = _CPT_TEAM_INFO.MAIN;
+    let s: string = _CPT_TEAM_INFO.MAIN;
     s = s.replace("__ID_MAIN__", this._getSubElementId("M"));
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_STATUS__", this._getSubElementId("S"));

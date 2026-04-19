@@ -1,7 +1,7 @@
 
 const _CPT_REGISTER_SMALL = {
   MAIN :
-      `<div id="__ID_MAIN__" class="bd-b-solid tw:border-b tw:border-b-[1px] tw:border-gray-300 tw:cursor-pointer">
+      `<div id="__ID_MAIN__" class="bd-b-solid tw:border-b tw:border-gray-300 tw:cursor-pointer">
   <div class="tw:p-[5px]">
     <div id="__ID_NAME__"></div>
     <div id="__ID_TERMINAL_INFO__"></div>
@@ -35,7 +35,7 @@ export class PRegisterSmall extends PRegisterBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_REGISTER_SMALL.MAIN;
+    let s: string = _CPT_REGISTER_SMALL.MAIN;
     s = s.replace("__ID_MAIN__", this._getSubElementId("M"));
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_TERMINAL_INFO__", this._getSubElementId("R"));

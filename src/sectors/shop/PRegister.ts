@@ -27,7 +27,7 @@ export class PRegister extends PRegisterBase {
   getTerminalListPanel(): PanelWrapper { return this._pTerminals; }
 
   _renderFramework(): string {
-    let s = _CPT_REGISTER.MAIN;
+    let s: string = _CPT_REGISTER.MAIN;
     s = s.replace("__ID_NAME_DECOR__", this._getSubElementId("ND"));
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_TERMINALS__", this._getSubElementId("T"));

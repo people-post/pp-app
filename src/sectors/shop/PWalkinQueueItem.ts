@@ -39,7 +39,7 @@ export class PWalkinQueueItem extends PWalkinQueueItemBase {
   getAgentPanel(): PanelWrapper { return this._pAgent; }
 
   _renderFramework(): string {
-    let s = _CPT_WALKIN_QUEUE_ITEM.MAIN;
+    let s: string = _CPT_WALKIN_QUEUE_ITEM.MAIN;
     s = s.replace("__ID_NAME_DECOR__", this._getSubElementId("ND"));
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_STATUS__", this._getSubElementId("S"));

@@ -35,7 +35,7 @@ export class PServiceLocationEditor extends Panel {
   getBtnAddPanel(): PanelWrapper { return this._pBtnAdd; }
 
   _renderFramework(): string {
-    let s = _CPT_SERVICE_LOCATION_EDITOR.MAIN;
+    let s: string = _CPT_SERVICE_LOCATION_EDITOR.MAIN;
     s = s.replace("__ID_TIME_OVERHEAD__", this._getSubElementId("T"));
     s = s.replace("__ID_PRICE_OVERHEAD__", this._getSubElementId("P"));
     s = s.replace("__ID_TIME_SLOTS__", this._getSubElementId("TS"));

@@ -8,6 +8,12 @@ import { Project } from '../../common/datatypes/Project.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { FvcProjectStageEditor } from './FvcProjectStageEditor.js';
 import { Api } from '../../common/plt/Api.js';
+import { ProjectData } from '../../types/backend2.js';
+
+interface ApiResponse {
+  project: ProjectData;
+  stage_id: string;
+}
 
 export class FvcCreateProjectStageChoice extends FScrollViewContent {
   protected _fBtnSimple: Button;
@@ -101,18 +107,18 @@ export class FvcCreateProjectStageChoice extends FScrollViewContent {
     default:
       break;
     }
-    Api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost<ApiResponse>(this, url, fd)
         .then(d => this.#onAddNewStageRRR(d));
   }
 
-  #onAddNewStageRRR(data: unknown): void {
-    let projectData = (data as { project?: unknown; stage_id?: string }).project;
+  #onAddNewStageRRR(data: ApiResponse): void {
+    let projectData = data.project;
     if (!projectData) {
       return;
     }
-    let project = new Project(projectData as Parameters<typeof Project>[0]);
+    let project = new Project(projectData);
     Workshop.updateProject(project);
-    let stageId = (data as { project?: unknown; stage_id?: string }).stage_id;
+    let stageId = data.stage_id;
     if (stageId) {
       let stage = project.getStage(stageId);
       if (stage) {
@@ -120,7 +126,7 @@ export class FvcCreateProjectStageChoice extends FScrollViewContent {
         let f = new FvcProjectStageEditor();
         f.setStage(stage);
         v.setContentFragment(f);
-        this._owner.onContentFragmentRequestReplaceView(this, v, "Stage editor");
+        this._requestReplaceView(v, "Stage editor");
       }
     }
   }

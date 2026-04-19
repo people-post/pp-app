@@ -12,7 +12,6 @@ import { Shop } from '../../common/dba/Shop.js';
 import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
-import { ServiceLocation } from '../../common/datatypes/ServiceLocation.js';
 import { Account } from '../../common/dba/Account.js';
 
 export class FvcQueueCheckin extends FScrollViewContent {

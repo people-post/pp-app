@@ -13,11 +13,11 @@ export class FProjectList extends FSocialItemList {
     this.#idRecord = new UniLongListIdRecord();
   }
 
-  isProjectSelectedInProjectInfoFragment(fProjectInfo: FProjectInfo, projectId: string): boolean {
+  isProjectSelectedInProjectInfoFragment(_fProjectInfo: FProjectInfo, projectId: string): boolean {
     return this.getCurrentId() == projectId;
   }
 
-  onClickInProjectInfoFragment(fProjectInfo: FProjectInfo, projectId: string): void {
+  onClickInProjectInfoFragment(_fProjectInfo: FProjectInfo, projectId: string): void {
     this.switchToItem(projectId);
   }
 

@@ -1,7 +1,7 @@
 
 const _CPT_WALKIN_QUEUE_ITEM_INFO_PUBLIC = {
   MAIN : `<div class="tw:p-[5px]">
-    <div class="tw:flex tw:justify-between tw:border-b tw:border-b-[1px] tw:border-solid tw:border-lightgray">
+    <div class="tw:flex tw:justify-between tw:border-b tw:border-solid tw:border-lightgray">
       <div id="__ID_NAME__" class="tw:text-s-font001 tw:truncate"></div>
       <div id="__ID_STATUS__"></div>
     </div>
@@ -22,7 +22,7 @@ export class PWalkinQueueItemInfoPublic extends PWalkinQueueItemBase {
   getStatusPanel(): PanelWrapper { return this._pStatus; }
 
   _renderFramework(): string {
-    let s = _CPT_WALKIN_QUEUE_ITEM_INFO_PUBLIC.MAIN;
+    let s: string = _CPT_WALKIN_QUEUE_ITEM_INFO_PUBLIC.MAIN;
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_STATUS__", this._getSubElementId("S"));
     return s;

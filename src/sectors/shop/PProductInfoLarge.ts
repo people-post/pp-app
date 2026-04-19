@@ -10,10 +10,10 @@
 
 const _CPT_PRODUCT_INFO_LARGE = {
   MAIN : `<div class="tw:flex tw:justify-start product-info large">
-    <div class="w50px tw:flex-shrink-0">
+    <div class="w50px tw:shrink-0">
       <div id="__ID_SELLER_ICON__" class="user-icon-column"></div>
     </div>
-    <div class="tw:flex-grow tw:min-w-0">
+    <div class="tw:grow tw:min-w-0">
       <div class="crosslink-note" id="__ID_REFERENCE__"></div>
       <div id="__ID_SELLER_NAME__"></div>
       <div class="product-detail-large">
@@ -68,7 +68,7 @@ export class PProductInfoLarge extends PProductInfoBase {
   }
 
   _renderFramework(): string {
-    let s = _CPT_PRODUCT_INFO_LARGE.MAIN;
+    let s: string = _CPT_PRODUCT_INFO_LARGE.MAIN;
     s = s.replace("__ID_SELLER_ICON__", this._getSubElementId("SI"));
     s = s.replace("__ID_REFERENCE__", this._getSubElementId("R"));
     s = s.replace("__ID_SELLER_NAME__", this._getSubElementId("SN"));

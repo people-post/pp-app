@@ -48,7 +48,7 @@ export class PProductEditor extends Panel {
   getActionsPanel(): Panel { return this._pActions; }
 
   _renderFramework(): string {
-    let s = _CPT_PRODUCT_EDITOR.MAIN;
+    let s: string = _CPT_PRODUCT_EDITOR.MAIN;
     s = s.replace("__ID_NAME__", this._getSubElementId("N"));
     s = s.replace("__ID_FILES__", this._getSubElementId("F"));
     s = s.replace("__ID_DESCRIPTION__", this._getSubElementId("D"));

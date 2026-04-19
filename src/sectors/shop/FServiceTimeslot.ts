@@ -1,7 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ProductServiceTimeslot } from '../../common/datatypes/ProductServiceTimeslot.js';
 import ExtUtilities from '../../lib/ext/Utilities.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FServiceTimeslot extends Fragment {
   protected _data: ProductServiceTimeslot | null = null;
@@ -12,7 +12,7 @@ export class FServiceTimeslot extends Fragment {
 
   setData(d: ProductServiceTimeslot): void { this._data = d; }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     if (!this._data) return;
     render.setClassName("small-info-text");
     let s = `__FROM__ - __TO__ __REP__(__N__)`;
@@ -26,7 +26,10 @@ export class FServiceTimeslot extends Fragment {
     render.replaceContent(s);
   }
 
-  #renderRepetitionName(r: string | undefined, t: number): string {
+  #renderRepetitionName(r: string | null, t: number | null): string {
+    if (!t) {
+      return "";
+    }
     let sRep = "";
     switch (r) {
     case ProductServiceTimeslot.T_REP.DAY:
@@ -54,7 +57,10 @@ export class FServiceTimeslot extends Fragment {
     }
   }
 
-  #renderTime(rep: string | undefined, t: number): string {
+  #renderTime(rep: string | null, t: number | null): string {
+    if (!t) {
+      return "";
+    }
     if (rep == ProductServiceTimeslot.T_REP.ONCE) {
       return ExtUtilities.timestampToDateTimeString(t);
     } else {
