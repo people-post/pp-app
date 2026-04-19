@@ -6,7 +6,7 @@ import { Notifications } from '../../common/dba/Notifications.js';
 import { SectorNoticeInfoFragment } from '../../common/gui/SectorNoticeInfoFragment.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FvcProject } from './FvcProject.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 interface NoticeListDelegate {
   onNoticeListFragmentRequestShowView(f: FNoticeList, v: View, title: string): void;
@@ -15,7 +15,7 @@ interface NoticeListDelegate {
 export class FNoticeList extends Fragment {
   protected _fNotices: FSimpleFragmentList;
   protected _selectedId: string | null;
-  protected _delegate!: NoticeListDelegate;
+  protected declare _delegate: NoticeListDelegate;
 
   constructor() {
     super();
@@ -26,11 +26,11 @@ export class FNoticeList extends Fragment {
     this._selectedId = null;
   }
 
-  onSectorNoticeInfoFragmentRequestShowItem(fNoticeInfo: SectorNoticeInfoFragment, id: string, idType: string): void {
+  onSectorNoticeInfoFragmentRequestShowItem(_fNoticeInfo: SectorNoticeInfoFragment, id: string, _idType: string): void {
     this.#onViewProject(id);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let notices = Notifications.getWorkshopNotices();
     if (notices.length == 0) {
       render.replaceContent("");
