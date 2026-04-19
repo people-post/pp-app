@@ -52,7 +52,6 @@
     "legacy",
     "src/*.ts",
     "src/session",
-    "src/sectors/shop",
     "src/sectors/frontpage",
     "**/*.test.js",
     "**/__tests__/**"

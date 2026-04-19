@@ -42,7 +42,10 @@ export class FIdolProductList extends FProductList {
         for (let d of ds) {
           let p = new Product(d);
           Shop.updateProduct(p);
-          this._getIdRecord().appendId(p.getId());
+          let id = p.getId();
+          if (id) {
+            this._getIdRecord().appendId(id);
+          }
         }
       } else {
         this._getIdRecord().markComplete();

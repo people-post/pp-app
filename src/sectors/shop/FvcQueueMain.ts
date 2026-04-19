@@ -5,8 +5,7 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FWalkinQueue } from './FWalkinQueue.js';
 import { FvcBranchSelection } from './FvcBranchSelection.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
-import type { UrlParam } from '../../common/constants/Constants.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcQueueMain extends FScrollViewContent {
   protected _fQueue: FWalkinQueue;
@@ -18,7 +17,7 @@ export class FvcQueueMain extends FScrollViewContent {
     this.setChild("queue", this._fQueue);
   }
 
-  initFromUrl(urlParam: UrlParam): void {
+  initFromUrl(urlParam: URLSearchParams): void {
     super.initFromUrl(urlParam);
     let branchId = urlParam.get(URL_PARAM.BRANCH);
     this._fQueue.setBranchId(branchId);
@@ -37,7 +36,7 @@ export class FvcQueueMain extends FScrollViewContent {
     this.render();
   }
 
-  _renderContentOnRender(render: Render): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     if (!this._fQueue.getSupplierId()) {
       this._fQueue.setSupplierId(WebConfig.getOwnerId());
     }

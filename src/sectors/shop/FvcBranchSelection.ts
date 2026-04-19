@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FBranchList } from './FBranchList.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcBranchSelection extends FScrollViewContent {
   private _fBranches: FBranchList;
@@ -23,7 +24,7 @@ export class FvcBranchSelection extends FScrollViewContent {
         this, branchId);
   }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     this._fBranches.attachRender(render);
     this._fBranches.render();
   }

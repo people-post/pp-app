@@ -21,7 +21,7 @@ export class FAppointmentDelivery extends FServiceDelivery {
 
   _renderOnRender(render: PanelWrapper): void {
     switch (this._tLayout) {
-    case this.constructor.T_LAYOUT.COMPACT:
+    case FAppointmentDelivery.T_LAYOUT.COMPACT:
       this.#renderCompact(render);
       break;
     default:

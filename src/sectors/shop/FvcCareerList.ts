@@ -4,6 +4,7 @@ import { FCareerList } from '../../common/hr/FCareerList.js';
 import { FCareer, FCareerDelegate, FCareerDataSource } from '../../common/hr/FCareer.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { FvcCareer } from '../../common/hr/FvcCareer.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcCareerList extends FScrollViewContent implements FCareerDataSource, FCareerDelegate {
   private _fList: FCareerList;
@@ -51,7 +52,7 @@ export class FvcCareerList extends FScrollViewContent implements FCareerDataSour
     this.render();
   }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     this._fList.attachRender(render);
     this._fList.render();
   }

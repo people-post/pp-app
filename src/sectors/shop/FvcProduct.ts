@@ -6,6 +6,7 @@ import { FProduct } from './FProduct.js';
 import { FvcProductEditor } from './FvcProductEditor.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { Account } from '../../common/dba/Account.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcProduct extends FScrollViewContent {
   private _fBtnEdit: ActionButton;
@@ -54,7 +55,7 @@ export class FvcProduct extends FScrollViewContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     this._fProduct.attachRender(render);
     this._fProduct.render();
   }

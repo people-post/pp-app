@@ -10,7 +10,7 @@ export class FCartButton extends ActionButton {
   _getIcon(): string | null {
     let c = Cart.getCart(CartDataType.T_ID.ACTIVE);
     let n = c ? c.countItems() : 0;
-    let s = _CFT_CART_BUTTON.CART_BADGE;
+    let s: string = _CFT_CART_BUTTON.CART_BADGE;
     s = s.replace("__COUNT__", String(n));
     return ActionButton.T_ICON.ORDER + s;
   }

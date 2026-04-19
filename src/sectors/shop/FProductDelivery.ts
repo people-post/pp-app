@@ -1,5 +1,9 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
+interface FProductDeliveryDataSource {
+  getProductForProductDeliveryFragment(f: FProductDelivery): any;
+}
+
 export class FProductDelivery extends Fragment {
   static T_LAYOUT = {
     COMPACT : "COMPACT",
@@ -8,7 +12,6 @@ export class FProductDelivery extends Fragment {
 
   protected _data: any = null;
   protected _tLayout: string | null = null;
-  protected _dataSource!: any;
 
   constructor() {
     super();
@@ -18,6 +21,10 @@ export class FProductDelivery extends Fragment {
   setLayoutType(t: string | null): void { this._tLayout = t; }
 
   _getProduct(): any {
-    return this._dataSource.getProductForProductDeliveryFragment(this);
+    let dataSource = this.getDataSource<FProductDeliveryDataSource>();
+    if (dataSource) {
+      return dataSource.getProductForProductDeliveryFragment(this);
+    }
+    return null;
   }
 }

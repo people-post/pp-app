@@ -1,5 +1,6 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FSupplierOrder } from './FSupplierOrder.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcSupplierOrder extends FScrollViewContent {
   #fOrder: FSupplierOrder;
@@ -13,7 +14,7 @@ export class FvcSupplierOrder extends FScrollViewContent {
 
   setOrderId(id: string): void { this.#fOrder.setOrderId(id); }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     this.#fOrder.attachRender(render);
     this.#fOrder.render();
   }

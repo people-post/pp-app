@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FRegister } from './FRegister.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcRegister extends FScrollViewContent {
   #fRegister: FRegister;
@@ -21,7 +22,7 @@ export class FvcRegister extends FScrollViewContent {
   }
   onClickInRegisterFragment(_fRegister: FRegister, _registerId: string): void {}
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     this.#fRegister.attachRender(render);
     this.#fRegister.render();
   }

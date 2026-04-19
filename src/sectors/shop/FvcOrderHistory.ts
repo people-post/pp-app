@@ -1,6 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FSupplierOrderList } from './FSupplierOrderList.js';
 import { URLSearchParams } from 'url';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcOrderHistory extends FScrollViewContent {
   private _fList: FSupplierOrderList;
@@ -22,7 +23,7 @@ export class FvcOrderHistory extends FScrollViewContent {
   scrollToTop(): void { this._fList.scrollToItemIndex(0); }
   onScrollFinished(): void { this._fList.onScrollFinished(); }
 
-  _renderContentOnRender(render: ReturnType<typeof this.getRender>): void {
+  _renderContentOnRender(render: PanelWrapper): void {
     this._fList.attachRender(render);
     this._fList.render();
   }

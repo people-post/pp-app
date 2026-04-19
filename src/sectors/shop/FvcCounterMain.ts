@@ -6,7 +6,6 @@ import { FWalkinQueue } from './FWalkinQueue.js';
 import { FvcBranchSelection } from './FvcBranchSelection.js';
 import { FvcRegisterSelection } from './FvcRegisterSelection.js';
 import { Counter } from '../../common/dba/Counter.js';
-import type { UrlParam } from '../../common/constants/Constants.js';
 import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
 import { AuthFacade } from '../../common/auth/AuthFacade.js';
@@ -21,7 +20,7 @@ export class FvcCounterMain extends FScrollViewContent {
     this.setChild("queue", this._fQueue);
   }
 
-  initFromUrl(urlParam: UrlParam): void {
+  initFromUrl(urlParam: URLSearchParams): void {
     super.initFromUrl(urlParam);
     this.#setBranchId(urlParam.get(URL_PARAM.BRANCH));
     Counter.setRegisterId(urlParam.get(URL_PARAM.REGISTER));
