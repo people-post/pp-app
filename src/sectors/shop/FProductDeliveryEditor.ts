@@ -2,7 +2,6 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 interface ProductDeliveryChoiceData {
   getDescription(): string;
@@ -26,7 +25,7 @@ export class FProductDeliveryEditor extends Fragment {
 
   setValue(value: ProductDeliveryChoiceData | null): void { this._value = value; }
 
-  _getType(): symbol | null { return null; }
+  _getType(): string | null { return null; }
   _collectData(): any { return null; }
 
   _renderOnRender(render: PanelWrapper): void {

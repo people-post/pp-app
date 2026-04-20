@@ -22,12 +22,12 @@ import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PBranchBase } from './PBranchBase.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-interface BranchDelegate {
+export interface FBranchDelegate {
   onBranchFragmentRequestShowView(f: FBranch, view: View, title: string): void;
   onClickInBranchFragment(f: FBranch, branchId: string | null): void;
 }
 
-interface BranchDataSource {
+export interface FBranchDataSource {
   isBranchSelectedInBranchFragment(f: FBranch, branchId: string | null): boolean;
 }
 
@@ -74,7 +74,7 @@ export class FBranch extends Fragment implements AddressDataSource, AddressDeleg
     if (!this._tLayout || this._tLayout == FBranch.T_LAYOUT.FULL) {
       this.#showAddressEditor(addressId);
     } else {
-      this._delegate.onClickInBranchFragment(this, this._branchId);
+      this.getDelegate<FBranchDelegate>()?.onClickInBranchFragment(this, this._branchId);
     }
   }
   onAddressFragmentRequestEdit(_fAddress: Address, addressId: string): void {
@@ -84,7 +84,7 @@ export class FBranch extends Fragment implements AddressDataSource, AddressDeleg
   onAddressFragmentRequestDelete(_fAddress: Address, _addressId: string): void {}
 
   onRegisterListFragmentRequestShowView(_fRegisterList: FRegisterList, view: View, title: string): void {
-    this._delegate.onBranchFragmentRequestShowView(this, view, title);
+    this.getDelegate<FBranchDelegate>()?.onBranchFragmentRequestShowView(this, view, title);
   }
   onRegisterSelectedInRegisterListFragment(_fRegisterList: FRegisterList, registerId: string): void {
     let v = new View();
@@ -92,13 +92,13 @@ export class FBranch extends Fragment implements AddressDataSource, AddressDeleg
     f.setRegisterId(registerId);
     f.setEnableEdit(this._isEditEnabled);
     v.setContentFragment(f);
-    this._delegate.onBranchFragmentRequestShowView(this, v, "Register config");
+    this.getDelegate<FBranchDelegate>()?.onBranchFragmentRequestShowView(this, v, "Register config");
   }
 
   action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {
     case CF_BRANCH.ON_CLICK:
-      this._delegate.onClickInBranchFragment(this, this._branchId);
+      this.getDelegate<FBranchDelegate>()?.onClickInBranchFragment(this, this._branchId);
       break;
     default:
       super.action(type, ..._args);
@@ -128,8 +128,8 @@ export class FBranch extends Fragment implements AddressDataSource, AddressDeleg
     let panel = this.#createPanel();
     render.wrapPanel(panel);
 
-    if (this._dataSource && panel.isColorInvertible() &&
-        this._dataSource.isBranchSelectedInBranchFragment(this,
+    if (panel.isColorInvertible() &&
+        this.getDataSource<FBranchDataSource>()?.isBranchSelectedInBranchFragment(this,
                                                           this._branchId)) {
       panel.invertColor();
     }
@@ -198,7 +198,7 @@ export class FBranch extends Fragment implements AddressDataSource, AddressDeleg
     let f = new FvcAddressEditor();
     f.setAddressId(addressId);
     v.setContentFragment(f);
-    this._delegate.onBranchFragmentRequestShowView(this, v, "Edit address");
+    this.getDelegate<FBranchDelegate>()?.onBranchFragmentRequestShowView(this, v, "Edit address");
   }
 
   #collectData(): FormData {

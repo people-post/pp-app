@@ -1,7 +1,3 @@
-export const CF_PROJECT_STAGE = {
-  ON_CLICK: "CF_PROJECT_STAGE_1",
-} as const;
-
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { OptionContextButton, IOptionContextButtonDelegate } from '../../lib/ui/controllers/fragments/OptionContextButton.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
@@ -24,9 +20,18 @@ import { Api } from '../../common/plt/Api.js';
 import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import type { PProjectStageBase } from './PProjectStageBase.js';
 import { Account } from '../../common/dba/Account.js';
+import { ProjectData } from '../../types/backend2.js';
 
-interface ProjectStageDelegate {
+const CF_PROJECT_STAGE = {
+  ON_CLICK: "CF_PROJECT_STAGE_1",
+} as const;
+
+export interface FProjectStageDelegate {
   onClickInProjectStageFragment(f: FProjectStage): void;
+}
+
+interface ApiProjectDataResponse {
+  project: ProjectData;
 }
 
 interface ProjectStageAction {
@@ -47,7 +52,6 @@ export class FProjectStage extends Fragment implements IOptionContextButtonDeleg
   protected _isActionsEnabled: boolean;
   protected _isSelected: boolean;
   protected _isEnabled: boolean;
-  protected _delegate!: ProjectStageDelegate;
 
   constructor() {
     super();
@@ -71,7 +75,7 @@ export class FProjectStage extends Fragment implements IOptionContextButtonDeleg
   setSelected(b: boolean): void { this._isSelected = b; }
   setEnabled(b: boolean): void { this._isEnabled = b; }
 
-  onOptionClickedInContextButtonFragment(fBtn: OptionContextButton, value: string): void {
+  onOptionClickedInContextButtonFragment(_fBtn: OptionContextButton, value: string): void {
     switch (value) {
     case ProjectStage.ACTIONS.CLOSE.type:
       this.#onMarkDone();
@@ -99,7 +103,7 @@ export class FProjectStage extends Fragment implements IOptionContextButtonDeleg
   action(type: symbol | string, ...args: unknown[]): void {
     switch (type) {
     case CF_PROJECT_STAGE.ON_CLICK:
-      this._delegate.onClickInProjectStageFragment(this);
+      this.getDelegate<FProjectStageDelegate>()?.onClickInProjectStageFragment(this);
       break;
     default:
       super.action(type, ...args);
@@ -123,27 +127,23 @@ export class FProjectStage extends Fragment implements IOptionContextButtonDeleg
     p.setSelected(this._isSelected);
 
     let ppp: SectionPanel | null;
-    let pp = p.getNamePanel();
-    if (pp) {
-      pp.replaceContent(this._stage.getName());
+    let pName = p.getNamePanel();
+    if (pName) {
+      pName.replaceContent(this._stage.getName());
     }
 
-    pp = p.getDescriptionPanel();
-    if (pp && this._stage.getDescription()) {
+    let pDescription = p.getDescriptionPanel();
+    if (pDescription && this._stage.getDescription()) {
       ppp = new SectionPanel("Description");
-      (pp as PanelWrapper).wrapPanel(ppp);
-      if (ppp) {
-        ppp.replaceContent(this._stage.getDescription());
-      }
+      pDescription.wrapPanel(ppp);
+      ppp.replaceContent(this._stage.getDescription());
     }
 
-    pp = p.getCommentPanel();
-    if (pp && this._stage.getComment()) {
+    let pComment = p.getCommentPanel();
+    if (pComment && this._stage.getComment()) {
       ppp = new SectionPanel("Comment");
-      (pp as PanelWrapper).wrapPanel(ppp);
-      if (ppp) {
-        ppp.replaceContent(this._stage.getComment());
-      }
+      pComment.wrapPanel(ppp);
+      ppp.replaceContent(this._stage.getComment());
     }
 
     if (this._isEnabled && this._isActionsEnabled) {
@@ -166,23 +166,23 @@ export class FProjectStage extends Fragment implements IOptionContextButtonDeleg
   #createPanel(): PProjectStageBase {
     let p: PProjectStageBase;
     switch (this._layoutType) {
-    case this.constructor.LTC_MID:
+    case FProjectStage.LTC_MID:
       // Currently for process element in flow chart
       p = new PProjectStageInfoCell();
       break;
-    case this.constructor.LTR_COMPACT:
+    case FProjectStage.LTR_COMPACT:
       // Currently for quick action bar in project view
       p = new PProjectStageInfoCompact();
       break;
-    case this.constructor.LT_MENU_ITEM:
+    case FProjectStage.LT_MENU_ITEM:
       // Currently for config connections for stage
       p = new PProjectStageMenuItem();
       break;
-    case this.constructor.LTR_MID:
+    case FProjectStage.LTR_MID:
       // Currently for displaying stage info in activity
       p = new PProjectStageInfoRow();
       break;
-    case this.constructor.LT_FULL:
+    case FProjectStage.LT_FULL:
       // Currently for stage view
       p = new PProjectStage();
       break;
@@ -255,7 +255,7 @@ export class FProjectStage extends Fragment implements IOptionContextButtonDeleg
     f.setProjectId(this._stage.getProjectId());
     f.setBeforeStage(this._stage.getId());
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Add stage");
+    this.onFragmentRequestShowView(this, v, "Add stage");
   }
 
   #onAppend(): void {
@@ -267,7 +267,7 @@ export class FProjectStage extends Fragment implements IOptionContextButtonDeleg
     f.setProjectId(this._stage.getProjectId());
     f.setAfterStage(this._stage.getId());
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Add stage");
+    this.onFragmentRequestShowView(this, v, "Add stage");
   }
 
   #asyncDeleteStage(): void {
@@ -278,7 +278,7 @@ export class FProjectStage extends Fragment implements IOptionContextButtonDeleg
     let fd = new FormData();
     fd.append("project_id", this._stage.getProjectId());
     fd.append("stage_id", this._stage.getId());
-    Api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost<ApiProjectDataResponse>(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -291,7 +291,7 @@ export class FProjectStage extends Fragment implements IOptionContextButtonDeleg
     fd.append("stage_id", this._stage.getId());
     fd.append("comment", comment);
     let url = "api/workshop/set_stage_status";
-    Api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost<ApiProjectDataResponse>(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
@@ -303,14 +303,11 @@ export class FProjectStage extends Fragment implements IOptionContextButtonDeleg
     fd.append("project_id", this._stage.getProjectId());
     fd.append("stage_id", this._stage.getId());
     let url = "api/workshop/unset_stage_status";
-    Api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost<ApiProjectDataResponse>(this, url, fd)
         .then(d => this.#onProjectDataReceived(d));
   }
 
-  #onProjectDataReceived(data: unknown): void {
-    let projectData = (data as { project?: unknown }).project;
-    if (projectData) {
-      Workshop.updateProject(new Project(projectData as Parameters<typeof Project>[0]));
-    }
+  #onProjectDataReceived(data: ApiProjectDataResponse): void {
+    Workshop.updateProject(new Project(data.project));
   }
 };

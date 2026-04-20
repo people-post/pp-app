@@ -458,7 +458,10 @@ export class Project extends ServerDataObject<ProjectData> implements SocialItem
     return stageLists;
   }
 
-  getStagesAfter(stageId: string): ProjectStage[] {
+  getStagesAfter(stageId: string | null): ProjectStage[] {
+    if (!stageId) {
+      return [];
+    }
     let stages = this.getStages().filter((s) => !s.isReadyAfter([]));
     const ids: string[] = [stageId];
     const results: ProjectStage[] = [];

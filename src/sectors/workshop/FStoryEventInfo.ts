@@ -16,19 +16,17 @@ import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { StoryEvent } from '../../common/datatypes/StoryEvent.js';
 import ExtUtilities from '../../lib/ext/Utilities.js';
 
-interface StoryEventInfoDataSource {
+export interface FStoryEventInfoDataSource {
   isEventSelectedInFStoryEventInfo(f: FStoryEventInfo, id: string): boolean;
 }
 
-interface StoryEventInfoDelegate {
+export interface FStoryEventInfoDelegate {
   onStoryEventInfoClicked(f: FStoryEventInfo, id: string): void;
 }
 
 export class FStoryEventInfo extends Fragment {
   protected _event: StoryEvent | null = null;
   protected _id: string | null = null;
-  protected _dataSource!: StoryEventInfoDataSource;
-  protected _delegate!: StoryEventInfoDelegate;
 
   constructor() {
     super();
@@ -40,7 +38,7 @@ export class FStoryEventInfo extends Fragment {
     switch (type) {
     case CF_STORY_EVENT_INFO.ONCLICK:
       if (this._id) {
-        this._delegate.onStoryEventInfoClicked(this, this._id);
+        this.getDelegate<FStoryEventInfoDelegate>()?.onStoryEventInfoClicked(this, this._id);
       }
       break;
     default:
@@ -70,8 +68,10 @@ export class FStoryEventInfo extends Fragment {
     }
     let isSelected = false;
     if (this._id) {
-      isSelected =
-          this._dataSource.isEventSelectedInFStoryEventInfo(this, this._id);
+      let ds = this.getDataSource<FStoryEventInfoDataSource>();
+      if (ds) {
+        isSelected = ds.isEventSelectedInFStoryEventInfo(this, this._id);
+      }
     }
     if (isSelected) {
       s = s.replace("__CLASS_NAME__", "s-cprimebd");
@@ -88,9 +88,10 @@ export class FStoryEventInfo extends Fragment {
       return "";
     }
 
-    let s = _CFT_STORY_EVENT_INFO.MAIN;
-    if (e.getName()) {
-      s = s.replace("__NAME__", e.getName());
+    let s: string = _CFT_STORY_EVENT_INFO.MAIN;
+    let name = e.getName();
+    if (name) {
+      s = s.replace("__NAME__", name);
     } else {
       s = s.replace("__NAME__", "");
     }
@@ -100,8 +101,9 @@ export class FStoryEventInfo extends Fragment {
     } else {
       s = s.replace("__TIME__", "");
     }
-    if (e.getDescription()) {
-      s = s.replace("__DETAIL__", e.getDescription());
+    let description = e.getDescription();
+    if (description) {
+      s = s.replace("__DETAIL__", description);
     } else {
       s = s.replace("__DETAIL__", "");
     }

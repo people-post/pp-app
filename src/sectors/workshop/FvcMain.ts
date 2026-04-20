@@ -9,7 +9,7 @@ import { Workshop } from '../../common/dba/Workshop.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
-import { ICON } from '../../common/constants/Icons.js';
+import { ICONS } from '../../common/constants/Icons.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { FvcTeamEditor } from './FvcTeamEditor.js';
 import { FvcConfig, FvcConfigDelegate } from './FvcConfig.js';
@@ -19,7 +19,7 @@ import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
 
-interface FvcMainDelegate {
+export interface FvcMainDelegate {
   onWorkshopConfigFragmentRequestAddTeam(f: FvcConfig): void;
   onWorkshopConfigFragmentRequestEditTeam(f: FvcConfig, teamId: string): void;
   onWorkshopConfigFragmentRequestCloseWorkshop(f: FvcConfig): void;
@@ -75,7 +75,7 @@ export class FvcMain extends FViewContentWithHeroBanner implements FvcConfigDele
   onWorkshopConfigFragmentRequestAddTeam(_fConfig: FvcConfig): void {
     let v = new View();
     v.setContentFragment(new FvcTeamEditor());
-    this._owner.onFragmentRequestShowView(this, v, "Workshop team");
+    this.onFragmentRequestShowView(this, v, "Workshop team");
   }
 
   onWorkshopConfigFragmentRequestEditTeam(_fConfig: FvcConfig, teamId: string): void {
@@ -83,7 +83,7 @@ export class FvcMain extends FViewContentWithHeroBanner implements FvcConfigDele
     let f = new FvcTeamEditor();
     f.setTeamId(teamId);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Workshop team");
+    this.onFragmentRequestShowView(this, v, "Workshop team");
   }
 
   onWorkshopConfigFragmentRequestCloseWorkshop(_fConfig: FvcConfig): void {
@@ -154,7 +154,7 @@ export class FvcMain extends FViewContentWithHeroBanner implements FvcConfigDele
 
     this._fvcOwner.setOwnerId(WebConfig.getOwnerId());
     this._fMain.addTab(
-        {name : R.t("Projects"), value : "OWNER", icon : ICON.PROJECT},
+        {name : R.t("Projects"), value : "OWNER", icon : ICONS.PROJECT},
         this._fvcOwner);
     this._fMain.switchTo("OWNER");
   }
@@ -168,7 +168,7 @@ export class FvcMain extends FViewContentWithHeroBanner implements FvcConfigDele
     this.setHeroBannerFragment(ff);
 
     this._fMain.addTab(
-        {name : R.t("Activities"), value : "NEWS", icon : ICON.EXPLORER},
+        {name : R.t("Activities"), value : "NEWS", icon : ICONS.EXPLORER},
         this._fvcExplorer);
     this._fMain.switchTo("NEWS");
   }
@@ -178,23 +178,23 @@ export class FvcMain extends FViewContentWithHeroBanner implements FvcConfigDele
     this.setHeroBannerFragment(null);
 
     this._fMain.addTab(
-        {name : R.t("Activities"), value : "NEWS", icon : ICON.EXPLORER},
+        {name : R.t("Activities"), value : "NEWS", icon : ICONS.EXPLORER},
         this._fvcExplorer);
 
     this._fvcOwner.setOwnerId(WebConfig.getOwnerId());
     this._fMain.addTab(
-        {name : R.t("Mine"), value : "OWNER", icon : ICON.SMILEY},
+        {name : R.t("Mine"), value : "OWNER", icon : ICONS.SMILEY},
         this._fvcOwner);
 
-    let ff = new FvcConfig();
-    ff.setDelegate(this);
+    let fConfig = new FvcConfig();
+    fConfig.setDelegate(this);
     this._fMain.addTab(
-        {name : R.t("Config"), value : "CONFIG", icon : ICON.CONFIG}, ff);
+        {name : R.t("Config"), value : "CONFIG", icon : ICONS.CONFIG}, fConfig);
 
-    ff = new FvcReport();
-    ff.setDelegate(this);
+    let fReport = new FvcReport();
+    fReport.setDelegate(this);
     this._fMain.addTab(
-        {name : R.t("Report"), value : "REPORT", icon : ICON.REPORT}, ff);
+        {name : R.t("Report"), value : "REPORT", icon : ICONS.REPORT}, fReport);
 
     this._fMain.switchTo("NEWS");
   }
@@ -206,7 +206,7 @@ export class FvcMain extends FViewContentWithHeroBanner implements FvcConfigDele
     f.setDelegate(this);
     f.setProject(project);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Project editor");
+    this.onFragmentRequestShowView(this, v, "Project editor");
   }
 
   #asyncCreateProject(): void {
@@ -223,7 +223,7 @@ export class FvcMain extends FViewContentWithHeroBanner implements FvcConfigDele
     Api.asFragmentCall(this, url).then((d: any) => this.#onOpenWorkshopRRR(d));
   }
 
-  #onOpenWorkshopRRR(data: any): void { WebConfig.setWorkshopOpen(true); }
+  #onOpenWorkshopRRR(_data: any): void { WebConfig.setWorkshopOpen(true); }
 
   #asyncCloseWorkshop(): void {
     let url = "api/workshop/request_close";

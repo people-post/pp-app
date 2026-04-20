@@ -5,13 +5,13 @@ import { FSearchMenu } from '../../common/search/FSearchMenu.js';
 import { FIdolProjectList } from './FIdolProjectList.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { URL_PARAM } from '../../common/constants/Constants.js';
+import { URL_PARAM } from '../../lib/ui/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
 import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
 
-interface ExplorerDelegate {
+export interface FvcExplorerDelegate {
   onWorkshopExplorerFragmentRequestCreateProject(f: FvcExplorer): void;
 }
 
@@ -19,7 +19,6 @@ export class FvcExplorer extends FScrollViewContent {
   #fmSearch: FHeaderMenu;
   #fList: FIdolProjectList;
   #fBtnNew: ActionButton;
-  protected _delegate!: ExplorerDelegate;
 
   constructor() {
     super();
@@ -43,7 +42,10 @@ export class FvcExplorer extends FScrollViewContent {
     if (id) {
       let sid = SocialItemId.fromEncodedStr(id);
       if (sid) {
-        this.#fList.switchToItem(sid.getValue());
+        let value = sid.getValue();
+        if (value) {
+          this.#fList.switchToItem(value);
+        }
       }
     }
   }
@@ -74,8 +76,8 @@ export class FvcExplorer extends FScrollViewContent {
   scrollToTop(): void { this.#fList.scrollToItemIndex(0); }
   onScrollFinished(): void { this.#fList.onScrollFinished(); }
 
-  onGuiActionButtonClick(fActionButton: ActionButton): void {
-    this._delegate.onWorkshopExplorerFragmentRequestCreateProject(this);
+  onGuiActionButtonClick(_fActionButton: ActionButton): void {
+    this.getDelegate<FvcExplorerDelegate>()?.onWorkshopExplorerFragmentRequestCreateProject(this);
   }
 
   _renderContentOnRender(render: Render): void {

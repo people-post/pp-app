@@ -35,7 +35,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { PProductInfoBase } from './PProductInfoBase.js';
 import { PProductBase } from './PProductBase.js';
 
-interface ProductDelegate {
+export interface FProductDelegate {
   onClickInProductInfoFragment(f: FProduct, productId: string | null): void;
   onRequestEditProduct(productId: string | null): void;
 }
@@ -103,16 +103,16 @@ export class FProduct extends MajorSectorItem {
     this.#onAddToCart();
   }
   onThumbnailClickedInThumbnailFragment(_fThumbnail: FilesThumbnailFragment, _idx: number): void {
-    this._delegate.onClickInProductInfoFragment(this, this._productId);
+    this.getDelegate<FProductDelegate>()?.onClickInProductInfoFragment(this, this._productId);
   }
 
   action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {
     case CF_PRODUCT.VIEW:
-      this._delegate.onClickInProductInfoFragment(this, this._productId);
+      this.getDelegate<FProductDelegate>()?.onClickInProductInfoFragment(this, this._productId);
       break;
     case CF_PRODUCT.EDIT:
-      this._delegate.onRequestEditProduct(this._productId);
+      this.getDelegate<FProductDelegate>()?.onRequestEditProduct(this._productId);
       break;
     default:
       super.action(type, ..._args);

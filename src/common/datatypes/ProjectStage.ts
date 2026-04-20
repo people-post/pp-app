@@ -30,12 +30,15 @@ export class ProjectStage {
     return requiredIds.every((id) => stageIds.indexOf(id) >= 0);
   }
 
-  hasDependencyOn(stageId: string): boolean {
+  hasDependencyOn(stageId: string | null): boolean {
+    if (!stageId) {
+      return false;
+    }
     const requiredIds = this.#data.required_stage_ids || [];
     return requiredIds.indexOf(stageId) >= 0;
   }
 
-  getId(): string | undefined {
+  getId(): string | null {
     return this.#data.id;
   }
 

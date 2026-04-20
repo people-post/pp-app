@@ -10,6 +10,13 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { FProjectStage } from './FProjectStage.js';
 import { Api } from '../../common/plt/Api.js';
 import type { ProjectStage } from '../../common/datatypes/ProjectStage.js';
+import { ProjectData } from '../../types/backend2.js';
+import { RemoteError } from '../../types/basic.js';
+
+interface ApiResponse {
+  error?: RemoteError;
+  data?: { project: ProjectData };
+}
 
 export class FvcProjectStageConnection extends FScrollViewContent {
   protected _stage: ProjectStage | null = null;
@@ -101,27 +108,34 @@ export class FvcProjectStageConnection extends FScrollViewContent {
     if (!this._stage) {
       return;
     }
+    let stageId = this._stage.getId();
+    if (!stageId) {
+      return;
+    }
 
     let url = "api/workshop/connect_project_stage";
     let fd = new FormData();
     fd.append("project_id", this._stage.getProjectId());
-    fd.append("stage_id", this._stage.getId());
+    fd.append("stage_id", stageId);
     for (let f of this._fList.getChildren()) {
       if (f instanceof FProjectStage && f.isSelected()) {
-        fd.append("to_ids", f.getStage().getId());
+        let toStageId = f.getStage()?.getId();
+        if (toStageId) {
+          fd.append("to_ids", toStageId);
+        }
       }
     }
 
-   Api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r));
+   Api.asyncRawPost(url, fd, r => this.#onSubmitRRR(r), null, null);
   }
 
   #onSubmitRRR(responseText: string): void {
-    let response = JSON.parse(responseText) as { error?: string; data?: { project: unknown } };
+    let response = JSON.parse(responseText) as ApiResponse;
     if (response.error) {
-      this.onErrorInFragment(response.error);
+      this.onRemoteErrorInFragment(this, response.error);
     } else if (response.data) {
       Workshop.updateProject(new Project(response.data.project));
-      this._owner.onContentFragmentRequestPopView(this);
+      this._requestPopView();
     }
   }
 }

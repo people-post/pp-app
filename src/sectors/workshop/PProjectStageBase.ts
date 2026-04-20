@@ -10,8 +10,8 @@ export class PProjectStageBase extends Panel {
   }
 
   getNamePanel(): Panel { return this._pName; }
-  getDescriptionPanel(): Panel | null { return null; }
-  getCommentPanel(): Panel | null { return null; }
+  getDescriptionPanel(): PanelWrapper | null { return null; }
+  getCommentPanel(): PanelWrapper | null { return null; }
   getOptionBtnPanel(): PanelWrapper | null { return null; }
 
   setThemeForState(_state: string, _status: string): void {}

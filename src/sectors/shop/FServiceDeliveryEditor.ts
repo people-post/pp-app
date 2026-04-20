@@ -9,7 +9,6 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FProductDeliveryEditor } from './FProductDeliveryEditor.js';
 import { FServiceLocationEditor } from './FServiceLocationEditor.js';
 import { FServiceLocation } from './FServiceLocation.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
 interface ServiceDeliveryChoiceData {
   getDescription(): string;
@@ -79,7 +78,7 @@ export class FServiceDeliveryEditor extends FProductDeliveryEditor {
     }
   }
 
-  _getType(): symbol { return ProductDeliveryChoice.TYPE.QUEUE; }
+  _getType(): string | null { return ProductDeliveryChoice.TYPE.QUEUE; }
 
   _collectData(): any {
     let ls: any[] = [];

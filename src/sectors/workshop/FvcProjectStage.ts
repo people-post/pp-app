@@ -12,14 +12,13 @@ import { Project } from '../../common/datatypes/Project.js';
 import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Account } from '../../common/dba/Account.js';
 
-interface ProjectStageDelegate {
+export interface FvcProjectStageDelegate {
   onClickInProjectStageFragment(fStage: FProjectStage): void;
 }
 
 export class FvcProjectStage extends FScrollViewContent {
   protected _fBtnEdit: ActionButton;
   protected _fStage: Fragment | null;
-  protected _delegate!: ProjectStageDelegate;
 
   constructor() {
     super();
@@ -43,15 +42,15 @@ export class FvcProjectStage extends FScrollViewContent {
     return null;
   }
 
-  onGuiActionButtonClick(fActionButton: ActionButton): void { this.#onEdit(); }
+  onGuiActionButtonClick(_fActionButton: ActionButton): void { this.#onEdit(); }
 
-  onClickInProjectStageFragment(fStage: FProjectStage): void {}
+  onClickInProjectStageFragment(_fStage: FProjectStage): void {}
 
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.PROJECT:
       if (this._fStage && (data as Project).getId() == (this._fStage as FProjectStage).getStage()?.getProjectId()) {
-        this._owner.onContentFragmentRequestUpdateHeader();
+        this._requestUpdateHeader();
         this.render();
       }
       break;
@@ -104,10 +103,13 @@ export class FvcProjectStage extends FScrollViewContent {
     let f = new FvcProjectStageEditor();
     f.setStage(stage);
     v.setContentFragment(f);
-    this._owner.onContentFragmentRequestReplaceView(this, v, "Stage editor");
+    this._requestReplaceView(v, "Stage editor");
   }
 
-  #isEditableByUser(userId: string): boolean {
+  #isEditableByUser(userId: string | null): boolean {
+    if (!userId) {
+      return false;
+    }
     if (!this._fStage) {
       return false;
     }

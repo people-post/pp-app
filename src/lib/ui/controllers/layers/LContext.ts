@@ -90,7 +90,7 @@ export class LContext extends Layer {
       this.#title = null;
     }
   }
-  setDescription(d: string): void { this.#description = d; }
+  setDescription(d: string | null): void { this.#description = d; }
 
   addOption(name: string, value: unknown, icon: string | null = null, themeType: unknown = null, isEnabled: boolean = true): void {
     let f = new Button();

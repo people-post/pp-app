@@ -44,7 +44,7 @@ export class FViewContentWithHeroBanner extends FViewContentWrapper {
   #isBannerVisible: boolean = false;
   #threashold: number = 10; // Threshold to do action
 
-  setHeroBannerFragment(f: Fragment): void {
+  setHeroBannerFragment(f: Fragment | null): void {
     this.#fHeroBanner = f;
     this.setChild("herobanner", f);
   }

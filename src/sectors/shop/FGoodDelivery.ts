@@ -4,16 +4,15 @@ import { FProductDelivery } from './FProductDelivery.js';
 import { PGoodDelivery } from './PGoodDelivery.js';
 import { Cart } from '../../common/dba/Cart.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { PGoodDeliveryBase } from './PGoodDeliveryBase.js';
 
-interface GoodDeliveryDelegate {
+export interface FGoodDeliveryDelegate {
   onGoodDeliveryFragmentRequestAddToCart(f: FGoodDelivery): void;
 }
 
 export class FGoodDelivery extends FProductDelivery {
   protected _fBtnAdd: Button;
-  protected _delegate!: GoodDeliveryDelegate;
 
   constructor() {
     super();
@@ -24,25 +23,25 @@ export class FGoodDelivery extends FProductDelivery {
   }
 
   onSimpleButtonClicked(_fBtn: Button): void {
-    this._delegate.onGoodDeliveryFragmentRequestAddToCart(this);
+    this.getDelegate<FGoodDeliveryDelegate>()?.onGoodDeliveryFragmentRequestAddToCart(this);
   }
 
   _renderOnRender(render: PanelWrapper): void {
     let panel = this.#createPanel();
     render.wrapPanel(panel);
 
-    let p = panel.getAddBtnPanel();
-    this._fBtnAdd.attachRender(p);
+    let pAddBtn = panel.getAddBtnPanel();
+    this._fBtnAdd.attachRender(pAddBtn);
     this._fBtnAdd.render();
 
-    p = panel.getProductCountPanel();
-    this.#renderCountInCart(p);
+    let pProductCount = panel.getProductCountPanel();
+    this.#renderCountInCart(pProductCount);
   }
 
-  #createPanel(): Panel {
-    let p: Panel;
+  #createPanel(): PGoodDeliveryBase {
+    let p: PGoodDeliveryBase;
     switch (this._tLayout) {
-    case this.constructor.T_LAYOUT.COMPACT:
+    case FGoodDelivery.T_LAYOUT.COMPACT:
       p = new PGoodDelivery(); // TODO: Make new panel
       break;
     default:
@@ -67,6 +66,6 @@ export class FGoodDelivery extends FProductDelivery {
 
   #countItemInCart(cartId: string, productId: string): number {
     let c = Cart.getCart(cartId);
-    return c ? Cart.countProduct(productId) : 0;
+    return c ? c.countProduct(productId) : 0;
   }
 }

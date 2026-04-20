@@ -7,16 +7,17 @@ import { FSearchMenu } from '../../common/search/FSearchMenu.js';
 import { FOwnerProjectList } from './FOwnerProjectList.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { ID, URL_PARAM } from '../../common/constants/Constants.js';
+import { URL_PARAM } from '../../lib/ui/Constants.js';
+import { ID } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { MainIconOperator } from '../../lib/ui/animators/MainIconOperator.js';
 import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
-import type { MenuItem } from '../../common/menu/MenuItem.js';
+import type { MenuItem } from '../../common/datatypes/MenuItem.js';
 import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
 
-interface WorkshopOwnerDelegate {
+export interface FvcOwnerDelegate {
   onWorkshopOwnerFragmentRequestCreateProject(f: FvcOwner): void;
 }
 
@@ -26,23 +27,22 @@ export class FvcOwner extends FScrollViewContent {
   #fList: FOwnerProjectList;
   #fBtnNew: ActionButton;
   #currentMenuItem: MenuItem | null = null;
-  protected _delegate!: WorkshopOwnerDelegate;
 
   constructor() {
     super();
     this.#fmMain = new FHeaderMenu();
     this.#fmMain.setIcon(ICON.M_MENU, new MainIconOperator());
-    let f = new MainMenu();
-    f.setSector(ID.SECTOR.WORKSHOP);
-    f.setDelegate(this);
-    this.#fmMain.setContentFragment(f);
+    let fMainMenu = new MainMenu();
+    fMainMenu.setSector(ID.SECTOR.WORKSHOP);
+    fMainMenu.setDelegate(this);
+    this.#fmMain.setContentFragment(fMainMenu);
     this.#fmMain.setExpansionPriority(0);
 
     this.#fmSearch = new FHeaderMenu();
     this.#fmSearch.setIcon(ICON.M_SEARCH, new SearchIconOperator());
-    f = new FSearchMenu();
-    f.setDelegate(this);
-    this.#fmSearch.setContentFragment(f);
+    let fSearchMenu = new FSearchMenu();
+    fSearchMenu.setDelegate(this);
+    this.#fmSearch.setContentFragment(fSearchMenu);
     this.#fmSearch.setExpansionPriority(1);
 
     this.#fList = new FOwnerProjectList();
@@ -60,7 +60,10 @@ export class FvcOwner extends FScrollViewContent {
     if (id) {
       let sid = SocialItemId.fromEncodedStr(id);
       if (sid) {
-        this.#fList.switchToItem(sid.getValue());
+        let value = sid.getValue();
+        if (value) {
+          this.#fList.switchToItem(value);
+        }
       }
     }
   }
@@ -98,7 +101,7 @@ export class FvcOwner extends FScrollViewContent {
   onScrollFinished(): void { this.#fList.onScrollFinished(); }
 
   onGuiActionButtonClick(_fActionButton: ActionButton): void {
-    this._delegate.onWorkshopOwnerFragmentRequestCreateProject(this);
+    this.getDelegate<FvcOwnerDelegate>()?.onWorkshopOwnerFragmentRequestCreateProject(this);
   }
 
   onItemSelectedInGuiMainMenu(_fMainMenu: MainMenu, menuItem: MenuItem): void {

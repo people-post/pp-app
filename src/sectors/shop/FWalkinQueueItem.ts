@@ -29,6 +29,10 @@ import { Api } from '../../common/plt/Api.js';
 import { Utilities } from '../../common/Utilities.js';
 import { PreCheckoutFacade } from '../../common/checkout/PreCheckoutFacade.js';
 
+export interface FWalkinQueueItemDataSource {
+  isItemSelectedInWalkinQueueItemFragment(f: FWalkinQueueItem, itemId: string): boolean;
+}
+
 export class FWalkinQueueItem extends Fragment {
   static T_LAYOUT = {INFO : "INFO", FULL: "FULL"};
   private _itemId: string | null = null;
@@ -148,8 +152,7 @@ export class FWalkinQueueItem extends Fragment {
     let panel = this.#createPanel();
     render.wrapPanel(panel);
 
-    // @ts-expect-error - dataSource may have this method
-    if (this._dataSource?.isItemSelectedInWalkinQueueItemFragment?.(
+    if (this.getDataSource<FWalkinQueueItemDataSource>()?.isItemSelectedInWalkinQueueItemFragment?.(
             this, this._itemId)) {
       panel.invertColor();
     }
@@ -194,7 +197,7 @@ export class FWalkinQueueItem extends Fragment {
   #createPanel(): PWalkinQueueItem | PWalkinQueueItemInfo | PWalkinQueueItemInfoPublic {
     let p: PWalkinQueueItem | PWalkinQueueItemInfo | PWalkinQueueItemInfoPublic;
     switch (this._tLayout) {
-    case this.constructor.T_LAYOUT.FULL:
+    case FWalkinQueueItem.T_LAYOUT.FULL:
       p = new PWalkinQueueItem();
       this._fAction1.setLayoutType(Button.LAYOUT_TYPE.LARGE_CYCLE);
       break;
@@ -319,5 +322,3 @@ export class FWalkinQueueItem extends Fragment {
     }
   }
 }
-
-export default FWalkinQueueItem;

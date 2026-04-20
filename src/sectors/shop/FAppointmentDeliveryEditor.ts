@@ -2,5 +2,5 @@ import { ProductDeliveryChoice } from '../../common/datatypes/ProductDeliveryCho
 import { FServiceDeliveryEditor } from './FServiceDeliveryEditor.js';
 
 export class FAppointmentDeliveryEditor extends FServiceDeliveryEditor {
-  _getType(): symbol { return ProductDeliveryChoice.TYPE.SCHEDULE; }
+  _getType(): string | null { return ProductDeliveryChoice.TYPE.SCHEDULE; }
 }

@@ -6,10 +6,9 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ShopBranch } from '../../common/datatypes/ShopBranch.js';
 import { FBranch } from './FBranch.js';
 import { Api } from '../../common/plt/Api.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 
-interface BranchListDelegate {
+export interface FBranchListDelegate {
   onBranchListFragmentRequestShowView(f: FBranchList, view: View, title: string): void;
   onBranchSelectedInBranchListFragment(f: FBranchList, branchId: string): void;
 }
@@ -21,7 +20,6 @@ export class FBranchList extends Fragment {
   #selectedId: string | null = null;
   #isEditEnabled: boolean = false;
   #isBranchIdsLoading: boolean = false;
-  protected _delegate!: BranchListDelegate;
 
   constructor() {
     super();
@@ -42,12 +40,12 @@ export class FBranchList extends Fragment {
 
   onSimpleButtonClicked(_fBtn: Button): void { this.#asyncAdd(); }
   onBranchFragmentRequestShowView(_fBranch: FBranch, view: View, title: string): void {
-    this._delegate.onBranchListFragmentRequestShowView(this, view, title);
+    this.getDelegate<FBranchListDelegate>()?.onBranchListFragmentRequestShowView(this, view, title);
   }
   onClickInBranchFragment(_fBranch: FBranch, branchId: string): void {
     this.#selectedId = branchId;
     this.render();
-    this._delegate.onBranchSelectedInBranchListFragment(this, branchId);
+    this.getDelegate<FBranchListDelegate>()?.onBranchSelectedInBranchListFragment(this, branchId);
   }
 
   _renderOnRender(render: PanelWrapper): void {
@@ -108,7 +106,10 @@ export class FBranchList extends Fragment {
   #onAddBranchRRR(data: { branch: any }): void {
     if (this.#ids) {
       let b = new ShopBranch(data.branch);
-      this.#ids.push(b.getId());
+      let id = b.getId();
+      if (id) {
+        this.#ids.push(id);
+      }
     }
     this.render();
   }

@@ -284,7 +284,7 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
     f.setDelegate(this);
     f.setProject(this.#getProject());
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Project editor");
+    this.onFragmentRequestShowView(this, v, "Project editor");
   }
 
   onCommentClickedInSocialBar(_fSocial: FSocialBar): void { this._fTabs.setPane("COMMENTS"); }

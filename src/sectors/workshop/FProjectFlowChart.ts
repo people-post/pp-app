@@ -21,11 +21,11 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import type { Project } from '../../common/datatypes/Project.js';
 import { Account } from '../../common/dba/Account.js';
 
-interface FlowChartDataSource {
+export interface FProjectFlowChartDataSource {
   getProjectForFlowChartFragment(f: FProjectFlowChart): Project | null;
 }
 
-interface FlowChartDelegate {
+export interface FProjectFlowChartDelegate {
   onFlowChartFragmentRequestShowStage(f: FProjectFlowChart, stage: ProjectStage): void;
 }
 
@@ -34,8 +34,6 @@ export class FProjectFlowChart extends Fragment {
   protected _lc: LContext;
   protected _selectedStageId: string | null = null;
   protected _ID_START: string = "start";
-  protected _dataSource!: FlowChartDataSource;
-  protected _delegate!: FlowChartDelegate;
 
   constructor() {
     super();
@@ -47,7 +45,7 @@ export class FProjectFlowChart extends Fragment {
   }
 
   onClickInProjectStageFragment(fStage: FProjectStage): void {
-    this._delegate.onFlowChartFragmentRequestShowStage(this, fStage.getStage());
+    this.getDelegate<FProjectFlowChartDelegate>()?.onFlowChartFragmentRequestShowStage(this, fStage.getStage());
   }
 
   onOptionClickedInContextLayer(_lContext: LContext, value: unknown): void {
@@ -95,7 +93,7 @@ export class FProjectFlowChart extends Fragment {
     let sp = {x : 20, y : 30};  // Spaces
 
     let stageLists: ProjectStage[][] = [];
-    let project = this._dataSource.getProjectForFlowChartFragment(this);
+    let project = this.getDataSource<FProjectFlowChartDataSource>()?.getProjectForFlowChartFragment(this);
     if (project) {
       stageLists = project.getLayeredStageLists();
     }
@@ -217,7 +215,7 @@ export class FProjectFlowChart extends Fragment {
   }
 
   #getBeginTerminalClassName(): string {
-    let project = this._dataSource.getProjectForFlowChartFragment(this);
+    let project = this.getDataSource<FProjectFlowChartDataSource>()?.getProjectForFlowChartFragment(this);
     if (project && project.getState() != STATE.NEW) {
       return Utilities.getStateClassName(STATE.FINISHED,
                                          STATE.STATUS.F_DONE);
@@ -226,7 +224,7 @@ export class FProjectFlowChart extends Fragment {
   }
 
   #getEndTerminalClassName(): string {
-    let project = this._dataSource.getProjectForFlowChartFragment(this);
+    let project = this.getDataSource<FProjectFlowChartDataSource>()?.getProjectForFlowChartFragment(this);
     if (project && project.isFinished()) {
       return Utilities.getStateClassName(project.getState(),
                                          project.getStatus());
@@ -235,7 +233,7 @@ export class FProjectFlowChart extends Fragment {
   }
 
   #onClickAtBegin(): void {
-    let project = this._dataSource.getProjectForFlowChartFragment(this);
+    let project = this.getDataSource<FProjectFlowChartDataSource>()?.getProjectForFlowChartFragment(this);
     if (project && Account) {
       let actions =
           project.getActionsForUserInBeginTerminal(Account.getId());
@@ -246,7 +244,7 @@ export class FProjectFlowChart extends Fragment {
   }
 
   #onClickAtEnd(): void {
-    let project = this._dataSource.getProjectForFlowChartFragment(this);
+    let project = this.getDataSource<FProjectFlowChartDataSource>()?.getProjectForFlowChartFragment(this);
     if (project && Account) {
       let actions = project.getActionsForUserInEndTerminal(Account.getId());
       if (actions.length) {
@@ -267,26 +265,26 @@ export class FProjectFlowChart extends Fragment {
   }
 
   #onPrependBeforeEnd(): void {
-    let project = this._dataSource.getProjectForFlowChartFragment(this);
+    let project = this.getDataSource<FProjectFlowChartDataSource>()?.getProjectForFlowChartFragment(this);
     if (project) {
       let v = new View();
       let f = new FvcCreateProjectStageChoice();
       f.setProjectId(project.getId());
       f.setBeforeStage("");
       v.setContentFragment(f);
-      this._owner.onFragmentRequestShowView(this, v, "Add stage");
+      this.onFragmentRequestShowView(this, v, "Add stage");
     }
   }
 
   #onAppendAfterBegin(): void {
-    let project = this._dataSource.getProjectForFlowChartFragment(this);
+    let project = this.getDataSource<FProjectFlowChartDataSource>()?.getProjectForFlowChartFragment(this);
     if (project) {
       let v = new View();
       let f = new FvcCreateProjectStageChoice();
       f.setProjectId(project.getId());
       f.setAfterStage("");
       v.setContentFragment(f);
-      this._owner.onFragmentRequestShowView(this, v, "Add stage");
+      this.onFragmentRequestShowView(this, v, "Add stage");
     }
   }
 }
