@@ -1,5 +1,5 @@
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FvcBriefDonationResult extends FViewContentBase {
   static T_TYPE = {SUCCESS : Symbol(), FAILURE: Symbol()};
@@ -13,9 +13,9 @@ export class FvcBriefDonationResult extends FViewContentBase {
 
   setType(t: symbol): void { this.#type = t; }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     switch (this.#type) {
-    case this.constructor.T_TYPE.SUCCESS:
+    case FvcBriefDonationResult.T_TYPE.SUCCESS:
       render.replaceContent("Success");
       break;
     default:

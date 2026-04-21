@@ -46,13 +46,13 @@ export class FrontPageConfig {
     let obj: BriefPageConfig | JournalPageConfig | BlockchainPageConfig | null = null;
     switch (templateId) {
       case FrontPageConfig.T_TEMPLATE.BRIEF:
-        obj = new BriefPageConfig(data as Record<string, unknown>);
+        obj = new BriefPageConfig(data as Record<string, string | null>);
         break;
       case FrontPageConfig.T_TEMPLATE.JOURNAL:
-        obj = new JournalPageConfig(data as Record<string, unknown>);
+        obj = new JournalPageConfig(data as Record<string, string | null>);
         break;
       case FrontPageConfig.T_TEMPLATE.BLOCKCHAIN:
-        obj = new BlockchainPageConfig(data as Record<string, unknown>);
+        obj = new BlockchainPageConfig(data as Record<string, string | null>);
         break;
       default:
         break;

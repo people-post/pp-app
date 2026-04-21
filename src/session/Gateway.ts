@@ -177,7 +177,7 @@ export class Gateway extends Controller {
     GADGET: PageConfig;
   } = {
     FRONT_PAGE :
-        {ID : ID.SECTOR.FRONT_PAGE, NAME: "FrontPage", ICON: ICON.HOME},
+        {ID : ID.SECTOR.FRONT_PAGE, NAME: "FrontPage", ICON: ICON.SMILEY},
     BLOG: {ID: ID.SECTOR.BLOG, NAME: "Blog", ICON: ICON.BLOG},
     MESSENGER:
         {ID: ID.SECTOR.MESSENGER, NAME: "Messenger", ICON: ICON.MESSENGER},

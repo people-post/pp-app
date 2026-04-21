@@ -2,6 +2,7 @@ import { SectorGateway } from '../../common/plt/SectorGateway.js';
 import type { PageConfig } from '../../lib/ui/controllers/PageConfig.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { FrontPageConfig } from '../../common/datatypes/FrontPageConfig.js';
+import { JournalPageConfig } from '../../common/datatypes/JournalPageConfig.js';
 import { FvcJournal } from './FvcJournal.js';
 import { FvcBrief } from './FvcBrief.js';
 import { FvcBlockchain } from './FvcBlockchain.js';
@@ -36,26 +37,34 @@ export class Gateway implements SectorGateway {
   _createMainViewContentFragmentForGuest(): Fragment {
     let f: Fragment;
     let c = WebConfig.getFrontPageConfig();
-    switch (c.getTemplateId()) {
+    switch (c?.getTemplateId()) {
     case FrontPageConfig.T_TEMPLATE.JOURNAL:
-      f = new FvcJournal();
-      f.setConfig(c.getTemplateConfig(), c.getLayoutConfig());
+      {
+        let fJournal = new FvcJournal();
+        fJournal.setConfig(c.getTemplateConfig() as JournalPageConfig | null, c.getLayoutConfig());
+        f = fJournal;
+      }
       break;
     case FrontPageConfig.T_TEMPLATE.BRIEF:
-      // Hack
-      Env.setSmartTimeDiffThreshold(24 * 3600);
-
-      f = new FvcBrief();
-      f.setOwnerId(WebConfig.getOwnerId());
-      f.setConfig(c.getTemplateConfig());
+      {
+        // Hack
+        Env.setSmartTimeDiffThreshold(24 * 3600);
+        let fBrief = new FvcBrief();
+        fBrief.setOwnerId(WebConfig.getOwnerId());
+        fBrief.setConfig(c.getTemplateConfig());
+        f = fBrief;
+      }
       break;
     case FrontPageConfig.T_TEMPLATE.BLOCKCHAIN:
       f = new FvcBlockchain();
       break;
     default:
-      // Default to brief
-      f = new FvcBrief();
-      f.setOwnerId(WebConfig.getOwnerId());
+      {
+        // Default to brief
+        let fBrief = new FvcBrief();
+        fBrief.setOwnerId(WebConfig.getOwnerId());
+        f = fBrief;
+      }
       break;
     }
     return f;

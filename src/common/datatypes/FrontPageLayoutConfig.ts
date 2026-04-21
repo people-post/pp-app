@@ -16,8 +16,8 @@ export class FrontPageLayoutConfig {
     return this.#data.type_id;
   }
 
-  protected _getData(name: string): unknown {
-    return this.#data[name];
+  protected _getData(name: string): string | null {
+    return this.#data[name] as string | null;
   }
 }
 

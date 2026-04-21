@@ -2,12 +2,12 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { MenuContent } from '../../common/menu/MenuContent.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { Blog } from '../../common/dba/Blog.js';
-import type Render from '../../lib/ui/renders/Render.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export class FJournalMenu extends MenuContent {
   #journalIds: string[];
   #currentJournalId: string | null = null;
-  #currentIssueId: string | null = null;
+  //#currentIssueId: string | null = null;
 
   constructor() {
     super();
@@ -29,7 +29,7 @@ export class FJournalMenu extends MenuContent {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: Render): void {
+  _renderOnRender(render: PanelWrapper): void {
     let p = new Panel();
     render.wrapPanel(p);
 
@@ -42,7 +42,7 @@ export class FJournalMenu extends MenuContent {
 
     let j = Blog.getJournal(this.#currentJournalId);
     if (j) {
-      p.replaceContent(j.getName());
+      p.replaceContent(j.getName() || "");
     }
   }
 };

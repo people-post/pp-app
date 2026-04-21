@@ -43,7 +43,7 @@ export class OptionContextButton extends Fragment implements ILContextDelegate {
     this.getDelegate<IOptionContextButtonDelegate>()?.onOptionClickedInContextButtonFragment(this, value);
   }
 
-  action(type: symbol, ..._args: unknown[]): void {
+  action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {
     case CF_OPTION_CONTEXT_BUTTON.ONCLICK:
       this.#onClick();

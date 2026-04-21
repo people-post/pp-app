@@ -1,7 +1,7 @@
 export class FrontPageTemplateConfig {
-  #data: Record<string, unknown>;
+  #data: Record<string, string | null>;
 
-  constructor(data: Record<string, unknown>) {
+  constructor(data: Record<string, string | null>) {
     this.#data = data;
   }
 
@@ -9,8 +9,8 @@ export class FrontPageTemplateConfig {
     return true;
   }
 
-  _getData(name: string): unknown {
-    return this.#data[name];
+  _getData(name: string): string | null {
+    return this.#data[name] as string | null;
   }
 }
 

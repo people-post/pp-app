@@ -1,54 +1,3 @@
-const _CPT_JOURNAL = {
-  NARROW_MAIN : `<div class="tw:h-full tw:flex tw:overflow-x-scroll tw:snap-x tw:snap-mandatory">
-  <div class="tw:w-[90%] tw:p-[5px] tw:flex-shrink-0 tw:snap-start">
-    <div id="__ID_LEFT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
-  </div>
-  <div class="tw:w-[90%] tw:flex-shrink-0 tw:snap-center tw:flex tw:flex-col tw:overflow-hidden">
-    <div class="tw:h-[60%] tw:pt-[5px] tw:overflow-hidden">
-      <div id="__ID_MAIN__" class="tw:h-full s-csecondarybg bdradius25px tw:overflow-y-auto tw:scroll-none"></div>
-    </div>
-    <div class="tw:h-[40%] tw:py-[5px]">
-      <div id="__ID_BOTTOM__" class="tw:h-full s-csecondarybg bdradius25px"></div>
-    </div>
-  </div>
-  <div class="tw:w-[90%] tw:p-[5px] tw:flex-shrink-0 tw:snap-end">
-    <div id="__ID_RIGHT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
-  </div>
-  </div>`,
-  MIDDLE_MAIN : `<div class="tw:h-full tw:flex tw:overflow-x-scroll tw:snap-x tw:snap-mandatory">
-  <div class="w240px tw:p-[5px] tw:flex-shrink-0 tw:snap-start">
-    <div id="__ID_LEFT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
-  </div>
-  <div class="w360px tw:flex-shrink-0 tw:snap-center tw:flex tw:flex-col tw:overflow-hidden">
-    <div class="tw:h-[60%] tw:pt-[5px] tw:overflow-hidden">
-      <div id="__ID_MAIN__" class="tw:h-full s-csecondarybg bdradius25px tw:overflow-y-auto tw:scroll-none"></div>
-    </div>
-    <div class="tw:h-[40%] tw:py-[5px]">
-      <div id="__ID_BOTTOM__" class="tw:h-full s-csecondarybg bdradius25px"></div>
-    </div>
-  </div>
-  <div class="w240px tw:p-[5px] tw:flex-shrink-0 tw:snap-end">
-    <div id="__ID_RIGHT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
-  </div>
-  </div>`,
-  WIDE_MAIN : `<div class="tw:h-full tw:grid tw:grid-cols-[2fr_3fr_2fr]">
-  <div class="tw:p-[5px]">
-    <div id="__ID_LEFT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
-  </div>
-  <div class="tw:flex tw:flex-col tw:overflow-hidden">
-    <div class="tw:h-[60%] tw:pt-[5px] tw:overflow-hidden">
-      <div id="__ID_MAIN__" class="tw:h-full s-csecondarybg bdradius25px tw:overflow-y-auto tw:scroll-none"></div>
-    </div>
-    <div class="tw:h-[40%] tw:py-[5px]">
-      <div id="__ID_BOTTOM__" class="tw:h-full s-csecondarybg bdradius25px"></div>
-    </div>
-  </div>
-  <div class="tw:p-[5px]">
-    <div id="__ID_RIGHT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
-  </div>
-  </div>`,
-} as const;
-
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
@@ -73,7 +22,59 @@ import {
 import { Blog } from '../../common/dba/Blog.js';
 import type { JournalPageConfig } from '../../common/datatypes/JournalPageConfig.js';
 import type { Post } from '../../types/blog.js';
-import type { JournalIssue } from '../../types/blog.js';
+import type { JournalIssue } from '../../common/datatypes/JournalIssue.js';
+import { TriplePanelConfig } from '../../common/datatypes/TriplePanelConfig.js';
+
+const _CPT_JOURNAL = {
+  NARROW_MAIN : `<div class="tw:h-full tw:flex tw:overflow-x-scroll tw:snap-x tw:snap-mandatory">
+  <div class="tw:w-[90%] tw:p-[5px] tw:shrink-0 tw:snap-start">
+    <div id="__ID_LEFT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
+  </div>
+  <div class="tw:w-[90%] tw:shrink-0 tw:snap-center tw:flex tw:flex-col tw:overflow-hidden">
+    <div class="tw:h-[60%] tw:pt-[5px] tw:overflow-hidden">
+      <div id="__ID_MAIN__" class="tw:h-full s-csecondarybg bdradius25px tw:overflow-y-auto tw:scroll-none"></div>
+    </div>
+    <div class="tw:h-[40%] tw:py-[5px]">
+      <div id="__ID_BOTTOM__" class="tw:h-full s-csecondarybg bdradius25px"></div>
+    </div>
+  </div>
+  <div class="tw:w-[90%] tw:p-[5px] tw:shrink-0 tw:snap-end">
+    <div id="__ID_RIGHT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
+  </div>
+  </div>`,
+  MIDDLE_MAIN : `<div class="tw:h-full tw:flex tw:overflow-x-scroll tw:snap-x tw:snap-mandatory">
+  <div class="w240px tw:p-[5px] tw:shrink-0 tw:snap-start">
+    <div id="__ID_LEFT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
+  </div>
+  <div class="w360px tw:shrink-0 tw:snap-center tw:flex tw:flex-col tw:overflow-hidden">
+    <div class="tw:h-[60%] tw:pt-[5px] tw:overflow-hidden">
+      <div id="__ID_MAIN__" class="tw:h-full s-csecondarybg bdradius25px tw:overflow-y-auto tw:scroll-none"></div>
+    </div>
+    <div class="tw:h-[40%] tw:py-[5px]">
+      <div id="__ID_BOTTOM__" class="tw:h-full s-csecondarybg bdradius25px"></div>
+    </div>
+  </div>
+  <div class="w240px tw:p-[5px] tw:shrink-0 tw:snap-end">
+    <div id="__ID_RIGHT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
+  </div>
+  </div>`,
+  WIDE_MAIN : `<div class="tw:h-full tw:grid tw:grid-cols-[2fr_3fr_2fr]">
+  <div class="tw:p-[5px]">
+    <div id="__ID_LEFT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
+  </div>
+  <div class="tw:flex tw:flex-col tw:overflow-hidden">
+    <div class="tw:h-[60%] tw:pt-[5px] tw:overflow-hidden">
+      <div id="__ID_MAIN__" class="tw:h-full s-csecondarybg bdradius25px tw:overflow-y-auto tw:scroll-none"></div>
+    </div>
+    <div class="tw:h-[40%] tw:py-[5px]">
+      <div id="__ID_BOTTOM__" class="tw:h-full s-csecondarybg bdradius25px"></div>
+    </div>
+  </div>
+  <div class="tw:p-[5px]">
+    <div id="__ID_RIGHT__" class="tw:h-full s-csecondarybg bdradius25px"></div>
+  </div>
+  </div>`,
+} as const;
 
 export class PJournal extends Panel {
   #pMain: PanelWrapper;
@@ -131,10 +132,10 @@ export class FvcJournal extends FViewContentBase {
   #fmSearch: FHeaderMenu;
   #fcPanels: FFragmentList;
   #resizeObserver: ResizeObserver;
-  #currentMenuItem: string | null = null;
+  //#currentMenuItem: string | null = null;
   #tWidth: symbol | null = null;
   #cData: JournalPageConfig | null = null;
-  #cLayout: FrontPageLayoutConfig | null = null;
+  #cLayout: TriplePanelConfig | null = null;
   #idLoader: JournalIssueIdLoader;
   #fIssue: JournalIssueContentFragment;
   #fLeft: JournalTaggedCommentListContentFragment;
@@ -176,7 +177,7 @@ export class FvcJournal extends FViewContentBase {
     this.setChild("commentPanelFragments", this.#fcPanels);
 
     this.setPreferredWidth({"min" : 320, "best" : 2048, "max" : 0});
-    this.setMaxWidthClassName(null);
+    this.setMaxWidthClassName("");
 
     this.#resizeObserver = new ResizeObserver(() => this.#onResize());
   }
@@ -184,10 +185,15 @@ export class FvcJournal extends FViewContentBase {
   getHeaderDefaultNavFragment(): FHomeBtn { return this.#fHome; }
   getMenuFragments(): FHeaderMenu[] { return [ this.#fmJournal, this.#fmSearch ]; }
 
-  setConfig(cData: JournalPageConfig, cLayout: FrontPageLayoutConfig): void {
+  setConfig(cData: JournalPageConfig | null, cLayout: TriplePanelConfig | null): void {
     this.#cData = cData;
     this.#cLayout = cLayout;
-    this.#mJournal.setJournalIds([ this.#cData.getJournalId() ]);
+    if (this.#cData) {
+      let journalId = this.#cData.getJournalId();
+      if (journalId) {
+        this.#mJournal.setJournalIds([ journalId ]);
+      }
+    }
   }
 
   reload(): void {}
@@ -226,7 +232,9 @@ export class FvcJournal extends FViewContentBase {
 
     let e = panel.getDomElement();
     this.#resizeObserver.disconnect();
-    this.#resizeObserver.observe(e);
+    if (e) {
+      this.#resizeObserver.observe(e);
+    }
 
     // let jid = this.#cData.getJournalId();
     let issue = Blog.getJournalIssue(this.#issueId);
@@ -244,18 +252,18 @@ export class FvcJournal extends FViewContentBase {
     this.#fcPanels.attachRender(panel);
 
     p = panel.getLeftCommentPanel();
-    let tagId = this.#cLayout.getLeftValue();
+    let tagId = this.#cLayout?.getLeftValue() || null;
     this.#fLeft.setTagId(tagId);
     this.#fLeft.attachRender(p);
     this.#fcPanels.append(this.#fLeft);
 
-    tagId = this.#cLayout.getRightValue();
+    tagId = this.#cLayout?.getRightValue() || null;
     p = panel.getRightCommentPanel();
     this.#fRight.setTagId(tagId);
     this.#fRight.attachRender(p);
     this.#fcPanels.append(this.#fRight);
 
-    tagId = this.#cLayout.getBottomValue();
+    tagId = this.#cLayout?.getBottomValue() || null;
     p = panel.getBottomCommentPanel();
     this.#fBottom.setTagId(tagId);
     this.#fBottom.attachRender(p);

@@ -5,10 +5,10 @@ import { ScrollEndEventShim, IScrollEndEventShimDelegate } from '../../../ext/Sc
 import { FElasticRefresh, IElasticRefreshDataSource, IElasticRefreshDelegate } from './FElasticRefresh.js';
 
 const _CPT_SCROLLABLE_HOOK = {
-  MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="tw:flex-shrink-0"></div>
-  <div id="__ID_CONTENT__" class="tw:flex-grow tw:min-w-0 tw:overflow-y-auto tw:scroll-none">
+  MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="tw:shrink-0"></div>
+  <div id="__ID_CONTENT__" class="tw:grow tw:min-w-0 tw:overflow-y-auto tw:scroll-none">
   </div>
-  <div class="tw:flex-shrink-0 tw:relative">
+  <div class="tw:shrink-0 tw:relative">
     <span id="__ID_BSTT__" class="tw:absolute left0px bottom72px left-side-button"></span>
   </div>`,
   CONTENT : `<div id="__ID_CONTENT__" class="tw:min-h-full"></div>`,
@@ -111,7 +111,7 @@ export class FScrollableHook extends Fragment implements IScrollEndEventShimDele
     this.#scrollYBeforeTopResize = null;
   }
 
-  action(type: symbol, ..._args: unknown[]): void {
+  action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {
     case CF_SCROLLABLE_HOOK.SCROLL_TO_TOP:
       this.#scrollToTop();
@@ -122,7 +122,7 @@ export class FScrollableHook extends Fragment implements IScrollEndEventShimDele
     }
   }
 
-  _renderOnRender(render: any): void {
+  _renderOnRender(render: PanelWrapper): void {
     let panel = new PScrollableHook();
     panel.setClassName("tw:h-full tw:flex tw:flex-col");
     render.wrapPanel(panel);

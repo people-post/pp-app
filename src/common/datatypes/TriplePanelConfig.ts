@@ -1,15 +1,15 @@
 import { FrontPageLayoutConfig } from './FrontPageLayoutConfig.js';
 
 export class TriplePanelConfig extends FrontPageLayoutConfig {
-  getLeftValue(): unknown {
+  getLeftValue(): string | null {
     return this._getData('left');
   }
 
-  getRightValue(): unknown {
+  getRightValue(): string | null {
     return this._getData('right');
   }
 
-  getBottomValue(): unknown {
+  getBottomValue(): string | null {
     return this._getData('bottom');
   }
 }

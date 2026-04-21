@@ -92,7 +92,10 @@ export class JournalIssue extends ServerDataObject<JournalIssueData> implements 
     return false;
   }
 
-  containsPost(id: string): boolean {
+  containsPost(id: string | null): boolean {
+    if (!id) {
+      return false;
+    }
     return this.getSections().some((s) => s.containsPost(id));
   }
 

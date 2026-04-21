@@ -1,3 +1,42 @@
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
+import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
+import { FScrollableHook } from '../../lib/ui/controllers/fragments/FScrollableHook.js';
+import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
+import { FDateSelector } from '../../lib/ui/controllers/fragments/FDateSelector.js';
+import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
+import { View } from '../../lib/ui/controllers/views/View.js';
+import { URL_PARAM } from '../../lib/ui/Constants.js';
+import { ID } from '../../common/constants/Constants.js';
+import { ICON } from '../../common/constants/Icons.js';
+import { ActionButton } from '../../common/gui/ActionButton.js';
+import { ActionButtonGroup } from '../../common/gui/ActionButtonGroup.js';
+import { MainMenu } from '../../common/menu/MainMenu.js';
+import { MainIconOperator } from '../../lib/ui/animators/MainIconOperator.js';
+import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
+import { MenuItem } from '../../common/datatypes/MenuItem.js';
+import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import { SocialItem } from '../../common/datatypes/SocialItem.js';
+import { FHomeBtn } from '../../common/gui/FHomeBtn.js';
+import { FvcInsights } from './FvcInsights.js';
+import { FvcBriefDonation } from './FvcBriefDonation.js';
+import {
+  getFrontpageBlogBridge,
+  type BriefPostIdLoader,
+  type BriefPostListFragment
+} from './FrontpageBlogBridge.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Blog } from '../../common/dba/Blog.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+import { UiUtilities } from '../../lib/ui/Utilities.js';
+import { FSearchMenu } from '../../common/search/FSearchMenu.js';
+import { FSearchResultInfo } from '../../common/search/FSearchResultInfo.js';
+import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { BriefPageConfig } from '../../common/datatypes/BriefPageConfig.js';
+
 export const CF_BRIEF = {
   SHOW_CALENDAR : Symbol(),
 };
@@ -31,14 +70,14 @@ const _CPT_BRIEF = {
   WIDE_MAIN : `<div class="tw:h-full tw:overflow-y-auto tw:scroll-none">
     <div id="__ID_BANNER__"></div>
     <div class="tw:h-full tw:flex tw:justify-center tw:overflow-hidden">
-      <div id="__ID_POSTS__" class="tw:h-full tw:p-[5px] tw:flex-grow tw:font-font-song"></div>
-      <div class="w240px tw:p-[5px] tw:border-l tw:border-l-[1px] tw:border-solid tw:border-lightgray tw:flex-shrink-0 tw:flex tw:flex-col tw:justify-start">
-        <div class="tw:flex-shrink-0">
+      <div id="__ID_POSTS__" class="tw:h-full tw:p-[5px] tw:grow tw:font-font-song"></div>
+      <div class="w240px tw:p-[5px] tw:border-l tw:border-solid tw:border-lightgray tw:shrink-0 tw:flex tw:flex-col tw:justify-start">
+        <div class="tw:shrink-0">
           <div id="__ID_CALENDAR_TITLE__" class="tw:text-s-font3"></div>
           <div id="__ID_CALENDAR__"></div>
           <div id="__ID_PINNED_TITLE__"></div>
         </div>
-        <div id="__ID_PINNED_V__" class="tw:flex-grow tw:overflow-hidden"></div>
+        <div id="__ID_PINNED_V__" class="tw:grow tw:overflow-hidden"></div>
       </div>
     </div>
     <hr>
@@ -72,44 +111,6 @@ const _CPT_BRIEF = {
     <br>
   </div>`,
 } as const;
-
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
-import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
-import { FHeaderMenu } from '../../lib/ui/controllers/fragments/FHeaderMenu.js';
-import { FScrollableHook } from '../../lib/ui/controllers/fragments/FScrollableHook.js';
-import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
-import { FDateSelector } from '../../lib/ui/controllers/fragments/FDateSelector.js';
-import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
-import { View } from '../../lib/ui/controllers/views/View.js';
-import { ID, URL_PARAM } from '../../common/constants/Constants.js';
-import { ICON } from '../../common/constants/Icons.js';
-import { ActionButton } from '../../common/gui/ActionButton.js';
-import { ActionButtonGroup } from '../../common/gui/ActionButtonGroup.js';
-import { MainMenu } from '../../common/menu/MainMenu.js';
-import { MainIconOperator } from '../../lib/ui/animators/MainIconOperator.js';
-import { SearchIconOperator } from '../../lib/ui/animators/SearchIconOperator.js';
-import { MenuItem } from '../../common/datatypes/MenuItem.js';
-import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
-import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { FHomeBtn } from '../../common/gui/FHomeBtn.js';
-import { FvcInsights } from './FvcInsights.js';
-import { FvcBriefDonation } from './FvcBriefDonation.js';
-import {
-  getFrontpageBlogBridge,
-  type BriefPostIdLoader,
-  type BriefPostListFragment
-} from './FrontpageBlogBridge.js';
-import { WebConfig } from '../../common/dba/WebConfig.js';
-import { Blog } from '../../common/dba/Blog.js';
-import { T_DATA } from '../../common/plt/Events.js';
-import { Events, T_ACTION } from '../../lib/framework/Events.js';
-import { UiUtilities } from '../../lib/ui/Utilities.js';
-import { FSearchMenu } from '../../common/search/FSearchMenu.js';
-import { FSearchResultInfo } from '../../common/search/FSearchResultInfo.js';
-import type { ActionButton as ActionButtonType } from '../../common/gui/ActionButton.js';
-import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 export class PBriefBase extends Panel {
   getBannerPanel(): Panel | null { return null; }
@@ -152,7 +153,7 @@ class PBriefNarrow extends PBriefBase {
   getCopyrightsPanel(): PanelWrapper { return this.#pCopyrights; }
 
   _renderFramework(): string {
-    let s = _CPT_BRIEF.NARROW_MAIN;
+    let s: string = _CPT_BRIEF.NARROW_MAIN;
     s = s.replace("__ID_BANNER__", this._getSubElementId("B"));
     s = s.replace("__ID_POSTS__", this._getSubElementId("P"));
     s = s.replace("__ID_CALENDAR_BTN__", this._getSubElementId("C"));
@@ -206,7 +207,7 @@ class PBriefWide extends PBriefBase {
   getCopyrightsPanel(): PanelWrapper { return this.#pCopyrights; }
 
   _renderFramework(): string {
-    let s = _CPT_BRIEF.WIDE_MAIN;
+    let s: string = _CPT_BRIEF.WIDE_MAIN;
     s = s.replace("__ID_BANNER__", this._getSubElementId("B"));
     s = s.replace("__ID_POSTS__", this._getSubElementId("P"));
     s = s.replace("__ID_CALENDAR_TITLE__", this._getSubElementId("CT"));
@@ -248,7 +249,7 @@ export class FvcBrief extends FViewContentBase {
   #fCalendar: FDateSelector;
   #currentMenuItem: MenuItem | null = null;
   #resizeObserver: ResizeObserver;
-  #config: unknown = null;
+  // #config: FrontPageConfig | null = null;
   #loader: BriefPostIdLoader;
   #lc: LContext;
   #tWidth: symbol | null = null;
@@ -286,7 +287,7 @@ export class FvcBrief extends FViewContentBase {
     this.#fmSearch.setExpansionPriority(1);
 
     this.#fmLanguage = new FHeaderMenu();
-    this.#fmLanguage.setIcon(UiUtilities.renderSvgMenuIcon(ICON.LANGUAGE));
+    this.#fmLanguage.setIcon(UiUtilities.renderSvgMenuIcon(ICON.LANGUAGE), null);
     this.#fmLanguage.setDelegate(this);
 
     this.#lc = new LContext();
@@ -325,7 +326,7 @@ export class FvcBrief extends FViewContentBase {
   getMenuFragments(): Fragment[] { return [ this.#fmMain, this.#fmSearch ]; }
   // getHeaderLayoutType() { return ui.FViewHeader.T_LAYOUT.THICK; }
 
-  getActionButton(): ActionButtonType | null { return this.#fAbg; }
+  getActionButton(): Fragment | null { return this.#fAbg; }
 
   onGuiActionButtonClick(fActionButton: ActionButton): void {
     switch (fActionButton) {
@@ -341,12 +342,18 @@ export class FvcBrief extends FViewContentBase {
     this.#loader.setOwnerId(id);
     this.#mMain.setOwnerId(id);
   }
-  setConfig(c: unknown): void { this.#config = c; }
+  setConfig(c: BriefPageConfig | null): void {
+    console.log("setConfig", c);
+    //this.#config = c;
+  }
 
   initFromUrl(urlParam: URLSearchParams): void {
     let id = urlParam.get(URL_PARAM.ID);
     if (id) {
-      this.#showBriefArticle(SocialItemId.fromEncodedStr(id));
+      let sid = SocialItemId.fromEncodedStr(id);
+      if (sid) {
+        this.#showBriefArticle(sid);
+      }
     }
   }
 
@@ -375,7 +382,7 @@ export class FvcBrief extends FViewContentBase {
       let v = new View();
       let f = new FvcInsights();
       v.setContentFragment(f);
-      this._owner.onFragmentRequestShowView(this, v, "insights");
+      this.onFragmentRequestShowView(this, v, "insights");
     } else {
       this.#prepare(menuItem);
       this.#applyTheme();
@@ -414,7 +421,7 @@ export class FvcBrief extends FViewContentBase {
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.USER_PROFILE:
-      this._owner.onContentFragmentRequestUpdateHeader(this);
+      this._requestUpdateHeader();
       this.render();
       break;
     default:
@@ -431,7 +438,9 @@ export class FvcBrief extends FViewContentBase {
 
     let e = panel.getDomElement();
     this.#resizeObserver.disconnect();
-    this.#resizeObserver.observe(e);
+    if (e) {
+      this.#resizeObserver.observe(e);
+    }
 
     let p = panel.getPostsPanel();
     if (p) {
@@ -448,7 +457,10 @@ export class FvcBrief extends FViewContentBase {
     for (let idx of [0, 1]) {
       let sid = this.#loader.getIdRecord().getId(idx);
       if (sid) {
-        ids.push(SocialItemId.fromEncodedStr(sid));
+        let sidId = SocialItemId.fromEncodedStr(sid);
+        if (sidId) {
+          ids.push(sidId);
+        }
       }
     }
 
@@ -507,16 +519,16 @@ export class FvcBrief extends FViewContentBase {
 
     let w = r.getWidth();
     if (w < 800) {
-      return this.constructor.#T_WIDTH.NARROW;
+      return FvcBrief.#T_WIDTH.NARROW;
     }
-    return this.constructor.#T_WIDTH.WIDE;
+    return FvcBrief.#T_WIDTH.WIDE;
   }
 
   #createPanel(): PBriefBase {
     this.#tWidth = this.#getWidthType();
     let panel: PBriefBase;
     switch (this.#tWidth) {
-    case this.constructor.#T_WIDTH.WIDE:
+    case FvcBrief.#T_WIDTH.WIDE:
       panel = new PBriefWide();
       break;
     default:
@@ -568,7 +580,7 @@ export class FvcBrief extends FViewContentBase {
     let title = "选择日期查看简讯";
     if (this.#selectedDate != "")
       title = this.#selectedDate;
-    let s = _CPT_BRIEF.TITLE;
+    let s: string = _CPT_BRIEF.TITLE;
     s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICON.CALENDAR));
     s = s.replace("__TEXT__", title);
     panel.replaceContent(s);
@@ -578,7 +590,7 @@ export class FvcBrief extends FViewContentBase {
     if (!panel) {
       return;
     }
-    let s = _CPT_BRIEF.TITLE;
+    let s: string = _CPT_BRIEF.TITLE;
     s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICON.CALENDAR));
     s = s.replace("__TEXT__", "选择日期查看简讯");
     panel.replaceContent(s);
@@ -596,7 +608,7 @@ export class FvcBrief extends FViewContentBase {
     if (!panel) {
       return;
     }
-    let s = _CPT_BRIEF.TITLE;
+    let s: string = _CPT_BRIEF.TITLE;
     s = s.replace("__ICON__", UiUtilities.renderSvgFuncIcon(ICON.FIRE));
     s = s.replace("__TEXT__", "热门简讯");
     panel.replaceContent(s);
