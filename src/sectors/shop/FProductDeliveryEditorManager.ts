@@ -1,6 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { FTabbedPane } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
-import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
+import { FTabbedPane, FTabbedPaneDelegate } from '../../lib/ui/controllers/fragments/FTabbedPane.js';
+import { ILContextDelegate, LContext } from '../../lib/ui/controllers/layers/LContext.js';
 import { ProductDeliveryChoice } from '../../common/datatypes/ProductDeliveryChoice.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FPhysicalGoodDeliveryEditor } from './FPhysicalGoodDeliveryEditor.js';
@@ -8,19 +8,15 @@ import { FDigitalGoodDeliveryEditor } from './FDigitalGoodDeliveryEditor.js';
 import { FAppointmentDeliveryEditor } from './FAppointmentDeliveryEditor.js';
 import { FQueueDeliveryEditor } from './FQueueDeliveryEditor.js';
 import type Render from '../../lib/ui/renders/Render.js';
+import { FProductDeliveryEditor } from './FProductDeliveryEditor.js';
 
 interface DeliveryChoiceDetail {
   name: string;
   fDetail: FProductDeliveryEditor;
 }
 
-interface ProductDeliveryChoiceData {
-  getType(): symbol;
-  getDataObject(): any;
-}
-
-export class FProductDeliveryEditorManager extends Fragment {
-  protected _mChoices: Map<symbol, DeliveryChoiceDetail>;
+export class FProductDeliveryEditorManager extends Fragment implements FTabbedPaneDelegate, ILContextDelegate {
+  protected _mChoices: Map<string, DeliveryChoiceDetail>;
   protected _fChoices: FTabbedPane;
   protected _lc: LContext;
 
@@ -49,18 +45,18 @@ export class FProductDeliveryEditorManager extends Fragment {
     return ds;
   }
 
-  setChoices(choices: ProductDeliveryChoiceData[]): void {
+  setChoices(choices: ProductDeliveryChoice[]): void {
     for (let c of choices) {
-      let d = this._mChoices.get(c.getType());
+      let d = this._mChoices.get(c.getType() ?? "");
       if (d) {
         d.fDetail.setValue(c.getDataObject());
       }
-      this.#addPane(c.getType());
+      this.#addPane(c.getType() ?? "");
     }
   }
 
   onTabbedPaneFragmentRequestAddPane(_fChoices: FTabbedPane): void { this.#showContextMenu(); }
-  onTabbedPaneFragmentRequestClosePane(_fChoices: FTabbedPane, value: symbol): boolean {
+  onTabbedPaneFragmentRequestClosePane(_fChoices: FTabbedPane, value: string): boolean {
     let v = this._mChoices.get(value);
     if (v) {
       this._confirmDangerousOperation(
@@ -70,38 +66,38 @@ export class FProductDeliveryEditorManager extends Fragment {
     return false;
   }
 
-  onOptionClickedInContextLayer(_lContext: LContext, value: symbol): void { this.#addPane(value); }
+  onOptionClickedInContextLayer(_lContext: LContext, value: string): void { this.#addPane(value); }
 
   _renderOnRender(render: Render): void {
     this._fChoices.attachRender(render);
     this._fChoices.render();
   }
 
-  #addPane(type: symbol): void {
+  #addPane(type: string): void {
     let d = this._mChoices.get(type);
     if (d) {
       this._fChoices.addPane({name : d.name, value : type}, d.fDetail);
     }
   }
 
-  #initChoiceMap(): Map<symbol, DeliveryChoiceDetail> {
-    let m = new Map<symbol, DeliveryChoiceDetail>();
+  #initChoiceMap(): Map<string, DeliveryChoiceDetail> {
+    let m = new Map<string, DeliveryChoiceDetail>();
     let t = ProductDeliveryChoice.TYPE;
-    let f = new FPhysicalGoodDeliveryEditor();
-    f.setDelegate(this);
-    m.set(t.GOOD, {name : "Goods", fDetail : f});
+    let fPhysical = new FPhysicalGoodDeliveryEditor();
+    fPhysical.setDelegate(this);
+    m.set(t.GOOD ?? "", {name : "Goods", fDetail : fPhysical});
 
-    f = new FDigitalGoodDeliveryEditor();
-    f.setDelegate(this);
-    m.set(t.DIGITAL, {name : "Digital", fDetail : f});
+    let fDigital = new FDigitalGoodDeliveryEditor();
+    fDigital.setDelegate(this);
+    m.set(t.DIGITAL, {name : "Digital", fDetail : fDigital});
 
-    f = new FAppointmentDeliveryEditor();
-    f.setDelegate(this);
-    m.set(t.SCHEDULE, {name : "Appointment", fDetail : f});
+    let fAppointment = new FAppointmentDeliveryEditor();
+    fAppointment.setDelegate(this);
+    m.set(t.SCHEDULE, {name : "Appointment", fDetail : fAppointment});
 
-    f = new FQueueDeliveryEditor();
-    f.setDelegate(this);
-    m.set(t.QUEUE, {name : "Walk-in", fDetail : f});
+    let fQueue = new FQueueDeliveryEditor();
+    fQueue.setDelegate(this);
+    m.set(t.QUEUE, {name : "Walk-in", fDetail : fQueue});
     return m;
   }
 
@@ -111,7 +107,7 @@ export class FProductDeliveryEditorManager extends Fragment {
     this._lc.clearOptions();
     let vs = this._fChoices.getTabValues();
     for (let [v, d] of this._mChoices.entries()) {
-      if (!vs.includes(v)) {
+      if (v && !vs.includes(v)) {
         this._lc.addOption(d.name, v);
       }
     }

@@ -7,6 +7,17 @@ import { FPhysicalGoodDelivery } from './FPhysicalGoodDelivery.js';
 import { FDigitalGoodDelivery } from './FDigitalGoodDelivery.js';
 import { FAppointmentDelivery } from './FAppointmentDelivery.js';
 import { FQueueDelivery } from './FQueueDelivery.js';
+import { Product } from '../../common/datatypes/Product.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+export interface FProductDeliveryManagerDataSource {
+  getProductForDeliveryManagerFragment(f: FProductDeliveryManager): Product | null;
+}
+
+export interface FProductDeliveryManagerDelegate {
+  onProductDeliveryManagerFragmentRequestAddToCart(f: FProductDeliveryManager): void;
+}
 
 interface ChoiceDetail {
   name: string;
@@ -27,9 +38,12 @@ export class FProductDeliveryManager extends Fragment {
     this._tLayout = null;
   }
 
-  getProductForProductDeliveryFragment(_fDelivery: FProductDelivery): ReturnType<typeof this._dataSource.getProductForDeliveryManagerFragment> {
-    // @ts-expect-error - dataSource may have this method
-    return this._dataSource?.getProductForDeliveryManagerFragment?.(this);
+  getProductForProductDeliveryFragment(_fDelivery: FProductDelivery): Product | null {
+    let dataSource = this.getDataSource<FProductDeliveryManagerDataSource>();
+    if (dataSource) {
+      return dataSource.getProductForDeliveryManagerFragment(this);
+    }
+    return null;
   }
 
   setLayoutType(t: string | null): void { this._tLayout = t; }
@@ -48,9 +62,8 @@ export class FProductDeliveryManager extends Fragment {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _renderOnRender(render: ReturnType<typeof this.getRender>): void {
-    // @ts-expect-error - dataSource may have this method
-    let product = this._dataSource?.getProductForDeliveryManagerFragment?.(this);
+  _renderOnRender(render: PanelWrapper): void {
+    let product = this.getDataSource<FProductDeliveryManagerDataSource>()?.getProductForDeliveryManagerFragment(this);
     if (!product) {
       return;
     }
@@ -66,7 +79,7 @@ export class FProductDeliveryManager extends Fragment {
     }
   }
 
-  #renderCompact(choices: ProductDeliveryChoice[], panel: ReturnType<typeof this.getRender>): void {
+  #renderCompact(choices: ProductDeliveryChoice[], panel: Panel): void {
     let c = choices[0];
     if (!c) {
       return;
@@ -80,7 +93,7 @@ export class FProductDeliveryManager extends Fragment {
     }
   }
 
-  #renderFull(choices: ProductDeliveryChoice[], panel: ReturnType<typeof this.getRender>): void {
+  #renderFull(choices: ProductDeliveryChoice[], panel: PanelWrapper): void {
     let f: FProductDelivery | ButtonGroup | null = null;
     if (choices.length > 1) {
       this._fChoices.clearChoices();
@@ -108,7 +121,7 @@ export class FProductDeliveryManager extends Fragment {
   }
 
   #getDeliveryFragment(choice: ProductDeliveryChoice): FProductDelivery | null {
-    let d = this._mChoices.get(choice.getType());
+    let d = this._mChoices.get(choice.getType() ?? "");
     let f = d ? d.fDetail : null;
     if (f) {
       f.setData(choice.getDataObject());
@@ -117,38 +130,37 @@ export class FProductDeliveryManager extends Fragment {
   }
 
   #getDeliveryChoiceName(choice: ProductDeliveryChoice): string {
-    let d = this._mChoices.get(choice.getType());
+    let d = this._mChoices.get(choice.getType() ?? "");
     return d ? d.name : "";
   }
 
   #initChoiceMap(): Map<string, ChoiceDetail> {
     let m = new Map<string, ChoiceDetail>();
     let t = ProductDeliveryChoice.TYPE;
-    let f = new FPhysicalGoodDelivery();
-    f.setDataSource(this);
-    f.setDelegate(this);
-    m.set(t.GOOD, {name : "Physical delivery", fDetail : f});
+    let fPhysical = new FPhysicalGoodDelivery();
+    fPhysical.setDataSource(this);
+    fPhysical.setDelegate(this);
+    m.set(t.GOOD ?? "", {name : "Physical delivery", fDetail : fPhysical});
 
-    f = new FDigitalGoodDelivery();
-    f.setDataSource(this);
-    f.setDelegate(this);
-    m.set(t.DIGITAL, {name : "Digital delivery", fDetail : f});
+    let fDigital = new FDigitalGoodDelivery();
+    fDigital.setDataSource(this);
+    fDigital.setDelegate(this);
+    m.set(t.DIGITAL, {name : "Digital delivery", fDetail : fDigital});
 
-    f = new FAppointmentDelivery();
-    f.setDataSource(this);
-    f.setDelegate(this);
-    m.set(t.SCHEDULE, {name : "Appointment", fDetail : f});
+    let fAppointment = new FAppointmentDelivery();
+    fAppointment.setDataSource(this);
+    fAppointment.setDelegate(this);
+    m.set(t.SCHEDULE, {name : "Appointment", fDetail : fAppointment});
 
-    f = new FQueueDelivery();
-    f.setDataSource(this);
-    f.setDelegate(this);
-    m.set(t.QUEUE, {name : "Walk in", fDetail : f});
+    let fQueue = new FQueueDelivery();
+    fQueue.setDataSource(this);
+    fQueue.setDelegate(this);
+    m.set(t.QUEUE, {name : "Walk in", fDetail : fQueue});
     return m;
   }
 
   #onAddToCart(): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onProductDeliveryManagerFragmentRequestAddToCart?.(this);
+    this.getDelegate<FProductDeliveryManagerDelegate>()?.onProductDeliveryManagerFragmentRequestAddToCart(this);
   }
 }
 

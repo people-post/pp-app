@@ -1,14 +1,3 @@
-export const CF_SHOP_TEAM_EDITOR = {
-  SUBMIT: "CF_SHOP_TEAM_EDITOR_1",
-} as const;
-
-const _CFT_SHOP_TEAM_EDITOR = {
-  SEC_NAME:
-      `<input id="ID_SHOP_TEAM_NAME" type="text" placeholder="Name" value="__NAME__">`,
-  SEC_SUBMIT: `<br>
-    <a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_SHOP_TEAM_EDITOR.SUBMIT}">Submit</a>`,
-} as const;
-
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
@@ -20,6 +9,19 @@ import { Shop } from '../../common/dba/Shop.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Groups } from '../../common/dba/Groups.js';
 import { Api } from '../../common/plt/Api.js';
+import { ShopTeam } from '../../common/datatypes/ShopTeam.js';
+import { GroupData } from '../../types/backend2.js';
+
+const CF_SHOP_TEAM_EDITOR = {
+  SUBMIT: "CF_SHOP_TEAM_EDITOR_1",
+} as const;
+
+const _CFT_SHOP_TEAM_EDITOR = {
+  SEC_NAME:
+      `<input id="ID_SHOP_TEAM_NAME" type="text" placeholder="Name" value="__NAME__">`,
+  SEC_SUBMIT: `<br>
+    <a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_SHOP_TEAM_EDITOR.SUBMIT}">Submit</a>`,
+} as const;
 
 interface TeamData {
   id: string | null;
@@ -27,6 +29,10 @@ interface TeamData {
   is_open: boolean;
   is_active: boolean;
   permissions: string[];
+}
+
+interface ApiGroupResponse {
+  groups: GroupData[];
 }
 
 export class FvcTeamEditor extends FScrollViewContent {
@@ -96,15 +102,12 @@ export class FvcTeamEditor extends FScrollViewContent {
     }
   }
 
-  #getTeam(): ReturnType<typeof Shop.getTeam> { return Shop.getTeam(this._teamId); }
+  #getTeam(): ShopTeam | null { return Shop.getTeam(this._teamId); }
 
   #renderNameInputs(): string {
-    let s = _CFT_SHOP_TEAM_EDITOR.SEC_NAME;
-    let name = "";
+    let s: string = _CFT_SHOP_TEAM_EDITOR.SEC_NAME;
     let team = this.#getTeam();
-    if (team) {
-      name = team.getName();
-    }
+    let name = team?.getName() || "";
     s = s.replace("__NAME__", name);
     return s;
   }
@@ -154,15 +157,16 @@ export class FvcTeamEditor extends FScrollViewContent {
   #asyncRequestAddTeam(data: TeamData): void {
     let url = "api/shop/add_team";
     let fd = this.#makeForm(data);
-    Api.asFragmentPost(this, url, fd).then(d => this.#onNewTeamRRR(d));
+    Api.asFragmentPost<ApiGroupResponse>(this, url, fd).then(d => this.#onNewTeamRRR(d));
   }
 
   #asyncRequestEditTeam(data: TeamData): void {
     let url = "api/shop/update_team";
     let fd = this.#makeForm(data);
-    Api.asFragmentPost(this, url, fd).then(d => this.#onEditTeamRRR(d));
+    Api.asFragmentPost<ApiGroupResponse>(this, url, fd).then(d => this.#onEditTeamRRR(d));
   }
 
+  /*
   #asyncRequestDeleteTeam(id: string): void {
     let url = "api/shop/delete_team";
     let fd = new FormData();
@@ -170,18 +174,20 @@ export class FvcTeamEditor extends FScrollViewContent {
     Api.asFragmentPost(this, url, fd)
         .then(d => this.#onDeleteTeamRRR(d));
   }
+  */
 
-  #onNewTeamRRR(data: { groups: unknown[] }): void { this.#onEditTeamFinished(data.groups); }
-  #onEditTeamRRR(data: { groups: unknown[] }): void { this.#onEditTeamFinished(data.groups); }
-  #onDeleteTeamRRR(data: { groups: unknown[] }): void { this.#onEditTeamFinished(data.groups); }
+  #onNewTeamRRR(data: ApiGroupResponse): void { this.#onEditTeamFinished(data.groups); }
+  #onEditTeamRRR(data: ApiGroupResponse): void { this.#onEditTeamFinished(data.groups); }
+  /*
+  #onDeleteTeamRRR(data: { groups: GroupData[] }): void { this.#onEditTeamFinished(data.groups); }
+  */
 
-  #onEditTeamFinished(groups: unknown[]): void {
+  #onEditTeamFinished(groups: GroupData[]): void {
     WebConfig.resetRoles(groups);
     for (let d of groups) {
       Groups.update(new UserGroup(d));
     }
-    // @ts-expect-error - owner may have this method
-    this._owner?.onContentFragmentRequestPopView?.(this);
+    this._requestPopView();
   }
 }
 

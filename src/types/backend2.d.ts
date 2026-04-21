@@ -345,6 +345,8 @@ export interface ProductData extends ServerDataObjectData {
   spec_ids: string[];
   base_prices: BasePrice[];
   is_draft?: boolean; // Not from backend
+  tag_names?: string[]; // Not from backend
+  delivery_choice_strings?: string[]; // Not from backend
 }
 
 export interface WalkinQueueItemData extends ServerDataObjectData {

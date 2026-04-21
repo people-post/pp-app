@@ -1,25 +1,23 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { Selection } from '../../lib/ui/controllers/fragments/Selection.js';
+import { Selection, FSelectionDelegate, FSelectionDataSource } from '../../lib/ui/controllers/fragments/Selection.js';
 import { FDateTimeSelector } from '../../lib/ui/controllers/fragments/FDateTimeSelector.js';
 import { NumberInput } from '../../lib/ui/controllers/fragments/NumberInput.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { ProductServiceTimeslot } from '../../common/datatypes/ProductServiceTimeslot.js';
 import { PServiceTimeslotEditor } from './PServiceTimeslotEditor.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-interface ServiceTimeslotEditorDelegate {
+export interface FServiceTimeslotEditorDelegate {
   onServiceTimeslotEditorRequestDelete(f: FServiceTimeslotEditor): void;
 }
 
-export class FServiceTimeslotEditor extends Fragment {
+export class FServiceTimeslotEditor extends Fragment implements FSelectionDelegate, FSelectionDataSource {
   protected _fRepetition: Selection;
-  protected _repetition: symbol;
+  protected _repetition: string;
   protected _fFrom: FDateTimeSelector;
   protected _fTo: FDateTimeSelector;
   protected _fTotal: NumberInput;
   protected _fDelete: Button;
-  protected _delegate!: ServiceTimeslotEditorDelegate;
 
   constructor() {
     super();
@@ -51,7 +49,7 @@ export class FServiceTimeslotEditor extends Fragment {
     this.setChild("delete", this._fDelete);
   }
 
-  getItemsForSelection(_fSelection: Selection): Array<{text: string; value: symbol}> {
+  getItemsForSelection(_fSelection: Selection): Array<{text: string; value: string}> {
     return [
       {text : "One time", value : ProductServiceTimeslot.T_REP.ONCE},
       {text : "Every day", value : ProductServiceTimeslot.T_REP.DAY},
@@ -61,13 +59,13 @@ export class FServiceTimeslotEditor extends Fragment {
       {text : "Every month", value : ProductServiceTimeslot.T_REP.MONTH}
     ];
   }
-  getSelectedValueForSelection(_fSelection: Selection): symbol { return this._repetition; }
+  getSelectedValueForSelection(_fSelection: Selection): string { return this._repetition; }
 
   onSimpleButtonClicked(_fBtn: Button): void {
-    this._delegate.onServiceTimeslotEditorRequestDelete(this);
+    this.getDelegate<FServiceTimeslotEditorDelegate>()?.onServiceTimeslotEditorRequestDelete(this);
   }
 
-  onSelectionChangedInSelection(_fSelection: Selection, value: symbol): void {
+  onSelectionChangedInSelection(_fSelection: Selection, value: string): void {
     this._repetition = value;
   }
 
@@ -78,12 +76,12 @@ export class FServiceTimeslotEditor extends Fragment {
       let c = this._fTotal.getConfig();
       c.value = d.getTotal();
       this._fTotal.setConfig(c);
-      this._repetition = d.getRepetition();
+      this._repetition = d.getRepetition() || "";
     }
   }
 
   collectData(): ProductServiceTimeslot {
-    let d = new ProductServiceTimeslot({});
+    let d = new ProductServiceTimeslot({from : 0, to : 0, n : 0, repetition : this._repetition});
     let t = this._fFrom.getValue();
     if (t) {
       d.setFromTime(t.getTime() / 1000);
@@ -92,7 +90,7 @@ export class FServiceTimeslotEditor extends Fragment {
     if (t) {
       d.setToTime(t.getTime() / 1000);
     }
-    d.setTotal(this._fTotal.getValue());
+    d.setTotal(Number(this._fTotal.getValue()));
     d.setRepetition(this._repetition);
     return d;
   }

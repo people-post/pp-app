@@ -1,10 +1,7 @@
 import { T_DATA } from '../plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
-
-interface WalkinQueueItem {
-  getId(): string | number | undefined;
-}
+import { WalkinQueueItem } from '../datatypes/WalkinQueueItem.js';
 
 interface WalkinQueueInterface {
   getIdRecord(): UniLongListIdRecord;

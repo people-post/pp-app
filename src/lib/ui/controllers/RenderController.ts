@@ -148,31 +148,31 @@ export class RenderController extends Controller {
     this.#mExtraRender.clear();
   }
 
-  userAction(): void {
+  userAction(...args: [string | symbol, ...unknown[]]): void {
     if (this.isActive() && this._isEventSource(event as Event)) {
       // console.debug(this.constructor.name + " handle event");
       for (let c of this._getActiveChildControllers()) {
-        c.userAction.apply(c, arguments as any);
+        c.userAction.apply(c, args);
       }
-      this.action.apply(this, arguments as any);
+      this.action.apply(this, args);
     }
   }
 
-  scheduledAction(): void {
+  scheduledAction(...args: [string | symbol, ...unknown[]]): void {
     if (this.isActive()) {
-      this.action.apply(this, arguments as any);
+      this.action.apply(this, args);
     }
   }
 
-  applyDataUpdate(): void {
+  applyDataUpdate(...args: [symbol | string, unknown]): void {
     for (let c of this._getAllChildControllers()) {
-      c.applyDataUpdate.apply(c, arguments as any);
+      c.applyDataUpdate.apply(c, args);
     }
-    this.handleSessionDataUpdate.apply(this, arguments as any);
+    this.handleSessionDataUpdate.apply(this, args);
   }
 
   init(): void {}
-  action(_type?: any, ..._args: any[]): void {}
+  action(_type?: string | symbol, ..._args: unknown[]): void {}
   handleSessionDataUpdate(_dataType: symbol | string, _data: unknown): void {}
 
   render(): void {

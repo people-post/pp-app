@@ -5,21 +5,9 @@ import { Fragment } from './Fragment.js';
 import { Button } from './Button.js';
 
 export const CF_MONTH_SELECTOR = {
-  Y_CHOOSE : Symbol(),
-  M_CHOOSE : Symbol(),
-};
-
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_MONTH_SELECTOR?: typeof CF_MONTH_SELECTOR;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_MONTH_SELECTOR = CF_MONTH_SELECTOR;
-}
+  Y_CHOOSE: "CF_MONTH_SELECTOR_1",
+  M_CHOOSE: "CF_MONTH_SELECTOR_2",
+} as const;
 
 const _CPT_MONTH_SELECTOR = {
   MAIN : `<div class="tw:p-[5px] tw:flex tw:justify-start">
@@ -116,9 +104,8 @@ export class FMonthSelector extends Fragment {
     for (let i = -20; i < 20; ++i) {
       let yy = y + i;
       pp = new Panel();
-      pp.setAttribute(
-          "onclick",
-          `javascript:G.action(window.CF_MONTH_SELECTOR.Y_CHOOSE, ${yy})`);
+      pp.setAttribute("data-pp-action", CF_MONTH_SELECTOR.Y_CHOOSE);
+      pp.setAttribute("data-pp-args", JSON.stringify([yy]));
       if (i == 0) {
         names = baseNames.concat([ "s-cfuncbg", "s-csecondary", "tw:font-bold" ]);
         pCurrent = pp;
@@ -140,9 +127,8 @@ export class FMonthSelector extends Fragment {
     for (let i = 0; i < 12; ++i) {
       pp = new Panel();
 
-      pp.setAttribute(
-          "onclick",
-          `javascript:G.action(window.CF_MONTH_SELECTOR.M_CHOOSE, ${i})`);
+      pp.setAttribute("data-pp-action", CF_MONTH_SELECTOR.M_CHOOSE);
+      pp.setAttribute("data-pp-args", JSON.stringify([i]));
       if (i == m) {
         names = baseNames.concat([ "s-cfuncbg", "s-csecondary", "tw:font-bold" ]);
         pCurrent = pp;

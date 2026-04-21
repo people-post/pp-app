@@ -2,24 +2,12 @@ import { Fragment } from './Fragment.js';
 import { ICONS } from '../../Icons.js';
 
 export const CF_UI_NAV_BACK = {
-  ON_CLICK : Symbol(),
-};
-
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_UI_NAV_BACK?: typeof CF_UI_NAV_BACK;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_UI_NAV_BACK = CF_UI_NAV_BACK;
-}
+  ON_CLICK: "CF_UI_NAV_BACK_1",
+} as const;
 
 const _CFT_UI_NAV_BACK = {
   MAIN :
-      `<a href="javascript:void(0)" onclick="javascript:G.action(window.CF_UI_NAV_BACK.ON_CLICK)">__ICON__</a>`,
+      `<a href="javascript:void(0)" data-pp-action="${CF_UI_NAV_BACK.ON_CLICK}">__ICON__</a>`,
 } as const;
 
 export class FNavBack extends Fragment {

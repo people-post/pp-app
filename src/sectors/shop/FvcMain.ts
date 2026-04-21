@@ -4,7 +4,8 @@ import { FvcExplorer } from './FvcExplorer.js';
 import { FViewContentMux } from '../../lib/ui/controllers/fragments/FViewContentMux.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { OptionSwitch } from '../../lib/ui/controllers/fragments/OptionSwitch.js';
-import { URL_PARAM, URL_PARAM_ADDON_VALUE } from '../../common/constants/Constants.js';
+import { URL_PARAM } from '../../lib/ui/Constants.js';
+import { URL_PARAM_ADDON_VALUE } from '../../common/constants/Constants.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
@@ -19,6 +20,11 @@ import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
 import { CartFacade } from '../../common/checkout/CartFacade.js';
+import { WebConfigData } from '../../types/backend2.js';
+
+interface ApiResponse {
+  web_config: WebConfigData;
+}
 
 export class FvcMain extends FViewContentWithHeroBanner {
   static #T_PAGE = {
@@ -155,20 +161,20 @@ export class FvcMain extends FViewContentWithHeroBanner {
         {name : R.t("Mine"), value : "OWNER", icon : ICON.SMILEY},
         this.#fvcOwner);
 
-    let ff = new FvcOrderHistory();
-    ff.setDelegate(this);
+    let fOrderHistory = new FvcOrderHistory();
+    fOrderHistory.setDelegate(this);
     this.#fMain.addTab(
-        {name : R.t("Orders"), value : "ORDERS", icon : ICON.RECEIPT}, ff);
+        {name : R.t("Orders"), value : "ORDERS", icon : ICON.RECEIPT}, fOrderHistory);
 
-    ff = new FvcConfig();
-    ff.setDelegate(this);
+    let fConfig = new FvcConfig();
+    fConfig.setDelegate(this);
     this.#fMain.addTab(
-        {name : R.t("Config"), value : "CONFIG", icon : ICON.CONFIG}, ff);
+        {name : R.t("Config"), value : "CONFIG", icon : ICON.CONFIG}, fConfig);
 
-    ff = new FvcReport();
-    ff.setDelegate(this);
+    let fReport = new FvcReport();
+    fReport.setDelegate(this);
     this.#fMain.addTab(
-        {name : R.t("Report"), value : "REPORT", icon : ICON.REPORT}, ff);
+        {name : R.t("Report"), value : "REPORT", icon : ICON.REPORT}, fReport);
 
     this.#fMain.switchTo("NEWS");
   }
@@ -216,10 +222,10 @@ export class FvcMain extends FViewContentWithHeroBanner {
 
   #asyncCloseShop(): void {
     let url = "api/shop/request_close";
-    Api.asFragmentCall(this, url).then(d => this.#onCloseShopRRR(d));
+    Api.asFragmentCall<ApiResponse>(this, url).then(d => this.#onCloseShopRRR(d));
   }
 
-  #onCloseShopRRR(data: { web_config: unknown }): void { WebConfig.reset(data.web_config); }
+  #onCloseShopRRR(data: ApiResponse): void { WebConfig.reset(data.web_config); }
 }
 
 export default FvcMain;

@@ -8,17 +8,13 @@ import { FServiceDelivery } from './FServiceDelivery.js';
 import { FQueueStatusMessage } from './FQueueStatusMessage.js';
 import { FvcQueueCheckin } from './FvcQueueCheckin.js';
 import { Shop } from '../../common/dba/Shop.js';
-import type Render from '../../lib/ui/renders/Render.js';
-
-interface ServiceDeliveryData {
-  getLocations(): Array<{ getBranchId(): string; estimateNAvailable(t: number): number }>;
-}
+import { QueueServiceDelivery } from '../../common/datatypes/QueueServiceDelivery.js';
 
 export class FQueueDelivery extends FServiceDelivery {
   protected _fBtnCheckin: Button;
   protected _fMsg: FQueueStatusMessage;
   protected _productId: string | null = null;
-  protected _data!: ServiceDeliveryData;
+  protected _data: QueueServiceDelivery | null = null;
 
   constructor() {
     super();
@@ -46,7 +42,7 @@ export class FQueueDelivery extends FServiceDelivery {
 
   _renderOnRender(render: PanelWrapper): void {
     switch (this._tLayout) {
-    case this.constructor.T_LAYOUT.COMPACT:
+    case FQueueDelivery.T_LAYOUT.COMPACT:
       this.#renderCompact(render);
       break;
     default:
@@ -91,17 +87,20 @@ export class FQueueDelivery extends FServiceDelivery {
   }
 
   _onContentDidAppear(): void {
-    let locs = this._data.getLocations();
+    let locs = this._data?.getLocations() || [];
     if (locs.length == 1) {
       let product = this._getProduct();
       if (product) {
-        Shop.asyncQueryQueueSize(locs[0].getBranchId(), product.getId());
+        let branchId = locs[0].getBranchId();
+        if (branchId) {
+          Shop.asyncQueryQueueSize(branchId, product.getId());
+        }
       }
     }
   }
 
   #onQueueSizeUpdate(n: number): void {
-    let locs = this._data.getLocations();
+    let locs = this._data?.getLocations() || [];
     if (locs.length == 1) {
       let nTotal = locs[0].estimateNAvailable(Date.now() / 1000);
       this._fMsg.updateStatus(n, nTotal);
@@ -115,7 +114,7 @@ export class FQueueDelivery extends FServiceDelivery {
     let f = new FvcQueueCheckin();
     let product = this._getProduct();
     if (product) {
-      f.setData(product.getId(), this._data.getLocations());
+      f.setData(product.getId(), this._data?.getLocations() || []);
       v.setContentFragment(f);
       Events.triggerTopAction(T_ACTION.SHOW_DIALOG, this, v, "Check in",
                                   false);

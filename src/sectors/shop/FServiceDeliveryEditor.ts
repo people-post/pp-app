@@ -9,11 +9,7 @@ import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { FProductDeliveryEditor } from './FProductDeliveryEditor.js';
 import { FServiceLocationEditor } from './FServiceLocationEditor.js';
 import { FServiceLocation } from './FServiceLocation.js';
-
-interface ServiceDeliveryChoiceData {
-  getDescription(): string;
-  getLocations(): any[];
-}
+import { ProductDeliveryType } from '../../common/datatypes/ProductDelivery.js';
 
 export class FServiceDeliveryEditor extends FProductDeliveryEditor {
   protected _fBtnAdd: Button;
@@ -67,7 +63,7 @@ export class FServiceDeliveryEditor extends FProductDeliveryEditor {
     }
   }
 
-  setValue(value: ServiceDeliveryChoiceData | null): void {
+  setValue(value: ProductDeliveryType | null): void {
     super.setValue(value);
     this._fLocations.clear();
     if (!value) {

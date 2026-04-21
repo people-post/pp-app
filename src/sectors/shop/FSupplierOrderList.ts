@@ -45,7 +45,7 @@ export class FSupplierOrderList extends DefaultLongList {
     this._isBatchLoading = false;
     let response = JSON.parse(responseText);
     if (response.error) {
-      this._owner.onRemoteErrorInFragment(this, response.error);
+      this.onRemoteErrorInFragment(this, response.error);
     } else {
       let orders: SupplierOrderPrivate[] = [];
       for (let o of response.data.supplier_orders) {
@@ -55,7 +55,9 @@ export class FSupplierOrderList extends DefaultLongList {
       if (orders.length) {
         for (let o of orders) {
           Shop.updateOrder(o);
-          this._ids.push(o.getId());
+          if (o.getId()) {
+            this._ids.push(o.getId()!);
+          }
         }
       } else {
         this._isIdsComplete = true;

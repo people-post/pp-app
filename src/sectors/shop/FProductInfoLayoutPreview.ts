@@ -6,17 +6,15 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { FProduct } from './FProduct.js';
-import type Render from '../../lib/ui/renders/Render.js';
 
-interface ProductInfoLayoutPreviewDelegate {
-  onProductInfoPreviewFragmentRequestApplySize(f: FProductInfoLayoutPreview, sizeType: symbol): void;
+export interface FProductInfoLayoutPreviewDelegate {
+  onProductInfoPreviewFragmentRequestApplySize(f: FProductInfoLayoutPreview, sizeType: string): void;
 }
 
 export class FProductInfoLayoutPreview extends Fragment {
   protected _desciption: string = "";
   protected _fInfo: FProduct | null = null;
   protected _fApply: Button;
-  protected _delegate!: ProductInfoLayoutPreviewDelegate;
 
   constructor() {
     super();
@@ -32,7 +30,7 @@ export class FProductInfoLayoutPreview extends Fragment {
   onClickInProductInfoFragment(_fProductInfo: FProduct, _productId: string): void {}
   onSimpleButtonClicked(_fButton: Button): void {
     if (this._fInfo) {
-      this._delegate.onProductInfoPreviewFragmentRequestApplySize(
+      this.getDelegate<FProductInfoLayoutPreviewDelegate>()?.onProductInfoPreviewFragmentRequestApplySize(
           this, this._fInfo.getSizeType()!);
     }
   }

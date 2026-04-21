@@ -6,12 +6,12 @@ import { T_ACTION } from '../../../framework/Events.js';
 import { Events } from '../../../framework/Events.js';
 
 export const CF_OPTION_CONTEXT_BUTTON = {
-  ONCLICK : Symbol(),
+  ONCLICK: "CF_OPTION_CONTEXT_BUTTON_1",
 } as const;
 
 const _CFT_OPTION_CONTEXT_BUTTON = {
   BTN :
-      `<span class="tw:cursor-pointer" onclick="javascript:G.action(window.CF_OPTION_CONTEXT_BUTTON.ONCLICK)">__ICON__</span>`,
+      `<span class="tw:cursor-pointer" data-pp-action="${CF_OPTION_CONTEXT_BUTTON.ONCLICK}">__ICON__</span>`,
 } as const;
 
 export interface IOptionContextButtonDelegate {
@@ -70,9 +70,3 @@ export class OptionContextButton extends Fragment implements ILContextDelegate {
                                 "Context");
   }
 }
-
-// Export to window for string template access
-if (typeof window !== 'undefined') {
-  (window as any).CF_OPTION_CONTEXT_BUTTON = CF_OPTION_CONTEXT_BUTTON;
-}
-

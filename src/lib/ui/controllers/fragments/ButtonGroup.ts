@@ -9,7 +9,6 @@ export const CF_BUTTON_GROUP = {
 };
 
 const _CFT_BUTTON_GROUP = {
-  F_ONCLICK : `javascript:G.action('${CF_BUTTON_GROUP.ON_CLICK}', __IDX__)`,
   ICON_WRAPPER :
       `<span class="tw:inline-block tw:w-s-icon5 tw:h-s-icon5 v-middle-align">__ICON__</span>`,
 } as const;
@@ -130,12 +129,11 @@ export class ButtonGroup extends Fragment {
   }
 
   #renderCellButton(cell: HTMLTableCellElement, idx: number): void {
-    let s: string = _CFT_BUTTON_GROUP.F_ONCLICK;
     if (idx == this._selectedIdx) {
       cell.className = "s-cfuncbg s-csecondary";
     }
-    s = s.replace("__IDX__", String(idx));
-    cell.setAttribute("onclick", s);
+    cell.setAttribute("data-pp-action", CF_BUTTON_GROUP.ON_CLICK);
+    cell.setAttribute("data-pp-args", JSON.stringify([idx]));
   }
 }
 

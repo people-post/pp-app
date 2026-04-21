@@ -1,4 +1,20 @@
-export const CF_PRODUCT_EDITOR = {
+import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
+import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
+import { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
+import { Product } from '../../common/datatypes/Product.js';
+import { ProductData } from '../../types/backend2.js';
+import { RichContentEditor } from '../../common/gui/RichContentEditor.js';
+import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
+import { PriceEditorFragment } from '../../common/gui/PriceEditorFragment.js';
+import { FProductDeliveryEditorManager } from './FProductDeliveryEditorManager.js';
+import { PProductEditor } from './PProductEditor.js';
+import { WebConfig } from '../../common/dba/WebConfig.js';
+import { Shop } from '../../common/dba/Shop.js';
+import { Api } from '../../common/plt/Api.js';
+import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+const CF_PRODUCT_EDITOR = {
   SUBMIT: "CF_SHOP_PRODUCT_EDITOR_1",
 } as const;
 
@@ -20,29 +36,13 @@ const _CFT_PRODUCT_EDITOR = {
   DELETE_BUTTON:
       `<a class="button-bar danger" href="javascript:void(0)">Delete</a>`,
 } as const;
-import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
-import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
-import { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
-import { BasePrice, Product } from '../../common/datatypes/Product.js';
-import { RichContentEditor } from '../../common/gui/RichContentEditor.js';
-import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
-import { PriceEditorFragment } from '../../common/gui/PriceEditorFragment.js';
-import { FProductDeliveryEditorManager } from './FProductDeliveryEditorManager.js';
-import { PProductEditor } from './PProductEditor.js';
-import { WebConfig } from '../../common/dba/WebConfig.js';
-import { Shop } from '../../common/dba/Shop.js';
-import { Api } from '../../common/plt/Api.js';
-import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-interface ProductData {
-  id: string;
-  name: string;
-  description: string;
-  base_prices: BasePrice[];
-  tag_ids: string[];
-  tag_names: string[];
-  delivery_choices: string[];
+export interface FvcProductEditorDelegate {
+  onNewProductAddedInProductEditorContentFragment(f: FvcProductEditor): void;
+}
+
+interface ApiResponse {
+  product: ProductData;
 }
 
 export class FvcProductEditor extends FScrollViewContent {
@@ -115,7 +115,9 @@ export class FvcProductEditor extends FScrollViewContent {
     this.#renderDescription(product, pDescription);
 
     let pMenuTags = pProductEditor.getMenuTagsPanel();
-    this.#renderMenuTags(product, pMenuTags);
+    if (pMenuTags) {
+      this.#renderMenuTags(product, pMenuTags);
+    }
 
     let pPrice = pProductEditor.getPricePanel();
     this.#renderPrice(product, pPrice);
@@ -128,7 +130,7 @@ export class FvcProductEditor extends FScrollViewContent {
   }
 
   #renderName(product: Product | null, panel: Panel): void {
-    let s = _CFT_PRODUCT_EDITOR.NAME;
+    let s: string = _CFT_PRODUCT_EDITOR.NAME;
     const name = product ? product.getName() ?? "" : "";
     s = s.replace("__NAME__", name);
     panel.replaceContent(s);
@@ -162,7 +164,7 @@ export class FvcProductEditor extends FScrollViewContent {
   }
 
   #renderActions(product: Product | null, panel: Panel): void {
-    let s = _CFT_PRODUCT_EDITOR.ACTIONS;
+    let s: string = _CFT_PRODUCT_EDITOR.ACTIONS;
     if (product && product.isDraft()) {
       s = s.replace("__DELETE_BUTTON__", "");
     } else {
@@ -191,11 +193,11 @@ export class FvcProductEditor extends FScrollViewContent {
     let data = this.#collectData();
     let fd = new FormData();
     fd.append("id", data.id);
-    fd.append("name", data.name);
-    for (let d of data.delivery_choices) {
+    fd.append("name", data.name ?? "");
+    for (let d of data.delivery_choice_strings ?? []) {
       fd.append("delivery_choices", d);
     }
-    fd.append("description", data.description);
+    fd.append("description", data.description ?? "");
     for (let bp of data.base_prices) {
       fd.append("base_prices", JSON.stringify(bp));
     }
@@ -204,14 +206,14 @@ export class FvcProductEditor extends FScrollViewContent {
       fd.append("tag_ids", id);
     }
 
-    for (let name of data.tag_names) {
+    for (let name of data.tag_names ?? []) {
       fd.append("new_tag_names", name);
     }
 
     this._fFiles.saveDataToForm(fd);
 
     let url = "/api/shop/update_product";
-    Api.asFragmentPost(this, url, fd).then(d => this.#onSubmitRRR(d));
+    Api.asFragmentPost<ApiResponse>(this, url, fd).then(d => this.#onSubmitRRR(d));
   }
 
   #validateData(): boolean { return this._fPrice.validate(); }
@@ -219,11 +221,7 @@ export class FvcProductEditor extends FScrollViewContent {
   #collectData(): ProductData {
     let data: Partial<ProductData> = {};
     let product = this._product;
-    if (product) {
-      data.id = product.getId();
-    } else {
-      data.id = "";
-    }
+    data.id = product?.getId() ?? "";
     let e = document.getElementById("edit-product-name") as HTMLTextAreaElement | null;
     data.name = e?.value || "";
     data.description = this._fContent.getValue();
@@ -237,19 +235,17 @@ export class FvcProductEditor extends FScrollViewContent {
     }
     data.tag_ids = this._fteOwner.getSelectedTagIds();
     data.tag_names = this._fteOwner.getNewTagNames();
-    data.delivery_choices = this._fDelivery.getChoiceDataList();
+    data.delivery_choice_strings = this._fDelivery.getChoiceDataList();
     return data as ProductData;
   }
 
-  #onSubmitRRR(data: { product: unknown }): void {
+  #onSubmitRRR(data: ApiResponse): void {
     if (this._product && this._product.isDraft()) {
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onNewProductAddedInProductEditorContentFragment?.(this);
+      this.getDelegate<FvcProductEditorDelegate>()?.onNewProductAddedInProductEditorContentFragment(this);
     } else {
       Shop.updateProduct(new Product(data.product));
     }
-    // @ts-expect-error - owner may have this method
-    this._owner?.onContentFragmentRequestPopView?.(this);
+    this._requestPopView();
   }
 }
 

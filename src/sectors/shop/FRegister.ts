@@ -1,7 +1,3 @@
-export const CF_REGISTER = {
-  ON_CLICK : "CF_REGISTER_1",
-};
-
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
@@ -16,16 +12,19 @@ import { Shop } from '../../common/dba/Shop.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { PRegisterBase } from './PRegisterBase.js';
 
-interface RegisterDelegate {
+export const CF_REGISTER = {
+  ON_CLICK : "CF_REGISTER_1",
+};
+
+export interface FRegisterDelegate {
   onRegisterFragmentRequestShowView(f: FRegister, view: View, title: string): void;
   onClickInRegisterFragment(f: FRegister, registerId: string | null): void;
 }
 
-interface RegisterDataSource {
+export interface FRegisterDataSource {
   isRegisterSelectedInRegisterFragment(f: FRegister, registerId: string | null): boolean;
 }
 
@@ -58,7 +57,7 @@ export class FRegister extends Fragment {
 
   onInputChangeInTextInputFragment(_fTextInput: TextInput, _value: string): void { this.#asyncUpdate(); }
   onPaymentTerminalListFragmentRequestShowView(_fTerminals: FPaymentTerminalList, view: View, title: string): void {
-    this._delegate.onRegisterFragmentRequestShowView(this, view, title);
+    this.getDelegate<FRegisterDelegate>()?.onRegisterFragmentRequestShowView(this, view, title);
   }
   onPaymentTerminalSelectedInPaymentTerminalListFragment(_fTerminalList: FPaymentTerminalList,
                                                          terminalId: string): void {
@@ -67,14 +66,14 @@ export class FRegister extends Fragment {
     f.setTerminalId(terminalId);
     f.setEnableEdit(this._isEditEnabled);
     v.setContentFragment(f);
-    this._delegate.onRegisterFragmentRequestShowView(this, v,
+    this.getDelegate<FRegisterDelegate>()?.onRegisterFragmentRequestShowView(this, v,
                                                      "Terminal config");
   }
 
   action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {
     case CF_REGISTER.ON_CLICK:
-      this._delegate.onClickInRegisterFragment(this, this._registerId);
+      this.getDelegate<FRegisterDelegate>()?.onClickInRegisterFragment(this, this._registerId);
       break;
     default:
       super.action(type, ..._args);
@@ -104,8 +103,9 @@ export class FRegister extends Fragment {
     let panel = this.#createPanel();
     render.wrapPanel(panel);
 
-    if (this._dataSource && panel.isColorInvertible() &&
-        this._dataSource.isRegisterSelectedInRegisterFragment(
+    let dataSource = this.getDataSource<FRegisterDataSource>();
+    if (dataSource && panel.isColorInvertible() &&
+        dataSource.isRegisterSelectedInRegisterFragment(
             this, this._registerId)) {
       panel.invertColor();
     }

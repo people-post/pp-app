@@ -2,8 +2,8 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Exchange } from '../../common/dba/Exchange.js';
 import { Utilities } from '../../common/Utilities.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { SupplierOrderItem } from '../../common/datatypes/SupplierOrderItem.js';
 
 const _CFT_SUPPLIER_ORDER_ITEM = {
   MAIN : `<div class="w40">__DESCRIPTION__</div>
@@ -17,24 +17,16 @@ const _CFT_SUPPLIER_ORDER_ITEM = {
   <div>__UNIT_PRICE__</div>`,
 } as const;
 
-interface SupplierOrderItemData {
-  getDescription(): string;
-  getQuantity(): number;
-  getUnitPrice(): number;
-  getState(): string;
-  getStatus(): string;
-}
-
 export class FSupplierOrderItem extends Fragment {
   protected _currencyId: string | null = null;
-  protected _item: SupplierOrderItemData | null = null;
+  protected _item: SupplierOrderItem | null = null;
 
   constructor() {
     super();
   }
 
   setCurrencyId(id: string | null): void { this._currencyId = id; }
-  setItem(item: SupplierOrderItemData): void { this._item = item; }
+  setItem(item: SupplierOrderItem): void { this._item = item; }
 
   _renderOnRender(render: PanelWrapper): void {
     if (!this._item) return;
@@ -44,9 +36,9 @@ export class FSupplierOrderItem extends Fragment {
     p.replaceContent(this.#renderItem(this._item));
   }
 
-  #renderItem(item: SupplierOrderItemData): string {
-    let s = _CFT_SUPPLIER_ORDER_ITEM.MAIN;
-    s = s.replace("__DESCRIPTION__", item.getDescription());
+  #renderItem(item: SupplierOrderItem): string {
+    let s: string = _CFT_SUPPLIER_ORDER_ITEM.MAIN;
+    s = s.replace("__DESCRIPTION__", item.getDescription() || "");
     s = s.replace("__QTY__", item.getQuantity().toString());
     if (!this._currencyId) return s;
     let c = Exchange.getCurrency(this._currencyId);

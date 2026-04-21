@@ -56,13 +56,8 @@ class PScrollableHook extends Panel {
 }
 
 export const CF_SCROLLABLE_HOOK = {
-  SCROLL_TO_TOP : Symbol(),
+  SCROLL_TO_TOP: "CF_SCROLLABLE_HOOK_1",
 } as const;
-
-// Export to window for string template access
-if (typeof window !== 'undefined') {
-  (window as any).CF_SCROLLABLE_HOOK = CF_SCROLLABLE_HOOK;
-}
 
 interface ScrollYInfo {
   value: number;
@@ -140,8 +135,7 @@ export class FScrollableHook extends Fragment implements IScrollEndEventShimDele
     let pBstt = panel.getBsttPanel();
     pBstt.replaceContent("Back to top");
     pBstt.setVisible(false);
-    pBstt.setAttribute("onclick",
-                   "javascript:G.action(window.CF_SCROLLABLE_HOOK.SCROLL_TO_TOP)");
+    pBstt.setAttribute("data-pp-action", CF_SCROLLABLE_HOOK.SCROLL_TO_TOP);
 
     let pContentContainer = panel.getContentContainerPanel();
     let e = pContentContainer.getDomElement();

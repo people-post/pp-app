@@ -6,12 +6,16 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ShopRegister } from '../../common/datatypes/ShopRegister.js';
 import { Api } from '../../common/plt/Api.js';
 import { FRegister } from './FRegister.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { ShopRegisterData } from '../../types/backend2.js';
 
-interface RegisterListDelegate {
+export interface FRegisterListDelegate {
   onRegisterListFragmentRequestShowView(f: FRegisterList, view: View, title: string): void;
   onRegisterSelectedInRegisterListFragment(f: FRegisterList, registerId: string): void;
+}
+
+interface ApiAddRegisterResponse {
+  register: ShopRegisterData;
 }
 
 export class FRegisterList extends Fragment {
@@ -21,7 +25,6 @@ export class FRegisterList extends Fragment {
   protected _ids: string[] | null = null;
   protected _selectedId: string | null = null;
   protected _isEditEnabled: boolean = false;
-  protected _delegate!: RegisterListDelegate;
 
   constructor() {
     super();
@@ -43,12 +46,12 @@ export class FRegisterList extends Fragment {
 
   onSimpleButtonClicked(_fBtn: Button): void { this.#asyncAdd(); }
   onRegisterFragmentRequestShowView(_fRegister: FRegister, view: View, title: string): void {
-    this._delegate.onRegisterListFragmentRequestShowView(this, view, title);
+    this.getDelegate<FRegisterListDelegate>()?.onRegisterListFragmentRequestShowView(this, view, title);
   }
   onClickInRegisterFragment(_fRegister: FRegister, registerId: string): void {
     this._selectedId = registerId;
     this.render();
-    this._delegate.onRegisterSelectedInRegisterListFragment(this, registerId);
+    this.getDelegate<FRegisterListDelegate>()?.onRegisterSelectedInRegisterListFragment(this, registerId);
   }
 
   _renderOnRender(render: PanelWrapper): void {
@@ -103,13 +106,16 @@ export class FRegisterList extends Fragment {
     let url = "api/shop/add_register";
     let fd = new FormData();
     fd.append("branch_id", this._branchId);
-    Api.asFragmentPost<{ register: any }>(this, url, fd, null, d => this.#onAddRegisterRRR(d));
+    Api.asFragmentPost<ApiAddRegisterResponse>(this, url, fd, null, d => this.#onAddRegisterRRR(d));
   }
 
-  #onAddRegisterRRR(data: { register: any }): void {
+  #onAddRegisterRRR(data: ApiAddRegisterResponse): void {
     if (this._ids) {
       let r = new ShopRegister(data.register);
-      this._ids.push(r.getId());
+      let id = r.getId();
+      if (id) {
+        this._ids.push(id);
+      }
     }
     this.render();
   }

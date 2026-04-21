@@ -24,11 +24,14 @@ import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
 import Render from '../../lib/ui/renders/Render.js';
 import { CartFacade } from '../../common/checkout/CartFacade.js';
+import { ProductData } from '../../types/backend2.js';
 
+export interface FvcOwnerDelegate {
+  onNewProductAddedInShopOwnerContentFragment(f: FvcOwner): void;
+}
 
-declare global {
-  var MainIconOperator: new () => { [key: string]: unknown };
-  var SearchIconOperator: new () => { [key: string]: unknown };
+interface ApiResponse {
+  product: ProductData;
 }
 
 export class FvcOwner extends FScrollViewContent {
@@ -75,7 +78,10 @@ export class FvcOwner extends FScrollViewContent {
     if (id) {
       let sid = SocialItemId.fromEncodedStr(id);
       if (sid) {
-        this.#fList.switchToItem(sid.getValue());
+        let value = sid.getValue();
+        if (value) {
+          this.#fList.switchToItem(value);
+        }
       }
     }
   }
@@ -111,8 +117,7 @@ export class FvcOwner extends FScrollViewContent {
   }
 
   onNewProductAddedInProductEditorContentFragment(_fvcProductEditor: FvcProductEditor): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onNewProductAddedInShopOwnerContentFragment?.(this);
+    this.getDelegate<FvcOwnerDelegate>()?.onNewProductAddedInShopOwnerContentFragment(this);
   }
 
   onGuiActionButtonClick(fBtnAction: ActionButton | FCartButton): void {
@@ -150,8 +155,7 @@ export class FvcOwner extends FScrollViewContent {
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.DRAFT_ORDERS:
-      // @ts-expect-error - owner may have this method
-      this._owner?.onContentFragmentRequestUpdateHeader?.(this);
+      this._requestUpdateHeader();
       break;
     default:
       break;
@@ -171,18 +175,17 @@ export class FvcOwner extends FScrollViewContent {
 
   #onNewProduct(): void {
     let url = "api/shop/new_product";
-    Api.asFragmentCall(this, url).then(d => this.#onDraftProductRRR(d));
+    Api.asFragmentCall<ApiResponse>(this, url).then(d => this.#onDraftProductRRR(d));
   }
 
-  #onDraftProductRRR(data: { product: unknown }): void {
+  #onDraftProductRRR(data: ApiResponse): void {
     this.#showDraftEditor(new Product(data.product));
   }
 
   #onShowCart(): void {
     let v = CartFacade.createCartView();
     if (v) {
-      // @ts-expect-error - owner may have this method
-      this._owner?.onFragmentRequestShowView?.(this, v, "Cart");
+      this.onFragmentRequestShowView?.(this, v, "Cart");
     }
   }
 

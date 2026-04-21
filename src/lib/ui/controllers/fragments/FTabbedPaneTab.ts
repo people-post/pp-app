@@ -6,21 +6,9 @@ import { PTabbedPaneTabLarge } from '../../renders/panels/PTabbedPaneTabLarge.js
 import { PTabbedPaneTabSmall } from '../../renders/panels/PTabbedPaneTabSmall.js';
 
 export const CF_TABBED_PANE_TAB = {
-  ON_CLICK : Symbol(),
-  ON_CLOSE : Symbol(),
-};
-
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_TABBED_PANE_TAB?: typeof CF_TABBED_PANE_TAB;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_TABBED_PANE_TAB = CF_TABBED_PANE_TAB;
-}
+  ON_CLICK: "CF_TABBED_PANE_TAB_1",
+  ON_CLOSE: "CF_TABBED_PANE_TAB_2",
+} as const;
 
 export class FTabbedPaneTab extends Fragment {
   static T_LAYOUT = {
@@ -65,8 +53,7 @@ export class FTabbedPaneTab extends Fragment {
     }
 
     panel.invertColor(isSelected);
-    panel.setAttribute("onclick",
-                       "javascript:G.action(window.CF_TABBED_PANE_TAB.ON_CLICK)");
+    panel.setAttribute("data-pp-action", CF_TABBED_PANE_TAB.ON_CLICK);
 
     let config: { icon?: string; name: string } = { name: "" };
     if (this._dataSource && typeof (this._dataSource as any).getTabConfigForTabbedPaneTabFragment === 'function') {
@@ -132,8 +119,7 @@ export class FTabbedPaneTab extends Fragment {
   }
 
   #renderCloseBtn(panel: any): void {
-    panel.setAttribute("onclick",
-                       "javascript:G.action(window.CF_TABBED_PANE_TAB.ON_CLOSE)");
+    panel.setAttribute("data-pp-action", CF_TABBED_PANE_TAB.ON_CLOSE);
     panel.replaceContent(UiUtilities.renderSvgIcon(ICONS.CLOSE, "stkred", null));
   }
 

@@ -8,7 +8,7 @@ import { T_DATA } from '../../../framework/Events.js';
 
 interface TabInfo {
   name: string;
-  value: string;
+  value: string | null;
   icon?: string;
 }
 
@@ -33,7 +33,7 @@ export class FTabbedPaneTabBar extends Fragment {
   setOnlyShowOnMultiple(b: boolean): void { this.#shouldOnlyShowOnMulitple = b; }
   setMaxNTabs(n: number): void { this.#nMax = n; }
 
-  setTab(value: string): void {
+  setTab(value: string | null): void {
     let i = this.#getIndexByValue(value);
     if (i >= 0) {
       this.#currentIdx = i;
@@ -151,7 +151,7 @@ export class FTabbedPaneTabBar extends Fragment {
     }
   }
 
-  #getIndexByValue(value: string): number {
+  #getIndexByValue(value: string | null): number {
     for (let [i, v] of this.#configs.entries()) {
       if (v.value == value) {
         return i;

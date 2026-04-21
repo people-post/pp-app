@@ -13,12 +13,13 @@ import { FvcUserInput } from '../../common/hr/FvcUserInput.js';
 import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
+import { ProductServiceLocation } from '../../common/datatypes/ProductServiceLocation.js';
 
 export class FvcQueueCheckin extends FScrollViewContent {
   private _fFilter: FServiceLocationFilter;
   private _fBtn: Button;
   private _fMsg: FQueueStatusMessage;
-  private _selectedLocation: ServiceLocation | null = null;
+  private _selectedLocation: ProductServiceLocation | null = null;
   private _productId: string | null = null;
 
   constructor() {
@@ -41,16 +42,17 @@ export class FvcQueueCheckin extends FScrollViewContent {
     this._productId = null;
   }
 
-  setData(productId: string, locations: ServiceLocation[]): void {
+  setData(productId: string, locations: ProductServiceLocation[]): void {
     this._productId = productId;
     this._fFilter.setLocations(locations);
   }
 
   onSimpleButtonClicked(_fBtn: Button): void { this.#onCheckin(); }
-  onLocationSelectedInServiceLocationFilterFragment(_fFilter: FServiceLocationFilter, loc: ServiceLocation | null): void {
+  onLocationSelectedInServiceLocationFilterFragment(_fFilter: FServiceLocationFilter, loc: ProductServiceLocation | null): void {
     this._selectedLocation = loc;
-    if (loc && this._productId) {
-      Shop.asyncQueryQueueSize(loc.getBranchId(), this._productId);
+    let branchId = loc?.getBranchId();
+    if (branchId && this._productId) {
+      Shop.asyncQueryQueueSize(branchId, this._productId);
     }
   }
 
@@ -134,10 +136,11 @@ export class FvcQueueCheckin extends FScrollViewContent {
   }
 
   #asyncCheckin(name: string | null = null, contact: string | null = null): void {
-    if (!this._selectedLocation || !this._productId) return;
+    let branchId = this._selectedLocation?.getBranchId();
+    if (!branchId || !this._productId) return;
     let url = "api/shop/checkin";
     let fd = new FormData();
-    fd.append("branch_id", this._selectedLocation.getBranchId());
+    fd.append("branch_id", branchId);
     fd.append("product_id", this._productId);
     if (name && name.length) {
       fd.append("customer_name", name);

@@ -3,11 +3,6 @@ import { FError } from './FError.js';
 import Render from '../../lib/ui/renders/Render.js';
 import type { RemoteError } from '../../types/basic.js';
 
-export interface BannerDelegate {
-  onErrorFragmentRequestShow?(fError: FError): void;
-  onErrorFragmentRequestDismiss?(fError: FError): void;
-}
-
 export class FBanner extends Fragment {
   _fError: FError;
   _fCurrent: Fragment | null = null;

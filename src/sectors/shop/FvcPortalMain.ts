@@ -6,10 +6,6 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { Env } from '../../common/plt/Env.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-declare global {
-  var QRCode: new (element: HTMLElement, text: string) => void;
-}
-
 export class FvcPortalMain extends FScrollViewContent {
   #branchId: string | null = null;
 
@@ -57,7 +53,12 @@ export class FvcPortalMain extends FScrollViewContent {
     p = new Panel();
     p.setClassName("tw:flex tw:justify-center");
     pMain.pushPanel(p);
-    let qrCode = new QRCode(p.getDomElement(), "TEST");
+
+    let domElement = p.getDomElement();
+    const QRCodeCtor = (window as unknown as { QRCode?: new (el: HTMLElement, text: string) => unknown }).QRCode;
+    if (domElement && QRCodeCtor) {
+      new QRCodeCtor(domElement as HTMLElement, "TEST");
+    }
   }
 }
 

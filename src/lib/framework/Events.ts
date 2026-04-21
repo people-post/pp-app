@@ -46,7 +46,7 @@ export interface EventsInterface {
   setOnClickHandler(id: unknown, func: () => void): void;
   trigger(dataType: symbol, data: unknown): void;
   triggerTopAction(type: symbol, ...args: unknown[]): void;
-  scheduleAction(delayMs: number, obj: { scheduledAction: (...args: unknown[]) => void }, ...args: unknown[]): void;
+  scheduleAction(delayMs: number, obj: { scheduledAction: (...args: [string | symbol, ...unknown[]]) => void }, ...args: [string | symbol, ...unknown[]]): void;
 }
 
 export const Events: EventsInterface = (function() {
@@ -103,7 +103,11 @@ export const Events: EventsInterface = (function() {
     }
   }
 
-  function _scheduleAction(dt: number, obj: { scheduledAction: (...args: unknown[]) => void }, ...args: unknown[]) {
+  function _scheduleAction(
+    dt: number,
+    obj: { scheduledAction: (...args: [string | symbol, ...unknown[]]) => void },
+    ...args: [string | symbol, ...unknown[]]
+  ) {
     // dt in ms
     setTimeout(() => obj.scheduledAction.apply(obj, args), dt);
   }

@@ -6,7 +6,7 @@ export const CF_BUTTON_LIST = {
 
 const _CVT_BUTTON_LIST = {
   BTN :
-      `<a class="button-bar __STYLE__" href="javascript:void(0)" onclick="javascript:G.action('${CF_BUTTON_LIST.ONCLICK}', __ID__)">__TEXT__</a>
+      `<a class="button-bar __STYLE__" href="javascript:void(0)" data-pp-action="${CF_BUTTON_LIST.ONCLICK}" data-pp-args='[__ID__]'>__TEXT__</a>
   <br>`,
 } as const;
 

@@ -3,7 +3,8 @@ import { PMainTabbed } from './PMainTabbed.js';
 import { VBlank } from '../lib/ui/controllers/views/VBlank.js';
 import { ViewPanel } from '../lib/ui/renders/panels/ViewPanel.js';
 import { PanelWrapper } from '../lib/ui/renders/panels/PanelWrapper.js';
-import { FrameConfig, WebConfig } from '../common/dba/WebConfig.js';
+import { WebConfig } from '../common/dba/WebConfig.js';
+import type { FrameConfig } from '../types/backend2.js';
 import { PageViewController } from '../lib/ui/controllers/PageViewController.js';
 import { PMain } from './PMain.js';
 

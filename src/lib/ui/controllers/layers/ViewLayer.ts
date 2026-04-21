@@ -3,5 +3,7 @@ import { View } from '../views/View.js';
 
 export class ViewLayer extends Layer {
   pushView(_view: View, _title: string): void {}
+  initFromUrl(_urlParam: URLSearchParams): void {}
+  popState(_state: unknown): void {}
 }
 

@@ -1,4 +1,4 @@
-import { WcSession } from './WcSession.js';
+import { MainConfig, WcSession } from './WcSession.js';
 import { LvSub } from './LvSub.js';
 import { T_ACTION } from '../common/plt/Events.js';
 import { Notifications } from '../common/dba/Notifications.js';
@@ -25,7 +25,7 @@ export class WcSub extends WcSession {
     Notifications.init();
   }
 
-  _main(dConfig: unknown): void {
+  _main(dConfig: MainConfig): void {
     super._main(dConfig);
     Env.checkLoadAddonScript(Env.SCRIPT.SIGNAL);
   }

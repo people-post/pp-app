@@ -1,13 +1,18 @@
 import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { WalkinQueueItem } from '../../common/datatypes/WalkinQueueItem.js';
-import { URL_PARAM } from '../../common/constants/Constants.js';
+import { URL_PARAM } from '../../lib/ui/Constants.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FvcWalkinQueueItem } from './FvcWalkinQueueItem.js';
 import { FWalkinQueueItem } from './FWalkinQueueItem.js';
 import { WalkinQueue } from '../../common/dba/WalkinQueue.js';
 import { Api } from '../../common/plt/Api.js';
 import { UniLongListIdRecord } from '../../common/datatypes/UniLongListIdRecord.js';
+import { WalkinQueueItemData } from '../../types/backend2.js';
+
+interface ApiQueueItemsResponse {
+  items: WalkinQueueItemData[];
+}
 
 export class FWalkinQueue extends FLongListLegacy {
   private _isReadOnly = false;
@@ -123,23 +128,27 @@ export class FWalkinQueue extends FLongListLegacy {
       fd.append("before_id", fromId);
     }
     this._isBatchLoading = true;
-    Api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost<ApiQueueItemsResponse>(this, url, fd)
         .then(d => this.#onQueueItemsRRR(d));
   }
 
-  #onQueueItemsRRR(data: { items: unknown[] }): void {
+  #onQueueItemsRRR(data: ApiQueueItemsResponse): void {
     this._isBatchLoading = false;
     if (data.items.length) {
       let items = data.items.map(i => new WalkinQueueItem(i));
       items.sort((a, b) => {
-        if (a.getCreationTime() < b.getCreationTime()) {
+        let aTime = a.getCreationTime();
+        let bTime = b.getCreationTime();
+        if (aTime && bTime && aTime < bTime) {
           return 1;
         } else {
           return -1;
         }
       });
       for (let item of items) {
-        this.#getIdRecord().appendId(item.getId());
+        if (item.getId()) {
+          this.#getIdRecord().appendId(item.getId()!);
+        }
         WalkinQueue.update(item);
       }
     } else {

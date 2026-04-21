@@ -33,7 +33,7 @@ import { T_DATA as FwkT_DATA } from '../../lib/framework/Events.js';
 import { R } from '../../common/constants/R.js';
 import { Account } from '../../common/dba/Account.js';
 
-interface ShopConfigDelegate {
+export interface FvcConfigDelegate {
   onShopConfigFragmentRequestAddTeam(f: FvcConfig): void;
   onShopConfigFragmentRequestEditTeam(f: FvcConfig, teamId: string): void;
   onShopConfigFragmentRequestCloseShop(f: FvcConfig): void;
@@ -113,6 +113,9 @@ export class FvcConfig extends FScrollViewContent {
 
   onClickInTeamFragment(fTeam: FTeam): void {
     let teamId = fTeam.getTeamId();
+    if (!teamId) {
+      return;
+    }
     this.#selectedTeamId = teamId;
     this.#onEditTeam(teamId);
     this.#fTeams.render();
@@ -137,7 +140,7 @@ export class FvcConfig extends FScrollViewContent {
   }
 
   onBranchListFragmentRequestShowView(_fBranchList: FBranchList, view: View, title: string): void {
-    this._owner.onFragmentRequestShowView(this, view, title);
+    this.onFragmentRequestShowView(this, view, title);
   }
 
   onBranchSelectedInBranchListFragment(_fBranchList: FBranchList, branchId: string): void {
@@ -146,7 +149,7 @@ export class FvcConfig extends FScrollViewContent {
     f.setBranchId(branchId);
     f.setEnableEdit(true);
     v.setContentFragment(f);
-    this._owner.onFragmentRequestShowView(this, v, "Branch config");
+    this.onFragmentRequestShowView(this, v, "Branch config");
   }
 
   onOptionChangeInOptionsFragment(_fOptions: OptionSwitch, value: string, isChecked: boolean): void {
@@ -250,7 +253,7 @@ export class FvcConfig extends FScrollViewContent {
   }
 
   #renderName(name: string | undefined): string {
-    let s = _CFT_SHOP_CONFIG.SHOP_NAME;
+    let s: string = _CFT_SHOP_CONFIG.SHOP_NAME;
     s = s.replace("__VALUE__", name ? name : "");
     return s;
   }
@@ -263,15 +266,15 @@ export class FvcConfig extends FScrollViewContent {
     }
   }
 
-  #onAddTeam(): void { this._delegate.onShopConfigFragmentRequestAddTeam(this); }
+  #onAddTeam(): void { this.getDelegate<FvcConfigDelegate>()?.onShopConfigFragmentRequestAddTeam(this); }
   #onEditTeam(teamId: string): void {
-    this._delegate.onShopConfigFragmentRequestEditTeam(this, teamId);
+    this.getDelegate<FvcConfigDelegate>()?.onShopConfigFragmentRequestEditTeam(this, teamId);
   }
 
   #onCloseShop(): void {
     this._confirmDangerousOperation(
         R.get("CLOSE_SHOP_PROMPT"),
-        () => this._delegate.onShopConfigFragmentRequestCloseShop(this));
+        () => this.getDelegate<FvcConfigDelegate>()?.onShopConfigFragmentRequestCloseShop(this));
   }
 
   #asyncUpdateInfoViewSizeConfig(_sizeType: symbol): void {
@@ -280,11 +283,13 @@ export class FvcConfig extends FScrollViewContent {
     // dba.Shop.asyncUpdateConfig(fd)
   }
 
+  /*
   #asyncUpdateOptionsConfig(): void {
     let fd = new FormData();
     this.#fillItemLayoutType(fd);
     // dba.Shop.asyncUpdateConfig(fd)
   }
+  */
 
   #fillItemLayoutType(fd: FormData, sType: symbol | null = null): void {
     fd.append("item_layout_type", sType ? String(sType) : Shop.getItemLayoutType());

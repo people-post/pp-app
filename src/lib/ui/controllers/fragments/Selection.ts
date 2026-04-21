@@ -23,6 +23,15 @@ interface SelectionItem {
   value: string;
 }
 
+export interface FSelectionDataSource {
+  getItemsForSelection(f: Selection): Array<{text: string; value: string}>;
+  getSelectedValueForSelection(f: Selection): string;
+}
+
+export interface FSelectionDelegate {
+  onSelectionChangedInSelection(f: Selection, value: string): void;
+}
+
 export class Selection extends Fragment {
   private _hintText: string;
 
@@ -36,12 +45,10 @@ export class Selection extends Fragment {
   action(type: string | symbol, ...args: any[]): void {
     switch (type) {
     case CF_SELECTION.ONSELECT:
-      if (this._delegate && typeof (this._delegate as any).onSelectionChangedInSelection === 'function') {
-        (this._delegate as any).onSelectionChangedInSelection(this, args[0]);
-      }
+      this.getDelegate<FSelectionDelegate>()?.onSelectionChangedInSelection(this, args[0]);
       break;
     default:
-      super.action.apply(this, arguments as any);
+      super.action(type, ...args);
     }
   }
 
@@ -63,9 +70,10 @@ export class Selection extends Fragment {
 
   _onContentDidAppear(): void {
     super._onContentDidAppear();
+    let dataSource = this.getDataSource<FSelectionDataSource>();
     let e = document.getElementById(this.#getElementId());
-    if (e && this._dataSource && typeof (this._dataSource as any).getSelectedValueForSelection === 'function') {
-      (e as HTMLSelectElement).value = (this._dataSource as any).getSelectedValueForSelection(this);
+    if (e && dataSource) {
+      (e as HTMLSelectElement).value = dataSource.getSelectedValueForSelection(this);
     }
   }
 
@@ -73,8 +81,9 @@ export class Selection extends Fragment {
 
   #renderSelectionElement(): HTMLSelectElement {
     let items: SelectionItem[] = [];
-    if (this._dataSource && typeof (this._dataSource as any).getItemsForSelection === 'function') {
-      items = (this._dataSource as any).getItemsForSelection(this);
+    let dataSource = this.getDataSource<FSelectionDataSource>();
+    if (dataSource) {
+      items = dataSource.getItemsForSelection(this);
     }
     let e = document.createElement("SELECT") as HTMLSelectElement;
     e.id = this.#getElementId();

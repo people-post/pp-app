@@ -9,6 +9,11 @@ interface TabInfo {
   icon?: string;
 }
 
+export interface FTabbedPaneDelegate {
+  onTabbedPaneFragmentRequestAddPane(fTabbedPane: FTabbedPane): void;
+  onTabbedPaneFragmentRequestClosePane(fTabbedPane: FTabbedPane, value: string): boolean;
+}
+
 export class FTabbedPane extends Fragment {
   #fBar: FTabbedPaneTabBar;
   #paneMap: Map<string, Fragment> = new Map();
@@ -29,14 +34,16 @@ export class FTabbedPane extends Fragment {
     this.#switchTo(value);
   }
   onTabbedPaneTabBarFragmentRequestAddTab(_fTab: FTabbedPaneTabBar): void {
-    if (this._delegate && typeof (this._delegate as any).onTabbedPaneFragmentRequestAddPane === 'function') {
-      (this._delegate as any).onTabbedPaneFragmentRequestAddPane(this);
+    let delegate = this.getDelegate<FTabbedPaneDelegate>();
+    if (delegate) {
+      delegate.onTabbedPaneFragmentRequestAddPane(this);
     }
   }
   onTabbedPaneTabBarFragmentRequestCloseTab(_fTab: FTabbedPaneTabBar, value: string): void {
     let permit = true;
-    if (this._delegate && typeof (this._delegate as any).onTabbedPaneFragmentRequestClosePane === 'function') {
-      permit = (this._delegate as any).onTabbedPaneFragmentRequestClosePane(this, value);
+    let delegate = this.getDelegate<FTabbedPaneDelegate>();
+    if (delegate) {
+      permit = delegate.onTabbedPaneFragmentRequestClosePane(this, value);
     }
     if (permit) {
       this.popPane(value);

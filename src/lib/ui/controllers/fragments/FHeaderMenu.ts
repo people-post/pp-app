@@ -108,8 +108,7 @@ export class FHeaderMenu extends Fragment {
       } else {
         this.#pMain.setClassName("tw:cursor-pointer");
       }
-      this.#pMain.setAttribute(
-          "onclick", `javascript:G.action('${CF_UI_HEADER_MENU.ON_CLICK}')`);
+      this.#pMain.setAttribute("data-pp-action", CF_UI_HEADER_MENU.ON_CLICK);
       this.#isOpen = false;
       this.#pMain.replaceContent(this.#icon);
     } else {

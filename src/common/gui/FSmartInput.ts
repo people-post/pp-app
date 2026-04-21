@@ -17,7 +17,7 @@ const _CFT_SMART_INPUT = {
     <input type="text" class="tight-label-like" oninput="javascript:G.action('${CF_SMART_INPUT.ON_CHANGE}', this.value)" onblur="javascript:G.action('${CF_SMART_INPUT.ON_BLUR}')" placeholder="__PLACEHOLDER__">
   </span>`,
   HINT_TAG :
-      `<span class="tw:cursor-pointer tw:border tw:border-[1px] tw:border-solid tw:border-blue-300 tw:rounded-[5px] tw:p-[2px]" onclick="javascript:G.action('${CF_SMART_INPUT.ON_HINT_ITEM_CHOSEN}', '__ITEM_ID__')">__VALUE__</span>`,
+      `<span class="tw:cursor-pointer tw:border tw:border-solid tw:border-blue-300 tw:rounded-[5px] tw:p-[2px]" onclick="javascript:G.action('${CF_SMART_INPUT.ON_HINT_ITEM_CHOSEN}', '__ITEM_ID__')">__VALUE__</span>`,
 };
 
 interface FilteredItem {

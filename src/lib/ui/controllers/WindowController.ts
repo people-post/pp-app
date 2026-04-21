@@ -3,7 +3,7 @@ import { PanelWrapper } from '../renders/panels/PanelWrapper.js';
 import { Layer, LayerOwner } from './layers/Layer.js';
 
 export class WindowController extends RenderController implements LayerOwner {
-  declare _childStack: Layer[];
+  protected _childStack: Layer[] = [];
 
   constructor() {
     super();

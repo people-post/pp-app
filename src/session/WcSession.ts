@@ -1,4 +1,4 @@
-import { FBanner, BannerDelegate } from '../common/gui/FBanner.js';
+import { FBanner } from '../common/gui/FBanner.js';
 import { ColorTheme } from '../common/datatypes/ColorTheme.js';
 import { FvcSearchResult } from '../common/search/FvcSearchResult.js';
 import { Factory, T_OBJ } from '../lib/framework/Factory.js';
@@ -16,7 +16,8 @@ import { Web2FileUploader } from '../common/plt/Web2FileUploader.js';
 import { Events as FwkEvents, T_ACTION as FwkT_ACTION, T_DATA } from '../lib/framework/Events.js';
 import { PWindow } from './PWindow.js';
 import { Web3FileUploader } from '../common/dba/Web3FileUploader.js';
-import { WebConfig, WebConfigData } from '../common/dba/WebConfig.js';
+import { WebConfig } from '../common/dba/WebConfig.js';
+import type { WebConfigData } from '../types/backend2.js';
 import { Blog } from '../common/dba/Blog.js';
 import { Users } from '../common/dba/Users.js';
 import { Cart } from '../common/dba/Cart.js';
@@ -33,6 +34,9 @@ import { Api } from '../common/plt/Api.js';
 import { Account } from '../common/dba/Account.js';
 import { User } from '../common/datatypes/User.js';
 import { UiUtilities } from '../lib/ui/Utilities.js';
+import { BlogConfigData } from '../types/blog.js';
+import { Fragment } from '../lib/ui/controllers/fragments/Fragment.js';
+import { RemoteError } from '../types/basic.js';
 
 const _CRCT_SESSION = {
   // Prime, secondary: User defined
@@ -78,13 +82,12 @@ interface StateData {
   obsolete?: boolean;
 }
 
-declare global {
-  var api: {
-    asyncRawCall(url: string, callback?: (responseText: string) => void): void;
-  };
-}
+export interface MainConfig {
+  web_config?: WebConfigData;
+  blog_config?: BlogConfigData;
+};
 
-export class WcSession extends WindowController implements BannerDelegate {
+export class WcSession extends WindowController {
   #fBanner: FBanner;
   #logger: Logger;
   protected _childStack: ViewLayer[] = [];
@@ -152,13 +155,16 @@ export class WcSession extends WindowController implements BannerDelegate {
     // TODO: This is hack to clear all dialogs, should restore layers from url
     this.#closeDialog();
 
-    this._getTopLayerFragment().initFromUrl(urlParam);
+    let lc = this._getTopLayerFragment();
+    if (lc instanceof ViewLayer) {
+      lc.initFromUrl(urlParam);
+    }
   }
 
   // From fwk.Events
-  onSessionDataChange(...args: unknown[]): void { this.applyDataUpdate(...args); }
-  onTopActionTrigger(...args: unknown[]): void { this.topAction(...args); }
-  onLayerFragmentRequestSetBannerFragment(_lc: ViewLayer, f: unknown): void {
+  onSessionDataChange(...args: [symbol | string, unknown]): void { this.applyDataUpdate(...args); }
+  onTopActionTrigger(...args: [symbol, ...unknown[]]): void { this.topAction(...args); }
+  onLayerFragmentRequestSetBannerFragment(_lc: ViewLayer, f: Fragment | null): void {
     this.#fBanner.setContentFragment(f);
     this.#fBanner.render();
   }
@@ -169,11 +175,11 @@ export class WcSession extends WindowController implements BannerDelegate {
     }
   }
 
-  onFragmentRequestShowView(_f: unknown, view: View, title: string): void { this._pushView(view, title); }
-  onRemoteErrorInFragment(_f: unknown, e: unknown): void { this.#fBanner.showRemoteError(e); }
-  onLocalErrorInFragment(_f: unknown, msg: string): void { this.#fBanner.showLocalError(msg); }
-  onContentTopResizeBeginInFragment(_f: unknown): void {}
-  onContentTopResizeEndInFragment(_f: unknown): void {}
+  onFragmentRequestShowView(_f: Fragment, view: View, title: string): void { this._pushView(view, title); }
+  onRemoteErrorInFragment(_f: Fragment, e: RemoteError): void { this.#fBanner.showRemoteError(e); }
+  onLocalErrorInFragment(_f: Fragment, msg: string): void { this.#fBanner.showLocalError(msg); }
+  onContentTopResizeBeginInFragment(_f: Fragment): void {}
+  onContentTopResizeEndInFragment(_f: Fragment): void {}
 
   topAction(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
@@ -218,7 +224,7 @@ export class WcSession extends WindowController implements BannerDelegate {
       this.#applyTheme();
       break;
     case T_DATA.REMOTE_ERROR:
-      this.#fBanner.showRemoteError(data);
+      this.#fBanner.showRemoteError(data as RemoteError);
       break;
     default:
       break;
@@ -228,9 +234,9 @@ export class WcSession extends WindowController implements BannerDelegate {
 
   _shouldClearInitialUrl(): boolean { return false; }
 
-  _main(dConfig: { web_config?: WebConfigData; blog_config?: unknown }): void {
+  _main(dConfig: MainConfig): void {
     this._clearDbAgents();
-    WebConfig.reset(dConfig.web_config);
+    WebConfig.reset(dConfig.web_config ?? null);
     if (dConfig.blog_config) {
       Blog.resetConfig(dConfig.blog_config);
     }
@@ -255,14 +261,17 @@ export class WcSession extends WindowController implements BannerDelegate {
 
   _initLanguage(): void {
     let urlParam = new URLSearchParams(window.location.search);
-    if (urlParam.has(URL_PARAM.LANGUAGE)) {
-      Env.setPreferredLanguage(urlParam.get(URL_PARAM.LANGUAGE));
+    let lang = urlParam.get(URL_PARAM.LANGUAGE);
+    if (lang) {
+      Env.setPreferredLanguage(lang);
     }
-    let lang = Account.getPreferredLanguage();
+    lang = Account.getPreferredLanguage();
     if (!lang) {
       lang = Env.getLanguage();
     }
-    R.setLanguage(lang);
+    if (lang) {
+      R.setLanguage(lang);
+    }
   }
 
   _initEventHandlers(): void {
@@ -270,12 +279,14 @@ export class WcSession extends WindowController implements BannerDelegate {
     window.onpopstate = evt => this.#onPopState(evt);
   }
 
+  _createLayerFragment(): ViewLayer { return new ViewLayer(); }
+
   _onPushState(stateData: unknown, title: string): void {
     let state = this.#getState(stateData, title);
     history.pushState(state, state.title, state.url);
   }
 
-  _showCustomDialog(view: View, title: string, enableCloseButton?: boolean): void {
+  _showCustomDialog(view: View, title: string, enableCloseButton: boolean = false): void {
     this.#pushDialog(view, title, enableCloseButton);
   }
 
@@ -299,7 +310,7 @@ export class WcSession extends WindowController implements BannerDelegate {
   }
 
   _getTopLayerFragment(): ViewLayer | undefined {
-    return this._childStack[0] as ViewLayer | undefined;
+    return this._childStack[0];
   }
 
   #getState(data: unknown, title: string): StateData {
@@ -333,7 +344,10 @@ export class WcSession extends WindowController implements BannerDelegate {
       } else {
         history.replaceState({"obsolete" : true}, "");
         history.pushState(evt.state, (evt.state as StateData).title, (evt.state as StateData).url);
-        this._childStack[0].popState((evt.state as StateData).data);
+        let lc = this._childStack[0];
+        if (lc instanceof ViewLayer) {
+          lc.popState((evt.state as StateData).data);
+        }
       }
     } else {
       history.replaceState({"obsolete" : true}, "");
@@ -378,7 +392,7 @@ export class WcSession extends WindowController implements BannerDelegate {
   }
 
   #onWebConfigRRR(responseText: string): void {
-    let response = JSON.parse(responseText) as { error?: unknown; data?: { web_config?: unknown; blog_config?: unknown } };
+    let response = JSON.parse(responseText) as { error?: unknown; data?: { web_config?: WebConfigData; blog_config?: BlogConfigData } };
     if (!response.error) {
       this._main(response.data || {});
     }

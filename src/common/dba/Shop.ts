@@ -80,7 +80,10 @@ export class ShopClass implements ShopInterface {
     return t ? t : SocialItem.T_LAYOUT.MEDIUM;
   }
 
-  getTeam(id: string): ShopTeam | null {
+  getTeam(id: string | null): ShopTeam | null {
+    if (!id) {
+      return null;
+    }
     const d = WebConfig.getRoleData(id);
     return d ? new ShopTeam(d) : null;
   }

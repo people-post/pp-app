@@ -63,13 +63,8 @@ class PScrollViewContentHook extends Panel {
 }
 
 export const CF_SCROLL_VIEW_CONTENT_HOOK = {
-  SCROLL_TO_TOP : Symbol(),
+  SCROLL_TO_TOP: "CF_SCROLL_VIEW_CONTENT_HOOK_1",
 } as const;
-
-// Export to window for string template access
-if (typeof window !== 'undefined') {
-  (window as any).CF_SCROLL_VIEW_CONTENT_HOOK = CF_SCROLL_VIEW_CONTENT_HOOK;
-}
 
 interface ScrollYInfo {
   value: number;
@@ -150,9 +145,7 @@ export class FScrollViewContentHook extends FViewContentWrapper implements IScro
     const pBstt = panel.getBsttPanel();
     pBstt.replaceContent("Back to top");
     pBstt.setVisible(false);
-    pBstt.setAttribute(
-        "onclick",
-        "javascript:G.action(window.CF_SCROLL_VIEW_CONTENT_HOOK.SCROLL_TO_TOP)");
+    pBstt.setAttribute("data-pp-action", CF_SCROLL_VIEW_CONTENT_HOOK.SCROLL_TO_TOP);
 
     const pContentContainer = panel.getContentContainerPanel();
     let e = pContentContainer.getDomElement();

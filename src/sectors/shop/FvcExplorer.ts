@@ -42,7 +42,10 @@ export class FvcExplorer extends FScrollViewContent {
     if (id) {
       let sid = SocialItemId.fromEncodedStr(id);
       if (sid) {
-        this.#fList.switchToItem(sid.getValue());
+        let value = sid.getValue();
+        if (value) {
+          this.#fList.switchToItem(value);
+        }
       }
     }
   }

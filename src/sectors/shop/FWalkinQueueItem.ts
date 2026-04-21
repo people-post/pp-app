@@ -1,7 +1,3 @@
-export const CF_SHOP_WALKIN_QUEUE_ITEM = {
-  ON_CLICK : "CF_SHOP_WALKIN_QUEUE_ITEM_1",
-};
-
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
@@ -28,9 +24,26 @@ import { STATE } from '../../common/constants/Constants.js';
 import { Api } from '../../common/plt/Api.js';
 import { Utilities } from '../../common/Utilities.js';
 import { PreCheckoutFacade } from '../../common/checkout/PreCheckoutFacade.js';
+import { CartItemData, WalkinQueueItemData } from '../../types/backend2.js';
+
+export const CF_SHOP_WALKIN_QUEUE_ITEM = {
+  ON_CLICK : "CF_SHOP_WALKIN_QUEUE_ITEM_1",
+};
 
 export interface FWalkinQueueItemDataSource {
   isItemSelectedInWalkinQueueItemFragment(f: FWalkinQueueItem, itemId: string): boolean;
+}
+
+export interface FWalkinQueueItemDelegate {
+  onItemDeletedInWalkinQueueItemFragment(f: FWalkinQueueItem): void;
+}
+
+interface ApiPrepareCartItemResponse {
+  item: CartItemData;
+}
+
+interface ApiServeItemResponse {
+  item: WalkinQueueItemData;
 }
 
 export class FWalkinQueueItem extends Fragment {
@@ -147,7 +160,7 @@ export class FWalkinQueueItem extends Fragment {
       }
       name = u.getNickname();
     } else {
-      name = item.getCustomerName();
+      name = item.getCustomerName() || "";
     }
     let panel = this.#createPanel();
     render.wrapPanel(panel);
@@ -235,7 +248,7 @@ export class FWalkinQueueItem extends Fragment {
     this._fAction1.render();
   }
 
-  #renderSubPrimeActionButton(item: WalkinQueueItem, panel: Panel): void {
+  #renderSubPrimeActionButton(_item: WalkinQueueItem, panel: Panel): void {
     if (this._fAction1.getValue() != "__DISMISS") {
       this._fAction2.attachRender(panel);
       this._fAction2.render();
@@ -261,18 +274,26 @@ export class FWalkinQueueItem extends Fragment {
   }
 
   #asyncPrepareCartItem(qItem: WalkinQueueItem): void {
+    let productId = qItem.getProductId();
+    if (!productId) {
+      return;
+    }
     let url = "api/cart/make_item";
     let fd = new FormData();
-    fd.append("product_id", qItem.getProductId());
+    fd.append("product_id", productId);
     fd.append("quantity", "1");
-    Api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost<ApiPrepareCartItemResponse>(this, url, fd)
         .then(d => this.#onPrepareCartItemRRR(d));
   }
 
-  #onPrepareCartItemRRR(data: { item: unknown }): void {
+  #onPrepareCartItemRRR(data: ApiPrepareCartItemResponse): void {
+    let itemId = data.item.id;
+    if (!itemId) {
+      return;
+    }
     let cart = new CartDataType();
     let item = new CartItem(data.item);
-    cart.set(item.getId(), item);
+    cart.set(itemId, item);
     this.#goCheckout(cart);
   }
 
@@ -295,10 +316,10 @@ export class FWalkinQueueItem extends Fragment {
     let fd = new FormData();
     fd.append("id", this._itemId);
     fd.append("agent_id", userId);
-    Api.asFragmentPost(this, url, fd).then(d => this.#onServeRRR(d));
+    Api.asFragmentPost<ApiServeItemResponse>(this, url, fd).then(d => this.#onServeRRR(d));
   }
 
-  #onServeRRR(data: { item: unknown }): void {
+  #onServeRRR(data: ApiServeItemResponse): void {
     WalkinQueue.update(new WalkinQueueItem(data.item));
   }
 
@@ -311,8 +332,7 @@ export class FWalkinQueueItem extends Fragment {
   }
 
   #onDismissRRR(): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onItemDeletedInWalkinQueueItemFragment?.(this);
+    this.getDelegate<FWalkinQueueItemDelegate>()?.onItemDeletedInWalkinQueueItemFragment(this);
   }
 
   #asyncGetWorkers(ownerId: string | null): void {

@@ -1,20 +1,14 @@
-export const CF_SERVICE_LOCATION = {
-  ON_CLICK : "CF_SERVICE_LOCATION_1",
-};
-
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { FBranch } from './FBranch.js';
 import { FBtnViewQueue } from './FBtnViewQueue.js';
 import { PServiceLocation } from './PServiceLocation.js';
 import { FServiceTimeslot } from './FServiceTimeslot.js';
+import { ProductServiceLocation } from '../../common/datatypes/ProductServiceLocation.js';
 
-interface ServiceLocationData {
-  getTimeslots(): Array<{ contains: (t: number) => boolean; isAfter: (t: number) => boolean }>;
-  getBranchId(): string;
-  getPriceOverhead(): number;
-  getTimeOverhead(): number;
-}
+const CF_SERVICE_LOCATION = {
+  ON_CLICK : "CF_SERVICE_LOCATION_1",
+};
 
 export interface FServiceLocationDataSource {
   shouldServiceLocationFragmentHighlight(f: FServiceLocation): boolean;
@@ -24,7 +18,7 @@ export class FServiceLocation extends Fragment {
   protected _fTimeslots: FSimpleFragmentList;
   protected _fBranch: FBranch;
   protected _fBtnViewQueue: FBtnViewQueue;
-  protected _data: ServiceLocationData | null = null;
+  protected _data: ProductServiceLocation | null = null;
 
   constructor() {
     super();
@@ -61,9 +55,9 @@ export class FServiceLocation extends Fragment {
     return false;
   }
 
-  getData(): ServiceLocationData | null { return this._data; }
+  getData(): ProductServiceLocation | null { return this._data; }
 
-  setData(d: ServiceLocationData): void {
+  setData(d: ProductServiceLocation): void {
     this._data = d;
     this._fBtnViewQueue.setBranchId(d.getBranchId());
   }

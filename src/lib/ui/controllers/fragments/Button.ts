@@ -6,7 +6,7 @@ const CF_UI_BUTTON = {
 };
 
 const _CFT_UI_BUTTON = {
-  ACTION : `javascript:G.action('${CF_UI_BUTTON.ON_CLICK}')`,
+  ACTION_ID: CF_UI_BUTTON.ON_CLICK,
 } as const;
 
 interface Theme {
@@ -83,7 +83,7 @@ export class Button extends Fragment {
       e = document.createElement("A");
       break;
     }
-    e.setAttribute("onclick", this.#getAction());
+    this.#applyActionAttributes(e);
     if (this.#icon) {
       e.innerHTML = this.#renderIcon(this.#icon) + " " + this.#name;
     } else {
@@ -112,15 +112,17 @@ export class Button extends Fragment {
     let e = document.getElementById(this.#getBtnId());
     if (e) {
       e.className = this.#getClassName();
-      e.setAttribute("onclick", this.#getAction());
+      this.#applyActionAttributes(e as HTMLElement);
     }
   }
 
-  #getAction(): string {
+  #applyActionAttributes(e: HTMLElement): void {
     if (this.#isEnabled) {
-      return _CFT_UI_BUTTON.ACTION;
+      e.setAttribute("data-pp-action", _CFT_UI_BUTTON.ACTION_ID);
+      e.removeAttribute("onclick");
     } else {
-      return "javascript:void(0)";
+      e.removeAttribute("data-pp-action");
+      e.removeAttribute("onclick");
     }
   }
 

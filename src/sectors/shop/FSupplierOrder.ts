@@ -1,16 +1,3 @@
-export const CF_SUPPLIER_ORDER = {
-  SHOW_ADDRESS : "CF_SUPPLIER_ORDER_1",
-  ON_CLICK : "CF_SUPPLIER_ORDER_2",
-  USER_INFO : "CF_SUPPLIER_ORDER_3",
-};
-
-const _CFT_SUPPLIER_ORDER = {
-  ADDERSS:
-      `<span class="button-like small" data-pp-action="${CF_SUPPLIER_ORDER.SHOW_ADDRESS}">Address</span>`,
-  ITEM : `<div class="w60">__NAME__</div>
-  <div>__QUANTITY__x</div>`,
-} as const;
-
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
@@ -34,6 +21,19 @@ import { Currency } from '../../common/datatypes/Currency.js';
 import { Account } from '../../common/dba/Account.js';
 import { PSupplierOrderBase } from './PSupplierOrderBase.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+
+const CF_SUPPLIER_ORDER = {
+  SHOW_ADDRESS : "CF_SUPPLIER_ORDER_1",
+  ON_CLICK : "CF_SUPPLIER_ORDER_2",
+  USER_INFO : "CF_SUPPLIER_ORDER_3",
+};
+
+const _CFT_SUPPLIER_ORDER = {
+  ADDERSS:
+      `<span class="button-like small" data-pp-action="${CF_SUPPLIER_ORDER.SHOW_ADDRESS}">Address</span>`,
+  ITEM : `<div class="w60">__NAME__</div>
+  <div>__QUANTITY__x</div>`,
+} as const;
 
 export interface SupplierOrderDelegate {
   onSupplierOrderFragmentRequestShowOrder(f: FSupplierOrder, orderId: string | null): void;
@@ -216,7 +216,7 @@ export class FSupplierOrder extends Fragment {
     return p;
   }
 
-  #createInfoPanel(): Panel { return new PSupplierOrderInfo(); }
+  #createInfoPanel(): PSupplierOrderBase { return new PSupplierOrderInfo(); }
 
   #renderShippingAddressBtn(order: SupplierOrderPrivate, panel: Panel): void {
     let addr = order.getShippingAddress();
@@ -225,7 +225,7 @@ export class FSupplierOrder extends Fragment {
     }
   }
 
-  #renderShippingAddress(order: SupplierOrderPrivate, panel: PanelWrapper): void {
+  #renderShippingAddress(_order: SupplierOrderPrivate, panel: PanelWrapper): void {
     let p = new SectionPanel("Shipping address");
     panel.wrapPanel(p);
     this._fAddress.attachRender(p.getContentPanel()!);
@@ -246,7 +246,7 @@ export class FSupplierOrder extends Fragment {
   }
 
   #renderOrderItem(item: any): string {
-    let s = _CFT_SUPPLIER_ORDER.ITEM;
+    let s: string = _CFT_SUPPLIER_ORDER.ITEM;
     s = s.replace("__NAME__", item.getDescription());
     s = s.replace("__QUANTITY__", String(item.getQuantity()));
     return s;
@@ -272,8 +272,12 @@ export class FSupplierOrder extends Fragment {
 
   #renderCreationTime(order: SupplierOrderPrivate, panel: Panel): void {
     let s = "Placed at: ";
-    s +=
-        UtilitiesExt.timestampToDateTimeString(order.getCreationTime() / 1000);
+    let t = order.getCreationTime();
+    if (t) {
+      s += UtilitiesExt.timestampToDateTimeString(t.getTime() / 1000);
+    } else {
+      s += "N/A";
+    }
     panel.replaceContent(s);
   }
 
@@ -282,14 +286,24 @@ export class FSupplierOrder extends Fragment {
     if (order.getState() == STATE.FINISHED) {
       s = "Closed ";
     }
-    s += Utilities.renderTimeDiff(order.getUpdateTime());
+    let t = order.getUpdateTime();
+    if (t) {
+      s += Utilities.renderTimeDiff(t.getTime());
+    } else {
+      s += "N/A";
+    }
     s += " ago";
     panel.replaceContent(s);
   }
 
   #renderUpdateTime(order: SupplierOrderPrivate, panel: Panel): void {
     let s = "Last update: ";
-    s += UtilitiesExt.timestampToDateTimeString(order.getUpdateTime() / 1000);
+    let t = order.getUpdateTime();
+    if (t) {
+      s += UtilitiesExt.timestampToDateTimeString(t.getTime() / 1000);
+    } else {
+      s += "N/A";
+    }
     panel.replaceContent(s);
   }
 
@@ -359,10 +373,8 @@ export class FSupplierOrder extends Fragment {
   }
 
   #onClick(): void {
-    if (this._delegate) {
-      this._delegate.onSupplierOrderFragmentRequestShowOrder(this,
+    this.getDelegate<SupplierOrderDelegate>()?.onSupplierOrderFragmentRequestShowOrder(this,
                                                              this._orderId);
-    }
   }
 
   #showUserInfo(userId: string): void {

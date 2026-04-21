@@ -8,8 +8,8 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { PServiceLocationEditor } from './PServiceLocationEditor.js';
 import { FServiceTimeslotEditor } from './FServiceTimeslotEditor.js';
 import { Shop } from '../../common/dba/Shop.js';
-import type Render from '../../lib/ui/renders/Render.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ProductServiceTimeslot } from '../../common/datatypes/ProductServiceTimeslot.js';
 
 export class FServiceLocationEditor extends Fragment {
   protected _fBtnAdd: Button;
@@ -50,7 +50,7 @@ export class FServiceLocationEditor extends Fragment {
   }
 
   getSelectedValueForSelection(_fSelection: Selection): string | null { return this._branchId; }
-  getItemsForSelection(_fSelection: Selection): Array<{text: string; value: string}> {
+  getItemsForSelection(_fSelection: Selection): Array<{text: string | null; value: string | null}> {
     return Shop.getBranchLabels().map(
         a => { return {"text" : a.getName(), "value" : a.getId()}; });
   }
@@ -79,13 +79,13 @@ export class FServiceLocationEditor extends Fragment {
   }
 
   collectData(): ProductServiceLocation {
-    let d = new ProductServiceLocation({});
+    let d = new ProductServiceLocation({price_overhead: 0, time_overhead: 0, branch_id: null});
     for (let f of this._fTimeslots.getChildren()) {
       let timeslotEditor = f as FServiceTimeslotEditor;
       d.appendTimeslot(timeslotEditor.collectData());
     }
-    d.setTimeOverhead(this._fTimeOverhead.getValue());
-    d.setPriceOverhead(this._fPriceOverhead.getValue());
+    d.setTimeOverhead(Number(this._fTimeOverhead.getValue()));
+    d.setPriceOverhead(Number(this._fPriceOverhead.getValue()));
     d.setBranchId(this._branchId!);
     return d;
   }
