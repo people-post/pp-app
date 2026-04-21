@@ -11,15 +11,31 @@ export class SearchIconOperator {
     c.style.transform = "translateX(2px) translateY(2px)";
     c.style.webkitTransform = "translateX(2px) translateY(2px)";
 
-    t.style.transform = "translateX(-6px) translateY(-6px) rotate(45deg)";
-    t.style.webkitTransform = "translateX(-6px) translateY(-6px) rotate(45deg)";
+    t.style.transform = "translateX(-7px) translateY(-7px) rotate(45deg)";
+    t.style.webkitTransform = "translateX(-7px) translateY(-7px) rotate(45deg)";
 
-    b.style.transform = "translateX(-6px) translateY(-7px) rotate(-45deg)";
+    b.style.transform = "translateX(-7px) translateY(-7px) rotate(-45deg)";
     b.style.webkitTransform =
-        "translateX(-6px) translateY(-7px) rotate(-45deg)";
+        "translateX(-7px) translateY(-7px) rotate(-45deg)";
+
+    c.style.animationName = "searchicon-circle-transform";
+    c.style.webkitAnimationName = "searchicon-circle-transform";
+
+    t.style.animationName = "searchicon-top-bar-transform";
+    t.style.webkitAnimationName = "searchicon-top-bar-transform";
+
+    b.style.animationName = "searchicon-bottom-bar-transform";
+    b.style.webkitAnimationName = "searchicon-bottom-bar-transform";
+
+    c.style.animationDuration = "0.5s";
+    c.style.webkitAnimationDuration = "0.5s";
+    t.style.animationDuration = "0.5s";
+    t.style.webkitAnimationDuration = "0.5s";
+    b.style.animationDuration = "0.5s";
+    b.style.webkitAnimationDuration = "0.5s";
   }
 
-  release(iconElement: Element, _animated: boolean): void {
+  release(iconElement: Element, animated: boolean): void {
     let ee = iconElement.firstElementChild;
     if (!ee) return;
     let c = ee.firstElementChild as HTMLElement; // circle
@@ -31,13 +47,41 @@ export class SearchIconOperator {
     c.style.transform = "";
     c.style.webkitTransform = "";
 
-    // The SVG bars are drawn at 45deg in SVG coordinates, so resetting
-    // the CSS transform to "" restores the natural drawn position (no extra rotation needed).
-    t.style.transform = "";
-    t.style.webkitTransform = "";
+    t.style.transform = "rotate(45deg)";
+    t.style.webkitTransform = "rotate(45deg)";
 
-    b.style.transform = "";
-    b.style.webkitTransform = "";
+    b.style.transform = "rotate(45deg)";
+    b.style.webkitTransform = "rotate(45deg)";
+
+    if (animated) {
+      c.style.animationName = "searchicon-circle-reverse-transform";
+      c.style.webkitAnimationName = "searchicon-circle-reverse-transform";
+
+      t.style.animationName = "searchicon-top-bar-reverse-transform";
+      t.style.webkitAnimationName = "searchicon-top-bar-reverse-transform";
+
+      b.style.animationName = "searchicon-bottom-bar-reverse-transform";
+      b.style.webkitAnimationName = "searchicon-bottom-bar-reverse-transform";
+
+      c.style.animationDuration = "0.5s";
+      c.style.webkitAnimationDuration = "0.5s";
+      t.style.animationDuration = "0.5s";
+      t.style.webkitAnimationDuration = "0.5s";
+      b.style.animationDuration = "0.5s";
+      b.style.webkitAnimationDuration = "0.5s";
+    } else {
+      c.style.animationName = "";
+      c.style.webkitAnimationName = "";
+      c.style.animationDuration = "";
+      c.style.webkitAnimationDuration = "";
+      t.style.animationName = "";
+      t.style.webkitAnimationName = "";
+      t.style.animationDuration = "";
+      t.style.webkitAnimationDuration = "";
+      b.style.animationName = "";
+      b.style.webkitAnimationName = "";
+      b.style.animationDuration = "";
+      b.style.webkitAnimationDuration = "";
+    }
   }
 }
-

@@ -2793,15 +2793,312 @@ svg .coffee-mug {
     stroke-linejoin: round;
 }
 
-/* CSS transitions for SVG icon child elements (hamburger, search, clock) */
-svg line.top,
-svg line.middle,
-svg line.bottom,
-svg line.time-menu-icon-hour,
-svg line.top-bar,
-svg line.bottom-bar,
-svg circle.circle.s-cmenustk {
+/* Header menu / search / time icons (div + span; matches pre-SVG animation model) */
+div.simple-line-icon,
+div.search-icon,
+div.time-menu-icon {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    box-sizing: border-box;
+}
+
+div.simple-line-icon span {
+    display: block;
+    bottom: 19px;
+    width: 17px;
+    left: 11px;
+    height: 1px;
+    position: absolute;
+    animation-duration: 0.5s;
+}
+
+div.simple-line-icon.menu span.top {
+    transform: translateY(-4px);
+}
+
+div.simple-line-icon.menu span.bottom {
+    transform: translateY(4px);
+}
+
+div.simple-line-icon.back span.top {
+    transform: translateY(-4px) translateX(-4px) scaleX(0.6) rotate(-30deg);
+}
+
+div.simple-line-icon.back span.bottom {
+    transform: translateY(4px) translateX(-4px) scaleX(0.6) rotate(32deg);
+}
+
+div.search-icon span.circle {
+    position: absolute;
+    /* Center 12×12 box on SVG circle (cx=18, cy=19): 18−6=12, 19−6=13 */
+    top: 13px;
+    left: 12px;
+    width: 12px;
+    height: 12px;
+    box-sizing: border-box;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 8px;
+}
+
+/* Handle segments rotate around bar center (not left edge), so both stay collinear */
+div.search-icon span.top-bar,
+div.search-icon span.bottom-bar {
+    position: absolute;
+    width: 11px;
+    height: 2px;
+    border-radius: 1px;
+    transform-origin: center center;
+    transform: rotate(45deg);
+}
+
+/*
+ * Bar center on the handle diagonal so the inner tip (center − 5.5px along the bar) meets the
+ * lens outer rim: circle center (18,19), rim at ~45° ≈ (22.2,23.2); inner + 5.5 toward SE
+ * ≈ bar centers (26.1,27.1) and (26.1,28.1). 11×2 box: left = cx−5.5, top = cy−1.
+ */
+div.search-icon span.top-bar {
+    top: 26px;
+    left: 20.5px;
+}
+
+div.search-icon span.bottom-bar {
+    top: 27px;
+    left: 20.5px;
+}
+
+span.time-menu-icon-circle {
+    position: absolute;
+    top: 11px;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 10px;
+}
+
+span.time-menu-icon-hour {
+    position: absolute;
+    top: 21px;
+    left: 20px;
+    width: 10px;
+    height: 2px;
+}
+
+span.time-menu-icon-minute {
+    position: absolute;
+    top: 11px;
+    left: 20px;
+    width: 2px;
+    height: 10px;
+}
+
+div.simple-line-icon span.top,
+div.simple-line-icon span.middle,
+div.simple-line-icon span.bottom,
+div.search-icon span.circle,
+div.search-icon span.top-bar,
+div.search-icon span.bottom-bar,
+span.time-menu-icon-hour {
     transition: transform 0.3s ease, visibility 0.3s;
+}
+
+@keyframes menuicon-top-transform {
+    0% {
+        transform: translateY(-4px);
+    }
+
+    50% {
+        transform: translateY(0px);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(45deg);
+    }
+}
+
+@keyframes menuicon-middle-transform {
+    0% {
+        visibility: visible;
+    }
+
+    50% {
+        visibility: hidden;
+    }
+
+    100% {
+        visibility: hidden;
+    }
+}
+
+@keyframes menuicon-bottom-transform {
+    0% {
+        transform: translateY(4px);
+    }
+
+    50% {
+        transform: translateY(0px);
+    }
+
+    100% {
+        transform: rotate(-45deg);
+    }
+}
+
+@keyframes menuicon-top-reverse-transform {
+    0% {
+        transform: translateY(0px) rotate(45deg);
+    }
+
+    50% {
+        transform: translateY(0px);
+    }
+
+    100% {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes menuicon-middle-reverse-transform {
+    0% {
+        visibility: hidden;
+    }
+
+    50% {
+        visibility: hidden;
+    }
+
+    100% {
+        visibility: visible;
+    }
+}
+
+@keyframes menuicon-bottom-reverse-transform {
+    0% {
+        transform: rotate(-45deg);
+    }
+
+    50% {
+        transform: translateY(0px);
+    }
+
+    100% {
+        transform: translateY(4px);
+    }
+}
+
+@keyframes searchicon-circle-transform {
+    0% {
+        transform: none;
+    }
+
+    50% {
+        transform: translateX(1px) translateY(1px);
+    }
+
+    100% {
+        transform: translateX(2px) translateY(2px);
+    }
+}
+
+@keyframes searchicon-top-bar-transform {
+    0% {
+        transform: rotate(45deg);
+    }
+
+    50% {
+        transform: translateX(-7px) translateY(-7px) rotate(45deg);
+    }
+
+    100% {
+        transform: translateX(-7px) translateY(-7px) rotate(45deg);
+    }
+}
+
+@keyframes searchicon-bottom-bar-transform {
+    0% {
+        transform: rotate(45deg);
+    }
+
+    50% {
+        transform: translateX(-7px) translateY(-7px) rotate(45deg);
+    }
+
+    100% {
+        transform: translateX(-7px) translateY(-7px) rotate(-45deg);
+    }
+}
+
+@keyframes searchicon-circle-reverse-transform {
+    0% {
+        transform: translateX(2px) translateY(2px);
+    }
+
+    50% {
+        transform: translateX(1px) translateY(1px);
+    }
+
+    100% {
+        transform: none;
+    }
+}
+
+@keyframes searchicon-top-bar-reverse-transform {
+    0% {
+        transform: translateX(-7px) translateY(-7px) rotate(45deg);
+    }
+
+    50% {
+        transform: translateX(-7px) translateY(-7px) rotate(45deg);
+    }
+
+    100% {
+        transform: rotate(45deg);
+    }
+}
+
+@keyframes searchicon-bottom-bar-reverse-transform {
+    0% {
+        transform: translateX(-7px) translateY(-7px) rotate(-45deg);
+    }
+
+    50% {
+        transform: translateX(-7px) translateY(-7px) rotate(45deg);
+    }
+
+    100% {
+        transform: rotate(45deg);
+    }
+}
+
+@keyframes timemenuicon-needle-transform {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: translateX(-1px) translateY(2px) rotate(45deg);
+    }
+
+    100% {
+        transform: translateX(-4px) translateY(4px) rotate(90deg);
+    }
+}
+
+@keyframes timemenuicon-needle-reverse-transform {
+    0% {
+        transform: translateX(-4px) translateY(4px) rotate(90deg);
+    }
+
+    50% {
+        transform: translateX(-1px) translateY(2px) rotate(45deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 @keyframes menulist-open {

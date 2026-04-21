@@ -102,9 +102,13 @@ export class FHeaderMenu extends Fragment {
     if (!this.#fContent ||
         this.#pMain.getWidth() < (this.#fContent as any).getQuickLinkMinWidth()) {
       console.log("Render menu icon...");
-      // Hack, svg currently don't have correct size
       if (this.#icon.indexOf("<svg") >= 0) {
-        this.#pMain.setClassName("tw:w-s-icon32 tw:h-s-icon32 tw:cursor-pointer");
+        this.#pMain.setClassName("tw:w-s-icon32 tw:h-s-icon32 tw:shrink-0 tw:cursor-pointer");
+      } else if (this.#icon.indexOf("simple-line-icon") >= 0 ||
+          this.#icon.indexOf("search-icon") >= 0 ||
+          this.#icon.indexOf("time-menu-icon") >= 0) {
+        /* Inner markup is 40×40; reserve space in flex header so icons do not overlap */
+        this.#pMain.setClassName("tw:h-10 tw:w-10 tw:shrink-0 tw:cursor-pointer");
       } else {
         this.#pMain.setClassName("tw:cursor-pointer");
       }

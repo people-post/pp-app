@@ -15,9 +15,25 @@ export class MainIconOperator {
 
     b.style.transform = "rotate(-45deg)";
     b.style.webkitTransform = "rotate(-45deg)";
+
+    t.style.animationName = "menuicon-top-transform";
+    t.style.webkitAnimationName = "menuicon-top-transform";
+
+    m.style.animationName = "menuicon-middle-transform";
+    m.style.webkitAnimationName = "menuicon-middle-transform";
+
+    b.style.animationName = "menuicon-bottom-transform";
+    b.style.webkitAnimationName = "menuicon-bottom-transform";
+
+    t.style.animationDuration = "0.5s";
+    t.style.webkitAnimationDuration = "0.5s";
+    m.style.animationDuration = "0.5s";
+    m.style.webkitAnimationDuration = "0.5s";
+    b.style.animationDuration = "0.5s";
+    b.style.webkitAnimationDuration = "0.5s";
   }
 
-  release(iconElement: Element, _animated: boolean): void {
+  release(iconElement: Element, animated: boolean): void {
     let e = iconElement.firstElementChild;
     if (!e) return;
     var t = e.firstElementChild as HTMLElement;  // main-menu-icon-top
@@ -26,13 +42,40 @@ export class MainIconOperator {
 
     if (!t || !m || !b) return;
 
-    t.style.transform = "";
-    t.style.webkitTransform = "";
+    t.style.transform = "translateY(-4px)";
+    t.style.webkitTransform = "translateY(-4px)";
 
     m.style.visibility = "inherit";
 
-    b.style.transform = "";
-    b.style.webkitTransform = "";
+    b.style.transform = "translateY(4px)";
+    b.style.webkitTransform = "translateY(4px)";
+
+    if (animated) {
+      t.style.animationName = "menuicon-top-reverse-transform";
+      t.style.webkitAnimationName = "menuicon-top-reverse-transform";
+      t.style.animationDuration = "0.5s";
+      t.style.webkitAnimationDuration = "0.5s";
+      m.style.animationName = "menuicon-middle-reverse-transform";
+      m.style.webkitAnimationName = "menuicon-middle-reverse-transform";
+      m.style.animationDuration = "0.5s";
+      m.style.webkitAnimationDuration = "0.5s";
+      b.style.animationName = "menuicon-bottom-reverse-transform";
+      b.style.webkitAnimationName = "menuicon-bottom-reverse-transform";
+      b.style.animationDuration = "0.5s";
+      b.style.webkitAnimationDuration = "0.5s";
+    } else {
+      t.style.animationName = "";
+      t.style.webkitAnimationName = "";
+      t.style.animationDuration = "";
+      t.style.webkitAnimationDuration = "";
+      m.style.animationName = "";
+      m.style.webkitAnimationName = "";
+      m.style.animationDuration = "";
+      m.style.webkitAnimationDuration = "";
+      b.style.animationName = "";
+      b.style.webkitAnimationName = "";
+      b.style.animationDuration = "";
+      b.style.webkitAnimationDuration = "";
+    }
   }
 }
-
