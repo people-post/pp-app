@@ -172,8 +172,15 @@ export class WebConfigClass implements WebConfigInterface {
     }
   }
 
-  getSubUrl(sectorId: string): string {
-    return '/sub?' + URL_PARAM.USER + '=' + this.getOwnerId() + '&' + URL_PARAM.SECTOR + '=' + sectorId;
+  getSubUrl(sectorId: string | null): string {
+    let url = '/sub?';
+    if (this.getOwnerId()) {
+      url += URL_PARAM.USER + '=' + this.getOwnerId();
+    }
+    if (sectorId) {
+      url += '&' + URL_PARAM.SECTOR + '=' + sectorId;
+    }
+    return url;
   }
 
   getDefaultTheme(): ColorTheme | null {

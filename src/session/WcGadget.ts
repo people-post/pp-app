@@ -33,10 +33,12 @@ export class WcGadget extends WcSession {
   _shouldClearInitialUrl(): boolean { return true; }
 
   _reload(): void {
-    let lc = this._getBottomLayerFragment();
-    lc.switchToDefaultPage();
-    lc.init();
-    lc.render();
+    let lc = this._getBottomLayerFragment() as LvGadget | null;
+    if (lc) {
+      lc.switchToDefaultPage();
+      lc.init();
+      lc.render();
+    }
   }
 
   _createLayerFragment(): LvGadget {
@@ -70,7 +72,9 @@ export class WcGadget extends WcSession {
     Account.reset(profile);
     this._initLanguage();
     let f = this._getTopLayerFragment();
-    f.init();
-    f.render();
+    if (f) {
+      f.init();
+      f.render();
+    }
   }
 }

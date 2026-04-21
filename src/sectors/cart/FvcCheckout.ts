@@ -6,8 +6,8 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { FPayment } from '../../common/pay/FPayment.js';
 import { FvcCheckoutSuccess } from './FvcCheckoutSuccess.js';
-import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { PreviewOrder } from '../../common/datatypes/PreviewOrder.js';
 
 export interface PaymentDelegate {
   onPaymentSuccessInCartPaymentFragment(fCartPayment: FPayment, orderId: string): void;
@@ -17,7 +17,7 @@ export class FvcCheckout extends FScrollViewContent {
   protected _fShipping: AddressEditor;
   protected _fOrder: FPreviewOrder;
   protected _fPayment: FPayment;
-  protected _order: CustomerOrder | null;
+  protected _order: PreviewOrder | null;
   protected _isShippingNeeded: boolean;
 
   constructor() {
@@ -39,11 +39,11 @@ export class FvcCheckout extends FScrollViewContent {
   }
 
   setNeedsShipping(b: boolean): void { this._isShippingNeeded = b; }
-  setOrder(order: CustomerOrder): void { this._order = order; }
-  setRegisterId(id: string): void { this._fPayment.setRegisterId(id); }
+  setOrder(order: PreviewOrder): void { this._order = order; }
+  setRegisterId(id: string | null): void { this._fPayment.setRegisterId(id); }
 
-  getOrderForPreviewOrderFragment(_fPreviewOrder: FPreviewOrder): CustomerOrder | null { return this._order; }
-  getOrderForCartPaymentFragment(_fCartPayment: FPayment): CustomerOrder | null { return this._order; }
+  getOrderForPreviewOrderFragment(_fPreviewOrder: FPreviewOrder): PreviewOrder | null { return this._order; }
+  getOrderForCartPaymentFragment(_fCartPayment: FPayment): PreviewOrder | null { return this._order; }
 
   onPaymentSuccessInCartPaymentFragment(_fCartPayment: FPayment, orderId: string): void {
     let v = new View();

@@ -1,11 +1,14 @@
 import type { SocialItemId } from '../../common/datatypes/SocialItemId.js';
+import type { LongListIdRecord } from '../../common/datatypes/LongListIdRecord.js';
+import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
-export interface BriefPostIdRecord {
-  getId(index: number): string | null;
-}
+export type BriefPostIdRecord = LongListIdRecord;
 
-export interface BriefPostIdLoader {
+// In practice our brief post id loaders are long-list loaders (they support
+// incremental front/back paging). Model that so concrete implementations like
+// `OwnerPostIdLoader extends LongListIdLoader` type-check against the bridge.
+export interface BriefPostIdLoader extends LongListIdLoader {
   setDelegate(delegate: unknown): void;
   setOwnerId(id: string | null): void;
   setTagIds(tagIds: string[]): void;

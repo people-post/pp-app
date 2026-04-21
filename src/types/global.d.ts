@@ -3,6 +3,18 @@
  * These types are available throughout the project without explicit imports
  */
 
+export interface NetworkConfig {
+  resolvers?: string[] | null;
+  publishers?: string[] | null;
+  blockchains?: string[] | null;
+  storages?: string[] | null;
+}
+
+export interface Web3ConfigData {
+  guest_idol_id?: string | null;
+  network?: NetworkConfig | null;
+}
+
 /**
  * Global namespace for the application
  */
@@ -155,6 +167,9 @@ declare global {
    * Database access objects
    */
   interface Window {
+    C?: {
+      WEB3?: Web3ConfigData | null;
+    };
     Cardano?: typeof Cardano;
     dba?: {
       Account?: {
@@ -185,22 +200,23 @@ declare global {
     glb?: {
       web3Resolver?: {
         getAgents(): Web3Agent[];
+        asInit(resolvers: string[] | null): Promise<void>;
         asResolveFromCid(cid: string): Promise<any>;
         asResolve(userId: string): Promise<any>;
       };
       web3Publisher?: {
         getAgents(): Web3Agent[];
+        asInit(publishers: string[] | null): Promise<void>;
         asInitForUser(userId: string): Promise<void>;
         getInitUserRootCid(): string | null;
       };
       web3Ledger?: {
         getAgents(): Web3Agent[];
-        asInit(blockchains: BlockchainConfig[] | null): Promise<void>;
-        asInitForUser(userId: string): Promise<void>;
+        asInit(blockchains: string[] | null): Promise<void>;
       };
       web3Storage?: {
         getAgents(id?: string): Web3Agent[];
-        asInit(blockchains: BlockchainConfig[] | null): Promise<void>;
+        asInit(storages: string[] | null): Promise<void>;
         asInitForUser(userId: string): Promise<void>;
       };
     };

@@ -11,6 +11,11 @@ import { Counter } from '../../common/dba/Counter.js';
 import { Api } from '../../common/plt/Api.js';
 import { Cart as CartDataType } from '../../common/datatypes/Cart.js';
 import { ProductFacade } from '../../common/shop/ProductFacade.js';
+import { PreviewOrderData } from '../../types/backend2.js';
+
+interface ApiShopChargePreviewResponse {
+  order: PreviewOrderData;
+}
 
 export class FvcPreCheckout extends FScrollViewContent {
   private _fChoose: FChooseCheckoutItem;
@@ -88,11 +93,11 @@ export class FvcPreCheckout extends FScrollViewContent {
       fd.append('items', JSON.stringify(item.toJsonDict()));
     }
     let url = "/api/shop/charge_preview";
-    Api.asFragmentPost(this, url, fd)
+    Api.asFragmentPost<ApiShopChargePreviewResponse>(this, url, fd)
         .then(d => this.#onOrderPreviewRRR(d));
   }
 
-  #onOrderPreviewRRR(data: { order: unknown }): void {
+  #onOrderPreviewRRR(data: ApiShopChargePreviewResponse): void {
     this.#goCheckout(new PreviewOrder(data.order));
   }
 
@@ -103,8 +108,7 @@ export class FvcPreCheckout extends FScrollViewContent {
     f.setNeedsShipping(false);
     f.setRegisterId(Counter.getRegisterId());
     v.setContentFragment(f);
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, v, "Checkout");
+    this.onFragmentRequestShowView(this, v, "Checkout");
   }
 }
 

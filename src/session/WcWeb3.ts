@@ -7,8 +7,8 @@ import { Wallet } from '../common/datatypes/Wallet.js';
 import { T_DATA, T_ACTION } from '../common/plt/Events.js';
 import { Events } from '../lib/framework/Events.js';
 import { Keys } from '../common/dba/Keys.js';
-import { Web3Config } from '../common/dba/Web3Config.js';
 import { WebConfig } from '../common/dba/WebConfig.js';
+import { Web3Config } from '../common/dba/Web3Config.js';
 import { STORAGE } from '../common/constants/Constants.js';
 import { FvcWeb3UserInfo } from '../sectors/hr/FvcWeb3UserInfo.js';
 import { Web3Resolver } from '../common/pdb/Web3Resolver.js';
@@ -20,6 +20,7 @@ import { Account } from '../common/dba/Account.js';
 import { ProfileHubFacade } from '../common/hr/ProfileHubFacade.js';
 import { FvcWeb3OwnerPosts } from '../sectors/blog/FvcWeb3OwnerPosts.js';
 import { FvcChat } from '../sectors/messenger/FvcChat.js';
+import { WebConfigData } from '../types/backend2.js';
 
 ProfileHubFacade.registerWeb3Tab({
   id: "BLOG",
@@ -38,34 +39,11 @@ ProfileHubFacade.registerChatViewFactory((target) => {
   return v;
 });
 
-interface Web3ConfigData {
+interface Web3MainConfig extends WebConfigData {
   default_theme: {
     primary_color: string;
     secondary_color: string;
   };
-  [key: string]: unknown;
-}
-
-interface NetworkConfig {
-  resolvers?: string[] | null;
-  publishers?: string[] | null;
-  blockchains?: string[] | null;
-  storages?: string[] | null;
-}
-
-declare global {
-  interface Window {
-    C?: {
-      WEB3?: unknown;
-    };
-    glb?: {
-      web3Resolver?: Web3Resolver;
-      web3Publisher?: Web3Publisher;
-      web3Ledger?: Web3Ledger;
-      web3Storage?: Web3Storage;
-      [key: string]: unknown;
-    };
-  }
 }
 
 export class WcWeb3 extends WcSession {
@@ -105,7 +83,7 @@ export class WcWeb3 extends WcSession {
   onLogoutClickInActionButtonFragment(_fAbAccount: AbAccount): void {
     sessionStorage.clear();
     Account.reset();
-    Keys.reset();
+    Keys.reset(null);
     location.reload();
   }
 
@@ -123,7 +101,7 @@ export class WcWeb3 extends WcSession {
     }
   }
 
-  main(dConfig: Web3ConfigData): void { this.#asMain(dConfig); }
+  main(dConfig: Web3MainConfig): void { this.#asMain(dConfig); }
 
   _createLayerFragment(): LvMain { return new LvMain(); }
 
@@ -135,7 +113,7 @@ export class WcWeb3 extends WcSession {
     super._initLayer(lc);
   }
 
-  async #asMain(dConfig: Web3ConfigData): Promise<void> {
+  async #asMain(dConfig: Web3MainConfig): Promise<void> {
     console.info("Init global...");
     await asInit();
 
@@ -173,28 +151,32 @@ export class WcWeb3 extends WcSession {
     console.info("Load config...");
     // C.WEB3 is set by configs/web3_config.js
     Web3Config.load(typeof window !== 'undefined' && window.C && window.C.WEB3 ? window.C.WEB3 : null);
-    const c = Web3Config.getNetworkConfig() as NetworkConfig | null;
+    const c = Web3Config.getNetworkConfig();
 
     console.info("Init resolver...");
     // Store in window.glb for runtime access by other modules
     if (!window.glb) {
       window.glb = {};
     }
+    let cResolvers = c ? c.resolvers : [];
     window.glb.web3Resolver = new Web3Resolver();
-    await window.glb.web3Resolver.asInit(c ? c.resolvers : null);
+    await window.glb.web3Resolver.asInit(cResolvers || null);
 
     console.info("Init publisher...");
+    let cPublishers = c ? c.publishers : [];
     window.glb.web3Publisher = new Web3Publisher();
-    await window.glb.web3Publisher.asInit(c ? c.publishers : null);
+    await window.glb.web3Publisher.asInit(cPublishers || null);
     await window.glb.web3Publisher.asInitForUser(Account.getId() || "");
 
     console.info("Init ledger...");
+    let cBlockchains = c ? c.blockchains : [];
     window.glb.web3Ledger = new Web3Ledger();
-    await window.glb.web3Ledger.asInit(c ? c.blockchains : null);
+    await window.glb.web3Ledger.asInit(cBlockchains || null);
 
     console.info("Init storage...");
+    let cStorages = c ? c.storages : null;
     window.glb.web3Storage = new Web3Storage();
-    await window.glb.web3Storage.asInit(c ? c.storages : null);
+    await window.glb.web3Storage.asInit(cStorages || null);
     await window.glb.web3Storage.asInitForUser(Account.getId() || "");
 
     console.info("Init layout...");
@@ -214,7 +196,10 @@ export class WcWeb3 extends WcSession {
     this._clearDbAgents();
 
     this._initLanguage();
-    this._getTopLayerFragment().init();
+    let topLayerFragment = this._getTopLayerFragment();
+    if (topLayerFragment) {
+      topLayerFragment.init();
+    }
     this.initFromUrl(urlParam);
   }
 

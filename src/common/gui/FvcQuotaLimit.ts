@@ -15,16 +15,21 @@ const _CFT_QUOTA_LIMIT = {
       `<a class="internal-page-link" href="javascript:void(0)" onclick="javascript:G.action('${CF_QUOTA_LIMIT.UPGRADE}')">upgrade</a>`,
 };
 
-interface QuotaErrorData {
+interface QuotaErrorContentData {
   period: number;
   quota: number;
   fallback_period: number;
 }
 
-export class FvcQuotaLimit extends FScrollViewContent {
-  #quotaError: { code: string; data: QuotaErrorData };
+export interface QuotaErrorData {
+  code: string;
+  data: QuotaErrorContentData;
+}
 
-  constructor(quotaError: { code: string; data: QuotaErrorData }) {
+export class FvcQuotaLimit extends FScrollViewContent {
+  #quotaError: QuotaErrorData;
+
+  constructor(quotaError: QuotaErrorData) {
     super();
     this.#quotaError = quotaError;
   }
@@ -54,7 +59,7 @@ export class FvcQuotaLimit extends FScrollViewContent {
     }
   }
 
-  #renderErrorMsg(code: string, data: QuotaErrorData): string {
+  #renderErrorMsg(code: string, data: QuotaErrorContentData): string {
     let t = R.get(code);
     t = t.replace("__TIME__", Utilities.timeDiffString(data.period));
     t = t.replace("__QUOTA__", data.quota.toString());

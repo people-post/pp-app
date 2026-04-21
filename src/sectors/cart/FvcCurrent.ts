@@ -14,15 +14,15 @@ import { Api } from '../../common/plt/Api.js';
 import { Account } from '../../common/dba/Account.js';
 import { AuthFacade } from '../../common/auth/AuthFacade.js';
 import { ProductFacade } from '../../common/shop/ProductFacade.js';
-import { CustomerOrder } from '../../common/datatypes/CustomerOrder.js';
-import { CustomerOrderData } from '../../types/backend2.js';
+import { PreviewOrderData } from '../../types/backend2.js';
+import { PreviewOrder } from '../../common/datatypes/PreviewOrder.js';
 
 const _CFT_CART_CONTENT = {
   EMPTY : `<div class="info-message">Cart is empty.</div>`,
 };
 
 interface ApiOrderPreviewResponse {
-  order: CustomerOrderData;
+  order: PreviewOrderData;
 }
 
 export class FvcCurrent extends FScrollViewContent {
@@ -143,11 +143,11 @@ export class FvcCurrent extends FScrollViewContent {
 
   #onOrderPreviewRRR(data: ApiOrderPreviewResponse): void {
     if (data.order) {
-      this.#goCheckout(new CustomerOrder(data.order));
+      this.#goCheckout(new PreviewOrder(data.order));
     }
   }
 
-  #goCheckout(order: CustomerOrder): void {
+  #goCheckout(order: PreviewOrder): void {
     if (Account.isAuthenticated()) {
       let v = new View();
       let f = new FvcCheckout();

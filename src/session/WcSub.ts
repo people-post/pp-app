@@ -37,7 +37,10 @@ export class WcSub extends WcSession {
     this._clearDbAgents();
 
     this._initLanguage();
-    this._getTopLayerFragment().init();
+    let topLayerFragment = this._getTopLayerFragment();
+    if (topLayerFragment) {
+      topLayerFragment.init();
+    }
     this.initFromUrl(urlParam);
     if (nextView) {
       this._pushView(nextView, "Auto next");

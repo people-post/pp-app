@@ -29,7 +29,7 @@ interface KeysInterface {
   getMlDsa44(path: number[]): Uint8Array | null;
   setMnemonic(v: string): void;
   cip1852Witness(path: number[], msg: Uint8Array): unknown;
-  sign(path: number[], msg: Uint8Array): Promise<string>;
+  sign(path: number[], msg: string): Promise<string>;
   ed25519Verify(path: number[], msg: Uint8Array, sig: string): Promise<boolean>;
   signUint8Array(path: number[], msg: Uint8Array): Promise<string>;
   reset(data: KeysData | null): void;
@@ -90,11 +90,9 @@ export class KeysClass implements KeysInterface {
     return k ? k.witness(msg) : null;
   }
 
-  async sign(path: number[], msg: Uint8Array): Promise<string> {
+  async sign(path: number[], msg: string): Promise<string> {
     const k = this.#getMlDsa44Impl(path);
-    const decoder = new TextDecoder();
-    const msgStr = decoder.decode(msg);
-    return Utilities.uint8ArrayToHex(k.sign(msgStr));
+    return Utilities.uint8ArrayToHex(k.sign(msg));
   }
 
   async signUint8Array(path: number[], msg: Uint8Array): Promise<string> {

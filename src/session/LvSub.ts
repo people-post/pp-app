@@ -36,7 +36,10 @@ export class LvSub extends LvTabbedPage {
 
     this.onResize();
     if (this._pMain) {
-      this._vc.replaceNavWrapperPanel(this._pMain.getNavWrapperPanel?.() ?? null);
+      let p = this._pMain.getNavWrapperPanel();
+      if (p) {
+        this._vc.replaceNavWrapperPanel(p);
+      }
     }
 
     this._vc.init(configs);
@@ -81,7 +84,7 @@ export class LvSub extends LvTabbedPage {
   }
 
   #onLogoutRRR(_data: any): void {
-      location.replace(WebConfig.getSubUrl(this.getSectorId()));
+    location.replace(WebConfig.getSubUrl(this.getSectorId()));
   }
 
   #initHomeBtn(icon: string): void {

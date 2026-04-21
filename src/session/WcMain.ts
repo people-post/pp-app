@@ -1,4 +1,4 @@
-import { WcSession } from './WcSession.js';
+import { MainConfig, WcSession } from './WcSession.js';
 import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
 import { LvMain } from './LvMain.js';
 import { View } from '../lib/ui/controllers/views/View.js';
@@ -14,6 +14,7 @@ import { AbAccount } from './AbAccount.js';
 import { Api } from '../common/plt/Api.js';
 import { Account } from '../common/dba/Account.js';
 import { createCareersViewContentMux } from './composition/CareersComposer.js';
+import { QuotaErrorData } from '../common/gui/FvcQuotaLimit.js';
 
 export class WcMain extends WcSession {
   onLoginClickInAccountActionButtonFragment(_fAbAccount: AbAccount): void {
@@ -29,7 +30,7 @@ export class WcMain extends WcSession {
   topAction(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case T_ACTION.ACCOUNT_UPGRADE:
-      this.#showUpgradeView(args[0] as unknown);
+      this.#showUpgradeView(args[0] as QuotaErrorData);
       break;
     case T_ACTION.SHOW_BLOG_ROLES:
       this.#showBlogRolesView();
@@ -59,7 +60,7 @@ export class WcMain extends WcSession {
     Notifications.init();
   }
 
-  _main(dConfig: unknown): void {
+  _main(dConfig: MainConfig): void {
     super._main(dConfig);
     Env.checkLoadAddonScript(Env.SCRIPT.PLAYER);
     Env.checkLoadAddonScript(Env.SCRIPT.SIGNAL);
@@ -68,7 +69,7 @@ export class WcMain extends WcSession {
     Env.checkLoadAddonScript(Env.SCRIPT.BRAINTREE);
   }
 
-  #showUpgradeView(quotaError: unknown): void {
+  #showUpgradeView(quotaError: QuotaErrorData): void {
     let v = new View();
     v.setContentFragment(new FvcQuotaLimit(quotaError));
     this._pushDialog(v, "Quota limit");
@@ -81,7 +82,10 @@ export class WcMain extends WcSession {
     this._clearDbAgents();
 
     this._initLanguage();
-    this._getTopLayerFragment().init();
+    let topLayerFragment = this._getTopLayerFragment();
+    if (topLayerFragment) {
+      topLayerFragment.init();
+    }
     this.initFromUrl(urlParam);
     if (nextView) {
       this._pushView(nextView, "Auto next");

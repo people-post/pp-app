@@ -1,17 +1,14 @@
-interface Web3ConfigData {
-  guest_idol_id?: string | null;
-  network?: unknown;
-}
+import type { NetworkConfig, Web3ConfigData } from '../../types/global.js';
 
 class Web3ConfigClass {
   #guestIdolId: string | null = null;
-  #network: unknown = null;
+  #network: NetworkConfig | null = null;
 
   getGuestIdolId(): string | null {
     return this.#guestIdolId;
   }
 
-  getNetworkConfig(): unknown {
+  getNetworkConfig(): NetworkConfig | null {
     return this.#network;
   }
 
@@ -22,4 +19,3 @@ class Web3ConfigClass {
 }
 
 export const Web3Config = new Web3ConfigClass();
-

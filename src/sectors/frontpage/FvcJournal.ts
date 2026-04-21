@@ -185,9 +185,9 @@ export class FvcJournal extends FViewContentBase {
   getHeaderDefaultNavFragment(): FHomeBtn { return this.#fHome; }
   getMenuFragments(): FHeaderMenu[] { return [ this.#fmJournal, this.#fmSearch ]; }
 
-  setConfig(cData: JournalPageConfig | null, cLayout: TriplePanelConfig | null): void {
+  setConfig(cData: JournalPageConfig | null, cLayout: FrontPageLayoutConfig | null): void {
     this.#cData = cData;
-    this.#cLayout = cLayout;
+    this.#cLayout = cLayout as TriplePanelConfig | null;
     if (this.#cData) {
       let journalId = this.#cData.getJournalId();
       if (journalId) {

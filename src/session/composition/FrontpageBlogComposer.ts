@@ -6,35 +6,42 @@ import { OwnerJournalIssueIdLoader } from '../../sectors/blog/OwnerJournalIssueI
 import { FvcOwnerPostScroller } from '../../sectors/blog/FvcOwnerPostScroller.js';
 import {
   registerFrontpageBlogBridge,
+  type BriefPostIdLoader,
+  type BriefPostListFragment,
+  type BriefPostInfoContentFragment,
+  type BriefOwnerPostScrollerContentFragment,
+  type JournalIssueIdLoader,
+  type JournalIssueContentFragment,
+  type JournalTaggedCommentListContentFragment,
   type FrontpageBlogBridge
 } from '../../sectors/frontpage/FrontpageBlogBridge.js';
 
 class SessionFrontpageBlogBridge implements FrontpageBlogBridge {
-  createBriefPostIdLoader(): OwnerPostIdLoader {
+  createBriefPostIdLoader(): BriefPostIdLoader {
     return new OwnerPostIdLoader();
   }
 
-  createBriefPostList(): FPostList {
+  createBriefPostList(): BriefPostListFragment {
     return new FPostList();
   }
 
-  createBriefPostInfoFragment(): FPostInfo {
+  createBriefPostInfoFragment(): BriefPostInfoContentFragment {
     return new FPostInfo();
   }
 
-  createBriefOwnerPostScrollerFragment(): FvcOwnerPostScroller {
+  createBriefOwnerPostScrollerFragment(): BriefOwnerPostScrollerContentFragment {
     return new FvcOwnerPostScroller();
   }
 
-  createJournalIssueIdLoader(): OwnerJournalIssueIdLoader {
+  createJournalIssueIdLoader(): JournalIssueIdLoader {
     return new OwnerJournalIssueIdLoader();
   }
 
-  createJournalIssueFragment(): FPostInfo {
+  createJournalIssueFragment(): JournalIssueContentFragment {
     return new FPostInfo();
   }
 
-  createJournalTaggedCommentListFragment(): FTaggedCommentList {
+  createJournalTaggedCommentListFragment(): JournalTaggedCommentListContentFragment {
     return new FTaggedCommentList();
   }
 }

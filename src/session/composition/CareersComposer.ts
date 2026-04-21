@@ -11,19 +11,19 @@ import { FvcCareerList as ShopFvcCareerList } from '../../sectors/shop/FvcCareer
 export function createCareersViewContentMux(): FViewContentMux {
   let mux = new FViewContentMux();
 
-  let fragment = new BlogFvcCareerList();
-  mux.addTab({name : R.t("Blog"), value : Tag.T_ID.BLOG, icon : ICON.BLOG}, fragment);
+  let fBlog = new BlogFvcCareerList();
+  mux.addTab({name : R.t("Blog"), value : Tag.T_ID.BLOG, icon : ICON.BLOG}, fBlog);
 
   if (Workshop.isOpen()) {
-    fragment = new WorkshopFvcCareerList();
+    let fWorkshop = new WorkshopFvcCareerList();
     mux.addTab(
         {name : R.t("Workshop"), value : "WORKSHOP", icon : ICON.WORKSHOP},
-        fragment);
+        fWorkshop);
   }
 
   if (Shop.isOpen()) {
-    fragment = new ShopFvcCareerList();
-    mux.addTab({name : R.t("Shop"), value : "SHOP", icon : ICON.SHOP}, fragment);
+    let fShop = new ShopFvcCareerList();
+    mux.addTab({name : R.t("Shop"), value : "SHOP", icon : ICON.SHOP}, fShop);
   }
 
   mux.switchTo(Tag.T_ID.BLOG);

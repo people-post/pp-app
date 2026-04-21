@@ -58,6 +58,7 @@ export class LvPortal extends ViewLayer {
     let r = this.getRender() as PanelWrapper | null;
     if (!r) return;
     let p = r.getContentPanel();
+    if (!p) return;
     let w = r.getWidth();
     if (w < 400) {
       p.setClassName("f-main narrow");

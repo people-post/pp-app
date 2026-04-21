@@ -22,13 +22,18 @@ export class LvMain extends LvTabbedPage {
       if (id) {
         let sid = SocialItemId.fromEncodedStr(id);
         if (sid) {
-          sectorId = this.#getSectorId(sid.getType());
+          let type = sid.getType();
+          if (type) {
+            sectorId = this.#getSectorId(type);
+          }
         }
       }
     }
 
     if (this._isExtrasSectorIdExist(sectorId)) {
-      urlParam.set(URL_PARAM_CONST.PAGE, sectorId);
+      if (sectorId) {
+        urlParam.set(URL_PARAM_CONST.PAGE, sectorId);
+      }
       sectorId = ID.SECTOR.EXTRAS;
     }
 
