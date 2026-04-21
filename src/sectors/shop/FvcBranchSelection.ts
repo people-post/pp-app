@@ -3,6 +3,10 @@ import { FBranchList } from './FBranchList.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
+export interface FvcBranchSelectionDelegate {
+  onBranchSelectedInBranchSelectionContentFragment(f: FvcBranchSelection, branchId: string): void;
+}
+
 export class FvcBranchSelection extends FScrollViewContent {
   private _fBranches: FBranchList;
 
@@ -14,13 +18,11 @@ export class FvcBranchSelection extends FScrollViewContent {
   }
 
   onBranchListFragmentRequestShowView(_fBranchList: FBranchList, view: View, title: string): void {
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, view, title);
+    this.onFragmentRequestShowView(this, view, title);
   }
 
   onBranchSelectedInBranchListFragment(_fBranchList: FBranchList, branchId: string): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onBranchSelectedInBranchSelectionContentFragment?.(
+    this.getDelegate<FvcBranchSelectionDelegate>()?.onBranchSelectedInBranchSelectionContentFragment(
         this, branchId);
   }
 

@@ -6,6 +6,10 @@ import { Users } from '../dba/Users.js';
 import { Account } from '../dba/Account.js';
 import type { SearchResultData } from '../../types/backend2.js';
 
+export interface FLocalUserSearchDelegate {
+  onLocalUserSearchFragmentRequestFetchUserIds(f: FLocalUserSearch): void;
+}
+
 export class FLocalUserSearch extends FSearch {
   private _userIds: string[] | null = null;
 
@@ -32,8 +36,7 @@ export class FLocalUserSearch extends FSearch {
     if (this._userIds) {
       return this.#applyFilter(key);
     } else {
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onLocalUserSearchFragmentRequestFetchUserIds?.(this);
+      this.getDelegate<FLocalUserSearchDelegate>()?.onLocalUserSearchFragmentRequestFetchUserIds(this);
       return null;
     }
   }

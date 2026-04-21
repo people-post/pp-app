@@ -1,7 +1,7 @@
 import { Gateway } from './Gateway.js';
 import { FvcExtras } from '../common/gui/FvcExtras.js';
 import { View } from '../lib/ui/controllers/views/View.js';
-import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
+import { ViewLayer, ViewLayerOwner } from '../lib/ui/controllers/layers/ViewLayer.js';
 import { PageViewController, IPageViewControllerDataSource, IPageViewControllerDelegate, IPageViewControllerOwner } from '../lib/ui/controllers/PageViewController.js';
 import { Page } from '../lib/ui/controllers/Page.js';
 import { Logger } from '../lib/ext/Logger.js';
@@ -90,8 +90,7 @@ export class LvMultiPage extends ViewLayer implements IPageViewControllerOwner, 
   }
   onPageViewControllerRequestPopView(pageVc: PageViewController): void {
     if (pageVc == this._vc) {
-      // @ts-expect-error - owner may have this method
-      this._owner?.onLayerFragmentRequestPopView?.(this);
+      this.getOwner<ViewLayerOwner>()?.onViewLayerRequestPopView(this);
     }
   }
   onPageViewControllerOverlayPermissionChange(_pvc: PageViewController, _isOverlayAllowed: boolean): void {}

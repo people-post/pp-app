@@ -2,6 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
+import { ColorTheme } from '../../common/datatypes/ColorTheme.js';
 
 export const CF_THEME_EDITOR = {
   ON_COLOR_CHANGE : "CF_GUI_THEME_EDITOR_1",
@@ -18,16 +19,15 @@ const _CFT_THEME_EDITOR = {
     </span>`,
 };
 
-interface Theme {
-  getPrimaryColor(): string;
-  getSecondaryColor(): string;
+export interface ThemeEditorFragmentDelegate {
+  onGuiThemeEditorFragmentRequestChangeColor(fragment: ThemeEditorFragment, key: string, color: string): void;
 }
 
 export class ThemeEditorFragment extends Fragment {
-  private _theme: Theme | null = null;
+  private _theme: ColorTheme | null = null;
   private _iconUrl = "";
 
-  setTheme(t: Theme | null): void { this._theme = t; }
+  setTheme(t: ColorTheme | null): void { this._theme = t; }
   setIconUrl(url: string): void { this._iconUrl = url; }
 
   action(type: string | symbol, ...args: unknown[]): void {
@@ -62,16 +62,15 @@ export class ThemeEditorFragment extends Fragment {
   }
 
   #onColorChange(key: string, color: string): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onGuiThemeEditorFragmentRequestChangeColor?.(this, key, color);
+    this.getDelegate<ThemeEditorFragmentDelegate>()?.onGuiThemeEditorFragmentRequestChangeColor(this, key, color);
   }
 
-  #renderHeaderTheme(theme: Theme): string {
+  #renderHeaderTheme(theme: ColorTheme): string {
     return this.#renderColor("Header", theme.getSecondaryColor(),
                              theme.getPrimaryColor(), "primary");
   }
 
-  #renderContentTheme(theme: Theme): string {
+  #renderContentTheme(theme: ColorTheme): string {
     return this.#renderColor("Content", theme.getPrimaryColor(),
                              theme.getSecondaryColor(), "secondary");
   }
@@ -86,7 +85,7 @@ export class ThemeEditorFragment extends Fragment {
     return s;
   }
 
-  #renderIconPreview(theme: Theme, iconUrl: string): string {
+  #renderIconPreview(theme: ColorTheme, iconUrl: string): string {
     let s = _CFT_THEME_EDITOR.ICON_PREVIEW;
     s = s.replace("__SRC__", iconUrl);
     s = s.replace("__ICON_BG_COLOR__", theme.getPrimaryColor());

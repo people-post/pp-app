@@ -73,6 +73,10 @@ export class PSocialBar extends Panel {
   }
 }
 
+export interface FSocialBarDelegate {
+  onCommentClickedInSocialBar(f: FSocialBar): void;
+}
+
 export class FSocialBar extends Fragment {
   static T_ACTION = {
     COMMENT : Symbol(),
@@ -165,8 +169,7 @@ export class FSocialBar extends Fragment {
   action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_SOCIAL_BAR.ON_COMMENT_CLICK:
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onCommentClickedInSocialBar?.(this);
+      this.getDelegate<FSocialBarDelegate>()?.onCommentClickedInSocialBar(this);
       break;
     case CF_SOCIAL_BAR.LIKE:
       this.#onLike();

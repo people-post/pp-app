@@ -20,6 +20,10 @@ const _CFT_SEARCH_BAR = {
       `<input id="__ID__" class="search-bar tw:bg-transparent __THEME_CLASS_NAMES__" type="text" onchange="javascript:G.action('${CF_SEARCH_BAR.ON_CHANGE}', this.value)" onkeydown="javascript:G.action('${CF_SEARCH_BAR.ON_KEYDOWN}', this.value)" value="__VALUE__"/>`,
 };
 
+export interface SearchBarDelegate {
+  onGuiSearchBarRequestSearch(f: SearchBar, value: string): void;
+}
+
 export class SearchBar extends Fragment {
   #isFatMode = false;
   #key: string | null = null;
@@ -109,8 +113,7 @@ export class SearchBar extends Fragment {
   #onKeydown(value: string): void {
     if (this.#isSendEvt(event)) {
       this.#key = value;
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onGuiSearchBarRequestSearch?.(this, value);
+      this.getDelegate<SearchBarDelegate>()?.onGuiSearchBarRequestSearch(this, value);
     }
   }
 

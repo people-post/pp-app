@@ -12,7 +12,7 @@ export class WindowController extends RenderController implements LayerOwner {
 
   getWindow(): any { return this.getRender(); }
 
-  onRequestPopLayer(layerController: Layer): void {
+  onLayerRequestPopLayer(layerController: Layer): void {
     if (this._childStack.length > 1 && layerController == this._childStack[0]) {
       this._childStack[0].detachRender();
       this._childStack.shift();

@@ -84,24 +84,21 @@ export class FvcMain extends FViewContentWithHeroBanner {
   onShopConfigFragmentRequestAddTeam(_fConfig: FvcConfig): void {
     let v = new View();
     v.setContentFragment(new FvcTeamEditor());
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, v, "Shop team");
+    this.onFragmentRequestShowView(this, v, "Shop team");
   }
   onShopConfigFragmentRequestEditTeam(_fConfig: FvcConfig, teamId: string): void {
     let v = new View();
     let f = new FvcTeamEditor();
     f.setTeamId(teamId);
     v.setContentFragment(f);
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, v, "Shop team");
+    this.onFragmentRequestShowView(this, v, "Shop team");
   }
   onShopConfigFragmentRequestCloseShop(_fConfig: FvcConfig): void { this.#asyncCloseShop(); }
 
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.DRAFT_ORDERS:
-      // @ts-expect-error - owner may have this method
-      this._owner?.onContentFragmentRequestUpdateHeader?.(this);
+      this._requestUpdateHeader();
       this.render();
       break;
     case T_DATA.USER_PROFILE:
@@ -208,8 +205,7 @@ export class FvcMain extends FViewContentWithHeroBanner {
   #showCart(): void {
     let v = CartFacade.createCartView();
     if (v) {
-      // @ts-expect-error - owner may have this method
-      this._owner?.onFragmentRequestShowView?.(this, v, "Cart");
+      this.onFragmentRequestShowView(this, v, "Cart");
     }
   }
 

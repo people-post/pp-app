@@ -10,6 +10,7 @@ import { FvcConfig } from './FvcConfig.js';
 import { FvcInstructor } from './FvcInstructor.js';
 import { FvcResultShow } from './FvcResultShow.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 
 export class Gateway implements SectorGateway {
   static T_CONFIG = {
@@ -35,6 +36,8 @@ export class Gateway implements SectorGateway {
       Gateway.T_CONFIG.CONFIG
     ];
   }
+
+  createMainViewContentFragment(): FViewContentBase { return new FvcLibrary(); }
 
   createPageEntryViews(pageId: string): View[] {
     let fs: Fragment[] = [];

@@ -10,6 +10,7 @@ import { Env } from '../../common/plt/Env.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Account } from '../../common/dba/Account.js';
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 
 export class Gateway implements SectorGateway {
   isLoginRequired(): boolean { return false; }
@@ -22,7 +23,7 @@ export class Gateway implements SectorGateway {
   getNPageNotifications(_pageId: string): number { return 0; }
   createPageEntryViews(_pageId: string): View[] { return []; }
   createPageOptionalViews(_pageId: string): View[] { return []; }
-  createMainViewContentFragment(): Fragment {
+  createMainViewContentFragment(): FViewContentBase {
     if (Account.isAuthenticated()) {
       if (Account.isWebOwner()) {
         return this._createMainViewContentFragmentForOwner();
@@ -34,8 +35,8 @@ export class Gateway implements SectorGateway {
     }
   }
 
-  _createMainViewContentFragmentForGuest(): Fragment {
-    let f: Fragment;
+  _createMainViewContentFragmentForGuest(): FViewContentBase {
+    let f: FViewContentBase;
     let c = WebConfig.getFrontPageConfig();
     switch (c?.getTemplateId()) {
     case FrontPageConfig.T_TEMPLATE.JOURNAL:
@@ -70,11 +71,11 @@ export class Gateway implements SectorGateway {
     return f;
   }
 
-  _createMainViewContentFragmentForVisitor(): Fragment {
+  _createMainViewContentFragmentForVisitor(): FViewContentBase {
     return this._createMainViewContentFragmentForGuest();
   }
 
-  _createMainViewContentFragmentForOwner(): Fragment {
+  _createMainViewContentFragmentForOwner(): FViewContentBase {
     return this._createMainViewContentFragmentForGuest();
   }
 };

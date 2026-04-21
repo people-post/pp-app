@@ -101,6 +101,11 @@ export class PHMenuItem extends Panel {
   }
 }
 
+export interface MainMenuDelegate {
+  onItemSelectedInGuiMainMenu(f: MainMenu, item: MenuItem): void;
+  onMenuFragmentRequestCloseMenu(f: MainMenu): void;
+}
+
 export class MainMenu extends MenuContent {
   #fBar: SearchBar;
   #btnAll: Button;
@@ -132,8 +137,7 @@ export class MainMenu extends MenuContent {
   }
 
   onGuiSearchBarRequestSearch(_fSearchBar: SearchBar, value: string): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onMenuFragmentRequestCloseMenu?.(this);
+    this.getDelegate<MainMenuDelegate>()?.onMenuFragmentRequestCloseMenu?.(this);
     let cls = Factory.getRequiredCtor<FSearch>(
       T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
     let f = new cls();
@@ -141,8 +145,7 @@ export class MainMenu extends MenuContent {
     f.setResultLayoutType(this.#tResultLayout);
     let v = new View();
     v.setContentFragment(f);
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, v, "Search result");
+    this.onFragmentRequestShowView(this, v, "Search result");
   }
 
   setOwnerId(id: string | null): void { this.#ownerId = id; }
@@ -269,15 +272,15 @@ export class MainMenu extends MenuContent {
     if (itemId == "ALL") {
       let item = this.#currentItem;
       this.#currentItem = null;
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onItemSelectedInGuiMainMenu?.(this, item);
+      if (item) {
+        this.getDelegate<MainMenuDelegate>()?.onItemSelectedInGuiMainMenu(this, item);
+      }
     } else {
       let item = this.#getItem(itemId);
       if (item) {
         if (item.isEmpty()) {
           this.#currentItem = null;
-          // @ts-expect-error - delegate may have this method
-          this._delegate?.onItemSelectedInGuiMainMenu?.(this, item);
+          this.getDelegate<MainMenuDelegate>()?.onItemSelectedInGuiMainMenu(this, item);
         } else {
           this.#currentItem = item;
         }

@@ -50,8 +50,7 @@ export class FvcCareerList extends FScrollViewContent implements FCareerDataSour
     let f = new FvcCareer();
     f.setRoleId(this._selectedId);
     v.setContentFragment(f);
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, v, "role");
+    this.onFragmentRequestShowView(this, v, "role");
     this.render();
   }
 

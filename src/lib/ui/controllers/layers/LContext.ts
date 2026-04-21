@@ -1,7 +1,7 @@
 import { Panel } from '../../renders/panels/Panel.js';
 import { ListPanel } from '../../renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
-import { Layer } from './Layer.js';
+import { Layer, LayerOwner } from './Layer.js';
 import { FFragmentList } from '../fragments/FFragmentList.js';
 import { Button } from '../fragments/Button.js';
 import { Fragment } from '../fragments/Fragment.js';
@@ -121,9 +121,7 @@ export class LContext extends Layer {
   clearOptions(): void { this.#fOptions.clear(); }
 
   dismiss(): void {
-    if (this._owner) {
-      (this._owner as any).onRequestPopLayer(this);
-    }
+    this.getOwner<LayerOwner>()?.onLayerRequestPopLayer(this);
   }
 
   onSimpleButtonClicked(fBtn: Button): void {

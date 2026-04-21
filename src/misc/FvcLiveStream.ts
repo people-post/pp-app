@@ -139,7 +139,6 @@ class FvcLiveStream extends FScrollViewContent {
           .then(() => d.#onPreviewReady())
           .catch(err => d.#onPreviewError(err));
     } else {
-      // @ts-expect-error - owner may have onLocalErrorInFragment method
       this._owner?.onLocalErrorInFragment?.(this, R.get("EL_GET_DEVICE"));
     }
   }
@@ -164,11 +163,9 @@ class FvcLiveStream extends FScrollViewContent {
   #onPreviewError(err: DOMException): void {
     switch (err.name) {
     case "NotAllowedError":
-      // @ts-expect-error - owner may have onLocalErrorInFragment method
       this._owner?.onLocalErrorInFragment?.(this, R.get("EL_ACCESS_DEVICE"));
       break;
     case "NotFoundError":
-      // @ts-expect-error - owner may have onLocalErrorInFragment method
       this._owner?.onLocalErrorInFragment?.(this, R.get("EL_NO_DEVICE"));
       break;
     default:
@@ -208,11 +205,9 @@ class FvcLiveStream extends FScrollViewContent {
     const err = evt as { name?: string };
     switch (err.name) {
     case "NotAllowedError":
-      // @ts-expect-error - owner may have onLocalErrorInFragment method
       this._owner?.onLocalErrorInFragment?.(this, R.get("EL_ACCESS_DEVICE"));
       break;
     case "NotFoundError":
-      // @ts-expect-error - owner may have onLocalErrorInFragment method
       this._owner?.onLocalErrorInFragment?.(this, R.get("EL_NO_DEVICE"));
       break;
     default:
@@ -277,7 +272,6 @@ class FvcLiveStream extends FScrollViewContent {
   #onSendDataError(_e: unknown): void {
     this.#nUploadError++;
     if (this.#nUploadError > 10) {
-      // @ts-expect-error - owner may have onLocalErrorInFragment method
       this._owner?.onLocalErrorInFragment?.(this, R.get("EL_CONNECTION_LOST"));
     }
   }

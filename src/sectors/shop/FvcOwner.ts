@@ -185,7 +185,7 @@ export class FvcOwner extends FScrollViewContent {
   #onShowCart(): void {
     let v = CartFacade.createCartView();
     if (v) {
-      this.onFragmentRequestShowView?.(this, v, "Cart");
+      this.onFragmentRequestShowView(this, v, "Cart");
     }
   }
 
@@ -196,8 +196,7 @@ export class FvcOwner extends FScrollViewContent {
     f.setDelegate(this);
     f.setProduct(product);
     v.setContentFragment(f);
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, v, "Product editor");
+    this.onFragmentRequestShowView(this, v, "Product editor");
   }
 
   #prepare(menuItem: { getTagIds(): string[]; getId(): string | null }): void {

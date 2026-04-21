@@ -18,8 +18,7 @@ export class FvcWalkinQueueItem extends FScrollViewContent {
 
   isItemSelectedInWalkinQueueItemFragment(_fItem: FWalkinQueueItem, _itemId: string): boolean { return false; }
   onItemDeletedInWalkinQueueItemFragment(_fItem: FWalkinQueueItem): void {
-    // @ts-expect-error - owner may have this method
-    this._owner?.onContentFragmentRequestPopView?.(this);
+    this._requestPopView();
     WalkinQueue.clear();
   }
 

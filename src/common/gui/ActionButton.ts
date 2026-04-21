@@ -14,6 +14,10 @@ const _CFT_ACTION_BUTTON = {
   </div>`,
 };
 
+export interface ActionButtonDelegate {
+  onGuiActionButtonClick(f: ActionButton): void;
+}
+
 export class ActionButton extends Fragment {
   static T_ICON = {
     NONE : ``,
@@ -38,8 +42,7 @@ export class ActionButton extends Fragment {
   action(type: string, ...args: unknown[]): void {
     switch (type) {
     case CF_ACTION_BUTTON.ONCLICK:
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onGuiActionButtonClick?.(this);
+      this.getDelegate<ActionButtonDelegate>()?.onGuiActionButtonClick?.(this);
       break;
     default:
       super.action(type, ...args);

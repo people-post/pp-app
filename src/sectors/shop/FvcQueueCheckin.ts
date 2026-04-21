@@ -152,8 +152,7 @@ export class FvcQueueCheckin extends FScrollViewContent {
   }
 
   #onCheckinRRR(): void {
-    // @ts-expect-error - owner may have this method
-    this._owner?.onContentFragmentRequestPopView?.(this);
+    this._requestPopView();
   }
 }
 

@@ -70,8 +70,7 @@ export class FvcSearchResult extends FScrollViewContent {
       return;
     }
 
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, target.view, target.title);
+    this.onFragmentRequestShowView(this, target.view, target.title);
   }
 
   _renderContentOnRender(render: PanelWrapper): void {

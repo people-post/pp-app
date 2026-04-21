@@ -39,14 +39,12 @@ export class FvcPreCheckout extends FScrollViewContent {
   getCartForCartFragment(_fCart: FCart, _cartId: string): CartDataType | null { return this._cart; }
 
   onCartFragmentRequestShowView(_fCart: FCart, view: View, title: string): void {
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, view, title);
+    this.onFragmentRequestShowView(this, view, title);
   }
   onCartFragmentRequestShowProduct(_fCart: FCart, productId: string): void {
     let v = ProductFacade.createProductView(productId);
     if (v) {
-      // @ts-expect-error - owner may have this method
-      this._owner?.onFragmentRequestShowView?.(this, v, "product");
+      this.onFragmentRequestShowView(this, v, "product");
     }
   }
   onCartFragmentRequestChangeItemQuantity(fCart: FCart, _cartId: string, itemId: string, dQty: number): void {

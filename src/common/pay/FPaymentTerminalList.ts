@@ -9,6 +9,11 @@ import { Api } from '../plt/Api.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { PaymentTerminalData } from '../../types/backend2.js';
 
+export interface FPaymentTerminalListDelegate {
+  onPaymentTerminalListFragmentRequestShowView(f: FPaymentTerminalList, view: View, title: string): void;
+  onPaymentTerminalSelectedInPaymentTerminalListFragment(f: FPaymentTerminalList, terminalId: string): void;
+}
+
 export class FPaymentTerminalList extends Fragment implements FPaymentTerminalDataSource, FPaymentTerminalDelegate {
   private _fItems: FSimpleFragmentList;
   private _fBtnAdd: Button;
@@ -44,14 +49,12 @@ export class FPaymentTerminalList extends Fragment implements FPaymentTerminalDa
 
   onSimpleButtonClicked(_fBtn: Button): void { this.#asyncStartAdd(); }
   onPaymentTerminalFragmentRequestShowView(_fTerminal: FPaymentTerminal, view: View, title: string): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onPaymentTerminalListFragmentRequestShowView?.(this, view, title);
+    this.getDelegate<FPaymentTerminalListDelegate>()?.onPaymentTerminalListFragmentRequestShowView(this, view, title);
   }
   onClickInPaymentTerminalFragment(_fTerminal: FPaymentTerminal, terminalId: string): void {
     this._selectedId = terminalId;
     this.render();
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onPaymentTerminalSelectedInPaymentTerminalListFragment?.(this, terminalId);
+    this.getDelegate<FPaymentTerminalListDelegate>()?.onPaymentTerminalSelectedInPaymentTerminalListFragment(this, terminalId);
   }
 
   _renderOnRender(render: PanelWrapper): void {

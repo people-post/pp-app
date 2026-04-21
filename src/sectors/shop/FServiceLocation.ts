@@ -14,6 +14,10 @@ export interface FServiceLocationDataSource {
   shouldServiceLocationFragmentHighlight(f: FServiceLocation): boolean;
 }
 
+export interface FServiceLocationDelegate {
+  onClickInServiceLocationFragment(f: FServiceLocation): void;
+}
+
 export class FServiceLocation extends Fragment {
   protected _fTimeslots: FSimpleFragmentList;
   protected _fBranch: FBranch;
@@ -63,16 +67,14 @@ export class FServiceLocation extends Fragment {
   }
 
   onClickInBranchFragment(_fBranch: FBranch, _branchId: string): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onClickInServiceLocationFragment?.(this);
+    this.getDelegate<FServiceLocationDelegate>()?.onClickInServiceLocationFragment(this);
   }
   onBranchFragmentRequestShowView(_fBranch: FBranch, _view: unknown, _title: string): void {}
 
   action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {
     case CF_SERVICE_LOCATION.ON_CLICK:
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onClickInServiceLocationFragment?.(this);
+      this.getDelegate<FServiceLocationDelegate>()?.onClickInServiceLocationFragment(this);
       break;
     default:
       super.action(type, ..._args);

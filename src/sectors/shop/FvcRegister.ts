@@ -17,8 +17,7 @@ export class FvcRegister extends FScrollViewContent {
   setEnableEdit(b: boolean): void { this.#fRegister.setEnableEdit(b); }
 
   onRegisterFragmentRequestShowView(_fRegister: FRegister, view: View, title: string): void {
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, view, title);
+    this.onFragmentRequestShowView(this, view, title);
   }
   onClickInRegisterFragment(_fRegister: FRegister, _registerId: string): void {}
 

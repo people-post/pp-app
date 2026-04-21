@@ -75,16 +75,14 @@ export class FvcExplorer extends FScrollViewContent {
   onGuiActionButtonClick(_fAction: FCartButton): void {
     let v = CartFacade.createCartView();
     if (v) {
-      // @ts-expect-error - owner may have this method
-      this._owner?.onFragmentRequestShowView?.(this, v, "Cart");
+      this.onFragmentRequestShowView(this, v, "Cart");
     }
   }
 
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {
     case T_DATA.DRAFT_ORDERS:
-      // @ts-expect-error - owner may have this method
-      this._owner?.onContentFragmentRequestUpdateHeader?.(this);
+      this._requestUpdateHeader();
       break;
     default:
       break;

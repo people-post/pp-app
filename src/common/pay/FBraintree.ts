@@ -27,6 +27,10 @@ declare global {
   }
 }
 
+export interface FBraintreeDelegate {
+  onBraintreePaymentSuccess(f: FBraintree): void;
+}
+
 export class FBraintree extends Fragment {
   #fBtnPay: Button;
   #braintree: BraintreeInstance | null = null;
@@ -153,8 +157,7 @@ export class FBraintree extends Fragment {
     if (this.#braintree) {
       this.#braintree.teardown();
     }
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onBraintreePaymentSuccess?.(this);
+    this.getDelegate<FBraintreeDelegate>()?.onBraintreePaymentSuccess(this);
   }
 
   #onPayError(e: unknown): void {

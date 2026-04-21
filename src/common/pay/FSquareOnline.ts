@@ -27,6 +27,10 @@ declare global {
   }
 }
 
+export interface FSquareOnlineDelegate {
+  onSquareOnlinePayFragmentRequestPay(f: FSquareOnline, locationId: string, token: string): void;
+}
+
 export class FSquareOnline extends Fragment {
   private _fPayBtn: Button;
   private _locationId: string;
@@ -129,8 +133,7 @@ export class FSquareOnline extends Fragment {
 
   #onTokenResult(r: { status: string; token?: string }): void {
     if (r.status === "OK" && r.token) {
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onSquareOnlinePayFragmentRequestPay?.(this, this._locationId, r.token);
+      this.getDelegate<FSquareOnlineDelegate>()?.onSquareOnlinePayFragmentRequestPay(this, this._locationId, r.token);
     } else {
       this._fPayBtn.enable();
     }

@@ -52,6 +52,7 @@ import { FvcOwner as ShopFvcOwner } from '../sectors/shop/FvcOwner.js';
 import { FvcUserCommunity } from '../sectors/community/FvcUserCommunity.js';
 import { FvcChat } from '../sectors/messenger/FvcChat.js';
 import { FvcChangePassword } from '../sectors/auth/FvcChangePassword.js';
+import { Fragment } from '../lib/ui/controllers/fragments/Fragment.js';
 
 registerSessionFrontpageBlogBridge();
 registerQuoteTargetFactories();
@@ -240,7 +241,7 @@ export class Gateway extends Controller {
   getIcon(): string | null {
     return this.#sGateway?.getIcon() ?? null;
   }
-  getBannerFragment(): unknown | null {
+  getBannerFragment(): Fragment | null {
     return this.#sGateway?.getBannerFragment() ?? null;
   }
   getDefaultPageId(): string | null {
@@ -506,44 +507,38 @@ export class Gateway extends Controller {
   }
 
   #createPageEntryViews(pageId: string): View[] {
-    let gateway: unknown;
+    let gateway: SectorGateway;
     let vs: View[] = [];
     switch (pageId) {
     case ID.SECTOR.FRONT_PAGE:
       vs = [ new View() ];
       gateway = new FrontPageGateway();
-      // @ts-expect-error - gateway may have this method
-      vs[0].setContentFragment(gateway.createMainViewContentFragment?.());
+      vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case ID.SECTOR.BLOG:
       vs = [ new View() ];
       gateway = new BlogGateway();
-      // @ts-expect-error - gateway may have this method
-      vs[0].setContentFragment(gateway.createMainViewContentFragment?.());
+      vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case ID.SECTOR.MESSENGER:
       vs = [ new View() ];
       gateway = new MessengerGateway();
-      // @ts-expect-error - gateway may have this method
-      vs[0].setContentFragment(gateway.createMainViewContentFragment?.());
+      vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case ID.SECTOR.WORKSHOP:
       vs = [ new View() ];
       gateway = new WorkshopGateway();
-      // @ts-expect-error - gateway may have this method
-      vs[0].setContentFragment(gateway.createMainViewContentFragment?.());
+      vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case ID.SECTOR.SHOP:
       vs = [ new View() ];
       gateway = new ShopGateway();
-      // @ts-expect-error - gateway may have this method
-      vs[0].setContentFragment(gateway.createMainViewContentFragment?.());
+      vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case ID.SECTOR.WEB_CONFIG:
       vs = [ new View() ];
       gateway = new HostingGateway();
-      // @ts-expect-error - gateway may have this method
-      vs[0].setContentFragment(gateway.createWebConfigMainViewContentFragment?.());
+      vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case ID.SECTOR.COMMUNITY:
       vs = [ new View() ];
@@ -552,14 +547,12 @@ export class Gateway extends Controller {
     case ID.SECTOR.ORDERS:
       vs = [ new View() ];
       gateway = new CartGateway();
-      // @ts-expect-error - gateway may have this method
-      vs[0].setContentFragment(gateway.createMainViewContentFragment?.());
+      vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case ID.SECTOR.ACCOUNT:
       vs = [ new View() ];
       gateway = new AccountGateway();
-      // @ts-expect-error - gateway may have this method
-      vs[0].setContentFragment(gateway.createMainViewContentFragment?.());
+      vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case ID.SECTOR.ABOUT:
       vs = [ new View() ];
@@ -578,16 +571,20 @@ export class Gateway extends Controller {
       }
       break;
     case ID.SECTOR.HOSTING:
-      vs = [ new View() ];
-      gateway = new HostingGateway();
-      // @ts-expect-error - gateway may have this method
-      vs[0].setContentFragment(gateway.createMemberMainViewContentFragment?.());
+      {
+        vs = [ new View() ];
+        let gwHosting = new HostingGateway();
+        vs[0].setContentFragment(gwHosting.createMemberMainViewContentFragment());
+        gateway = gwHosting;
+      }
       break;
     case ID.SECTOR.GUEST_HOSTING:
-      vs = [ new View() ];
-      gateway = new HostingGateway();
-      // @ts-expect-error - gateway may have this method
-      vs[0].setContentFragment(gateway.createGuestMainViewContentFragment?.());
+      {
+        vs = [ new View() ];
+        let gwHosting = new HostingGateway();
+        vs[0].setContentFragment(gwHosting.createGuestMainViewContentFragment());
+        gateway = gwHosting;
+      }
       break;
     case ID.SECTOR.CAREERS:
       vs = [ new View() ];
@@ -596,19 +593,17 @@ export class Gateway extends Controller {
     case ID.SECTOR.EXCHANGE:
       vs = [ new View() ];
       gateway = new ExchangeGateway();
-      // @ts-expect-error - gateway may have this method
-      vs[0].setContentFragment(gateway.createMainViewContentFragment?.());
+      vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case ID.SECTOR.EMAIL:
       vs = [ new View() ];
       gateway = new EmailGateway();
-      // @ts-expect-error - gateway may have this method
-      vs[0].setContentFragment(gateway.createMainViewContentFragment?.());
+      vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case ID.SECTOR.LOGIN:
+      vs = [ new View() ];
       gateway = new AuthGateway();
-      // @ts-expect-error - gateway may have this method
-      vs = [ gateway.createLoginView?.() ].filter((v): v is View => v !== undefined);
+      vs[0].setContentFragment(gateway.createMainViewContentFragment());
       break;
     case ID.SECTOR.RESET_PASS:
       vs = [ new View() ];

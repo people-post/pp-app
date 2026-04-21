@@ -1,5 +1,5 @@
 import { FLongListLegacy } from '../../lib/ui/controllers/fragments/FLongListLegacy.js';
-import { URL_PARAM } from '../constants/Constants.js';
+import { URL_PARAM } from '../../lib/ui/Constants.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 
 export class DefaultLongList extends FLongListLegacy {
@@ -9,7 +9,6 @@ export class DefaultLongList extends FLongListLegacy {
   declare _currentId: string | null;
 
   initFromUrl(urlParam: URLSearchParams): void {
-    // @ts-expect-error - URL_PARAM.ID may not be in type definition but exists at runtime
     let id = urlParam.get(URL_PARAM.ID);
     if (id) {
       this.switchToItem(id);
@@ -18,7 +17,6 @@ export class DefaultLongList extends FLongListLegacy {
 
   getUrlParamString(): string {
     if (this._currentId) {
-      // @ts-expect-error - URL_PARAM.ID may not be in type definition but exists at runtime
       return URL_PARAM.ID + "=" + this._currentId;
     }
     return "";

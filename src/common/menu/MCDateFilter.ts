@@ -59,6 +59,11 @@ export class PDateFilter extends Panel {
   }
 }
 
+export interface MCDateFilterDelegate {
+  onMenuFragmentRequestCloseMenu(f: MCDateFilter): void;
+  onTimeRangeSelectedInDateTimeFilterFragment(f: MCDateFilter, tFrom: Date | null, tTo: Date | null): void;
+}
+
 export class MCDateFilter extends MenuContent {
   #fBar: SearchBar;
   #fFrom: FDateTimeSelector;
@@ -98,16 +103,14 @@ export class MCDateFilter extends MenuContent {
   onSimpleButtonClicked(_fBtn: Button): void { this.#onApply(); }
 
   onGuiSearchBarRequestSearch(_fSearchBar: SearchBar, value: string): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onMenuFragmentRequestCloseMenu?.(this);
+    this.getDelegate<MCDateFilterDelegate>()?.onMenuFragmentRequestCloseMenu(this);
     let cls = Factory.getRequiredCtor<FSearch>(
       T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
     let f = new cls();
     f.setKey(value);
     let v = new View();
     v.setContentFragment(f);
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, v, "Search result");
+    this.onFragmentRequestShowView(this, v, "Search result");
   }
 
   _renderOnRender(render: PanelWrapper): void {
@@ -147,9 +150,7 @@ export class MCDateFilter extends MenuContent {
   #onApply(): void {
     let tFrom = this.#fFrom.getValue();
     let tTo = this.#fTo.getValue();
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onTimeRangeSelectedInDateTimeFilterFragment?.(this, tFrom,
-                                                               tTo);
+    this.getDelegate<MCDateFilterDelegate>()?.onTimeRangeSelectedInDateTimeFilterFragment(this, tFrom, tTo);
   }
 }
 

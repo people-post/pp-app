@@ -23,7 +23,7 @@ export class Gateway implements SectorGateway {
   getNPageNotifications(_pageId: string): number { return 0; }
   createPageEntryViews(_pageId: string): View[] { return []; }
   createPageOptionalViews(_pageId: string): View[] { return []; }
-  createMainViewContentFragment(): Fragment {
+  createMainViewContentFragment(): FViewContentBase {
     if (Env.isWeb3()) {
       return this.#createWeb3MainViewContentFragment();
     } else {

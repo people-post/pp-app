@@ -173,7 +173,6 @@ export class FvcCareer extends FScrollViewContent {
     let dataObj = data as { profile: unknown; web_config: unknown };
     Account.reset(dataObj.profile);
     WebConfig.reset(dataObj.web_config as any);
-    // @ts-expect-error - fragment owners implement this in runtime flow
-    this._owner?.onContentFragmentRequestPopView?.(this);
+    this._requestPopView();
   }
 }

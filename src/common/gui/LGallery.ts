@@ -134,7 +134,7 @@ export class LGallery extends Layer {
   popState(_state: unknown): void {
     const owner = this.getOwner<LayerOwner>();
     if (owner) {
-      owner.onRequestPopLayer(this);
+      owner.onLayerRequestPopLayer(this);
     }
   }
 
@@ -186,7 +186,7 @@ export class LGallery extends Layer {
   #onClose(): void {
     const owner = this.getOwner<LayerOwner>();
     if (owner) {
-      owner.onRequestPopLayer(this);
+      owner.onLayerRequestPopLayer(this);
     }
   }
 }

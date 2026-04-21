@@ -5,6 +5,10 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FSearch } from './FSearch.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
+export interface FSearchMenuDelegate {
+  onMenuFragmentRequestCloseMenu(f: FSearchMenu): void;
+}
+
 export class FSearchMenu extends MenuContent {
   #fBar: SearchBar;
   #tResultLayout: symbol | null = null;
@@ -20,8 +24,7 @@ export class FSearchMenu extends MenuContent {
   setResultLayoutType(t: symbol | null): void { this.#tResultLayout = t; }
 
   onGuiSearchBarRequestSearch(_fSearchBar: SearchBar, value: string): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onMenuFragmentRequestCloseMenu?.(this);
+    this.getDelegate<FSearchMenuDelegate>()?.onMenuFragmentRequestCloseMenu(this);
     let cls = Factory.getRequiredCtor<FSearch>(
       T_OBJ.SEARCH_RESULT_VIEW_CONTENT_FRAGMENT);
     let f = new cls();
@@ -29,8 +32,7 @@ export class FSearchMenu extends MenuContent {
     f.setResultLayoutType(this.#tResultLayout);
     let v = new View();
     v.setContentFragment(f);
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, v, "Search result");
+    this.onFragmentRequestShowView(this, v, "Search result");
   }
 
   _renderOnRender(render: PanelWrapper): void {

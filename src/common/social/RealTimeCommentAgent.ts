@@ -15,6 +15,9 @@ interface ApiResponse {
 
 export interface RealTimeCommentAgentDelegate {
   onCommentsLoadedInRealTimeCommentAgent(agent: RealTimeCommentAgent): void;
+  onRemoteErrorInRealTimeCommentAgent(agent: RealTimeCommentAgent, error: unknown): void;
+  onPostFailedInRealTimeCommentAgent(agent: RealTimeCommentAgent, message: string, error: unknown): void;
+  onCommentPostedInRealTimeCommentAgent(agent: RealTimeCommentAgent): void;
 }
 
 export class RealTimeCommentAgent extends Controller {
@@ -116,8 +119,7 @@ export class RealTimeCommentAgent extends Controller {
   #onKeepRRR(responseText: string): void {
     let response = JSON.parse(responseText) as { error?: unknown };
     if (response.error) {
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onRemoteErrorInRealTimeCommentAgent?.(this, response.error);
+      this.getDelegate<RealTimeCommentAgentDelegate>()?.onRemoteErrorInRealTimeCommentAgent(this, response.error);
     } else {
       this.#asyncLoad();
     }
@@ -126,8 +128,7 @@ export class RealTimeCommentAgent extends Controller {
   #onDiscardRRR(responseText: string): void {
     let response = JSON.parse(responseText) as { error?: unknown };
     if (response.error) {
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onRemoteErrorInRealTimeCommentAgent?.(this, response.error);
+      this.getDelegate<RealTimeCommentAgentDelegate>()?.onRemoteErrorInRealTimeCommentAgent(this, response.error);
     } else {
       this.#asyncLoad();
     }
@@ -136,11 +137,9 @@ export class RealTimeCommentAgent extends Controller {
   #onPostRRR(responseText: string, message: string): void {
     let response = JSON.parse(responseText) as { error?: unknown };
     if (response.error) {
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onPostFailedInRealTimeCommentAgent?.(this, message, response.error);
+      this.getDelegate<RealTimeCommentAgentDelegate>()?.onPostFailedInRealTimeCommentAgent(this, message, response.error);
     } else {
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onCommentPostedInRealTimeCommentAgent?.(this);
+      this.getDelegate<RealTimeCommentAgentDelegate>()?.onCommentPostedInRealTimeCommentAgent(this);
       this.#asyncLoad();
     }
   }
@@ -159,8 +158,7 @@ export class RealTimeCommentAgent extends Controller {
   #onLoadRRR(responseText: string, threadId: string): void {
     let response = JSON.parse(responseText) as ApiResponse;
     if (response.error) {
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onRemoteErrorInRealTimeCommentAgent?.(this, response.error);
+      this.getDelegate<RealTimeCommentAgentDelegate>()?.onRemoteErrorInRealTimeCommentAgent(this, response.error);
     } else {
       if (this.#threadId == threadId) {
         let comments: RealTimeComment[] = [];

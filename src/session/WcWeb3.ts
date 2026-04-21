@@ -39,7 +39,7 @@ ProfileHubFacade.registerChatViewFactory((target) => {
   return v;
 });
 
-interface Web3MainConfig extends WebConfigData {
+export interface Web3MainConfig extends WebConfigData {
   default_theme: {
     primary_color: string;
     secondary_color: string;

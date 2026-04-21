@@ -18,6 +18,10 @@ interface SearchCache {
   result: SearchResult;
 }
 
+export interface FSearchDelegate {
+  onSearchResultClickedInSearchFragment(f: FSearch, itemType: string, itemId: string): void;
+}
+
 export class FSearch extends Fragment implements FSearchResultInfoDelegate {
   #fBar: SearchBar;
   #fContent: FSimpleFragmentList;
@@ -42,8 +46,7 @@ export class FSearch extends Fragment implements FSearchResultInfoDelegate {
   setResultLayoutType(t: symbol | null): void { this.#tResultLayout = t; }
 
   onClickInSearchResultInfoFragment(_fInfo: FSearchResultInfo, itemType: string, itemId: string): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onSearchResultClickedInSearchFragment?.(this, itemType, itemId);
+    this.getDelegate<FSearchDelegate>()?.onSearchResultClickedInSearchFragment(this, itemType, itemId);
   }
 
   onGuiSearchBarRequestSearch(_fSearchBar: SearchBar, _key: string): void {

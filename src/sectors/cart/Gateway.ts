@@ -7,6 +7,7 @@ import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 
 export class Gateway implements SectorGateway {
   isLoginRequired(): boolean { return false; }
@@ -19,7 +20,7 @@ export class Gateway implements SectorGateway {
   getNPageNotifications(_pageId: string): number { return 0; }
   createPageEntryViews(_pageId: string): View[] { return []; }
   createPageOptionalViews(_pageId: string): View[] { return []; }
-  createMainViewContentFragment(): Fragment {
+  createMainViewContentFragment(): FViewContentBase {
     let f = new FViewContentMux();
 
     let ff1 = new FvcCurrent();

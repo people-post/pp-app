@@ -131,7 +131,7 @@ All JavaScript files in the `src/` directory have been successfully migrated to 
    - Private methods
    - Complex data structures (interfaces)
 3. **Import updates**: All imports updated to use `.js` extensions (TypeScript requirement)
-4. **Type safety**: Used `@ts-expect-error` comments where dynamic properties are accessed (to be refined in Phase 2)
+4. **Type safety**: Used temporary shims where dynamic properties are accessed (to be refined in Phase 2)
 5. **No breaking changes**: All functionality preserved, no linter errors
 
 ### 🔄 Phase 2: Type Refinement - IN PROGRESS
@@ -149,40 +149,50 @@ Current focus: Fixing type errors and improving type safety:
 
 ### Phase 2: Type Refinement (Current Phase)
 
-Now that all files are migrated, the focus shifts to improving type safety and code quality:
+Now that the migration has reached “all warnings cleared”, the focus shifts from file conversion to **sustained correctness** and **debt burn-down**. The goal of this phase is to reduce unsoundness while keeping builds stable and reviews small.
 
-1. **Enable JavaScript type checking**:
-   - Set `checkJs: true` in `tsconfig.json` to type-check any remaining JS files
-   - This helps catch type issues in dependencies or external code
+1. **Remove temporary type suppression shims**:
+   - Treat every suppression as **temporary debt** to be eliminated or tightened.
+   - Prefer replacing it with a real type, narrowing, or a typed wrapper.
+   - If it must remain, make sure it is justified and scoped to the smallest expression possible.
 
-2. **Refine type annotations**:
-   - Replace `any` types with proper types
-   - Remove unnecessary `@ts-expect-error` comments
-   - Add more specific interfaces for complex data structures
-   - Add proper types for global objects (`window.dba`, `window.G`, etc.)
+2. **Harden global types first (`window.*`, `G`, `dba`)**:
+   - Tighten `src/types/global.d.ts` so global entry points don’t default to `any`.
+   - Move dynamic access behind typed facades/helpers so the rest of the codebase stays sound.
+   - Target the biggest “fan-out” sources of `any` (globals often account for a large fraction of downstream casts).
 
-3. **Improve type definitions**:
-   - Expand `src/types/global.d.ts` with more comprehensive type definitions
-   - Create shared type files for common data structures
-   - Add JSDoc comments for better IDE support
+3. **Use `unknown` at boundaries (then narrow)**:
+   - For untrusted inputs (network payloads, `window.*`, DOM events, JSON), prefer `unknown`.
+   - Narrow with runtime checks before using values inside business logic.
+   - Keep `any` only where you truly need to opt out of type safety.
 
-4. **Type safety improvements**:
-   - Add strict null checks where appropriate
-   - Use discriminated unions for better type narrowing
-   - Add generic types where applicable
-   - Improve error handling with proper error types
+4. **Pay down `any` systematically (inside-out)**:
+   - Prioritize core business logic, shared abstractions, and frequently-used UI fragments.
+   - Replace “wide” types (`any`, `{[k: string]: any}`) with discriminated unions, generics, or specific interfaces where practical.
 
-5. **Testing and validation**:
-   - Run `npm run type-check` regularly
-   - Test application functionality after type changes
-   - Verify build process works correctly
+5. **Treat `npm run type-check` as a hard gate**:
+   - Run `npm run type-check` during active refactors and before merging.
+   - Prevent regressions by enforcing type-check in CI (or equivalent local workflow).
+
+6. **Fix type-definition landmines early**:
+   - Watch for issues in `.d.ts` files that create confusing downstream errors (e.g., duplicate interface names, typos in exported types).
+   - Keep backend API definitions and global declarations coherent; these are high-leverage for reducing casts elsewhere.
 
 ### Phase 3: Advanced Type Safety (Future)
 
-1. **Enable stricter checks**: Gradually enable more strict TypeScript options
-2. **Type coverage**: Aim for 100% type coverage
-3. **Documentation**: Add comprehensive JSDoc comments
-4. **Performance**: Optimize types for better IDE performance
+1. **Increase strictness strategically**:
+   - Consider `noUncheckedIndexedAccess: true` once boundary typing is strong enough.
+   - Consider `skipLibCheck: false` only if dependency type issues become important to catch.
+
+2. **Type coverage**:
+   - Drive temporary type suppression shims toward zero in `src/`.
+   - Keep `any` limited to a small, well-known set of boundary modules.
+
+3. **Documentation**:
+   - Add short, intent-focused docs for the main boundary modules and global shims (where runtime constraints exist).
+
+4. **IDE / build performance**:
+   - Keep shared types centralized and avoid overly-complex conditional types unless necessary.
 
 ## Migration Statistics
 

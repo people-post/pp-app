@@ -45,8 +45,7 @@ export class FvcProduct extends FScrollViewContent {
     switch (dataType) {
     case T_DATA.PRODUCT:
       if ((data as { getId(): string }).getId() == this._fProduct.getProductId()) {
-        // @ts-expect-error - owner may have this method
-        this._owner?.onContentFragmentRequestUpdateHeader?.(this);
+        this._requestUpdateHeader();
       }
       break;
     default:
@@ -68,8 +67,7 @@ export class FvcProduct extends FScrollViewContent {
       f.setDelegate(this);
       f.setProduct(p);
       v.setContentFragment(f);
-      // @ts-expect-error - owner may have this method
-      this._owner?.onFragmentRequestShowView?.(this, v, "Product editor");
+      this.onFragmentRequestShowView(this, v, "Product editor");
     }
   }
 }

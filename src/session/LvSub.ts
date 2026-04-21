@@ -6,6 +6,7 @@ import { Gateway as AuthGateway } from '../sectors/auth/Gateway.js';
 import { Api } from '../common/plt/Api.js';
 import { AbAccount } from './AbAccount.js';
 import { Account } from '../common/dba/Account.js';
+import { ViewLayerOwner } from '../lib/ui/controllers/layers/ViewLayer.js';
 
 export class LvSub extends LvTabbedPage {
   initFromUrl(urlParam: URLSearchParams): void {
@@ -24,9 +25,7 @@ export class LvSub extends LvTabbedPage {
     }
     let f = this._gateway.getBannerFragment();
     if (f) {
-      if (this._owner) {
-        (this._owner as any).onLayerFragmentRequestSetBannerFragment(this, f);
-      }
+      this.getOwner<ViewLayerOwner>()?.onViewLayerRequestSetBannerFragment(this, f);
     }
 
     let configs = this._gateway.getPageConfigs();
@@ -78,9 +77,7 @@ export class LvSub extends LvTabbedPage {
   #onLogin(): void {
     let gw = new AuthGateway();
     let v = gw.createLoginView();
-    if (this._owner) {
-      (this._owner as any).onFragmentRequestShowView(this, v, "Login");
-    }
+    this.getOwner<ViewLayerOwner>()?.onViewLayerRequestShowView(this, v, "Login");
   }
 
   #onLogoutRRR(_data: any): void {

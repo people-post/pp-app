@@ -48,14 +48,12 @@ export class FvcUserInput extends FScrollViewContent {
   }
 
   #onInputCancelled(): void {
-    // @ts-expect-error - owner may have this method
-    this._owner?.onContentFragmentRequestPopView?.(this);
+    this._requestPopView();
   }
 
   #onInputOk(): void {
     if (!this._config.fcnValidate || this._config.fcnValidate()) {
-      // @ts-expect-error - owner may have this method
-      this._owner?.onContentFragmentRequestPopView?.(this);
+      this._requestPopView();
       if (this._config.fcnOK) {
         this._config.fcnOK();
       }

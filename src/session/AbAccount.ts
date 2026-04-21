@@ -3,6 +3,11 @@ import { ActionButton } from '../common/gui/ActionButton.js';
 import { Account } from '../common/dba/Account.js';
 import Render from '../lib/ui/renders/Render.js';
 
+export interface AbAccountDelegate {
+  onLoginClickInAccountActionButtonFragment(f: AbAccount): void;
+  onLogoutClickInActionButtonFragment(f: AbAccount): void;
+}
+
 // ActionButton needs some redesign
 export class AbAccount extends Fragment {
   private _fLogin: ActionButton;
@@ -22,12 +27,10 @@ export class AbAccount extends Fragment {
   onGuiActionButtonClick(fActionButton: ActionButton): void {
     switch (fActionButton) {
     case this._fLogin:
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onLoginClickInAccountActionButtonFragment?.(this);
+      this.getDelegate<AbAccountDelegate>()?.onLoginClickInAccountActionButtonFragment(this);
       break;
     case this._fLogout:
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onLogoutClickInActionButtonFragment?.(this);
+      this.getDelegate<AbAccountDelegate>()?.onLogoutClickInActionButtonFragment(this);
       break;
     default:
       break;
@@ -46,5 +49,3 @@ export class AbAccount extends Fragment {
     f.render();
   }
 }
-
-export default AbAccount;

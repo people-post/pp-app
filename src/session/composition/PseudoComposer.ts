@@ -7,6 +7,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FvcQueueMain } from '../../sectors/shop/FvcQueueMain.js';
 import { FvcCounterMain } from '../../sectors/shop/FvcCounterMain.js';
 import { FvcQueueSide } from '../../sectors/shop/FvcQueueSide.js';
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 
 export class PseudoComposer implements SectorGateway {
   static T_CONFIG = {
@@ -55,6 +56,8 @@ export class PseudoComposer implements SectorGateway {
       return [ PseudoComposer.T_CONFIG.QUEUE ];
     }
   }
+
+  createMainViewContentFragment(): FViewContentBase { return new FvcQueueMain(); }
 
   createPageEntryViews(pageId: string): View[] {
     switch (pageId) {

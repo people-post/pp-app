@@ -1,6 +1,7 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { PageConfig } from '../../lib/ui/controllers/PageConfig.js';
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 
 export interface SectorGateway {
   isLoginRequired(): boolean;
@@ -13,5 +14,6 @@ export interface SectorGateway {
   getNPageNotifications(_pageId: string): number;
   createPageEntryViews(_pageId: string): View[];
   createPageOptionalViews(_pageId: string): View[];
+  createMainViewContentFragment(): FViewContentBase;
 }
 

@@ -22,6 +22,12 @@ const _CFT_MENU_ENTRY_ITEM_CONFIG = {
   PATH : `Current path: <span class="tw:text-blue-600">__ITEMS__</span>`,
 }
 
+export interface MenuEntryItemConfigDelegate {
+  onEntryItemRequestDelete(f: MenuEntryItemConfig, itemId: string): void;
+  onGuiMenuEntryItemConfigRequestChangeTheme(f: MenuEntryItemConfig, itemId: string, key: string, color: string): void;
+  onMenuItemRequestAddSubItem(f: MenuEntryItemConfig, itemId: string, tagId: string): void;
+}
+
 export class MenuEntryItemConfig extends DirFragment<MenuItem> {
   private _fThemeEditor: ThemeEditorFragment;
   protected _itemId: string;
@@ -47,22 +53,17 @@ export class MenuEntryItemConfig extends DirFragment<MenuItem> {
     this.render();
   }
   onGuiMenuItemNameRequestDeleteItem(_fName: MenuItemName, itemId: string): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onEntryItemRequestDelete?.(this, itemId);
+    this.getDelegate<MenuEntryItemConfigDelegate>()?.onEntryItemRequestDelete(this, itemId);
   }
   onGuiThemeEditorFragmentRequestChangeColor(_fThemeEditor: ThemeEditorFragment, key: string, color: string): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onGuiMenuEntryItemConfigRequestChangeTheme?.(
-        this, this._itemId, key, color);
+    this.getDelegate<MenuEntryItemConfigDelegate>()?.onGuiMenuEntryItemConfigRequestChangeTheme(this, this._itemId, key, color);
   }
 
   onItemChosenInSmartInputFragment(_fSmartInput: FSmartInput, tagId: string): void {
     if (this._subItemId) {
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onMenuItemRequestAddSubItem?.(this, this._subItemId, tagId);
+      this.getDelegate<MenuEntryItemConfigDelegate>()?.onMenuItemRequestAddSubItem(this, this._subItemId, tagId);
     } else {
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onMenuItemRequestAddSubItem?.(this, this._itemId, tagId);
+      this.getDelegate<MenuEntryItemConfigDelegate>()?.onMenuItemRequestAddSubItem(this, this._itemId, tagId);
     }
   }
 

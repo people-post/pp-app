@@ -26,6 +26,11 @@ const _CFT_MENU_ITEM_NAME = {
       `<span class="tw:cursor-pointer tw:underline" data-pp-action="${CF_MENU_ITEM_NAME.ONCLICK}">__TEXT__</span>`,
 }
 
+export interface MenuItemNameDelegate {
+  onItemClickedInGuiMenuItemName(f: MenuItemName, itemId: string): void;
+  onGuiMenuItemNameRequestDeleteItem(f: MenuItemName, itemId: string): void;
+}
+
 export class MenuItemName extends Fragment {
   protected _itemId: string;
 
@@ -73,13 +78,11 @@ export class MenuItemName extends Fragment {
   _getItem(): ReturnType<typeof Menus.find> { return Menus.find(this._itemId); }
 
   #onClick(): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onItemClickedInGuiMenuItemName?.(this, this._itemId);
+    this.getDelegate<MenuItemNameDelegate>()?.onItemClickedInGuiMenuItemName(this, this._itemId);
   }
 
   #onDelete(): void {
-    // @ts-expect-error - delegate may have this method
-    this._delegate?.onGuiMenuItemNameRequestDeleteItem?.(this, this._itemId);
+    this.getDelegate<MenuItemNameDelegate>()?.onGuiMenuItemNameRequestDeleteItem(this, this._itemId);
   }
 }
 

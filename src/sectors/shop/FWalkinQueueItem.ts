@@ -36,6 +36,7 @@ export interface FWalkinQueueItemDataSource {
 
 export interface FWalkinQueueItemDelegate {
   onItemDeletedInWalkinQueueItemFragment(f: FWalkinQueueItem): void;
+  onClickInWalkinQueueItemFragment(f: FWalkinQueueItem, itemId: string | null): void;
 }
 
 interface ApiPrepareCartItemResponse {
@@ -124,8 +125,7 @@ export class FWalkinQueueItem extends Fragment {
   action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_SHOP_WALKIN_QUEUE_ITEM.ON_CLICK:
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onClickInWalkinQueueItemFragment?.(this, this._itemId);
+      this.getDelegate<FWalkinQueueItemDelegate>()?.onClickInWalkinQueueItemFragment(this, this._itemId);
       break;
     default:
       super.action(type, ...args);

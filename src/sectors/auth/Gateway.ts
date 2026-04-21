@@ -7,6 +7,7 @@ import type { PageConfig } from '../../lib/ui/controllers/PageConfig.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Env } from '../../common/plt/Env.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 
 export class Gateway implements SectorGateway {
   isLoginRequired(): boolean { return false; }
@@ -19,6 +20,7 @@ export class Gateway implements SectorGateway {
   getNPageNotifications(_pageId: string): number { return 0; }
   createPageEntryViews(_pageId: string): View[] { return []; }
   createPageOptionalViews(_pageId: string): View[] { return []; }
+  createMainViewContentFragment(): FViewContentBase { return this.#createLoginViewContentFragment(); }
   createLoginView(nextView?: View): View {
     let v = new View();
     let f = this.#createLoginViewContentFragment();
@@ -36,8 +38,8 @@ export class Gateway implements SectorGateway {
     return v;
   }
 
-  #createLoginViewContentFragment(): Fragment {
-    let f: Fragment;
+  #createLoginViewContentFragment(): FViewContentBase {
+    let f: FViewContentBase;
     if (Env.isTrustedSite() || WebConfig.isDevSite()) {
       f = new FvcLogin();
     } else {

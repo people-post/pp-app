@@ -5,7 +5,7 @@ if (typeof window !== 'undefined') {
   globalThis.Buffer = globalThis.Buffer || Buffer;
 }
 
-import { WcWeb3 } from './session/WcWeb3.js';
+import { WcWeb3, Web3MainConfig } from './session/WcWeb3.js';
 import { WcMain } from './session/WcMain.js';
 import { WcGadget } from './session/WcGadget.js';
 import { WcSub } from './session/WcSub.js';
@@ -58,12 +58,11 @@ const G = function(): GInterface {
         });
   }
 
-  function _initWeb3(dConfig: unknown): void {
+  function _initWeb3(dConfig: Web3MainConfig): void {
     Env.setWindowType(TYPE.WINDOW.WEB3);
     _session = new WcWeb3();
     Events.setOnLoadHandler("init", () => {
       if (_session instanceof WcWeb3) {
-        // @ts-expect-error - dConfig type will be validated at runtime
         _session.main(dConfig);
       }
     });
@@ -97,14 +96,13 @@ const G = function(): GInterface {
     _initLoader(userId, primaryColor, secondaryColor);
   }
 
-  function _action(...args: unknown[]): void {
+  function _action(type: string | symbol, ...args: unknown[]): void {
     // All actions do not propagate
     if (typeof event !== 'undefined') {
       event.stopPropagation();
     }
     if (_session) {
-      // @ts-expect-error - userAction may exist
-      _session.userAction?.apply(_session, args);
+      _session.userAction?.(type, ...args);
     }
   }
   function _anchorClick(): boolean {

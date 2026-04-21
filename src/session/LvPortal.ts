@@ -1,4 +1,4 @@
-import { ViewLayer } from '../lib/ui/controllers/layers/ViewLayer.js';
+import { ViewLayer, ViewLayerOwner } from '../lib/ui/controllers/layers/ViewLayer.js';
 import { ViewStack } from '../lib/ui/controllers/ViewStack.js';
 import { View } from '../lib/ui/controllers/views/View.js';
 import { PanelWrapper } from '../lib/ui/renders/panels/PanelWrapper.js';
@@ -30,8 +30,7 @@ export class LvPortal extends ViewLayer {
 
   onViewStackStackSizeChange(_nc: ViewStack): void {}
   onViewStackRequestPopView(_nc: ViewStack): void {
-    // @ts-expect-error - owner may have this method
-    this._owner?.onLayerFragmentRequestPopView?.(this);
+    this.getOwner<ViewLayerOwner>()?.onViewLayerRequestPopView(this);
   }
 
   initFromUrl(urlParam: URLSearchParams): void { this._vc.initFromUrl(urlParam); }

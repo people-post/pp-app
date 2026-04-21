@@ -3,6 +3,10 @@ import Render from '../lib/ui/renders/Render.js';
 import { ActionButton } from '../common/gui/ActionButton.js';
 import { Account } from '../common/dba/Account.js';
 
+export interface AbCloseDelegate {
+  onClickInCloseActionButtonFragment(f: AbClose): void;
+}
+
 // ActionButton needs some redesign
 export class AbClose extends Fragment {
   private _fClose: ActionButton;
@@ -17,8 +21,7 @@ export class AbClose extends Fragment {
   onGuiActionButtonClick(fButton: ActionButton): void {
     switch (fButton) {
     case this._fClose:
-      // @ts-expect-error - delegate may have this method
-      this._delegate?.onClickInCloseActionButtonFragment?.(this);
+      this.getDelegate<AbCloseDelegate>()?.onClickInCloseActionButtonFragment(this);
       break;
     default:
       break;
@@ -39,5 +42,3 @@ export class AbClose extends Fragment {
     }
   }
 }
-
-export default AbClose;

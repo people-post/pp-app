@@ -17,8 +17,7 @@ export class FvcBranch extends FScrollViewContent {
   setEnableEdit(b: boolean): void { this._fBranch.setEnableEdit(b); }
 
   onBranchFragmentRequestShowView(_fBranch: FBranch, view: View, title: string): void {
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, view, title);
+    this.onFragmentRequestShowView(this, view, title);
   }
   onClickInBranchFragment(_fBranch: FBranch, _branchId: string): void {}
 

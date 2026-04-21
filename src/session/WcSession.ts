@@ -164,12 +164,12 @@ export class WcSession extends WindowController {
   // From fwk.Events
   onSessionDataChange(...args: [symbol | string, unknown]): void { this.applyDataUpdate(...args); }
   onTopActionTrigger(...args: [symbol, ...unknown[]]): void { this.topAction(...args); }
-  onLayerFragmentRequestSetBannerFragment(_lc: ViewLayer, f: Fragment | null): void {
+  onViewLayerRequestSetBannerFragment(_lc: ViewLayer, f: Fragment | null): void {
     this.#fBanner.setContentFragment(f);
     this.#fBanner.render();
   }
 
-  onLayerFragmentRequestPopView(lc: ViewLayer): void {
+  onViewLayerRequestPopView(lc: ViewLayer): void {
     if (lc == this._childStack[0]) {
       history.back();
     }
@@ -407,7 +407,7 @@ export class WcSession extends WindowController {
 
   #closeDialog(): void {
     if (this._childStack[0] instanceof LvDialog) {
-      this.onRequestPopLayer(this._childStack[0]);
+      this.onLayerRequestPopLayer(this._childStack[0]);
     }
   }
 

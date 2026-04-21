@@ -11,6 +11,7 @@ import { R } from '../../common/constants/R.js';
 import { ICON } from '../../common/constants/Icons.js';
 import { Env } from '../../common/plt/Env.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 
 export class Gateway implements SectorGateway {
@@ -24,7 +25,7 @@ export class Gateway implements SectorGateway {
   getNPageNotifications(_pageId: string): number { return 0; }
   createPageEntryViews(_pageId: string): View[] { return []; }
   createPageOptionalViews(_pageId: string): View[] { return []; }
-  createWebConfigMainViewContentFragment(): Fragment {
+  createMainViewContentFragment(): FViewContentBase {
     let f = new FViewContentMux();
 
     let fWebConfig = new FvcBasicWebConfig();
@@ -37,7 +38,7 @@ export class Gateway implements SectorGateway {
     return f;
   }
 
-  createMemberMainViewContentFragment(): Fragment {
+  createMemberMainViewContentFragment(): FViewContentBase {
     if (Env.isWeb3()) {
       return this.#createWeb3MemberMainViewContentFragment();
     } else {
@@ -49,7 +50,7 @@ export class Gateway implements SectorGateway {
     return new FvcWeb3Network();
   }
 
-  #createWeb2MemberMainViewContentFragment(): Fragment {
+  #createWeb2MemberMainViewContentFragment(): FViewContentBase {
     let f = new FViewContentMux();
 
     let fReport = new FvcReport();

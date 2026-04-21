@@ -17,8 +17,7 @@ export class FvcPaymentTerminal extends FScrollViewContent {
   setEnableEdit(b: boolean): void { this._fTerminal.setEnableEdit(b); }
 
   onPaymentTerminalFragmentRequestShowView(_fTerminal: FPaymentTerminal, view: View, title: string): void {
-    // @ts-expect-error - owner may have this method
-    this._owner?.onFragmentRequestShowView?.(this, view, title);
+    this.onFragmentRequestShowView(this, view, title);
   }
   onClickInPaymentTerminalFragment(_fTerminal: FPaymentTerminal, _terminalId: string): void {}
 

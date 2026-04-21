@@ -4,6 +4,7 @@ import { View } from '../views/View.js';
 import { Panel } from '../../renders/panels/Panel.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { ListPanel } from '../../renders/panels/ListPanel.js';
+import { LayerOwner } from './Layer.js';
 
 export const CRC_DIALOG = {
   CLOSE : "CRC_DIALOG_1",
@@ -79,9 +80,7 @@ export class LvDialog extends ViewLayer {
   onViewStackStackSizeChange(nc: ViewStack): void {
     switch ((nc as any).getNRealViews()) {
     case 0:
-      if (this._owner) {
-        (this._owner as any).onRequestPopLayer(this);
-      }
+      this.getOwner<LayerOwner>()?.onLayerRequestPopLayer(this);
       break;
     case 1:
       this.#showCloseBtn();
@@ -94,9 +93,7 @@ export class LvDialog extends ViewLayer {
 
   onViewStackRequestPopView(nc: ViewStack): void {
     if (nc == this._vc) {
-      if (this._owner) {
-        (this._owner as any).onLayerFragmentRequestPopView(this);
-      }
+      this.getOwner<LayerOwner>()?.onLayerRequestPopLayer(this);
     }
   }
 
@@ -104,9 +101,7 @@ export class LvDialog extends ViewLayer {
 
   #onClose(): void {
     (this._vc as any).clearStackFrom(0);
-    if (this._owner) {
-      (this._owner as any).onRequestPopLayer(this);
-    }
+    this.getOwner<LayerOwner>()?.onLayerRequestPopLayer(this);
   }
 
   #showCloseBtn(): void {
