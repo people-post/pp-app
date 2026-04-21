@@ -18,9 +18,9 @@
         "doc": "doc"
     },
     "scripts": {
-        "build": "node build.js",
-        "build:2": "node build2.js",
-        "build:3": "node build3.js",
+        "build": "npm run type-check && node build.js",
+        "build:2": "npm run type-check && node build2.js",
+        "build:3": "npm run type-check && node build3.js",
         "check-deps": "node scripts/check-deps.js",
         "clean": "rm -rf obj",
         "package": "npm run build",
