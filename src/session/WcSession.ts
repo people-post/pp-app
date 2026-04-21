@@ -87,6 +87,11 @@ export interface MainConfig {
   blog_config?: BlogConfigData;
 };
 
+interface ApiResponse {
+  error?: RemoteError;
+  data?: MainConfig;
+}
+
 export class WcSession extends WindowController {
   #fBanner: FBanner;
   #logger: Logger;
@@ -392,9 +397,9 @@ export class WcSession extends WindowController {
   }
 
   #onWebConfigRRR(responseText: string): void {
-    let response = JSON.parse(responseText) as { error?: unknown; data?: { web_config?: WebConfigData; blog_config?: BlogConfigData } };
+    let response = JSON.parse(responseText) as ApiResponse;
     if (!response.error) {
-      this._main(response.data || {});
+      this._main(response.data as MainConfig);
     }
   }
 

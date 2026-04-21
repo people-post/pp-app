@@ -62,22 +62,20 @@ export class WebConfigClass implements WebConfigInterface {
   reset(data: WebConfigData | null): void {
     this.#data = data;
     // Update Api instance with isDevSite, ownerId, and isTrustedSite
-    if (Api && 'setConfig' in Api && typeof Api.setConfig === 'function') {
-      const isDevSite = data ? !!data.is_dev_site : false;
-      let ownerId: string | null = null;
-      if (Env.isWeb3()) {
-        const dba = (window as { dba?: { Account?: { getId(): string | null } } }).dba;
-        ownerId = dba?.Account?.getId() || null;
-      } else {
-        ownerId = data && data.owner ? data.owner.uuid || null : null;
-      }
-      const isTrustedSite = Env.isTrustedSite() || false;
-      (Api as { setConfig(config: { isDevSite: boolean; ownerId: string | null; isTrustedSite: boolean }): void }).setConfig({
-        isDevSite,
-        ownerId,
-        isTrustedSite,
-      });
+    const isDevSite = data ? !!data.is_dev_site : false;
+    let ownerId: string | null = null;
+    if (Env.isWeb3()) {
+      const dba = (window as { dba?: { Account?: { getId(): string | null } } }).dba;
+      ownerId = dba?.Account?.getId() || null;
+    } else {
+      ownerId = data && data.owner ? data.owner.uuid || null : null;
     }
+    const isTrustedSite = Env.isTrustedSite() || false;
+    Api.setConfig({
+      isDevSite,
+      ownerId,
+      isTrustedSite,
+    });
     FwkEvents.trigger(FwkT_DATA.WEB_CONFIG, data);
   }
 

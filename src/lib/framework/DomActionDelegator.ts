@@ -63,31 +63,45 @@ export function installDomActionDelegator(): void {
   }
   w.__pp_dom_action_delegator_installed = true;
 
-  document.addEventListener('click', (evt: MouseEvent) => {
-    const target = evt.target as Element | null;
-    const el = target?.closest?.('[data-pp-action]') as Element | null;
-    if (!el) {
-      return;
-    }
+  // Capture phase: must run before bubble reaches ancestors that call stopPropagation()
+  // (e.g. LContext's panel uses onclick="G.anchorClick()" which blocks the event from
+  // reaching document in the bubble phase, which would otherwise prevent data-pp-action
+  // from working inside context layers).
+  document.addEventListener(
+      'click',
+      (evt: MouseEvent) => {
+        const target = evt.target as Element | null;
+        const el = target?.closest?.('[data-pp-action]') as Element | null;
+        if (!el) {
+          return;
+        }
 
-    const actionRaw = el.getAttribute('data-pp-action');
-    if (!actionRaw) {
-      return;
-    }
-    const actionId = resolveAction(actionRaw);
-    if (actionId == null) {
-      return;
-    }
+        const actionRaw = el.getAttribute('data-pp-action');
+        if (!actionRaw) {
+          return;
+        }
+        const actionId = resolveAction(actionRaw);
+        if (actionId == null) {
+          return;
+        }
 
-    // Preserve existing inline-handler semantics.
-    evt.stopPropagation();
-    if (isAnchor(el)) {
-      evt.preventDefault();
-    }
+        // Preserve existing inline-handler semantics.
+        evt.stopPropagation();
+        if (isAnchor(el)) {
+          evt.preventDefault();
+        }
 
-    const args = parseArgs(el.getAttribute('data-pp-args'));
-    const materializedArgs = args.map(a => materializeArg(el, a));
-    w.G?.action(actionId, ...materializedArgs);
-  });
+        const args = parseArgs(el.getAttribute('data-pp-args'));
+        const materializedArgs = args.map(a => materializeArg(el, a));
+        const win = window as unknown as { event?: Event };
+        const prevEvent = win.event;
+        win.event = evt;
+        try {
+          w.G?.action(actionId, ...materializedArgs);
+        } finally {
+          win.event = prevEvent;
+        }
+      },
+      true);
 }
 
