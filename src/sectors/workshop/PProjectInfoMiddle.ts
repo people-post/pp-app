@@ -38,7 +38,7 @@ import { PProjectInfoBase } from './PProjectInfoBase.js';
 
 export class PProjectInfoMiddle extends PProjectInfoBase {
   isColorInvertible(): boolean { return true; }
-  getProgressDirection(): string { return "V"; }
+  getProgressDirection(): "H" | "V" { return "V"; }
 
   setVisibilityClassName(name: string): void {
     let e = document.getElementById(this._getSubElementId("W"));

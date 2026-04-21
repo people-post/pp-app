@@ -9,7 +9,6 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { FProjectStage } from './FProjectStage.js';
 import { FvcProjectStageEditor } from './FvcProjectStageEditor.js';
 import { Project } from '../../common/datatypes/Project.js';
-import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Account } from '../../common/dba/Account.js';
 
 export interface FvcProjectStageDelegate {
@@ -18,7 +17,7 @@ export interface FvcProjectStageDelegate {
 
 export class FvcProjectStage extends FScrollViewContent {
   protected _fBtnEdit: ActionButton;
-  protected _fStage: Fragment | null;
+  protected _fStage: FProjectStage | null;
 
   constructor() {
     super();
@@ -72,8 +71,8 @@ export class FvcProjectStage extends FScrollViewContent {
     this._fStage.render();
   }
 
-  #createStageFragment(stage: ProjectStage): Fragment {
-    let f: Fragment;
+  #createStageFragment(stage: ProjectStage): FProjectStage {
+    let f: FProjectStage;
     switch (stage.getType()) {
     case ProjectStage.TYPES.CHECK_IN:
       // f = new CheckinStageFragment();
@@ -83,11 +82,11 @@ export class FvcProjectStage extends FScrollViewContent {
       // break;
     default:
       f = new FProjectStage();
-      (f as FProjectStage).setLayoutType(FProjectStage.LT_FULL);
+      f.setLayoutType(FProjectStage.LT_FULL);
       break;
     }
-    (f as FProjectStage).setStage(stage);
-    (f as FProjectStage).setDelegate(this);
+    f.setStage(stage);
+    f.setDelegate(this);
     return f;
   }
 
@@ -113,7 +112,7 @@ export class FvcProjectStage extends FScrollViewContent {
     if (!this._fStage) {
       return false;
     }
-    let stage = (this._fStage as FProjectStage).getStage();
+    let stage = this._fStage.getStage();
     if (!stage) {
       return false;
     }

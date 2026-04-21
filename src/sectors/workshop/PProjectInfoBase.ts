@@ -27,7 +27,7 @@ export class PProjectInfoBase extends Panel {
   getReferencePanel(): Panel | null { return null; }
   getCreationTimeSmartPanel(): Panel | null { return null; }
   getSocialBarPanel(): Panel | null { return null; }
-  getProgressDirection(): string { return "H"; }
+  getProgressDirection(): "H" | "V" { return "H"; }
 
   setVisibilityClassName(_name: string): void {}
   enableImage(): void {}

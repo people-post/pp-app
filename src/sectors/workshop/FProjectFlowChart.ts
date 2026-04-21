@@ -1,8 +1,3 @@
-export const CF_PROJECT_FLOW_CHART = {
-  ONCLICK_AT_BEGIN: "CF_PROJECT_FLOW_CHART_1",
-  ONCLICK_AT_END: "CF_PROJECT_FLOW_CHART_2",
-} as const;
-
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FFragmentList } from '../../lib/ui/controllers/fragments/FFragmentList.js';
 import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
@@ -20,6 +15,11 @@ import { STATE } from '../../common/constants/Constants.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import type { Project } from '../../common/datatypes/Project.js';
 import { Account } from '../../common/dba/Account.js';
+
+const CF_PROJECT_FLOW_CHART = {
+  ONCLICK_AT_BEGIN: "CF_PROJECT_FLOW_CHART_1",
+  ONCLICK_AT_END: "CF_PROJECT_FLOW_CHART_2",
+} as const;
 
 export interface FProjectFlowChartDataSource {
   getProjectForFlowChartFragment(f: FProjectFlowChart): Project | null;
@@ -45,7 +45,10 @@ export class FProjectFlowChart extends Fragment {
   }
 
   onClickInProjectStageFragment(fStage: FProjectStage): void {
-    this.getDelegate<FProjectFlowChartDelegate>()?.onFlowChartFragmentRequestShowStage(this, fStage.getStage());
+    let stage = fStage.getStage();
+    if (stage) {
+      this.getDelegate<FProjectFlowChartDelegate>()?.onFlowChartFragmentRequestShowStage(this, stage);
+    }
   }
 
   onOptionClickedInContextLayer(_lContext: LContext, value: unknown): void {
@@ -139,7 +142,7 @@ export class FProjectFlowChart extends Fragment {
       y = y0 - st.y - sp.y;
     }
     p = pFlow.addTerminalPanel(x, y, st.x, st.y);
-    panelIdMap.set(this._ID_START, p.getId());
+    panelIdMap.set(this._ID_START, p.getId()!);
     pp = new Panel();
     p.wrapPanel(pp);
     p.setThemeClassName(this.#getBeginTerminalClassName());
@@ -165,8 +168,8 @@ export class FProjectFlowChart extends Fragment {
           y = y0 + i * (se.y + sp.y);
         }
         p = pFlow.addProcessPanel(x, y, se.x, se.y);
-        panelId = p.getId();
-        panelIdMap.set(stage.getId(), panelId);
+        panelId = p.getId()!;
+        panelIdMap.set(stage.getId()!, panelId);
         pp = new PanelWrapper();
         p.wrapPanel(pp);
         p.setThemeClassName(
@@ -195,7 +198,7 @@ export class FProjectFlowChart extends Fragment {
       y = y0 + sf.y;
     }
     p = pFlow.addTerminalPanel(x, y, st.x, st.y);
-    panelId = p.getId();
+    panelId = p.getId()!;
     pp = new Panel();
     p.wrapPanel(pp);
     p.setThemeClassName(this.#getEndTerminalClassName());
@@ -206,7 +209,7 @@ export class FProjectFlowChart extends Fragment {
 
     if (project) {
       for (let stage of project.getLastStages()) {
-        let cid = panelIdMap.get(stage.getId());
+        let cid = panelIdMap.get(stage.getId()!);
         if (cid) {
           pFlow.connectPanel(cid, panelId, isHorizontal);
         }

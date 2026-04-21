@@ -52,6 +52,9 @@ export class FSocialItemList extends FScrollable implements ILongListDataSource,
   scrollToTop(): void {
     this.#fList.scrollToItemIndex(this._getIdRecord().getFirstIdx());
   }
+  scrollToItemIndex(index: number): void {
+    this.#fList.scrollToItemIndex(index);
+  }
   onScrollFinished(): void { this.#fList.onScrollFinished(); }
 
   switchToItem(id: string, shouldShowItemView = true): void {

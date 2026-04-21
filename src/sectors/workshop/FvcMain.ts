@@ -9,7 +9,7 @@ import { Workshop } from '../../common/dba/Workshop.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
-import { ICONS } from '../../common/constants/Icons.js';
+import { ICON } from '../../common/constants/Icons.js';
 import { Project } from '../../common/datatypes/Project.js';
 import { FvcTeamEditor } from './FvcTeamEditor.js';
 import { FvcConfig, FvcConfigDelegate } from './FvcConfig.js';
@@ -154,7 +154,7 @@ export class FvcMain extends FViewContentWithHeroBanner implements FvcConfigDele
 
     this._fvcOwner.setOwnerId(WebConfig.getOwnerId());
     this._fMain.addTab(
-        {name : R.t("Projects"), value : "OWNER", icon : ICONS.PROJECT},
+        {name : R.t("Projects"), value : "OWNER", icon : ICON.SMILEY},
         this._fvcOwner);
     this._fMain.switchTo("OWNER");
   }
@@ -168,7 +168,7 @@ export class FvcMain extends FViewContentWithHeroBanner implements FvcConfigDele
     this.setHeroBannerFragment(ff);
 
     this._fMain.addTab(
-        {name : R.t("Activities"), value : "NEWS", icon : ICONS.EXPLORER},
+        {name : R.t("Activities"), value : "NEWS", icon : ICON.EXPLORER},
         this._fvcExplorer);
     this._fMain.switchTo("NEWS");
   }
@@ -178,23 +178,23 @@ export class FvcMain extends FViewContentWithHeroBanner implements FvcConfigDele
     this.setHeroBannerFragment(null);
 
     this._fMain.addTab(
-        {name : R.t("Activities"), value : "NEWS", icon : ICONS.EXPLORER},
+        {name : R.t("Activities"), value : "NEWS", icon : ICON.EXPLORER},
         this._fvcExplorer);
 
     this._fvcOwner.setOwnerId(WebConfig.getOwnerId());
     this._fMain.addTab(
-        {name : R.t("Mine"), value : "OWNER", icon : ICONS.SMILEY},
+        {name : R.t("Mine"), value : "OWNER", icon : ICON.SMILEY},
         this._fvcOwner);
 
     let fConfig = new FvcConfig();
     fConfig.setDelegate(this);
     this._fMain.addTab(
-        {name : R.t("Config"), value : "CONFIG", icon : ICONS.CONFIG}, fConfig);
+        {name : R.t("Config"), value : "CONFIG", icon : ICON.CONFIG}, fConfig);
 
     let fReport = new FvcReport();
     fReport.setDelegate(this);
     this._fMain.addTab(
-        {name : R.t("Report"), value : "REPORT", icon : ICONS.REPORT}, fReport);
+        {name : R.t("Report"), value : "REPORT", icon : ICON.REPORT}, fReport);
 
     this._fMain.switchTo("NEWS");
   }

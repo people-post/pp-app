@@ -279,10 +279,14 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
   }
 
   onGuiActionButtonClick(_fActionButton: ActionButton): void {
+    let project = this.#getProject();
+    if (!project) {
+      return;
+    }
     let v = new View();
     let f = new FvcProjectEditor();
     f.setDelegate(this);
-    f.setProject(this.#getProject());
+    f.setProject(project);
     v.setContentFragment(f);
     this.onFragmentRequestShowView(this, v, "Project editor");
   }
@@ -319,11 +323,15 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
     if (!project) {
       return;
     }
+    let projectId = project.getId();
+    if (!projectId) {
+      return;
+    }
     let pp = new PProject();
     p.pushPanel(pp);
     this.#renderProject(project, pp);
 
-    this._fComments.setThreadId(project.getId(), project.getSocialItemType());
+    this._fComments.setThreadId(projectId, project.getSocialItemType());
     this._fComments.setIsAdmin(
         this.#isUserProjectAdmin(Account.getId(), project));
 
@@ -343,37 +351,37 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
   #getProject(): ProjectType | null { return Workshop.getProject(this._projectId); }
 
   #renderProject(project: ProjectType, panel: PProject): void {
-    let p = panel.getTitlePanel();
-    p.replaceContent(Utilities.renderContent(project.getName()));
+    let pTitle = panel.getTitlePanel();
+    pTitle.replaceContent(Utilities.renderContent(project.getName()));
 
-    p = panel.getCreatorPanel();
+    let pCreator = panel.getCreatorPanel();
     this._fCreatorName.setUserId(project.getCreatorId());
-    this._fCreatorName.attachRender(p);
+    this._fCreatorName.attachRender(pCreator);
     this._fCreatorName.render();
 
-    p = panel.getRolesPanel();
-    this.#renderRoles(p, project);
+    let pRoles = panel.getRolesPanel();
+    this.#renderRoles(pRoles, project);
 
-    p = panel.getStatusPanel();
-    p.replaceContent(
+    let pStatus = panel.getStatusPanel();
+    pStatus.replaceContent(
         Utilities.renderStatus(project.getState(), project.getStatus()));
 
-    p = panel.getProjectActionPanel();
+    let pProjectAction = panel.getProjectActionPanel();
     let actions = project.getActionsForUser(Account.getId());
     if (actions.length) {
       this._fProjectActions.clearOptions();
       for (let a of actions) {
         this._fProjectActions.addOption(a.name, a.type);
       }
-      this._fProjectActions.attachRender(p);
+      this._fProjectActions.attachRender(pProjectAction);
       this._fProjectActions.render();
     }
 
-    let stages = project.getActionableStagesForUser(Account.getId());
+    let stages: ProjectStage[] = project.getActionableStagesForUser(Account.getId());
     if (stages.length == 0) {
       stages = project.getActiveStages();
     }
-    p = panel.getQuickStagesPanel();
+    let pQuickStages = panel.getQuickStagesPanel();
     this._fQuickStages.clear();
     for (let stage of stages) {
       let f = new FProjectStage();
@@ -382,11 +390,11 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
       f.setDelegate(this);
       this._fQuickStages.append(f);
     }
-    this._fQuickStages.attachRender(p);
+    this._fQuickStages.attachRender(pQuickStages);
     this._fQuickStages.render();
 
-    p = panel.getDescriptionPanel();
-    p.replaceContent(Utilities.renderContent(project.getDescription()));
+    let pDescription = panel.getDescriptionPanel();
+    pDescription.replaceContent(Utilities.renderContent(project.getDescription()));
 
     let pImage = panel.getImagePanel();
     if (project.getFiles().length) {
@@ -397,9 +405,9 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
       this._fThumbnail.render();
     }
 
-    p = panel.getSocialBarPanel();
+    let pSocial = panel.getSocialBarPanel();
     this._fSocial.setItem(project);
-    this._fSocial.attachRender(p);
+    this._fSocial.attachRender(pSocial);
     this._fSocial.render();
   }
 
@@ -454,7 +462,8 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
       f = new FProjectActorInfo();
       f.setActor(new ProjectActor({
         "user_id" : User.C_ID.L_ADD_USER,
-        "status" : ProjectActor.S_PENDING
+        "status" : ProjectActor.S_PENDING,
+        "nickname" : ""
       },
                                       ProjectActor.T_ROLE.AGENT));
       f.setDelegate(this);

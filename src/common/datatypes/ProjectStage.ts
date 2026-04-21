@@ -30,6 +30,10 @@ export class ProjectStage {
     return requiredIds.every((id) => stageIds.indexOf(id) >= 0);
   }
 
+  isDone(): boolean {
+    return false;
+  }
+
   hasDependencyOn(stageId: string | null): boolean {
     if (!stageId) {
       return false;
@@ -44,6 +48,10 @@ export class ProjectStage {
 
   getName(): string | null {
     return this.#data.name;
+  }
+
+  getType(): string | null {
+    return this.#data.type;
   }
 
   getDescription(): string | null {
@@ -76,6 +84,10 @@ export class ProjectStage {
 
   getActionsForFacilitator(): Array<{ name: string; type: string }> {
     return [];
+  }
+
+  getComment(): string | null {
+    return null;
   }
 }
 

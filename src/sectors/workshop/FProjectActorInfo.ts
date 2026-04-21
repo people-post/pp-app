@@ -1,7 +1,3 @@
-export const CF_PROJECT_ACTOR_INFO = {
-  ON_CLICK: "CF_PROJECT_ACTOR_INFO_1",
-} as const;
-
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { FUserIcon } from '../../common/hr/FUserIcon.js';
 import { Users } from '../../common/dba/Users.js';
@@ -10,11 +6,14 @@ import { T_DATA } from '../../common/plt/Events.js';
 import { T_ACTION as PltT_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 import { PProjectActorInfo } from './PProjectActorInfo.js';
-import type { User } from '../../common/datatypes/User.js';
-import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
+import type { User as UserType } from '../../types/user.js';
 import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
-interface ProjectActorInfoDelegate {
+const CF_PROJECT_ACTOR_INFO = {
+  ON_CLICK: "CF_PROJECT_ACTOR_INFO_1",
+} as const;
+
+export interface ProjectActorInfoDelegate {
   onClickInProjectActorInfoFragment(f: FProjectActorInfo, actor: ProjectActor): void;
 }
 
@@ -26,7 +25,6 @@ export class FProjectActorInfo extends Fragment {
   protected _fIcon: FUserIcon;
   protected _actor: ProjectActor | null = null;
   protected _layoutType: symbol | null = null;
-  protected _delegate!: ProjectActorInfoDelegate;
 
   constructor() {
     super();
@@ -139,15 +137,16 @@ export class FProjectActorInfo extends Fragment {
     return name;
   }
 
-  #renderName(user: User | null): string { return user ? user.getNickname() : "..."; }
+  #renderName(user: UserType | null): string { return user ? user.getNickname() : "..."; }
 
   #onClick(): void {
     if (!this._actor) {
       return;
     }
 
-    if (this._delegate) {
-      this._delegate.onClickInProjectActorInfoFragment(this, this._actor);
+    let delegate = this.getDelegate<ProjectActorInfoDelegate>();
+    if (delegate) {
+      delegate.onClickInProjectActorInfoFragment(this, this._actor);
     } else {
       Events.triggerTopAction(PltT_ACTION.SHOW_USER_INFO,
                                this._actor.getUserId());

@@ -38,7 +38,7 @@ export class PProjectInfoSmallQuote extends PProjectInfoBase {
     this._pTime = new Panel();
   }
 
-  getProgressDirection(): string { return "V"; }
+  getProgressDirection(): "H" | "V" { return "V"; }
 
   getUserNamePanel(): PanelWrapper { return this._pUserName; }
   getCreationTimeSmartPanel(): Panel { return this._pTime; }

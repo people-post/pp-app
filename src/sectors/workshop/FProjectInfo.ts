@@ -24,11 +24,11 @@ const CF_PROJECT_INFO = {
   VIEW_PROJECT: "CF_PROJECT_INFO_1",
 } as const;
 
-interface ProjectInfoDataSource {
+export interface FProjectInfoDataSource {
   isProjectSelectedInProjectInfoFragment(f: FProjectInfo, projectId: string): boolean;
 }
 
-interface ProjectInfoDelegate {
+export interface FProjectInfoDelegate {
   onClickInProjectInfoFragment(f: FProjectInfo, projectId: string): void;
 }
 
@@ -40,8 +40,6 @@ export class FProjectInfo extends MajorSectorItem {
   protected _fUserIcon: FUserIcon;
   protected _fUserName: FUserInfo;
   protected _fSocial: FSocialBar;
-  protected _dataSource!: ProjectInfoDataSource;
-  protected _delegate!: ProjectInfoDelegate;
 
   constructor() {
     super();
@@ -70,7 +68,7 @@ export class FProjectInfo extends MajorSectorItem {
     this.setChild("social", this._fSocial);
   }
 
-  getFilesForThumbnailFragment(fThumbnail: FilesThumbnailFragment): unknown[] {
+  getFilesForThumbnailFragment(_fThumbnail: FilesThumbnailFragment): unknown[] {
     if (!this._projectId) {
       return [];
     }
@@ -81,12 +79,15 @@ export class FProjectInfo extends MajorSectorItem {
   setProjectId(id: string | null): void { this._projectId = id; }
   setSizeType(t: string | null): void { this._sizeType = t; }
 
-  onThumbnailClickedInThumbnailFragment(fThumbnail: FilesThumbnailFragment, idx: number): void {
+  onThumbnailClickedInThumbnailFragment(_fThumbnail: FilesThumbnailFragment, idx: number): void {
     this.#showThumbnail(idx);
   }
-  onCommentClickedInSocialBar(fSocial: FSocialBar): void {
+  onCommentClickedInSocialBar(_fSocial: FSocialBar): void {
     if (this._projectId) {
-      this._delegate.onClickInProjectInfoFragment(this, this._projectId);
+      let delegate = this.getDelegate<FProjectInfoDelegate>();
+      if (delegate) {
+        delegate.onClickInProjectInfoFragment(this, this._projectId);
+      }
     }
   }
 
@@ -94,7 +95,10 @@ export class FProjectInfo extends MajorSectorItem {
     switch (type) {
     case CF_PROJECT_INFO.VIEW_PROJECT:
       if (this._projectId) {
-        this._delegate.onClickInProjectInfoFragment(this, this._projectId);
+        let delegate = this.getDelegate<FProjectInfoDelegate>();
+        if (delegate) {
+          delegate.onClickInProjectInfoFragment(this, this._projectId);
+        }
       }
       break;
     default:
@@ -140,7 +144,8 @@ export class FProjectInfo extends MajorSectorItem {
     render.wrapPanel(panel);
 
     if (panel.isColorInvertible()) {
-      if (this._dataSource.isProjectSelectedInProjectInfoFragment(
+      let dataSource = this.getDataSource<FProjectInfoDataSource>();
+      if (dataSource && dataSource.isProjectSelectedInProjectInfoFragment(
               this, this._projectId)) {
         panel.invertColor();
       }
@@ -176,60 +181,63 @@ export class FProjectInfo extends MajorSectorItem {
   }
 
   #renderProjectOnPanel(project: Project, panel: PProjectInfoBase): void {
-    let p: Panel | ThumbnailPanelWrapper | null;
-
     if (this.#isProjectHasImage(project)) {
       panel.enableImage();
-      p = panel.getImagePanel();
+      let pImage = panel.getImagePanel();
 
-      if (p) {
+      if (pImage) {
         let pp = new ThumbnailPanelWrapper();
         if (this.#isSquareImage()) {
           pp.setClassName("tw:aspect-[1/1] tw:relative");
         }
-        (p as PanelWrapper).wrapPanel(pp);
+        pImage.wrapPanel(pp);
 
         this._fThumbnail.attachRender(pp);
         this._fThumbnail.render();
       }
     }
 
-    p = panel.getTitlePanel();
-    if (p) {
-      p.replaceContent(this.#renderTitle(project));
+    let pTitle = panel.getTitlePanel();
+    if (pTitle) {
+      pTitle.replaceContent(this.#renderTitle(project));
     }
 
-    p = panel.getContentPanel();
-    if (p) {
-      p.replaceContent(this.#renderContent(project));
+    let pContent = panel.getContentPanel();
+    if (pContent) {
+      pContent.replaceContent(this.#renderContent(project));
     }
 
-    p = panel.getCreationTimeSmartPanel();
-    if (p) {
-      p.replaceContent(Utilities.renderTimeDiff(project.getCreationTime()));
+    let pTime = panel.getCreationTimeSmartPanel();
+    if (pTime) {
+      let time = project.getCreationTime();
+      if (time) {
+        pTime.replaceContent(Utilities.renderTimeDiff(time.getTime() / 1000));
+      } else {
+        pTime.replaceContent("...");
+      }
     }
 
-    p = panel.getUserIconPanel();
-    if (p) {
-      this._fUserIcon.attachRender(p);
+    let pUserIcon = panel.getUserIconPanel();
+    if (pUserIcon) {
+      this._fUserIcon.attachRender(pUserIcon);
       this._fUserIcon.setUserId(project.getOwnerId());
       this._fUserIcon.render();
     }
 
-    p = panel.getUserNamePanel();
-    if (p) {
-      this._fUserName.attachRender(p);
+    let pUserName = panel.getUserNamePanel();
+    if (pUserName) {
+      this._fUserName.attachRender(pUserName);
       this._fUserName.setUserId(project.getOwnerId());
       this._fUserName.render();
     }
 
-    p = panel.getProgressPanel();
-    if (p) {
+    let pProgress = panel.getProgressPanel();
+    if (pProgress) {
       this._fProgress.setDirection(panel.getProgressDirection());
       this._fProgress.setValue(project.getProgress());
       this._fProgress.setStateClassName(
           Utilities.getStateClassName(project.getState(), project.getStatus()));
-      this._fProgress.attachRender(p);
+      this._fProgress.attachRender(pProgress);
       this._fProgress.render();
     }
 
@@ -260,12 +268,17 @@ export class FProjectInfo extends MajorSectorItem {
       return;
     }
 
+    let project = Workshop.getProject(this._projectId);
+    if (!project) {
+      return;
+    }
+
     if (inversable) {
       this._fSocial.setInvertColor(
-          this._dataSource.isProjectSelectedInProjectInfoFragment(
-              this, this._projectId));
+          this.getDataSource<FProjectInfoDataSource>()?.isProjectSelectedInProjectInfoFragment(
+              this, this._projectId) || false);
     }
-    this._fSocial.setItem(Workshop.getProject(this._projectId));
+    this._fSocial.setItem(project);
     this._fSocial.attachRender(panel);
     this._fSocial.render();
   }
