@@ -16,7 +16,7 @@ import { Shop } from '../../common/dba/Shop.js';
 import { Address as AddressDBA } from '../../common/dba/Address.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
-import { FvcAddressEditor } from '../../sectors/account/FvcAddressEditor.js';
+import { FvcAddressEditor } from '../../common/gui/FvcAddressEditor.js';
 import { Api } from '../../common/plt/Api.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PBranchBase } from './PBranchBase.js';

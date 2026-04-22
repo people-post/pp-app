@@ -2,9 +2,9 @@ import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollVi
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
 import { Address, AddressDataSource, AddressDelegate } from '../../common/gui/Address.js';
+import { FvcAddressEditor } from '../../common/gui/FvcAddressEditor.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
-import { FvcAddressEditor } from './FvcAddressEditor.js';
 import { Address as AddressDBA } from '../../common/dba/Address.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { R } from '../../common/constants/R.js';
