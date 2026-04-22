@@ -28,7 +28,7 @@ const _CFT_CHAT_MESSAGE = {
   </div>`,
   TEXT : `<span class="chat-message-text">__TEXT__</span>`,
   FROM_USER :
-      `<span class="user-info-icon-small" onclick="javascript:G.action('${CF_CHAT_MESSAGE.USER_INFO}', '__ID__')">
+      `<span class="user-info-icon-small" data-pp-action="${CF_CHAT_MESSAGE.USER_INFO}" data-pp-args='["__ID__"]'>
     <img src="__ICON__">
   </span>`,
 } as const;

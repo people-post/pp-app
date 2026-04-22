@@ -12,7 +12,7 @@ export const CF_QUOTA_LIMIT = {
 
 const _CFT_QUOTA_LIMIT = {
   UPGRADE_BTN :
-      `<a class="internal-page-link" href="javascript:void(0)" onclick="javascript:G.action('${CF_QUOTA_LIMIT.UPGRADE}')">upgrade</a>`,
+  `<a class="internal-page-link" href="javascript:void(0)" data-pp-action="${CF_QUOTA_LIMIT.UPGRADE}">upgrade</a>`,
 };
 
 interface QuotaErrorContentData {

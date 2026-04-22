@@ -6,9 +6,9 @@ import { Api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
 import type Render from '../../lib/ui/renders/Render.js';
 
-export const CF_RESET_PASSWORD = {
-  SUBMIT : Symbol(),
-};
+const CF_RESET_PASSWORD = {
+  SUBMIT : "CF_RESET_PASSWORD_1",
+} as const;
 
 const _CFT_RESET_PASSWORD = {
   MAIN : `
@@ -32,7 +32,7 @@ const _CFT_RESET_PASSWORD = {
     </tbody>
   </table>
   <br>
-  <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(auth.CF_RESET_PASSWORD.SUBMIT)">Submit</a>`,
+  <a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_RESET_PASSWORD.SUBMIT}">Submit</a>`,
 };
 
 export class FvcResetPassword extends FScrollViewContent {
@@ -45,7 +45,7 @@ export class FvcResetPassword extends FScrollViewContent {
 
   initFromUrl(urlParam: URLSearchParams): void { this._resetCode = urlParam.get(URL_PARAM.CODE); }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_RESET_PASSWORD.SUBMIT:
       this.#onSubmit();

@@ -1,13 +1,13 @@
-export const CF_CHECKOUT_SUCCESS = {
-  CONTINUE : Symbol(),
-  SHOW_ORDER : Symbol(),
-};
+const CF_CHECKOUT_SUCCESS = {
+  CONTINUE : "CF_CHECKOUT_SUCCESS_1",
+  SHOW_ORDER : "CF_CHECKOUT_SUCCESS_2",
+} as const;
 
 const _CFT_CHECKOUT_SUCCESS = {
   MAIN :
-      `<div class="info-message">Success! Your order id is: <span class="tw:cursor-pointer" onclick="javascript:G.action(cart.CF_CHECKOUT_SUCCESS.SHOW_ORDER)">__REF_ID__</a></div>
+      `<div class="info-message">Success! Your order id is: <span class="tw:cursor-pointer" data-pp-action="${CF_CHECKOUT_SUCCESS.SHOW_ORDER}">__REF_ID__</a></div>
     <br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(cart.CF_CHECKOUT_SUCCESS.CONTINUE)">Continue shopping</a>
+    <a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_CHECKOUT_SUCCESS.CONTINUE}">Continue shopping</a>
     <br>
     <br>`,
 }
@@ -28,7 +28,7 @@ export class FvcCheckoutSuccess extends FScrollViewContent {
 
   setOrderId(id: string | null): void { this._orderId = id; }
 
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_CHECKOUT_SUCCESS.CONTINUE:
       this._requestPopView();

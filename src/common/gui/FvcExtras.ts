@@ -19,7 +19,7 @@ export const CF_EXTRAS_CONTENT = {
 const _CFT_EXTRAS_CONTENT = {
   BADGE : `<span class="inline-notification-badge">__BADGE__</span>`,
   BTN_TEST :
-      `<a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action('${CF_EXTRAS_CONTENT.TEST}')">Test</a>`,
+  `<a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_EXTRAS_CONTENT.TEST}">Test</a>`,
 }
 
 interface ListItem {

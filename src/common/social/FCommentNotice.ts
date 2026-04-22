@@ -4,15 +4,15 @@ import { Blog } from '../dba/Blog.js';
 import { Workshop } from '../dba/Workshop.js';
 import { MessageThreadInfo as CommentNotice } from '../datatypes/MessageThreadInfo.js';
 
-export const CF_COMMENT_NOTICE_INFO = {
-  ON_CLICK : Symbol(),
-};
+const CF_COMMENT_NOTICE_INFO = {
+  ON_CLICK : "CF_COMMENT_NOTICE_INFO_1",
+} as const;
 
 const _CFT_COMMENT_NOTICE_INFO = {
   COMMENT_INFO : `<div>
   <span class="badge-holder">
     <span class="article-title">
-      <a class="article-link" href="javascript:void(0)" onclick="javascript:G.action(socl.CF_COMMENT_NOTICE_INFO.ON_CLICK)">__TITLE__</a>
+      <a class="article-link" href="javascript:void(0)" data-pp-action="${CF_COMMENT_NOTICE_INFO.ON_CLICK}">__TITLE__</a>
       <span class = "inline-notification-badge">__BADGE__</span>
     </span>
   </span>

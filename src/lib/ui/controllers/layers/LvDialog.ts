@@ -6,13 +6,13 @@ import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { ListPanel } from '../../renders/panels/ListPanel.js';
 import { LayerOwner } from './Layer.js';
 
-export const CRC_DIALOG = {
+const CRC_DIALOG = {
   CLOSE : "CRC_DIALOG_1",
 } as const;
 
 const _CRCT_DIALOG = {
   CLOSE_BTN :
-      `<span onclick="javascript:G.action(window.CRC_DIALOG.CLOSE)">x</span>`,
+      `<span data-pp-action="${CRC_DIALOG.CLOSE}">x</span>`,
 } as const;
 
 export class LvDialog extends ViewLayer {
@@ -38,8 +38,8 @@ export class LvDialog extends ViewLayer {
 
     let pWrapper = new PanelWrapper();
     pWrapper.setClassName("dialog");
-    pWrapper.setAttribute("onclick",
-                          "javascript:G.action(window.CRC_DIALOG.CLOSE)");
+    pWrapper.setAttribute("data-pp-action", CRC_DIALOG.CLOSE);
+    pWrapper.setAttribute("data-pp-action-self", "true");
     render.wrapPanel(pWrapper);
     let pMain = new ListPanel();
     pMain.setClassName("dialog-content tw:relative");
@@ -111,10 +111,5 @@ export class LvDialog extends ViewLayer {
   }
 
   #hideCloseBtn(): void { this._pClose.setVisible(false); }
-}
-
-// Export to window for string template access
-if (typeof window !== 'undefined') {
-  (window as any).CRC_DIALOG = CRC_DIALOG;
 }
 

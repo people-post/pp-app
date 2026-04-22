@@ -17,15 +17,15 @@ import { R } from '../../common/constants/R.js';
 import { Api } from '../../common/plt/Api.js';
 import { GroupData } from '../../types/backend2.js';
 
-(window as any).CF_BLOG_ROLE_EDITOR = {
+const CF_BLOG_ROLE_EDITOR = {
   SUBMIT : "CF_BLOG_ROLE_EDITOR_1",
-};
+} as const;
 
 const _CFT_BLOG_ROLE_EDITOR = {
   SEC_NAME :
       `<input id="ID_BLOG_ROLE_NAME" type="text" placeholder="Name" value="__NAME__">`,
   SEC_SUBMIT : `<br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(CF_BLOG_ROLE_EDITOR.SUBMIT)">Submit<a>`,
+  <a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_BLOG_ROLE_EDITOR.SUBMIT}">Submit<a>`,
 } as const;
 
 interface LocalRoleData {
@@ -88,9 +88,9 @@ export class FvcRoleEditor extends FScrollViewContent {
   onButtonGroupSelectionChanged(_fButtonGroup: ButtonGroup, _value: string): void {}
   onOptionChangeInOptionsFragment(_f: OptionSwitch, _value: string, _isOn: boolean): void {}
 
-  action(type: symbol, ..._args: unknown[]): void {
+  action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {
-    case (window as any).CF_BLOG_ROLE_EDITOR.SUBMIT:
+    case CF_BLOG_ROLE_EDITOR.SUBMIT:
       this.#onSubmit();
       break;
     default:

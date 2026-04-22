@@ -13,7 +13,7 @@ export const CF_ERROR = {
 
 const _CFT_ERROR = {
   BTN :
-      `<a class="button-like tw:bg-red-500 tw:text-white" href="javascript:void(0)" onclick="javascript:G.action('${CF_ERROR.DISMISS_ERROR}')">Dismiss</a>`,
+  `<a class="button-like tw:bg-red-500 tw:text-white" href="javascript:void(0)" data-pp-action="${CF_ERROR.DISMISS_ERROR}">Dismiss</a>`,
 }
 
 export class FError extends Fragment {

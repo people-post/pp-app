@@ -6,6 +6,10 @@ function isAnchor(el: Element): el is HTMLAnchorElement {
   return el.tagName.toLowerCase() === 'a';
 }
 
+function isSelfOnlyAction(el: Element): boolean {
+  return el.getAttribute('data-pp-action-self') === 'true';
+}
+
 function parseArgs(raw: string | null): unknown[] {
   if (!raw) {
     return [];
@@ -73,6 +77,9 @@ export function installDomActionDelegator(): void {
         const target = evt.target as Element | null;
         const el = target?.closest?.('[data-pp-action]') as Element | null;
         if (!el) {
+          return;
+        }
+        if (isSelfOnlyAction(el) && evt.target !== el) {
           return;
         }
 

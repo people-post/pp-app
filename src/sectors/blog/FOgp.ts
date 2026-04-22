@@ -1,24 +1,12 @@
-export const CF_OGP = {
+const CF_OGP = {
   ON_CLICK : "CF_OGP_1",
 } as const;
 
-// Export to window for HTML string templates
-declare global {
-  interface Window {
-    CF_OGP?: typeof CF_OGP;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_OGP = CF_OGP;
-}
-
 const _CFT_OGP = {
   URL :
-      `<span class="small-info-text tw:inline-block tw:h-[12pt] tw:overflow-hidden tw:cursor-pointer" onclick="javascript:G.action(CF_OGP.ON_CLICK)">&#x1f517;__URL__</span>`,
+      `<span class="small-info-text tw:inline-block tw:h-[12pt] tw:overflow-hidden tw:cursor-pointer" data-pp-action="${CF_OGP.ON_CLICK}">&#x1f517;__URL__</span>`,
   IMG :
-      `<span class="thumbnail-grid thumbnail-grid-1-1" style="background-image:url('__URL__')" onclick="javascript:G.action(CF_OGP.ON_CLICK)"></span>`,
+      `<span class="thumbnail-grid thumbnail-grid-1-1" style="background-image:url('__URL__')" data-pp-action="${CF_OGP.ON_CLICK}"></span>`,
 } as const;
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
@@ -80,7 +68,7 @@ export class FOgp extends Fragment {
 
     let p = this.#createPanel();
     p.setClassName("tw:cursor-pointer");
-    p.setAttribute("onclick", "G.action(CF_OGP.ON_CLICK)");
+    p.setAttribute("data-pp-action", CF_OGP.ON_CLICK);
     render.wrapPanel(p);
 
     let pp;
@@ -106,7 +94,6 @@ export class FOgp extends Fragment {
     pp.replaceContent(ogp.getTitle() || "");
 
     pp = p.getDescriptionPanel();
-    pp.setAttribute("onclick", "G.action(CF_OGP.ON_CLICK)");
     pp.replaceContent(ogp.getDescription() || "");
   }
 

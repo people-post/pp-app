@@ -25,7 +25,7 @@ const _CFC_FILES_THUMBNAIL = {
 
 const _CFT_FILES_THUMBNAIL = {
   ITEM :
-      `<span class="thumbnail-grid thumbnail-grid-__THUMBNAIL_GRID_TYPE__" onclick="javascript:G.action('${CF_FILES_THUMBNAIL.ON_CLICK}', __IDX__)" style="background-image:url('__URL__');__BG_COLOR__">__CONTENT__</span>
+      `<span class="thumbnail-grid thumbnail-grid-__THUMBNAIL_GRID_TYPE__" data-pp-action="${CF_FILES_THUMBNAIL.ON_CLICK}" data-pp-args='[__IDX__]' style="background-image:url('__URL__');__BG_COLOR__">__CONTENT__</span>
     `,
   LIVE_ICON_MASK : `
     <div class="tw:absolute tw:top-0 tw:w-full tw:h-[8%] tw:bg-gradient-to tw:from-red-700/70 tw:to-transparent"></div>

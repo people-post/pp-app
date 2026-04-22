@@ -6,9 +6,9 @@ import { Api } from '../../common/plt/Api.js';
 import { R } from '../../common/constants/R.js';
 import type Render from '../../lib/ui/renders/Render.js';
 
-export const CF_CHANGE_PASSWORD = {
-  SUBMIT : Symbol(),
-};
+const CF_CHANGE_PASSWORD = {
+  SUBMIT : "CF_CHANGE_PASSWORD_1",
+} as const;
 
 const _CFT_CHANGE_PASSWORD = {
   MAIN : `
@@ -38,11 +38,11 @@ const _CFT_CHANGE_PASSWORD = {
     </tbody>
   </table>
   <br>
-  <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action(auth.CF_CHANGE_PASSWORD.SUBMIT)">Submit</a>`,
+  <a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_CHANGE_PASSWORD.SUBMIT}">Submit</a>`,
 };
 
 export class FvcChangePassword extends FScrollViewContent {
-  action(type: symbol, ...args: unknown[]): void {
+  action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_CHANGE_PASSWORD.SUBMIT:
       this.#onSubmit();

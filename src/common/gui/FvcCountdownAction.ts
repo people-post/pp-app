@@ -11,9 +11,9 @@ export const CF_COUNTDOWN_ACTION = {
 const _CFT_COUNTDOWN_ACTION = {
   MAIN : `__TEXT__ in <span id="ID_INTERVAL_VALUE">__TIME__</span> seconds...
     <br>
-    <a class="button-bar s-primary" href="javascript:void(0)" onclick="javascript:G.action('${CF_COUNTDOWN_ACTION.ACTION}')">__ACTION_TITLE__</a>
+    <a class="button-bar s-primary" href="javascript:void(0)" data-pp-action="${CF_COUNTDOWN_ACTION.ACTION}">__ACTION_TITLE__</a>
     <br>
-    <a class="button-bar danger" href="javascript:void(0)" onclick="javascript:G.action('${CF_COUNTDOWN_ACTION.CANCEL}')">Cancel</a>`,
+    <a class="button-bar danger" href="javascript:void(0)" data-pp-action="${CF_COUNTDOWN_ACTION.CANCEL}">Cancel</a>`,
 };
 
 interface CountdownConfig {

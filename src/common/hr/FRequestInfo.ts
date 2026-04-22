@@ -26,11 +26,11 @@ const _CFT_REQUEST_INFO = {
       <p>__NAME__</p>
     </div>`,
   BTN_ACCEPT :
-      `<span class="button-like small s-primary" onclick="javascript:G.action('${CF_REQUEST_INFO.ACCEPT}')">Accept</span>`,
+      `<span class="button-like small s-primary" data-pp-action="${CF_REQUEST_INFO.ACCEPT}">Accept</span>`,
   BTN_DECLINE :
-      `<span class="button-like small danger" onclick="javascript:G.action('${CF_REQUEST_INFO.DECLINE}')">Reject</span>`,
+      `<span class="button-like small danger" data-pp-action="${CF_REQUEST_INFO.DECLINE}">Reject</span>`,
   BTN_IGNORE :
-      `<span class="button-like small s-secondary" onclick="javascript:G.action('${CF_REQUEST_INFO.IGNORE}')">Ignore</span>`,
+      `<span class="button-like small s-secondary" data-pp-action="${CF_REQUEST_INFO.IGNORE}">Ignore</span>`,
   JOIN_GROUP : `__USER__ request to join __GROUP__.`,
 }
 

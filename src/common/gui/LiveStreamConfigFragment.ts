@@ -30,7 +30,7 @@ const _CFT_LIVE_STREAM_CONFIG = {
         <tr>
           <td>Stream key:</td>
           <td>__KEY__</td>
-          <td><span class="button-like small s-primary" onclick="javascript:G.action('${CF_LIVE_STREAM_CONFIG.REGENERATE_KEY}')">Regenerate</span></td>
+          <td><span class="button-like small s-primary" data-pp-action="${CF_LIVE_STREAM_CONFIG.REGENERATE_KEY}">Regenerate</span></td>
         </tr>
       </tbody>
     </table>

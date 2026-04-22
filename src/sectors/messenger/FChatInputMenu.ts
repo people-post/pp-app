@@ -15,7 +15,7 @@ declare global {
 
 const _CFT_CHAT_INPUT_MENU = {
   ACTION_ICON :
-      `<span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer" onclick="javascript:G.action(__ACTION__)">__ICON__</span>`,
+      `<span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer" data-pp-action="__ACTION__">__ICON__</span>`,
   BTN_FILE :
       `<span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer" onclick="javascript:this.nextElementSibling.click()">__ICON__</span>
     <input type="file" style="display:none" onchange="javascript:G.action(CF_CHAT_INPUT_MENU.SEND_FILE, this)">`,
