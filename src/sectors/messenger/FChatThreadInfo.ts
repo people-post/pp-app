@@ -12,18 +12,6 @@ const CF_CHAT_THREAD_INFO = {
   ON_CLICK : "CF_CHAT_THREAD_INFO_1",
 } as const;
 
-// Export to window for HTML string templates
-declare global {
-  interface Window {
-    CF_CHAT_THREAD_INFO?: typeof CF_CHAT_THREAD_INFO;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_CHAT_THREAD_INFO = CF_CHAT_THREAD_INFO;
-}
-
 export interface IconInfo {
   url: string;
   bg: string;

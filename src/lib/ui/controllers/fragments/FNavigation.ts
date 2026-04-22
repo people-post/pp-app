@@ -7,18 +7,6 @@ export const CF_NAVIGATION = {
   ON_TAB_CLICK : Symbol(),
 };
 
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_NAVIGATION?: typeof CF_NAVIGATION;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_NAVIGATION = CF_NAVIGATION;
-}
-
 interface NavItem {
   ID: string;
   name: string;

@@ -186,33 +186,116 @@ Note: `npm run type-check` is noisy in this repo due to an ongoing migration; th
 
 ## Remaining work / how to continue
 
-### 1) Continue click-only sweep
-Search for remaining inline click handlers:
-- `onclick="javascript:G.action`
-- `onclick="G.action`
+### Session 2 Status (April 22, 2026)
 
-Convert them to `data-pp-action` and optional `data-pp-args`.
+#### ✅ COMPLETED
 
-### 2) Defer non-click events to later
-These were intentionally left for later phases:
-- `onchange="..."`
-- `onkeydown="..."`
-- `onscroll="..."`
-- `oninput="..."`
+**Phase 1: Click-only migration**
+- 18 files migrated, all inline `onclick="javascript:G.action(...)"` converted to `data-pp-action`
+- Removed 30+ template-global action constants (`window.CF_*` exports)
+- Files: FvcChangePassword, FvcResetPassword, FvcCountdownAction, FvcQuotaLimit, FError, FRequestInfo, FChatMessage, LiveStreamConfigFragment, FilesThumbnailFragment, FSmartInput, MenuEntryItemConfig, FUserIcon, LvDialog, FCommentNotice, FOgp, FvcCheckoutSuccess, FvcRoleEditor, SearchBar
+- **Validation**: npm run build [SUCCESS]
 
-When migrating those, either:
-- add delegated handlers for those event types as separate installers, or
-- migrate those particular components to fragment/controller-driven listeners (larger refactor).
+**Phase 2: Extended delegator + non-click events**
+- DomActionDelegator.ts extended to support 5 event types: `click`, `change`, `input`, `keydown`, `keyup`, `blur`
+- Added 4 argument materialization tokens: `$value`, `$checked`, `$this`, `$files0`
+- 22 files migrated for onchange/onkeydown/oninput/onblur handlers
+  - Basic inputs: TextInput, TextArea, NumberInput, OptionSwitch, FTimeInput
+  - File uploads: FMediaFileUploader, FMultiMediaFileUploader, FAttachmentFileUploader, FHeaderEditor, FvcBasicWebConfig, FUserInfoHeroBanner, FIconUploader
+  - Form inputs: FvcRegister, FvcLogin, FChatInputMenu, ThemeEditorFragment, InputConsoleFragment
+  - Search/input: SearchBar, FSmartInput, LiveStreamConfigFragment
+- **Critical fixes**: 4 file-input handler type corrections (FileList → File) in FHeaderEditor, FvcBasicWebConfig, FUserInfoHeroBanner
+- **Validation**: npm run build [SUCCESS] for all 40+ files
+
+---
+
+### ⏳ REMAINING WORK (3 categories)
+
+#### 1) Scroll Event Delegation — **DEFERRED** (1 case)
+
+**File**: `src/common/gui/FGallery.ts`
+
+**Issue**: One `onscroll="javascript:G.action(...)"` in image gallery horizontal scroll handler.
+
+```html
+<!-- Current state -->
+<div onscroll="javascript:G.action('${CF_GALLERY.ON_SCROLL}', this)">...</div>
+```
+
+**Why deferred**: Scroll events fire during transient scroll state and don't have stable semantics for capture-phase delegation like click/change do. Would require special scroll-distance or scroll-position materialization tokens beyond the current `$value`, `$checked`, `$this`, `$files0`.
+
+**Next steps if pursuing**:
+1. Add `data-pp-scroll-action` attribute support to `DomActionDelegator.ts`
+2. Define scroll-specific materialization token (e.g., `$scrollLeft`, `$scrollTop`)
+3. Test performance implications of passive scroll listening
+4. Migrate FGallery.ts template and handler
+
+**Priority**: Medium — scroll delegation is architecturally cleaner, but current inline approach works fine.
+
+---
+
+#### 2) Non-G.action `window.open(...)` Click — **DEFERRED** (1 case)
+
+**File**: `src/common/gui/FMediaFile.ts`
+
+**Issue**: One `onclick="window.open('__DOWNLOAD_URL__', '_blank')"` on image thumbnail.
+
+```html
+<!-- Current state -->
+<img onclick="window.open('__DOWNLOAD_URL__', '_blank')" ... />
+```
+
+**Why deferred**: Not part of the `G.action(...)` routing system. It's a plain browser navigation event, separate concern from the action delegation migration.
+
+**Options**:
+- Option A: Keep inline (simplest; it works)
+- Option B: Migrate to method-based listener in `_renderContent()` with direct `window.open(...)` call
+- Option C: Create new delegated event type `data-pp-window-open` (low priority, introduces new convention)
+
+**Priority**: Low — independent of action routing, can be handled in a separate UI cleanup pass.
+
+---
+
+#### 3) DOM-Only File Input Shims — **DEFERRED** (7 cases)
+
+**Pattern**: `onclick="javascript:this.nextElementSibling.click()"` on label/img elements to trigger hidden file input clicks.
+
+**Files affected**:
+- `src/sectors/messenger/FChatInputMenu.ts` (1×)
+- `src/lib/ui/controllers/fragments/FMediaFileUploader.ts` (1×)
+- `src/sectors/community/FHeaderEditor.ts` (2×)
+- `src/sectors/hosting/FvcBasicWebConfig.ts` (1×)
+- `src/lib/ui/controllers/fragments/FIconUploader.ts` (1×)
+- `src/sectors/hr/FUserInfoHeroBanner.ts` (1×)
+
+**Example**:
+```html
+<!-- Current state -->
+<label onclick="javascript:this.nextElementSibling.click()">Click to upload</label>
+<input type="file" hidden />
+```
+
+**Why deferred**: Pure DOM event simulator, not part of the action routing system. The inline approach works fine and is minimal—no form submission or G.action dispatch involved.
+
+**Options**:
+- Option A: Keep inline (simplest; portable pattern)
+- Option B: Create delegated `data-pp-file-input-trigger="selector"` attribute (adds framework convention for low-value case)
+- Option C: Migrate each to fragment controller method with `this.inputElement.click()` (larger refactor)
+
+**Priority**: Low — belongs to a separate "clean up DOM shims" pass, not critical for action routing.
+
+---
 
 ### 3) Simplify global resolution logic after rollout
-If the repo fully stops using `data-pp-action="window...."` paths, the `resolveAction()` capability in `DomActionDelegator.ts` can be simplified or removed.
+Once all remaining cases are addressed (or explicitly deferred), the `resolveAction()` capability in `DomActionDelegator.ts` can be simplified or removed if no code uses `data-pp-action="window...."` paths.
 
 ---
 
 ## Conventions for new work (to avoid regressions)
 
 - Do **not** add new `onclick="javascript:..."` handlers.
-- Prefer `data-pp-action="..."` + `data-pp-args='[...]'`.
+- Prefer `data-pp-action="..."` + `data-pp-args='[...]'` for clicks.
+- Prefer delegated `data-pp-change-action`, `data-pp-input-action`, etc. for other events.
 - Prefer string action IDs for anything triggered from templates.
 - Keep action constants module-local unless there is a clear cross-module need.
 

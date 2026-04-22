@@ -2,18 +2,6 @@ export const CF_POST_STATISTICS_INFO = {
   ONCLICK : "CF_POST_STATISTICS_INFO_1",
 } as const;
 
-// Export to window for HTML string templates
-declare global {
-  interface Window {
-    CF_POST_STATISTICS_INFO?: typeof CF_POST_STATISTICS_INFO;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_POST_STATISTICS_INFO = CF_POST_STATISTICS_INFO;
-}
-
 const _CFT_POST_STATISTICS_INFO = {
   MAIN : `<div class="tw:underline tw:truncate">__NAME__</div>
     <div class="small-info-text tw:whitespace-nowrap">__COUNT__</div>`,

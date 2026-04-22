@@ -4,15 +4,6 @@ export const CF_CHAT_INPUT_MENU = {
   SEND_FILE : "CF_CHAT_INPUT_MENU_3",
 } as const;
 
-// Export to window for HTML string templates
-declare global {
-  interface Window {
-    CF_CHAT_INPUT_MENU?: typeof CF_CHAT_INPUT_MENU;
-    _CFT_CHAT_INPUT_MENU?: typeof _CFT_CHAT_INPUT_MENU;
-    [key: string]: unknown;
-  }
-}
-
 const _CFT_CHAT_INPUT_MENU = {
   ACTION_ICON :
       `<span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer" data-pp-action="__ACTION__">__ICON__</span>`,
@@ -20,11 +11,6 @@ const _CFT_CHAT_INPUT_MENU = {
       `<span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer" onclick="javascript:this.nextElementSibling.click()">__ICON__</span>
   <input type="file" style="display:none" data-pp-change-action="${CF_CHAT_INPUT_MENU.SEND_FILE}" data-pp-change-args='["$this"]'>`,
 } as const;
-
-if (typeof window !== 'undefined') {
-  window.CF_CHAT_INPUT_MENU = CF_CHAT_INPUT_MENU;
-  window._CFT_CHAT_INPUT_MENU = _CFT_CHAT_INPUT_MENU;
-}
 
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
