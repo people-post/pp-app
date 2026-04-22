@@ -17,6 +17,8 @@ The intended runtime flow is:
 5. `src/common/` provides reusable shared code used by multiple sectors.
 6. `src/lib/` provides reusable technical infrastructure that should stay product-agnostic.
 
+`src/types/` is not part of the runtime composition tree. It is a declaration-only surface for shared TypeScript contracts that any runtime layer may import, but it must stay independent from runtime folders.
+
 That gives the application a top-down ownership model:
 
 - `app.ts` chooses the session container.
@@ -42,6 +44,8 @@ The correct dependency order is:
 
 The rule is simple: dependencies should point downward only. A layer may depend on itself or on lower layers, but never on a higher layer.
 
+`src/types` is separate from that ordered stack. It is an independent declaration layer: runtime code may import from `src/types`, but files inside `src/types` may only import from other files in `src/types` or from external package typings.
+
 ### Responsibilities by layer
 
 | Layer | Responsibility | Allowed dependency direction |
@@ -56,6 +60,7 @@ The rule is simple: dependencies should point downward only. A layer may depend 
 | other `src/common/*` | Shared feature-level code reused across sectors | lower common layers and `src/lib/*` only |
 | `src/sectors` | Feature composition, sector gateways, sector-specific UI and flows | any lower layer, never `src/session`; **within `src/sectors`, only the same immediate subfolder** (e.g. `blog`, `shop`)—no imports from sibling sector folders |
 | `src/session` | Application shell, top-level composition, cross-sector wiring | any lower layer |
+| `src/types` | Declaration-only TypeScript contracts shared across runtime layers | may import only `src/types/*` or external package typings; may be imported by any runtime layer |
 
 ### Intended relationship boundaries
 
@@ -65,6 +70,7 @@ The main relationships should be:
 - **Sector isolation:** each top-level folder under `src/sectors` (e.g. `blog`, `shop`, `cart`) is its own feature island. Code in one such folder must not import from another sector folder. Shared behavior belongs in `src/common` (or lower layers), which all sectors may use; cross-sector wiring stays in `src/session` (gateways/composition).
 - sectors know shared code in `common`; `common` does not know sectors.
 - `common` knows `lib`; `lib` does not know `common`.
+- `types` stays independent from runtime folders; runtime folders may depend on `types`, but `types` must not depend on `session`, `sectors`, `common`, `misc`, or `lib`.
 - `lib/ui` may depend on `lib/framework`, but `lib/framework` must not depend on `lib/ui`.
 - data models in `common/datatypes` should stay free of runtime service lookups from `common/dba`.
 
@@ -72,7 +78,7 @@ In practice, the architecture should resemble a composition root at the top (`se
 
 ## 2. Current Status
 
-As of the latest update, `npm run check-deps` reports no **layer** (ordering) violations. It may still report **sector cross-dependency** violations: imports between different immediate child folders of `src/sectors`. Those are architecture debt to eliminate by moving shared code to `src/common` or lifting composition to `src/session`. A staged remediation plan lives in [SectorDependencyRemediationPlan.md](./SectorDependencyRemediationPlan.md).
+As of the latest update, `npm run check-deps` reports no **layer** (ordering) violations and no **types independence** violations. It may still report **sector cross-dependency** violations: imports between different immediate child folders of `src/sectors`. Those are architecture debt to eliminate by moving shared code to `src/common` or lifting composition to `src/session`. A staged remediation plan lives in [SectorDependencyRemediationPlan.md](./SectorDependencyRemediationPlan.md).
 
 Previously documented dependency debts in this file have been resolved, including:
 
@@ -93,5 +99,6 @@ New code should follow these rules:
 - do not let `lib/framework/*` reference `lib/ui/*`
 - do not let `lib/*` reference product-specific state, resources, or sector contracts
 - do not let `sectors/*` import from `session/*`
+- do not let `src/types/*` import from runtime folders under `src/`; keep it limited to `src/types/*` and external package typings
 - do not import across top-level folders under `src/sectors` (e.g. `sectors/shop` must not import `sectors/cart`; use `common` or session composition instead)
 - when a lower layer needs information from a higher layer, pass it in as data, callbacks, or small interfaces

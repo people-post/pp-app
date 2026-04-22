@@ -3,6 +3,7 @@ import path from 'node:path';
 
 const repoRoot = process.cwd();
 const srcRoot = path.join(repoRoot, 'src');
+const typesRoot = path.join(srcRoot, 'types');
 
 const orderedLayers = [
   { name: 'lib/ext', prefix: 'src/lib/ext/', rank: 0 },
@@ -38,6 +39,9 @@ function walk(dirPath) {
     }
 
     if (entry.name.endsWith('.d.ts')) {
+      if (fullPath.startsWith(`${typesRoot}${path.sep}`)) {
+        files.push(fullPath);
+      }
       continue;
     }
 
@@ -53,8 +57,12 @@ function normalizePath(filePath) {
   return path.relative(repoRoot, filePath).split(path.sep).join('/');
 }
 
+function isTypesPath(relativePath) {
+  return relativePath.startsWith('src/types/');
+}
+
 function getLayer(relativePath) {
-  if (relativePath.startsWith('src/types/')) {
+  if (isTypesPath(relativePath)) {
     return null;
   }
 
@@ -128,16 +136,20 @@ function getLineNumber(fileContent, matchIndex) {
 const files = walk(srcRoot);
 const layerViolations = [];
 const sectorCrossViolations = [];
+const typesIndependenceViolations = [];
 const unclassified = new Set();
 
 for (const filePath of files) {
   const relativeFilePath = normalizePath(filePath);
+  const sourceIsTypes = isTypesPath(relativeFilePath);
   const sourceLayer = getLayer(relativeFilePath);
   if (!sourceLayer) {
-    if (!relativeFilePath.startsWith('src/types/')) {
+    if (!sourceIsTypes) {
       unclassified.add(relativeFilePath);
     }
-    continue;
+    if (!sourceIsTypes) {
+      continue;
+    }
   }
 
   const content = fs.readFileSync(filePath, 'utf8');
@@ -153,10 +165,23 @@ for (const filePath of files) {
       }
 
       const relativeTargetPath = normalizePath(targetPath);
+      const targetIsTypes = isTypesPath(relativeTargetPath);
+
+      if (sourceIsTypes) {
+        if (!targetIsTypes) {
+          typesIndependenceViolations.push({
+            source: relativeFilePath,
+            line: getLineNumber(content, match.index),
+            target: relativeTargetPath,
+            specifier,
+          });
+        }
+        continue;
+      }
+
       const targetLayer = getLayer(relativeTargetPath);
       if (!targetLayer) {
-        if (relativeTargetPath.startsWith('src/') &&
-            !relativeTargetPath.startsWith('src/types/')) {
+        if (relativeTargetPath.startsWith('src/') && !targetIsTypes) {
           unclassified.add(relativeTargetPath);
         }
         continue;
@@ -239,6 +264,22 @@ if (sectorCrossViolations.length === 0) {
   }
 }
 
+if (typesIndependenceViolations.length === 0) {
+  console.log('No types independence violations found.');
+} else {
+  console.error(
+    `Found ${typesIndependenceViolations.length} types independence violation` +
+    `${typesIndependenceViolations.length === 1 ? '' : 's'} ` +
+    '(src/types may only import from src/types or external packages):'
+  );
+  for (const violation of typesIndependenceViolations) {
+    console.error(
+      `${violation.source}:${violation.line} [types] -> ${violation.target} ` +
+      `via ${violation.specifier}`
+    );
+  }
+}
+
 if (unclassified.size > 0) {
   console.warn('\nUnclassified src paths skipped:');
   for (const filePath of [...unclassified].sort()) {
@@ -247,4 +288,8 @@ if (unclassified.size > 0) {
 }
 
 process.exitCode =
-  layerViolations.length > 0 || sectorCrossViolations.length > 0 ? 1 : 0;
+  layerViolations.length > 0 ||
+  sectorCrossViolations.length > 0 ||
+  typesIndependenceViolations.length > 0
+    ? 1
+    : 0;
