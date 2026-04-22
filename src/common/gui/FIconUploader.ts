@@ -9,7 +9,7 @@ const _CFT_ICON_UPLOADER = {
   MAIN : `
     <div class="profile-icon tw:inline-block tw:w-s-icon1 tw:h-s-icon1 s-cprimebg">
        <img class="photo" src="__SRC__" alt="Icon" onclick="javascript:this.nextElementSibling.click()">
-       <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action('${CF_ICON_UPLOADER.ON_ICON_CHANGE}', this.files[0])">
+       <input type="file" accept="image/*" style="display:none" data-pp-change-action="${CF_ICON_UPLOADER.ON_ICON_CHANGE}" data-pp-change-args='["$files0"]'>
     </div>`,
 };
 

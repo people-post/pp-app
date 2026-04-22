@@ -17,7 +17,7 @@ const _CFT_SEARCH_BAR = {
   CLEAR_ICON :
     `<span class="tw:inline-block tw:w-s-icon6 tw:h-s-icon6 tw:cursor-pointer" data-pp-action="${CF_SEARCH_BAR.ON_CLEAR}">__ICON__</span>`,
   INPUT :
-      `<input id="__ID__" class="search-bar tw:bg-transparent __THEME_CLASS_NAMES__" type="text" onchange="javascript:G.action('${CF_SEARCH_BAR.ON_CHANGE}', this.value)" onkeydown="javascript:G.action('${CF_SEARCH_BAR.ON_KEYDOWN}', this.value)" value="__VALUE__"/>`,
+      `<input id="__ID__" class="search-bar tw:bg-transparent __THEME_CLASS_NAMES__" type="text" data-pp-change-action="${CF_SEARCH_BAR.ON_CHANGE}" data-pp-change-args='["$value"]' data-pp-keydown-action="${CF_SEARCH_BAR.ON_KEYDOWN}" data-pp-keydown-args='["$value"]' value="__VALUE__"/>`,
 };
 
 export interface SearchBarDelegate {

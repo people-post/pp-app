@@ -14,7 +14,7 @@ export const CF_SMART_INPUT = {
 
 const _CFT_SMART_INPUT = {
   INPUT : `<span class="menu-item-config-text-input">
-    <input type="text" class="tight-label-like" oninput="javascript:G.action('${CF_SMART_INPUT.ON_CHANGE}', this.value)" onblur="javascript:G.action('${CF_SMART_INPUT.ON_BLUR}')" placeholder="__PLACEHOLDER__">
+    <input type="text" class="tight-label-like" data-pp-input-action="${CF_SMART_INPUT.ON_CHANGE}" data-pp-input-args='["$value"]' data-pp-blur-action="${CF_SMART_INPUT.ON_BLUR}" placeholder="__PLACEHOLDER__">
   </span>`,
   HINT_TAG :
       `<span class="tw:cursor-pointer tw:border tw:border-solid tw:border-blue-300 tw:rounded-[5px] tw:p-[2px]" data-pp-action="${CF_SMART_INPUT.ON_HINT_ITEM_CHOSEN}" data-pp-args='["__ITEM_ID__"]'>__VALUE__</span>`,

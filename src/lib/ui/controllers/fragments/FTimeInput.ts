@@ -1,26 +1,14 @@
 import { Fragment } from './Fragment.js';
 
-export const CF_TIME_INPUT = {
-  ON_H_CHANGE : Symbol(),
-  ON_M_CHANGE : Symbol(),
-};
-
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_TIME_INPUT?: typeof CF_TIME_INPUT;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_TIME_INPUT = CF_TIME_INPUT;
-}
+const CF_TIME_INPUT = {
+  ON_H_CHANGE : 'CF_TIME_INPUT_1',
+  ON_M_CHANGE : 'CF_TIME_INPUT_2',
+} as const;
 
 const _CFT_NUMBER_INPUT = {
   INPUT :
-      `<input class="inline-short" type="number" id="__ID__" min="0" max="23" step="1", value="__HR__" onchange="javascript:G.action(window.CF_TIME_INPUT.ON_H_CHANGE, this.value)">:
-    <input class="inline-short" type="number" id="__ID__" min="0" max="59" step="1", value="__MINUTE__" onchange="javascript:G.action(window.CF_TIME_INPUT.ON_M_CHANGE, this.value)">`,
+      `<input class="inline-short" type="number" id="__ID__" min="0" max="23" step="1", value="__HR__" data-pp-change-action="${CF_TIME_INPUT.ON_H_CHANGE}" data-pp-change-args='["$value"]'>:
+    <input class="inline-short" type="number" id="__ID__" min="0" max="59" step="1", value="__MINUTE__" data-pp-change-action="${CF_TIME_INPUT.ON_M_CHANGE}" data-pp-change-args='["$value"]'>`,
 } as const;
 
 export class FTimeInput extends Fragment {

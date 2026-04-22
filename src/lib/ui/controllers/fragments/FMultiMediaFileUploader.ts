@@ -9,23 +9,11 @@ export const CF_MULTI_MEDIA_FILE_UPLOAD = {
   ADD_FILES : "CF_MULTI_MEDIA_FILE_UPLOAD_1",
 } as const;
 
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_MULTI_MEDIA_FILE_UPLOAD?: typeof CF_MULTI_MEDIA_FILE_UPLOAD;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_MULTI_MEDIA_FILE_UPLOAD = CF_MULTI_MEDIA_FILE_UPLOAD;
-}
-
 export const _CFT_MULTI_MEDIA_FILE_UPLOAD = {
   BTN_ADD_FILE : `<label class="tw:text-s-font5" for="__ID__">
       <span class="icon-btn-wrapper tw:inline-block tw:w-s-icon1 tw:h-s-icon1 tw:cursor-pointer">__ICON__</span>
     </label>
-    <input id="__ID__" multiple="" type="file" accept="image/*,video/*" style="display:none" onchange="javascript:G.action(window.CF_MULTI_MEDIA_FILE_UPLOAD.ADD_FILES, this)">`,
+    <input id="__ID__" multiple="" type="file" accept="image/*,video/*" style="display:none" data-pp-change-action="${CF_MULTI_MEDIA_FILE_UPLOAD.ADD_FILES}" data-pp-change-args='["$this"]'>`,
 } as const;
 
 export class FMultiMediaFileUploader extends Fragment {

@@ -4,25 +4,13 @@ export const CF_NUMBER_INPUT = {
   ONCHANGE : "CF_NUMBER_INPUT_1",
 } as const;
 
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_NUMBER_INPUT?: typeof CF_NUMBER_INPUT;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_NUMBER_INPUT = CF_NUMBER_INPUT;
-}
-
 const _CFT_NUMBER_INPUT = {
   FULL : `<div>
        <p>__TITLE__</p>
        __INPUT__
     </div>`,
   INPUT :
-      `<input class="__CLASS__" type="number" id="__ID__" min="__MIN__" max="__MAX__" step="__STEP__", value="__VALUE__" onchange="javascript:G.action(window.CF_NUMBER_INPUT.ONCHANGE, this.value)">__UNIT__`,
+      `<input class="__CLASS__" type="number" id="__ID__" min="__MIN__" max="__MAX__" step="__STEP__", value="__VALUE__" data-pp-change-action="${CF_NUMBER_INPUT.ONCHANGE}" data-pp-change-args='["$value"]'>__UNIT__`,
 } as const;
 
 interface NumberInputConfig {

@@ -18,7 +18,7 @@ const _CFT_CHAT_INPUT_MENU = {
       `<span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer" data-pp-action="__ACTION__">__ICON__</span>`,
   BTN_FILE :
       `<span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer" onclick="javascript:this.nextElementSibling.click()">__ICON__</span>
-    <input type="file" style="display:none" onchange="javascript:G.action(CF_CHAT_INPUT_MENU.SEND_FILE, this)">`,
+  <input type="file" style="display:none" data-pp-change-action="${CF_CHAT_INPUT_MENU.SEND_FILE}" data-pp-change-args='["$this"]'>`,
 } as const;
 
 if (typeof window !== 'undefined') {

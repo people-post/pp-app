@@ -8,22 +8,10 @@ export const CF_MEDIA_FILE_UPLOAD = {
   SET_THUMBNAIL_IMAGE : "CF_MEDIA_FILE_UPLOAD_1",
 } as const;
 
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_MEDIA_FILE_UPLOAD?: typeof CF_MEDIA_FILE_UPLOAD;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_MEDIA_FILE_UPLOAD = CF_MEDIA_FILE_UPLOAD;
-}
-
 export const _CFT_MEDIA_FILE_UPLOAD = {
   ACTIONS :
       `<a class="button-like s-primary" href="javascript:void(0)" onclick="javascript:this.nextElementSibling.click();">Cover</a>
-      <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action(window.CF_MEDIA_FILE_UPLOAD.SET_THUMBNAIL_IMAGE, this.files[0])">`,
+      <input type="file" accept="image/*" style="display:none" data-pp-change-action="${CF_MEDIA_FILE_UPLOAD.SET_THUMBNAIL_IMAGE}" data-pp-change-args='["$files0"]'>`,
 } as const;
 
 interface FileUploaderExtended {

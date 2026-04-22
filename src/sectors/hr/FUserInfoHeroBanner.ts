@@ -39,7 +39,7 @@ const _CFT_USER_INFO_HERO_BANNER = {
   USER_ICON : `<img class="user-info-icon tw:w-s-icon2 tw:h-s-icon2" src="__ICON_URL__"></img>`,
   INFO_IMAGE_UPLOAD :
       `<span onclick="javascript:this.nextElementSibling.click()">Upload</span>
-    <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action('${CF_USER_INFO_HERO_BANNER.ON_INFO_IMAGE_CHANGE}', this.files[0])">`,
+    <input type="file" accept="image/*" style="display:none" data-pp-change-action="${CF_USER_INFO_HERO_BANNER.ON_INFO_IMAGE_CHANGE}" data-pp-change-args='["$files0"]'>`,
   NAME :
       `<span class="tw:inline-block tw:w-s-icon7 tw:h-s-icon7">__ICON__</span>&nbsp;<span>__NAME__</span> __ACTION_BTN__ __MSG_BTN__ __SEND_FUND_BTN__</div>`,
   MESSAGE_BTN :
@@ -116,7 +116,7 @@ export class FUserInfoHeroBanner extends Fragment {
       this.#onSendFund(args[0] as string);
       break;
     case CF_USER_INFO_HERO_BANNER.ON_INFO_IMAGE_CHANGE:
-      this.#onUpdateInfoImage((args[0] as FileList)[0]);
+      this.#onUpdateInfoImage(args[0] as File);
       break;
     case CF_USER_INFO_HERO_BANNER.SHOW_FOLLOWERS:
       this.#onShowFollowers(args[0] as string);

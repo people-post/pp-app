@@ -1,20 +1,8 @@
 import { SimpleInput } from './SimpleInput.js';
 
-export const CF_TEXT_INPUT = {
-  ONCHANGE : Symbol(),
-};
-
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_TEXT_INPUT?: typeof CF_TEXT_INPUT;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_TEXT_INPUT = CF_TEXT_INPUT;
-}
+const CF_TEXT_INPUT = {
+  ONCHANGE : 'CF_TEXT_INPUT_1',
+} as const;
 
 const _CFT_TEXT_INPUT = {
   FULL : `<div>
@@ -22,7 +10,7 @@ const _CFT_TEXT_INPUT = {
        __INPUT__
     </div>`,
   INPUT :
-      `<input type="text" id="__ID__" class="__CLASS_NAME__" placeholder="__HINT__" value="__VALUE__" onchange="javascript:G.action(window.CF_TEXT_INPUT.ONCHANGE, this.value)">`
+      `<input type="text" id="__ID__" class="__CLASS_NAME__" placeholder="__HINT__" value="__VALUE__" data-pp-change-action="${CF_TEXT_INPUT.ONCHANGE}" data-pp-change-args='["$value"]'>`
 } as const;
 
 interface TextInputConfig {

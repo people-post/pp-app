@@ -15,10 +15,10 @@ const _CFT_COMMUNITY_HEADER_EDITOR = {
   FCN_VOID: `void(0)`,
   ICON:
       `<img class="user-info-icon tw:w-s-icon2 tw:h-s-icon2" src="__URL__" alt="Icon" onclick="javascript:__ONCLICK__">
-       <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action('${CF_COMMUNITY_HEADER_EDITOR.ON_ICON_CHANGE}', this.files[0])">`,
+       <input type="file" accept="image/*" style="display:none" data-pp-change-action="${CF_COMMUNITY_HEADER_EDITOR.ON_ICON_CHANGE}" data-pp-change-args='["$files0"]'>`,
   INFO_IMAGE_UPLOAD:
       `<span onclick="javascript:this.nextElementSibling.click()">Upload</span>
-    <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action('${CF_COMMUNITY_HEADER_EDITOR.ON_INFO_IMAGE_CHANGE}', this.files[0])">`,
+    <input type="file" accept="image/*" style="display:none" data-pp-change-action="${CF_COMMUNITY_HEADER_EDITOR.ON_INFO_IMAGE_CHANGE}" data-pp-change-args='["$files0"]'>`,
 } as const;
 
 export interface HeaderEditorDelegate {
@@ -75,10 +75,10 @@ export class FHeaderEditor extends Fragment {
   action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_COMMUNITY_HEADER_EDITOR.ON_ICON_CHANGE:
-      this.#onUpdateIcon((args[0] as FileList)[0]);
+      this.#onUpdateIcon(args[0] as File);
       break;
     case CF_COMMUNITY_HEADER_EDITOR.ON_INFO_IMAGE_CHANGE:
-      this.#onUpdateInfoImage((args[0] as FileList)[0]);
+      this.#onUpdateInfoImage(args[0] as File);
       break;
     default:
       super.action(type, ...args);

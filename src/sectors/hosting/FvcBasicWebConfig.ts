@@ -18,14 +18,14 @@ const CF_BASIC_WEB_CONFIG = {
 
 const _CFT_BASIC_WEB_CONFIG = {
   HOME_PAGE_TITLE:
-      `<input type="text" class="tight-label-like tw:box-border s-cfunc" placeholder="Your homepage title" value="__VALUE__" onchange="javascript:G.action('${CF_BASIC_WEB_CONFIG.ON_TITLE_SET}', this.value)">`,
+      `<input type="text" class="tight-label-like tw:box-border s-cfunc" placeholder="Your homepage title" value="__VALUE__" data-pp-change-action="${CF_BASIC_WEB_CONFIG.ON_TITLE_SET}" data-pp-change-args='["$value"]'>`,
   PROFILE_ICON: `
     <div class="profile-icon tw:inline-block tw:w-s-icon1 tw:h-s-icon1 s-cprimebg">
        <img class="photo" src="__SRC__" alt="Icon" onclick="javascript:this.nextElementSibling.click()">
-       <input type="file" accept="image/*" style="display:none" onchange="javascript:G.action('${CF_BASIC_WEB_CONFIG.ON_ICON_CHANGE}', this.files[0])">
+       <input type="file" accept="image/*" style="display:none" data-pp-change-action="${CF_BASIC_WEB_CONFIG.ON_ICON_CHANGE}" data-pp-change-args='["$files0"]'>
     </div>`,
   THEME_COLOR:
-      `<input type="text" class="tight-label-like" placeholder="Color" value-bak="__VALUE__" value="__VALUE__" style="color: __COLOR__" onchange="javascript:G.action('${CF_BASIC_WEB_CONFIG.ON_DEFAULT_COLOR_CHANGE}', '__KEY__', this)">`,
+      `<input type="text" class="tight-label-like" placeholder="Color" value-bak="__VALUE__" value="__VALUE__" style="color: __COLOR__" data-pp-change-action="${CF_BASIC_WEB_CONFIG.ON_DEFAULT_COLOR_CHANGE}" data-pp-change-args='["__KEY__", "$this"]'>`,
 };
 
 interface ApiUpdateWebConfigResponse {

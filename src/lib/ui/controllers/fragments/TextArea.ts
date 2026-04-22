@@ -4,22 +4,10 @@ export const CF_TEXT_AREA = {
   ON_CHANGE : "CF_TEXT_AREA_1",
 } as const;
 
-// Export to window for string template access
-declare global {
-  interface Window {
-    CF_TEXT_AREA?: typeof CF_TEXT_AREA;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CF_TEXT_AREA = CF_TEXT_AREA;
-}
-
 const _CFT_TEXT_AREA = {
   TITLE : `<p class="title">__TITLE__</p>`,
   INPUT :
-      `<textarea id="__ID__" class="__CLASS_NAME__" onchange="javascript:G.action(window.CF_TEXT_AREA.ON_CHANGE, this.value)" placeholder="__HINT__">__VALUE__</textarea>`,
+      `<textarea id="__ID__" class="__CLASS_NAME__" data-pp-change-action="${CF_TEXT_AREA.ON_CHANGE}" data-pp-change-args='["$value"]' placeholder="__HINT__">__VALUE__</textarea>`,
 } as const;
 
 interface TextAreaConfig {

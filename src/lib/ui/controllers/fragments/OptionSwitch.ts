@@ -4,18 +4,6 @@ export const CFT_OPTION_SWITCH = {
   ON_CHANGE : "CFT_OPTION_SWITCH_1",
 } as const;
 
-// Export to window for string template access
-declare global {
-  interface Window {
-    CFT_OPTION_SWITCH?: typeof CFT_OPTION_SWITCH;
-    [key: string]: unknown;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  window.CFT_OPTION_SWITCH = CFT_OPTION_SWITCH;
-}
-
 const _CFT_OPTION_SWITCH = {
   OPTION : `<table class="tw:w-full tw:border-collapse">
     <tbody>
@@ -23,7 +11,7 @@ const _CFT_OPTION_SWITCH = {
         <td>__NAME__:</td>
         <td class="tw:text-right">
           <label class="switch tw:text-s-font5">
-            <input type="checkbox" onchange="javascript:G.action(window.CFT_OPTION_SWITCH.ON_CHANGE, '__VALUE__', this.checked)"__EXTRA__>
+            <input type="checkbox" data-pp-change-action="${CFT_OPTION_SWITCH.ON_CHANGE}" data-pp-change-args='["__VALUE__", "$checked"]'__EXTRA__>
             <span class="slider"></span>
           </label>
         </td>

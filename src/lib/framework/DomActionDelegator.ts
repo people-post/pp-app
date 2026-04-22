@@ -2,6 +2,12 @@ type GlobalG = {
   action: (...args: unknown[]) => void;
 };
 
+type DelegatedEventConfig = {
+  eventType: 'click' | 'change' | 'input' | 'keydown' | 'keyup' | 'blur';
+  actionAttr: string;
+  argsAttr: string;
+};
+
 function isAnchor(el: Element): el is HTMLAnchorElement {
   return el.tagName.toLowerCase() === 'a';
 }
@@ -27,6 +33,9 @@ function materializeArg(el: Element, arg: unknown): unknown {
     return el;
   }
   if (typeof arg === 'string') {
+    if (arg === '$files0' && el instanceof HTMLInputElement) {
+      return el.files?.[0] ?? null;
+    }
     if (arg === '$checked' && el instanceof HTMLInputElement) {
       return el.checked;
     }
@@ -56,6 +65,58 @@ function resolveAction(raw: string): unknown {
   return raw;
 }
 
+function dispatchDelegatedAction(
+    w: { G?: GlobalG },
+    evt: Event,
+    el: Element,
+    actionAttr: string,
+    argsAttr: string): void {
+  const actionRaw = el.getAttribute(actionAttr);
+  if (!actionRaw) {
+    return;
+  }
+  const actionId = resolveAction(actionRaw);
+  if (actionId == null) {
+    return;
+  }
+
+  evt.stopPropagation();
+  if (evt.type === 'click' && isAnchor(el)) {
+    evt.preventDefault();
+  }
+
+  const args = parseArgs(el.getAttribute(argsAttr));
+  const materializedArgs = args.map(a => materializeArg(el, a));
+  const win = window as unknown as { event?: Event };
+  const prevEvent = win.event;
+  win.event = evt;
+  try {
+    w.G?.action(actionId, ...materializedArgs);
+  } finally {
+    win.event = prevEvent;
+  }
+}
+
+function installDelegatedEvent(
+    w: { G?: GlobalG },
+    config: DelegatedEventConfig): void {
+  document.addEventListener(
+      config.eventType,
+      evt => {
+        const target = evt.target as Element | null;
+        const selector = `[${config.actionAttr}]`;
+        const el = target?.closest?.(selector) as Element | null;
+        if (!el) {
+          return;
+        }
+        if (config.eventType === 'click' && isSelfOnlyAction(el) && evt.target !== el) {
+          return;
+        }
+        dispatchDelegatedAction(w, evt, el, config.actionAttr, config.argsAttr);
+      },
+      true);
+}
+
 export function installDomActionDelegator(): void {
   if (typeof window === 'undefined') {
     return;
@@ -71,44 +132,35 @@ export function installDomActionDelegator(): void {
   // (e.g. LContext's panel uses onclick="G.anchorClick()" which blocks the event from
   // reaching document in the bubble phase, which would otherwise prevent data-pp-action
   // from working inside context layers).
-  document.addEventListener(
-      'click',
-      (evt: MouseEvent) => {
-        const target = evt.target as Element | null;
-        const el = target?.closest?.('[data-pp-action]') as Element | null;
-        if (!el) {
-          return;
-        }
-        if (isSelfOnlyAction(el) && evt.target !== el) {
-          return;
-        }
-
-        const actionRaw = el.getAttribute('data-pp-action');
-        if (!actionRaw) {
-          return;
-        }
-        const actionId = resolveAction(actionRaw);
-        if (actionId == null) {
-          return;
-        }
-
-        // Preserve existing inline-handler semantics.
-        evt.stopPropagation();
-        if (isAnchor(el)) {
-          evt.preventDefault();
-        }
-
-        const args = parseArgs(el.getAttribute('data-pp-args'));
-        const materializedArgs = args.map(a => materializeArg(el, a));
-        const win = window as unknown as { event?: Event };
-        const prevEvent = win.event;
-        win.event = evt;
-        try {
-          w.G?.action(actionId, ...materializedArgs);
-        } finally {
-          win.event = prevEvent;
-        }
-      },
-      true);
+  installDelegatedEvent(w, {
+    eventType : 'click',
+    actionAttr : 'data-pp-action',
+    argsAttr : 'data-pp-args'
+  });
+  installDelegatedEvent(w, {
+    eventType : 'change',
+    actionAttr : 'data-pp-change-action',
+    argsAttr : 'data-pp-change-args'
+  });
+  installDelegatedEvent(w, {
+    eventType : 'input',
+    actionAttr : 'data-pp-input-action',
+    argsAttr : 'data-pp-input-args'
+  });
+  installDelegatedEvent(w, {
+    eventType : 'keydown',
+    actionAttr : 'data-pp-keydown-action',
+    argsAttr : 'data-pp-keydown-args'
+  });
+  installDelegatedEvent(w, {
+    eventType : 'keyup',
+    actionAttr : 'data-pp-keyup-action',
+    argsAttr : 'data-pp-keyup-args'
+  });
+  installDelegatedEvent(w, {
+    eventType : 'blur',
+    actionAttr : 'data-pp-blur-action',
+    argsAttr : 'data-pp-blur-args'
+  });
 }
 

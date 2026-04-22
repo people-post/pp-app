@@ -24,7 +24,7 @@ const _CFT_REGISTER_CONTENT = {
       </tr>
       <tr>
         <td>
-          <input id="ID_EMAIL" type="text" onchange="G.action(CF_REGISTER_CONTENT.VALIDATE_EMAIL)" placeholder="__R_EMAIL_HINT__">
+          <input id="ID_EMAIL" type="text" data-pp-change-action="${CF_REGISTER_CONTENT.VALIDATE_EMAIL}" placeholder="__R_EMAIL_HINT__">
         </td>
       </tr>
       <tr>
@@ -42,7 +42,7 @@ const _CFT_REGISTER_CONTENT = {
     </tbody>
   </table>`,
   TERM :
-      `<input type="checkbox" onchange="javascript:G.action(CF_REGISTER_CONTENT.ON_TOGGLE_AGREE, this.checked)">__R_AGREE__ __TERM__.`,
+      `<input type="checkbox" data-pp-change-action="${CF_REGISTER_CONTENT.ON_TOGGLE_AGREE}" data-pp-change-args='["$checked"]'>__R_AGREE__ __TERM__.`,
 }
 
 export class FvcRegister extends FScrollViewContent {

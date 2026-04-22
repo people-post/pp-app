@@ -15,14 +15,14 @@ export const CF_INPUT_CONSOLE = {
 
 const _CFT_INPUT_CONSOLE = {
   TEXT_INPUT_NORMAL :
-      `<textarea id="ID_INPUT_CONSOLE___FID__" class="console-text" onkeydown="javascript:G.action('${CF_INPUT_CONSOLE.ON_KEY_DOWN}')" onkeyup="javascript:G.action('${CF_INPUT_CONSOLE.ON_KEY_UP}')" placeholder="__TEXT_PLACE_HOLDER__">__VALUE__</textarea>`,
+      `<textarea id="ID_INPUT_CONSOLE___FID__" class="console-text" data-pp-keydown-action="${CF_INPUT_CONSOLE.ON_KEY_DOWN}" data-pp-keyup-action="${CF_INPUT_CONSOLE.ON_KEY_UP}" placeholder="__TEXT_PLACE_HOLDER__">__VALUE__</textarea>`,
   TEXT_INPUT_DISABLED :
       `<textarea class="console-text" placeholder="__TEXT_PLACE_HOLDER__" disabled></textarea>`,
   ICON : `<span class="tw:inline-block tw:w-s-icon6 tw:h-s-icon6 tw:cursor-pointer">__ICON__</span>`,
   BTN_IMG : `<label class="tw:text-s-font5" for="_ID_INPUT_CONSOLE_IMG_INPUT">
       <span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer">__IMG_ICON__</span>
     </label>
-    <input id="_ID_INPUT_CONSOLE_IMG_INPUT" type="file" style="display:none" onchange="javascript:G.action('${CF_INPUT_CONSOLE.ON_POST_FILE}', this)">`,
+    <input id="_ID_INPUT_CONSOLE_IMG_INPUT" type="file" style="display:none" data-pp-change-action="${CF_INPUT_CONSOLE.ON_POST_FILE}" data-pp-change-args='["$this"]'>`,
   BTN_IMG_DISABLED : `<label class="tw:text-s-font5">
     <span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer">__IMG_ICON__</span>
    </label>`,
@@ -125,8 +125,7 @@ export class InputConsoleFragment extends Fragment {
     // Send btn
     pp = new Panel();
     if (this.#isEnabled) {
-      pp.setAttribute("onclick",
-                      "javascript:G.action('${CF_INPUT_CONSOLE.ON_POST}')");
+      pp.setAttribute("data-pp-action", CF_INPUT_CONSOLE.ON_POST);
     }
     p.pushPanel(pp);
     pp.setClassName("input-console-icon");
@@ -142,8 +141,7 @@ export class InputConsoleFragment extends Fragment {
         pp.setClassName("input-console-icon");
       }
       if (this.#isEnabled) {
-        pp.setAttribute(
-            "onclick", "javascript:G.action('${CF_INPUT_CONSOLE.TOGGLE_MORE}')");
+        pp.setAttribute("data-pp-action", CF_INPUT_CONSOLE.TOGGLE_MORE);
       }
       p.pushPanel(pp);
       pp.replaceContent(this.#renderMoreButton());
