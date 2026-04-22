@@ -1,4 +1,4 @@
-import { sys, RemoteServer } from 'pp-api';
+import { sys, RemoteServer } from '../plt/PpApiTypes.js';
 
 interface UserInfo {
   id: string;

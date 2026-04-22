@@ -197,29 +197,6 @@ declare global {
       };
       [key: string]: unknown;
     };
-    glb?: {
-      web3Resolver?: {
-        getAgents(): Web3Agent[];
-        asInit(resolvers: string[] | null): Promise<void>;
-        asResolveFromCid(cid: string): Promise<any>;
-        asResolve(userId: string): Promise<any>;
-      };
-      web3Publisher?: {
-        getAgents(): Web3Agent[];
-        asInit(publishers: string[] | null): Promise<void>;
-        asInitForUser(userId: string): Promise<void>;
-        getInitUserRootCid(): string | null;
-      };
-      web3Ledger?: {
-        getAgents(): Web3Agent[];
-        asInit(blockchains: string[] | null): Promise<void>;
-      };
-      web3Storage?: {
-        getAgents(id?: string): Web3Agent[];
-        asInit(storages: string[] | null): Promise<void>;
-        asInitForUser(userId: string): Promise<void>;
-      };
-    };
   }
 }
 

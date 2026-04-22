@@ -21,10 +21,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
-import { Web3Resolver } from '../../common/pdb/Web3Resolver.js';
-import { Web3Publisher } from '../../common/pdb/Web3Publisher.js';
-import { Web3Ledger } from '../../common/pdb/Web3Ledger.js';
-import { Web3Storage } from '../../common/pdb/Web3Storage.js';
+import { PpApiServices } from '../../common/pdb/PpApiServices.js';
 
 export class PWeb3Network extends Panel {
   #pResolver: ListPanel;
@@ -70,39 +67,38 @@ export class FvcWeb3Network extends FScrollViewContent {
     let panel = new PWeb3Network();
     render.wrapPanel(panel);
 
-    const glb = (typeof window !== 'undefined' && window.glb) ? window.glb : {} as { web3Resolver?: Web3Resolver; web3Publisher?: Web3Publisher; web3Ledger?: Web3Ledger; web3Storage?: Web3Storage };
-    const web3Resolver = glb.web3Resolver || null;
-    const web3Publisher = glb.web3Publisher || null;
-    const web3Ledger = glb.web3Ledger || null;
-    const web3Storage = glb.web3Storage || null;
+    const web3Resolver = PpApiServices.getResolverOrNull();
+    const web3Publisher = PpApiServices.getPublisherOrNull();
+    const web3Ledger = PpApiServices.getLedgerOrNull();
+    const web3Storage = PpApiServices.getStorageOrNull();
 
-    let agents = web3Resolver ? web3Resolver.getAgents() : [];
     let pList = panel.getResolverPanel();
-    for (let a of agents) {
+    const resolverAgents = web3Resolver ? web3Resolver.getAgents() : [];
+    for (let a of resolverAgents) {
       let p = new PanelWrapper();
       pList.pushPanel(p);
       this.#renderServer("", p, a.getHostAddress());
     }
 
-    agents = web3Publisher ? web3Publisher.getAgents() : [];
     pList = panel.getPublisherPanel();
-    for (let a of agents) {
+    const publisherAgents = web3Publisher ? web3Publisher.getAgents() : [];
+    for (let a of publisherAgents) {
       let p = new PanelWrapper();
       pList.pushPanel(p);
       this.#renderServer("", p, a.getHostAddress());
     }
 
-    agents = web3Ledger ? web3Ledger.getAgents() : [];
     pList = panel.getBlockchainPanel();
-    for (let a of agents) {
+    const ledgerAgents = web3Ledger ? web3Ledger.getAgents() : [];
+    for (let a of ledgerAgents) {
       let p = new PanelWrapper();
       pList.pushPanel(p);
-      this.#renderServer("", p, a.getHostAddress());
+      this.#renderServer("", p, a.getTxQueryUrl());
     }
 
-    agents = web3Storage ? web3Storage.getAgents() : [];
     pList = panel.getStoragePanel();
-    for (let a of agents) {
+    const storageAgents = web3Storage ? web3Storage.getAgents() : [];
+    for (let a of storageAgents) {
       let p = new PanelWrapper();
       pList.pushPanel(p);
       this.#renderServer("", p, a.getHostAddress());

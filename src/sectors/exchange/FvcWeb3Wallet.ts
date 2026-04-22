@@ -7,7 +7,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Wallet } from '../../common/datatypes/Wallet.js';
 import { Keys } from '../../common/dba/Keys.js';
 import { T_DATA } from '../../common/plt/Events.js';
-import { sys } from 'pp-api';
+import { sys } from '../../common/plt/PpApiTypes.js';
 import { CardanoAccount } from '../../common/datatypes/CardanoAccount.js';
 
 interface InputHash {

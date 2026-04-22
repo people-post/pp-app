@@ -5,10 +5,10 @@ import { Bip32Ed25519Key } from '../datatypes/Bip32Ed25519Key.js';
 import { MlDsa44Key } from '../datatypes/MlDsa44Key.js';
 import { Events as FwkEvents } from '../../lib/framework/Events.js';
 import { T_DATA as PltT_DATA } from '../plt/Events.js';
+import { sys } from '../plt/PpApiTypes.js';
 import Utilities from '../../lib/ext/Utilities.js';
 import * as bip39 from 'bip39';
 import { generateFromSeed, verify } from 'bip32-ed25519';
-import { sys } from 'pp-api';
 
 interface KeysData {
   e: string | null;
@@ -146,7 +146,10 @@ export class KeysClass implements KeysInterface {
   #getMlDsa44Impl(path: number[]): MlDsa44Key {
     const k = this.#getBip32Ed25519Impl(path);
     const seed = k.deriveSeed();
-    return new MlDsa44Key(sys.utl.mlDsa44KeyGen(seed));
+    return new MlDsa44Key(
+      sys.utl.mlDsa44KeyGen(seed),
+      (msg, secretKey) => sys.utl.mlDsa44Sign(msg, secretKey)
+    );
   }
 
   async #asyncDeriveBip44Ed25519RootKey(entropy: string): Promise<CardanoBip32PrivateKey> {

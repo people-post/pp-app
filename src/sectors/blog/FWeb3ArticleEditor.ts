@@ -7,7 +7,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { PWeb3ArticleEditor } from './PWeb3ArticleEditor.js';
 import { R } from '../../common/constants/R.js';
-import { dat as Web3Dat } from 'pp-api';
+import { dat as Web3Dat } from '../../common/plt/PpApiTypes.js';
 import type { Article } from '../../common/datatypes/Article.js';
 import { Account } from '../../common/dba/Account.js';
 

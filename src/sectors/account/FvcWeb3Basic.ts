@@ -7,6 +7,7 @@ import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FIconUploader } from '../../common/gui/FIconUploader.js';
 import { Env } from '../../common/plt/Env.js';
 import { Account } from '../../common/dba/Account.js';
+import { PpApiServices } from '../../common/pdb/PpApiServices.js';
 
 export class FvcWeb3Basic extends FScrollViewContent {
   #fName: FUserInfo;
@@ -62,7 +63,7 @@ export class FvcWeb3Basic extends FScrollViewContent {
       let pPeer = new Panel();
       pList.pushPanel(pPeer);
       pPeer.setClassName("tw:truncate");
-      const web3Publisher = (typeof window !== 'undefined' && window.glb && (window.glb as { web3Publisher?: { getInitUserPeerId: () => string | null } }).web3Publisher);
+      const web3Publisher = PpApiServices.getPublisherOrNull();
       let peerId = web3Publisher ? web3Publisher.getInitUserPeerId() : null;
       if (peerId) {
         pPeer.replaceContent("Peer id:" + peerId);

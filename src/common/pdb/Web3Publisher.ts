@@ -1,4 +1,4 @@
-import { PublisherAgent, RemoteServer } from 'pp-api';
+import { PublisherAgent, RemoteServer } from '../plt/PpApiTypes.js';
 import { Web3PeerUserRegistry } from './Web3PeerUserRegistry.js';
 
 export class Web3PeerPublisherAgent extends PublisherAgent {

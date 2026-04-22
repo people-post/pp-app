@@ -16,7 +16,7 @@ import { EmptyPost } from '../datatypes/EmptyPost.js';
 import { Journal } from '../datatypes/Journal.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
-import { sys } from 'pp-api';
+import { sys } from '../plt/PpApiTypes.js';
 import { SocialItemId } from '../datatypes/SocialItemId.js';
 import { Account } from './Account.js';
 import { BlogConfigData } from '../../types/blog.js';

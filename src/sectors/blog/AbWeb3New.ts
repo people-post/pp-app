@@ -13,9 +13,10 @@ import {
 } from '../../common/pdb/Web3ServerRegistrationFacade.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { Account } from '../../common/dba/Account.js';
-import type { StorageAgent } from 'pp-api';
+import type { StorageAgent } from '../../common/plt/PpApiTypes.js';
 import { Web3PeerPublisherAgent } from '../../common/pdb/Web3Publisher.js';
 import { Web3PeerStorageAgent } from '../../common/pdb/Web3Storage.js';
+import { PpApiServices } from '../../common/pdb/PpApiServices.js';
 
 // ActionButton needs some redesign
 export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegate {
@@ -85,7 +86,10 @@ export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegat
   }
 
   #onActionClick(): void {
-    const agents = window.glb?.web3Publisher?.getAgents() ?? [];
+    const allAgents = PpApiServices.getPublisherOrNull()?.getAgents() ?? [];
+    const agents = allAgents.filter((agent): agent is Web3PeerPublisherAgent =>
+      agent instanceof Web3PeerPublisherAgent
+    );
     if (agents.length > 0) {
       this.#onChoosePublisherAgents(agents);
     } else {
@@ -130,8 +134,11 @@ export class AbWeb3New extends Fragment implements Web3ServerRegistrationDelegat
     if (!Account) {
       return;
     }
-    const web3Storage = window.glb?.web3Storage;
-    const agents = web3Storage?.getAgents(Account.getId() ?? "") ?? [];
+    const web3Storage = PpApiServices.getStorageOrNull();
+    const allAgents = web3Storage?.getAgents(Account.getId() ?? "") ?? [];
+    const agents = allAgents.filter((agent): agent is Web3PeerStorageAgent =>
+      agent instanceof Web3PeerStorageAgent
+    );
     if (agents.length > 0) {
       this.#onChooseStorageAgent(agents);
     } else {

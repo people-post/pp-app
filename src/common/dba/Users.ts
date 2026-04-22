@@ -5,7 +5,7 @@ import type { User as UserType } from '../../types/user.js';
 import { PATH } from '../constants/Constants.js';
 import { Env } from '../plt/Env.js';
 import { Api } from '../plt/Api.js';
-import { User as Web3User, Owner as Web3Owner } from 'pp-api';
+import { User as Web3User, Owner as Web3Owner } from '../plt/PpApiTypes.js';
 import { Account } from './Account.js';
 import { Web3OwnerUser } from './Web3OwnerUser.js';
 import { Web3UserAdapter } from './Web3UserAdapter.js';
@@ -26,6 +26,7 @@ interface Web3Resolver {
 export class UserLib {
   #isLoading = false;
   #mUsers = new Map<string, UserType | null>();
+  #web3Resolver: Web3Resolver | null = null;
 
   constructor() {
     this.#initMap();
@@ -43,6 +44,10 @@ export class UserLib {
     if (id !== undefined) {
       FwkEvents.trigger(PltT_DATA.USER_PUBLIC_PROFILE, String(id));
     }
+  }
+
+  setWeb3Resolver(resolver: Web3Resolver | null): void {
+    this.#web3Resolver = resolver;
   }
 
   get(id: string | null): UserType | null {
@@ -74,8 +79,7 @@ export class UserLib {
     }
 
     if (!this.#mUsers.has(id)) {
-      // Lazy access to web3Resolver to avoid circular dependency
-      const web3Resolver = (typeof window !== 'undefined' && (window as { glb?: { web3Resolver?: Web3Resolver } }).glb?.web3Resolver) || null;
+      const web3Resolver = this.#web3Resolver;
       const d = web3Resolver ? await web3Resolver.asResolve(id) : null;
       const raw = new Web3User(d as Record<string, unknown>);
       raw.setProps({
@@ -161,8 +165,7 @@ export class UserLib {
   }
 
   #web3Load(ids: string[]): void {
-    // Lazy access to web3Resolver to avoid circular dependency
-    const web3Resolver = (typeof window !== 'undefined' && (window as { glb?: { web3Resolver?: Web3Resolver } }).glb?.web3Resolver) || null;
+    const web3Resolver = this.#web3Resolver;
     if (!web3Resolver) return;
     for (const id of ids) {
       web3Resolver

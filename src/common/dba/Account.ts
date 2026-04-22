@@ -10,7 +10,7 @@ import type { AccountPort, Web3AccountFacet } from './AccountPort.js';
 import type { User as UserType } from '../../types/user.js';
 import type { BlogStatisticsData, IdolData, OutRequest } from '../../types/backend2.js';
 import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
-import { StorageAgent, Owner as Web3Owner, type PublisherAgent } from 'pp-api';
+import { StorageAgent, Owner as Web3Owner, type PublisherAgent } from '../plt/PpApiTypes.js';
 
 type AccountImplementation = Web2Account | Web3Owner;
 

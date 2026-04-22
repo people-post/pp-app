@@ -7,7 +7,7 @@ import {
   type OwnerProps,
   dat as Web3Dat,
   StorageAgent,
-} from 'pp-api';
+} from '../plt/PpApiTypes.js';
 import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
 
 function uint8ToHex(bytes: Uint8Array): string {

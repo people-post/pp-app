@@ -2,7 +2,7 @@ import { FSearch } from './FSearch.js';
 import { SearchConfig } from '../datatypes/SearchConfig.js';
 import { SearchResult } from '../datatypes/SearchResult.js';
 import { Users } from '../dba/Users.js';
-import { sys } from 'pp-api';
+import { sys } from '../plt/PpApiTypes.js';
 import type { User as UserType } from '../../types/user.js';
 import type { SearchResultData } from '../../types/backend2.js';
 

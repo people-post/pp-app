@@ -1,4 +1,4 @@
-import { RemoteServer } from 'pp-api';
+import { RemoteServer } from '../plt/PpApiTypes.js';
 import { Web3BlockchainAgent } from './Web3BlockchainAgent.js';
 
 declare global {

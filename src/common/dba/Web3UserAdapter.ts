@@ -1,7 +1,7 @@
 import type { User as UserType } from '../../types/user.js';
 import type { ColorTheme, MarkInfo } from '../../types/basic.js';
 import type { BlogConfig } from '../../types/blog.js';
-import { User as Web3User, type UserProps } from 'pp-api';
+import { User as Web3User, type UserProps } from '../plt/PpApiTypes.js';
 
 /**
  * Wraps pp-api {@link Web3User} as app {@link UserType} for resolved peer profiles in web3.

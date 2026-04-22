@@ -1,8 +1,8 @@
 import type { User as UserType } from '../../types/user.js';
 import type { MarkInfo } from '../../types/basic.js';
 import type { IdolData, OutRequest, BlogStatisticsData } from '../../types/backend2.js';
-import type { OwnerProps, PublisherAgent, StorageAgent } from 'pp-api';
-import type { dat as Web3Dat } from 'pp-api';
+import type { OwnerProps, PublisherAgent, StorageAgent } from '../plt/PpApiTypes.js';
+import type { dat as Web3Dat } from '../plt/PpApiTypes.js';
 import type { CustomerOrder } from '../datatypes/CustomerOrder.js';
 
 /**

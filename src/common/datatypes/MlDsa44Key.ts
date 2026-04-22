@@ -1,15 +1,17 @@
-import { sys } from 'pp-api';
-
 interface MlDsa44KeyBuffer {
   publicKey: Uint8Array;
   secretKey: Uint8Array;
 }
 
+type MlDsa44Signer = (msg: Uint8Array, secretKey: Uint8Array) => Uint8Array;
+
 export class MlDsa44Key {
   #buffer: MlDsa44KeyBuffer | null = null;
+  readonly #signImpl: MlDsa44Signer;
 
-  constructor(buffer: MlDsa44KeyBuffer) {
+  constructor(buffer: MlDsa44KeyBuffer, signImpl: MlDsa44Signer) {
     this.#buffer = buffer;
+    this.#signImpl = signImpl;
   }
 
   toPublic(): Uint8Array | null {
@@ -26,7 +28,7 @@ export class MlDsa44Key {
     if (!this.#buffer) {
       throw new Error('MlDsa44Key buffer is null');
     }
-    return sys.utl.mlDsa44Sign(msg, this.#buffer.secretKey);
+    return this.#signImpl(msg, this.#buffer.secretKey);
   }
 }
 

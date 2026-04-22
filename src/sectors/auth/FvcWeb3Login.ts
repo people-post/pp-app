@@ -9,7 +9,8 @@ import * as bip39 from 'bip39';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events, T_ACTION as FwkT_ACTION } from '../../lib/framework/Events.js';
 import { Keys } from '../../common/dba/Keys.js';
-import { sys } from 'pp-api';
+import { sys } from '../../common/plt/PpApiTypes.js';
+import { PpApiServices } from '../../common/pdb/PpApiServices.js';
 import { R } from '../../common/constants/R.js';
 
 export class FvcWeb3Login extends FvcLoginBase implements IFvcProgressDelegate {
@@ -135,12 +136,8 @@ export class FvcWeb3Login extends FvcLoginBase implements IFvcProgressDelegate {
   }
 
   async #asInitAccount(userId: string): Promise<any> {
-    const web3Publisher = (typeof window !== 'undefined' && window.glb && window.glb.web3Publisher) 
-      ? window.glb.web3Publisher 
-      : null;
-    const web3Resolver = (typeof window !== 'undefined' && window.glb && window.glb.web3Resolver) 
-      ? window.glb.web3Resolver 
-      : null;
+    const web3Publisher = PpApiServices.getPublisherOrNull();
+    const web3Resolver = PpApiServices.getResolverOrNull();
     if (!web3Publisher || !web3Resolver) {
       throw new Error("Web3 services not initialized");
     }

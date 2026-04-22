@@ -1,4 +1,4 @@
-import { StorageAgent, RemoteServer } from 'pp-api';
+import { StorageAgent, RemoteServer } from '../plt/PpApiTypes.js';
 import { Web3PeerUserRegistry } from './Web3PeerUserRegistry.js';
 
 export class Web3PeerStorageAgent extends StorageAgent {

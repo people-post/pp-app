@@ -7,7 +7,7 @@ import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ICON } from '../../common/constants/Icons.js';
-import { sys } from 'pp-api';
+import { sys } from '../../common/plt/PpApiTypes.js';
 
 const API_BASE = 'http://54.89.208.5/api';
 

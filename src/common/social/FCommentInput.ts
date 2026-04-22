@@ -14,7 +14,7 @@ import { R } from '../constants/R.js';
 import { Account } from '../dba/Account.js';
 import { RemoteError } from '../../types/basic.js';
 import type { SocialItemId } from '../../types/basic.js';
-import { dat as Web3Dat } from 'pp-api';
+import { dat as Web3Dat } from '../plt/PpApiTypes.js';
 
 
 export interface FCommentInputDelegate {

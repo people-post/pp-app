@@ -1,6 +1,6 @@
 import PerishableObject from '../../lib/ext/PerishableObject.js';
 import { Web3ResolverAgent } from './Web3ResolverAgent.js';
-import { RemoteServer, sys } from 'pp-api';
+import { RemoteServer, sys } from '../plt/PpApiTypes.js';
 
 interface ProfileData {
   _cid?: string;

@@ -1,4 +1,4 @@
-import { ServerAgent } from 'pp-api';
+import { ServerAgent } from '../plt/PpApiTypes.js';
 
 export class Web3ResolverAgent extends ServerAgent {}
 

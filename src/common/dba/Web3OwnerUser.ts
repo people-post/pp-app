@@ -1,7 +1,7 @@
 import type { User as UserType } from '../../types/user.js';
 import type { ColorTheme, MarkInfo } from '../../types/basic.js';
 import type { BlogConfig } from '../../types/blog.js';
-import { Owner as Web3Owner, type OwnerProps, type UserProps } from 'pp-api';
+import { Owner as Web3Owner, type OwnerProps, type UserProps } from '../plt/PpApiTypes.js';
 
 /**
  * Adapts a Web3 {@link Web3Owner} to the app-wide {@link UserType} so it can be
