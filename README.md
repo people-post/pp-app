@@ -1,17 +1,14 @@
-# frontend
+# pp-app
 
 ## Directory layout
 
 | Name                         | Description                                                                                |
 |------------------------------|--------------------------------------------------------------------------------------------|
-| ext/                         | 3rd party codes                                                                            |
-| img/                         | Static images                                                                              |
 | doc/                         | Documents                                                                                  |
-| src/css/                     | CSS styling files (moved from css/ for Tailwind CSS v4 migration)                         |
+| src/                         | Source files and CSS styling files                                                         |
 | app/                         | Main javascript source code folder                                                         |
-| sw/                          | Service worker source code folder                                                          |
 | html/                        | Entry files                                                                                |
-| build.js                     | Node.js build script to compile code and prepare package                                    |
+| build.js                     | Node.js build script to compile code and prepare package                                   |
 | package.json                 | npm package configuration with build scripts                                               |
 
 ## Architecture Docs
@@ -88,15 +85,7 @@ The project now uses ES modules instead of file concatenation:
 - **Source files**: Original files in `app/` remain unchanged (still use IIFE pattern for now)
 - **Build output**: Same structure as before for compatibility
 
-### Migration Notes
-
-- The old `package.sh` bash script has been replaced with `build.js` (Node.js)
-- The old `mergejs` bash script has been replaced with module-based bundling using `esbuild`
-- Build dependencies (`esbuild`, `uglifycss`) are managed via npm
-- Build output structure remains the same for compatibility
-- Entry point files in `src/` are auto-generated and should not be edited manually
-
-## Design
+## Web3 design
 ## Web3 file structures
 <details>
   <summary>Root file</summary>
