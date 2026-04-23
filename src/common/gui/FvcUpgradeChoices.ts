@@ -86,9 +86,8 @@ export class FvcUpgradeChoices extends FScrollViewContent {
       for (const [i, c] of this.#choices.entries()) {
         const pp = new ListPanel();
         pp.setClassName("tw:w-[90%] tw:flex-shrink-0 tw:snap-center");
-        pp.setAttribute("onclick",
-                        "javascript:G.action('${CF_UPGRADE_CHOICES.SELECT}', " +
-                            i + ")");
+        pp.setAttribute("data-pp-action", String(CF_UPGRADE_CHOICES.SELECT));
+        pp.setAttribute("data-pp-args", JSON.stringify([i]));
         p.pushPanel(pp);
         this.#renderChoice(pp, c);
       }

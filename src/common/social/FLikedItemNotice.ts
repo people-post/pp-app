@@ -60,8 +60,7 @@ export class FLikedItemNotice extends Fragment {
     if (!this._notice) return;
     let pMain = new PLikedItemNotice();
     pMain.setClassName("tw:cursor-pointer");
-    pMain.setAttribute(
-        "onclick", "javascript:G.action(socl.CF_LIKED_ITEM_NOTICE.ONCLICK)");
+    pMain.setAttribute("data-pp-action", String(CF_LIKED_ITEM_NOTICE.ONCLICK));
     render.wrapPanel(pMain);
 
     let p = pMain.getMessagePanel();

@@ -53,7 +53,7 @@ export class PRealTimeComments extends Panel {
 }
 
 export const CF_COMMENTS = {
-  TOGGLE_CLICK : Symbol(),
+  TOGGLE_CLICK : "CF_COMMENTS_1",
 };
 
 export class FRealTimeComments extends Fragment {
@@ -144,8 +144,7 @@ export class FRealTimeComments extends Fragment {
     render.wrapPanel(pList);
     this.#pMain = new PRealTimeComments();
     this.#pMain.setClassName("comment-main");
-    this.#pMain.setAttribute(
-        "onclick", "javascript:G.action(socl.CF_COMMENTS.TOGGLE_CLICK)");
+    this.#pMain.setAttribute("data-pp-action", String(CF_COMMENTS.TOGGLE_CLICK));
     pList.pushPanel(this.#pMain);
 
     let pHint = this.#pMain.getHintPanel();

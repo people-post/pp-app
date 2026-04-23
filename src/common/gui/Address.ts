@@ -283,8 +283,7 @@ export class Address extends Fragment {
       return;
     }
     const panel = this.#createPanel();
-    panel.setAttribute("onclick",
-                       "javascript:G.action('${CF_ADDRESS.ON_CLICK}')");
+    panel.setAttribute("data-pp-action", String(CF_ADDRESS.ON_CLICK));
     (render as { wrapPanel(p: unknown): void }).wrapPanel(panel);
     let p = panel.getNicknamePanel();
     if (p) {

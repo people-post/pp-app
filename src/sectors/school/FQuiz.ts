@@ -9,7 +9,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 
 export const CF_QUIZ_INFO = {
-  VIEW_QUIZ : Symbol(),
+  VIEW_QUIZ : "CF_QUIZ_INFO_1",
 };
 
 // Export to window for string template access
@@ -109,8 +109,7 @@ export class FQuiz extends MajorSectorItem {
   #createInfoPanel(): PQuizInfo {
     let p = new PQuizInfo();
     p.setClassName("tw:cursor-pointer");
-    p.setAttribute("onclick",
-                   "javascript:G.action(window.CF_QUIZ_INFO.VIEW_QUIZ)");
+    p.setAttribute("data-pp-action", String(CF_QUIZ_INFO.VIEW_QUIZ));
     return p;
   }
 

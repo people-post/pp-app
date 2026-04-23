@@ -7,7 +7,7 @@ import { Button } from '../fragments/Button.js';
 import { View } from '../views/View.js';
 
 export const CL_MULTI_CHOICE = {
-  CLOSE : Symbol(),
+  CLOSE : "CL_MULTI_CHOICE_1",
 } as const;
 
 const _CLT_MULTI_CHOICE = {
@@ -168,8 +168,7 @@ export class LMultiChoice extends Layer {
 
     let panel = new PanelWrapper();
     panel.setClassName("tw:w-full tw:h-full context-layer tw:flex tw:flex-col tw:justify-end");
-    panel.setAttribute("onclick",
-                       "javascript:G.action(window.CL_MULTI_CHOICE.CLOSE)");
+    panel.setAttribute("data-pp-action", String(CL_MULTI_CHOICE.CLOSE));
     render.wrapPanel(panel);
 
     let p = new PanelWrapper();
@@ -224,7 +223,7 @@ export class LMultiChoice extends Layer {
     }
   }
 
-  action(type: symbol, ..._args: unknown[]): void {
+  action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {
     case CL_MULTI_CHOICE.CLOSE:
       this.#onClose();

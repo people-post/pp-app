@@ -87,8 +87,8 @@ export class Selection extends Fragment {
     }
     let e = document.createElement("SELECT") as HTMLSelectElement;
     e.id = this.#getElementId();
-    e.setAttribute("onchange",
-                   "javascript:G.action(window.CF_SELECTION.ONSELECT, this.value)");
+    e.setAttribute("data-pp-change-action", String(CF_SELECTION.ONSELECT));
+    e.setAttribute("data-pp-change-args", JSON.stringify(["$value"]));
     e.setAttribute("onclick", "javascript:G.anchorClick()");
     for (let item of items) {
       let eOption = document.createElement("OPTION") as HTMLOptionElement;

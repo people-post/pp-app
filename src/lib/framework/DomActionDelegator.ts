@@ -3,7 +3,7 @@ type GlobalG = {
 };
 
 type DelegatedEventConfig = {
-  eventType: 'click' | 'change' | 'input' | 'keydown' | 'keyup' | 'blur';
+  eventType: 'click' | 'change' | 'input' | 'keydown' | 'keyup' | 'blur' | 'scroll';
   actionAttr: string;
   argsAttr: string;
 };
@@ -161,6 +161,11 @@ export function installDomActionDelegator(): void {
     eventType : 'blur',
     actionAttr : 'data-pp-blur-action',
     argsAttr : 'data-pp-blur-args'
+  });
+  installDelegatedEvent(w, {
+    eventType : 'scroll',
+    actionAttr : 'data-pp-scroll-action',
+    argsAttr : 'data-pp-scroll-args'
   });
 }
 

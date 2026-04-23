@@ -9,8 +9,6 @@ export const CF_SIMPLE_LIST = {
 }
 
 const _CFT_SIMPLE_LIST = {
-  ON_CLICK_ACTION :
-      `javascript:G.action('${CF_SIMPLE_LIST.ITEM_CLICK}', '__ITEM_ID__')`,
   ICON : `<span class="tw:inline-block tw:w-s-icon3 tw:h-s-icon3 tw:cursor-pointer">__ICON__</span>`,
 }
 
@@ -90,8 +88,8 @@ export class FSimpleList<TItem = SimpleListItemBase> extends Fragment {
         if (selected) {
           classNames = classNames.concat([ "s-cfuncbg", "s-csecondary" ]);
         }
-        pItem.setAttribute("onclick", _CFT_SIMPLE_LIST.ON_CLICK_ACTION.replace(
-                                          "__ITEM_ID__", itemId));
+        pItem.setAttribute("data-pp-action", CF_SIMPLE_LIST.ITEM_CLICK);
+        pItem.setAttribute("data-pp-args", JSON.stringify([itemId]));
       }
       pItem.setClassName(classNames.join(" "));
       pMain.pushPanel(pItem);

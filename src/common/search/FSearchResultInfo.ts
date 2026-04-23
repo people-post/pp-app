@@ -179,8 +179,7 @@ export class FSearchResultInfo extends Fragment {
       p = new PSearchResultInfoNormal();
       break;
     }
-    p.setAttribute("onclick",
-                   `javascript:G.action("${CF_SEARCH_RESULT_INFO.ON_CLICK}")`);
+    p.setAttribute("data-pp-action", String(CF_SEARCH_RESULT_INFO.ON_CLICK));
     return p;
   }
 

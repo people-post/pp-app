@@ -251,8 +251,7 @@ export class FSocialBar extends Fragment {
     if (!panel) {
       return;
     }
-    panel.setAttribute(
-        "onclick", "javascript:G.action('" + CF_SOCIAL_BAR.ON_COMMENT_CLICK + "')");
+    panel.setAttribute("data-pp-action", String(CF_SOCIAL_BAR.ON_COMMENT_CLICK));
     let p = panel.getIconPanel();
     p.replaceContent(
       UiUtilities.renderSvgFuncIcon(ICON.COMMENT, this.#invertColor));
@@ -267,13 +266,11 @@ export class FSocialBar extends Fragment {
     }
     let p = panel.getIconPanel();
     if (social?.isLiked()) {
-      panel.setAttribute("onclick",
-                         "javascript:G.action('" + CF_SOCIAL_BAR.UNLIKE + "')");
+      panel.setAttribute("data-pp-action", String(CF_SOCIAL_BAR.UNLIKE));
         p.replaceContent(
           UiUtilities.renderSvgFuncIcon(ICON.HEART_SOLID, this.#invertColor));
     } else {
-      panel.setAttribute("onclick",
-                         "javascript:G.action('" + CF_SOCIAL_BAR.LIKE + "')");
+      panel.setAttribute("data-pp-action", String(CF_SOCIAL_BAR.LIKE));
         p.replaceContent(
           UiUtilities.renderSvgFuncIcon(ICON.HEART_HOLLOW, this.#invertColor));
     }
@@ -287,11 +284,9 @@ export class FSocialBar extends Fragment {
       return;
     }
     if (social?.isLinked()) {
-      panel.setAttribute("onclick",
-                         "javascript:G.action('" + CF_SOCIAL_BAR.UNLINK + "')");
+      panel.setAttribute("data-pp-action", String(CF_SOCIAL_BAR.UNLINK));
     } else {
-      panel.setAttribute("onclick",
-                         "javascript:G.action('" + CF_SOCIAL_BAR.LINK + "')");
+      panel.setAttribute("data-pp-action", String(CF_SOCIAL_BAR.LINK));
     }
 
     let p = panel.getIconPanel();
@@ -312,8 +307,7 @@ export class FSocialBar extends Fragment {
     if (!panel) {
       return;
     }
-    panel.setAttribute("onclick",
-                       "javascript:G.action('" + CF_SOCIAL_BAR.SHARE + "')");
+    panel.setAttribute("data-pp-action", String(CF_SOCIAL_BAR.SHARE));
     let p = panel.getIconPanel();
     p.replaceContent(
       UiUtilities.renderSvgFuncIcon(ICON.SHARE, this.#invertColor));
@@ -323,8 +317,7 @@ export class FSocialBar extends Fragment {
     if (!panel) {
       return;
     }
-    panel.setAttribute("onclick",
-                       "javascript:G.action('" + CF_SOCIAL_BAR.SHOW_CONTEXT + "')");
+    panel.setAttribute("data-pp-action", String(CF_SOCIAL_BAR.SHOW_CONTEXT));
     let p = panel.getIconPanel();
     p.replaceContent(
       UiUtilities.renderSvgFuncIcon(ICON.CIRCLED_MORE, this.#invertColor));

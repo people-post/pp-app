@@ -30,7 +30,6 @@ const _CFT_CUSTOMER_ORDER = {
   T_CREATE : `Created __DT__ ago`,
   ITEM : `<div class="w60">__NAME__</div>
   <div>__QUANTITY__x</div>`,
-  ACT_ONCLICK : `javascript:G.action("${CF_CUSTOMER_ORDER.ON_CLICK}")`,
 };
 
 export interface OrderDataSource {
@@ -282,7 +281,7 @@ export class FOrder extends Fragment {
   #renderItemInfos(order: CustomerOrder, panel: PanelWrapper): void {
     let pItems = new ListPanel();
     pItems.setClassName("tw:cursor-pointer");
-    pItems.setAttribute("onclick", _CFT_CUSTOMER_ORDER.ACT_ONCLICK);
+    pItems.setAttribute("data-pp-action", String(CF_CUSTOMER_ORDER.ON_CLICK));
     panel.wrapPanel(pItems);
     for (let item of order.getItems()) {
       for (let subItem of item.getItems()) {

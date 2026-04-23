@@ -11,7 +11,7 @@ import { Api } from '../plt/Api.js';
 import { R } from '../constants/R.js';
 
 export const CF_PAYMENT_TERMINAL = {
-  ON_CLICK : Symbol(),
+  ON_CLICK : "CF_PAYMENT_TERMINAL_1",
 };
 
 export interface FPaymentTerminalDelegate {
@@ -137,8 +137,7 @@ export class FPaymentTerminal extends Fragment {
     switch (this._tLayout) {
     case FPaymentTerminal.T_LAYOUT.SMALL:
       p = new PPaymentTerminalSmall();
-      p.setAttribute("onclick",
-                     "javascript:G.action(pay.CF_PAYMENT_TERMINAL.ON_CLICK)");
+      p.setAttribute("data-pp-action", String(CF_PAYMENT_TERMINAL.ON_CLICK));
       break;
     default:
       p = new PPaymentTerminal();

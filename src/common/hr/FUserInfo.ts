@@ -78,8 +78,7 @@ export class FUserInfo extends Fragment implements FUserIconDelegate {
   _renderOnRender(render: PanelWrapper): void {
     let u = Users.get(this._fIcon.getUserId());
     let pInfo = this.#createPanel();
-    pInfo.setAttribute("onclick",
-                   `javascript:G.action('${CF_USER_INFO.ON_CLICK}')`);
+    pInfo.setAttribute("data-pp-action", String(CF_USER_INFO.ON_CLICK));
     render.wrapPanel(pInfo);
 
     let pIcon = pInfo.getIconPanel();

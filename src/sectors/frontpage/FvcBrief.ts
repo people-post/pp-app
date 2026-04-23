@@ -38,7 +38,7 @@ import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { BriefPageConfig } from '../../common/datatypes/BriefPageConfig.js';
 
 export const CF_BRIEF = {
-  SHOW_CALENDAR : Symbol(),
+  SHOW_CALENDAR : "CF_BRIEF_1",
 };
 
 // Make available on window for HTML string templates
@@ -575,8 +575,7 @@ export class FvcBrief extends FViewContentBase {
     if (!panel) {
       return;
     }
-    panel.setAttribute("onclick",
-                       `javascript:G.action(window.CF_BRIEF.SHOW_CALENDAR)`);
+    panel.setAttribute("data-pp-action", String(CF_BRIEF.SHOW_CALENDAR));
     let title = "选择日期查看简讯";
     if (this.#selectedDate != "")
       title = this.#selectedDate;

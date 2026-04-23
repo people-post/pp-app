@@ -22,7 +22,7 @@ const _CFT_GALLERY = {
   PREPROC :
       `<div class="info-message">Preprocessing files, please wait...__PROGRESS__</div>`,
   SLIDE_SHOW : `<div class="tw:text-center tw:h-full">
-      <div id="__ID_SLIDES__" class="tw:h-full tw:relative tw:overflow-x-scroll tw:snap-x tw:snap-mandatory tw:whitespace-nowrap tw:flex tw:justify-start" onscroll="javascript:G.action('${CF_GALLERY.ON_SCROLL}', this)">
+      <div id="__ID_SLIDES__" class="tw:h-full tw:relative tw:overflow-x-scroll tw:snap-x tw:snap-mandatory tw:whitespace-nowrap tw:flex tw:justify-start" data-pp-scroll-action="${CF_GALLERY.ON_SCROLL}" data-pp-scroll-args='["$this"]'>
       </div>
       <div class="slide-show-nav slide-show-prev tw:opacity-50 tw:bg-gray-500 tw:transition-opacity hover:tw:opacity-100" data-pp-action="${CF_GALLERY.PREV_IMAGE_SLIDE}">&#10094;</div>
       <div class="slide-show-nav slide-show-next tw:opacity-50 tw:bg-gray-500 tw:transition-opacity hover:tw:opacity-100" data-pp-action="${CF_GALLERY.NEXT_IMAGE_SLIDE}">&#10095;</div>
@@ -358,9 +358,8 @@ export class FGallery extends Fragment {
       fFile.render();
 
       const pDot = new Panel();
-      pDot.setAttribute("onclick",
-                     "javascript:G.action('${CF_GALLERY.SHOW_IMAGE_SLIDE}', " +
-                         i + ")");
+      pDot.setAttribute("data-pp-action", CF_GALLERY.SHOW_IMAGE_SLIDE);
+      pDot.setAttribute("data-pp-args", JSON.stringify([i]));
       let className = "slide-show-dot";
       if (i == 0) {
         className += " s-cfuncbg";

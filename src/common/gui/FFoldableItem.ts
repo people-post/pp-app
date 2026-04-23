@@ -9,10 +9,6 @@ export const CF_FOLDABLE_ITEM = {
   ITEM_CLICK : "CF_GUI_FOLDABLE_ITEM_1",
 }
 
-const _CFT_FOLDABLE_ITEM = {
-  ON_CLICK_ACTION : `javascript:G.action('${CF_FOLDABLE_ITEM.ITEM_CLICK}')`,
-}
-
 export class FFoldableItem extends Fragment {
   _itemId: string | null = null;
   _isOpen = false;
@@ -70,7 +66,7 @@ export class FFoldableItem extends Fragment {
     }
     p.pushPanel(pp);
     let ppp = new PanelWrapper();
-    ppp.setAttribute("onclick", _CFT_FOLDABLE_ITEM.ON_CLICK_ACTION);
+    ppp.setAttribute("data-pp-action", String(CF_FOLDABLE_ITEM.ITEM_CLICK));
     pp.pushPanel(ppp);
     if (this._fHeader) {
       this._fHeader.attachRender(ppp);
