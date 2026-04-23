@@ -30,7 +30,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { FMultiMediaFileUploader } from '../../lib/ui/controllers/fragments/FMultiMediaFileUploader.js';
 import { RichContentEditor } from '../../common/gui/RichContentEditor.js';
-import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
+import { FTagsEditor } from '../../common/gui/FTagsEditor.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Workshop } from '../../common/dba/Workshop.js';
 import { Project } from '../../common/datatypes/Project.js';
@@ -58,7 +58,7 @@ interface ApiProjectResponse {
 export class FvcProjectEditor extends FScrollViewContent {
   protected _fContent: RichContentEditor;
   protected _fFiles: FMultiMediaFileUploader;
-  protected _fteOwner: TagsEditorFragment;
+  protected _fteOwner: FTagsEditor;
   protected _fVisibility: ButtonGroup;
   protected _project: Project | null = null;
 
@@ -73,7 +73,7 @@ export class FvcProjectEditor extends FScrollViewContent {
     this._fFiles.setDelegate(this);
     this.setChild("files", this._fFiles);
 
-    this._fteOwner = new TagsEditorFragment();
+    this._fteOwner = new FTagsEditor();
     this._fteOwner.setDataSource(this);
     this._fteOwner.setDelegate(this);
     this.setChild("ownerTags", this._fteOwner);
@@ -91,8 +91,8 @@ export class FvcProjectEditor extends FScrollViewContent {
     this.setChild("vis", this._fVisibility);
   }
 
-  getTagsForTagsEditorFragment(_fEditor: TagsEditorFragment): unknown[] { return WebConfig.getTags(); }
-  getInitialCheckedIdsForTagsEditorFragment(_fEditor: TagsEditorFragment): string[] {
+  getTagsForTagsEditorFragment(_fEditor: FTagsEditor): unknown[] { return WebConfig.getTags(); }
+  getInitialCheckedIdsForTagsEditorFragment(_fEditor: FTagsEditor): string[] {
     return this._project ? this._project.getTagIds() : [];
   }
 

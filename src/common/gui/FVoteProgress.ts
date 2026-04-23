@@ -16,7 +16,7 @@ interface VoteConfig {
   nayValue?: number;
 }
 
-export class VoteProgressFragment extends Fragment {
+export class FVoteProgress extends Fragment {
   private _config: VoteConfig = {"value" : 0, "threshold" : 0, "total" : 0};
 
   setConfig(config: VoteConfig): void { this._config = config; }
@@ -63,4 +63,4 @@ export class VoteProgressFragment extends Fragment {
   }
 }
 
-export default VoteProgressFragment;
+export default FVoteProgress;

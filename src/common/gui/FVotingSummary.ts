@@ -1,19 +1,19 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { VoteProgressFragment } from './VoteProgressFragment.js';
+import { FVoteProgress } from './FVoteProgress.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Vote } from '../datatypes/Vote.js';
 import { VotingSummary } from '../datatypes/VotingSummary.js';
 
-export class VotingSummaryFragment extends Fragment {
-  private _fGeneral: VoteProgressFragment;
-  private _fWealth: VoteProgressFragment;
+export class FVotingSummary extends Fragment {
+  private _fGeneral: FVoteProgress;
+  private _fWealth: FVoteProgress;
   private _summary: VotingSummary | null = null;
 
   constructor() {
     super();
-    this._fGeneral = new VoteProgressFragment();
-    this._fWealth = new VoteProgressFragment();
+    this._fGeneral = new FVoteProgress();
+    this._fWealth = new FVoteProgress();
     this.setChild("general", this._fGeneral);
     this.setChild("wealth", this._fWealth);
   }
@@ -62,4 +62,4 @@ export class VotingSummaryFragment extends Fragment {
   }
 }
 
-export default VotingSummaryFragment;
+export default FVotingSummary;

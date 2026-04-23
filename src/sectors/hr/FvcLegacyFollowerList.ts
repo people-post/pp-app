@@ -1,17 +1,17 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
-import { SimpleLongListFragment } from '../../common/gui/SimpleLongListFragment.js';
+import { FSimpleLongList } from '../../common/gui/FSimpleLongList.js';
 import { T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import type Render from '../../lib/ui/renders/Render.js';
 
 export class FvcLegacyFollowerList extends FScrollViewContent {
-  protected _fList: SimpleLongListFragment;
+  protected _fList: FSimpleLongList;
   protected _userId: string | null = null;
 
   constructor() {
     super();
-    this._fList = new SimpleLongListFragment();
+    this._fList = new FSimpleLongList();
     this._fList.setDataSource(this);
     this.setChild("list", this._fList);
   }

@@ -5,8 +5,8 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { Product } from '../../common/datatypes/Product.js';
 import { ProductData } from '../../types/backend2.js';
 import { RichContentEditor } from '../../common/gui/RichContentEditor.js';
-import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
-import { PriceEditorFragment } from '../../common/gui/PriceEditorFragment.js';
+import { FTagsEditor } from '../../common/gui/FTagsEditor.js';
+import { FPriceEditor } from '../../common/gui/FPriceEditor.js';
 import { FProductDeliveryEditorManager } from './FProductDeliveryEditorManager.js';
 import { PProductEditor } from './PProductEditor.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
@@ -48,8 +48,8 @@ interface ApiResponse {
 export class FvcProductEditor extends FScrollViewContent {
   private _fContent: RichContentEditor;
   private _fFiles: FMultiMediaFileUploader;
-  private _fteOwner: TagsEditorFragment;
-  private _fPrice: PriceEditorFragment;
+  private _fteOwner: FTagsEditor;
+  private _fPrice: FPriceEditor;
   private _fDelivery: FProductDeliveryEditorManager;
   private _product: Product | null = null;
 
@@ -64,12 +64,12 @@ export class FvcProductEditor extends FScrollViewContent {
     this._fFiles.setDelegate(this);
     this.setChild("files", this._fFiles);
 
-    this._fteOwner = new TagsEditorFragment();
+    this._fteOwner = new FTagsEditor();
     this._fteOwner.setDataSource(this);
     this._fteOwner.setDelegate(this);
     this.setChild("ownerTags", this._fteOwner);
 
-    this._fPrice = new PriceEditorFragment();
+    this._fPrice = new FPriceEditor();
     this.setChild("price", this._fPrice);
 
     this._fDelivery = new FProductDeliveryEditorManager();
@@ -80,8 +80,8 @@ export class FvcProductEditor extends FScrollViewContent {
 
   setProduct(product: Product): void { this._product = product; }
 
-  getTagsForTagsEditorFragment(_fEditor: TagsEditorFragment): ReturnType<typeof WebConfig.getTags> { return WebConfig.getTags(); }
-  getInitialCheckedIdsForTagsEditorFragment(_fEditor: TagsEditorFragment): string[] {
+  getTagsForTagsEditorFragment(_fEditor: FTagsEditor): ReturnType<typeof WebConfig.getTags> { return WebConfig.getTags(); }
+  getInitialCheckedIdsForTagsEditorFragment(_fEditor: FTagsEditor): string[] {
     return this._product ? this._product.getTagIds() ?? [] : [];
   }
 

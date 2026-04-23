@@ -20,7 +20,7 @@ import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcConfirmAction } from '../../lib/ui/controllers/views/FvcConfirmAction.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { FProposalTitle } from './FProposalTitle.js';
-import { VotingSummaryFragment } from '../../common/gui/VotingSummaryFragment.js';
+import { FVotingSummary } from '../../common/gui/FVotingSummary.js';
 import { Communities } from '../../common/dba/Communities.js';
 import { Votes } from '../../common/dba/Votes.js';
 import { Proposal } from '../../common/datatypes/Proposal.js';
@@ -53,7 +53,7 @@ export class FProposal extends Fragment {
   } as const;
 
   protected _fTitle: FProposalTitle;
-  protected _fVotingSummary: VotingSummaryFragment;
+  protected _fVotingSummary: FVotingSummary;
   protected _proposalId: string | null = null;
   protected _tLayout: symbol | null = null;
 
@@ -63,7 +63,7 @@ export class FProposal extends Fragment {
     this._fTitle.setDataSource(this);
     this.setChild("title", this._fTitle);
 
-    this._fVotingSummary = new VotingSummaryFragment();
+    this._fVotingSummary = new FVotingSummary();
     this.setChild("voting_summary", this._fVotingSummary);
   }
 

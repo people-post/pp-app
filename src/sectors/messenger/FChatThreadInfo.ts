@@ -4,7 +4,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { RemoteFile } from '../../common/datatypes/RemoteFile.js';
 import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
-import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
+import { FFilesThumbnail } from '../../common/gui/FFilesThumbnail.js';
 import { Notifications } from '../../common/dba/Notifications.js';
 import type { MessageThreadInfo } from '../../common/datatypes/MessageThreadInfo.js';
 
@@ -18,19 +18,19 @@ export interface IconInfo {
 }
 
 export class FChatThreadInfo extends Fragment {
-  protected _fThumbnail: FilesThumbnailFragment;
+  protected _fThumbnail: FFilesThumbnail;
   protected _threadId: string | null = null;
 
   constructor() {
     super();
-    this._fThumbnail = new FilesThumbnailFragment();
+    this._fThumbnail = new FFilesThumbnail();
     this._fThumbnail.setDataSource(this);
     this._fThumbnail.setDelegate(this);
 
     this.setChild("thumbnail", this._fThumbnail);
   }
 
-  getFilesForThumbnailFragment(_fThumbnail: FilesThumbnailFragment): RemoteFile[] {
+  getFilesForThumbnailFragment(_fThumbnail: FFilesThumbnail): RemoteFile[] {
     let infos = this._getIconInfos();
     let files: RemoteFile[] = [];
     for (let i of infos) {
@@ -41,7 +41,7 @@ export class FChatThreadInfo extends Fragment {
 
   setThreadId(id: string | null): void { this._threadId = id; }
 
-  onThumbnailClickedInThumbnailFragment(_fThumbnail: FilesThumbnailFragment): void {}
+  onThumbnailClickedInThumbnailFragment(_fThumbnail: FFilesThumbnail): void {}
 
   action(type: string | symbol, ..._args: unknown[]): void {
     switch (type) {

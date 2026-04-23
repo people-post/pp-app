@@ -2,7 +2,7 @@ import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
-import { ThemeEditorFragment } from '../../common/gui/ThemeEditorFragment.js';
+import { FThemeEditor } from '../../common/gui/FThemeEditor.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { PTagEditor } from './PTagEditor.js';
 import { PTagEditorInfo } from './PTagEditorInfo.js';
@@ -25,7 +25,7 @@ export class FTagEditor extends Fragment {
   };
 
   protected _fBtnQuick: Button;
-  protected _fTheme: ThemeEditorFragment;
+  protected _fTheme: FThemeEditor;
   protected _tagId: string | null;
   protected _tLayout: symbol | null;
 
@@ -37,7 +37,7 @@ export class FTagEditor extends Fragment {
     this._fBtnQuick.setDelegate(this);
     this.setChild("btnQuick", this._fBtnQuick);
 
-    this._fTheme = new ThemeEditorFragment();
+    this._fTheme = new FThemeEditor();
     this._fTheme.setDelegate(this);
     this.setChild("theme", this._fTheme);
 
@@ -51,7 +51,7 @@ export class FTagEditor extends Fragment {
   setTagId(id: string | null): void { this._tagId = id; }
 
   onSimpleButtonClicked(_fBtn: Button): void { this.#onRename(); }
-  onGuiThemeEditorFragmentRequestChangeColor(_fThemeEditor: ThemeEditorFragment, key: string, color: string): void {
+  onGuiThemeEditorFragmentRequestChangeColor(_fThemeEditor: FThemeEditor, key: string, color: string): void {
     if (this._tagId) {
       WebConfig.asyncUpdateGroupConfig(this._tagId, null, key, color);
     }

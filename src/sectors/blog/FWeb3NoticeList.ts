@@ -4,7 +4,7 @@ import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { SocialItemId } from '../../common/datatypes/SocialItemId.js';
-import { SectorNoticeInfoFragment } from '../../common/gui/SectorNoticeInfoFragment.js';
+import { FSectorNoticeInfo } from '../../common/gui/FSectorNoticeInfo.js';
 import { FvcPost } from './FvcPost.js';
 import { Notifications } from '../../common/dba/Notifications.js';
 import { T_DATA } from '../../common/plt/Events.js';
@@ -23,7 +23,7 @@ export class FWeb3NoticeList extends Fragment {
     this.setChild("notices", this.#fNotices);
   }
 
-  onSectorNoticeInfoFragmentRequestShowItem(_fNoticeInfo: SectorNoticeInfoFragment, id: string, idType: string): void {
+  onSectorNoticeInfoFragmentRequestShowItem(_fNoticeInfo: FSectorNoticeInfo, id: string, idType: string): void {
     this.#onViewPost(id, idType);
   }
 
@@ -38,7 +38,7 @@ export class FWeb3NoticeList extends Fragment {
     let p = new SectionPanel("Notifications");
     render.wrapPanel(p);
     for (let n of notices) {
-      let f = new SectorNoticeInfoFragment();
+      let f = new FSectorNoticeInfo();
       f.setData(n);
       f.setDelegate(this);
       this.#fNotices.append(f);

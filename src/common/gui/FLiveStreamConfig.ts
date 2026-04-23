@@ -48,7 +48,7 @@ interface RegenerateKeyResponse {
   live_stream_key: string;
 }
 
-export class LiveStreamConfigFragment extends Fragment {
+export class FLiveStreamConfig extends Fragment {
   _fFile: FMediaFileUploader | null = null;
 
   constructor() {

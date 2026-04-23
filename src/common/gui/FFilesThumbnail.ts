@@ -38,19 +38,19 @@ const _CFT_FILES_THUMBNAIL = {
     <div class="tw:absolute tw:bottom-0 tw:w-full tw:h-[8%] tw:bg-gradient-to tw:from-black/70 tw:to-transparent"></div>`,
 };
 
-export interface FilesThumbnailFragmentDataSource {
-  getFilesForThumbnailFragment(f: FilesThumbnailFragment): RemoteFile[] | null;
+export interface FFilesThumbnailDataSource {
+  getFilesForThumbnailFragment(f: FFilesThumbnail): RemoteFile[] | null;
 }
 
-export interface FilesThumbnailFragmentDelegate {
-  onThumbnailClickedInThumbnailFragment(f: FilesThumbnailFragment, idx: number): void;
+export interface FFilesThumbnailDelegate {
+  onThumbnailClickedInThumbnailFragment(f: FFilesThumbnail, idx: number): void;
 }
 
-export class FilesThumbnailFragment extends Fragment {
+export class FFilesThumbnail extends Fragment {
   action(type: string | symbol, ...args: unknown[]): void {
     switch (type) {
     case CF_FILES_THUMBNAIL.ON_CLICK:
-      this.getDelegate<FilesThumbnailFragmentDelegate>()
+      this.getDelegate<FFilesThumbnailDelegate>()
           ?.onThumbnailClickedInThumbnailFragment(this, args[0] as number);
       break;
     default:
@@ -60,7 +60,7 @@ export class FilesThumbnailFragment extends Fragment {
   }
 
   _renderOnRender(render: PanelWrapper): void {
-    const files = this.getDataSource<FilesThumbnailFragmentDataSource>()
+    const files = this.getDataSource<FFilesThumbnailDataSource>()
         ?.getFilesForThumbnailFragment(this);
     if (!files) {
       return;

@@ -11,12 +11,12 @@ const _CFT_PRODUCT = {
 
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 import { MajorSectorItem } from '../../common/gui/MajorSectorItem.js';
-import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
+import { FFilesThumbnail } from '../../common/gui/FFilesThumbnail.js';
 import { FGallery } from '../../common/gui/FGallery.js';
 import { FUserIcon } from '../../common/hr/FUserIcon.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FProductDeliveryManager } from './FProductDeliveryManager.js';
-import { PriceFragment } from '../../common/gui/PriceFragment.js';
+import { FPrice } from '../../common/gui/FPrice.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { Cart } from '../../common/dba/Cart.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
@@ -46,19 +46,19 @@ export class FProduct extends MajorSectorItem {
     FULL: Symbol(),
   } as const;
 
-  protected _fThumbnail: FilesThumbnailFragment;
+  protected _fThumbnail: FFilesThumbnail;
   protected _fGallery: FGallery;
   protected _fUserIcon: FUserIcon;
   protected _fUserName: FUserInfo;
   protected _fDelivery: FProductDeliveryManager;
-  protected _fPrice: PriceFragment;
+  protected _fPrice: FPrice;
   protected _tLayout: symbol | null = null;
   protected _tInfoSize: string | null = null;
   protected _productId: string | null = null;
 
   constructor() {
     super();
-    this._fThumbnail = new FilesThumbnailFragment();
+    this._fThumbnail = new FFilesThumbnail();
     this._fThumbnail.setDataSource(this);
     this._fThumbnail.setDelegate(this);
     this.setChild("thumbnail", this._fThumbnail);
@@ -80,7 +80,7 @@ export class FProduct extends MajorSectorItem {
     this._fDelivery.setDelegate(this);
     this.setChild("delivery", this._fDelivery);
 
-    this._fPrice = new PriceFragment();
+    this._fPrice = new FPrice();
     this.setChild("price", this._fPrice);
   }
 
@@ -90,7 +90,7 @@ export class FProduct extends MajorSectorItem {
   getProductForDeliveryManagerFragment(_fDelivery: FProductDeliveryManager): Product | null | undefined {
     return Shop.getProduct(this._productId);
   }
-  getFilesForThumbnailFragment(_fThumbnail: FilesThumbnailFragment): any[] {
+  getFilesForThumbnailFragment(_fThumbnail: FFilesThumbnail): any[] {
     let product = Shop.getProduct(this._productId);
     return product ? product.getFiles() : [];
   }
@@ -102,7 +102,7 @@ export class FProduct extends MajorSectorItem {
   onProductDeliveryManagerFragmentRequestAddToCart(_fManager: FProductDeliveryManager): void {
     this.#onAddToCart();
   }
-  onThumbnailClickedInThumbnailFragment(_fThumbnail: FilesThumbnailFragment, _idx: number): void {
+  onThumbnailClickedInThumbnailFragment(_fThumbnail: FFilesThumbnail, _idx: number): void {
     this.getDelegate<FProductDelegate>()?.onClickInProductInfoFragment(this, this._productId);
   }
 

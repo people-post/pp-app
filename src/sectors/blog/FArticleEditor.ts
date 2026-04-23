@@ -14,8 +14,8 @@ import { SocialItem } from '../../common/datatypes/SocialItem.js';
 import { Tag } from '../../common/datatypes/Tag.js';
 import { Article } from '../../common/datatypes/Article.js';
 import { RichContentEditor } from '../../common/gui/RichContentEditor.js';
-import { LiveStreamConfigFragment } from '../../common/gui/LiveStreamConfigFragment.js';
-import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
+import { FLiveStreamConfig } from '../../common/gui/FLiveStreamConfig.js';
+import { FTagsEditor } from '../../common/gui/FTagsEditor.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FQuoteElement } from './FQuoteElement.js';
@@ -59,9 +59,9 @@ export class FArticleEditor extends Fragment {
   #fContent: RichContentEditor;
   #fFiles: FMultiMediaFileUploader;
   #fFileChoices: ButtonGroup;
-  #fLiveStream: LiveStreamConfigFragment;
+  #fLiveStream: FLiveStreamConfig;
   #fAttachment: FAttachmentFileUploader;
-  #fTags: TagsEditorFragment;
+  #fTags: FTagsEditor;
   #fQuote: TextInput;
   #fQuotePreview: FQuoteElement;
   #fOptions: OptionSwitch;
@@ -87,7 +87,7 @@ export class FArticleEditor extends Fragment {
     this.#fFiles.setDelegate(this);
     this.setChild("files", this.#fFiles);
 
-    this.#fLiveStream = new LiveStreamConfigFragment();
+    this.#fLiveStream = new FLiveStreamConfig();
     this.#fLiveStream.setDataSource(this);
     this.#fLiveStream.setDelegate(this);
     this.setChild("liveStream", this.#fLiveStream);
@@ -115,7 +115,7 @@ export class FArticleEditor extends Fragment {
     this.#fAttachment.setDelegate(this);
     this.setChild("attachment", this.#fAttachment);
 
-    this.#fTags = new TagsEditorFragment();
+    this.#fTags = new FTagsEditor();
     this.#fTags.setDataSource(this);
     this.#fTags.setDelegate(this);
     this.setChild("tags", this.#fTags);
@@ -193,7 +193,7 @@ export class FArticleEditor extends Fragment {
   }
   onInputChangeInTextArea(_fTextArea: TextArea, _text: string): void {}
 
-  getTagsForTagsEditorFragment(_fEditor: TagsEditorFragment): Tag[] {
+  getTagsForTagsEditorFragment(_fEditor: FTagsEditor): Tag[] {
     if (this.#tags) {
       return this.#tags;
     }
@@ -211,7 +211,7 @@ export class FArticleEditor extends Fragment {
     }
   }
 
-  getInitialCheckedIdsForTagsEditorFragment(_fEditor: TagsEditorFragment): string[] {
+  getInitialCheckedIdsForTagsEditorFragment(_fEditor: FTagsEditor): string[] {
     return this.#baseArticle ? this.#baseArticle.getTagIds() || [] : [];
   }
 
@@ -418,7 +418,7 @@ export class FArticleEditor extends Fragment {
     return true;
   }
 
-  #getCurrentUploaderFragment(): FMultiMediaFileUploader | LiveStreamConfigFragment | null {
+  #getCurrentUploaderFragment(): FMultiMediaFileUploader | FLiveStreamConfig | null {
     switch (this.#fFileChoices.getSelectedValue()) {
     case "FILES":
       return this.#fFiles;

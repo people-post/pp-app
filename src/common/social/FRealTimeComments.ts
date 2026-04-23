@@ -2,7 +2,7 @@ import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { InputConsoleFragment } from '../gui/InputConsoleFragment.js';
+import { FInputConsole } from '../gui/FInputConsole.js';
 import { FRealTimeCommentList } from './FRealTimeCommentList.js';
 import { RealTimeCommentAgent } from './RealTimeCommentAgent.js';
 import { T_DATA } from '../plt/Events.js';
@@ -57,7 +57,7 @@ export const CF_COMMENTS = {
 };
 
 export class FRealTimeComments extends Fragment {
-  #fInput: InputConsoleFragment;
+  #fInput: FInputConsole;
   #fComments: FRealTimeCommentList;
   #hComments: RealTimeCommentAgent;
   #isAdmin = false;
@@ -68,7 +68,7 @@ export class FRealTimeComments extends Fragment {
     this.#hComments = new RealTimeCommentAgent();
     this.#hComments.setDelegate(this);
 
-    this.#fInput = new InputConsoleFragment();
+    this.#fInput = new FInputConsole();
     this.#fInput.setPlaceholder("Your comments here.");
     this.#fInput.setDelegate(this);
     this.setChild("input", this.#fInput);

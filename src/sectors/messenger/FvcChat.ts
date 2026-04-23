@@ -3,7 +3,7 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
-import { InputConsoleFragment } from '../../common/gui/InputConsoleFragment.js';
+import { FInputConsole } from '../../common/gui/FInputConsole.js';
 import { FChatHeader } from './FChatHeader.js';
 import { FChatInputMenu } from './FChatInputMenu.js';
 import { PChatContent } from './PChatContent.js';
@@ -28,7 +28,7 @@ interface MessagesData {
 export class FvcChat extends FViewContentBase {
   #fHeader: FChatHeader;
   #fMessages: FSimpleFragmentList;
-  #fConsole: InputConsoleFragment;
+  #fConsole: FInputConsole;
   #btnInfo: ActionButton;
   #btnMore: ActionButton;
   #msgHandler: MessageHandler | null = null;
@@ -42,7 +42,7 @@ export class FvcChat extends FViewContentBase {
     this.#fMessages = new FSimpleFragmentList();
     this.setChild("messages", this.#fMessages);
 
-    this.#fConsole = new InputConsoleFragment();
+    this.#fConsole = new FInputConsole();
     this.#fConsole.setPlaceholder("Message");
     this.#fConsole.setDelegate(this);
     this.#fConsole.setMenuFragment(new FChatInputMenu());

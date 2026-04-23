@@ -1,5 +1,5 @@
-import { DirFragment } from '../gui/DirFragment.js';
-import { ThemeEditorFragment } from '../gui/ThemeEditorFragment.js';
+import { FDir } from '../gui/FDir.js';
+import { FThemeEditor } from '../gui/FThemeEditor.js';
 import { FSmartInput } from '../gui/FSmartInput.js';
 import { MenuItemName } from './MenuItemName.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
@@ -28,14 +28,14 @@ export interface MenuEntryItemConfigDelegate {
   onMenuItemRequestAddSubItem(f: MenuEntryItemConfig, itemId: string, tagId: string): void;
 }
 
-export class MenuEntryItemConfig extends DirFragment<MenuItem> {
-  private _fThemeEditor: ThemeEditorFragment;
+export class MenuEntryItemConfig extends FDir<MenuItem> {
+  private _fThemeEditor: FThemeEditor;
   protected _itemId: string;
   private _subItemId: string | null = null;
 
   constructor(itemId: string) {
     super();
-    this._fThemeEditor = new ThemeEditorFragment();
+    this._fThemeEditor = new FThemeEditor();
     this._fThemeEditor.setDelegate(this);
     this.setChild("themeEditor", this._fThemeEditor);
 
@@ -55,7 +55,7 @@ export class MenuEntryItemConfig extends DirFragment<MenuItem> {
   onGuiMenuItemNameRequestDeleteItem(_fName: MenuItemName, itemId: string): void {
     this.getDelegate<MenuEntryItemConfigDelegate>()?.onEntryItemRequestDelete(this, itemId);
   }
-  onGuiThemeEditorFragmentRequestChangeColor(_fThemeEditor: ThemeEditorFragment, key: string, color: string): void {
+  onGuiThemeEditorFragmentRequestChangeColor(_fThemeEditor: FThemeEditor, key: string, color: string): void {
     this.getDelegate<MenuEntryItemConfigDelegate>()?.onGuiMenuEntryItemConfigRequestChangeTheme(this, this._itemId, key, color);
   }
 

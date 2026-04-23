@@ -9,21 +9,21 @@ import { FRepostItemNotice } from '../social/FRepostItemNotice.js';
 import { Fragment as FragmentBase } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Notice } from '../datatypes/Notice.js';
 
-export interface SectorNoticeInfoFragmentDelegate {
-  onSectorNoticeInfoFragmentRequestShowItem(f: SectorNoticeInfoFragment, itemId: string, idType: string): void;
+export interface FSectorNoticeInfoDelegate {
+  onSectorNoticeInfoFragmentRequestShowItem(f: FSectorNoticeInfo, itemId: string, idType: string): void;
 }
 
-export class SectorNoticeInfoFragment extends Fragment implements FCommentNoticeDelegate, FLikedItemNoticeDelegate {
+export class FSectorNoticeInfo extends Fragment implements FCommentNoticeDelegate, FLikedItemNoticeDelegate {
   private _notification: Notice | null = null;
 
   onCommentNoticeInfoFragmentRequestShowItem(_fCommentNoticeInfo: FragmentBase, itemId: string,
                                              idType: string): void {
-    this.getDelegate<SectorNoticeInfoFragmentDelegate>()?.onSectorNoticeInfoFragmentRequestShowItem?.(this, itemId,
+    this.getDelegate<FSectorNoticeInfoDelegate>()?.onSectorNoticeInfoFragmentRequestShowItem?.(this, itemId,
                                                              idType);
   }
 
   onPostClickedInLikedItemNoticeInfoFragment(_fInfo: FragmentBase, postId: string, postType: string): void {
-    this.getDelegate<SectorNoticeInfoFragmentDelegate>()?.onSectorNoticeInfoFragmentRequestShowItem?.(this, postId,
+    this.getDelegate<FSectorNoticeInfoDelegate>()?.onSectorNoticeInfoFragmentRequestShowItem?.(this, postId,
                                                              postType);
   }
 
@@ -62,4 +62,4 @@ export class SectorNoticeInfoFragment extends Fragment implements FCommentNotice
   }
 }
 
-export default SectorNoticeInfoFragment;
+export default FSectorNoticeInfo;

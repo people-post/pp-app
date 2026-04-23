@@ -27,17 +27,17 @@ const _CFT_TAGS_EDITOR = {
       `<span class="tag selected">__TEXT__ <span class="button-like tiny" data-pp-action="${CF_TAGS_EDITOR.REMOVE_EXTRA_TAG}" data-pp-args='[\"__VALUE__\"]'>x</span></span>`,
 };
 
-export interface TagsEditorFragmentDataSource {
-  getTagsForTagsEditorFragment(f: TagsEditorFragment): Tag[];
-  getInitialCheckedIdsForTagsEditorFragment(f: TagsEditorFragment): string[];
+export interface FTagsEditorDataSource {
+  getTagsForTagsEditorFragment(f: FTagsEditor): Tag[];
+  getInitialCheckedIdsForTagsEditorFragment(f: FTagsEditor): string[];
 }
 
-export interface TagsEditorFragmentDelegate {
-  onRequestNewTagInTagsEditorFragment(f: TagsEditorFragment): void;
-  onRequestRemoveExtraTagInTagsEditorFragment(f: TagsEditorFragment, name: string): void;
+export interface FTagsEditorDelegate {
+  onRequestNewTagInTagsEditorFragment(f: FTagsEditor): void;
+  onRequestRemoveExtraTagInTagsEditorFragment(f: FTagsEditor, name: string): void;
 }
 
-export class TagsEditorFragment extends Fragment {
+export class FTagsEditor extends Fragment {
   #elementName: string;
   #extraTagNames: string[] = [];
   #shouldEnableNewTags = false;
@@ -65,9 +65,9 @@ export class TagsEditorFragment extends Fragment {
   setEnableNewTags(b: boolean): void { this.#shouldEnableNewTags = b; }
 
   _renderContent(): string {
-    let allTags = this.getDataSource<TagsEditorFragmentDataSource>()?.getTagsForTagsEditorFragment(this) || [];
+    let allTags = this.getDataSource<FTagsEditorDataSource>()?.getTagsForTagsEditorFragment(this) || [];
     let checkedTagIds =
-        this.getDataSource<TagsEditorFragmentDataSource>()?.getInitialCheckedIdsForTagsEditorFragment(this) || [];
+        this.getDataSource<FTagsEditorDataSource>()?.getInitialCheckedIdsForTagsEditorFragment(this) || [];
     let s = _CFT_TAGS_EDITOR.MAIN;
     let items: string[] = [];
     for (let tag of allTags) {
@@ -210,4 +210,4 @@ export class TagsEditorFragment extends Fragment {
   }
 }
 
-export default TagsEditorFragment;
+export default FTagsEditor;

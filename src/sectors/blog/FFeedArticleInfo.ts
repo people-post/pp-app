@@ -1,7 +1,7 @@
 import { FAttachmentFile } from '../../lib/ui/controllers/fragments/FAttachmentFile.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
+import { FFilesThumbnail } from '../../common/gui/FFilesThumbnail.js';
 import { LGallery } from '../../common/gui/LGallery.js';
 import { FPostBase } from './FPostBase.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
@@ -18,7 +18,7 @@ import type { Article } from '../../common/datatypes/Article.js';
 
 export class FFeedArticleInfo extends FPostBase {
   #fAttachment: FAttachmentFile;
-  #fThumbnail: FilesThumbnailFragment;
+  #fThumbnail: FFilesThumbnail;
   #fOwnerName: FUserInfo;
   #fOwnerIcon: FUserIcon;
   #fAuthorName: FUserInfo;
@@ -30,7 +30,7 @@ export class FFeedArticleInfo extends FPostBase {
     this.#fAttachment = new FAttachmentFile();
     this.setChild("attachment", this.#fAttachment);
 
-    this.#fThumbnail = new FilesThumbnailFragment();
+    this.#fThumbnail = new FFilesThumbnail();
     this.#fThumbnail.setDataSource(this);
     this.#fThumbnail.setDelegate(this);
     this.setChild("thumbnail", this.#fThumbnail);
@@ -51,12 +51,12 @@ export class FFeedArticleInfo extends FPostBase {
   setArticleId(id: string | null): void { this.#articleId = id; }
   setSizeType(st: string | null): void { this.#sizeType = st; }
 
-  getFilesForThumbnailFragment(_fThumbnail: FilesThumbnailFragment): unknown[] {
+  getFilesForThumbnailFragment(_fThumbnail: FFilesThumbnail): unknown[] {
     let a = Blog.getArticle(this.#articleId);
     return a ? a.getFiles() : [];
   }
 
-  onThumbnailClickedInThumbnailFragment(_fThumbnail: FilesThumbnailFragment, idx: number): void {
+  onThumbnailClickedInThumbnailFragment(_fThumbnail: FFilesThumbnail, idx: number): void {
     this.#showThumbnail(idx);
   }
 

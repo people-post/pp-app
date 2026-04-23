@@ -10,7 +10,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 import { TextInput } from '../../lib/ui/controllers/fragments/TextInput.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
-import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
+import { FFilesThumbnail } from '../../common/gui/FFilesThumbnail.js';
 import { FSocialBar } from '../../common/social/FSocialBar.js';
 import { FRealTimeComments } from '../../common/social/FRealTimeComments.js';
 import { FProjectProgress } from './FProjectProgress.js';
@@ -55,7 +55,7 @@ interface ApiWorkerIdsResponse {
 }
 
 export class FvcProject extends FScrollViewContent implements IOptionContextButtonDelegate {
-  private _fThumbnail: FilesThumbnailFragment;
+  private _fThumbnail: FFilesThumbnail;
   private _fSocial: FSocialBar;
   private _fProgress: FProjectProgress;
   private _fFlow: FProjectFlowChart;
@@ -73,7 +73,7 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
 
   constructor() {
     super();
-    this._fThumbnail = new FilesThumbnailFragment();
+    this._fThumbnail = new FFilesThumbnail();
     this._fThumbnail.setDataSource(this);
     this._fThumbnail.setDelegate(this);
     this.setChild("thumbnail", this._fThumbnail);
@@ -139,7 +139,7 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
 
   getProjectForProgressFragment(_fProgress: FProjectProgress): ProjectType | null { return this.#getProject(); }
   getProjectForFlowChartFragment(_fStage: FProjectFlowChart): ProjectType | null { return this.#getProject(); }
-  getFilesForThumbnailFragment(_fThumbnail: FilesThumbnailFragment): unknown[] {
+  getFilesForThumbnailFragment(_fThumbnail: FFilesThumbnail): unknown[] {
     let p = this.#getProject();
     return p ? p.getFiles() : [];
   }
@@ -176,7 +176,7 @@ export class FvcProject extends FScrollViewContent implements IOptionContextButt
     }
   }
 
-  onThumbnailClickedInThumbnailFragment(_fThumbnail: FilesThumbnailFragment, idx: number): void { this.#showThumbnail(idx); }
+  onThumbnailClickedInThumbnailFragment(_fThumbnail: FFilesThumbnail, idx: number): void { this.#showThumbnail(idx); }
   onClickInProjectActorInfoFragment(_fActorInfo: FProjectActorInfo, actor: ProjectActorType): void {
     if (actor.getUserId() == User.C_ID.L_ADD_USER) {
       this.#onAddAgent();

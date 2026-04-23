@@ -3,12 +3,12 @@ import { UniLongListIdRecord } from '../datatypes/UniLongListIdRecord.js';
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Api } from '../plt/Api.js';
 
-export interface SimpleLongListFragmentDataSource {
-  createInfoFragmentForLongListFragment(f: SimpleLongListFragment, id: string): Fragment | null;
-  getUrlForLongListFragment(f: SimpleLongListFragment, fromId: string | null): string;
+export interface FSimpleLongListDataSource {
+  createInfoFragmentForLongListFragment(f: FSimpleLongList, id: string): Fragment | null;
+  getUrlForLongListFragment(f: FSimpleLongList, fromId: string | null): string;
 }
 
-export class SimpleLongListFragment extends FLongListLegacy {
+export class FSimpleLongList extends FLongListLegacy {
   declare _idRecord: UniLongListIdRecord;
   declare _isBatchLoading: boolean;
 
@@ -26,7 +26,7 @@ export class SimpleLongListFragment extends FLongListLegacy {
     }
     let id = this._idRecord.getId(itemIndex);
     if (id) {
-      const dataSource = this.getDataSource<SimpleLongListFragmentDataSource>();
+      const dataSource = this.getDataSource<FSimpleLongListDataSource>();
       return dataSource
         ? dataSource.createInfoFragmentForLongListFragment(this, id)
         : null;
@@ -46,7 +46,7 @@ export class SimpleLongListFragment extends FLongListLegacy {
     }
     let fromId = this._idRecord.getLastId() ?? null;
     this._isBatchLoading = true;
-    const dataSource = this.getDataSource<SimpleLongListFragmentDataSource>();
+    const dataSource = this.getDataSource<FSimpleLongListDataSource>();
     if (!dataSource) {
       this._isBatchLoading = false;
       return;

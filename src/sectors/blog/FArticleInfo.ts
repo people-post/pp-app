@@ -6,7 +6,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 import type { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
-import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
+import { FFilesThumbnail } from '../../common/gui/FFilesThumbnail.js';
 import { FTag } from '../../common/gui/FTag.js';
 import { LGallery } from '../../common/gui/LGallery.js';
 import { FPostBase } from './FPostBase.js';
@@ -34,7 +34,7 @@ export interface ArticleInfoDelegate {
 
 export class FArticleInfo extends FPostBase implements IOptionContextButtonDelegate {
   #fAttachment: FAttachmentFile;
-  #fThumbnail: FilesThumbnailFragment;
+  #fThumbnail: FFilesThumbnail;
   #fQuote: FQuoteElement;
   #fOwnerName: FUserInfo;
   #fOwnerIcon: FUserIcon;
@@ -49,7 +49,7 @@ export class FArticleInfo extends FPostBase implements IOptionContextButtonDeleg
     this.#fAttachment = new FAttachmentFile();
     this.setChild("attachment", this.#fAttachment);
 
-    this.#fThumbnail = new FilesThumbnailFragment();
+    this.#fThumbnail = new FFilesThumbnail();
     this.#fThumbnail.setDataSource(this);
     this.#fThumbnail.setDelegate(this);
     this.setChild("thumbnail", this.#fThumbnail);
@@ -84,7 +84,7 @@ export class FArticleInfo extends FPostBase implements IOptionContextButtonDeleg
   setArticleId(id: string | null): void { this.#articleId = id; }
   setSizeType(st: string | null): void { this.#sizeType = st; }
 
-  getFilesForThumbnailFragment(_fThumbnail: FilesThumbnailFragment): unknown[] {
+  getFilesForThumbnailFragment(_fThumbnail: FFilesThumbnail): unknown[] {
     let a = Blog.getArticle(this.#articleId);
     return a ? a.getFiles() : [];
   }
@@ -98,7 +98,7 @@ export class FArticleInfo extends FPostBase implements IOptionContextButtonDeleg
       delegate.onClickInArticleInfoFragment(this, this.#articleId!);
     }
   }
-  onThumbnailClickedInThumbnailFragment(_fThumbnail: FilesThumbnailFragment, idx: number): void {
+  onThumbnailClickedInThumbnailFragment(_fThumbnail: FFilesThumbnail, idx: number): void {
     this.#showThumbnail(idx);
   }
   onOptionClickedInContextButtonFragment(_fBtn: OptionContextButton, value: unknown): void {

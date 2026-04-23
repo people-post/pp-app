@@ -17,7 +17,7 @@ const _CFT_CART_ITEM = {
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
-import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
+import { FFilesThumbnail } from '../../common/gui/FFilesThumbnail.js';
 import { Cart } from '../../common/dba/Cart.js';
 import { Shop } from '../../common/dba/Shop.js';
 import { Exchange } from '../../common/dba/Exchange.js';
@@ -48,7 +48,7 @@ export class FCartItem extends Fragment {
     RESERVE: Symbol(),
   };
 
-  protected _fThumbnail: FilesThumbnailFragment;
+  protected _fThumbnail: FFilesThumbnail;
   protected _fBtnDelete: Button;
   protected _fBtnSaveForLater: Button;
   protected _fBtnMoveToCart: Button;
@@ -59,7 +59,7 @@ export class FCartItem extends Fragment {
 
   constructor() {
     super();
-    this._fThumbnail = new FilesThumbnailFragment();
+    this._fThumbnail = new FFilesThumbnail();
     this._fThumbnail.setDataSource(this);
     this._fThumbnail.setDelegate(this);
     this.setChild("thumbnail", this._fThumbnail);
@@ -96,7 +96,7 @@ export class FCartItem extends Fragment {
   setLayoutType(t: symbol | null): void { this._tLayout = t; }
   setEnableTransferBtn(b: boolean): void { this._isTransferButtonEnabled = b; }
 
-  getFilesForThumbnailFragment(_fThumbnail: FilesThumbnailFragment): unknown[] {
+  getFilesForThumbnailFragment(_fThumbnail: FFilesThumbnail): unknown[] {
     let f = this.#getThumbnialFile();
     return f ? [ f ] : [];
   }
@@ -117,7 +117,7 @@ export class FCartItem extends Fragment {
     }
   }
 
-  onThumbnailClickedInThumbnailFragment(_fThumbnail: FilesThumbnailFragment, _idx: number): void {
+  onThumbnailClickedInThumbnailFragment(_fThumbnail: FFilesThumbnail, _idx: number): void {
     let item = this.#getItem();
     if (item) {
       this.#onProductClicked(item.getProductId());

@@ -33,7 +33,7 @@ export interface InputConsoleDelegate {
   onInputConsoleRequestPostFile?(file: File): void;
 }
 
-export class InputConsoleFragment extends Fragment {
+export class FInputConsole extends Fragment {
   #isVisible: boolean = true;
   #isEnabled: boolean = true;
   #placeholder: string = "";

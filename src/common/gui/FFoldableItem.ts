@@ -13,7 +13,7 @@ const _CFT_FOLDABLE_ITEM = {
   ON_CLICK_ACTION : `javascript:G.action('${CF_FOLDABLE_ITEM.ITEM_CLICK}')`,
 }
 
-export class FoldableItemFragment extends Fragment {
+export class FFoldableItem extends Fragment {
   _itemId: string | null = null;
   _isOpen = false;
   _fHeader: RenderController | null = null;
@@ -100,9 +100,9 @@ export class FoldableItemFragment extends Fragment {
   #toggleStatus(): void {
     this._isOpen = !this._isOpen;
     if (this._isOpen) {
-      (this._delegate as { onFoldableItemOpen(f: FoldableItemFragment, id: string | null): void }).onFoldableItemOpen(this, this._itemId);
+      (this._delegate as { onFoldableItemOpen(f: FFoldableItem, id: string | null): void }).onFoldableItemOpen(this, this._itemId);
     } else {
-      (this._delegate as { onFoldableItemClose(f: FoldableItemFragment, id: string | null): void }).onFoldableItemClose(this, this._itemId);
+      (this._delegate as { onFoldableItemClose(f: FFoldableItem, id: string | null): void }).onFoldableItemClose(this, this._itemId);
     }
     this.render();
   }

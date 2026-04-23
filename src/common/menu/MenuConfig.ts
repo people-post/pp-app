@@ -1,6 +1,6 @@
-import { DirFragment } from '../gui/DirFragment.js';
+import { FDir } from '../gui/FDir.js';
 import { FSmartInput } from '../gui/FSmartInput.js';
-import { FoldableItemFragment } from '../gui/FoldableItemFragment.js';
+import { FFoldableItem } from '../gui/FFoldableItem.js';
 import { MenuEntryItemName } from './MenuEntryItemName.js';
 import { MenuEntryItemConfig } from './MenuEntryItemConfig.js';
 import { Button } from '../../lib/ui/controllers/fragments/Button.js';
@@ -17,8 +17,8 @@ export interface MenuConfigDataSource {
   getMenuForGuiMenuConfig(f: MenuConfig): MenuItem | null;
 }
 
-export class MenuConfig extends DirFragment<MenuItem> {
-  private _fSelected: FoldableItemFragment | null = null;
+export class MenuConfig extends FDir<MenuItem> {
+  private _fSelected: FFoldableItem | null = null;
   private _sectorId: string | null = null;
 
   constructor() {
@@ -38,13 +38,13 @@ export class MenuConfig extends DirFragment<MenuItem> {
   }
   onSimpleButtonClicked(fBtn: Button): void { this.#onDeleteMenuItem(fBtn.getValue() as string); }
 
-  onFoldableItemOpen(fItem: FoldableItemFragment, _itemId: string): void {
+  onFoldableItemOpen(fItem: FFoldableItem, _itemId: string): void {
     if (this._fSelected) {
       this._fSelected.close();
     }
     this._fSelected = fItem;
   }
-  onFoldableItemClose(_fItem: FoldableItemFragment, _itemId: string): void { this._fSelected = null; }
+  onFoldableItemClose(_fItem: FFoldableItem, _itemId: string): void { this._fSelected = null; }
 
   onItemChosenInSmartInputFragment(_fSmartInput: FSmartInput, itemId: string): void {
     let m = this.#getMenuItem();
@@ -96,9 +96,9 @@ export class MenuConfig extends DirFragment<MenuItem> {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  protected _createSubDirFragment(item: MenuItem): FoldableItemFragment {
+  protected _createSubDirFragment(item: MenuItem): FFoldableItem {
     let itemId = item.getId();
-    let f = new FoldableItemFragment();
+    let f = new FFoldableItem();
     f.setItemId(itemId);
     f.setHeaderFragment(new MenuEntryItemName(itemId));
     let fContent = new MenuEntryItemConfig(itemId);

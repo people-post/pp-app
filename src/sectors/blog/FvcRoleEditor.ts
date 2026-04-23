@@ -9,7 +9,7 @@ import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { BlogRole } from '../../common/datatypes/BlogRole.js';
 import { UserGroup } from '../../common/datatypes/UserGroup.js';
 import { ICON } from '../../common/constants/Icons.js';
-import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
+import { FTagsEditor } from '../../common/gui/FTagsEditor.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Groups } from '../../common/dba/Groups.js';
 import { Blog } from '../../common/dba/Blog.js';
@@ -44,7 +44,7 @@ interface ApiResponse {
 export class FvcRoleEditor extends FScrollViewContent {
   private _fTypeChoices: ButtonGroup;
   private _fOptions: OptionSwitch;
-  private _fTagsEditor: TagsEditorFragment;
+  private _fTagsEditor: FTagsEditor;
   private _roleId: string | null = null;
 
   constructor() {
@@ -73,15 +73,15 @@ export class FvcRoleEditor extends FScrollViewContent {
     this._fOptions.addOption("Recruiting", "OPEN", true);
     this.setChild("options", this._fOptions);
 
-    this._fTagsEditor = new TagsEditorFragment();
+    this._fTagsEditor = new FTagsEditor();
     this._fTagsEditor.setDataSource(this);
     this.setChild("tags", this._fTagsEditor);
   }
 
   setRoleId(id: string | null): void { this._roleId = id; }
 
-  getTagsForTagsEditorFragment(_fEditor: TagsEditorFragment): unknown[] { return WebConfig.getTags(); }
-  getInitialCheckedIdsForTagsEditorFragment(_fEditor: TagsEditorFragment): string[] {
+  getTagsForTagsEditorFragment(_fEditor: FTagsEditor): unknown[] { return WebConfig.getTags(); }
+  getInitialCheckedIdsForTagsEditorFragment(_fEditor: FTagsEditor): string[] {
     let role = this.#getRole();
     return role ? role.getAllowedTagIds() : [];
   }

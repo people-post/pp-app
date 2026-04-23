@@ -3,7 +3,7 @@ import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleF
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { Notifications } from '../../common/dba/Notifications.js';
-import { SectorNoticeInfoFragment } from '../../common/gui/SectorNoticeInfoFragment.js';
+import { FSectorNoticeInfo } from '../../common/gui/FSectorNoticeInfo.js';
 import { T_DATA } from '../../common/plt/Events.js';
 import { FvcProject } from './FvcProject.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
@@ -26,7 +26,7 @@ export class FNoticeList extends Fragment {
     this._selectedId = null;
   }
 
-  onSectorNoticeInfoFragmentRequestShowItem(_fNoticeInfo: SectorNoticeInfoFragment, id: string, _idType: string): void {
+  onSectorNoticeInfoFragmentRequestShowItem(_fNoticeInfo: FSectorNoticeInfo, id: string, _idType: string): void {
     this.#onViewProject(id);
   }
 
@@ -41,7 +41,7 @@ export class FNoticeList extends Fragment {
     let p = new SectionPanel("Notifications");
     render.wrapPanel(p);
     for (let n of notices) {
-      let f = new SectorNoticeInfoFragment();
+      let f = new FSectorNoticeInfo();
       f.setData(n);
       f.setDelegate(this);
       this._fNotices.append(f);

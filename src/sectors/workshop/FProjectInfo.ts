@@ -2,7 +2,7 @@ import { RichProgress } from '../../lib/ui/controllers/fragments/RichProgress.js
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import { ThumbnailPanelWrapper } from '../../lib/ui/renders/panels/ThumbnailPanelWrapper.js';
 import { MajorSectorItem } from '../../common/gui/MajorSectorItem.js';
-import { FilesThumbnailFragment } from '../../common/gui/FilesThumbnailFragment.js';
+import { FFilesThumbnail } from '../../common/gui/FFilesThumbnail.js';
 import { FUserIcon } from '../../common/hr/FUserIcon.js';
 import { FUserInfo } from '../../common/hr/FUserInfo.js';
 import { FSocialBar } from '../../common/social/FSocialBar.js';
@@ -35,7 +35,7 @@ export interface FProjectInfoDelegate {
 export class FProjectInfo extends MajorSectorItem {
   protected _sizeType: string | null;
   protected _projectId: string | null;
-  protected _fThumbnail: FilesThumbnailFragment;
+  protected _fThumbnail: FFilesThumbnail;
   protected _fProgress: RichProgress;
   protected _fUserIcon: FUserIcon;
   protected _fUserName: FUserInfo;
@@ -46,7 +46,7 @@ export class FProjectInfo extends MajorSectorItem {
     this._sizeType = null;
     this._projectId = null;
 
-    this._fThumbnail = new FilesThumbnailFragment();
+    this._fThumbnail = new FFilesThumbnail();
     this._fThumbnail.setDataSource(this);
     this._fThumbnail.setDelegate(this);
     this.setChild("thumbnail", this._fThumbnail);
@@ -68,7 +68,7 @@ export class FProjectInfo extends MajorSectorItem {
     this.setChild("social", this._fSocial);
   }
 
-  getFilesForThumbnailFragment(_fThumbnail: FilesThumbnailFragment): unknown[] {
+  getFilesForThumbnailFragment(_fThumbnail: FFilesThumbnail): unknown[] {
     if (!this._projectId) {
       return [];
     }
@@ -79,7 +79,7 @@ export class FProjectInfo extends MajorSectorItem {
   setProjectId(id: string | null): void { this._projectId = id; }
   setSizeType(t: string | null): void { this._sizeType = t; }
 
-  onThumbnailClickedInThumbnailFragment(_fThumbnail: FilesThumbnailFragment, idx: number): void {
+  onThumbnailClickedInThumbnailFragment(_fThumbnail: FFilesThumbnail, idx: number): void {
     this.#showThumbnail(idx);
   }
   onCommentClickedInSocialBar(_fSocial: FSocialBar): void {

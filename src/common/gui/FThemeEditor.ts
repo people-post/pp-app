@@ -19,11 +19,11 @@ const _CFT_THEME_EDITOR = {
     </span>`,
 };
 
-export interface ThemeEditorFragmentDelegate {
-  onGuiThemeEditorFragmentRequestChangeColor(fragment: ThemeEditorFragment, key: string, color: string): void;
+export interface FThemeEditorDelegate {
+  onGuiThemeEditorFragmentRequestChangeColor(fragment: FThemeEditor, key: string, color: string): void;
 }
 
-export class ThemeEditorFragment extends Fragment {
+export class FThemeEditor extends Fragment {
   private _theme: ColorTheme | null = null;
   private _iconUrl = "";
 
@@ -62,7 +62,7 @@ export class ThemeEditorFragment extends Fragment {
   }
 
   #onColorChange(key: string, color: string): void {
-    this.getDelegate<ThemeEditorFragmentDelegate>()?.onGuiThemeEditorFragmentRequestChangeColor(this, key, color);
+    this.getDelegate<FThemeEditorDelegate>()?.onGuiThemeEditorFragmentRequestChangeColor(this, key, color);
   }
 
   #renderHeaderTheme(theme: ColorTheme): string {
@@ -93,4 +93,4 @@ export class ThemeEditorFragment extends Fragment {
   }
 }
 
-export default ThemeEditorFragment;
+export default FThemeEditor;

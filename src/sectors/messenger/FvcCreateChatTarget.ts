@@ -1,7 +1,7 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
 import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
 import { FSmartInput } from '../../common/gui/FSmartInput.js';
-import { SimpleLongListFragment } from '../../common/gui/SimpleLongListFragment.js';
+import { FSimpleLongList } from '../../common/gui/FSimpleLongList.js';
 import { ButtonList } from '../../lib/ui/controllers/fragments/ButtonList.js';
 import { ListPanel } from '../../lib/ui/renders/panels/ListPanel.js';
 import { SectionPanel } from '../../lib/ui/renders/panels/SectionPanel.js';
@@ -21,7 +21,7 @@ export interface CreateChatTargetDelegate {
 export class FvcCreateChatTarget extends FScrollViewContent {
   protected _fMembers: FSimpleFragmentList;
   protected _fInput: FSmartInput;
-  protected _fContacts: SimpleLongListFragment;
+  protected _fContacts: FSimpleLongList;
   protected _fActions: ButtonList;
   protected _selectedIds: string[] = [];
 
@@ -34,7 +34,7 @@ export class FvcCreateChatTarget extends FScrollViewContent {
     this._fInput.setHintText("User name");
     this._fInput.setDelegate(this);
 
-    this._fContacts = new SimpleLongListFragment();
+    this._fContacts = new FSimpleLongList();
     this._fContacts.setGridMode(true);
     this._fContacts.setDataSource(this);
 

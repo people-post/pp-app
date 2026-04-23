@@ -11,7 +11,7 @@ interface PriceItem {
   sales_price: string | number;
 }
 
-export class PriceFragment extends Fragment {
+export class FPrice extends Fragment {
   private _fListPriceUnits: Selection;
   private _prices: PriceItem[] = [];
   private _currentCurrencyId: string | null = null;
@@ -120,4 +120,4 @@ export class PriceFragment extends Fragment {
   */
 }
 
-export default PriceFragment;
+export default FPrice;

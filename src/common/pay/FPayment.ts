@@ -1,5 +1,5 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
-import { FoldableItemFragment } from '../gui/FoldableItemFragment.js';
+import { FFoldableItem } from '../gui/FFoldableItem.js';
 import { FSquareOnline } from './FSquareOnline.js';
 import { FBraintree } from './FBraintree.js';
 import { FPaymentTerminalList } from './FPaymentTerminalList.js';
@@ -28,20 +28,20 @@ export interface FPaymentDelegate {
 }
 
 export class FPayment extends Fragment {
-  #fSquare: FoldableItemFragment;
+  #fSquare: FFoldableItem;
   #fBraintree: FBraintree;
-  private _fAsset: FoldableItemFragment;
+  private _fAsset: FFoldableItem;
   private _fTerminals: FPaymentTerminalList;
-  private _fSelected: FoldableItemFragment | null = null;
+  private _fSelected: FFoldableItem | null = null;
 
   constructor() {
     super();
-    this._fAsset = new FoldableItemFragment();
+    this._fAsset = new FFoldableItem();
     this._fAsset.setHeaderFragment(this.#createTitleFragment("Pay by balance"));
     this._fAsset.setDelegate(this);
     this.setChild("asset", this._fAsset);
 
-    this.#fSquare = new FoldableItemFragment();
+    this.#fSquare = new FFoldableItem();
     this.#fSquare.setHeaderFragment(this.#createTitleFragment("Pay by card"));
     let f = new FSquareOnline();
     f.setDelegate(this);
@@ -62,13 +62,13 @@ export class FPayment extends Fragment {
 
   setRegisterId(id: string | null): void { this._fTerminals.setRegisterId(id); }
 
-  onFoldableItemOpen(fItem: FoldableItemFragment, _itemId: string): void {
+  onFoldableItemOpen(fItem: FFoldableItem, _itemId: string): void {
     if (this._fSelected) {
       this._fSelected.close();
     }
     this._fSelected = fItem;
   }
-  onFoldableItemClose(_fItem: FoldableItemFragment, _itemId: string): void { this._fSelected = null; }
+  onFoldableItemClose(_fItem: FFoldableItem, _itemId: string): void { this._fSelected = null; }
 
   onSquareOnlinePayFragmentRequestPay(_fSquare: FSquareOnline, locationId: string, sourceId: string): void {
     const dataSource = this.getDataSource<FPaymentDataSource>();

@@ -1,5 +1,5 @@
 import { FScrollViewContent } from '../../lib/ui/controllers/fragments/FScrollViewContent.js';
-import { SimpleLongListFragment } from '../../common/gui/SimpleLongListFragment.js';
+import { FSimpleLongList } from '../../common/gui/FSimpleLongList.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { SocialItem } from '../../common/datatypes/SocialItem.js';
@@ -9,11 +9,11 @@ import type Render from '../../lib/ui/renders/Render.js';
 import { Account } from '../../common/dba/Account.js';
 
 export class FvcContactList extends FScrollViewContent {
-  protected _fList: SimpleLongListFragment;
+  protected _fList: FSimpleLongList;
 
   constructor() {
     super();
-    this._fList = new SimpleLongListFragment();
+    this._fList = new FSimpleLongList();
     this._fList.setDataSource(this);
     this.setChild("list", this._fList);
   }

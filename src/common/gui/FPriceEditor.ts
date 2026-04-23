@@ -11,7 +11,7 @@ import { R } from '../constants/R.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import type { BasePrice } from '../../types/backend2.js';
 
-export class PriceEditorFragment extends Fragment {
+export class FPriceEditor extends Fragment {
   private _fListPriceUnits: Selection;
   private _fListPriceInput: NumberInput;
   private _fSalesPriceInput: NumberInput;
@@ -226,4 +226,4 @@ export class PriceEditorFragment extends Fragment {
   }
 }
 
-export default PriceEditorFragment;
+export default FPriceEditor;

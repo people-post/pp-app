@@ -1,6 +1,6 @@
 import { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
 import { LContext } from '../../lib/ui/controllers/layers/LContext.js';
-import { InputConsoleFragment } from '../gui/InputConsoleFragment.js';
+import { FInputConsole } from '../gui/FInputConsole.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { FvcUserInput } from '../hr/FvcUserInput.js';
@@ -23,7 +23,7 @@ export interface FCommentInputDelegate {
 
 export class FCommentInput extends Fragment {
   #lc: LContext;
-  #fInput: InputConsoleFragment;
+  #fInput: FInputConsole;
   #tmpMessage: string | null = null;
   #threadId: SocialItemId | null = null;
   #hashtagIds: string[] = [];
@@ -34,7 +34,7 @@ export class FCommentInput extends Fragment {
     this.#lc.setDelegate(this);
     this.#lc.setTargetName("comment type");
 
-    this.#fInput = new InputConsoleFragment();
+    this.#fInput = new FInputConsole();
     this.#fInput.setPlaceholder("Your comments here.");
     this.#fInput.setDelegate(this);
     this.setChild("input", this.#fInput);

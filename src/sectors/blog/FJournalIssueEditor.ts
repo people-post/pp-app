@@ -16,7 +16,7 @@ import { Tag } from '../../common/datatypes/Tag.js';
 import { Events, T_ACTION } from '../../lib/framework/Events.js';
 import { JournalIssue } from '../../common/datatypes/JournalIssue.js';
 import { FTag } from '../../common/gui/FTag.js';
-import { TagsEditorFragment } from '../../common/gui/TagsEditorFragment.js';
+import { FTagsEditor } from '../../common/gui/FTagsEditor.js';
 import { FGeneralSearch } from '../../common/search/FGeneralSearch.js';
 import { FSearchResultInfo } from '../../common/search/FSearchResultInfo.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
@@ -361,7 +361,7 @@ export class FJournalIssueEditor extends Fragment {
   #fAbstract: TextArea;
   #fSummary: TextArea;
   #fSections: FFragmentList;
-  #fTags: TagsEditorFragment;
+  #fTags: FTagsEditor;
   #btnSubmit: Button;
   #journalIssue: JournalIssueType | null = null;
   #tags: Tag[] | null = null;
@@ -385,7 +385,7 @@ export class FJournalIssueEditor extends Fragment {
     this.#fSummary.setDelegate(this);
     this.setChild("summary", this.#fSummary);
 
-    this.#fTags = new TagsEditorFragment();
+    this.#fTags = new FTagsEditor();
     this.#fTags.setDataSource(this);
     this.#fTags.setDelegate(this);
     this.setChild("tags", this.#fTags);
@@ -407,7 +407,7 @@ export class FJournalIssueEditor extends Fragment {
   }
   onInputChangeInTextArea(_fTextArea: TextArea, _text: string): void {}
 
-  getTagsForTagsEditorFragment(_fEditor: TagsEditorFragment): Tag[] {
+  getTagsForTagsEditorFragment(_fEditor: FTagsEditor): Tag[] {
     if (this.#tags) {
       return this.#tags;
     }
@@ -427,7 +427,7 @@ export class FJournalIssueEditor extends Fragment {
     }
   }
 
-  getInitialCheckedIdsForTagsEditorFragment(_fEditor: TagsEditorFragment): string[] {
+  getInitialCheckedIdsForTagsEditorFragment(_fEditor: FTagsEditor): string[] {
     return this.#journalIssue ? this.#journalIssue.getTagIds() : [];
   }
 
