@@ -175,8 +175,9 @@ export class FPostInfo extends MajorSectorItem {
 
     if (this.#fPost && (this.#fPost as any).isInfoClickable && panel.isClickable()) {
       panel.setClassName("tw:cursor-pointer");
-      panel.setAttribute("onclick",
-                         `javascript:G.action("${CF_POST_INFO.ON_CLICK}")`);
+      // Use delegated action so we always have the correct event object
+      // (inline onclick relies on a browser global `event`, which can be missing/stale).
+      panel.setAttribute("data-pp-action", `${CF_POST_INFO.ON_CLICK}`);
     }
 
     render.wrapPanel(panel);
