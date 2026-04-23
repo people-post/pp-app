@@ -81,8 +81,7 @@ export class FDraftArticleInfo extends Fragment {
 
     let panel = new PDraftArticleInfo();
     panel.setClassName("tw:cursor-pointer");
-    panel.setAttribute(
-        "onclick", "javascript:G.action(CF_DRAFT_ARTICLE_INFO.ON_CLICK)");
+    panel.setAttribute("data-pp-action", String(CF_DRAFT_ARTICLE_INFO.ON_CLICK));
 
     render.wrapPanel(panel);
 
