@@ -8,7 +8,7 @@ const _CPT_HEADER_THIN = {
     <div id="__ID_MENU_0__" class="tw:flex tw:flex-col tw:justify-center"></div>
     <div id="__ID_MENU_1__" class="tw:flex tw:flex-col tw:justify-center"></div>
     <div id="__ID_MENU_2__" class="tw:flex tw:flex-col tw:justify-center"></div>
-    <div id="__ID_SPACE__" class="tw:flex-grow"></div>
+    <div id="__ID_SPACE__" class="tw:grow"></div>
     <div id="__ID_ACTION__" class="tw:flex tw:flex-col tw:justify-center"></div>
   </div>
   <div id="__ID_MENU_CONTENT__" class="header-menu-content"></div>`,

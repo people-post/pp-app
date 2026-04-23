@@ -14,14 +14,14 @@
 
 const _CPT_PROJECT_INFO_MIDDLE = {
   MAIN : `<div id="__ID_WRAPPER__" class="project-info-wrapper middle">
-    <div class="tw:aspect-[5/1] tw:relative">
+    <div class="tw:aspect-5/1 tw:relative">
       <div class="tw:absolute tw:inset-0 tw:flex tw:justify-start">
-        <div id="__ID_PROGRESS__" class="tw:flex-shrink-0 v-progress-wrapper w10px"></div>
-        <div class="tw:flex-grow tw:h-full">
+        <div id="__ID_PROGRESS__" class="tw:shrink-0 v-progress-wrapper w10px"></div>
+        <div class="tw:grow tw:h-full">
           <div id="__ID_MAIN__" class="project-info middle tw:h-full tw:border-lightgray">
             <div class="tw:flex tw:justify-start tw:h-full"> 
               <div id="__ID_THUMBNAIL__"></div>
-              <div class="tw:flex-grow tw:h-full tw:box-border tw:pt-[5px] tw:pl-[5px] tw:overflow-hidden">
+              <div class="tw:grow tw:h-full tw:box-border tw:pt-[5px] tw:pl-[5px] tw:overflow-hidden">
                 <div id="__ID_TITLE__" class="tw:font-bold"></div>
                 <div id="__ID_CONTENT__" class="tw:text-u-font5"></div>
               </div>

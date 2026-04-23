@@ -4,9 +4,9 @@ import { PanelWrapper } from './PanelWrapper.js';
 
 const _CPT_CONSOLE_OVERLAY = {
   MAIN : `<div class="tw:flex tw:h-header tw:justify-center tw:bg-transparent">
-    <div class="tw:flex-grow tw:basis-1/2"></div>
+    <div class="tw:grow tw:basis-1/2"></div>
     <div id="__ID_HOME_BTN__" class="tw:flex tw:flex-col tw:justify-center tw:pointer-events-auto"></div>
-    <div class="tw:flex-grow tw:basis-1/2 tw:flex">
+    <div class="tw:grow tw:basis-1/2 tw:flex">
       <div id="__ID_NAV_ICON_0__" class="tw:flex tw:flex-col tw:justify-center tw:pointer-events-auto tw:relative"></div>
       <div id="__ID_NAV_ICON_1__" class="tw:flex tw:flex-col tw:justify-center tw:pointer-events-auto tw:relative"></div>
     </div>

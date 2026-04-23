@@ -10,10 +10,10 @@
 
 const _CPT_PROJECT_INFO_LARGE = {
   MAIN : `<div class="tw:flex tw:justify-start info-panel large">
-    <div class="w50px tw:flex-shrink-0">
+    <div class="w50px tw:shrink-0">
       <div id="__ID_USER_ICON__" class="user-icon-column"></div>
     </div>
-    <div class="tw:flex-grow tw:min-w-0">
+    <div class="tw:grow tw:min-w-0">
       <div id="__ID_REFERENCE__" class="crosslink-note"></div>
       <div class="tw:flex tw:justify-between">
         <div id="__ID_USER_NAME__"></div>

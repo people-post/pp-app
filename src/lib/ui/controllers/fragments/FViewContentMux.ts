@@ -9,8 +9,8 @@ import { FScrollViewContentHook } from './FScrollViewContentHook.js';
 import { FViewContentBase } from './FViewContentBase.js';
 
 const _CPT_VIEW_CONTENT_MUX = {
-  MAIN : `<div id="__ID_HEADER__" class="tw:flex-shrink-0"></div>
-  <div id="__ID_CONTENT__" class="tw:flex-grow tw:min-w-0 tw:overflow-x-scroll tw:snap-x tw:snap-mandatory tw:flex"></div>`,
+  MAIN : `<div id="__ID_HEADER__" class="tw:shrink-0"></div>
+  <div id="__ID_CONTENT__" class="tw:grow tw:min-w-0 tw:overflow-x-scroll tw:snap-x tw:snap-mandatory tw:flex"></div>`,
 } as const;
 
 class PViewContentMux extends Panel {
