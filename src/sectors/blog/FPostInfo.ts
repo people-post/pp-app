@@ -15,7 +15,7 @@ import { UiUtilities } from '../../lib/ui/Utilities.js';
 import { FArticleInfo } from './FArticleInfo.js';
 import { FFeedArticleInfo } from './FFeedArticleInfo.js';
 import { FJournalIssue } from './FJournalIssue.js';
-import { FComment } from './FComment.js';
+import { FComment, FCommentDataSource, FCommentDelegate } from './FComment.js';
 import { FEmptyPost } from './FEmptyPost.js';
 import { PPostInfoBigHead } from './PPostInfoBigHead.js';
 import { PPostInfoLarge } from './PPostInfoLarge.js';
@@ -56,7 +56,7 @@ export interface PostInfoDelegate {
   onVisibilityChangeInPostInfoFragment(f: FPostInfo): void;
 }
 
-export class FPostInfo extends MajorSectorItem {
+export class FPostInfo extends MajorSectorItem implements FCommentDataSource, FCommentDelegate {
   #fPost: Fragment | null = null;
   #fRefOwnerName: FUserInfo;
   #fOwnerName: FUserInfo;
@@ -90,12 +90,12 @@ export class FPostInfo extends MajorSectorItem {
   }
   setSizeType(t: string | null): void { this.#sizeType = t; }
 
-  isUserAdminOfCommentTargetInPostInfoFragment(targetId: string): boolean {
+  isUserAdminOfCommentTargetInCommentFragment(_f: FComment, itemId: string): boolean {
     const dataSource = this.getDataSource<PostInfoDataSource>();
     if (!dataSource) {
       return false;
     }
-    return dataSource.isUserAdminOfCommentTargetInPostInfoFragment(this, targetId);
+    return dataSource.isUserAdminOfCommentTargetInPostInfoFragment(this, itemId);
   }
 
   getContextOptionsForPostInfoFragment(article: Article): Array<{name: string; value: string}> | null {
@@ -120,6 +120,10 @@ export class FPostInfo extends MajorSectorItem {
       return;
     }
     delegate.onVisibilityChangeInPostInfoFragment(this);
+  }
+
+  onGuestCommentStatusChangeInCommentFragment(_f: FComment): void {
+    // Do nothing
   }
 
   handleSessionDataUpdate(dataType: symbol, data: unknown): void {

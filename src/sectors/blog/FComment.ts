@@ -18,11 +18,11 @@ const _CFT_COMMENT = {
   ICON : `<span class="tw:inline-block tw:w-s-icon6 tw:h-s-icon6">__ICON__</span>`,
 } as const;
 
-export interface CommentDataSource {
+export interface FCommentDataSource {
   isUserAdminOfCommentTargetInCommentFragment(f: FComment, itemId: string): boolean;
 }
 
-export interface CommentDelegate {
+export interface FCommentDelegate {
   onGuestCommentStatusChangeInCommentFragment(f: FComment): void;
 }
 
@@ -98,7 +98,7 @@ export class FComment extends FPostBase implements IOptionContextButtonDelegate 
     if (!targetItemId) {
       return false;
     }
-    const dataSource = this.getDataSource<CommentDataSource>();
+    const dataSource = this.getDataSource<FCommentDataSource>();
     if (!dataSource) {
       return false;
     }
@@ -204,7 +204,7 @@ export class FComment extends FPostBase implements IOptionContextButtonDelegate 
   }
 
   #onKeepRRR(_data: unknown): void {
-    const delegate = this.getDelegate<CommentDelegate>();
+    const delegate = this.getDelegate<FCommentDelegate>();
     if (!delegate) {
       return;
     }
@@ -212,7 +212,7 @@ export class FComment extends FPostBase implements IOptionContextButtonDelegate 
   }
 
   #onDiscardRRR(_data: unknown): void {
-    const delegate = this.getDelegate<CommentDelegate>();
+    const delegate = this.getDelegate<FCommentDelegate>();
     if (!delegate) {
       return;
     }
