@@ -2,19 +2,33 @@ import { FInput } from './FInput.js';
 
 export class SimpleInput extends FInput {
   protected _hasError: boolean;
+  protected _storedValue: string;
 
   constructor() {
     super();
     this._hasError = false;
+    this._storedValue = "";
+  }
+
+  protected storeValue(raw: unknown): void {
+    this._storedValue = String(raw ?? "");
   }
 
   getValue(): string { 
     const el = this._getInputElement();
-    return (el && 'value' in el) ? (el as HTMLInputElement).value : ""; 
+    if (el && 'value' in el) {
+      const v = (el as HTMLInputElement).value ?? "";
+      this._storedValue = v;
+      return v;
+    }
+    return this._storedValue;
   }
   setConfig(config: any): void {
     super.setConfig(config);
     this._hasError = false;
+    if (config && 'value' in config) {
+      this.storeValue((config as any).value);
+    }
   }
 
   protected _clearErrorMark(): void {

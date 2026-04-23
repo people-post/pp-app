@@ -10,7 +10,7 @@ const _CFT_NUMBER_INPUT = {
        __INPUT__
     </div>`,
   INPUT :
-      `<input class="__CLASS__" type="number" id="__ID__" min="__MIN__" max="__MAX__" step="__STEP__", value="__VALUE__" data-pp-change-action="${CF_NUMBER_INPUT.ONCHANGE}" data-pp-change-args='["$value"]'>__UNIT__`,
+      `<input class="__CLASS__" type="number" id="__ID__" min="__MIN__" max="__MAX__" step="__STEP__", value="__VALUE__" data-pp-change-action="${CF_NUMBER_INPUT.ONCHANGE}" data-pp-change-args='["$value"]' data-pp-input-action="${CF_NUMBER_INPUT.ONCHANGE}" data-pp-input-args='["$value"]'>__UNIT__`,
 } as const;
 
 interface NumberInputConfig {
@@ -34,6 +34,7 @@ export class NumberInput extends SimpleInput {
   action(type: string | symbol, ...args: any[]): void {
     switch (type) {
     case CF_NUMBER_INPUT.ONCHANGE:
+      this.storeValue(args[0]);
       if (this._delegate && typeof (this._delegate as any).onInputChangeInNumberInputFragment === 'function') {
         (this._delegate as any).onInputChangeInNumberInputFragment(this, args[0]);
       }
@@ -46,6 +47,11 @@ export class NumberInput extends SimpleInput {
 
   validate(): boolean {
     // Range will be automatically checked
+    // Ensure mirror is synced before any pop/unmount can detach DOM.
+    const el = this._getInputElement() as HTMLInputElement | null;
+    if (el) {
+      this.storeValue(el.value);
+    }
     let v = parseInt(this.getValue());
     if (this.#isValueInRange(v)) {
       this._clearErrorMark();

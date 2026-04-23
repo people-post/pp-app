@@ -7,7 +7,7 @@ export const CF_TEXT_AREA = {
 const _CFT_TEXT_AREA = {
   TITLE : `<p class="title">__TITLE__</p>`,
   INPUT :
-      `<textarea id="__ID__" class="__CLASS_NAME__" data-pp-change-action="${CF_TEXT_AREA.ON_CHANGE}" data-pp-change-args='["$value"]' placeholder="__HINT__">__VALUE__</textarea>`,
+      `<textarea id="__ID__" class="__CLASS_NAME__" data-pp-change-action="${CF_TEXT_AREA.ON_CHANGE}" data-pp-change-args='["$value"]' data-pp-input-action="${CF_TEXT_AREA.ON_CHANGE}" data-pp-input-args='["$value"]' placeholder="__HINT__">__VALUE__</textarea>`,
 } as const;
 
 interface TextAreaConfig {
@@ -31,6 +31,7 @@ export class TextArea extends SimpleInput {
 
   setValue(v: string): void {
     this._config.value = v;
+    this.storeValue(v);
     let e = this._getInputElement() as HTMLTextAreaElement | null;
     if (e) {
       e.value = v;
@@ -40,6 +41,8 @@ export class TextArea extends SimpleInput {
   validate(): boolean {
     let e = this._getInputElement() as HTMLTextAreaElement | null;
     if (!e) return false;
+    this._config.value = e.value ?? "";
+    this.storeValue(this._config.value);
     if (this._config.isRequired && !e.value) {
       e.style.borderColor = "bgfirebrick";
       return false;
@@ -51,6 +54,8 @@ export class TextArea extends SimpleInput {
   action(type: string | symbol, ...args: any[]): void {
     switch (type) {
     case CF_TEXT_AREA.ON_CHANGE:
+      this._config.value = String(args[0] ?? "");
+      this.storeValue(this._config.value);
       this.#onInputChange(args[0]);
       break;
     default:

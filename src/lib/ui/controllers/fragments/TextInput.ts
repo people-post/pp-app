@@ -10,7 +10,7 @@ const _CFT_TEXT_INPUT = {
        __INPUT__
     </div>`,
   INPUT :
-      `<input type="text" id="__ID__" class="__CLASS_NAME__" placeholder="__HINT__" value="__VALUE__" data-pp-change-action="${CF_TEXT_INPUT.ONCHANGE}" data-pp-change-args='["$value"]'>`
+      `<input type="text" id="__ID__" class="__CLASS_NAME__" placeholder="__HINT__" value="__VALUE__" data-pp-change-action="${CF_TEXT_INPUT.ONCHANGE}" data-pp-change-args='["$value"]' data-pp-input-action="${CF_TEXT_INPUT.ONCHANGE}" data-pp-input-args='["$value"]'>`
 } as const;
 
 interface TextInputConfig {
@@ -18,6 +18,10 @@ interface TextInputConfig {
   hint: string;
   value: string;
   isRequired: boolean;
+}
+
+export interface TextInputDelegate {
+  onInputChangeInTextInputFragment(f: TextInput, value: string): void;
 }
 
 export class TextInput extends SimpleInput {
@@ -48,6 +52,7 @@ export class TextInput extends SimpleInput {
 
   setValue(v: string): void {
     this._config.value = v;
+    this.storeValue(v);
     let e = this._getInputElement() as HTMLInputElement | null;
     if (e) {
       e.value = v;
@@ -57,9 +62,9 @@ export class TextInput extends SimpleInput {
   action(type: symbol | string, ...args: any[]): void {
     switch (type) {
     case CF_TEXT_INPUT.ONCHANGE:
-      if (this._delegate && typeof (this._delegate as any).onInputChangeInTextInputFragment === 'function') {
-        (this._delegate as any).onInputChangeInTextInputFragment(this, args[0]);
-      }
+      this._config.value = String(args[0] ?? "");
+      this.storeValue(this._config.value);
+      this.getDelegate<TextInputDelegate>()?.onInputChangeInTextInputFragment(this, args[0]);
       break;
     default:
       super.action.apply(this, arguments as any);
@@ -69,6 +74,8 @@ export class TextInput extends SimpleInput {
   validate(): boolean {
     let e = this._getInputElement() as HTMLInputElement | null;
     if (!e) return false;
+    this._config.value = e.value ?? "";
+    this.storeValue(this._config.value);
     if (this._config.isRequired && !(e.value && e.value.length)) {
       e.style.border = "1px solid coral";
       e.style.borderRadius = "5px";
