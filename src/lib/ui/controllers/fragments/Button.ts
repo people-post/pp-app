@@ -30,6 +30,7 @@ export class Button extends Fragment {
   static T_THEME = {
     NONE : Symbol(),
     FUNC: Symbol(),
+    PRIME : Symbol(),
     RISKY: Symbol(),
     DANGER: Symbol(),
     PALE: Symbol(),
@@ -42,6 +43,8 @@ export class Button extends Fragment {
   #isEnabled: boolean = true;
   #tTheme: symbol | null = null;
   #tLayout: symbol | null = null;
+  /** Appended after theme classes for full-width button-bar layouts (Tailwind utilities). */
+  #barTailClassName: string | null = null;
 
   getValue(): any { return this.#value; }
 
@@ -51,6 +54,12 @@ export class Button extends Fragment {
   setThemeType(type: symbol | null): void { this.#tTheme = type; }
   setTheme(t: Theme | null): void { this.#theme = t; }
   setLayoutType(type: symbol | null): void { this.#tLayout = type; }
+  /** Extra classes on button-bar anchors (e.g. full width, min height). */
+  setBarTailClassName(className: string | null): void {
+    this.#barTailClassName = className;
+    this.#updateElement();
+  }
+
   setEnabled(b: boolean): void {
     this.#isEnabled = b;
     this.#updateElement();
@@ -160,6 +169,9 @@ export class Button extends Fragment {
     if (s && s.length) {
       names.push(s);
     }
+    if (this.#barTailClassName) {
+      names.push(this.#barTailClassName);
+    }
     return names.join(" ");
   }
 
@@ -172,6 +184,8 @@ export class Button extends Fragment {
       return "";
     case Button.T_THEME.FUNC:
       return "s-primary s-csecondarybg s-cfunc";
+    case Button.T_THEME.PRIME:
+      return "s-cprimebg s-cmenu";
     case Button.T_THEME.RISKY:
       return "tw:text-red-600 risky";
     case Button.T_THEME.DANGER:
@@ -192,6 +206,8 @@ export class Button extends Fragment {
       return "";
     case Button.T_THEME.FUNC:
       return "s-primary s-cfuncbg s-csecondary";
+    case Button.T_THEME.PRIME:
+      return "s-cprimebg s-cmenu";
     case Button.T_THEME.RISKY:
       return "tw:text-red-600 risky";
     case Button.T_THEME.DANGER:

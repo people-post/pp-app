@@ -781,16 +781,20 @@ div.notification-badge {
 }
 
 a.button-bar {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     padding: 10px 0px;
     font-weight: bold;
     width: 98%;
     margin-left: 1%;
+    box-sizing: border-box;
     text-shadow: none;
     text-decoration: none;
     border-radius: 5px;
     font-size: 14px;
+    line-height: 1.2;
     cursor: pointer;
 }
 
