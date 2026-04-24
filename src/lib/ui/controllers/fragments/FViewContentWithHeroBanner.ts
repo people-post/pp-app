@@ -5,7 +5,7 @@ import { Fragment } from './Fragment.js';
 
 const _CPT_VIEW_CONTENT_WITH_HERO_BANNER = {
   MAIN : `<div id="__ID_HEADER__" class="tw:shrink-0"></div>
-  <div id="__ID_CONTENT__" class="tw:grow tw:min-w-0"></div>`,
+  <div id="__ID_CONTENT__" class="tw:grow tw:min-w-0 tw:min-h-0"></div>`,
 } as const;
 
 class PViewContentWithHeroBanner extends Panel {
