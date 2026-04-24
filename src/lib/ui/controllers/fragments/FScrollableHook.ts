@@ -91,9 +91,7 @@ export class FScrollableHook extends Fragment implements IScrollEndEventShimDele
 
   onScrollEndInScrollEndEventShim(_sScrollEnd: ScrollEndEventShim): void { this.#onScrollEnd(); }
   onElasticRefreshFragmentRequstRefresh(_fElasticRefresh: FElasticRefresh): void {
-    if (typeof (this.#fContent as any).reload === 'function') {
-      (this.#fContent as any).reload();
-    }
+    this.#fContent.reload();
   }
 
   onContentTopResizeBeginInFragment(_f: Fragment): void {
@@ -144,7 +142,7 @@ export class FScrollableHook extends Fragment implements IScrollEndEventShimDele
     }
 
     let pContent = panel.getContentPanel();
-    if (typeof (this.#fContent as any).isReloadable === 'function' && (this.#fContent as any).isReloadable()) {
+    if (this.#fContent.isReloadable()) {
       let e = pContent.getDomElement();
       if (e) {
         this.#fElasticRefresh.observe(e);

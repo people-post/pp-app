@@ -69,5 +69,9 @@ export class Fragment extends RenderController implements FragmentOwner {
       owner.onContentTopResizeEndInFragment(this);
     }
   }
+
+  // Standard reload contract: override in reloadable fragments.
+  isReloadable(): boolean { return false; }
+  reload(): void {}
 }
 

@@ -96,9 +96,7 @@ export class FScrollViewContentHook extends FViewContentWrapper implements IScro
   onScrollEndInScrollEndEventShim(_sScrollEnd: ScrollEndEventShim): void { this.#onScrollEnd(); }
   onElasticRefreshFragmentRequstRefresh(_fElasticRefresh: FElasticRefresh): void {
     let f = this._getContentFragment();
-    if (f && typeof (f as any).reload === 'function') {
-      (f as any).reload();
-    }
+    f?.reload();
   }
 
   onContentTopResizeBeginInFragment(_f: Fragment): void {
@@ -155,7 +153,7 @@ export class FScrollViewContentHook extends FViewContentWrapper implements IScro
 
     const pContent = panel.getContentPanel();
     let f = this._getContentFragment();
-    if (f && typeof (f as any).isReloadable === 'function' && (f as any).isReloadable()) {
+    if (f && f.isReloadable()) {
       let e = pContent.getDomElement();
       if (e) {
         this.#fElasticRefresh.observe(e);

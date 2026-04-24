@@ -3,6 +3,14 @@ import { FViewContentBase } from './FViewContentBase.js';
 import { View } from '../views/View.js';
 
 export class FViewContentContainer extends FViewContentBase {
+  isReloadable(): boolean {
+    return this._getContentFragment()?.isReloadable() ?? false;
+  }
+
+  reload(): void {
+    this._getContentFragment()?.reload();
+  }
+
   initFromUrl(urlParam: any): void {
     // TODO: This might be wrapper specific
     let f = this._getContentFragment();

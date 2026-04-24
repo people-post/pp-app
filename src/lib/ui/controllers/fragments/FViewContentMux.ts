@@ -52,6 +52,7 @@ export class FViewContentMux extends FViewContentContainer implements IScrollEnd
   #pContent: ListPanel | null = null;
   #obScrollEnd: ScrollEndEventShim;
   #mChildren: Map<string, FViewContentBase> = new Map();
+  #mLoadedTabs: Set<string> = new Set();
   #obResize: ResizeObserver;
 
   constructor() {
@@ -78,7 +79,7 @@ export class FViewContentMux extends FViewContentContainer implements IScrollEnd
   onScrollEndInScrollEndEventShim(_sScrollEnd: ScrollEndEventShim): void { this.#onScrollEnd(); }
 
   onTabSelectionChangedInTabbedPaneTabBarFragment(_fTab: FTabbedPaneTabBar, v: string): void {
-    this.#switchContentTo(v);
+    this.#activateTab(v);
   }
 
   addTab(tabConfig: TabConfig, fTab: FViewContentBase): void {
@@ -98,11 +99,12 @@ export class FViewContentMux extends FViewContentContainer implements IScrollEnd
       this.setChild(id, null);
     }
     this.#mChildren.clear();
+    this.#mLoadedTabs.clear();
   }
 
   switchTo(id: string): void {
     this.#fTabBar.setTab(id);
-    this.#switchContentTo(id);
+    this.#activateTab(id);
   }
 
   _getContentFragment(): FViewContentBase | null { return this.#fCurrent; }
@@ -135,13 +137,24 @@ export class FViewContentMux extends FViewContentContainer implements IScrollEnd
     }
   }
 
-  #switchContentTo(id: string): void {
-    let f = this.#mChildren.get(id);
+  #activateTab(id: string): void {
+    const f = this.#mChildren.get(id);
     if (this.#fCurrent == f) {
       return;
     }
     this.#fCurrent = f ?? null;
     this.#scrollToCurrentContent();
+    this.#ensureTabLoaded(id, this.#fCurrent);
+  }
+
+  #ensureTabLoaded(id: string, f: FViewContentBase | null): void {
+    if (!f || this.#mLoadedTabs.has(id)) {
+      return;
+    }
+    this.#mLoadedTabs.add(id);
+    if (f.isReloadable()) {
+      f.reload();
+    }
   }
 
   #scrollToCurrentContent(): void {
@@ -189,9 +202,7 @@ export class FViewContentMux extends FViewContentContainer implements IScrollEnd
         if (this.#fCurrent != f) {
           this.#fTabBar.setTab(id);
           this.#fTabBar.render();
-          this.#fCurrent = f;
-          this.#fCurrent.render();
-          this.onContentFragmentRequestUpdateHeader(this);
+          this.#activateTab(id);
         }
         break;
       }

@@ -85,7 +85,9 @@ export class FvcUserInfo extends FViewContentWithHeroBanner {
     super.handleSessionDataUpdate(dataType, data);
   }
 
-  _onContentDidAppear(): void { this.#asyncMarkAccountVisit(); }
+  _onContentDidAppear(): void {
+    this.#asyncMarkAccountVisit();
+  }
 
   #asyncMarkAccountVisit(): void {
     if (!this.#userId) {
