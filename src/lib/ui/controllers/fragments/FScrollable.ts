@@ -5,6 +5,7 @@ export class FScrollable extends Fragment {
 
   isReloadable(): boolean { return false; }
   hasBufferOnTop(): boolean { return false; }
+  hasHiddenTopBuffer(): boolean { return this.hasBufferOnTop(); }
 
   scrollToTop(): void {}
   reload(): void {}

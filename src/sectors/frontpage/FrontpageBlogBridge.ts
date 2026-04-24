@@ -2,6 +2,7 @@ import type { SocialItemId } from '../../common/datatypes/SocialItemId.js';
 import type { LongListIdRecord } from '../../common/datatypes/LongListIdRecord.js';
 import type { LongListIdLoader } from '../../common/plt/LongListIdLoader.js';
 import type { Fragment } from '../../lib/ui/controllers/fragments/Fragment.js';
+import type { ScrollHookContent } from '../../lib/ui/controllers/fragments/ScrollHookContent.js';
 
 export type BriefPostIdRecord = LongListIdRecord;
 
@@ -21,10 +22,12 @@ export interface BriefPostList {
   setDelegate(delegate: unknown): void;
   setLoader(loader: BriefPostIdLoader): void;
   onScrollFinished(): void;
+  hasHiddenTopBuffer(): boolean;
+  scrollToTop(): void;
   reset(): void;
 }
 
-export interface BriefPostListFragment extends BriefPostList, Fragment {}
+export interface BriefPostListFragment extends BriefPostList, ScrollHookContent {}
 
 export interface BriefPostInfoFragment {
   setPostId(id: SocialItemId): void;

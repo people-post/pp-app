@@ -1,6 +1,7 @@
 import { Fragment } from './Fragment.js';
 import { FViewContentBase } from './FViewContentBase.js';
 import { View } from '../views/View.js';
+import type { ViewContentFragmentOwner } from './FViewContentBase.js';
 
 export class FViewContentContainer extends FViewContentBase {
   isReloadable(): boolean {
@@ -29,24 +30,16 @@ export class FViewContentContainer extends FViewContentBase {
   }
 
   onContentFragmentRequestUpdateHeader(_fContent: FViewContentBase): void {
-    if (this._owner) {
-      (this._owner as any).onContentFragmentRequestUpdateHeader(this);
-    }
+    this.getOwner<ViewContentFragmentOwner>()?.onContentFragmentRequestUpdateHeader(this);
   }
   onContentFragmentRequestCloseMenu(_fContent: FViewContentBase): void {
-    if (this._owner) {
-      (this._owner as any).onContentFragmentRequestCloseMenu(this);
-    }
+    this.getOwner<ViewContentFragmentOwner>()?.onContentFragmentRequestCloseMenu(this);
   }
   onContentFragmentRequestReplaceView(_fContent: FViewContentBase, view: View, title: string): void {
-    if (this._owner) {
-      (this._owner as any).onContentFragmentRequestReplaceView(this, view, title);
-    }
+    this.getOwner<ViewContentFragmentOwner>()?.onContentFragmentRequestReplaceView(this, view, title);
   }
   onContentFragmentRequestPopView(_fContent: FViewContentBase): void {
-    if (this._owner) {
-      (this._owner as any).onContentFragmentRequestPopView(this);
-    }
+    this.getOwner<ViewContentFragmentOwner>()?.onContentFragmentRequestPopView(this);
   }
 
   getActionButton(): Fragment | null {

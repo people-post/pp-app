@@ -3,6 +3,7 @@ import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { Fragment } from './Fragment.js';
 import { ScrollEndEventShim, IScrollEndEventShimDelegate } from '../../../ext/ScrollEndEventShim.js';
 import { FElasticRefresh, IElasticRefreshDataSource, IElasticRefreshDelegate } from './FElasticRefresh.js';
+import type { ScrollHookContent } from './ScrollHookContent.js';
 
 const _CPT_SCROLLABLE_HOOK = {
   MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="tw:shrink-0"></div>
@@ -66,12 +67,12 @@ interface ScrollYInfo {
 
 export class FScrollableHook extends Fragment implements IScrollEndEventShimDelegate, IElasticRefreshDataSource, IElasticRefreshDelegate {
   #fElasticRefresh: FElasticRefresh;
-  #fContent: Fragment;
+  #fContent: ScrollHookContent;
   #sScrollEvt: ScrollEndEventShim;
   #pMain: PScrollableHook | null = null;
   #scrollYBeforeTopResize: ScrollYInfo | null = null;
 
-  constructor(fContent: Fragment) {
+  constructor(fContent: ScrollHookContent) {
     super();
     this.#sScrollEvt = new ScrollEndEventShim();
     this.#sScrollEvt.setDelegate(this);
@@ -154,7 +155,7 @@ export class FScrollableHook extends Fragment implements IScrollEndEventShimDele
   }
 
   #isReadyForPullToRefresh(): boolean {
-    if (typeof (this.#fContent as any).hasBufferOnTop === 'function' && (this.#fContent as any).hasBufferOnTop()) {
+    if (this.#fContent.hasHiddenTopBuffer()) {
       return false;
     }
     let yObj = this.#getScrollY();
@@ -178,15 +179,11 @@ export class FScrollableHook extends Fragment implements IScrollEndEventShimDele
       let yObj = this.#getScrollY();
       pSttb.setVisible(yObj ? yObj.value > 500 : false);
     }
-    if (typeof (this.#fContent as any).onScrollFinished === 'function') {
-      (this.#fContent as any).onScrollFinished();
-    }
+    this.#fContent.onScrollFinished();
   }
 
   #scrollToTop(): void {
-    if (typeof (this.#fContent as any).scrollToTop === 'function') {
-      (this.#fContent as any).scrollToTop();
-    }
+    this.#fContent.scrollToTop();
     this.#scrollTo(0, 0);
     // Render is needed to avoid blank screen although not fully understand why
     this.render();

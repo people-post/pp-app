@@ -2,7 +2,7 @@ import { Panel } from '../../renders/panels/Panel.js';
 import { PanelWrapper } from '../../renders/panels/PanelWrapper.js';
 import { ListPanel } from '../../renders/panels/ListPanel.js';
 import { FViewContentContainer } from './FViewContentContainer.js';
-import { FTabbedPaneTabBar } from './FTabbedPaneTabBar.js';
+import { FTabbedPaneTabBar, FTabbedPaneTabBarDataSource, FTabbedPaneTabBarDelegate } from './FTabbedPaneTabBar.js';
 import { ScrollEndEventShim, IScrollEndEventShimDelegate } from '../../../ext/ScrollEndEventShim.js';
 import { FScrollViewContent } from './FScrollViewContent.js';
 import { FScrollViewContentHook } from './FScrollViewContentHook.js';
@@ -59,8 +59,8 @@ export class FViewContentMux extends FViewContentContainer implements IScrollEnd
     super();
     this.#fTabBar = new FTabbedPaneTabBar();
     this.#fTabBar.setOnlyShowOnMultiple(true);
-    this.#fTabBar.setDataSource(this as any);
-    this.#fTabBar.setDelegate(this as any);
+    this.#fTabBar.setDataSource(this as FTabbedPaneTabBarDataSource);
+    this.#fTabBar.setDelegate(this as FTabbedPaneTabBarDelegate);
     this.setChild("muxHeader", this.#fTabBar);
 
     this.#obScrollEnd = new ScrollEndEventShim();
@@ -75,6 +75,9 @@ export class FViewContentMux extends FViewContentContainer implements IScrollEnd
     }
     return 0;
   }
+
+  onTabbedPaneTabBarFragmentRequestCloseTab(_fTabBar: FTabbedPaneTabBar, _tabValue: string | null): void {}
+  onTabbedPaneTabBarFragmentRequestAddTab(_fTabBar: FTabbedPaneTabBar): void {}
 
   onScrollEndInScrollEndEventShim(_sScrollEnd: ScrollEndEventShim): void { this.#onScrollEnd(); }
 

@@ -12,6 +12,16 @@ interface TabInfo {
   icon?: string;
 }
 
+export interface FTabbedPaneTabBarDataSource {
+  getNTabNoticesForTabbedPaneTabBarFragment(fTabBar: FTabbedPaneTabBar, tabValue: string | null): number;
+}
+
+export interface FTabbedPaneTabBarDelegate {
+  onTabbedPaneTabBarFragmentRequestCloseTab(fTabBar: FTabbedPaneTabBar, tabValue: string | null): void;
+  onTabbedPaneTabBarFragmentRequestAddTab(fTabBar: FTabbedPaneTabBar): void;
+  onTabSelectionChangedInTabbedPaneTabBarFragment(fTabBar: FTabbedPaneTabBar, tabValue: string | null): void;
+}
+
 export class FTabbedPaneTabBar extends Fragment {
   #configs: TabInfo[] = [];
   #currentIdx: number | null = null;
@@ -51,13 +61,9 @@ export class FTabbedPaneTabBar extends Fragment {
   }
   getNNoticesForTabbedPaneTabFragment(_fTab: FTabbedPaneTab, tabId: number): number {
     let idx = tabId;
-    if (this._dataSource) {
-      let c = this.#configs[idx];
-      if (c && typeof (this._dataSource as any).getNTabNoticesForTabbedPaneTabBarFragment === 'function') {
-        return (this._dataSource as any).getNTabNoticesForTabbedPaneTabBarFragment(
-            this, c.value);
-      }
-    }
+    let c = this.#configs[idx];
+    const ds = this.getDataSource<FTabbedPaneTabBarDataSource>();
+    if (c && ds) return ds.getNTabNoticesForTabbedPaneTabBarFragment(this, c.value);
     return 0;
   }
 
@@ -65,9 +71,8 @@ export class FTabbedPaneTabBar extends Fragment {
   onTabbedPaneTabFragmentRequestClose(_fTab: FTabbedPaneTab, tabId: number): void {
     let idx = tabId;
     let c = this.#configs[idx];
-    if (c && this._delegate && typeof (this._delegate as any).onTabbedPaneTabBarFragmentRequestCloseTab === 'function') {
-      (this._delegate as any).onTabbedPaneTabBarFragmentRequestCloseTab(this, c.value);
-    }
+    const delegate = this.getDelegate<FTabbedPaneTabBarDelegate>();
+    if (c && delegate) delegate.onTabbedPaneTabBarFragmentRequestCloseTab(this, c.value);
   }
 
   addTab(tabInfo: TabInfo): void {
@@ -162,15 +167,12 @@ export class FTabbedPaneTabBar extends Fragment {
 
   #onClick(idx: number): void {
     if (idx == this.#idxNew) {
-      if (this._delegate && typeof (this._delegate as any).onTabbedPaneTabBarFragmentRequestAddTab === 'function') {
-        (this._delegate as any).onTabbedPaneTabBarFragmentRequestAddTab(this);
-      }
+      const delegate = this.getDelegate<FTabbedPaneTabBarDelegate>();
+      if (delegate) delegate.onTabbedPaneTabBarFragmentRequestAddTab(this);
     } else if (this.#currentIdx != idx) {
       this.#currentIdx = idx;
-      if (this._delegate && typeof (this._delegate as any).onTabSelectionChangedInTabbedPaneTabBarFragment === 'function') {
-        (this._delegate as any).onTabSelectionChangedInTabbedPaneTabBarFragment(
-            this, this.#configs[idx].value);
-      }
+      const delegate = this.getDelegate<FTabbedPaneTabBarDelegate>();
+      if (delegate) delegate.onTabSelectionChangedInTabbedPaneTabBarFragment(this, this.#configs[idx].value);
       this.render();
     }
   }

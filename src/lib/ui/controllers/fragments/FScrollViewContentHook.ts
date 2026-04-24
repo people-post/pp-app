@@ -5,6 +5,7 @@ import { ScrollEndEventShim, IScrollEndEventShimDelegate } from '../../../ext/Sc
 import { FElasticRefresh, IElasticRefreshDataSource, IElasticRefreshDelegate } from './FElasticRefresh.js';
 import { Fragment } from './Fragment.js';
 import { FViewContentBase } from './FViewContentBase.js';
+import { FScrollViewContent } from './FScrollViewContent.js';
 
 const _CPT_SCROLL_VIEW_CONTENT_HOOK = {
   MAIN : `<div id="__ID_ELASTIC_REFRESH__" class="tw:shrink-0"></div>
@@ -73,12 +74,14 @@ interface ScrollYInfo {
 
 export class FScrollViewContentHook extends FViewContentWrapper implements IScrollEndEventShimDelegate, IElasticRefreshDataSource, IElasticRefreshDelegate {
   #fElasticRefresh: FElasticRefresh;
+  #fContent: FScrollViewContent;
   #sScrollEvt: ScrollEndEventShim;
   #pMain: PScrollViewContentHook | null = null;
   #scrollYBeforeTopResize: ScrollYInfo | null = null;
 
-  constructor(fContent: FViewContentBase) {
+  constructor(fContent: FScrollViewContent) {
     super();
+    this.#fContent = fContent;
     this.#sScrollEvt = new ScrollEndEventShim();
     this.#sScrollEvt.setDelegate(this);
 
@@ -86,7 +89,7 @@ export class FScrollViewContentHook extends FViewContentWrapper implements IScro
     this.#fElasticRefresh.setDataSource(this);
     this.#fElasticRefresh.setDelegate(this);
     this.setChild("__elasticrefresh", this.#fElasticRefresh);
-    this.wrapContentFragment(fContent);
+    this.setChild("content", fContent);
   }
 
   shouldElasticRefreshFragmentEngage(_fElasticRefresh: FElasticRefresh): boolean {
@@ -95,8 +98,7 @@ export class FScrollViewContentHook extends FViewContentWrapper implements IScro
 
   onScrollEndInScrollEndEventShim(_sScrollEnd: ScrollEndEventShim): void { this.#onScrollEnd(); }
   onElasticRefreshFragmentRequstRefresh(_fElasticRefresh: FElasticRefresh): void {
-    let f = this._getContentFragment();
-    f?.reload();
+    this.#fContent.reload();
   }
 
   onContentTopResizeBeginInFragment(_f: Fragment): void {
@@ -152,23 +154,19 @@ export class FScrollViewContentHook extends FViewContentWrapper implements IScro
     }
 
     const pContent = panel.getContentPanel();
-    let f = this._getContentFragment();
-    if (f && f.isReloadable()) {
+    if (this.#fContent.isReloadable()) {
       let e = pContent.getDomElement();
       if (e) {
         this.#fElasticRefresh.observe(e);
       }
     }
 
-    if (f) {
-      f.attachRender(pContent);
-      f.render();
-    }
+    this.#fContent.attachRender(pContent);
+    this.#fContent.render();
   }
 
   #isReadyForPullToRefresh(): boolean {
-    let f = this._getContentFragment();
-    if (f && typeof (f as any).hasHiddenTopBuffer === 'function' && (f as any).hasHiddenTopBuffer()) {
+    if (this.#fContent.hasHiddenTopBuffer()) {
       return false;
     }
     let yObj = this.#getScrollY();
@@ -192,17 +190,11 @@ export class FScrollViewContentHook extends FViewContentWrapper implements IScro
       let yObj = this.#getScrollY();
       pSttb.setVisible(yObj ? yObj.value > 500 : false);
     }
-    let f = this._getContentFragment();
-    if (f && typeof (f as any).onScrollFinished === 'function') {
-      (f as any).onScrollFinished();
-    }
+    this.#fContent.onScrollFinished();
   }
 
   #scrollToTop(): void {
-    let f = this._getContentFragment();
-    if (f && typeof (f as any).scrollToTop === 'function') {
-      (f as any).scrollToTop();
-    }
+    this.#fContent.scrollToTop();
     this.#scrollTo(0, 0);
     // Render is needed to avoid blank screen although not fully understand why
     this.render();
@@ -214,5 +206,7 @@ export class FScrollViewContentHook extends FViewContentWrapper implements IScro
       p.scrollTo(x, y);
     }
   }
+
+  override _getContentFragment(): FViewContentBase | null { return this.#fContent; }
 }
 
