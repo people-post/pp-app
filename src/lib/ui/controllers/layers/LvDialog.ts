@@ -93,7 +93,13 @@ export class LvDialog extends ViewLayer {
 
   onViewStackRequestPopView(nc: ViewStack): void {
     if (nc == this._vc) {
-      this.getOwner<LayerOwner>()?.onLayerRequestPopLayer(this);
+      // Back button should pop dialog's internal view stack first.
+      // Only dismiss the dialog when already at the root view.
+      if (nc.getNRealViews() > 1) {
+        nc.popState(null);
+      } else {
+        this.getOwner<LayerOwner>()?.onLayerRequestPopLayer(this);
+      }
     }
   }
 
