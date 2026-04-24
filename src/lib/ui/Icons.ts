@@ -27,7 +27,7 @@ export const ICONS = {
   SOLID_DOWN : `<svg viewBox="0 0 64 64">
     <polygon class="solid-down __C_STROKE__ __C_FILL__" points="  32,52 46.9,37 37,37 37,12 27,12 27,37 17.1,37 "/>
   </svg>`,
-  LOADING : `<div class="tw:inline-block tw:h-10 tw:w-10 tw:animate-spin tw:rounded-full tw:border-4 tw:border-solid tw:border-gray-200 tw:border-t-gray-600"></div>`,
+  LOADING : `<div class="tw:inline-block tw:h-6 tw:w-6 tw:animate-spin tw:rounded-full tw:border-2 tw:border-solid tw:border-gray-200 tw:border-t-gray-600"></div>`,
   MORE : `<svg style="enable-background:new 0 0 50 50;" viewBox="0 0 50 50">
     <path class="__C_STROKE__ __C_FILL__" d="M7,31c3.309,0,6-2.691,6-6s-2.691-6-6-6s-6,2.691-6,6S3.691,31,7,31z M7,21c2.206,0,4,1.794,4,4s-1.794,4-4,4s-4-1.794-4-4   S4.794,21,7,21z"/>
     <path class="__C_STROKE__ __C_FILL__" d="M19,25c0,3.309,2.691,6,6,6s6-2.691,6-6s-2.691-6-6-6S19,21.691,19,25z M29,25c0,2.206-1.794,4-4,4s-4-1.794-4-4   s1.794-4,4-4S29,22.794,29,25z"/>
