@@ -2420,6 +2420,17 @@ span.chat-p2p-badge--connecting {
     background-color: rgba(255, 193, 7, 0.35);
 }
 
+a.chat-p2p-badge--clickable {
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+a.chat-p2p-badge--clickable:focus {
+    outline: 2px solid rgba(0, 0, 0, 0.25);
+    outline-offset: 1px;
+}
+
 span.chat-p2p-badge--relay {
     color: #666;
     background-color: rgba(0, 0, 0, 0.05);

@@ -55,6 +55,46 @@ export class PeerMessageHandler extends MessageHandler {
     super.deactivate();
   }
 
+  getP2pConnectivitySummary(): string | null {
+    const selfId = Account.getId();
+    const peerId = this._target.getId();
+    if (!selfId || !peerId) {
+      return null;
+    }
+    const pc = this._peerConnection;
+    const dc = this.#dataChannel;
+    const lines: string[] = [];
+    lines.push('<strong>Direct chat (WebRTC)</strong>');
+    const offerRole = selfId < peerId;
+    lines.push(
+        offerRole
+            ? 'Role: offer side (your user id is smaller than the peer; you create the data channel and send the SDP offer).'
+            : 'Role: answer side (wait for the peer with the smaller id to open this chat and send the offer).');
+    lines.push(`<br>Your id: <code>${selfId}</code><br>Peer id: <code>${peerId}</code>`);
+    if (pc) {
+      lines.push(
+          `Peer connection: <code>${pc.connectionState}</code> — ICE: <code>${pc.iceConnectionState}</code> — gathering: <code>${pc.iceGatheringState}</code> — signaling: <code>${pc.signalingState}</code>`);
+    } else {
+      lines.push('Peer connection: <code>none</code> (not started or torn down).');
+    }
+    if (dc) {
+      lines.push(`Data channel <code>${dc.label}</code>: <code>${dc.readyState}</code>`);
+    } else {
+      lines.push('Data channel: <code>none</code> (opens when the link is up).');
+    }
+    const turnUrl = WebConfig.getIceUrl();
+    lines.push(
+        turnUrl
+            ? 'ICE: additional TURN/STUN URL is set in site config (credentials not shown).'
+            : 'ICE: no extra TURN URL in config — only bundled STUN servers. Strict NATs often need a TURN server.');
+    lines.push(
+        `STUN: ${STUN_URLS.length} public STUN host(s) in app constants (first: <code>${STUN_URLS[0] ?? 'n/a'}</code>).`);
+    lines.push('<br><strong>Signaling</strong><br>SDP and ICE candidates are exchanged over MQTT to your user-id topic. Payloads go over WebRTC once the data channel is open (green P2P).');
+    lines.push(
+        '<br><strong>If this stays on “connecting”</strong><br>Keep this conversation open on both sides, check that MQTT delivers signals, try the same network, or add TURN and reload.');
+    return lines.join('<br>');
+  }
+
   protected routeOutgoingMessage(data: string, onSuccess: (m: ChatMessage) => void, onFail: (err: RemoteError) => void): void {
     if (this.#canSendP2p()) {
       const cid = Utilities.uuid();

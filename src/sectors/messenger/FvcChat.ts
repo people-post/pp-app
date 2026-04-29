@@ -85,6 +85,7 @@ export class FvcChat extends FViewContentBase {
   constructor() {
     super();
     this.#fHeader = new FChatHeader();
+    this.#fHeader.setP2pConnectivityInfoHandler(() => this.#getP2pConnectivityNoticeText());
     this.setChild("header", this.#fHeader);
 
     this.#fMessagesContent = new FChatMessagesScrollContent();
@@ -274,6 +275,20 @@ export class FvcChat extends FViewContentBase {
     this.#fScrollHook.attachRender(pp);
     this.#fScrollHook.render();
     this.#syncP2pThreadShell();
+  }
+
+  #getP2pConnectivityNoticeText(): string {
+    if (!this.#msgHandler) {
+      return 'Chat is still loading.';
+    }
+    const detail = this.#msgHandler.getP2pConnectivitySummary();
+    if (detail !== null) {
+      return detail;
+    }
+    if (!this.#target?.isUser()) {
+      return 'Direct WebRTC details apply only to one-to-one chats.';
+    }
+    return 'No WebRTC session details are available for this chat.';
   }
 
   #syncP2pThreadShell(): void {

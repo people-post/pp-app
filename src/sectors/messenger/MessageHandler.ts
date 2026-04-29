@@ -70,6 +70,11 @@ export class MessageHandler extends Controller {
 
   onUserInboxSignal(_message: unknown): void {}
 
+  /** Overridden by `PeerMessageHandler` for WebRTC debug lines; otherwise `null`. */
+  getP2pConnectivitySummary(): string | null {
+    return null;
+  }
+
   asyncPost(data: string, onSuccess: (m: ChatMessage) => void, onFail: (err: RemoteError) => void): void {
     this.routeOutgoingMessage(data, onSuccess, onFail);
   }

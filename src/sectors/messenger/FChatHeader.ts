@@ -6,13 +6,36 @@ import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import type { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { Account } from '../../common/dba/Account.js';
 import type { P2pTransportUiState } from './PeerMessageHandler.js';
+import { Events, T_ACTION } from '../../lib/framework/Events.js';
+
+export const CF_CHAT_HEADER = {
+  P2P_CONNECTIVITY_INFO: 'CF_CHAT_HEADER_P2P_INFO',
+} as const;
 
 export class FChatHeader extends Fragment {
   protected _target: ChatTarget | null = null;
   #p2pTransport: P2pTransportUiState | null = null;
+  #p2pInfoHandler: (() => string) | null = null;
 
   constructor() {
     super();
+  }
+
+  setP2pConnectivityInfoHandler(handler: (() => string) | null): void {
+    this.#p2pInfoHandler = handler;
+  }
+
+  action(type: string | symbol, ...args: unknown[]): void {
+    switch (type) {
+    case CF_CHAT_HEADER.P2P_CONNECTIVITY_INFO: {
+      const text = this.#p2pInfoHandler ? this.#p2pInfoHandler() : 'No connection details are available.';
+      Events.triggerTopAction(T_ACTION.SHOW_NOTICE, this, text);
+      break;
+    }
+    default:
+      super.action(type, ...args);
+      break;
+    }
   }
 
   setTarget(target: ChatTarget): void {
@@ -72,7 +95,7 @@ export class FChatHeader extends Fragment {
       return `<span class="chat-p2p-badge chat-p2p-badge--open" title="Direct (WebRTC)">P2P</span>`;
     }
     if (st === 'connecting') {
-      return `<span class="chat-p2p-badge chat-p2p-badge--connecting" title="Connecting direct…">···</span>`;
+      return `<a href="javascript:void(0)" class="chat-p2p-badge chat-p2p-badge--connecting chat-p2p-badge--clickable" data-pp-action="${CF_CHAT_HEADER.P2P_CONNECTIVITY_INFO}" title="Connecting… tap for WebRTC / ICE details">···</a>`;
     }
     return `<span class="chat-p2p-badge chat-p2p-badge--relay" title="Messages via server relay">Relay</span>`;
   }
