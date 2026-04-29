@@ -29,11 +29,20 @@
         "type-check:watch": "tsc --noEmit --watch"
     },
     "dependencies": {
+        "@chainsafe/libp2p-noise": "^17.0.0",
+        "@chainsafe/libp2p-yamux": "^8.0.1",
+        "@libp2p/bootstrap": "^12.0.19",
+        "@libp2p/circuit-relay-v2": "^4.2.3",
+        "@libp2p/identify": "^4.1.3",
+        "@libp2p/webrtc": "^6.0.20",
+        "@libp2p/websockets": "^10.1.11",
+        "@multiformats/multiaddr": "^13.0.1",
         "@noble/ed25519": "^1.7.3",
         "@scure/bip32": "^2.0.1",
         "bip32-ed25519": "^0.0.5",
         "bip39": "^3.1.0",
         "buffer": "^6.0.3",
+        "libp2p": "^3.2.3",
         "pp-api": "github:people-post/pp-api#release/v0.1.8"
     },
     "devDependencies": {
@@ -43,8 +52,7 @@
         "esbuild": "^0.19.12",
         "postcss": "^8.5.6",
         "tailwindcss": "^4.0.0",
-        "typescript": "^5.3.3",
-        "webrtc-adapter": "^9.0.0"
+        "typescript": "^5.3.3"
     },
     "engines": {
         "node": ">=18.0.0"

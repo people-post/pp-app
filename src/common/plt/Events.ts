@@ -24,7 +24,7 @@ export const T_DATA = {
   USER_PUBLIC_PROFILE: Symbol(), // For all users, in web3
   USER_IDOLS: Symbol(), // Currently only web3
   USER_INBOX_SIGNAL: Symbol(),
-  /** Peer DM WebRTC transport: `{ target: ChatTarget, state: P2pTransportState }` */
+  /** Peer DM libp2p transport: `{ target: ChatTarget, state: P2pTransportState }` */
   P2P_CHAT_TRANSPORT: Symbol(),
   USER_ADDRESS_IDS: Symbol(),
   DRAFT_ORDERS: Symbol(),

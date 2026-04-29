@@ -11,9 +11,7 @@ export class ClientSignal {
   // Partially synced with backend
   static readonly T_TYPE = {
     MSG: 'MSG',
-    PEER_CONN_OFFER: 'PC_OFFER',
-    PEER_CONN_ANSWER: 'PC_ANSWER',
-    ICE_CANDIDATE: 'ICE_CANDIDATE',
+    LIBP2P_PEER_ADDR: 'LIBP2P_PEER_ADDR',
   } as const;
 
   private _data: ClientSignalData;

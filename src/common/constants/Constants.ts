@@ -98,16 +98,18 @@ export const CHANNEL = {
   USER_INBOX: '__USER_INBOX',
 } as const;
 
-export const STUN_URLS: readonly string[] = [
-  'stun:iphone-stun.strato-iphone.de:3478',
-  'stun:numb.viagenie.ca:3478',
-  //"stun:stun.12connect.com:3478",
-  //"stun:stun.12voip.com:3478",
-  //"stun:stun.1und1.de:3478",
-  //"stun:stun.3cx.com:3478",
-  //"stun:stun.acrobits.cz:3478",
-  //"stun:stun.actionvoip.com:3478",
-  //"stun:stun.advfn.com:3478",
-  //"stun:stun.altar.com.pl:3478",
+/**
+ * Public libp2p bootstrap / relay node multiaddresses used for circuit relay v2.
+ * These are the standard IPFS bootstrap nodes from Protocol Labs.
+ * Operators may add or replace entries with their own relay nodes.
+ * DNS-based addresses (dnsaddr) require DNS-over-HTTPS resolution support in
+ * the libp2p runtime; concrete WebSocket addresses (e.g. /ip4/.../tcp/.../ws)
+ * work in all browser environments without extra resolver configuration.
+ */
+export const LIBP2P_BOOTSTRAP_ADDRS: readonly string[] = [
+  '/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN',
+  '/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa',
+  '/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb',
+  '/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt',
 ];
 
