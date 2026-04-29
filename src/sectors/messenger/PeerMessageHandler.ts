@@ -1,13 +1,43 @@
 import { ClientSignal } from '../../common/datatypes/ClientSignal.js';
-import { MessageHandler } from './MessageHandler.js';
+import { MessageHandler, P2P_LOCAL_ID_PREFIX } from './MessageHandler.js';
 import { WebConfig } from '../../common/dba/WebConfig.js';
 import { Signal } from '../../common/dba/Signal.js';
 import { STUN_URLS } from '../../common/constants/Constants.js';
-import type { ClientSignalData } from '../../types/backend2.js';
+import type { ClientSignalData, MessageData } from '../../types/backend2.js';
 import { Account } from '../../common/dba/Account.js';
+import { T_DATA } from '../../common/plt/Events.js';
+import { Events } from '../../lib/framework/Events.js';
+import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
+import Utilities from '../../lib/ext/Utilities.js';
+import type { RemoteError } from '../../types/basic.js';
 
+/** Signaled to UI via `T_DATA.P2P_CHAT_TRANSPORT` for peer DMs */
+export type P2pTransportUiState = 'connecting' | 'open' | 'relay';
+
+const CHAT_DC_LABEL = 'pp-chat-dc';
+const P2P_PROTOCOL_V = 1;
+
+interface P2pFrame {
+  v: number;
+  cid: string;
+  fromUserId: string;
+  text: string;
+  ts: number;
+}
+
+/**
+ * WebRTC roles: only the lexicographically smaller user id creates the DataChannel
+ * and sends the initial SDP offer. The other peer answers and receives the channel
+ * via `ondatachannel`, avoiding duplicate-offer glare.
+ *
+ * Incoming P2P frames merge into the same `BufferedList` as relay history; ordering
+ * follows `created_at` in `BufferedList.extend`. On disconnect, UI shows Relay and
+ * posting falls back to `/api/messenger/post_message`.
+ */
 export class PeerMessageHandler extends MessageHandler {
   protected _peerConnection: RTCPeerConnection | null = null;
+  #dataChannel: RTCDataChannel | null = null;
+  #seenP2pCids: Set<string> = new Set();
 
   constructor() {
     super();
@@ -15,16 +45,81 @@ export class PeerMessageHandler extends MessageHandler {
 
   activate(): void {
     if (!this._peerConnection) {
-      this._peerConnection = this.#initPeerConnection(this._target.getId());
+      this._peerConnection = this.#createPeerConnection(this._target.getId());
     }
     super.activate();
   }
 
   deactivate(): void {
-    if (this._peerConnection) {
-      this._peerConnection.close();
-      this._peerConnection = null;
+    this.#tearDownPeerConnection();
+    super.deactivate();
+  }
+
+  protected routeOutgoingMessage(data: string, onSuccess: (m: ChatMessage) => void, onFail: (err: RemoteError) => void): void {
+    if (this.#canSendP2p()) {
+      const cid = Utilities.uuid();
+      const ts = Math.floor(Date.now() / 1000);
+      const selfId = Account.getId();
+      if (!selfId) {
+        super.routeOutgoingMessage(data, onSuccess, onFail);
+        return;
+      }
+      const frame: P2pFrame = {
+        v: P2P_PROTOCOL_V,
+        cid,
+        fromUserId: selfId,
+        text: data,
+        ts,
+      };
+      try {
+        this.#dataChannel!.send(JSON.stringify(frame));
+      } catch {
+        super.routeOutgoingMessage(data, onSuccess, onFail);
+        return;
+      }
+      const m = this.#buildLocalP2pMessage(data, cid, ts);
+      const extended = this._messageBuffer.extend([ m ]);
+      if (extended.length > 0) {
+        Events.trigger(T_DATA.MESSAGES,
+            {"target" : this._target, "messages" : extended});
+      }
+      onSuccess(m);
+      return;
     }
+    super.routeOutgoingMessage(data, onSuccess, onFail);
+  }
+
+  #canSendP2p(): boolean {
+    return this.#dataChannel?.readyState === 'open';
+  }
+
+  #buildLocalP2pMessage(text: string, cid: string, ts: number): ChatMessage {
+    const selfId = Account.getId()!;
+    const m: MessageData = {
+      id: P2P_LOCAL_ID_PREFIX + cid,
+      from_user_id: selfId,
+      to_user_id: this._target.getId(),
+      in_group_id: null,
+      data: text,
+      type: ChatMessage.T_TYPE.TEXT,
+      created_at: ts,
+      transport: 'p2p',
+    };
+    return new ChatMessage(m);
+  }
+
+  #buildRemoteP2pMessage(frame: P2pFrame): ChatMessage {
+    const m: MessageData = {
+      id: P2P_LOCAL_ID_PREFIX + frame.cid,
+      from_user_id: frame.fromUserId,
+      to_user_id: Account.getId() ?? null,
+      in_group_id: null,
+      data: frame.text,
+      type: ChatMessage.T_TYPE.TEXT,
+      created_at: frame.ts,
+      transport: 'p2p',
+    };
+    return new ChatMessage(m);
   }
 
   onUserInboxSignal(message: ClientSignalData): void {
@@ -48,16 +143,21 @@ export class PeerMessageHandler extends MessageHandler {
     }
   }
 
-  #initPeerConnection(toUserId: string | null): RTCPeerConnection | null {
+  #shouldInitiateOffer(selfId: string, peerId: string): boolean {
+    return selfId < peerId;
+  }
+
+  #createPeerConnection(toUserId: string | null): RTCPeerConnection | null {
     if (!toUserId) {
       return null;
     }
-    const id = Account.getId();
-    if (!id) {
+    const selfId = Account.getId();
+    if (!selfId) {
       return null;
     }
-    let iceUrl = WebConfig.getIceUrl();
-    let config: RTCConfiguration = {
+
+    const iceUrl = WebConfig.getIceUrl();
+    const config: RTCConfiguration = {
       iceServers : [
         {urls : [...STUN_URLS]}, {
           urls : iceUrl ? [ iceUrl ] : [],
@@ -66,29 +166,113 @@ export class PeerMessageHandler extends MessageHandler {
         }
       ]
     };
-    let conn = new RTCPeerConnection(config);
+    const conn = new RTCPeerConnection(config);
     conn.onicecandidate = (e) => this.#onIceCandidate(conn, e);
-    conn.onconnectionstatechange = (_e) =>
-        this.#onConnectionStateChange(conn);
-    conn.oniceconnectionstatechange = (_e) =>
-        this.#onIceConnectionStageChange(conn);
-    conn.onicegatheringstatechange = (_e) =>
-        this.#onIceGatheringStageChange(conn);
-    conn.createOffer({offerToReceiveAudio : true}).then(offer => {
-      conn.setLocalDescription(offer);
-      Signal.sendPeerConnectionOffer(id, toUserId, offer);
-    });
+    conn.onconnectionstatechange = () => this.#onConnectionStateChange(conn);
+    conn.oniceconnectionstatechange = () => this.#onIceConnectionStageChange(conn);
+    conn.onicegatheringstatechange = () => this.#onIceGatheringStageChange(conn);
+
+    this.#emitP2pTransport('connecting');
+
+    if (this.#shouldInitiateOffer(selfId, toUserId)) {
+      const dc = conn.createDataChannel(CHAT_DC_LABEL, { ordered: true });
+      this.#wireDataChannel(dc);
+      conn.createOffer({
+        offerToReceiveAudio : false,
+        offerToReceiveVideo : false,
+      }).then(offer => {
+        conn.setLocalDescription(offer);
+        Signal.sendPeerConnectionOffer(selfId, toUserId, offer);
+      }).catch(() => this.#emitP2pTransport('relay'));
+    } else {
+      conn.ondatachannel = (e) => this.#wireDataChannel(e.channel);
+    }
+
     return conn;
   }
 
+  #tearDownPeerConnection(): void {
+    this.#dataChannel = null;
+    if (this._peerConnection) {
+      this._peerConnection.close();
+      this._peerConnection = null;
+    }
+    this.#seenP2pCids.clear();
+    this.#emitP2pTransport('relay');
+  }
+
+  #wireDataChannel(dc: RTCDataChannel): void {
+    this.#dataChannel = dc;
+    dc.onopen = () => this.#emitP2pTransport('open');
+    dc.onclose = () => this.#emitP2pTransport('relay');
+    dc.onerror = () => this.#emitP2pTransport('relay');
+    dc.onmessage = (ev) => this.#onDataChannelMessage(ev);
+  }
+
+  #onDataChannelMessage(ev: MessageEvent): void {
+    const raw = typeof ev.data === 'string' ? ev.data : '';
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      return;
+    }
+    if (!parsed || typeof parsed !== 'object') {
+      return;
+    }
+    const frame = parsed as Partial<P2pFrame>;
+    if (frame.v !== P2P_PROTOCOL_V || typeof frame.cid !== 'string' ||
+        typeof frame.fromUserId !== 'string' || typeof frame.text !== 'string' ||
+        typeof frame.ts !== 'number') {
+      return;
+    }
+    if (frame.fromUserId !== this._target.getId()) {
+      return;
+    }
+    if (this.#seenP2pCids.has(frame.cid)) {
+      return;
+    }
+    this.#seenP2pCids.add(frame.cid);
+
+    const full: P2pFrame = {
+      v: frame.v,
+      cid: frame.cid,
+      fromUserId: frame.fromUserId,
+      text: frame.text,
+      ts: frame.ts,
+    };
+    const m = this.#buildRemoteP2pMessage(full);
+    const extended = this._messageBuffer.extend([ m ]);
+    if (extended.length > 0) {
+      Events.trigger(T_DATA.MESSAGES,
+          {"target" : this._target, "messages" : extended});
+    }
+  }
+
+  #emitP2pTransport(state: P2pTransportUiState): void {
+    Events.trigger(T_DATA.P2P_CHAT_TRANSPORT,
+        {"target" : this._target, "state" : state});
+  }
+
   #onConnectionStateChange(conn: RTCPeerConnection): void {
-    if (conn.connectionState === "connected") {
-      console.log("Connected");
+    switch (conn.connectionState) {
+    case 'failed':
+    case 'disconnected':
+      this.#emitP2pTransport('relay');
+      break;
+    default:
+      break;
     }
   }
 
   #onIceGatheringStageChange(_conn: RTCPeerConnection): void {}
-  #onIceConnectionStageChange(_conn: RTCPeerConnection): void {}
+
+  #onIceConnectionStageChange(conn: RTCPeerConnection): void {
+    if (conn.iceConnectionState === 'failed') {
+      this.#emitP2pTransport('relay');
+    }
+  }
+
   #onIceCandidate(_conn: RTCPeerConnection, e: RTCPeerConnectionIceEvent): void {
     if (e.candidate) {
       const id = Account.getId();
@@ -103,6 +287,10 @@ export class PeerMessageHandler extends MessageHandler {
     }
   }
 
+  /**
+   * Offer handling is only for the answering peer (larger user id). The initiating
+   * peer ignores stray offers to avoid SDP glare when both sides attempted offers.
+   */
   #handlePeerConnectionOffer(offer: RTCSessionDescriptionInit): void {
     const id = Account.getId();
     if (!id) {
@@ -112,26 +300,41 @@ export class PeerMessageHandler extends MessageHandler {
     if (!targetId) {
       return;
     }
-    if (this._peerConnection) {
-      this._peerConnection.setRemoteDescription(offer);
-      this._peerConnection.createAnswer().then(answer => {
-        if (this._peerConnection) {
-          this._peerConnection.setLocalDescription(answer);
-          Signal.sendPeerConnectionAnswer(id, targetId, answer);
-        }
-      });
+    if (this.#shouldInitiateOffer(id, targetId)) {
+      return;
     }
+    if (!this._peerConnection) {
+      return;
+    }
+    this._peerConnection.setRemoteDescription(offer).then(() => {
+      if (!this._peerConnection) {
+        return null;
+      }
+      return this._peerConnection.createAnswer();
+    }).then(answer => {
+      if (!this._peerConnection || !answer) {
+        return;
+      }
+      this._peerConnection.setLocalDescription(answer);
+      Signal.sendPeerConnectionAnswer(id, targetId, answer);
+    }).catch(() => this.#emitP2pTransport('relay'));
   }
 
   #handlePeerConnectionAnswer(answer: RTCSessionDescriptionInit): void {
+    const selfId = Account.getId();
+    const peerId = this._target.getId();
+    if (!selfId || !peerId || !this.#shouldInitiateOffer(selfId, peerId)) {
+      return;
+    }
     if (this._peerConnection) {
-      this._peerConnection.setRemoteDescription(answer);
+      this._peerConnection.setRemoteDescription(answer).catch(
+          () => this.#emitP2pTransport('relay'));
     }
   }
 
   #handleRemoteIceCandidate(candidate: RTCIceCandidateInit): void {
     if (this._peerConnection) {
-      this._peerConnection.addIceCandidate(candidate).then();
+      this._peerConnection.addIceCandidate(candidate).catch(() => {});
     }
   }
 }

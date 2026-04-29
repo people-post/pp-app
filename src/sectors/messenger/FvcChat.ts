@@ -16,6 +16,7 @@ import { GMessenger } from './GMessenger.js';
 import { ChatTarget } from '../../common/datatypes/ChatTarget.js';
 import { ChatMessage } from '../../common/datatypes/ChatMessage.js';
 import { MessageHandler } from './MessageHandler.js';
+import type { P2pTransportUiState } from './PeerMessageHandler.js';
 import { R } from '../../common/constants/R.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type { RemoteError } from '../../types/basic.js';
@@ -78,6 +79,8 @@ export class FvcChat extends FViewContentBase {
   #msgHandler: MessageHandler | null = null;
   #target: ChatTarget | null = null;
   #seenMessageIds: Set<string> = new Set();
+  #p2pUiState: P2pTransportUiState | null = null;
+  #pThreadOuter: PanelWrapper | null = null;
 
   constructor() {
     super();
@@ -125,6 +128,14 @@ export class FvcChat extends FViewContentBase {
     this.#target = target;
     this.#fHeader.setTarget(target);
     this.#msgHandler = GMessenger.getOrInitHandler(target);
+    if (target.isGroup()) {
+      this.#p2pUiState = null;
+    } else {
+      this.#p2pUiState = 'relay';
+      this.#fHeader.setP2pTransportState('relay');
+    }
+    this.#fHeader.render();
+    this.#syncP2pThreadShell();
 
     this.#fConsole.setEnabled(!target.isReadOnly());
     if (target.isReadOnly()) {
@@ -200,6 +211,20 @@ export class FvcChat extends FViewContentBase {
         }
       }
       break;
+    case T_DATA.P2P_CHAT_TRANSPORT: {
+      const payload = data as { target: ChatTarget; state: P2pTransportUiState };
+      if (!this.#msgHandler ||
+          payload.target.getId() !== this.#msgHandler.getTarget().getId()) {
+        break;
+      }
+      this.#p2pUiState = payload.state;
+      if (this.#target?.isUser()) {
+        this.#fHeader.setP2pTransportState(payload.state);
+        this.#fHeader.render();
+      }
+      this.#syncP2pThreadShell();
+      break;
+    }
     default:
       break;
     }
@@ -235,6 +260,7 @@ export class FvcChat extends FViewContentBase {
     p = panel.getContentPanel();
     let pp = new PanelWrapper();
     pp.setClassName("chat-thread-main-body");
+    this.#pThreadOuter = pp;
     p.wrapPanel(pp);
 
     this.#fMessagesContent.setScrollProbe(
@@ -247,6 +273,19 @@ export class FvcChat extends FViewContentBase {
 
     this.#fScrollHook.attachRender(pp);
     this.#fScrollHook.render();
+    this.#syncP2pThreadShell();
+  }
+
+  #syncP2pThreadShell(): void {
+    if (!this.#pThreadOuter) {
+      return;
+    }
+    let cls = "chat-thread-main-body";
+    if (this.#target?.isUser() &&
+        (this.#p2pUiState === 'open' || this.#p2pUiState === 'connecting')) {
+      cls += " chat-thread-main-body--p2p";
+    }
+    this.#pThreadOuter.setClassName(cls);
   }
 
   #onPostSuccess(message: ChatMessage): void {

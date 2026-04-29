@@ -16,6 +16,9 @@ interface ApiResponse {
   };
 }
 
+/** Synthetic ids for P2P-only rows; excluded from pull/read cursors */
+export const P2P_LOCAL_ID_PREFIX = 'p2p:' as const;
+
 export class MessageHandler extends Controller {
   protected _target: ChatTarget;
   protected _messageBuffer: BufferedList<ChatMessage>;
@@ -49,7 +52,7 @@ export class MessageHandler extends Controller {
     if (!idType) {
       return;
     }
-    const oldest = this._messageBuffer.getOldestObjectId();
+    const oldest = this.getOldestServerMessageId();
     if (!oldest) {
       return;
     }
@@ -68,7 +71,38 @@ export class MessageHandler extends Controller {
   onUserInboxSignal(_message: unknown): void {}
 
   asyncPost(data: string, onSuccess: (m: ChatMessage) => void, onFail: (err: RemoteError) => void): void {
+    this.routeOutgoingMessage(data, onSuccess, onFail);
+  }
+
+  /** Override in `PeerMessageHandler` to send over WebRTC when the DataChannel is open. */
+  protected routeOutgoingMessage(data: string, onSuccess: (m: ChatMessage) => void, onFail: (err: RemoteError) => void): void {
     this.#asyncPost(data, onSuccess, onFail);
+  }
+
+  /**
+   * Latest persisted message id for `pull_message` / readership.
+   * Synthetic `p2p:*` ids from WebRTC must not be sent as API cursors.
+   */
+  protected getLatestServerMessageId(): string | null {
+    const objs = this._messageBuffer.getObjects();
+    for (let i = objs.length - 1; i >= 0; i--) {
+      const id = objs[i].getId();
+      if (id && !id.startsWith(P2P_LOCAL_ID_PREFIX)) {
+        return id;
+      }
+    }
+    return null;
+  }
+
+  /** Oldest server-backed row id for `before_id` pagination (skips `p2p:*`). */
+  protected getOldestServerMessageId(): string | null {
+    for (const obj of this._messageBuffer.getObjects()) {
+      const id = obj.getId();
+      if (id && !id.startsWith(P2P_LOCAL_ID_PREFIX)) {
+        return id;
+      }
+    }
+    return null;
   }
 
   asyncPostFile(_file: File, _onSuccess: (m: ChatMessage) => void, _onFail: (err: string) => void): void {
@@ -83,7 +117,7 @@ export class MessageHandler extends Controller {
     let url = "api/messenger/pull_message";
     let fd = new FormData();
     fd.append("id", id);
-    const latestId = this._messageBuffer.getLatestObjectId();
+    const latestId = this.getLatestServerMessageId();
     if (latestId) {
       fd.append("from_id", latestId);
     }
@@ -184,7 +218,7 @@ export class MessageHandler extends Controller {
       if (messages.length > 0) {
         Events.trigger(T_DATA.MESSAGES,
                            {"target" : this._target, "messages" : messages});
-        this.#asyncUpdateReadership(this._messageBuffer.getLatestObjectId());
+        this.#asyncUpdateReadership(this.getLatestServerMessageId());
       }
     }
   }

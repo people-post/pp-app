@@ -2393,6 +2393,49 @@ div.chat-thread-main-body {
     min-height: 0;
 }
 
+/* P2P direct (WebRTC DataChannel) peer chat */
+div.chat-thread-main-body--p2p {
+    background-color: rgba(46, 139, 87, 0.06);
+    border-radius: 8px;
+}
+
+span.chat-p2p-badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    padding: 2px 7px;
+    border-radius: 999px;
+    flex-shrink: 0;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+span.chat-p2p-badge--open {
+    color: #fff;
+    background-color: seagreen;
+    border-color: seagreen;
+}
+
+span.chat-p2p-badge--connecting {
+    color: #555;
+    background-color: rgba(255, 193, 7, 0.35);
+}
+
+span.chat-p2p-badge--relay {
+    color: #666;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+div.chat-message-row--p2p span.chat-message-text {
+    border-color: rgba(46, 139, 87, 0.55);
+    background-color: rgba(240, 255, 248, 0.95);
+}
+
+div.chat-message-row--p2p-owner span.chat-message-text {
+    border-color: rgba(46, 139, 87, 0.75);
+    background-color: rgba(60, 179, 113, 0.92);
+    color: #fff;
+}
+
 table.chat-thread-main-body {
     width: 100%;
     table-layout: fixed;

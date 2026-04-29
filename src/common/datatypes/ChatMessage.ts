@@ -40,5 +40,9 @@ export class ChatMessage extends ServerDataObject<MessageData> {
   getData(): unknown {
     return this._data.data;
   }
+
+  getTransport(): 'relay' | 'p2p' {
+    return this._data.transport ?? 'relay';
+  }
 }
 

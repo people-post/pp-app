@@ -73,11 +73,20 @@ export class FChatMessage extends Fragment {
       return "";
     }
 
+    let inner: string;
     if (this._message.getFromUserId() == Account.getId()) {
-      return this.#renderOwnerMessage();
+      inner = this.#renderOwnerMessage();
     } else {
-      return this.#renderSenderMessage();
+      inner = this.#renderSenderMessage();
     }
+    if (this._message.getTransport() === 'p2p') {
+      const rowCls =
+          this._message.getFromUserId() == Account.getId()
+              ? "chat-message-row chat-message-row--p2p chat-message-row--p2p-owner"
+              : "chat-message-row chat-message-row--p2p";
+      return `<div class="${rowCls}">${inner}</div>`;
+    }
+    return inner;
   }
 
   #renderSenderMessage(): string {

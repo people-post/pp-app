@@ -146,6 +146,8 @@ export interface MessageData extends ServerDataObjectData {
   data: unknown;
   type: string;
   created_at: number;
+  /** Client-only: set for synthetic local/P2P rows; never sent to API */
+  transport?: 'relay' | 'p2p';
 }
 
 export interface MessageThreadData {
