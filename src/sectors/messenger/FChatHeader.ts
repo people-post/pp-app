@@ -92,10 +92,10 @@ export class FChatHeader extends Fragment {
   #renderP2pBadge(): string {
     const st = this.#p2pTransport;
     if (st === 'open') {
-      return `<span class="chat-p2p-badge chat-p2p-badge--open" title="Direct (WebRTC)">P2P</span>`;
+      return `<span class="chat-p2p-badge chat-p2p-badge--open" title="Direct (libp2p)">P2P</span>`;
     }
     if (st === 'connecting') {
-      return `<a href="javascript:void(0)" class="chat-p2p-badge chat-p2p-badge--connecting chat-p2p-badge--clickable" data-pp-action="${CF_CHAT_HEADER.P2P_CONNECTIVITY_INFO}" title="Connecting… tap for WebRTC / ICE details">···</a>`;
+      return `<a href="javascript:void(0)" class="chat-p2p-badge chat-p2p-badge--connecting chat-p2p-badge--clickable" data-pp-action="${CF_CHAT_HEADER.P2P_CONNECTIVITY_INFO}" title="Connecting… tap for libp2p / circuit-relay details">···</a>`;
     }
     return `<span class="chat-p2p-badge chat-p2p-badge--relay" title="Messages via server relay">Relay</span>`;
   }

@@ -286,9 +286,9 @@ export class FvcChat extends FViewContentBase {
       return detail;
     }
     if (!this.#target?.isUser()) {
-      return 'Direct WebRTC details apply only to one-to-one chats.';
+      return 'Direct libp2p details apply only to one-to-one chats.';
     }
-    return 'No WebRTC session details are available for this chat.';
+    return 'No libp2p session details are available for this chat.';
   }
 
   #syncP2pThreadShell(): void {

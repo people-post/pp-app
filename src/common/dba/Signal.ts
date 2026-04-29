@@ -27,9 +27,7 @@ declare const Paho: Paho | undefined;
 
 interface SignalInterface {
   isChannelSet(channelId: string): boolean;
-  sendPeerConnectionOffer(fromId: string, toId: string, offer: unknown): void;
-  sendPeerConnectionAnswer(fromId: string, toId: string, answer: unknown): void;
-  sendIceCandidate(fromId: string, toId: string, candidate: unknown): void;
+  sendLibp2pPeerAddr(fromId: string, toId: string, multiaddr: string): void;
   subscribe(channelId: string, topic: string | null, callback: (message: string) => void): void;
   unsubscribe(channelId: string): void;
 }
@@ -45,16 +43,8 @@ export class SignalClass implements SignalInterface {
     return this.#mTopic.has(channelId);
   }
 
-  sendPeerConnectionOffer(fromId: string, toId: string, offer: unknown): void {
-    this.#sendClientSignal(fromId, toId, ClientSignal.T_TYPE.PEER_CONN_OFFER, offer);
-  }
-
-  sendPeerConnectionAnswer(fromId: string, toId: string, answer: unknown): void {
-    this.#sendClientSignal(fromId, toId, ClientSignal.T_TYPE.PEER_CONN_ANSWER, answer);
-  }
-
-  sendIceCandidate(fromId: string, toId: string, candidate: unknown): void {
-    this.#sendClientSignal(fromId, toId, ClientSignal.T_TYPE.ICE_CANDIDATE, candidate);
+  sendLibp2pPeerAddr(fromId: string, toId: string, multiaddr: string): void {
+    this.#sendClientSignal(fromId, toId, ClientSignal.T_TYPE.LIBP2P_PEER_ADDR, multiaddr);
   }
 
   #sendClientSignal(fromId: string, toId: string, type: string, data: unknown): void {
