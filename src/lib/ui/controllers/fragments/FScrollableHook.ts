@@ -195,5 +195,14 @@ export class FScrollableHook extends Fragment implements IScrollEndEventShimDele
       p.scrollTo(x, y);
     }
   }
+
+  /** Scroll container for the chat-style hook (overflow-y auto). */
+  getContentContainerPanel(): Panel | null {
+    return this.#pMain ? this.#pMain.getContentContainerPanel() : null;
+  }
+
+  getContentContainerScrollY(): ScrollYInfo | null {
+    return this.#getScrollY();
+  }
 }
 

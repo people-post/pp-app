@@ -17,19 +17,24 @@ const CF_CHAT_MESSAGE = {
 const _CFT_CHAT_MESSAGE = {
   SENDER_MAIN : `<div class="tw:flex tw:justify-start">
     <div class="msg-sender-icon">__SENDER__</div>
-    <div>__MSG__</div>
+    <div>
+      __MSG__
+      __TIME__
+    </div>
   </div>`,
   OWNER_MAIN : `<div class="owner-message tw:text-right">
     <span class="chat-message-text">__TEXT__</span>
+    __TIME__
   </div>`,
   GROUP_MSG_BODY : `<div>
     <div class="tw:text-s-font7">__FROM_USER_NAME__</div>
     <div>__TEXT__</div>
+    __TIME__
   </div>`,
   TEXT : `<span class="chat-message-text">__TEXT__</span>`,
   FROM_USER :
       `<span class="user-info-icon-small" data-pp-action="${CF_CHAT_MESSAGE.USER_INFO}" data-pp-args='["__ID__"]'>
-    <img src="__ICON__">
+    <img src="__ICON__" alt="" width="28" height="28" decoding="async">
   </span>`,
 } as const;
 
@@ -94,6 +99,7 @@ export class FChatMessage extends Fragment {
     } else {
       s = s.replace("__MSG__", this.#renderMessageContent(this._message));
     }
+    s = s.replace("__TIME__", this.#timeMeta(this._message));
     return s;
   }
 
@@ -104,15 +110,27 @@ export class FChatMessage extends Fragment {
 
     let s: string = _CFT_CHAT_MESSAGE.OWNER_MAIN;
     s = s.replace("__TEXT__", this.#makeMessageContent(this._message));
+    s = s.replace("__TIME__", this.#timeMeta(this._message));
     return s;
   }
 
   #renderMessageContentWithUserName(message: ChatMessage): string {
     let s: string = _CFT_CHAT_MESSAGE.GROUP_MSG_BODY;
     s = s.replace("__FROM_USER_NAME__",
-                  Account.getUserNickname(message.getFromUserId()));
+                  Utilities.escapeHtml(
+                      Account.getUserNickname(message.getFromUserId())));
     s = s.replace("__TEXT__", this.#renderMessageContent(message));
+    s = s.replace("__TIME__", this.#timeMeta(message));
     return s;
+  }
+
+  #timeMeta(message: ChatMessage): string {
+    let t = message.getCreationTime();
+    if (!t) {
+      return "";
+    }
+    return `<div class="tw:text-s-font7 tw:opacity-70 tw:mt-0.5 tw:px-1">${
+        Utilities.renderSmartTime(t)}</div>`;
   }
 
   #renderMessageContent(message: ChatMessage): string {
@@ -127,7 +145,8 @@ export class FChatMessage extends Fragment {
       s = this.#renderFormattedMsg(message.getData() as FormattedMessageData);
       break;
     default:
-      s = String(message.getData());
+      s = Utilities.escapeHtml(String(message.getData()));
+      s = Utilities.renderContent(s);
       break;
     }
     return s;
@@ -144,7 +163,8 @@ export class FChatMessage extends Fragment {
       s = t.replace("__NAME__", this.#getGroupName(String(msg.data.GROUP_ID)));
       break;
     case ChatMessage.T_FMT.NEW_GROUP_MEMBER:
-      s = t.replace("__NAME__", String(msg.data.MEMBER_ID));
+      s = t.replace("__NAME__",
+                     Utilities.escapeHtml(String(msg.data.MEMBER_ID)));
       break;
     default:
       s = "Unknown message";
@@ -156,7 +176,7 @@ export class FChatMessage extends Fragment {
   #getGroupName(groupId: string): string {
     let g = Groups.get(groupId);
     if (g) {
-      return g.getName();
+      return Utilities.escapeHtml(g.getName());
     }
     return "...";
   }
@@ -165,7 +185,7 @@ export class FChatMessage extends Fragment {
     let g = Groups.get(groupId);
     let name = "...";
     if (g) {
-      name = g.getName();
+      name = Utilities.escapeHtml(g.getName());
     }
     return Utilities.renderSmallButton(CF_CHAT_MESSAGE.GROUP_INFO, groupId,
                                        name);

@@ -5,6 +5,22 @@ export class FFragmentList extends Fragment {
   getChildren(): Fragment[] { return this._getAllChildControllers() as Fragment[]; }
 
   append(f: Fragment): void { this.setChild(f as any, f); }
+
+  /** Insert fragments above existing items (order preserved: first in array ends up closest to old top). */
+  prependFragments(fs: Fragment[]): void {
+    if (!fs.length) {
+      return;
+    }
+    const existing = this.getChildren();
+    this.clear();
+    for (const f of fs) {
+      this.append(f);
+    }
+    for (const ex of existing) {
+      this.append(ex);
+    }
+  }
+
   remove(f: Fragment): void {
     this.#remove(f);
     this.render();

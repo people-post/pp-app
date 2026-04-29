@@ -19,6 +19,8 @@ interface ApiResponse {
 export class MessageHandler extends Controller {
   protected _target: ChatTarget;
   protected _messageBuffer: BufferedList<ChatMessage>;
+  #loadingOlder: boolean = false;
+  #hasMoreOlder: boolean = true;
 
   constructor() {
     super();
@@ -33,6 +35,35 @@ export class MessageHandler extends Controller {
   activate(): void { this.#asyncGetRelatedMessages(); }
 
   deactivate(): void {}
+
+  /** Pull-to-refresh at top of thread: load messages older than the buffer (requires `before_id` on `/api/messenger/messages`). */
+  requestLoadOlderMessages(): void {
+    if (this.#loadingOlder || !this.#hasMoreOlder) {
+      return;
+    }
+    const id = this._target.getId();
+    if (!id) {
+      return;
+    }
+    const idType = this._target.getIdType();
+    if (!idType) {
+      return;
+    }
+    const oldest = this._messageBuffer.getOldestObjectId();
+    if (!oldest) {
+      return;
+    }
+    this.#loadingOlder = true;
+    let url = "/api/messenger/messages";
+    let fd = new FormData();
+    fd.append("target_id", id);
+    fd.append("target_type", idType);
+    fd.append("before_id", oldest);
+    if (this._target.isGroup()) {
+      fd.append("is_group", "1");
+    }
+    Api.asyncRawPost(url, fd, r => this.#onPullOlderRRR(r), null, null);
+  }
 
   onUserInboxSignal(_message: unknown): void {}
 
@@ -113,6 +144,8 @@ export class MessageHandler extends Controller {
     if (!idType) {
       return;
     }
+    this._messageBuffer.clear();
+    this.#hasMoreOlder = true;
     let url = "/api/messenger/messages";
     let fd = new FormData();
     fd.append("target_id", id);
@@ -154,5 +187,30 @@ export class MessageHandler extends Controller {
         this.#asyncUpdateReadership(this._messageBuffer.getLatestObjectId());
       }
     }
+  }
+
+  #onPullOlderRRR(responseText: string): void {
+    this.#loadingOlder = false;
+    let response = JSON.parse(responseText) as ApiResponse;
+    if (response.error || !response.data) {
+      return;
+    }
+    const raw = response.data.messages;
+    if (!raw.length) {
+      this.#hasMoreOlder = false;
+      return;
+    }
+    let messages: ChatMessage[] = [];
+    for (let m of raw) {
+      messages.push(new ChatMessage(m));
+    }
+    const prepended = this._messageBuffer.prependOlder(messages);
+    if (prepended.length === 0) {
+      this.#hasMoreOlder = false;
+      return;
+    }
+    Events.trigger(
+        T_DATA.MESSAGES,
+        {"target" : this._target, "messages" : prepended, "isOlder" : true});
   }
 }

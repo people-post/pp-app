@@ -1,5 +1,5 @@
 import { FViewContentBase } from '../../lib/ui/controllers/fragments/FViewContentBase.js';
-import { FSimpleFragmentList } from '../../lib/ui/controllers/fragments/FSimpleFragmentList.js';
+import { FScrollableHook } from '../../lib/ui/controllers/fragments/FScrollableHook.js';
 import { PanelWrapper } from '../../lib/ui/renders/panels/PanelWrapper.js';
 import { View } from '../../lib/ui/controllers/views/View.js';
 import { ActionButton } from '../../common/gui/ActionButton.js';
@@ -8,6 +8,7 @@ import { FChatHeader } from './FChatHeader.js';
 import { FChatInputMenu } from './FChatInputMenu.js';
 import { FvcConversationOptions } from './FvcConversationOptions.js';
 import { FChatMessage } from './FChatMessage.js';
+import { FChatMessagesScrollContent } from './FChatMessagesScrollContent.js';
 import { T_DATA, T_ACTION } from '../../common/plt/Events.js';
 import { Events } from '../../lib/framework/Events.js';
 import { Env } from '../../common/plt/Env.js';
@@ -18,17 +19,21 @@ import { MessageHandler } from './MessageHandler.js';
 import { R } from '../../common/constants/R.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type { RemoteError } from '../../types/basic.js';
+import { Account } from '../../common/dba/Account.js';
 
 interface MessagesData {
   target: ChatTarget;
   messages: ChatMessage[];
+  isOlder?: boolean;
 }
+
+const NEAR_BOTTOM_PX = 80;
 
 const _CPT_CHAT_VIEW_CONTENT = {
   MAIN: `<div id="__ID_HEADER__"></div>
-  <div class="chat-view-content tw:flex tw:flex-col flex-end">
-    <div id="__ID_CONTENT__" class="chat-main tw:scroll-none"></div>
-    <div id="__ID_CONSOLE__"></div>
+  <div class="chat-view-content tw:flex tw:flex-col tw:min-h-0">
+    <div id="__ID_CONTENT__" class="chat-main"></div>
+    <div id="__ID_CONSOLE__" class="tw:shrink-0"></div>
   </div>`,
 } as const;
 
@@ -65,20 +70,23 @@ class PChatContent extends Panel {
 
 export class FvcChat extends FViewContentBase {
   #fHeader: FChatHeader;
-  #fMessages: FSimpleFragmentList;
+  #fMessagesContent: FChatMessagesScrollContent;
+  #fScrollHook: FScrollableHook;
   #fConsole: FInputConsole;
   #btnInfo: ActionButton;
   #btnMore: ActionButton;
   #msgHandler: MessageHandler | null = null;
   #target: ChatTarget | null = null;
+  #seenMessageIds: Set<string> = new Set();
 
   constructor() {
     super();
     this.#fHeader = new FChatHeader();
     this.setChild("header", this.#fHeader);
 
-    this.#fMessages = new FSimpleFragmentList();
-    this.setChild("messages", this.#fMessages);
+    this.#fMessagesContent = new FChatMessagesScrollContent();
+    this.#fScrollHook = new FScrollableHook(this.#fMessagesContent);
+    this.setChild("messagesHook", this.#fScrollHook);
 
     this.#fConsole = new FInputConsole();
     this.#fConsole.setPlaceholder("Message");
@@ -107,16 +115,27 @@ export class FvcChat extends FViewContentBase {
   }
 
   setTarget(target: ChatTarget): void {
+    const prevId = this.#target?.getId() ?? null;
+    const nextId = target.getId() ?? null;
+    if (prevId !== nextId) {
+      this.#fMessagesContent.clear();
+      this.#seenMessageIds.clear();
+    }
+
     this.#target = target;
     this.#fHeader.setTarget(target);
     this.#msgHandler = GMessenger.getOrInitHandler(target);
 
-    if (target.isReadOnly() == this.#fConsole.isEnabled()) {
-      this.#fConsole.setEnabled(false);
+    this.#fConsole.setEnabled(!target.isReadOnly());
+    if (target.isReadOnly()) {
       if (!target.isGroup()) {
         this.#fConsole.setPlaceholder(
             R.get("PROMPT_SEND_USER_MESSAGE_REQUIREMENT"));
+      } else {
+        this.#fConsole.setPlaceholder("");
       }
+    } else {
+      this.#fConsole.setPlaceholder("Message");
     }
   }
 
@@ -176,7 +195,8 @@ export class FvcChat extends FViewContentBase {
       if (this.#msgHandler) {
         let msgData = data as MessagesData;
         if (msgData.target.getId() == this.#msgHandler.getTarget().getId()) {
-          this.#updateChatPanel(msgData.messages);
+          this.#updateChatPanel(msgData.messages,
+                                { isOlder: msgData.isOlder === true });
         }
       }
       break;
@@ -216,13 +236,23 @@ export class FvcChat extends FViewContentBase {
     let pp = new PanelWrapper();
     pp.setClassName("chat-thread-main-body");
     p.wrapPanel(pp);
-    this.#fMessages.attachRender(pp);
-    this.#fMessages.render();
-    // This should happen after console is rendered
-    p.scrollToBottom();
+
+    this.#fMessagesContent.setScrollProbe(
+        () => this.#fScrollHook.getContentContainerScrollY());
+    this.#fMessagesContent.setLoadOlderHandler(() => {
+      if (this.#msgHandler) {
+        this.#msgHandler.requestLoadOlderMessages();
+      }
+    });
+
+    this.#fScrollHook.attachRender(pp);
+    this.#fScrollHook.render();
   }
 
-  #onPostSuccess(message: ChatMessage): void { this.#updateChatPanel([ message ]); }
+  #onPostSuccess(message: ChatMessage): void {
+    this.#updateChatPanel([ message ]);
+  }
+
   #onPostFailed(text: string, err: RemoteError): void {
     this.#fConsole.setText(text);
     this.onRemoteErrorInFragment(this, err);
@@ -248,21 +278,80 @@ export class FvcChat extends FViewContentBase {
     Events.triggerTopAction(T_ACTION.SHOW_GROUP_INFO, groupId);
   }
 
-  #updateChatPanel(messages: ChatMessage[]): void {
+  #isNearBottom(thresholdPx: number): boolean {
+    let p = this.#fScrollHook.getContentContainerPanel();
+    let e = p?.getDomElement();
+    if (!e) {
+      return true;
+    }
+    let dist = e.scrollHeight - e.scrollTop - e.clientHeight;
+    return dist <= thresholdPx;
+  }
+
+  #scrollMessagesToBottom(): void {
+    let p = this.#fScrollHook.getContentContainerPanel();
+    if (p) {
+      p.scrollToBottom();
+    }
+  }
+
+  #updateChatPanel(messages: ChatMessage[],
+                    options: { isOlder?: boolean } = {}): void {
     if (!this.#target) {
       return;
     }
 
+    const isOlder = options.isOlder === true;
+    const filtered: ChatMessage[] = [];
     for (let m of messages) {
-      let f = new FChatMessage();
-      f.setMessage(m);
-      f.setTarget(this.#target);
-      this.#fMessages.append(f);
+      let id = m.getId();
+      if (id) {
+        if (this.#seenMessageIds.has(id)) {
+          continue;
+        }
+        this.#seenMessageIds.add(id);
+      }
+      filtered.push(m);
     }
-    this.#fMessages.render();
-    let r = this.getRender() as PChatContent | null;
-    if (r) {
-      r.getContentPanel().scrollToBottom();
+    if (!filtered.length) {
+      return;
+    }
+
+    if (isOlder) {
+      this.#fMessagesContent.onContentTopResizeBeginInFragment(
+          this.#fMessagesContent);
+      let frags: FChatMessage[] = [];
+      for (let m of filtered) {
+        let f = new FChatMessage();
+        f.setMessage(m);
+        f.setTarget(this.#target);
+        frags.push(f);
+      }
+      this.#fMessagesContent.prependFragments(frags);
+    } else {
+      for (let m of filtered) {
+        let f = new FChatMessage();
+        f.setMessage(m);
+        f.setTarget(this.#target);
+        this.#fMessagesContent.append(f);
+      }
+    }
+
+    this.#fMessagesContent.render();
+
+    if (isOlder) {
+      this.#fMessagesContent.onContentTopResizeEndInFragment(
+          this.#fMessagesContent);
+    }
+
+    const accountId = Account.getId();
+    const isOwn =
+        accountId != null &&
+        filtered.some(m => m.getFromUserId() === accountId);
+    const near = this.#isNearBottom(NEAR_BOTTOM_PX);
+    const shouldStick = !isOlder && (near || isOwn);
+    if (shouldStick) {
+      requestAnimationFrame(() => this.#scrollMessagesToBottom());
     }
   }
 }
