@@ -138,6 +138,7 @@ export class LContext extends Layer {
     let panel = new PanelWrapper();
     panel.setClassName("tw:w-full tw:h-full context-layer tw:flex tw:flex-col tw:justify-end");
     panel.setAttribute("data-pp-action", "window.CL_CONTEXT.CLOSE");
+    panel.setAttribute("data-pp-action-self", "true");
     render.wrapPanel(panel);
 
     let p = new PanelWrapper();

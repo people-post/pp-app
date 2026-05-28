@@ -109,7 +109,7 @@ export class FSearch extends Fragment implements FSearchResultInfoDelegate {
     if (d && d.key == key) {
       return d.result;
     }
-    if (!key) {
+    if (key === null || key === undefined) {
       return null;
     }
     let r = this._doSearch(key);

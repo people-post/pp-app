@@ -18,7 +18,13 @@ export class FLocalUserSearch extends FSearch {
     this._userIds = null;
   }
 
-  setUserIds(ids: string[] | null): void { this._userIds = ids; }
+  setUserIds(ids: string[] | null): void {
+    this._userIds = ids;
+    this._clearCache();
+    if (ids) {
+      this.setKey("");
+    }
+  }
 
   handleSessionDataUpdate(dataType: symbol | string, data: unknown): void {
     switch (dataType) {

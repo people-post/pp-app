@@ -147,6 +147,7 @@ export class AbNew extends Fragment {
                        this.#createUserChoiceList(ownerIds));
         fTPane.addPane({name : "Journal", value : "JOURNAL"},
                        this.#createJournalChoiceList(journalIds));
+        fTPane.setDefaultPane("ARTICLE");
 
         this.#lc.addOptionFragment(fTPane);
         Events.triggerTopAction(T_ACTION.SHOW_LAYER, this, this.#lc,
