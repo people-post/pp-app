@@ -22,6 +22,7 @@ import { Blog } from '../common/dba/Blog.js';
 import { Users } from '../common/dba/Users.js';
 import { Cart } from '../common/dba/Cart.js';
 import { Notifications } from '../common/dba/Notifications.js';
+import { Signal } from '../common/dba/Signal.js';
 import { Social } from '../common/dba/Social.js';
 import { URL_PARAM } from '../common/constants/Constants.js';
 import { R } from '../common/constants/R.js';
@@ -227,6 +228,7 @@ export class WcSession extends WindowController {
     switch (dataType) {
     case T_DATA.WEB_CONFIG:
       this.#applyTheme();
+      Signal.notifyWebConfigUpdated();
       break;
     case T_DATA.REMOTE_ERROR:
       this.#fBanner.showRemoteError(data as RemoteError);
@@ -240,8 +242,13 @@ export class WcSession extends WindowController {
   _shouldClearInitialUrl(): boolean { return false; }
 
   _main(dConfig: MainConfig): void {
-    this._clearDbAgents();
+    // Delegate must be set before WebConfig.reset so FwkEvents.trigger(WEB_CONFIG) runs
+    // (including Signal.notifyWebConfigUpdated via handleSessionDataUpdate).
+    FwkEvents.setDelegate(this);
+    // Apply web_config before clearing agents so Notifications.reload → Signal.subscribe
+    // sees web_socket_url (MQTT inbox / libp2p signaling).
     WebConfig.reset(dConfig.web_config ?? null);
+    this._clearDbAgents();
     if (dConfig.blog_config) {
       Blog.resetConfig(dConfig.blog_config);
     }
@@ -251,7 +258,6 @@ export class WcSession extends WindowController {
 
     this._initLanguage();
     this._initLayer(this._childStack[0]);
-    FwkEvents.setDelegate(this);
 
     let urlParam = new URLSearchParams(window.location.search);
     if (this._shouldClearInitialUrl()) {

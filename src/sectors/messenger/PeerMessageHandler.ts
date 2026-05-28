@@ -28,6 +28,8 @@ const CHAT_PROTOCOL = '/pp/chat/1.0.0';
 const P2P_PROTOCOL_V = 1;
 const RELAY_WAIT_MAX_MS = 30_000;
 const RELAY_WAIT_INTERVAL_MS = 1_000;
+/** Inbox signal from peer newer than this counts as "recently active" for presence UI */
+const PEER_RECENT_INBOX_MS = 3 * 60_000;
 
 interface P2pFrame {
   v: number;
@@ -59,6 +61,10 @@ export class PeerMessageHandler extends MessageHandler {
   #seenP2pCids: Set<string> = new Set();
   /** Peer multiaddr received before our node was ready to dial. */
   #pendingPeerAddr: string | null = null;
+  /** Last multiaddr the peer announced (for manual redial). */
+  #lastRemotePeerAddr: string | null = null;
+  /** Last time we received an MQTT user-inbox signal from the peer (MSG or addr). */
+  #peerLastInboxAt: number | null = null;
   #started: boolean = false;
 
   constructor() {
@@ -79,6 +85,53 @@ export class PeerMessageHandler extends MessageHandler {
   deactivate(): void {
     this.#tearDown();
     super.deactivate();
+  }
+
+  getPeerOnlinePresence(): 'direct' | 'recent' | 'unknown' {
+    if (this.#canSendP2p()) {
+      return 'direct';
+    }
+    if (
+      this.#peerLastInboxAt !== null &&
+      Date.now() - this.#peerLastInboxAt < PEER_RECENT_INBOX_MS
+    ) {
+      return 'recent';
+    }
+    return 'unknown';
+  }
+
+  requestManualP2pConnect(): void {
+    if (this.#canSendP2p()) {
+      return;
+    }
+    this.#emitP2pTransport('connecting');
+
+    if (!this.#node) {
+      if (!this.#started) {
+        this.#started = true;
+        this.#startNode().catch(() => {
+          this.#started = false;
+          this.#emitP2pTransport('relay');
+        });
+      }
+      return;
+    }
+
+    const relayAddr = this.#node.getMultiaddrs().find(a =>
+      a.toString().includes('/p2p-circuit'),
+    );
+    if (relayAddr) {
+      this.#announceToTarget(relayAddr.toString());
+    }
+
+    const selfId = Account.getId();
+    const peerId = this._target.getId();
+    if (!selfId || !peerId) {
+      return;
+    }
+    if (this.#shouldDial(selfId, peerId) && this.#lastRemotePeerAddr) {
+      this.#dialPeer(this.#lastRemotePeerAddr);
+    }
   }
 
   getP2pConnectivitySummary(): string | null {
@@ -163,9 +216,13 @@ export class PeerMessageHandler extends MessageHandler {
   }
 
   onUserInboxSignal(message: ClientSignalData): void {
+    const peerId = this._target.getId();
+    if (peerId && message.from_id === peerId) {
+      this.#peerLastInboxAt = Date.now();
+    }
     switch (message.type) {
     case ClientSignal.T_TYPE.MSG:
-      if (message.from_id === this._target.getId()) {
+      if (message.from_id === peerId) {
         this._asyncPullMessages();
       }
       break;
@@ -254,6 +311,7 @@ export class PeerMessageHandler extends MessageHandler {
     if (!selfId || !peerId) {
       return;
     }
+    this.#lastRemotePeerAddr = remoteAddr;
     if (!this.#shouldDial(selfId, peerId)) {
       // Answerer: re-announce so a late-joining dialer can connect.
       const relayAddr = this.#node?.getMultiaddrs().find(
@@ -393,6 +451,8 @@ export class PeerMessageHandler extends MessageHandler {
   #tearDown(): void {
     this.#stream = null;
     this.#pendingPeerAddr = null;
+    this.#lastRemotePeerAddr = null;
+    this.#peerLastInboxAt = null;
     this.#started = false;
     this.#seenP2pCids.clear();
     this.#emitP2pTransport('relay');

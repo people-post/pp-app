@@ -61,9 +61,11 @@ export class WcMain extends WcSession {
   }
 
   _main(dConfig: MainConfig): void {
+    // Start loading Paho before session clears agents → Signal.subscribe, so the script often
+    // finishes before the first MQTT init attempt (classic script exposes `globalThis.Paho`).
+    Env.checkLoadAddonScript(Env.SCRIPT.SIGNAL);
     super._main(dConfig);
     Env.checkLoadAddonScript(Env.SCRIPT.PLAYER);
-    Env.checkLoadAddonScript(Env.SCRIPT.SIGNAL);
     Env.checkLoadAddonScript(Env.SCRIPT.EDITOR);
     Env.checkLoadAddonScript(Env.SCRIPT.PAYMENT);
     Env.checkLoadAddonScript(Env.SCRIPT.BRAINTREE);

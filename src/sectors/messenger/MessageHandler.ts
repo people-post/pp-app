@@ -75,6 +75,18 @@ export class MessageHandler extends Controller {
     return null;
   }
 
+  /**
+   * DM-only: overridden by `PeerMessageHandler`. Used for header presence dot.
+   * `direct` — libp2p chat stream open; `recent` — inbox signal from peer recently;
+   * `unknown` — no signal yet or peer idle longer than the recent window.
+   */
+  getPeerOnlinePresence(): 'direct' | 'recent' | 'unknown' {
+    return 'unknown';
+  }
+
+  /** DM-only: retry relay announcement / dial; no-op for server-backed group chats. */
+  requestManualP2pConnect(): void {}
+
   asyncPost(data: string, onSuccess: (m: ChatMessage) => void, onFail: (err: RemoteError) => void): void {
     this.routeOutgoingMessage(data, onSuccess, onFail);
   }

@@ -2436,6 +2436,54 @@ span.chat-p2p-badge--relay {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
+/* DM header: peer presence (best-effort from inbox / P2P) */
+span.chat-peer-presence {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    flex-shrink: 0;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+}
+
+span.chat-peer-presence--direct {
+    background-color: seagreen;
+    border-color: seagreen;
+}
+
+span.chat-peer-presence--recent {
+    background-color: #e6a800;
+    border-color: rgba(230, 168, 0, 0.85);
+}
+
+span.chat-peer-presence--unknown {
+    background-color: rgba(0, 0, 0, 0.12);
+    border-color: rgba(0, 0, 0, 0.18);
+}
+
+a.chat-p2p-connect-btn {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    color: #1a5f7a;
+    background-color: rgba(26, 95, 122, 0.1);
+    text-decoration: none;
+    border: 1px solid rgba(26, 95, 122, 0.25);
+    cursor: pointer;
+}
+
+a.chat-p2p-connect-btn:hover {
+    background-color: rgba(26, 95, 122, 0.16);
+}
+
+a.chat-p2p-connect-btn:focus {
+    outline: 2px solid rgba(26, 95, 122, 0.45);
+    outline-offset: 1px;
+}
+
 div.chat-message-row--p2p span.chat-message-text {
     border-color: rgba(46, 139, 87, 0.55);
     background-color: rgba(240, 255, 248, 0.95);

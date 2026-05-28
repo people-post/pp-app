@@ -20,6 +20,7 @@ import type { P2pTransportUiState } from './PeerMessageHandler.js';
 import { R } from '../../common/constants/R.js';
 import { Panel } from '../../lib/ui/renders/panels/Panel.js';
 import type { RemoteError } from '../../types/basic.js';
+import type { ClientSignalData } from '../../types/backend2.js';
 import { Account } from '../../common/dba/Account.js';
 
 interface MessagesData {
@@ -86,6 +87,7 @@ export class FvcChat extends FViewContentBase {
     super();
     this.#fHeader = new FChatHeader();
     this.#fHeader.setP2pConnectivityInfoHandler(() => this.#getP2pConnectivityNoticeText());
+    this.#fHeader.setP2pManualConnectHandler(() => this.#onManualP2pConnect());
     this.setChild("header", this.#fHeader);
 
     this.#fMessagesContent = new FChatMessagesScrollContent();
@@ -135,7 +137,7 @@ export class FvcChat extends FViewContentBase {
       this.#p2pUiState = 'relay';
       this.#fHeader.setP2pTransportState('relay');
     }
-    this.#fHeader.render();
+    this.#syncPeerPresenceInHeader();
     this.#syncP2pThreadShell();
 
     this.#fConsole.setEnabled(!target.isReadOnly());
@@ -195,7 +197,8 @@ export class FvcChat extends FViewContentBase {
       break;
     case T_DATA.USER_INBOX_SIGNAL:
       if (this.#msgHandler) {
-        this.#msgHandler.onUserInboxSignal(data);
+        this.#msgHandler.onUserInboxSignal(data as ClientSignalData);
+        this.#syncPeerPresenceInHeader();
       }
       break;
     case T_DATA.ADDON_SCRIPT:
@@ -221,8 +224,8 @@ export class FvcChat extends FViewContentBase {
       this.#p2pUiState = payload.state;
       if (this.#target?.isUser()) {
         this.#fHeader.setP2pTransportState(payload.state);
-        this.#fHeader.render();
       }
+      this.#syncPeerPresenceInHeader();
       this.#syncP2pThreadShell();
       break;
     }
@@ -236,6 +239,7 @@ export class FvcChat extends FViewContentBase {
     super._onRenderAttached(render);
     if (this.#msgHandler) {
       this.#msgHandler.activate();
+      this.#syncPeerPresenceInHeader();
     }
   }
 
@@ -275,6 +279,23 @@ export class FvcChat extends FViewContentBase {
     this.#fScrollHook.attachRender(pp);
     this.#fScrollHook.render();
     this.#syncP2pThreadShell();
+  }
+
+  #onManualP2pConnect(): void {
+    if (!this.#msgHandler || !this.#target?.isUser()) {
+      return;
+    }
+    this.#msgHandler.requestManualP2pConnect();
+  }
+
+  #syncPeerPresenceInHeader(): void {
+    if (!this.#msgHandler) {
+      return;
+    }
+    if (this.#target?.isUser()) {
+      this.#fHeader.setPeerPresence(this.#msgHandler.getPeerOnlinePresence());
+    }
+    this.#fHeader.render();
   }
 
   #getP2pConnectivityNoticeText(): string {
